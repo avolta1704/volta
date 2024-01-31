@@ -65,6 +65,19 @@
     </li>
 
     <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allAlumnos" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allAlumnos" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="listaAlumnos">
+            <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
         <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>

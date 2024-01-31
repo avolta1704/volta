@@ -119,4 +119,17 @@ class ControllerUsuarios
       }
     }
   }
+
+  //  Actualizar estado del usuario
+  public static function ctrActualizarEstado($codUsuario)
+  {
+    $tabla = "usuario";
+    $estadoUsuario = ModelUsuarios::mdlObtenerEstadoUsuario($tabla, $codUsuario);
+    if($estadoUsuario["estadoUsuario"] == "1 ") {
+      $nuevoEstado = ModelUsuarios::mdlActualizarEstado($tabla, $codUsuario, "2");
+    } else {
+      $nuevoEstado = ModelUsuarios::mdlActualizarEstado($tabla, $codUsuario, "1");
+    }
+    return $nuevoEstado;
+  }
 }

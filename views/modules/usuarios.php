@@ -5,7 +5,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="inicio">Usuarios</a></li>
+        <li class="breadcrumb-item"><a href="usuarios">Usuarios</a></li>
         <li class="breadcrumb-item active">Todos los Usuarios</li>
       </ol>
     </nav>
@@ -30,8 +30,8 @@
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Correo</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellido</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col">Nombres</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Tipo Usuario</th>
                     <th scope="col">Ultima Conexión</th>
@@ -53,7 +53,7 @@
                       <td>' . ($value["ultimaConexion"]) . '</td>
                       <td>
                         <button type="button" class="btn btn-warning btnEditarUsuario" data-bs-toggle="modal" data-bs-target="#editarUsuario" codUsuario="' . ($value["idUsuario"]) . '"><i class="bi bi-pencil"></i></button>
-                        <button type="button" class="btn btn-primary btnActivarUsuario" codUsuario="' . ($value["idUsuario"]) . '"><i class="bi bi-arrow-down-up"></i></button>
+                        <button type="button" class="btn btn-primary btnActualizarUsuario" codUsuario="' . ($value["idUsuario"]) . '"><i class="bi bi-person-fill-check"></i></button>
                       </td>
                     </tr>
                     ';
@@ -180,7 +180,6 @@
           <div class="form-group">
             <label for="tipoEditar" class="col-form-label">Perfil:</label>
             <select class="form-control" name="tipoEditar">
-
               <?php
               $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
               foreach ($tipoUsuarios as $key => $value) {

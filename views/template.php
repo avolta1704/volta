@@ -19,6 +19,8 @@ session_start();
       if (
         $_GET["route"] == "inicio" ||
         $_GET["route"] == "usuarios" ||
+        $_GET["route"] == "listaAlumnos" ||
+        $_GET["route"] == "nuevoAlumno" ||
         $_GET["route"] == "cerrarSesion
         "
       ) {
@@ -57,6 +59,7 @@ session_start();
   <script src="assets/js/main.js"></script>
 
   <script src="views/js/usuarios.js"></script>
+  <script src="views/js/alumnos.js"></script>
 
 </body>
 

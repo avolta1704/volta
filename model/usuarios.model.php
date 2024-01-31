@@ -94,4 +94,25 @@ class ModelUsuarios
       return "error";
     }
   }
+
+  //  Obtener estado del usuario
+  public static function mdlObtenerEstadoUsuario($tabla, $codUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT estadoUsuario FROM $tabla WHERE idUsuario = $codUsuario");
+    $statement->execute();
+    return $statement->fetch();
+  }
+
+  //  Actualizar estado del usuario
+  public static function mdlActualizarEstado($tabla, $codUsuario, $estado)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoUsuario=:estadoUsuario WHERE idUsuario=:idUsuario");
+    $statement->bindParam(":estadoUsuario", $codUsuario, PDO::PARAM_STR);
+    $statement->bindParam(":idUsuario", $estado, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
