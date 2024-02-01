@@ -15,16 +15,18 @@ session_start();
     require "modules/navbar.php";
     require "modules/menu.php";
 
-    if (isset($_GET["route"])) {
+    if (isset($_GET["ruta"])) {
       if (
-        $_GET["route"] == "inicio" ||
-        $_GET["route"] == "usuarios" ||
-        $_GET["route"] == "listaAlumnos" ||
-        $_GET["route"] == "nuevoAlumno" ||
-        $_GET["route"] == "cerrarSesion
-        "
+        $_GET["ruta"] == "inicio" ||
+        $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "listaAlumnos" ||
+        $_GET["ruta"] == "admisionExtraordinaria" ||
+        $_GET["ruta"] == "listaPostulantes" ||
+        $_GET["ruta"] == "docPostulantes" ||
+        $_GET["ruta"] == "nuevoPostulante" ||
+        $_GET["ruta"] == "cerrarSesion"
       ) {
-        include "modules/" . $_GET["route"] . ".php";
+        include "modules/" . $_GET["ruta"] . ".php";
       } else {
         include "web/404.html";
       }
@@ -35,7 +37,7 @@ session_start();
     include "modules/footer.php";
     echo '</footer>';
     echo '</div>';
-    echo '</div>';
+    
   } else {
     include "modules/login.php";
   }
@@ -53,13 +55,18 @@ session_start();
   <script src="assets/vendor/tinymce/tinymce.min.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <!-- Template Main JS File -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <script src="assets/js/main.js"></script>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script src="views/js/usuarios.js"></script>
   <script src="views/js/alumnos.js"></script>
+  <script src="views/js/nivelGrado.js"></script>
+  <script src="views/js/postulante.js"></script>
 
 </body>
 

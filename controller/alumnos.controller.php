@@ -38,6 +38,7 @@ class ControllerAlumnos
         $listaApoderados = json_decode($_POST["listaApoderados"], true);
         //  Se obtiene la lista de apoderados, si es vacía o nula, solo se crea el alumno. Sino se crea cada apoderado.
         if ($listaApoderados != null || $listaApoderados != "") {
+          $codAlumno = self::ctrObtenerUltimoAlumno();
           foreach ($listaApoderados as $value) {
             $dataApoderado = array(
               "numeroApoderado" => $value["numeroApoderado"],
@@ -49,7 +50,6 @@ class ControllerAlumnos
               "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
             );
             $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
-            $codAlumno = self::ctrObtenerUltimoAlumno();
             $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
             $dataApoderadoAlumno = array(
               "idAlumno" => $codAlumno["idAlumno"],
@@ -59,10 +59,18 @@ class ControllerAlumnos
             );
             $response = self::ctrAsignarAlumnoApoderado($dataApoderadoAlumno);
           }
+          //  Le asignamos el grado del alumno
+          $dataAlumnoGrado = array(
+            "idAlumno" => $codAlumno["idAlumno"],
+            "idGrado" => $_POST["gradoAlumno"],
+            "estadoGradoAlumno" => 1,
+            "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+            "fechaActualizacion" => date("Y-m-d\TH:i:sP")
+          );
+          ControllerGradoAlumno::ctrAsignarGradoAlumno($dataAlumnoGrado);
         } else {
           $response = "ok";
         }
-
         if ($response == "ok") {
           ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
         } else {

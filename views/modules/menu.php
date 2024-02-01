@@ -47,17 +47,17 @@
     </li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allArticles" data-bs-toggle="collapse" href="#">
+      <a class="nav-link collapsed" data-bs-target="#allPostulaciones" data-bs-toggle="collapse" href="#">
         <i class="bi bi-layout-text-window-reverse"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="allArticles" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+      <ul id="allPostulaciones" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
-          <a href="allArticles">
+          <a href="listaPostulantes">
             <i class="bi bi-circle"></i><span>Postulaciones</span>
           </a>
         </li>
         <li>
-          <a href="events">
+          <a href="docPostulantes">
             <i class="bi bi-circle"></i><span>Documentación</span>
           </a>
         </li>

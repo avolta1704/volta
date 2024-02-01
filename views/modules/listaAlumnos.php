@@ -15,7 +15,7 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary btnAgregarNuevoAlumno" id="btnAgregarNuevoAlumno">Agregar Alumno</button>
+          <button type="button" class="btn btn-primary btnAgregarNuevoAlumno" id="btnAgregarNuevoAlumno">Admisión Extraordinaria</button>
         </div>
       </div>
       <!-- Left side columns -->
@@ -23,7 +23,7 @@
         <div class="row">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Todas las Empresas</h5>
+              <h5 class="card-title">Todos los Alumno</h5>
 
               <table class="table datatable">
                 <thead>

@@ -1,6 +1,6 @@
 //  Create a new order
 $("#btnAgregarNuevoAlumno").on("click", function () {
-  window.location = "index.php?route=nuevoAlumno";
+  window.location = "index.php?ruta=admisionExtraordinaria";
 });
 
 //  Add material to list

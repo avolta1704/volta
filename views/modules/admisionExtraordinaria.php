@@ -1,13 +1,13 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Nuevo Alumno</h1>
+    <h1>Admisión Extraordinaria</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
         <li class="breadcrumb-item"><a href="listaAlumnos">Usuarios</a></li>
         <li class="breadcrumb-item"><a href="listaAlumnos">Lista Alumnos</a></li>
-        <li class="breadcrumb-item active">Nuevo Alumno</li>
+        <li class="breadcrumb-item active">Admisión Extraordinaria</li>
       </ol>
     </nav>
   </div>
@@ -94,6 +94,23 @@
                 <input type="text" class="form-control" id="enfermedadesAlumno" name="enfermedadesAlumno" value="" required>
               </div>
 
+              <div class="form-group col-md-6 nivelAdmision">
+                <label for="nivelAlumno" class="col-form-label">Nivel:</label>
+                <select class="form-control" name="nivelAlumno" id="nivelAlumno" required>
+                  <option value="">Eliga una opción</option>
+                  <option value="1">Inicial</option>
+                  <option value="2">Primaria</option>
+                  <option value="3">Secundaria</option>
+                </select>
+              </div>
+
+              <div class="form-group col-md-6 gradoAdmision">
+                <label for="gradoAlumno" class="col-form-label">Grado:</label>
+                <select class="form-control" name="gradoAlumno" id="gradoAlumno" required>
+                  <option value="">Eliga una opción</option>
+                </select>
+              </div>
+
             </div>
           </span>
 
@@ -110,7 +127,7 @@
           </span>
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarCrearAlumno">Cerrar</button>
-            <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Alumno</button>
+            <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Admisión</button>
           </div>
         </form>
       </div>
