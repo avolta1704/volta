@@ -52,8 +52,9 @@
                       <td>' . ($value["fechaPostulacion"]) . '</td>
                       <td>' . ($value["descripcionGrado"]) . '</td>
                       <td>
-                        <button type="button" class="btn btn-warning btnEditarPostulante" codAlumno="' . ($value["idPostulante"]) . '"><i class="bi bi-pencil"></i></button>
-                        <button type="button" class="btn btn-danger btnAnularPostulacion" codAlumno="' . ($value["idPostulante"]) . '"><i class="bi bi-trash"></i></button>
+                        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-pencil"></i></button>
+                        <button type="button" class="btn btn-success btnActualizarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-check2-circle"></i></button>
+                        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-trash"></i></button>
                       </td>
                     </tr>
                     ';
@@ -68,3 +69,8 @@
     </div>
   </section>
 </main>
+
+<?php
+$borrarPostulante = new ControllerPostulantes();
+$borrarPostulante->ctrBorrarPostulante();
+?>

@@ -50,4 +50,45 @@ class ModelPostulantes
       return "error";
     }
   }
+
+  //  Eliminar postulante
+  public static function mdlBorrarPostulante($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //  Obtener postulante por id
+  public static function mdlGetPostulanteById($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT postulante.nombrePostulante, postulante.apellidoPostulante, postulante.dniPostulante, postulante.fechaPostulacion, postulante.fechaNacimiento, grado.idGrado, grado.descripcionGrado, nivel.idNivel, nivel.descripcionNivel FROM $tabla INNER JOIN grado ON postulante.gradoPostulacion = grado.idGrado INNER JOIN nivel ON grado.idNivel = nivel.idNivel WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch();
+  }
+
+  //  Editar postulante
+  public static function mdlEditarPostulante($tabla, $datosPostulante)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaPostulacion", $datosPostulante["fechaPostulacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaNacimiento", $datosPostulante["fechaNacimiento"], PDO::PARAM_STR);
+    $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
 }

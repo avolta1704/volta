@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 01/02/2024 17:32:36
+ Date: 02/02/2024 17:35:51
 */
 
 SET NAMES utf8mb4;
@@ -476,22 +476,19 @@ CREATE TABLE `postulante`  (
   `fechaCreacion` datetime NULL DEFAULT NULL,
   `fechaActualizacion` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`idPostulante`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of postulante
 -- ----------------------------
-INSERT INTO `postulante` VALUES (1, 'Ruben', 'Juarez', '89898988', '2024-02-01', NULL, '11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 11:26:44', '2024-02-01 11:26:44');
-INSERT INTO `postulante` VALUES (2, 'Maria', 'Fernanda', '9898989', '2024-02-01', '2016-07-07', '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:24:53', '2024-02-01 12:24:53');
-INSERT INTO `postulante` VALUES (3, 'Maria', 'Fernanda', '9898989', '2024-02-01', '2016-07-07', '4', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:25:04', '2024-02-01 12:25:04');
-INSERT INTO `postulante` VALUES (4, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:29:53', '2024-02-01 12:29:53');
 INSERT INTO `postulante` VALUES (5, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:01', '2024-02-01 12:30:01');
 INSERT INTO `postulante` VALUES (6, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:25', '2024-02-01 12:30:25');
 INSERT INTO `postulante` VALUES (7, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:06', '2024-02-01 12:33:06');
 INSERT INTO `postulante` VALUES (8, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:12', '2024-02-01 12:33:12');
 INSERT INTO `postulante` VALUES (9, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:37:22', '2024-02-01 12:37:22');
 INSERT INTO `postulante` VALUES (10, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:38:09', '2024-02-01 12:38:09');
-INSERT INTO `postulante` VALUES (11, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:47:29', '2024-02-01 12:47:29');
+INSERT INTO `postulante` VALUES (11, 'Guillermo', 'Tejada', '1231231231', '2024-02-29', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:47:29', '2024-02-02 16:55:04');
+INSERT INTO `postulante` VALUES (12, 'Juan', 'Gutierrez', '989898989', '2024-02-02', '2024-02-02', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-02 15:14:40', '2024-02-02 15:14:40');
 
 -- ----------------------------
 -- Table structure for postulante_admision
@@ -628,13 +625,8 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-01 14:35:42', '2024-01-29 12:51:49', '0000-00-00 00:00:00');
-INSERT INTO `usuario` VALUES (2, 4, 'david@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NFcuQ2FoejF2ZkFpaU1YRQ$LY+w25WxkXWoq4o7606EKXD86jX4iZ8PJlpZjVx6O8c', 'David', 'Andrade', '123123', 3, '0000-00-00 00:00:00', '2024-02-01 12:48:10', '0000-00-00 00:00:00');
-INSERT INTO `usuario` VALUES (3, 2, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$cTBmblk0eVI4L1dDb2s1Wg$rkPhD0JVvQprJUQmorzwQbhQDX9jmty1H4RCFQMf+cE', 'Miguel', 'Gutierrez', '55555', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:04', '0000-00-00 00:00:00');
-INSERT INTO `usuario` VALUES (4, 3, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$Q25tNlV6dFE4RGZKOVIwag$/T5il99hZVQz/YOzwdCFtDy6CKMHCTIlvYP7gKziHXc', 'Miguel', 'Gutierrez', '1231231231', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:12', '2024-02-01 12:50:12');
-INSERT INTO `usuario` VALUES (5, 3, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$YzZkVmRWck1sSlpraUxsZQ$DijBYXrDyk9lP2jzBQLt9ePV0IZMwXU4x5R5rgKPv80', 'Miguel', 'Gutierrez', '1231231231', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:14', '2024-02-01 12:50:14');
-INSERT INTO `usuario` VALUES (6, 3, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$c1Q2SjZNc2s1aVdIVlVXWg$DRfhBwQkIGostfMBs9yGCoG7JEvQ6F7ILBfolXay50M', 'Miguel', 'Gutierrez', '1231231231', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:42', '2024-02-01 12:50:42');
-INSERT INTO `usuario` VALUES (7, 3, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NmhELndZN1JlYzlVU0xoNA$ahLlvrfcGNNzfbE+j2Yzh7vYP1GBAHwTIzinTdv/Ar8', 'Miguel', 'Gutierrez', '1231231231', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:44', '2024-02-01 12:50:44');
-INSERT INTO `usuario` VALUES (8, 3, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$Y1ZmQXI3RzcvQ3M3UnBFbQ$/4jWUmcRQvydVaAg4qfOfeKUq8z/VuklPjbabHmW2K4', 'Miguel', 'Gutierrez', '1231231231', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:45', '2024-02-01 12:50:45');
+INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-02 09:39:09', '2024-01-29 12:51:49', '0000-00-00 00:00:00');
+INSERT INTO `usuario` VALUES (2, 3, 'david@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NFcuQ2FoejF2ZkFpaU1YRQ$LY+w25WxkXWoq4o7606EKXD86jX4iZ8PJlpZjVx6O8c', 'Josesito', 'Traca', '123123', 1, '0000-00-00 00:00:00', '2024-02-01 12:48:10', '0000-00-00 00:00:00');
+INSERT INTO `usuario` VALUES (3, 1, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$cTBmblk0eVI4L1dDb2s1Wg$rkPhD0JVvQprJUQmorzwQbhQDX9jmty1H4RCFQMf+cE', 'Mauricio', 'Toledo', '55555', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:04', '0000-00-00 00:00:00');
 
 SET FOREIGN_KEY_CHECKS = 1;

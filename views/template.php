@@ -24,6 +24,7 @@ session_start();
         $_GET["ruta"] == "listaPostulantes" ||
         $_GET["ruta"] == "docPostulantes" ||
         $_GET["ruta"] == "nuevoPostulante" ||
+        $_GET["ruta"] == "editarPostulante" ||
         $_GET["ruta"] == "cerrarSesion"
       ) {
         include "modules/" . $_GET["ruta"] . ".php";
@@ -58,9 +59,6 @@ session_start();
   <script src="assets/js/main.js"></script>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.5/dist/sweetalert2.all.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script src="views/js/usuarios.js"></script>

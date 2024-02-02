@@ -107,8 +107,8 @@ class ModelUsuarios
   public static function mdlActualizarEstado($tabla, $codUsuario, $estado)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoUsuario=:estadoUsuario WHERE idUsuario=:idUsuario");
-    $statement->bindParam(":estadoUsuario", $codUsuario, PDO::PARAM_STR);
-    $statement->bindParam(":idUsuario", $estado, PDO::PARAM_STR);
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_STR);
+    $statement->bindParam(":estadoUsuario", $estado, PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
     } else {

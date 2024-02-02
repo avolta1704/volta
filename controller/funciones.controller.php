@@ -41,6 +41,7 @@ class ControllerFunciones
     return $state;
   }
 
+  //  Mensaje de alerta por acción
   public static function mostrarAlerta($tipo, $titulo, $mensaje, $ruta)
   {
     $alert =

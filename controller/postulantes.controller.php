@@ -29,12 +29,63 @@ class ControllerPostulantes
       );
       $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
       if ($response == "ok") {
-        ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
+        echo $mensaje;
       } else {
-        ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
+        echo $mensaje;
       }
-    } else {
-      ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
     }
+  }
+
+  //  Eliminar postulante
+  public static function ctrBorrarPostulante()
+  {
+    if (isset($_GET["codPostulanteEliminar"])) {
+      $tabla = "postulante";
+      $codPostulante = $_GET["codPostulanteEliminar"];
+      $response = ModelPostulantes::mdlBorrarPostulante($tabla, $codPostulante);
+      if ($response == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
+        echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
+        echo $mensaje;
+      }
+    }
+  }
+
+  //  Editar postulante
+  public static function ctrEditarPostulante()
+  {
+    if (isset($_POST["codPostulante"]) && isset($_POST["editarNombre"])) {
+      $tabla = "postulante";
+      $datosPostulante = array(
+        "idPostulante" => $_POST["codPostulante"],
+        "nombrePostulante" => $_POST["editarNombre"],
+        "apellidoPostulante" => $_POST["editarApellido"],
+        "dniPostulante" => $_POST["editarDNI"],
+        "fechaPostulacion" => $_POST["editarFechaPostulacion"],
+        "fechaNacimiento" => $_POST["editarFechaNacimiento"],
+        "gradoPostulacion" => $_POST["editarGrado"],
+        "fechaActualizacion" => date("Y-m-d H:i:s")
+      );
+      $response = ModelPostulantes::mdlEditarPostulante($tabla, $datosPostulante);
+      if($response == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
+        echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el postulante", "listaPostulantes");
+        echo $mensaje;
+      }
+    }
+  }
+
+  //  Obtener datos del postulante para editar
+  public static function ctrGetPostulanteById($codPostulante)
+  {
+    $tabla = "postulante";
+    $dataPostulante = ModelPostulantes::mdlGetPostulanteById($tabla, $codPostulante);
+    return $dataPostulante;
   }
 }

@@ -82,9 +82,11 @@ class ControllerUsuarios
 
       $response = ModelUsuarios::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
       if ($response == "ok") {
-        ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
+        echo $mensaje;
       } else {
-        ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
+        echo $mensaje;
       }
     }
   }
@@ -113,9 +115,11 @@ class ControllerUsuarios
       );
       $response = ModelUsuarios::mdlEditarUsuarioPersonal($tabla, $dataUsuario);
       if ($response == "ok") {
-        ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario editado correctamente", "usuarios");
+        $mensaje = ControllerFunciones::mostrarAlerta('success', 'Correcto', 'Usuario editado correctamente', 'usuarios');
+        echo $mensaje;
       } else {
-        ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el usuario", "usuarios");
+        $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error', 'Error al editar el usuario', 'usuarios');
+        echo $mensaje;
       }
     }
   }
@@ -125,7 +129,7 @@ class ControllerUsuarios
   {
     $tabla = "usuario";
     $estadoUsuario = ModelUsuarios::mdlObtenerEstadoUsuario($tabla, $codUsuario);
-    if($estadoUsuario["estadoUsuario"] == "1 ") {
+    if ($estadoUsuario["estadoUsuario"] == "1 ") {
       $nuevoEstado = ModelUsuarios::mdlActualizarEstado($tabla, $codUsuario, "2");
     } else {
       $nuevoEstado = ModelUsuarios::mdlActualizarEstado($tabla, $codUsuario, "1");

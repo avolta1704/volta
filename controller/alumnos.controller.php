@@ -72,15 +72,19 @@ class ControllerAlumnos
           $response = "ok";
         }
         if ($response == "ok") {
-          ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
+          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
+          echo $mensaje;
         } else {
-          ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");echo $mensaje;
+          echo $mensaje;
         }
       } else {
-        ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
+        echo $mensaje;
       }
     } else {
-      ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
+      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
+      echo $mensaje;
     }
   }
 

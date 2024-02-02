@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Empresas</h1>
+    <h1>Usuarios</h1>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
@@ -152,43 +152,44 @@
       <!-- Cuerpo modal -->
       <div class="modal-body">
         <form role="form" method="post">
-          <!-- Correo Electrónico -->
-          <div class="form-group">
-            <label for="correoEditar" class="col-form-label">Correo Electrónico:</label>
-            <input type="email" class="form-control" id="correoEditar" name="correoEditar" required>
-          </div>
+          <div class="modal-body">
+            <!-- Correo Electrónico -->
+            <div class="form-group">
+              <label for="correoEditar" class="col-form-label">Correo Electrónico:</label>
+              <input type="email" class="form-control" id="correoEditar" name="correoEditar" required>
+            </div>
 
-          <!-- Nombre -->
-          <div class="form-group">
-            <label for="nombreEditar" class="col-form-label">Nombre:</label>
-            <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
-          </div>
+            <!-- Nombre -->
+            <div class="form-group">
+              <label for="nombreEditar" class="col-form-label">Nombre:</label>
+              <input type="text" class="form-control" id="nombreEditar" name="nombreEditar" required>
+            </div>
 
-          <!-- Apellido -->
-          <div class="form-group">
-            <label for="apellidoEditar" class="col-form-label">Apellido:</label>
-            <input type="text" class="form-control" id="apellidoEditar" name="apellidoEditar" required>
-          </div>
+            <!-- Apellido -->
+            <div class="form-group">
+              <label for="apellidoEditar" class="col-form-label">Apellido:</label>
+              <input type="text" class="form-control" id="apellidoEditar" name="apellidoEditar" required>
+            </div>
 
-          <!-- DNI -->
-          <div class="form-group">
-            <label for="dniEditar" class="col-form-label">DNI:</label>
-            <input type="text" class="form-control" id="dniEditar" name="dniEditar" required>
-          </div>
+            <!-- DNI -->
+            <div class="form-group">
+              <label for="dniEditar" class="col-form-label">DNI:</label>
+              <input type="text" class="form-control" id="dniEditar" name="dniEditar" required>
+            </div>
 
-          <!-- Perfil -->
-          <div class="form-group">
-            <label for="tipoEditar" class="col-form-label">Perfil:</label>
-            <select class="form-control" name="tipoEditar">
-              <?php
-              $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
-              foreach ($tipoUsuarios as $key => $value) {
-                echo '<option value="' . $value["idTipoUsuario"] . '">' . $value["descripcionTipoUsuario"] . '</option>';
-              }
-              ?>
-            </select>
+            <!-- Perfil -->
+            <div class="form-group">
+              <label for="tipoEditar" class="col-form-label">Perfil:</label>
+              <select class="form-control" name="tipoEditar">
+                <?php
+                $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
+                foreach ($tipoUsuarios as $key => $value) {
+                  echo '<option value="' . $value["idTipoUsuario"] . '">' . $value["descripcionTipoUsuario"] . '</option>';
+                }
+                ?>
+              </select>
+            </div>
           </div>
-
           <div class="modal-footer">
             <input type="hidden" id="codUsuario" name="codUsuario" class="codUsuario">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
