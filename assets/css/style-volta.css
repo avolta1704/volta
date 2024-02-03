@@ -1,0 +1,10 @@
+.fondoLogin{
+  background-image: url("../img/fondo-login.jpg");
+}
+
+.imagenLogin{
+  width: auto;
+  height: 150px;
+  margin-top: 5px;
+}
+

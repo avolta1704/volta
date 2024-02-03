@@ -59,7 +59,7 @@ class ModelUsuarios
   //  Crear un nuevo usuario
   public static function mdlCrearUsuarioPersonal($tabla, $dataUsuario)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":password", $dataUsuario["password"], PDO::PARAM_STR);
     $statement->bindParam(":nombreUsuario", $dataUsuario["nombreUsuario"], PDO::PARAM_STR);
@@ -69,6 +69,8 @@ class ModelUsuarios
     $statement->bindParam(":estadoUsuario", $dataUsuario["estadoUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataUsuario["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataUsuario["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataUsuario["usuarioCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
@@ -80,14 +82,16 @@ class ModelUsuarios
   //  Editar data usuario personal
   public static function mdlEditarUsuarioPersonal($tabla, $dataUsuario)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET correoUsuario=:correoUsuario, nombreUsuario=:nombreUsuario, apellidoUsuario=:apellidoUsuario, dniUsuario=:dniUsuario, idTipoUsuario=:idTipoUsuario, fechaActualizacion=:fechaActualizacion WHERE idUsuario=:idUsuario");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET correoUsuario=:correoUsuario, nombreUsuario=:nombreUsuario, apellidoUsuario=:apellidoUsuario, dniUsuario=:dniUsuario, idTipoUsuario=:idTipoUsuario, fechaActualizacion=:fechaActualizacion, usuarioActualizacion=:usuarioActualizacion WHERE idUsuario=:idUsuario");
     $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":nombreUsuario", $dataUsuario["nombreUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoUsuario", $dataUsuario["apellidoUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":dniUsuario", $dataUsuario["dniUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":idTipoUsuario", $dataUsuario["idTipoUsuario"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataUsuario["LastConnection"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idUsuario", $dataUsuario["idUsuario"], PDO::PARAM_STR);
+
     if ($statement->execute()) {
       return "ok";
     } else {

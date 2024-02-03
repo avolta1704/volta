@@ -25,7 +25,9 @@ class ControllerPostulantes
         "gradoPostulacion" => $_POST["gradoAlumno"],
         "estadoPostulante" => 1,
         "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s")
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
       if ($response == "ok") {
@@ -68,10 +70,11 @@ class ControllerPostulantes
         "fechaPostulacion" => $_POST["editarFechaPostulacion"],
         "fechaNacimiento" => $_POST["editarFechaNacimiento"],
         "gradoPostulacion" => $_POST["editarGrado"],
-        "fechaActualizacion" => date("Y-m-d H:i:s")
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $response = ModelPostulantes::mdlEditarPostulante($tabla, $datosPostulante);
-      if($response == "ok") {
+      if ($response == "ok") {
         $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
         echo $mensaje;
       } else {
@@ -87,5 +90,21 @@ class ControllerPostulantes
     $tabla = "postulante";
     $dataPostulante = ModelPostulantes::mdlGetPostulanteById($tabla, $codPostulante);
     return $dataPostulante;
+  }
+
+  //  Actualizar estado del postulante --- REVISAR
+  public static function ctrActualizarEstadoPostulante($codPostulante, $estadoPostulante)
+  {
+    $tabla = "postulante";
+    $dataPostulante = array(
+      "idPostulante" => $codPostulante,
+      "estadoPostulante" => $estadoPostulante,
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $estadoPostulante = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulante);
+    if ($estadoPostulante["estadoPostulante"] == 1) {
+      $estadoPostulante = 2;
+    }
   }
 }

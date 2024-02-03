@@ -30,7 +30,9 @@ class ControllerAlumnos
         "numeroEmergencia" => $_POST["numeroEmergencia"],
         "enfermedades" => $_POST["enfermedadesAlumno"],
         "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-        "fechaActualizacion" => date("Y-m-d\TH:i:sP")
+        "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $nuevoAlumno = ModelAlumnos::mdlCrearAlumno($tabla, $dataAlumno);
 
@@ -48,6 +50,8 @@ class ControllerAlumnos
               "apellidoApoderado" => $value["apellidoApoderado"],
               "fechaCreacion" => date("Y-m-d\TH:i:sP"),
               "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+              "usuarioCreacion" => $_SESSION["idUsuario"],
+              "usuarioActualizacion" => $_SESSION["idUsuario"]
             );
             $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
             $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
@@ -55,7 +59,9 @@ class ControllerAlumnos
               "idAlumno" => $codAlumno["idAlumno"],
               "idApoderado" => $codApoderado["idApoderado"],
               "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-              "fechaActualizacion" => date("Y-m-d\TH:i:sP")
+              "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+              "usuarioCreacion" => $_SESSION["idUsuario"],
+              "usuarioActualizacion" => $_SESSION["idUsuario"]
             );
             $response = self::ctrAsignarAlumnoApoderado($dataApoderadoAlumno);
           }
@@ -65,7 +71,9 @@ class ControllerAlumnos
             "idGrado" => $_POST["gradoAlumno"],
             "estadoGradoAlumno" => 1,
             "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-            "fechaActualizacion" => date("Y-m-d\TH:i:sP")
+            "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+            "usuarioCreacion" => $_SESSION["idUsuario"],
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
           );
           ControllerGradoAlumno::ctrAsignarGradoAlumno($dataAlumnoGrado);
         } else {

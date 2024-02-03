@@ -34,7 +34,7 @@ class ModelPostulantes
   //  Crear postulante
   public static function mdlCrearPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombrePostulante, apellidoPostulante, dniPostulante, fechaPostulacion, fechaNacimiento, gradoPostulacion, estadoPostulante, fechaCreacion, fechaActualizacion) VALUES (:nombrePostulante, :apellidoPostulante, :dniPostulante, :fechaPostulacion, :fechaNacimiento, :gradoPostulacion, :estadoPostulante, :fechaCreacion, :fechaActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombrePostulante, apellidoPostulante, dniPostulante, fechaPostulacion, fechaNacimiento, gradoPostulacion, estadoPostulante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:nombrePostulante, :apellidoPostulante, :dniPostulante, :fechaPostulacion, :fechaNacimiento, :gradoPostulacion, :estadoPostulante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
@@ -44,6 +44,9 @@ class ModelPostulantes
     $statement->bindParam(":estadoPostulante", $datosPostulante["estadoPostulante"], PDO::PARAM_INT);
     $statement->bindParam(":fechaCreacion", $datosPostulante["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $datosPostulante["usuarioCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -75,7 +78,7 @@ class ModelPostulantes
   //  Editar postulante
   public static function mdlEditarPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :UsuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
@@ -84,6 +87,8 @@ class ModelPostulantes
     $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_INT);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_INT);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -91,4 +96,12 @@ class ModelPostulantes
     }
   }
 
+  //  Obtener estado del postulante
+  public static function mdlObtenerEstadoPostulante($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT estadoPostulante FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch();
+  }
 }

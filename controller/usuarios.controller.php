@@ -77,7 +77,9 @@ class ControllerUsuarios
         "idTipoUsuario" => $_POST["tipoUsuario"],
         "estadoUsuario" => "1",
         "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-        "fechaActualizacion" => date("Y-m-d\TH:i:sP")
+        "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
 
       $response = ModelUsuarios::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
@@ -111,6 +113,7 @@ class ControllerUsuarios
         "dniUsuario" => $_POST["dniEditar"],
         "idTipoUsuario" => $_POST["tipoEditar"],
         "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"],
         "idUsuario" => $_POST["codUsuario"]
       );
       $response = ModelUsuarios::mdlEditarUsuarioPersonal($tabla, $dataUsuario);

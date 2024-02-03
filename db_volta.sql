@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 02/02/2024 17:35:51
+ Date: 03/02/2024 12:00:40
 */
 
 SET NAMES utf8mb4;
@@ -24,14 +24,19 @@ DROP TABLE IF EXISTS `admision`;
 CREATE TABLE `admision`  (
   `idAdmision` int NOT NULL AUTO_INCREMENT,
   `idAnioEscolar` int NOT NULL,
+  `idPostulanteAdmision` int NULL DEFAULT NULL,
   `fechaAdmision` date NOT NULL,
   `tipoAdmision` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`idAdmision`) USING BTREE,
   INDEX `fk_admision_anioescolar`(`idAnioEscolar`) USING BTREE,
-  CONSTRAINT `fk_admision_anioescolar` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+  INDEX `fk_admision_postulanteadmision`(`idPostulanteAdmision`) USING BTREE,
+  CONSTRAINT `fk_admision_anioescolar` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `fk_admision_postulanteadmision` FOREIGN KEY (`idPostulanteAdmision`) REFERENCES `postulante_admision` (`idPostulanteAdmision`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admision
@@ -48,12 +53,14 @@ CREATE TABLE `admision_alumno`  (
   `estadoAdmisionAlumno` int NULL DEFAULT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAdmisionAlumno`) USING BTREE,
   INDEX `fk_admision_alumno`(`idAdmision`) USING BTREE,
   INDEX `fk_alumno_admision`(`idAlumno`) USING BTREE,
   CONSTRAINT `fk_admision_alumno` FOREIGN KEY (`idAdmision`) REFERENCES `admision` (`idAdmision`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_alumno_admision` FOREIGN KEY (`idAlumno`) REFERENCES `alumno` (`idAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admision_alumno
@@ -81,18 +88,14 @@ CREATE TABLE `alumno`  (
   `estadoSiagie` int NULL DEFAULT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAlumno`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of alumno
 -- ----------------------------
-INSERT INTO `alumno` VALUES (1, '0044300543\r\n', 'VIANCA ALIZEE', 'GUTIERREZ GUTIERREZ', 'FEMENINO', '85123654', '2010-01-31', 'Urb. Escondida Nro 123', 'Characato', '-', '-', '2024-01-01', '987564235', '-', 1, '2024-01-31 09:24:16', '2024-01-31 09:24:16');
-INSERT INTO `alumno` VALUES (6, NULL, 'Ysabel', 'Pajuelo', 'Femenino', '89756326', '2010-02-10', 'Urb. Escondido ABC 1', 'Characato', '-', '-', '2024-01-31', '987563251', '-', NULL, '2024-01-31 15:29:20', '2024-01-31 15:29:20');
-INSERT INTO `alumno` VALUES (7, NULL, 'Pedro', 'Suarez Llosa', 'Masculino', '985653625', '2011-02-10', 'Urb. Encalada abc123', 'Characato', '-', '-', '2024-02-02', '9856562315', '-', NULL, '2024-02-01 10:56:04', '2024-02-01 10:56:04');
-INSERT INTO `alumno` VALUES (8, NULL, 'Paula', 'Mariño', 'Femenino', '8978564215', '2009-03-04', 'Urb. Perdida ZX 98', 'Characato', '-', '-', '2024-02-01', '985632258', '-', NULL, '2024-02-01 11:00:33', '2024-02-01 11:00:33');
-INSERT INTO `alumno` VALUES (9, NULL, 'Paula', 'Mariño', 'Femenino', '8978564215', '2009-03-04', 'Urb. Perdida ZX 98', 'Characato', '-', '-', '2024-02-01', '985632258', '-', NULL, '2024-02-01 11:01:16', '2024-02-01 11:01:16');
-INSERT INTO `alumno` VALUES (10, NULL, 'Paula', 'Mariño', 'Femenino', '8978564215', '2009-03-04', 'Urb. Perdida ZX 98', 'Characato', '-', '-', '2024-02-01', '985632258', '-', NULL, '2024-02-01 11:01:17', '2024-02-01 11:01:17');
 
 -- ----------------------------
 -- Table structure for alumno_grado
@@ -105,6 +108,8 @@ CREATE TABLE `alumno_grado`  (
   `estadoGradoAlumno` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAlumnoGrado`) USING BTREE,
   INDEX `fk_alumno_grado`(`idAlumno`) USING BTREE,
   INDEX `fk_grado_alumno`(`idGrado`) USING BTREE,
@@ -115,11 +120,6 @@ CREATE TABLE `alumno_grado`  (
 -- ----------------------------
 -- Records of alumno_grado
 -- ----------------------------
-INSERT INTO `alumno_grado` VALUES (1, 1, 11, 1, '2024-01-31 09:25:35', '2024-01-31 09:25:35');
-INSERT INTO `alumno_grado` VALUES (2, 7, 10, 1, '2024-02-01 10:56:40', '2024-02-01 10:56:40');
-INSERT INTO `alumno_grado` VALUES (3, 8, 7, 1, '2024-02-01 11:00:33', '2024-02-01 11:00:33');
-INSERT INTO `alumno_grado` VALUES (4, 9, 7, 1, '2024-02-01 11:01:16', '2024-02-01 11:01:16');
-INSERT INTO `alumno_grado` VALUES (5, 10, 7, 1, '2024-02-01 11:01:18', '2024-02-01 11:01:18');
 
 -- ----------------------------
 -- Table structure for alumnogrado_curso
@@ -131,6 +131,8 @@ CREATE TABLE `alumnogrado_curso`  (
   `idCurso` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAlumGradCurso`) USING BTREE,
   INDEX `fk_alumnogrado_curso`(`idAlumnoGrado`) USING BTREE,
   INDEX `fk_curso_alumnogrado`(`idCurso`) USING BTREE,
@@ -149,16 +151,21 @@ DROP TABLE IF EXISTS `anio_escolar`;
 CREATE TABLE `anio_escolar`  (
   `idAnioEscolar` int NOT NULL AUTO_INCREMENT,
   `descripcionAnio` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `estadoAnio` int NOT NULL,
   `costoMatricula` decimal(10, 2) NOT NULL,
   `costoPension` decimal(10, 2) NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `UsuarioCreacion` int NOT NULL,
+  `UsuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAnioEscolar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of anio_escolar
 -- ----------------------------
+INSERT INTO `anio_escolar` VALUES (1, 'Año 2022', 1, 150.00, 330.00, '2024-02-03 11:03:37', '2024-02-03 11:03:40', 1, 1);
+INSERT INTO `anio_escolar` VALUES (2, 'Año 2023', 1, 150.00, 350.00, '2024-02-03 11:03:37', '2024-02-03 11:03:37', 1, 1);
 
 -- ----------------------------
 -- Table structure for apoderado
@@ -176,6 +183,8 @@ CREATE TABLE `apoderado`  (
   `convivenciaAlumno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idApoderado`) USING BTREE,
   INDEX `fk_apoderador_usuario`(`idUsuario`) USING BTREE,
   CONSTRAINT `fk_apoderador_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -184,12 +193,6 @@ CREATE TABLE `apoderado`  (
 -- ----------------------------
 -- Records of apoderado
 -- ----------------------------
-INSERT INTO `apoderado` VALUES (3, NULL, '987563245', 'Madre', NULL, 'rgonzales@gmail.com', 'Rubi', 'Gonzales', NULL, '2024-01-31 15:29:20', '2024-01-31 15:29:20');
-INSERT INTO `apoderado` VALUES (4, NULL, '987569856', 'Padre', NULL, 'rvizcarra', 'Renato', 'Vizcarra', NULL, '2024-01-31 15:29:29', '2024-01-31 15:29:29');
-INSERT INTO `apoderado` VALUES (5, NULL, '986565656', 'Madre', NULL, 'allosa', 'Andrea', 'LLosa', NULL, '2024-02-01 10:56:25', '2024-02-01 10:56:25');
-INSERT INTO `apoderado` VALUES (6, NULL, '985665523', 'Padre', NULL, 'pmariño@gmail.com', 'Pedro', 'Mariño', NULL, '2024-02-01 11:00:33', '2024-02-01 11:00:33');
-INSERT INTO `apoderado` VALUES (7, NULL, '985665523', 'Padre', NULL, 'pmariño@gmail.com', 'Pedro', 'Mariño', NULL, '2024-02-01 11:01:16', '2024-02-01 11:01:16');
-INSERT INTO `apoderado` VALUES (8, NULL, '985665523', 'Padre', NULL, 'pmariño@gmail.com', 'Pedro', 'Mariño', NULL, '2024-02-01 11:01:18', '2024-02-01 11:01:18');
 
 -- ----------------------------
 -- Table structure for apoderado_alumno
@@ -201,6 +204,8 @@ CREATE TABLE `apoderado_alumno`  (
   `idApoderado` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idApoderadoAlumno`) USING BTREE,
   INDEX `fk_apoderado_alumno`(`idApoderado`) USING BTREE,
   INDEX `fk_alumno_apoderado`(`idAlumno`) USING BTREE,
@@ -211,12 +216,6 @@ CREATE TABLE `apoderado_alumno`  (
 -- ----------------------------
 -- Records of apoderado_alumno
 -- ----------------------------
-INSERT INTO `apoderado_alumno` VALUES (1, 6, 3, '2024-01-31 15:29:27', '2024-01-31 15:29:27');
-INSERT INTO `apoderado_alumno` VALUES (2, 6, 4, '2024-01-31 15:29:31', '2024-01-31 15:29:31');
-INSERT INTO `apoderado_alumno` VALUES (3, 7, 5, '2024-02-01 10:56:34', '2024-02-01 10:56:34');
-INSERT INTO `apoderado_alumno` VALUES (4, 8, 6, '2024-02-01 11:00:33', '2024-02-01 11:00:33');
-INSERT INTO `apoderado_alumno` VALUES (5, 9, 7, '2024-02-01 11:01:16', '2024-02-01 11:01:16');
-INSERT INTO `apoderado_alumno` VALUES (6, 10, 8, '2024-02-01 11:01:18', '2024-02-01 11:01:18');
 
 -- ----------------------------
 -- Table structure for area
@@ -227,6 +226,8 @@ CREATE TABLE `area`  (
   `descripcionArea` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idArea`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
@@ -244,6 +245,8 @@ CREATE TABLE `asistencia`  (
   `concurrencia` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAsistencia`) USING BTREE,
   INDEX `fk_horario_asistencia`(`idHorario`) USING BTREE,
   CONSTRAINT `fk_horario_asistencia` FOREIGN KEY (`idHorario`) REFERENCES `horario` (`idHorario`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -262,6 +265,8 @@ CREATE TABLE `comunicacion_pago`  (
   `idCronogramaPago` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idComunicacionPago`) USING BTREE,
   INDEX `fk_comunicacionpago_cronogramapago`(`idCronogramaPago`) USING BTREE,
   CONSTRAINT `fk_comunicacionpago_cronogramapago` FOREIGN KEY (`idCronogramaPago`) REFERENCES `cronograma_pago` (`idCronogramaPago`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -282,6 +287,8 @@ CREATE TABLE `cronograma_pago`  (
   `mesPago` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idCronogramaPago`) USING BTREE,
   INDEX `fk_cronograma_admisionalumno`(`idAdmisionAlumno`) USING BTREE,
   CONSTRAINT `fk_cronograma_admisionalumno` FOREIGN KEY (`idAdmisionAlumno`) REFERENCES `admision_alumno` (`idAdmisionAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -301,6 +308,8 @@ CREATE TABLE `curso`  (
   `descripcionCurso` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idCurso`) USING BTREE,
   INDEX `fk_curso_area`(`idArea`) USING BTREE,
   CONSTRAINT `fk_curso_area` FOREIGN KEY (`idArea`) REFERENCES `area` (`idArea`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -322,6 +331,8 @@ CREATE TABLE `detalle_comunicacion_pago`  (
   `fechaComunicacion` date NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idDetalleComunicacion`) USING BTREE,
   INDEX `fk_detallecomunicacion_comunicacion`(`idComunicacionPago`) USING BTREE,
   CONSTRAINT `fk_detallecomunicacion_comunicacion` FOREIGN KEY (`idComunicacionPago`) REFERENCES `comunicacion_pago` (`idComunicacionPago`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -341,6 +352,8 @@ CREATE TABLE `grado`  (
   `descripcionGrado` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idGrado`) USING BTREE,
   INDEX `fk_grado_nivel`(`idNivel`) USING BTREE,
   CONSTRAINT `fk_grado_nivel` FOREIGN KEY (`idNivel`) REFERENCES `nivel` (`idNivel`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -349,20 +362,20 @@ CREATE TABLE `grado`  (
 -- ----------------------------
 -- Records of grado
 -- ----------------------------
-INSERT INTO `grado` VALUES (1, 1, '3 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (2, 1, '4 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (3, 1, '5 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (4, 2, '1er Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (5, 2, '2do Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (6, 2, '3er Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (7, 2, '4to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (8, 2, '5to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (9, 2, '6to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (10, 3, '1er Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (11, 3, '2do Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (12, 3, '3er Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (13, 3, '4to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
-INSERT INTO `grado` VALUES (14, 3, '5to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44');
+INSERT INTO `grado` VALUES (1, 1, '3 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (2, 1, '4 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (3, 1, '5 Años', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (4, 2, '1er Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (5, 2, '2do Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (6, 2, '3er Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (7, 2, '4to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (8, 2, '5to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (9, 2, '6to Grado', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (10, 3, '1er Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (11, 3, '2do Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (12, 3, '3er Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (13, 3, '4to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
+INSERT INTO `grado` VALUES (14, 3, '5to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
 
 -- ----------------------------
 -- Table structure for horario
@@ -374,6 +387,8 @@ CREATE TABLE `horario`  (
   `horarioCurso` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idHorario`) USING BTREE,
   INDEX `fk_horario_alumnogrado`(`idAlumGradCurso`) USING BTREE,
   CONSTRAINT `fk_horario_alumnogrado` FOREIGN KEY (`idAlumGradCurso`) REFERENCES `alumnogrado_curso` (`idAlumGradCurso`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -392,15 +407,17 @@ CREATE TABLE `nivel`  (
   `descripcionNivel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idNivel`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of nivel
 -- ----------------------------
-INSERT INTO `nivel` VALUES (1, 'Inicial', '2024-01-31 09:14:10', '2024-01-31 09:14:10');
-INSERT INTO `nivel` VALUES (2, 'Primaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10');
-INSERT INTO `nivel` VALUES (3, 'Secundaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10');
+INSERT INTO `nivel` VALUES (1, 'Inicial', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
+INSERT INTO `nivel` VALUES (2, 'Primaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
+INSERT INTO `nivel` VALUES (3, 'Secundaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
 
 -- ----------------------------
 -- Table structure for pago
@@ -416,6 +433,8 @@ CREATE TABLE `pago`  (
   `conceptoPago` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idPago`) USING BTREE,
   INDEX `fk_pago_tipopago`(`idTipoPago`) USING BTREE,
   INDEX `fk_pago_cronogramapago`(`idCronogramaPago`) USING BTREE,
@@ -442,6 +461,8 @@ CREATE TABLE `personal`  (
   `apellidoPersonal` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idPersonal`) USING BTREE,
   INDEX `fk_personal_tipopersonal`(`idTipoPersonal`) USING BTREE,
   INDEX `fk_personal_usuario`(`idUsuario`) USING BTREE,
@@ -475,20 +496,22 @@ CREATE TABLE `postulante`  (
   `estadoPostulante` int NOT NULL,
   `fechaCreacion` datetime NULL DEFAULT NULL,
   `fechaActualizacion` datetime NULL DEFAULT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idPostulante`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of postulante
 -- ----------------------------
-INSERT INTO `postulante` VALUES (5, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:01', '2024-02-01 12:30:01');
-INSERT INTO `postulante` VALUES (6, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:25', '2024-02-01 12:30:25');
-INSERT INTO `postulante` VALUES (7, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:06', '2024-02-01 12:33:06');
-INSERT INTO `postulante` VALUES (8, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:12', '2024-02-01 12:33:12');
-INSERT INTO `postulante` VALUES (9, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:37:22', '2024-02-01 12:37:22');
-INSERT INTO `postulante` VALUES (10, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:38:09', '2024-02-01 12:38:09');
-INSERT INTO `postulante` VALUES (11, 'Guillermo', 'Tejada', '1231231231', '2024-02-29', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:47:29', '2024-02-02 16:55:04');
-INSERT INTO `postulante` VALUES (12, 'Juan', 'Gutierrez', '989898989', '2024-02-02', '2024-02-02', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-02 15:14:40', '2024-02-02 15:14:40');
+INSERT INTO `postulante` VALUES (5, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:01', '2024-02-01 12:30:01', 1, 1);
+INSERT INTO `postulante` VALUES (6, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:30:25', '2024-02-01 12:30:25', 1, 1);
+INSERT INTO `postulante` VALUES (7, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:06', '2024-02-01 12:33:06', 1, 1);
+INSERT INTO `postulante` VALUES (8, 'Fernando', 'Juarez', '98563265', '2024-02-01', '2024-02-01', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:33:12', '2024-02-01 12:33:12', 1, 1);
+INSERT INTO `postulante` VALUES (9, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:37:22', '2024-02-01 12:37:22', 1, 1);
+INSERT INTO `postulante` VALUES (10, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:38:09', '2024-02-01 12:38:09', 1, 1);
+INSERT INTO `postulante` VALUES (11, 'Guillermo', 'Tejada', '1231231231', '2024-02-29', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:47:29', '2024-02-02 16:55:04', 1, 1);
+INSERT INTO `postulante` VALUES (12, 'Juan', 'Gutierrez', '989898989', '2024-02-02', '2024-02-02', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-02 15:14:40', '2024-02-02 15:14:40', 1, 1);
 
 -- ----------------------------
 -- Table structure for postulante_admision
@@ -497,14 +520,13 @@ DROP TABLE IF EXISTS `postulante_admision`;
 CREATE TABLE `postulante_admision`  (
   `idPostulanteAdmision` int NOT NULL AUTO_INCREMENT,
   `idPostulante` int NOT NULL,
-  `idAdmision` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idPostulanteAdmision`) USING BTREE,
-  INDEX `fk_postulante_admision`(`idPostulante`) USING BTREE,
-  INDEX `fk_admision_postulante`(`idAdmision`) USING BTREE,
-  CONSTRAINT `fk_admision_postulante` FOREIGN KEY (`idAdmision`) REFERENCES `admision` (`idAdmision`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_postulante_admision` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  INDEX `fk_postulante_postulanteadmision`(`idPostulante`) USING BTREE,
+  CONSTRAINT `fk_postulante_postulanteadmision` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -522,6 +544,8 @@ CREATE TABLE `record_nota`  (
   `nota` decimal(4, 2) NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idRecordNota`) USING BTREE,
   INDEX `fk_recordnota_tiponota`(`idTipoNota`) USING BTREE,
   INDEX `fk_recordnota_alumnogrado`(`idAlumnoGrado`) USING BTREE,
@@ -542,6 +566,8 @@ CREATE TABLE `tipo_nota`  (
   `descripcionTipo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoNota`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
@@ -558,6 +584,8 @@ CREATE TABLE `tipo_pago`  (
   `descripcionTipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoPago`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
@@ -574,6 +602,8 @@ CREATE TABLE `tipo_personal`  (
   `descripcionTipo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoPersonal`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
@@ -590,16 +620,18 @@ CREATE TABLE `tipo_usuario`  (
   `descripcionTipoUsuario` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoUsuario`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tipo_usuario
 -- ----------------------------
-INSERT INTO `tipo_usuario` VALUES (1, 'Administrador', '2024-01-29 12:50:58', '2024-01-29 12:50:58');
-INSERT INTO `tipo_usuario` VALUES (2, 'Docente', '2024-01-29 12:50:58', '2024-01-29 12:50:58');
-INSERT INTO `tipo_usuario` VALUES (3, 'Administrativo', '2024-01-29 12:50:58', '2024-01-29 12:50:58');
-INSERT INTO `tipo_usuario` VALUES (4, 'Apoderado', '2024-01-29 12:50:58', '2024-01-29 12:50:58');
+INSERT INTO `tipo_usuario` VALUES (1, 'Administrador', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
+INSERT INTO `tipo_usuario` VALUES (2, 'Docente', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
+INSERT INTO `tipo_usuario` VALUES (3, 'Administrativo', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
+INSERT INTO `tipo_usuario` VALUES (4, 'Apoderado', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
 
 -- ----------------------------
 -- Table structure for usuario
@@ -617,6 +649,8 @@ CREATE TABLE `usuario`  (
   `ultimaConexion` datetime NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
+  `usuarioCreacion` int NOT NULL,
+  `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idUsuario`) USING BTREE,
   INDEX `fk_usuario_tipousuario`(`idTipoUsuario`) USING BTREE,
   CONSTRAINT `fk_usuario_tipousuario` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipo_usuario` (`idTipoUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -625,8 +659,8 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-02 09:39:09', '2024-01-29 12:51:49', '0000-00-00 00:00:00');
-INSERT INTO `usuario` VALUES (2, 3, 'david@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NFcuQ2FoejF2ZkFpaU1YRQ$LY+w25WxkXWoq4o7606EKXD86jX4iZ8PJlpZjVx6O8c', 'Josesito', 'Traca', '123123', 1, '0000-00-00 00:00:00', '2024-02-01 12:48:10', '0000-00-00 00:00:00');
-INSERT INTO `usuario` VALUES (3, 1, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$cTBmblk0eVI4L1dDb2s1Wg$rkPhD0JVvQprJUQmorzwQbhQDX9jmty1H4RCFQMf+cE', 'Mauricio', 'Toledo', '55555', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:04', '0000-00-00 00:00:00');
+INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-03 10:19:05', '2024-01-29 12:51:49', '2024-01-29 12:51:49', 1, 1);
+INSERT INTO `usuario` VALUES (2, 3, 'david@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NFcuQ2FoejF2ZkFpaU1YRQ$LY+w25WxkXWoq4o7606EKXD86jX4iZ8PJlpZjVx6O8c', 'Josesito', 'Traca', '123123', 1, '0000-00-00 00:00:00', '2024-02-01 12:48:10', '2024-01-29 12:51:49', 1, 1);
+INSERT INTO `usuario` VALUES (3, 1, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$cTBmblk0eVI4L1dDb2s1Wg$rkPhD0JVvQprJUQmorzwQbhQDX9jmty1H4RCFQMf+cE', 'Mauricio', 'Toledo', '55555', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:04', '2024-01-29 12:51:49', 1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -71,6 +71,7 @@
 </main>
 
 <?php
-$borrarPostulante = new ControllerPostulantes();
-$borrarPostulante->ctrBorrarPostulante();
+$postulante = new ControllerPostulantes();
+$postulante->ctrBorrarPostulante();
+$postulante->ctrActualizarEstadoPostulante();
 ?>
