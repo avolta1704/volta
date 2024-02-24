@@ -29,10 +29,10 @@
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Código Pago</th>
                     <th scope="col">Apellidos</th>
                     <th scope="col">Nombres</th>
                     <th scope="col">Sexo</th>
+                    <th scope="col">Estado</th>
                     <th scope="col">Nivel</th>
                     <th scope="col">Grado</th>
                     <th scope="col">Acciones</th>
@@ -42,18 +42,19 @@
                   <?php
                   $listAlumnos = ControllerAlumnos::ctrGetAlumnos();
                   foreach ($listAlumnos as $key => $value) {
+                    $estado = ControllerFunciones::getEstadosAlumnos($value["estadoAlumno"]);
+                    $botones = ControllerFunciones::getBotonesAlumnos ($value["idAlumno"], $value["estadoAlumno"]);
                     echo '
                     <tr>
                       <th scope="row">' . ($key + 1) . '</th>
-                      <td>' . ($value["codAlumnoCaja"]) . '</td>
                       <td>' . ($value["nombresAlumno"]) . '</td>
                       <td>' . ($value["apellidosAlumno"]) . '</td>
                       <td>' . ($value["sexoAlumno"]) . '</td>
+                      <td>' . $estado . '</td>
                       <td>' . ($value["descripcionGrado"]) . '</td>
                       <td>' . ($value["descripcionNivel"]) . '</td>
                       <td>
-                        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . ($value["idAlumno"]) . '"><i class="bi bi-pencil"></i></button>
-                        <button type="button" class="btn btn-primary btnVisualizarPagos" codAlumno="' . ($value["idAlumno"]) . '"><i class="bi bi-person-fill-check"></i></button>
+                        ' . $botones . '
                       </td>
                     </tr>
                     ';

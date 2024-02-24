@@ -12,14 +12,15 @@ class ControllerAlumnos
   }
 
   //  Crear nuevo alumno
-  public static function ctrCrearAlumno()
+  public static function ctrCrearAlumnoExtraordinaria()
   {
-    if (isset($_POST["nombresAlumno"]) && (isset($_POST["apellidosAlumno"]))) {
+    if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
       $tabla = "alumno";
       $dataAlumno = array(
         "nombresAlumno" => $_POST["nombresAlumno"],
         "apellidosAlumno" => $_POST["apellidosAlumno"],
         "sexoAlumno" => $_POST["sexoAlumno"],
+        "estadoAlumno" => 3,
         "dniAlumno" => $_POST["dniAlumno"],
         "fechaNacimiento" => $_POST["fechaNacimiento"],
         "direccionAlumno" => $_POST["direccionAlumno"],
@@ -90,10 +91,7 @@ class ControllerAlumnos
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
         echo $mensaje;
       }
-    } else {
-      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
-      echo $mensaje;
-    }
+    } 
   }
 
   //  Obtener ultimo alumno creado

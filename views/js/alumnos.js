@@ -3,6 +3,12 @@ $("#btnAgregarNuevoAlumno").on("click", function () {
   window.location = "index.php?ruta=admisionExtraordinaria";
 });
 
+//  Visualizar alumno
+$("#btnAgregarNuevoAlumno").on("click", function () {
+  window.location = "index.php?ruta=admisionExtraordinaria";
+});
+btnVisualizarAlumno
+
 //  Add material to list
 $(".formNuevoApoderado").on("click", ".btnAgregarApoderado", function () {
   var nombres = $("#nombreApoderado").val();
@@ -12,25 +18,34 @@ $(".formNuevoApoderado").on("click", ".btnAgregarApoderado", function () {
   var tipoApoderado = $("#tipoApoderado").val();
 
   $(".nuevoApoderado").append(
-    '<div class="container row" style="padding:5px 15px">' +
+    '<div class="row">' +
         '<!-- Nombres -->' +
-        '<div class="col-lg-3 nombres">' +
+        '<div class="col-lg-3">' +
+          '<label for="nombreApoderado" class="col-form-label">Nombres</label>' +
           '<input type="text" class="form-control nombreApoderado" name="nombreApoderado" value="' + nombres + '" readonly>' +
         '</div>' +
+
         '<!-- Apellidos -->' +
         '<div class="col-lg-3 apellidos">' +
+          '<label for="apellidosApoderado" class="col-form-label">Apellidos</label>' +
           '<input type="text" class="form-control apellidosApoderado" name="apellidosApoderado" value="' + apellidos + '" readonly>' +
         '</div>' +
+
         '<!-- Correo -->' +
-        '<div class="col-lg-3 correo">' +
+        '<div class="col-lg-2 correo">' +
+          '<label for="correoApoderado" class="col-form-label">Correo</label>' +
           '<input type="text" class="form-control correoApoderado" name="correoApoderado" value="' + correo + '" readonly>' +
         '</div>' +
+
         '<!-- Celular -->' +
-        '<div class="col-lg-3 celular">' +
+        '<div class="col-lg-2 celular">' +
+          '<label for="celularApoderado" class="col-form-label">Celular</label>' +
           '<input type="text" class="form-control celularApoderado" name="celularApoderado" value="' + celular + '" readonly>' +
         '</div>' +
+        
         '<!-- Tipo Apoderado -->' +
-        '<div class="col-lg-3 tipo">' +
+        '<div class="col-lg-2 tipo">' +
+          '<label for="tipoApoderado" class="col-form-label">Tipo</label>' +
           '<input type="text" class="form-control tipoApoderado" name="tipoApoderado" value="' + tipoApoderado + '" readonly>' +
         '</div>' +
     '</div>'

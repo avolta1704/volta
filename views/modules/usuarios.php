@@ -180,7 +180,7 @@
             <!-- Perfil -->
             <div class="form-group">
               <label for="tipoEditar" class="col-form-label">Perfil:</label>
-              <select class="form-control" name="tipoEditar">
+              <select class="form-control" name="tipoEditar" id="tipoEditar">
                 <?php
                 $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
                 foreach ($tipoUsuarios as $key => $value) {

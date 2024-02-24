@@ -92,19 +92,29 @@ class ControllerPostulantes
     return $dataPostulante;
   }
 
-  //  Actualizar estado del postulante --- REVISAR
-  public static function ctrActualizarEstadoPostulante($codPostulante, $estadoPostulante)
+  //  Actualizar estado del postulante
+  public static function ctrActualizarEstadoPostulante($codPostulante)
   {
     $tabla = "postulante";
+    $estadoPostulante = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulante);
+
+    if ($estadoPostulante["estadoPostulante"] == 1) {
+      $estadoPostulante = 2;
+    } else {
+      $estadoPostulante = 1;
+    } 
     $dataPostulante = array(
       "idPostulante" => $codPostulante,
       "estadoPostulante" => $estadoPostulante,
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
-    $estadoPostulante = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulante);
-    if ($estadoPostulante["estadoPostulante"] == 1) {
-      $estadoPostulante = 2;
+    
+    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulante);
+    if($actualizarEstado == "ok") {
+      return "ok";
+    } else {
+      return "error";
     }
   }
 }

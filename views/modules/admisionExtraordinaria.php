@@ -95,7 +95,7 @@
               </div>
 
               <div class="form-group col-md-6 nivelAdmision">
-                <label for="nivelAlumno" class="col-form-label">Nivel:</label>
+                <label for="nivelAlumno" class="col-form-label" style="font-weight: bold">Nivel:</label>
                 <select class="form-control" name="nivelAlumno" id="nivelAlumno" required>
                   <option value="">Eliga una opción</option>
                   <option value="1">Inicial</option>
@@ -105,7 +105,7 @@
               </div>
 
               <div class="form-group col-md-6 gradoAdmision">
-                <label for="gradoAlumno" class="col-form-label">Grado:</label>
+                <label for="gradoAlumno" class="col-form-label" style="font-weight: bold">Grado:</label>
                 <select class="form-control" name="gradoAlumno" id="gradoAlumno" required>
                   <option value="">Eliga una opción</option>
                 </select>
@@ -122,7 +122,6 @@
                 <input type="hidden" class="listaApoderados" id="listaApoderados" name="listaApoderados">
               </div>
 
-
             </div>
           </span>
           <div class="container row g-3 p-3 justify-content-between">
@@ -136,8 +135,8 @@
 </main>
 
 <?php
-$crearAlumno = new ControllerAlumnos();
-$crearAlumno->ctrCrearAlumno();
+$crearAlumnoExtraordinario = new ControllerAlumnos();
+$crearAlumnoExtraordinario->ctrCrearAlumnoExtraordinaria();
 ?>
 
 <!-- Modal Agregar Apoderado -->

@@ -65,6 +65,8 @@ session_start();
   <script src="views/js/alumnos.js"></script>
   <script src="views/js/nivelGrado.js"></script>
   <script src="views/js/postulante.js"></script>
+  <script src="views/js/admision.js"></script>
+  
 
 </body>
 

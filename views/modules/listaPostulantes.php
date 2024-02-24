@@ -51,11 +51,7 @@
                       <td>' . ControllerFunciones::getEstadoPostulantes($value["estadoPostulante"]) . '</td>
                       <td>' . ($value["fechaPostulacion"]) . '</td>
                       <td>' . ($value["descripcionGrado"]) . '</td>
-                      <td>
-                        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-pencil"></i></button>
-                        <button type="button" class="btn btn-success btnActualizarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-check2-circle"></i></button>
-                        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($value["idPostulante"]) . '"><i class="bi bi-trash"></i></button>
-                      </td>
+                      <td>' . ControllerFunciones::getBotonesPostulante($value["idPostulante"], $value["estadoPostulante"]) . '</td>
                     </tr>
                     ';
                   }
@@ -73,5 +69,25 @@
 <?php
 $postulante = new ControllerPostulantes();
 $postulante->ctrBorrarPostulante();
-$postulante->ctrActualizarEstadoPostulante();
 ?>
+
+<div class="modal fade" id="actualizarEstado" aria-hidden="true" aria-labelledby="actualizarEstado" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content tablaActualizrEstado">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Actualizar Estado</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <select class="form-control" name="estadoPostulante" id="estadoPostulante">
+          <option value="2">En Revisión</option>
+          <option value="3">Presentado</option>
+          <option value="4">Presentado</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn-primary btnActualizarEstado" id="btnActualizarPostulante">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 03/02/2024 12:00:40
+ Date: 05/02/2024 17:20:31
 */
 
 SET NAMES utf8mb4;
@@ -511,7 +511,7 @@ INSERT INTO `postulante` VALUES (8, 'Fernando', 'Juarez', '98563265', '2024-02-0
 INSERT INTO `postulante` VALUES (9, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:37:22', '2024-02-01 12:37:22', 1, 1);
 INSERT INTO `postulante` VALUES (10, 'Paolo', 'Gallegos', '1231231231', '2024-02-02', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:38:09', '2024-02-01 12:38:09', 1, 1);
 INSERT INTO `postulante` VALUES (11, 'Guillermo', 'Tejada', '1231231231', '2024-02-29', '2024-02-01', '6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-01 12:47:29', '2024-02-02 16:55:04', 1, 1);
-INSERT INTO `postulante` VALUES (12, 'Juan', 'Gutierrez', '989898989', '2024-02-02', '2024-02-02', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, '2024-02-02 15:14:40', '2024-02-02 15:14:40', 1, 1);
+INSERT INTO `postulante` VALUES (12, 'Juan', 'Gutierrez', '989898989', '2024-02-02', '2024-02-02', '8', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, '2024-02-02 15:14:40', '2024-02-02 15:14:40', 1, 1);
 
 -- ----------------------------
 -- Table structure for postulante_admision
@@ -659,7 +659,7 @@ CREATE TABLE `usuario`  (
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
-INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-03 10:19:05', '2024-01-29 12:51:49', '2024-01-29 12:51:49', 1, 1);
+INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$UWpleWtkc2hqM3RXeXlxbg$8On5PLoftLU6P/RR7R6AYdbYsYRg1uWLmZOL7Fc/bY8', 'David', 'Poblette', '98745632', 1, '2024-02-05 15:57:32', '2024-01-29 12:51:49', '2024-01-29 12:51:49', 1, 1);
 INSERT INTO `usuario` VALUES (2, 3, 'david@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$NFcuQ2FoejF2ZkFpaU1YRQ$LY+w25WxkXWoq4o7606EKXD86jX4iZ8PJlpZjVx6O8c', 'Josesito', 'Traca', '123123', 1, '0000-00-00 00:00:00', '2024-02-01 12:48:10', '2024-01-29 12:51:49', 1, 1);
 INSERT INTO `usuario` VALUES (3, 1, 'mgutierrez@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$cTBmblk0eVI4L1dDb2s1Wg$rkPhD0JVvQprJUQmorzwQbhQDX9jmty1H4RCFQMf+cE', 'Mauricio', 'Toledo', '55555', 1, '0000-00-00 00:00:00', '2024-02-01 12:50:04', '2024-01-29 12:51:49', 1, 1);
 
