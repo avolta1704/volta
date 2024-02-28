@@ -11,6 +11,9 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
 
+      
+      <button class="btn-primary " id="boton-negro">negro</button>
+
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
