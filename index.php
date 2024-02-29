@@ -2,10 +2,14 @@
 
 date_default_timezone_set('America/Lima');
 
-//  Controllers
 require_once "controller/template.controller.php";
-require_once "controller/funciones.controller.php";
 
+//  Functions
+require_once "controller/funciones.controller.php";
+require_once "functions/alumnos.functions.php";
+require_once "functions/usuarios.functions.php";
+
+//  Controllers
 require_once "controller/usuarios.controller.php";
 require_once "controller/alumnos.controller.php";
 require_once "controller/apoderado.controller.php";

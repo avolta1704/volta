@@ -1,11 +1,11 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Usuarios</h1>
+  <h2 class="mt-4 tituloUsuarios"></h2><br>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="usuarios">Usuarios</a></li>
+        <!-- <li class="breadcrumb-item"><a href="usuarios">Usuarios</a></li> -->
         <li class="breadcrumb-item active">Todos los Usuarios</li>
       </ol>
     </nav>
@@ -23,44 +23,16 @@
         <div class="row">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Todas las Empresas</h5>
-
-              <table class="table datatable">
+              <!--  Titulo dataTableUsuarios-->
+              <table id="dataTableUsuarios" class="display dataTableUsuarios" style="width: 100%">
                 <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Correo</th>
-                    <th scope="col">Apellidos</th>
-                    <th scope="col">Nombres</th>
-                    <th scope="col">Estado</th>
-                    <th scope="col">Tipo Usuario</th>
-                    <th scope="col">Ultima Conexión</th>
-                    <th scope="col">Acciones</th>
-                  </tr>
+                <!-- dataTableUsuarios -->
                 </thead>
                 <tbody>
-                  <?php
-                  $listaUsuarios = ControllerUsuarios::ctrGetAllUsuarios();
-                  foreach ($listaUsuarios as $key => $value) {
-                    echo '
-                    <tr>
-                      <th scope="row">' . ($key + 1) . '</th>
-                      <td>' . ($value["correoUsuario"]) . '</td>
-                      <td>' . ($value["nombreUsuario"]) . '</td>
-                      <td>' . ($value["apellidoUsuario"]) . '</td>
-                      <td>' . ControllerFunciones::getEstadoUsuarios($value["estadoUsuario"]) . '</td>
-                      <td>' . ($value["descripcionTipoUsuario"]) . '</td>
-                      <td>' . ($value["ultimaConexion"]) . '</td>
-                      <td>
-                        <button type="button" class="btn btn-warning btnEditarUsuario" data-bs-toggle="modal" data-bs-target="#editarUsuario" codUsuario="' . ($value["idUsuario"]) . '"><i class="bi bi-pencil"></i></button>
-                        <button type="button" class="btn btn-primary btnActualizarUsuario" codUsuario="' . ($value["idUsuario"]) . '"><i class="bi bi-person-fill-check"></i></button>
-                      </td>
-                    </tr>
-                    ';
-                  }
-                  ?>
+                 <!--dataTableUsuarios-->
                 </tbody>
               </table>
+
             </div>
           </div>
         </div>

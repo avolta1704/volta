@@ -1,5 +1,5 @@
 //  Mostrar data del usuario para editar
-$(".table").on("click", ".btnEditarUsuario", function () {
+$(".dataTableUsuarios").on("click", ".btnEditarUsuario", function () {
   var codUsuario = $(this).attr("codUsuario");
   var data = new FormData();
 
@@ -28,7 +28,7 @@ $(".table").on("click", ".btnEditarUsuario", function () {
 });
 
 //  Mostrar data del usuario para actualizar
-$(".table").on("click", ".btnActualizarUsuario", function () {
+$(".dataTableUsuarios").on("click", ".btnActualizarUsuario", function () {
   var codUsuario = $(this).attr("codUsuario");
   var data =  new FormData();
   data.append("codUsuarioActualizar", codUsuario);

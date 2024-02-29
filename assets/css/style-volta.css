@@ -1,10 +1,67 @@
+/* Fondo para el login */
 .fondoLogin{
-  background-image: url("../img/fondo-login.jpg");
+  background-image: url('../img/fondo-login.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .imagenLogin{
-  width: auto;
-  height: 150px;
-  margin-top: 5px;
+  width: 410px;
+  height: 260px; 
+  border-radius: 0%;
+  margin-left: -10px;
+}
+
+#inputCorreo {
+  margin-top: 50px;
+}
+
+#inputPassword {
+  margin-top: 30px;
+}
+
+.imageNavBar{
+  margin-top: -3px;
+  width: 120;
+  height: 75px;
+  padding-left: 40px;
+}
+
+/* Estilos para el login */
+#layoutAuthentication_content .container .card {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  width: 85%; 
+  height: 98%;
+  margin: 0 auto;
+}
+
+#layoutAuthentication_content .container .card .form-control {
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  border: none;
+}
+
+#layoutAuthentication_content .container .card .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+#layoutAuthentication_content .container .card .btn {
+  background-color:#138f8d;
+  color: white;
+  border: none; 
+  display: block;
+  margin: 0 auto;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+}
+
+
+.logo img{
+  margin-top: 0px;
+  width: 35%;
+  height: 50%;
+  border-radius: 100%;
 }
 
