@@ -9,14 +9,14 @@ class UsuariosAjax
   //mostar todos los usuarios DataTable
   public function ajaxMostrarTodosLosUsuarios()
   {
-    $TodosLosUsuarios = ControllerUsuarios::ctrGetAllUsuarios();
-    foreach ($TodosLosUsuarios as &$Usuario) {
-      $Usuario['State'] = FunctionUsuario::getEstadoUsuarios($Usuario["estadoUsuario"]);
-      $Usuario['Buttons'] = FunctionUsuario::getBtnUsuarios($Usuario["idUsuario"]);  
+    $todosLosUsuarios = ControllerUsuarios::ctrGetAllUsuarios();
+    foreach ($todosLosUsuarios as &$usuario) {
+      $usuario['state'] = FunctionUsuario::getEstadoUsuarios($usuario["estadoUsuario"]);
+      $usuario['buttons'] = FunctionUsuario::getBtnUsuarios($usuario["idUsuario"]);
     }
-    echo json_encode($TodosLosUsuarios);
+    echo json_encode($todosLosUsuarios);
   }
-
+  //  Mostrar data para editar
   public $codUsuario;
   public function ajaxEditarUsuario()
   {
@@ -24,7 +24,7 @@ class UsuariosAjax
     $response = ControllerUsuarios::ctrGetUsuarioEdit($codUsuario);
     echo json_encode($response);
   }
-
+  //  Actualizar data del usuario
   public $codUsuarioActualizar;
   public function ajaxActualizarEstado()
   {
@@ -34,9 +34,9 @@ class UsuariosAjax
   }
 }
 //mostar todos los usuarios DataTable
-if (isset($_POST["TodosLosUsuarios"])) {
-  $mostrarNotasPedido = new UsuariosAjax();
-  $mostrarNotasPedido->ajaxMostrarTodosLosUsuarios();
+if (isset($_POST["todosLosUsuarios"])) {
+  $mostrarTodosLosUsuarios = new UsuariosAjax();
+  $mostrarTodosLosUsuarios->ajaxMostrarTodosLosUsuarios();
 }
 
 //  Mostrar data para editar

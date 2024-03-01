@@ -28,7 +28,7 @@ class ModelPostulantes
     FROM $tabla 
     ORDER BY postulante.idPostulante DESC");
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   //  Crear postulante

@@ -6,10 +6,10 @@ $(document).ready(function() {
     { data: "correoUsuario" },
     { data: "nombreUsuario" },
     { data: "apellidoUsuario" },
-    { data: "State" },
+    { data: "state" },
     { data: "descripcionTipoUsuario" },
     { data: "ultimaConexion" },
-    { data: "Buttons" },
+    { data: "buttons" },
   ];
 
 var table = $("#dataTableUsuarios").DataTable({
@@ -22,7 +22,7 @@ $(".tituloUsuarios").text("Usuarios");
 
 //Solicitud inicial de dataTableUsuarios
 var data = new FormData();
-data.append("TodosLosUsuarios", true);
+data.append("todosLosUsuarios", true);
 
 $.ajax({
   url: "ajax/usuarios.ajax.php",
@@ -64,10 +64,10 @@ columnDefs = [
   { data: "correoUsuario" },
   { data: "nombreUsuario" },
   { data: "apellidoUsuario" },
-  { data: "State" },
+  { data: "state" },
   { data: "descripcionTipoUsuario" },
   { data: "ultimaConexion" },
-  { data: "Buttons" },
+  { data: "buttons" },
 ];
 table = $("#dataTableUsuarios").DataTable({
   columns: columnDefs,

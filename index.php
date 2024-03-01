@@ -5,9 +5,10 @@ date_default_timezone_set('America/Lima');
 require_once "controller/template.controller.php";
 
 //  Functions
-require_once "controller/funciones.controller.php";
+require_once "functions/funciones.controller.php";
 require_once "functions/alumnos.functions.php";
 require_once "functions/usuarios.functions.php";
+require_once "functions/postulantes.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";

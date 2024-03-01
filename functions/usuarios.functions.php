@@ -33,8 +33,8 @@ class FunctionUsuario
         if ($stateValue == 2) {
             $estado = '<span class="badge rounded-pill bg-danger">Desactivado</span>';
         }
-        if ($stateValue > 2) {
-            $estado = '<span class="badge rounded-pill bg-secondary">Sin Estado</span>';
+        if ($stateValue > 3) {
+            $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
         }
 
         return $estado;
@@ -44,7 +44,7 @@ class FunctionUsuario
     public static function getBtnUsuarios($codUsuario)
     {
         $buttons = '
-        <button type="button" class="btn btn-warning btnEditarUsuario" data-bs-toggle="modal" data-bs-target="#editarUsuario" codUsuario="' . $codUsuario . '"><i     class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-warning btnEditarUsuario" data-bs-toggle="modal" data-bs-target="#editarUsuario" codUsuario="' . $codUsuario . '"><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-primary btnActualizarUsuario" codUsuario="' . $codUsuario . '"><i class="bi bi-person-fill-check"></i></button>
         ';
         return $buttons;
