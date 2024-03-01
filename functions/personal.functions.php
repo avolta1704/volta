@@ -1,5 +1,5 @@
 <?php
-class FunctionUsuario
+class FunctionPersonal
 {
 
     public static function getTipoUsuarioLogin($tipoUsuarioLogin)

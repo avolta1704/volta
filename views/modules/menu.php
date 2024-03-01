@@ -90,6 +90,19 @@
       </ul>
     </li>
 
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allPersonal" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-person-vcard" fa="x2"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allPersonal" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="personal">
+            <i class="bi bi-circle"></i><span>Todo el Personal</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
   </ul>
 
 </aside>

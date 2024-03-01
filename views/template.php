@@ -19,6 +19,7 @@ session_start();
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "personal" ||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "listaAlumnos" ||
         $_GET["ruta"] == "admisionExtraordinaria" ||
@@ -64,6 +65,7 @@ session_start();
 
   <!-- funciones js -->
   <script src="views/js/usuarios.js"></script>
+  <script src="views/js/personal.js"></script>
   <script src="views/js/alumnos.js"></script>
   <script src="views/js/nivelGrado.js"></script>
   <script src="views/js/postulantes.js"></script>
@@ -71,6 +73,7 @@ session_start();
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
+  <script src="views/dataTables/dt-personal.js"></script>
   <script src="views/dataTables/dt-postulantes-admin.js"></script>
   <script src="views/dataTables/dt-alumnos-admin.js"></script>
 </body>

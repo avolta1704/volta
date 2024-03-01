@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-  <h2 class="mt-4 tituloUsuarios"></h2><br>
+  <h2 class="mt-4 tituloPersonal"></h2><br>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
@@ -23,13 +23,13 @@
         <div class="row">
           <div class="card">
             <div class="card-body">
-              <!--  Titulo dataTableUsuarios-->
-              <table id="dataTableUsuarios" class="display dataTableUsuarios" style="width: 100%">
+              <!--  Titulo dataTablePersonal-->
+              <table id="dataTablePersonal" class="display dataTablePersonal" style="width: 100%">
                 <thead>
-                <!-- dataTableUsuarios -->
+                <!-- dataTablePersonal -->
                 </thead>
                 <tbody>
-                 <!--dataTableUsuarios-->
+                 <!--dataTablePersonal-->
                 </tbody>
               </table>
 
@@ -103,7 +103,7 @@
           </div>
           <?php
           $crearUsuario = new ControllerUsuarios();
-          $crearUsuario->ctrCrearUsuario();
+          $crearUsuario->ctrCrearUsuarioPersonal();
           ?>
         </form>
       </div>

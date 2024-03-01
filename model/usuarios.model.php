@@ -57,7 +57,7 @@ class ModelUsuarios
   }
 
   //  Crear un nuevo usuario
-  public static function mdlCrearUsuarioPersonal($tabla, $dataUsuario)
+  public static function mdlCrearUsuario($tabla, $dataUsuario)
   {
     $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);

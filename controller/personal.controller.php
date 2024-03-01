@@ -1,65 +1,26 @@
 <?php
 date_default_timezone_set('America/Lima');
 
-class ControllerUsuarios
+class ControllerPersonal
 {
-  public static function ctrIniciarSesion()
+  //  Crear personal apartir de un usuario
+  public static function ctrCrearUsuarioPersonal($dataUsuario)
   {
-    if (isset($_POST["inputCorreo"]) && $_POST["inputCorreo"] != "" && $_POST["inputCorreo"] != null && $_POST["inputPassword"] != "" && $_POST["inputPassword"] != null) {
-
-      $verificar = self::ctrVerificarUsuario($_POST["inputCorreo"], $_POST["inputPassword"]);
-
-      if ($verificar != false) {
-        $tabla = "usuario";
-        $dataUsuario = ModelUsuarios::mdlObtenerDatosSesion($tabla, $_POST["inputCorreo"]);
-        $_SESSION["login"] = "ok";
-        $_SESSION["idUsuario"] = $dataUsuario["idUsuario"];
-        $_SESSION["correoUsuario"] = $dataUsuario["correoUsuario"];
-        $_SESSION["nombreCompleto"] = $dataUsuario["nombreUsuario"] . ' ' . $dataUsuario["apellidoUsuario"];
-        $_SESSION["tipoUsuario"] = $dataUsuario["idTipoUsuario"];
-
-        //  Save last login
-        $ultimaConexion = date("Y-m-d\TH:i:sP");
-
-        $updateConnection = ModelUsuarios::mdlActualizarSesion($tabla, $ultimaConexion, $dataUsuario["idUsuario"]);
-        if ($updateConnection == "ok") {
-          echo '<script>
-            window.location = "inicio";
-          </script>';
-        }
-      } else {
-        echo '<br><div class="alert alert-danger" role="alert">Error en los datos ingresados, vuelve a intentarlo</div>';
-      }
-    }
+    $tabla = "personal";
+    $listPersonal = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
+    return $listPersonal;
   }
 
-  //  Verificar usuario
-  public static function ctrVerificarUsuario($email, $password)
+  //  Obtener el ultimo usuario creado
+  public static function ctrUltimoUsuarioCreado()
   {
     $tabla = "usuario";
-    $userData = ModelUsuarios::mdlObtenerDataUsuario($tabla, $email);
-    $verificar = password_verify($password, $userData["password"]);
-    return $verificar;
+    $ultimoUsuarioCreado = ModelPersonal::mdlUltimoUsuarioCreado($tabla);
+    return $ultimoUsuarioCreado;
   }
 
-  //  Agregar nuevo usuario
-  public static function ctrGetAllUsuarios()
-  {
-    $tabla = "usuario";
-    $listUsuarios = ModelUsuarios::mdlGetAllUsuarios($tabla);
-    return $listUsuarios;
-  }
-
-  //  Obtener tipos de usuarios
-  public static function ctrGetTipoUsuarios()
-  {
-    $tabla = "tipo_usuario";
-    $listTipos = ModelUsuarios::mdlGetTipoUsuarios($tabla);
-    return $listTipos;
-  }
-
-  //  Crear usuario personal
-  public static function ctrCrearUsuario()
+  //  Crear usuario
+  public static function ctrCrearUsuarioPersonal1()
   {
     if (isset($_POST["usuarioCorreo"]) && isset($_POST["passwordUsuario"])) {
       $tabla = "usuario";
@@ -85,9 +46,8 @@ class ControllerUsuarios
       $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
 
       if ($response == "ok") {
-        $lastUser = ModelUsuarios::mdlGetLastUsuario($tabla);
-        if ($lastUser["idTipoUsuario"] != 1) {
-          $dataUsuario["idUsuario"] = $lastUser["idUsuario"];
+        if ($_POST["tipoUsuario"] != 1) {
+          $tabla = "personal";
           $response = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
         }
 
