@@ -58,7 +58,7 @@ class ControllerUsuarios
     return $listTipos;
   }
 
-  //  Crear usuario personal
+  //  Crear usuario y  personal dependiendo del tipo 1 = admin 2 a mas = personal
   public static function ctrCrearUsuario()
   {
     if (isset($_POST["usuarioCorreo"]) && isset($_POST["passwordUsuario"])) {
@@ -85,12 +85,12 @@ class ControllerUsuarios
       $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
 
       if ($response == "ok") {
-        $lastUser = ModelUsuarios::mdlGetLastUsuario($tabla);
-        if ($lastUser["idTipoUsuario"] != 1) {
-          $dataUsuario["idUsuario"] = $lastUser["idUsuario"];
-          $response = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
+        $ultimoIdUsuario = ControllerPersonal::ctrUltimoUsuarioCreado();
+        if ($ultimoIdUsuario["idTipoUsuario"] != 1) {
+          // Añadir el idUsuario al array $dataUsuario
+          $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
+          $response = ControllerPersonal::ctrCrearUsuarioPersonal($dataUsuario);
         }
-
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
           echo $mensaje;

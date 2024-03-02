@@ -3,14 +3,6 @@ date_default_timezone_set('America/Lima');
 
 class ControllerPersonal
 {
-  //  Crear personal apartir de un usuario
-  public static function ctrCrearUsuarioPersonal($dataUsuario)
-  {
-    $tabla = "personal";
-    $listPersonal = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
-    return $listPersonal;
-  }
-
   //  Obtener el ultimo usuario creado
   public static function ctrUltimoUsuarioCreado()
   {
@@ -19,51 +11,34 @@ class ControllerPersonal
     return $ultimoUsuarioCreado;
   }
 
-  //  Crear usuario
-  public static function ctrCrearUsuarioPersonal1()
+  //  Crear personal apartir de un usuario
+  public static function ctrCrearUsuarioPersonal($dataUsuarioPersonal)
   {
-    if (isset($_POST["usuarioCorreo"]) && isset($_POST["passwordUsuario"])) {
-      $tabla = "usuario";
-      $password = password_hash($_POST["passwordUsuario"], PASSWORD_ARGON2ID, [
-        'memory_cost' => 1 << 12,
-        'time_cost' => 2,
-        'threads' => 2
-      ]);
-      $dataUsuario = array(
-        "correoUsuario" => $_POST["usuarioCorreo"],
-        "password" => $password,
-        "nombreUsuario" => $_POST["nombreUsuario"],
-        "apellidoUsuario" => $_POST["apellidoUsuario"],
-        "dniUsuario" => $_POST["dniUsuario"],
-        "idTipoUsuario" => $_POST["tipoUsuario"],
-        "estadoUsuario" => "1",
-        "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-        "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
+    $tabla = "personal";
 
-      $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
+    // Aquí estás tomando los datos que se están enviando al controlador
+    $data = array(
+      "idUsuario" => $dataUsuarioPersonal["idUsuario"],
+      "correoUsuario" => $dataUsuarioPersonal["correoUsuario"],
+      //"password" => $dataUsuarioPersonal["password"],
+      "nombreUsuario" => $dataUsuarioPersonal["nombreUsuario"],
+      "apellidoUsuario" => $dataUsuarioPersonal["apellidoUsuario"],
+      "dniUsuario" => $dataUsuarioPersonal["dniUsuario"],
+      "idTipoUsuario" => $dataUsuarioPersonal["idTipoUsuario"],
+      "estadoUsuario" => $dataUsuarioPersonal["estadoUsuario"],
+      "fechaCreacion" => $dataUsuarioPersonal["fechaCreacion"],
+      "fechaActualizacion" => $dataUsuarioPersonal["fechaActualizacion"],
+      "usuarioCreacion" => $dataUsuarioPersonal["usuarioCreacion"],
+      "usuarioActualizacion" => $dataUsuarioPersonal["usuarioActualizacion"]
+    );
 
-      if ($response == "ok") {
-        if ($_POST["tipoUsuario"] != 1) {
-          $tabla = "personal";
-          $response = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
-        }
-
-        if ($response == "ok") {
-          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
-          echo $mensaje;
-        } else {
-          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
-          echo $mensaje;
-        }
-      } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
-        echo $mensaje;
-      }
-    }
+    // Y aquí estás enviando esos datos al modelo para su creación
+    $listPersonal = ModelPersonal::mdlCrearUsuarioPersonal($tabla, $data);
+    return $listPersonal;
   }
+
+
+
 
   //  Obtener datos para editar
   public static function ctrGetUsuarioEdit($codUsuario)
