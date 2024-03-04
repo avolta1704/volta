@@ -48,8 +48,8 @@ $("#dataTableUsuarios thead").html(`
     <tr>
       <th scope="col">#</th>
       <th scope="col">Correo</th>
-      <th scope="col">Apellidos</th>
       <th scope="col">Nombres</th>
+      <th scope="col">Apellidos</th>
       <th scope="col">Estado</th>
       <th scope="col">Tipo Usuario</th>
       <th scope="col">Ultima Conexión</th>

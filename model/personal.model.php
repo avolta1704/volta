@@ -2,9 +2,16 @@
 require_once "connection.php";
 class ModelPersonal
 {
- 
-
-  public static function mdlUltimoUsuarioCreado($tabla)
+  //  Obtener todo el personal
+  public static function mdlGetAllPersonal($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT * FROM $table");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  
+ /* obtener el ultimo usuario creado y su id */
+  public static function mdlUltimoUsuarioCreado($table)
   {
     $statement = Connection::conn()->prepare("SELECT usuario.idUsuario
     FROM usuario
@@ -14,10 +21,10 @@ class ModelPersonal
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
-
-  public static function mdlCrearUsuarioPersonal($tabla, $dataUsuarioPersonal)
+//crear personal
+  public static function mdlCrearUsuarioPersonal($table, $dataUsuarioPersonal)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (idUsuario, idTipoPersonal, correoPersonal, nombrePersonal, apellidoPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion)
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idUsuario, idTipoPersonal, correoPersonal, nombrePersonal, apellidoPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion)
      VALUES(:idUsuario, :idTipoUsuario, :correoUsuario, :nombreUsuario, :apellidoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
 
     $statement->bindParam(":idUsuario", $dataUsuarioPersonal["idUsuario"], PDO::PARAM_INT);

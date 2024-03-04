@@ -1,30 +1,33 @@
 <?php
 class FunctionPersonal
 {
-
-    public static function getTipoUsuarioLogin($tipoUsuarioLogin)
+    //  Tipo de personal
+    public static function getTipoPersonal($tipoPersonalLogin)
     {
        
-        if ($tipoUsuarioLogin == 1) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrador</span>';
+        if ($tipoPersonalLogin == 1) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Inicial</span>';
         }
-        if ($tipoUsuarioLogin == 2) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Docente</span>';
+        if ($tipoPersonalLogin == 2) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Primaria</span>';
         }
-        if ($tipoUsuarioLogin == 3) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrativo</span>';
+        if ($tipoPersonalLogin == 3) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Secundaria</span>';
         }
-        if ($tipoUsuarioLogin == 4) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Apoderado</span>';
+        if ($tipoPersonalLogin == 4) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente General</span>';
         }
-        if ($tipoUsuarioLogin > 5) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Sin Tipo Usuario</span>';
+        if ($tipoPersonalLogin > 5) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Dirección</span>';
+        }
+        if ($tipoPersonalLogin > 6) {
+            $tipoPersonal = '<span class="badge rounded-pill bg-success">Administrativo</span>';
         }
 
-        return $TipoUsuario;
+        return $tipoPersonal;
     }
-    //  Estados de los usuarios
-    public static function getEstadoUsuarios($stateValue)
+    //  Estados del personal 
+    public static function getEstadoPersonal($stateValue)
     {
         //  Estado de los usuarios 1 = Activo & 2 = Desactivado
         if ($stateValue == 1) {
@@ -39,9 +42,8 @@ class FunctionPersonal
 
         return $estado;
     }
-
-    //botones usuarios
-    public static function getBtnUsuarios($codUsuario)
+    //botones de personal
+    public static function getBtnPersonal($codUsuario)
     {
         $buttons = '
         <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '"title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>

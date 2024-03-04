@@ -4,24 +4,25 @@ require_once "../controller/personal.controller.php";
 require_once "../model/personal.model.php";
 require_once "../functions/personal.functions.php";
 
-class UsuariosAjax
+class PersonalAjax
 {
-  //mostar todos los usuarios DataTable
-  public function ajaxMostrarTodosLosUsuarios()
+  //mostar todo el Personal DataTable
+  public function ajaxMostrartodoElPersonalAdmin()
   {
-    $todosLosUsuarios = ControllerUsuarios::ctrGetAllUsuarios();
-    foreach ($todosLosUsuarios as &$usuario) {
-      $usuario['state'] = FunctionUsuario::getEstadoUsuarios($usuario["estadoUsuario"]);
-      $usuario['buttons'] = FunctionUsuario::getBtnUsuarios($usuario["idUsuario"]);
+    $todoElPersonal = ControllerPersonal::ctrGetAllPersonal();
+    foreach ($todoElPersonal as &$personal) {
+     /*  $personal['state'] = FunctionPersonal::getEstadoPersonal($personal["estadoUsuario"]); */
+      $personal['tipe'] = FunctionPersonal::getTipoPersonal($personal["idTipoPersonal"]);
+      $personal['buttons'] = FunctionPersonal::getBtnPersonal($personal["idPersonal"]);
     }
-    echo json_encode($todosLosUsuarios);
+    echo json_encode($todoElPersonal);
   }
   //  Mostrar data para editar
   public $codUsuario;
   public function ajaxEditarUsuario()
   {
     $codUsuario = $this->codUsuario;
-    $response = ControllerUsuarios::ctrGetUsuarioEdit($codUsuario);
+    $response = ControllerPersonal::ctrGetUsuarioEdit($codUsuario);
     echo json_encode($response);
   }
   //  Actualizar data del usuario
@@ -29,26 +30,26 @@ class UsuariosAjax
   public function ajaxActualizarEstado()
   {
     $codUsuarioActualizar = $this->codUsuarioActualizar;
-    $response = ControllerUsuarios::ctrActualizarEstado($codUsuarioActualizar);
+    $response = ControllerPersonal::ctrActualizarEstado($codUsuarioActualizar);
     echo json_encode($response);
   }
 }
-//mostar todos los usuarios DataTable
-if (isset($_POST["todosLosUsuarios"])) {
-  $mostrarTodosLosUsuarios = new UsuariosAjax();
-  $mostrarTodosLosUsuarios->ajaxMostrarTodosLosUsuarios();
+//mostar todo el Personal DataTable
+if (isset($_POST["todoElPersonal"])) {
+  $mostrartodoElPersonal = new PersonalAjax();
+  $mostrartodoElPersonal->ajaxMostrartodoElPersonalAdmin();
 }
 
 //  Mostrar data para editar
 if (isset($_POST["codUsuario"])) {
-  $editarUsuario = new UsuariosAjax();
+  $editarUsuario = new PersonalAjax();
   $editarUsuario->codUsuario = $_POST["codUsuario"];
   $editarUsuario->ajaxEditarUsuario();
 }
 
 //  Actualizar data del usuario
 if (isset($_POST["codUsuarioActualizar"])) {
-  $actualizarEstado = new UsuariosAjax();
+  $actualizarEstado = new PersonalAjax();
   $actualizarEstado->codUsuarioActualizar = $_POST["codUsuarioActualizar"];
   $actualizarEstado->ajaxActualizarEstado();
 }
