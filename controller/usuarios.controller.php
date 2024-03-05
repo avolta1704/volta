@@ -58,8 +58,8 @@ class ControllerUsuarios
     return $listTipos;
   }
 
-  //  Crear usuario personal
-  public static function ctrCrearUsuarioPersonal()
+  //  Crear usuario y  personal dependiendo del tipo 1 = admin y 4 = apoderado ,otro valor = personal
+  public static function ctrCrearUsuario()
   {
     if (isset($_POST["usuarioCorreo"]) && isset($_POST["passwordUsuario"])) {
       $tabla = "usuario";
@@ -81,11 +81,28 @@ class ControllerUsuarios
         "usuarioCreacion" => $_SESSION["idUsuario"],
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
-
-      $response = ModelUsuarios::mdlCrearUsuarioPersonal($tabla, $dataUsuario);
+      $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
-        echo $mensaje;
+          //crear apoderado si es igual a 4
+        if ($dataUsuario["idTipoUsuario"] == 4) {
+          $ultimoIdUsuario = ControllerApoderados::ctrUltimoUsuarioCreado();
+          $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
+          $response = ControllerApoderados::ctrCrearUsuarioApoderado($dataUsuario);
+          //crear personal si es diferente de 1
+        } elseif ($dataUsuario["idTipoUsuario"] != 1) {
+          $ultimoIdUsuario = ControllerPersonal::ctrUltimoUsuarioCreado();
+          $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
+          $response = ControllerPersonal::ctrCrearUsuarioPersonal($dataUsuario);
+        } else {
+          $response = "ok";
+        }
+        if ($response == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Usuario creado correctamente", "usuarios");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
+          echo $mensaje;
+        }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear un nuevo usuario", "usuarios");
         echo $mensaje;

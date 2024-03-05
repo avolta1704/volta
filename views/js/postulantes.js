@@ -4,7 +4,7 @@ $("#btnAgregarPostulante").on("click", function () {
 });
 
 //  Alert to delete an inside movement
-$(".table").on("click", ".btnEliminarPostulante", function () {
+$(".dataTablePostulantes").on("click", ".btnEliminarPostulante", function () {
   var codPostulante = $(this).attr("codPostulante");
   swal
     .fire({
@@ -27,7 +27,7 @@ $(".table").on("click", ".btnEliminarPostulante", function () {
 });
 
 //  Cerrar vista de nuevo y editar postulante
-$(".table").on("click", ".btnEditarPostulante", function () {
+$(".dataTablePostulantes").on("click", ".btnEditarPostulante", function () {
   var codPostulante = $(this).attr("codPostulante");
   window.location =
     "index.php?ruta=editarPostulante&codPostulanteEditar=" + codPostulante;

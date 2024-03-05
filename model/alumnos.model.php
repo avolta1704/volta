@@ -31,7 +31,7 @@ class ModelAlumnos
       grado.idNivel = nivel.idNivel
     WHERE alumno_grado.estadoGradoAlumno = 1");
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   //  Crear nuevo alumno

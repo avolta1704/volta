@@ -37,7 +37,7 @@ class ModelUsuarios
   {
     $statement = Connection::conn()->prepare("SELECT usuario.idUsuario, usuario.correoUsuario, usuario.nombreUsuario, usuario.apellidoUsuario, usuario.estadoUsuario, usuario.ultimaConexion, tipo_usuario.descripcionTipoUsuario FROM $tabla INNER JOIN tipo_usuario ON usuario.idTipoUsuario = tipo_usuario.idTipoUsuario");
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   //  Obtener tipo de usuarios
@@ -57,7 +57,7 @@ class ModelUsuarios
   }
 
   //  Crear un nuevo usuario
-  public static function mdlCrearUsuarioPersonal($tabla, $dataUsuario)
+  public static function mdlCrearUsuario($tabla, $dataUsuario)
   {
     $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);

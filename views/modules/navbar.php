@@ -3,13 +3,16 @@
 
     <div class="d-flex align-items-center justify-content-between">
       <a href="inicio" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="Logo Colegio Volta">
+        <img class="move-right" src="assets/img/logo.png" alt="Logo Colegio Volta">
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+   
+        <button type="button" class="btn btn-warning btnModeDarck" id="btnModeDarck">Cambiar Tema</button>
+        <span style="margin: 0 10px;"></span>
 
         <li class="nav-item dropdown">
           <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
@@ -74,22 +77,41 @@
             </li>
           </ul>
         </li>
-
+<!-- varaibles para la solicitud de datos -->
+<?php
+$idTipoUsuario = $_SESSION["tipoUsuario"];
+$idUsuario = $_SESSION["idUsuario"];
+  // Si el tipo de usuario es 1 o 4, obtener el perfil de usuario
+if ($idTipoUsuario == 1 || $idTipoUsuario == 4) {
+  $perfilUsuario = ControllerPerfil::ctrGetAllPerfilUsuario($idUsuario);
+} else {
+  // Si el tipo de usuario es cualquier otro número, obtener el perfil del personal
+  $perfilPersonal = ControllerPerfil::ctrGetAllPerfilPersonal($idUsuario);
+}
+?>
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-            <span class="d-none d-md-block dropdown-toggle ps-2">K. Anderson</span>
+            <img src="assets/img/usuario.png" alt="Profile" class="rounded-circle">
+            <span class="d-none d-md-block dropdown-toggle ps-2">
+              <?php echo $_SESSION["nombreCompleto"]; ?>
+            </span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6><?php echo $_SESSION["nombreCompleto"]; ?></h6>
+              <!-- Mostrar el tipo de perfil del usuario o personal -->
+              <?php if ($idTipoUsuario == 1 || $idTipoUsuario == 4) { ?>
+                <span><?php echo FunctionPerfil::getTipoPerfilUsuario($perfilUsuario["idTipoUsuario"]); ?> </span>
+              <?php } else { ?>
+                <span><?php echo FunctionPerfil::getTipoPerfilPersonal($perfilPersonal["idTipoPersonal"]); ?></span> 
+              <?php } ?>
             </li>
+
             <li>
               <hr class="dropdown-divider">
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="profile">
+              <a class="dropdown-item d-flex align-items-center" href="perfil">
                 <i class="bi bi-person"></i>
                 <span>Mi Perfil</span>
               </a>
@@ -103,7 +125,6 @@
                 <span>Cerrar Sesion</span>
               </a>
             </li>
-
           </ul>
         </li>
 
