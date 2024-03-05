@@ -103,6 +103,19 @@
       </ul>
     </li>
 
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allApoderado" data-bs-toggle="collapse" href="#">
+      <i class="bi bi-person-fill-check" fa="x2"></i></i><span>Apoderados</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allApoderado" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="apoderado">
+            <i class="bi bi-circle"></i><span>Todos Los Apoderados</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
   </ul>
 
 </aside>

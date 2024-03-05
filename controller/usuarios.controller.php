@@ -83,7 +83,13 @@ class ControllerUsuarios
       );
       $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
       if ($response == "ok") {
-        if ($dataUsuario["idTipoUsuario"] != 1 && $dataUsuario["idTipoUsuario"] != 4) {
+          //crear apoderado si es igual a 4
+        if ($dataUsuario["idTipoUsuario"] == 4) {
+          $ultimoIdUsuario = ControllerApoderados::ctrUltimoUsuarioCreado();
+          $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
+          $response = ControllerApoderados::ctrCrearUsuarioApoderado($dataUsuario);
+          //crear personal si es diferente de 1
+        } elseif ($dataUsuario["idTipoUsuario"] != 1) {
           $ultimoIdUsuario = ControllerPersonal::ctrUltimoUsuarioCreado();
           $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
           $response = ControllerPersonal::ctrCrearUsuarioPersonal($dataUsuario);

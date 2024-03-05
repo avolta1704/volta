@@ -19,6 +19,7 @@ session_start();
       if (
         $_GET["ruta"] == "inicio" ||
         $_GET["ruta"] == "usuarios" ||
+        $_GET["ruta"] == "apoderado" ||
         $_GET["ruta"] == "personal" ||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "listaAlumnos" ||
@@ -76,6 +77,7 @@ session_start();
   <script src="views/dataTables/dt-personal.js"></script>
   <script src="views/dataTables/dt-postulantes-admin.js"></script>
   <script src="views/dataTables/dt-alumnos-admin.js"></script>
+  <script src="views/dataTables/dt-apoderado.js"></script>
 </body>
 
 </html>

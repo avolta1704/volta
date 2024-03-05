@@ -3,6 +3,45 @@ require_once "connection.php";
 
 class ModelApoderados
 {
+  //mostar todos los Apoderados DataTable
+  public static function mdlGetAllApoderados($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT * FROM $table");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+   /* obtener el ultimo usuario creado y su id */
+   public static function mdlUltimoUsuarioCreado($table)
+   {
+     $statement = Connection::conn()->prepare("SELECT usuario.idUsuario
+     FROM usuario
+     ORDER BY usuario.idUsuario DESC
+     LIMIT 1");
+     $statement->execute();
+     return $statement->fetch(PDO::FETCH_ASSOC);
+   }
+  //  Crear Apoderado apartir de un usuario
+  public static function mdlCrearUsuarioApoderado($table, $dataUsuarioApoderado)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idUsuario, tipoApoderado, correoApoderado, nombreApoderado, apellidoApoderado, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion)
+     VALUES(:idUsuario, :idTipoUsuario, :correoUsuario, :nombreUsuario, :apellidoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+
+    $statement->bindParam(":idUsuario", $dataUsuarioApoderado["idUsuario"], PDO::PARAM_INT);
+    $statement->bindParam(":idTipoUsuario", $dataUsuarioApoderado["idTipoUsuario"], PDO::PARAM_INT);
+    $statement->bindParam(":correoUsuario", $dataUsuarioApoderado["correoUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":nombreUsuario", $dataUsuarioApoderado["nombreUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoUsuario", $dataUsuarioApoderado["apellidoUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataUsuarioApoderado["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataUsuarioApoderado["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataUsuarioApoderado["usuarioCreacion"], PDO::PARAM_INT);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuarioApoderado["usuarioActualizacion"], PDO::PARAM_INT);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
   // Obtener todos los alumnos
   public static function mdlCrearApoderadoAlumno($tabla, $dataApoderado)
   {

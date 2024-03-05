@@ -81,7 +81,7 @@ class FunctionPerfil
             $tipoPersonal = 'Administrativo';
         }
         if ($tipoUsuariolLogin == 4) {
-            $tipoPersonal = 'Apoderado.';
+            $tipoPersonal = 'Apoderado.|    7';
         }
         return $tipoPersonal;
     }

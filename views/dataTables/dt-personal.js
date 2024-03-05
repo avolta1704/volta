@@ -8,7 +8,7 @@ $(document).ready(function () {
     { data: "celularPersonal" },
     { data: "fechaContratacion" },
     { data: "tipe" },
-    { data: "buttons" },
+    /* { data: "buttons" }, */
   ];
 
   var table = $("#dataTablePersonal").DataTable({
@@ -52,7 +52,6 @@ $(document).ready(function () {
       <th scope="col">Celular</th>
       <th scope="col">Fecha Ingreso</th>
       <th scope="col">Cargo</th>
-      <th scope="col">Acciones</th>
     </tr>
     `);
 
@@ -66,7 +65,7 @@ $(document).ready(function () {
     { data: "celularPersonal" },
     { data: "fechaContratacion" },
     { data: "tipe" },
-    { data: "buttons" },
+    /* { data: "buttons" }, */
   ];
   table = $("#dataTablePersonal").DataTable({
     columns: columnDefs,
