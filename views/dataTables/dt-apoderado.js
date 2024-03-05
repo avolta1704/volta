@@ -4,12 +4,12 @@ $(document).ready(function () {
     { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipoApoderado" },
+    { data: "tipe" },
     { data: "numeroApoderado" },
     { data: "correoApoderado" },
     { data: "listaAlumnos" },
     { data: "convivenciaAlumno" },
-    /*   { data: "state" }, */
+    { data: "buttons" },
   ];
 
   var table = $("#dataTableApoderado").DataTable({
@@ -54,6 +54,7 @@ $(document).ready(function () {
       <th scope="col">Correo</th>
       <th scope="col">Lista Alumno</th>
       <th scope="col">Comvivencia Alumno</th>
+      <th scope="col">Acciones</th>
     </tr>
     `);
 
@@ -63,12 +64,12 @@ $(document).ready(function () {
     { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipoApoderado" },
+    { data: "tipe" },
     { data: "numeroApoderado" },
     { data: "correoApoderado" },
     { data: "listaAlumnos" },
     { data: "convivenciaAlumno" },
-    /*   { data: "state" }, */
+    { data: "buttons" },
   ];
   table = $("#dataTableApoderado").DataTable({
     columns: columnDefs,

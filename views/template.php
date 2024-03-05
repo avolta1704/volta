@@ -28,6 +28,7 @@ session_start();
         $_GET["ruta"] == "docPostulantes" ||
         $_GET["ruta"] == "nuevoPostulante" ||
         $_GET["ruta"] == "editarPostulante" ||
+        $_GET["ruta"] == "editarApoderado" ||
         $_GET["ruta"] == "cerrarSesion"
       ) {
         include "modules/" . $_GET["ruta"] . ".php";
@@ -71,6 +72,7 @@ session_start();
   <script src="views/js/nivelGrado.js"></script>
   <script src="views/js/postulantes.js"></script>
   <script src="views/js/admision.js"></script>
+  <script src="views/js/apoderado.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

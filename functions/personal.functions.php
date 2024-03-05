@@ -17,13 +17,12 @@ class FunctionPersonal
         if ($tipoPersonalLogin == 4) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente General</span>';
         }
-        if ($tipoPersonalLogin > 5) {
+        if ($tipoPersonalLogin == 5) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Dirección</span>';
         }
-        if ($tipoPersonalLogin > 6) {
+        if ($tipoPersonalLogin == 6) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Administrativo</span>';
         }
-
         return $tipoPersonal;
     }
     //  Estados del personal 

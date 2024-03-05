@@ -25,7 +25,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allInteractions" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-lines-fill"></i><span>Pagos</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-cash-coin"></i><span>Pagos</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allInteractions" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -48,7 +48,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allPostulaciones" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-journal-text"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allPostulaciones" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -66,7 +66,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allAlumnos" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-backpack2"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allAlumnos" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -79,7 +79,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-people-fill"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allUsuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -92,7 +92,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allPersonal" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-person-vcard" fa="x2"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-person-vcard" fa="x2"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allPersonal" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
@@ -105,7 +105,8 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allApoderado" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-person-fill-check" fa="x2"></i></i><span>Apoderados</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-person-fill-check" fa="x2"></i></i><span>Apoderados</span><i
+          class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allApoderado" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
