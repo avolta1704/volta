@@ -93,28 +93,33 @@ class ControllerPostulantes
   }
 
   //  Actualizar estado del postulante
-  public static function ctrActualizarEstadoPostulante($codPostulante)
+  public static function ctrActualizarEstadoPostulante($codPostulanteEdit, $estadoPostulanteEdit)
   {
     $tabla = "postulante";
-    $estadoPostulante = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulante);
 
-    if ($estadoPostulante["estadoPostulante"] == 1) {
-      $estadoPostulante = 2;
-    } else {
-      $estadoPostulante = 1;
-    } 
-    $dataPostulante = array(
-      "idPostulante" => $codPostulante,
-      "estadoPostulante" => $estadoPostulante,
+    // Obtener el estado actual del postulante
+    $estadoPostulanteActual = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulanteEdit);
+
+    // Verificar si el estado actual es igual al estado que se quiere actualizar
+    if ($estadoPostulanteActual["estadoPostulante"] != $estadoPostulanteEdit) {
+      // Si no son iguales, actualizar el estado actual con el estado que se quiere actualizar
+      $estadoPostulanteActual = $estadoPostulanteEdit;
+    }
+
+    $dataPostulanteEdit = array(
+      "idPostulante" => $codPostulanteEdit,
+      "estadoPostulante" => $estadoPostulanteActual,
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
-    
-    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulante);
+
+    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
+
     if($actualizarEstado == "ok") {
       return "ok";
     } else {
       return "error";
     }
+    
   }
 }

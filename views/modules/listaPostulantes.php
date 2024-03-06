@@ -47,21 +47,25 @@ $postulante->ctrBorrarPostulante();
 ?>
 
 <div class="modal fade" id="actualizarEstado" aria-hidden="true" aria-labelledby="actualizarEstado" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content tablaActualizrEstado">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content tablaActualizaEstadoPostulante">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Actualizar Estado</h1>
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Actualizar Postulante</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <input type="hidden" id="codPostulante">
         <select class="form-control" name="estadoPostulante" id="estadoPostulante">
+          <!-- <option value=""></option> -->
+          <option value="1">Registrado</option>
           <option value="2">En Revisión</option>
           <option value="3">Aprobado</option>
           <option value="4">Rechazado</option>
         </select>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn-primary btnActualizarEstado" id="btnActualizarPostulante">Actualizar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstado" id="btnActualizarEstadoPostulante">Actualizar</button>
       </div>
     </div>
   </div>

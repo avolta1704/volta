@@ -102,15 +102,15 @@ class ModelPostulantes
     $statement = Connection::conn()->prepare("SELECT estadoPostulante FROM $tabla WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
-    return $statement->fetch();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   //  Actualizar el estado de un postulante, en el caso que este como presentado se cambia a en revisión
-  public static function mdlActualizarEstadoPostulante($tabla, $dataPostulante)
+  public static function mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoPostulante = :estadoPostulante WHERE idPostulante = :idPostulante");
-    $statement->bindParam(":estadoPostulante", $dataPostulante["estadoPostulante"], PDO::PARAM_INT);
-    $statement->bindParam(":idPostulante", $dataPostulante["idPostulante"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoPostulante", $dataPostulanteEdit["estadoPostulante"], PDO::PARAM_INT);
+    $statement->bindParam(":idPostulante", $dataPostulanteEdit["idPostulante"], PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
