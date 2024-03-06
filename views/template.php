@@ -29,6 +29,7 @@ session_start();
         $_GET["ruta"] == "nuevoPostulante" ||
         $_GET["ruta"] == "editarPostulante" ||
         $_GET["ruta"] == "editarApoderado" ||
+        $_GET["ruta"] == "editarPersonal" ||
         $_GET["ruta"] == "cerrarSesion"
       ) {
         include "modules/" . $_GET["ruta"] . ".php";

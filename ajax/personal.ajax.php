@@ -11,9 +11,8 @@ class PersonalAjax
   {
     $todoElPersonal = ControllerPersonal::ctrGetAllPersonal();
     foreach ($todoElPersonal as &$personal) {
-      /*  $personal['state'] = FunctionPersonal::getEstadoPersonal($personal["estadoUsuario"]); */
       $personal['tipe'] = FunctionPersonal::getTipoPersonal($personal["idTipoPersonal"]);
-      /* $personal['buttons'] = FunctionPersonal::getBtnPersonal($personal["idPersonal"]); */
+      $personal['buttons'] = FunctionPersonal::getBtnPersonal($personal["idPersonal"]);
     }
     echo json_encode($todoElPersonal);
   }

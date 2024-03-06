@@ -42,10 +42,10 @@ class FunctionPersonal
         return $estado;
     }
     //botones de personal
-    public static function getBtnPersonal($codUsuario)
+    public static function getBtnPersonal($codPersonal)
     {
         $buttons = '
-        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '"title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPersonal" codPersonal="' . ($codPersonal) . '"><i class="bi bi-pencil"></i></button>
         ';
         return $buttons;
     }

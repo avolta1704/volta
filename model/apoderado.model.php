@@ -90,7 +90,7 @@ class ModelApoderados
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  //  Editar postulante
+  //  Editar Apoderado
   public static function mdlIdEditarApoderado($tabla, $dataEditApoderado)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreApoderado = :nombreApoderado, apellidoApoderado = :apellidoApoderado, numeroApoderado = :numeroApoderado, listaAlumnos = :listaAlumnos, convivenciaAlumno = :convivenciaAlumno, tipoApoderado = :tipoApoderado, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idApoderado = :idApoderado");
