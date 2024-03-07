@@ -1,8 +1,15 @@
 <?php
-
-require_once "../controller/postulantes.controller.php";
-require_once "../model/postulantes.model.php";
+//controller
 require_once "../functions/postulantes.functions.php";
+require_once "../controller/postulantes.controller.php";
+require_once "../controller/admisionAlumno.controller.php";
+require_once "../controller/admision.controller.php";
+require_once "../controller/anioescolar.controller.php";
+//Modelo
+require_once "../model/postulantes.model.php";
+require_once "../model/admisionAlumno.model.php";
+require_once "../model/admision.model.php";
+require_once "../model/anioescolar.model.php";
 
 class PostulantesAjax
 {

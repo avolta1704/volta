@@ -92,9 +92,9 @@ $(document).ready(function () {
           });
         } else {
           Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Error al actualizar el estado",
+            icon: "warning",
+            title: "Adveterencia",
+            text: "No modifico el estado del Postulante",
           }).then(function (result) {
             if (result.value) {
               window.location = "listaPostulantes";

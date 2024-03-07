@@ -5,7 +5,7 @@ class FunctionPostulantes
     //  Estados de los postulantes
     public static function getEstadoPostulantes($stateValue)
     {
-        //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Aceptado & 4 = Rechazado
+        //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Aprobado & 4 = Rechazado & 5 = sin estado
         if ($stateValue == 1) {
             $estado = '<span class="badge rounded-pill bg-primary">Registrado</span>';
         }
@@ -44,21 +44,21 @@ class FunctionPostulantes
         }
         if ($estadoPostulante == 3) {
             $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"disabled><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoPostulante == 4) {
             $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"disabled><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoPostulante == 5) {
             $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
       ';
