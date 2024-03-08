@@ -110,29 +110,33 @@ class ControllerPostulantes
       "estadoPostulante" => $estadoPostulanteActual,
       "fechaActualizacion" => date("Y-m-d H:i:s"),
     );
+
     $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
-    // Si la actualización del estado fue exitosa y el estado es igual a 3
+    // Si la actualización del estado fue exitosa y el estado es igual a 3=aprobado
     if ($actualizarEstado == "ok" && $estadoPostulanteActual == 3) {
       // Iniciar las funciones anidadas para crear un alumno
-
-      // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar
-      $estadoAnio = 1;
-      $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
-      if ($anioEscolarActiva != false) {
-        // Tomar el año escolar activo para el registro de postulante en la tabla admision
-        $admicionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroAlumno($anioEscolarActiva, $codPostulanteEdit);
-        if ($admicionAnioEscolar != false) {
-          // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
-          $alumnoAdmision = ControllerAdmision::ctrCrearAlumnoAdmisionAprobada($admicionAnioEscolar);
-          if ($alumnoAdmision != false) {
-            // Crear un nuevo registro del alumno creado en la tabla alumno_grado
-            $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmisionAprobada($alumnoAdmision);
-            if ($alumnoGradoAsignado == "ok") {
-              return "ok"; // Proceso completado exitosamente
+      $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+      if ($alumnoAdmision != false) {
+        // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
+        $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
+        if ($alumnoGradoAsignado == "ok") {
+          // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar
+          $estadoAnio = 1;
+          $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
+          if ($anioEscolarActiva != false) {
+            // Tomar el año escolar activo para el registro de postulante en la tabla admision
+            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit);
+            if ($admisionAnioEscolar != false) {
+              // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
+              $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
+              if ($admisionAlumno != false) {
+                return "ok"; // Proceso completado exitosamente
+              } else {
+                return "error";
+              }
             } else {
               return "error";
             }
-
           } else {
             return "error";
           }

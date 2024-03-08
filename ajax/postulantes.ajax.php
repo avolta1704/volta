@@ -5,11 +5,15 @@ require_once "../controller/postulantes.controller.php";
 require_once "../controller/admisionAlumno.controller.php";
 require_once "../controller/admision.controller.php";
 require_once "../controller/anioescolar.controller.php";
+require_once "../controller/alumnos.controller.php";
+require_once "../controller/gradoAlumno.controller.php";
 //Modelo
 require_once "../model/postulantes.model.php";
 require_once "../model/admisionAlumno.model.php";
 require_once "../model/admision.model.php";
 require_once "../model/anioescolar.model.php";
+require_once "../model/alumnos.model.php";
+require_once "../model/gradoAlumno.model.php";
 
 class PostulantesAjax
 {

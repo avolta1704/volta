@@ -33,7 +33,8 @@
 
               <div class="form-group col-md-6">
                 <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value="" required>
+                <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value=""
+                  required>
               </div>
 
               <div class="form-group col-md-6">
@@ -60,7 +61,7 @@
                   <option value="3">Secundaria</option>
                 </select>
               </div>
-              
+
               <div class="form-group col-md-6 gradoAdmision">
                 <label for="gradoAlumno" class="col-form-label">Grado:</label>
                 <select class="form-control" name="gradoAlumno" id="gradoAlumno" required>
@@ -71,7 +72,8 @@
           </span>
 
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarCrearPostulante">Cerrar</button>
+            <button type="button"
+              class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarCrearPostulante">Cerrar</button>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Postulante</button>
           </div>
         </form>

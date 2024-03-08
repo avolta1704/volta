@@ -84,14 +84,14 @@ class ControllerAlumnos
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
           echo $mensaje;
         } else {
-          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");echo $mensaje;
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
           echo $mensaje;
         }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
         echo $mensaje;
       }
-    } 
+    }
   }
 
   //  Obtener ultimo alumno creado
@@ -109,4 +109,49 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlAsignarAlumnoApoderado($tabla, $dataApoderadoAlumno);
     return $response;
   }
+  //  crear postulante alumno admitido
+  public static function ctrCrearAlumnoAdmision($codPostulanteEdit)
+  {
+    // Obtener al postulante por el código
+    $table = "postulante";
+    $dataPostulante = ModelAlumnos::mdlObtenerAlPostulante($table, $codPostulanteEdit);
+    // Verificar si se obtuvo el postulante
+    if ($dataPostulante) {
+      //sesión iniciada
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      // acceder a la variable de sesión
+      $idUsuario = $_SESSION["idUsuario"];
+      // Crear el array de datos de la admisión
+      $dataArrayAlumno = array(
+        "estadoSiagie" => 1,
+        "estadoAlumno" => 1,
+        "estadoMatricula" => 1,
+        "nombresAlumno" => $dataPostulante["nombrePostulante"],
+        "apellidosAlumno" => $dataPostulante["apellidoPostulante"],
+        "dniAlumno" => $dataPostulante["dniPostulante"],
+        "fechaNacimiento" => $dataPostulante["fechaNacimiento"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario
+      );
+      $table = "alumno";
+      $result = ModelAlumnos::mdlCreatePostulateAlumno($table, $dataArrayAlumno);
+      if ($result == "ok") {
+        $ultimoRegistroIdAlumno = ModelAlumnos::mdlObtenerUltimoAlumnoCreado($table);
+        // Devolver el ID del último registro de admisión creado y el grado del postulante
+        return array(
+          "idAlumno" => intval($ultimoRegistroIdAlumno),
+          "idGrado" => intval($dataPostulante["gradoPostulacion"])
+        );
+      } else {
+        return "error";
+      }
+    } else {
+      return "error";
+    }
+  }
+
 }
