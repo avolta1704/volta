@@ -1,32 +1,21 @@
 <?php
 class FunctionApoderado
 {
-    //  Tipo de personal
-    public static function getTipoApoderado($tipoPersonalLogin)
+    //  Tipo de Apoderado
+    public static function getTipoApoderado($tipoApoderadoLogin)
     {
-       
-        if ($tipoPersonalLogin == 1) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Inicial</span>';
+        if ($tipoApoderadoLogin == 1) {
+            $tipoApoderado = '<span class="badge rounded-pill bg-success">Apoderado</span>';
         }
-        if ($tipoPersonalLogin == 2) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Primaria</span>';
+        if ($tipoApoderadoLogin == 2) {
+            $tipoApoderado = '<span class="badge rounded-pill bg-success">Madre</span>';
         }
-        if ($tipoPersonalLogin == 3) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente Secundaria</span>';
+        if ($tipoApoderadoLogin == 3) {
+            $tipoApoderado = '<span class="badge rounded-pill bg-success">Padre</span>';
         }
-        if ($tipoPersonalLogin == 4) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente General</span>';
-        }
-        if ($tipoPersonalLogin > 5) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Dirección</span>';
-        }
-        if ($tipoPersonalLogin > 6) {
-            $tipoPersonal = '<span class="badge rounded-pill bg-success">Administrativo</span>';
-        }
-
-        return $tipoPersonal;
+        return $tipoApoderado;
     }
-    //  Estados del personal 
+    //  Estados del Apoderado 
     public static function getEstadoApoderado($stateValue)
     {
         //  Estado de los usuarios 1 = Activo & 2 = Desactivado
@@ -39,16 +28,16 @@ class FunctionApoderado
         if ($stateValue > 3) {
             $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
         }
-
         return $estado;
     }
-    //botones de personal
-    public static function getBtnPersonal($codUsuario)
+    //botones de Apoderado
+    public static function getBtnApoderado($codApoderado)
     {
-        $buttons = '
-        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '"title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
-        ';
-        return $buttons;
+        $botones = '
+        <button type="button" class="btn btn-warning btnEditarApoderado" codApoderado="' . ($codApoderado) . '"><i class="bi bi-pencil"></i></button>
+      ';
+   
+        return $botones;
     }
 
 }

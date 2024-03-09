@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Lima');
-
+/* require_once "anioescolar.controller.php";
+require_once "..model/anioescolar.model.php"; */
 class ControllerAnioEscolar
 {
   //  Crear nuevo Año Escolar
@@ -27,5 +28,12 @@ class ControllerAnioEscolar
         echo $mensaje;
       }
     }
+  }
+  //  Obtener el anio escolar por el estado activo = 1
+  public static function ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio)
+  {
+    $table = "anio_escolar";
+    $listAnioEscolarActiva =  ModelAnioEscolar::mdlGetAnioEscolarEstadoActivo($table,$estadoAnio);
+    return $listAnioEscolarActiva;
   }
 }

@@ -23,6 +23,8 @@ require_once "controller/postulantes.controller.php";
 require_once "controller/anioescolar.controller.php";
 require_once "controller/personal.controller.php";
 require_once "controller/perfil.controller.php";
+require_once "controller/admisionAlumno.controller.php";
+require_once "controller/admision.controller.php";
 
 //  Models
 require_once "model/usuarios.model.php";
@@ -34,6 +36,8 @@ require_once "model/postulantes.model.php";
 require_once "model/anioescolar.model.php";
 require_once "model/personal.model.php";
 require_once "model/perfil.model.php";
+require_once "model/admisionAlumno.model.php";
+require_once "model/admision.model.php";
 
 $template = new ControllerTemplate();
 $template -> ctrTemplate();

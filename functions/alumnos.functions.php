@@ -4,15 +4,15 @@ class FunctionAlumnos
     //  Estados para los alumnos
     public static function getEstadosAlumnos($estadoAlumno)
     {
-        //  Estado de los alumnos 1 = Activo & 2 = Inactivo & 3 = En Revisión
+        //  Estado de los alumnos 1 = En Revisión 2 = Activo & 3 = Inactivo 
         if ($estadoAlumno == 1) {
-            $estado = '<span class="badge rounded-pill bg-primary">Activo</span>';
+            $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
         }
         if ($estadoAlumno == 2) {
-            $estado = '<span class="badge rounded-pill bg-danger">Inactivo</span>';
+            $estado = '<span class="badge rounded-pill bg-danger">Activo</span>';
         }
         if ($estadoAlumno == 3) {
-            $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
+            $estado = '<span class="badge rounded-pill bg-primary">Inactivo</span>';
         }
         return $estado;
     }

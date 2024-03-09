@@ -17,13 +17,12 @@ class FunctionPersonal
         if ($tipoPersonalLogin == 4) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente General</span>';
         }
-        if ($tipoPersonalLogin > 5) {
+        if ($tipoPersonalLogin == 5) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Dirección</span>';
         }
-        if ($tipoPersonalLogin > 6) {
+        if ($tipoPersonalLogin == 6) {
             $tipoPersonal = '<span class="badge rounded-pill bg-success">Administrativo</span>';
         }
-
         return $tipoPersonal;
     }
     //  Estados del personal 
@@ -43,10 +42,10 @@ class FunctionPersonal
         return $estado;
     }
     //botones de personal
-    public static function getBtnPersonal($codUsuario)
+    public static function getBtnPersonal($codPersonal)
     {
         $buttons = '
-        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '"title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPersonal" codPersonal="' . ($codPersonal) . '"><i class="bi bi-pencil"></i></button>
         ';
         return $buttons;
     }

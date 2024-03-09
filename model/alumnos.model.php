@@ -50,7 +50,7 @@ class ModelAlumnos
     $statement->bindParam(":seguroSalud", $dataAlumno["seguroSalud"], PDO::PARAM_STR);
     $statement->bindParam(":fechaIngresoVolta", $dataAlumno["fechaIngresoVolta"], PDO::PARAM_STR);
     $statement->bindParam(":numeroEmergencia", $dataAlumno["numeroEmergencia"], PDO::PARAM_STR);
-    $statement->bindParam(":enfermedades", $dataAlumno["enfermedades"], PDO::PARAM_STR); 
+    $statement->bindParam(":enfermedades", $dataAlumno["enfermedades"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataAlumno["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataAlumno["usuarioCreacion"], PDO::PARAM_STR);
@@ -87,5 +87,49 @@ class ModelAlumnos
     } else {
       return "error";
     }
+  }
+  //  Obtener  al Postulante por el codPostulanteEdit
+  public static function mdlObtenerAlPostulante($table, $codPostulanteEdit)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+      nombrePostulante, 
+      apellidoPostulante, 
+      dniPostulante, 
+      fechaNacimiento, 
+      gradoPostulacion 
+      FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulanteEdit, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //  crear postulante alumno admitido
+  public static function mdlCreatePostulateAlumno($tabla, $dataArrayAlumno)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (estadoSiagie, estadoAlumno, estadoMatricula, nombresAlumno, apellidosAlumno, dniAlumno, fechaNacimiento, direccionAlumno, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:estadoSiagie,:estadoAlumno,:estadoMatricula,:nombresAlumno, :apellidosAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement->bindParam(":estadoSiagie", $dataArrayAlumno["estadoSiagie"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoAlumno", $dataArrayAlumno["estadoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoMatricula", $dataArrayAlumno["estadoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":nombresAlumno", $dataArrayAlumno["nombresAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidosAlumno", $dataArrayAlumno["apellidosAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":dniAlumno", $dataArrayAlumno["dniAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaNacimiento", $dataArrayAlumno["fechaNacimiento"], PDO::PARAM_STR);
+    $statement->bindParam(":direccionAlumno", $dataArrayAlumno["direccionAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataArrayAlumno["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataArrayAlumno["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataArrayAlumno["usuarioCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataArrayAlumno["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //  Obtener el ultimo registro de alumno creado
+  public static function mdlObtenerUltimoAlumnoCreado($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) FROM $tabla");
+    $statement->execute();
+    return $statement->fetchColumn();
   }
 }

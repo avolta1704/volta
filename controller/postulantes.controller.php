@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('America/Lima');
 
+
 class ControllerPostulantes
 {
   //  Obtener todos los postulantes
@@ -83,7 +84,6 @@ class ControllerPostulantes
       }
     }
   }
-
   //  Obtener datos del postulante para editar
   public static function ctrGetPostulanteById($codPostulante)
   {
@@ -92,29 +92,64 @@ class ControllerPostulantes
     return $dataPostulante;
   }
 
-  //  Actualizar estado del postulante
-  public static function ctrActualizarEstadoPostulante($codPostulante)
+  // Función principal para actualizar el estado del postulante y solo  crear al alumno si su admision es aprobada = 3
+  public static function ctrActualizarEstadoPostulante($codPostulanteEdit, $estadoPostulanteEdit)
   {
     $tabla = "postulante";
-    $estadoPostulante = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulante);
+    $estadoPostulanteActual = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulanteEdit);
 
-    if ($estadoPostulante["estadoPostulante"] == 1) {
-      $estadoPostulante = 2;
-    } else {
-      $estadoPostulante = 1;
-    } 
-    $dataPostulante = array(
-      "idPostulante" => $codPostulante,
-      "estadoPostulante" => $estadoPostulante,
-      "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioActualizacion" => $_SESSION["idUsuario"]
-    );
-    
-    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulante);
-    if($actualizarEstado == "ok") {
-      return "ok";
-    } else {
+    // Verificar si el estado actual es igual al estado que se quiere actualizar
+    if ($estadoPostulanteActual["estadoPostulante"] == $estadoPostulanteEdit) {
+      // Si son iguales, devolver "error"
       return "error";
     }
+    $estadoPostulanteActual = $estadoPostulanteEdit;
+
+    $dataPostulanteEdit = array(
+      "idPostulante" => $codPostulanteEdit,
+      "estadoPostulante" => $estadoPostulanteActual,
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+    );
+
+    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
+    // Si la actualización del estado fue exitosa y el estado es igual a 3=aprobado
+    if ($actualizarEstado == "ok" && $estadoPostulanteActual == 3) {
+      // Iniciar las funciones anidadas para crear un alumno
+      $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+      if ($alumnoAdmision != false) {
+        // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
+        $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
+        if ($alumnoGradoAsignado == "ok") {
+          // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar
+          $estadoAnio = 1;
+          $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
+          if ($anioEscolarActiva != false) {
+            // Tomar el año escolar activo para el registro de postulante en la tabla admision
+            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit);
+            if ($admisionAnioEscolar != false) {
+              // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
+              $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
+              if ($admisionAlumno != false) {
+                return "ok"; // Proceso completado exitosamente
+              } else {
+                return "error";
+              }
+            } else {
+              return "error";
+            }
+          } else {
+            return "error";
+          }
+        } else {
+          return "error";
+        }
+      } else {
+        return "error";
+      }
+    } else {
+      return "ok"; // Si el estado no es igual a 3, no se inicia el proceso de crear el alumno
+    }
   }
+
+
 }

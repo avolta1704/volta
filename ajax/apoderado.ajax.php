@@ -10,11 +10,10 @@ class ApoderadoAjax
   public function ajaxMostrartodosLosApoderadosAdmin()
   {
     $todosLosApoderados = ControllerApoderados::ctrGetAllApoderados();
-   /*  foreach ($todosLosApoderados as &$apoderado) {
-      $apoderado['state'] = FunctionPersonal::getEstadoPersonal($apoderado["estadoUsuario"]);
-      $apoderado['tipe'] = FunctionApoderado::getTipoApoderado($apoderado["idTipoPersonal"]);
-      $personal['buttons'] = FunctionPersonal::getBtnPersonal($personal["idPersonal"]);
-    } */
+    foreach ($todosLosApoderados as &$apoderado) {
+      $apoderado['tipe'] = FunctionApoderado::getTipoApoderado($apoderado["tipoApoderado"]);
+      $apoderado['buttons'] = FunctionApoderado::getBtnApoderado($apoderado["idApoderado"]);
+    }
     echo json_encode($todosLosApoderados);
   }
 }

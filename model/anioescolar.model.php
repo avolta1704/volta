@@ -15,11 +15,19 @@ class ModelAnioEscolar
     $statement->bindParam(":fechaActualizacion", $datosAnioEscolar["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $datosAnioEscolar["usuarioCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosAnioEscolar["usuarioActualizacion"], PDO::PARAM_STR);
-    
+
     if ($statement->execute()) {
       return "ok";
     } else {
       return "error";
     }
+  }
+  //  Obtener el anio escolar por el estado activo = 1
+  public static function mdlGetAnioEscolarEstadoActivo($table, $estadoAnio)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAnioEscolar FROM $table WHERE estadoAnio = :estadoAnio");
+    $statement->bindParam(":estadoAnio", $estadoAnio, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
   }
 }

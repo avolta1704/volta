@@ -3,6 +3,7 @@ date_default_timezone_set('America/Lima');
 
 class ControllerUsuarios
 {
+  //creacion de sesion
   public static function ctrIniciarSesion()
   {
     if (isset($_POST["inputCorreo"]) && $_POST["inputCorreo"] != "" && $_POST["inputCorreo"] != null && $_POST["inputPassword"] != "" && $_POST["inputPassword"] != null) {
@@ -17,10 +18,9 @@ class ControllerUsuarios
         $_SESSION["correoUsuario"] = $dataUsuario["correoUsuario"];
         $_SESSION["nombreCompleto"] = $dataUsuario["nombreUsuario"] . ' ' . $dataUsuario["apellidoUsuario"];
         $_SESSION["tipoUsuario"] = $dataUsuario["idTipoUsuario"];
-
-        //  Save last login
+        // Save last login
         $ultimaConexion = date("Y-m-d\TH:i:sP");
-
+        // Update last login
         $updateConnection = ModelUsuarios::mdlActualizarSesion($tabla, $ultimaConexion, $dataUsuario["idUsuario"]);
         if ($updateConnection == "ok") {
           echo '<script>
@@ -32,7 +32,6 @@ class ControllerUsuarios
       }
     }
   }
-
   //  Verificar usuario
   public static function ctrVerificarUsuario($email, $password)
   {
@@ -41,7 +40,6 @@ class ControllerUsuarios
     $verificar = password_verify($password, $userData["password"]);
     return $verificar;
   }
-
   //  Agregar nuevo usuario
   public static function ctrGetAllUsuarios()
   {
@@ -49,7 +47,6 @@ class ControllerUsuarios
     $listUsuarios = ModelUsuarios::mdlGetAllUsuarios($tabla);
     return $listUsuarios;
   }
-
   //  Obtener tipos de usuarios
   public static function ctrGetTipoUsuarios()
   {
@@ -57,7 +54,6 @@ class ControllerUsuarios
     $listTipos = ModelUsuarios::mdlGetTipoUsuarios($tabla);
     return $listTipos;
   }
-
   //  Crear usuario y  personal dependiendo del tipo 1 = admin y 4 = apoderado ,otro valor = personal
   public static function ctrCrearUsuario()
   {
@@ -83,7 +79,7 @@ class ControllerUsuarios
       );
       $response = ModelUsuarios::mdlCrearUsuario($tabla, $dataUsuario);
       if ($response == "ok") {
-          //crear apoderado si es igual a 4
+        //crear apoderado si es igual a 4
         if ($dataUsuario["idTipoUsuario"] == 4) {
           $ultimoIdUsuario = ControllerApoderados::ctrUltimoUsuarioCreado();
           $dataUsuario["idUsuario"] = $ultimoIdUsuario["idUsuario"];
@@ -109,7 +105,6 @@ class ControllerUsuarios
       }
     }
   }
-
   //  Obtener datos para editar
   public static function ctrGetUsuarioEdit($codUsuario)
   {
@@ -117,7 +112,6 @@ class ControllerUsuarios
     $dataUsuario = ModelUsuarios::mdlGetUsuarioEditar($tabla, $codUsuario);
     return $dataUsuario;
   }
-
   //  Editar usuario
   public static function ctrEditarUsuarioPersonal()
   {
@@ -143,7 +137,6 @@ class ControllerUsuarios
       }
     }
   }
-
   //  Actualizar estado del usuario
   public static function ctrActualizarEstado($codUsuario)
   {
