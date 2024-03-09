@@ -1,122 +1,28 @@
 <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+<?php
+  //  Obtener el tipo de usuario para gestionar el menú
+  $tipoUsuario = $_SESSION["tipoUsuario"];
 
-  <ul class="sidebar-nav" id="sidebar-nav">
-
-    <li class="nav-item">
-      <a class="nav-link" href="inicio">
-        <i class="bi bi-grid"></i>
-        <span>Inicio</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allCompanies" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-buildings"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allCompanies" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="companies">
-            <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allInteractions" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-cash-coin"></i><span>Pagos</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allInteractions" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="suscribers">
-            <i class="bi bi-circle"></i><span>Todos los Pagos</span>
-          </a>
-        </li>
-        <li>
-          <a href="contactus">
-            <i class="bi bi-circle"></i><span>Buscar Alumno</span>
-          </a>
-        </li>
-        <li>
-          <a href="contactus">
-            <i class="bi bi-circle"></i><span>Reporte de Pagos</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allPostulaciones" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-journal-text"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allPostulaciones" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="listaPostulantes">
-            <i class="bi bi-circle"></i><span>Postulaciones</span>
-          </a>
-        </li>
-        <li>
-          <a href="docPostulantes">
-            <i class="bi bi-circle"></i><span>Documentación</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allAlumnos" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-backpack2"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allAlumnos" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="listaAlumnos">
-            <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-people-fill"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allUsuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="usuarios">
-            <i class="bi bi-circle"></i><span>Todos los Usuarios</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allPersonal" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-vcard" fa="x2"></i><span>Personal</span><i class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allPersonal" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="personal">
-            <i class="bi bi-circle"></i><span>Todo el Personal</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#allApoderado" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-fill-check" fa="x2"></i></i><span>Apoderados</span><i
-          class="bi bi-chevron-down ms-auto"></i>
-      </a>
-      <ul id="allApoderado" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a href="apoderado">
-            <i class="bi bi-circle"></i><span>Todos Los Apoderados</span>
-          </a>
-        </li>
-      </ul>
-    </li>
-
-  </ul>
-
-</aside>
+  /**
+   * 1 = Administrador
+   * 2 = Docente
+   * 3 = Administrativo
+   * 4 = Apoderado
+   */
+   
+  if($tipoUsuario == 1){
+    include "menu/menu-administrador.php";   
+  }
+  if($tipoUsuario == 2){
+    include "menu/menu-administrativo.php";
+  }
+  if($tipoUsuario == 3){
+    include "menu/menu-administrativo.php";
+  }
+  if($tipoUsuario == 4){
+    include "menu/menu-administrativo.php";
+  }
+  if($tipoUsuario > 5){
+    include "menu/menu-administrativo.php";
+  }
+?>
