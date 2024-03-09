@@ -3,11 +3,11 @@ date_default_timezone_set('America/Lima');
 
 class ControllerAdmisionAlumno
 {
-  //  Asignar grado a alumno
- /*  public static function ctrAsignarGradoAlumno($dataAlumnoGrado)
-  {
-    $tabla = "alumno_grado";
-    $response = ModelGradoAlumno::mdlAsignarGradoAlumno($tabla, $dataAlumnoGrado);
-    return $response;
-  } */
+ //  Listar alumnos
+ public static function ctrGetAdmisionAlumnos()
+ {
+   $tabla = "admision_alumno";
+   $listaAdmisionAlumnos = ModelAdmisionAlumno::mdlGetAdmisionAlumnos($tabla);
+   return $listaAdmisionAlumnos;
+ }
 }

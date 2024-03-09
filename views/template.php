@@ -25,6 +25,7 @@ session_start();
         $_GET["ruta"] == "listaAlumnos" ||
         $_GET["ruta"] == "admisionExtraordinaria" ||
         $_GET["ruta"] == "listaPostulantes" ||
+        $_GET["ruta"] == "listaAdmisionAlumnos" ||
         $_GET["ruta"] == "docPostulantes" ||
         $_GET["ruta"] == "nuevoPostulante" ||
         $_GET["ruta"] == "editarPostulante" ||
@@ -82,6 +83,7 @@ session_start();
   <script src="views/dataTables/dt-postulantes-admin.js"></script>
   <script src="views/dataTables/dt-alumnos-admin.js"></script>
   <script src="views/dataTables/dt-apoderado.js"></script>
+  <script src="views/dataTables/dt-admision-alumnos.js"></script>
 </body>
 
 </html>
