@@ -10,7 +10,7 @@ class ControllerGradoAlumno
     $response = ModelGradoAlumno::mdlAsignarGradoAlumno($tabla, $dataAlumnoGrado);
     return $response;
   }
-  //  crear Grado admision de postulante-alumno  alumnoAdmision= idAlumno, alumnoAdmision=idGrado
+  //  crear Grado admision de postulante-alumno  alumnoAdmision= idAlumno, alumnoAdmision=idGrado // y admision extraordinario
   public static function ctrRegistrarGradoAlumnoAdmision($alumnoAdmision)
   {
     //sesión esté iniciada

@@ -181,9 +181,9 @@ $crearAlumnoExtraordinario->ctrCrearAlumnoExtraordinaria();
             <label for="tipoApoderado" class="col-form-label">Parentesco:</label>
             <select class="form-control" name="tipoApoderado" id="tipoApoderado" required>
               <option value="">Eliga una opción</option>
-              <option value="Padre">Padre</option>
-              <option value="Madre">Madre</option>
-              <option value="Apoderado">Apoderado</option>
+              <option value="1">Padre</option>
+              <option value="2">Madre</option>
+              <option value="3">Apoderado</option>
             </select>
           </div>
 

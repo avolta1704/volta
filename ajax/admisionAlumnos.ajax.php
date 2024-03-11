@@ -2,7 +2,7 @@
 
 require_once "../controller/admisionAlumno.controller.php";
 require_once "../model/admisionAlumno.model.php";
-require_once "../functions/admisionAlumnos.functions.php";
+require_once "../functions/admisionAlumno.functions.php";
 
 class AdmisionAlumnosAjax
 {

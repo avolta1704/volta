@@ -29,7 +29,7 @@ class ControllerAnioEscolar
       }
     }
   }
-  //  Obtener el anio escolar por el estado activo = 1
+  //  Obtener el anio escolar por el estado activo = 1 // y admision extraordinario
   public static function ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio)
   {
     $table = "anio_escolar";

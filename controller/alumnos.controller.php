@@ -12,7 +12,7 @@ class ControllerAlumnos
   }
 
   //  Crear nuevo alumno//
-  public static function ctrCrearAlumnoExtraordinaria()
+ /*  public static function ctrCrearAlumnoExtraordinaria()
   {
     if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
       $tabla = "alumno";
@@ -92,7 +92,7 @@ class ControllerAlumnos
         echo $mensaje;
       }
     }
-  }
+  } */
   //  Obtener ultimo alumno creado
   public static function ctrObtenerUltimoAlumnoCreado()
   {

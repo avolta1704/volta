@@ -13,13 +13,14 @@ class ControllerAdmisionAlumno
   //  crear postulante alumno extraordinario
   public static function ctrCrearAlumnoExtraordinaria()
   {
-    if (session_status() == PHP_SESSION_NONE) {
-      session_start();
-    }
-    // acceder a la variable de sesión
-    $idUsuario = $_SESSION["idUsuario"];
-    // Crear postulante extraordinario
     if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
+
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      // acceder a la variable de sesión
+      $idUsuario = $_SESSION["idUsuario"];
+      // Crear postulante extraordinario
       $tabla = "postulante";
       $datosPostulante = array(
         "nombrePostulante" => $_POST["nombresAlumno"],
@@ -35,99 +36,115 @@ class ControllerAdmisionAlumno
         "usuarioActualizacion" => $idUsuario
       );
       $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
-      if ($response != "ok") {
-        return "error al crear el postulante";
-      }
-    }
-    // Crear alumno extraordinario
-    if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
-      $tabla = "alumno";
-      $dataAlumno = array(
-        "nombresAlumno" => $_POST["nombresAlumno"],
-        "apellidosAlumno" => $_POST["apellidosAlumno"],
-        "sexoAlumno" => $_POST["sexoAlumno"],
-        /* "estadoSiagie" => 1, */
-        "estadoAlumno" => 1,
-        /* "estadoMatricula" => 1, */
-        "dniAlumno" => $_POST["dniAlumno"],
-        "fechaNacimiento" => $_POST["fechaNacimiento"],
-        "direccionAlumno" => $_POST["direccionAlumno"],
-        "distritoAlumno" => $_POST["distrito"],
-        "IEPProcedencia" => $_POST["iepProcedencia"],
-        "seguroSalud" => $_POST["seguroSalud"],
-        "fechaIngresoVolta" => $_POST["fechaIngreso"],
-        "numeroEmergencia" => $_POST["numeroEmergencia"],
-        "enfermedades" => $_POST["enfermedadesAlumno"],
-        "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-        "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-        "usuarioCreacion" => $idUsuario,
-        "usuarioActualizacion" => $idUsuario
-      );
-      $response = ModelAlumnos::mdlCrearAlumno($tabla, $dataAlumno);
-      if ($response != "ok") {
-        return "error al crear el alumno";
-      }
-    }
-    // Obtener el último postulante creado extraordinario
-    $ultimoPostulante = ControllerPostulantes::ctrObtenerUltimoPostulanteCreado();
-    // Verificar si se obtuvo el postulante
-    if (!$ultimoPostulante) {
-      return "error al obtener el último postulante";
-    }
-    // Obtener el último alumno creado extraordinario
-    $ultimoAlumno = ControllerAlumnos::ctrObtenerUltimoAlumnoCreado();
-    // Verificar si se obtuvo el alumno
-    if (!$ultimoAlumno) {
-      return "error al obtener el último alumno";
-    }
-    // Devolver el ID del último registro de admisión creado y el grado del postulante
-    return array(
-      "idPostulante" => $ultimoPostulante,
-      "idAlumno" => $ultimoAlumno,
-      "idGrado" => $_POST["gradoAlumno"]
-    );
-    // Si la actualización del estado fue exitosa y el estado es igual a 3=aprobado
-    if (  return array = $alumnoExtraordinario(
-      "idPostulante" => $ultimoPostulante,
-      "idAlumno" => $ultimoAlumno,
-      "idGrado" => $_POST["gradoAlumno"]);) {
-      // Iniciar las funciones anidadas para crear grado y admision del alumno alumno
-      if ($alumnoExtraordinario != false) {
-        // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
-        $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoExtraordinario);
-        if ($alumnoGradoAsignado == "ok") {
-          // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar
-          $estadoAnio = 1;
-          $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
-          if ($anioEscolarActiva != false) {
-            // Tomar el año escolar activo para el registro de postulante en la tabla admision
-            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $alumnoExtraordinario);
-            if ($admisionAnioEscolar != false) {
-              // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
-              $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoExtraordinario);
-              if ($admisionAlumno != false) {
-                return "ok"; // Proceso completado exitosamente
-                if ($response == "ok") {
-                  $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
-                  echo $mensaje;
+      // Crear alumno extraordinario
+      if ($response == "ok") {
+        $tabla = "alumno";
+        $dataAlumno = array(
+          "nombresAlumno" => $_POST["nombresAlumno"],
+          "apellidosAlumno" => $_POST["apellidosAlumno"],
+          "sexoAlumno" => $_POST["sexoAlumno"],
+          /* "estadoSiagie" => 1, */
+          "estadoAlumno" => 1,
+          /* "estadoMatricula" => 1, */
+          "dniAlumno" => $_POST["dniAlumno"],
+          "fechaNacimiento" => $_POST["fechaNacimiento"],
+          "direccionAlumno" => $_POST["direccionAlumno"],
+          "distritoAlumno" => $_POST["distrito"],
+          "IEPProcedencia" => $_POST["iepProcedencia"],
+          "seguroSalud" => $_POST["seguroSalud"],
+          "fechaIngresoVolta" => $_POST["fechaIngreso"],
+          "numeroEmergencia" => $_POST["numeroEmergencia"],
+          "enfermedades" => $_POST["enfermedadesAlumno"],
+          "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+          "usuarioCreacion" => $idUsuario,
+          "usuarioActualizacion" => $idUsuario
+        );
+        $response = ModelAlumnos::mdlCrearAlumno($tabla, $dataAlumno);
+        if ($response == "ok") {
+          // Obtener el último postulante creado extraordinario
+          $ultimoPostulanteCreado = ControllerPostulantes::ctrObtenerUltimoPostulanteCreado();
+          if ($ultimoPostulanteCreado) {
+            // Obtener el último alumno creado extraordinario
+            $ultimoAlumnoCreado = ControllerAlumnos::ctrObtenerUltimoAlumnoCreado();
+            // Crear un array de datos de el id de último registro de postulante, alumno  y el grado del postulante del $_POST gradoAlumno
+            if ($ultimoAlumnoCreado) {
+              $alumnoExtraordinario = array(
+                "idPostulante" => intval($ultimoPostulanteCreado),
+                "idAlumno" => intval($ultimoAlumnoCreado),
+                "idGrado" => intval($_POST["gradoAlumno"])
+              );
+              //funcion para agregar apoderado a alumno solo si listaApoderados contiene datos 
+              if (isset($_POST["listaApoderados"]) && $_POST["listaApoderados"] != "") {
+                $listaApoderados = json_decode($_POST["listaApoderados"], true);
+                foreach ($listaApoderados as $value) {
+                  $dataApoderado = array(
+                    "numeroApoderado" => $value["numeroApoderado"],
+                    "tipoApoderado" => $value["tipoApoderado"],
+                    "correoApoderado" => $value["correoApoderado"],
+                    "nombreApoderado" => $value["nombreApoderado"],
+                    "apellidoApoderado" => $value["apellidoApoderado"],
+                    "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+                    "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+                    "usuarioCreacion" => $_SESSION["idUsuario"],
+                    "usuarioActualizacion" => $_SESSION["idUsuario"]
+                  );
+                  $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
+                  $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
+                  $dataApoderadoAlumno = array(
+                    "idAlumno" => $alumnoExtraordinario['idAlumno'],
+                    "idApoderado" => $codApoderado["idApoderado"],
+                    "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+                    "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+                    "usuarioCreacion" => $_SESSION["idUsuario"],
+                    "usuarioActualizacion" => $_SESSION["idUsuario"]
+                  );
+                  $response = ControllerAlumnos::ctrAsignarAlumnoApoderado($dataApoderadoAlumno);
+                }
+              }
+              // Crear un nuevo registro del alumno creado en la tabla alumno_grado extraordiario
+              $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoExtraordinario);
+              if ($alumnoGradoAsignado == "ok") {
+                // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar extraordiario
+                $estadoAnio = 1;
+                $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
+                if ($anioEscolarActiva != false) {
+                  // Tomar el año escolar activo para el registro de postulante en la tabla admision extraordiario
+                  $codPostulante = $alumnoExtraordinario['idPostulante'];
+                  $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulante);
+                  if ($admisionAnioEscolar != false) {
+                    // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno extraordiario
+                    $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoExtraordinario);
+                    if ($admisionAlumno != false) {
+                      // Proceso completado exitosamente
+                      $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAdmisionAlumnos");
+                      echo $mensaje;
+                      return "ok";
+                    } else {
+                      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAdmisionAlumnos");
+                      echo $mensaje;
+                      return "error";
+                    }
+                  } else {
+                    return "error";
+                  }
                 } else {
-                  $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
-                  echo $mensaje;
+                  return "error";
                 }
               } else {
                 return "error";
               }
             } else {
-              return "error";
+              return "error al obtener el último alumno";
             }
           } else {
-            return "error";
+            return "error al obtener el último postulante";
           }
         } else {
-          return "error";
+          return "error al crear el alumno";
         }
       } else {
-        return "error";
+        return "error al crear el postulante";
       }
     }
   }
