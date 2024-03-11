@@ -2,7 +2,7 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <a href="inicio" class="logo d-flex align-items-center">
+      <a href="inicio" class="d-flex align-items-center imageNavBar">
         <img class="move-right" src="assets/img/logo.png" alt="Logo Colegio Volta">
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -11,7 +11,7 @@
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
    
-        <button type="button" class="btn btn-warning btnModeDarck" id="btnModeDarck">Cambiar Tema</button>
+        <!-- <button type="button" class="btn btn-warning btnModeDarck" id="btnModeDarck">Cambiar Tema</button> -->
         <span style="margin: 0 10px;"></span>
 
         <li class="nav-item dropdown">

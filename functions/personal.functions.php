@@ -46,6 +46,7 @@ class FunctionPersonal
     {
         $buttons = '
         <button type="button" class="btn btn-warning btnEditarPersonal" codPersonal="' . ($codPersonal) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-danger btnDeletePersonal" codPersonal="' . ($codPersonal) . '"><i class="bi bi-trash"></i></button>
         ';
         return $buttons;
     }

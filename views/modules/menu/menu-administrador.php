@@ -82,24 +82,24 @@
         </li>
       </ul>
     </li>
-  </ul>
 
-  <!-- USUARIOS -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="allUsuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="usuarios">
-          <i class="bi bi-circle"></i><span>Todos los Usuarios</span>
-        </a>
-      </li>
-      <li>
-        <a href="apoderado">
-          <i class="bi bi-circle"></i><span>Todos Los Apoderados</span>
-        </a>
-      </li>
-    </ul>
-  </li>
+    <!-- USUARIOS -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allUsuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="usuarios">
+            <i class="bi bi-circle"></i><span>Todos los Usuarios</span>
+          </a>
+        </li>
+        <li>
+          <a href="apoderado">
+            <i class="bi bi-circle"></i><span>Todos Los Apoderados</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+  </ul>
 </aside>

@@ -44,7 +44,8 @@ class FunctionUsuario
     public static function getBtnUsuarios($codUsuario)
     {
         $buttons = '
-        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '"title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
+        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '" title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
+        <button type="button" class="btn btn-danger btnDeleteUsuario" codUsuario="' . $codUsuario . '"><i class="bi bi-trash"></i></button>
         ';
         return $buttons;
     }

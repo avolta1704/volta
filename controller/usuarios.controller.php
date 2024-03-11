@@ -8,6 +8,7 @@ class ControllerUsuarios
   {
     if (isset($_POST["inputCorreo"]) && $_POST["inputCorreo"] != "" && $_POST["inputCorreo"] != null && $_POST["inputPassword"] != "" && $_POST["inputPassword"] != null) {
 
+      //  Verificamos si son los datos correctos y si el usuarios está activo o no
       $verificar = self::ctrVerificarUsuario($_POST["inputCorreo"], $_POST["inputPassword"]);
 
       if ($verificar != false) {
@@ -20,7 +21,7 @@ class ControllerUsuarios
         $_SESSION["tipoUsuario"] = $dataUsuario["idTipoUsuario"];
 
         //  Si el usuario es de tipo docente, se debe obtener el tipo de docente por medio de la tabla personal y tipo de personal
-        if($dataUsuario["idTipoUsuario"] == 2){
+        if ($dataUsuario["idTipoUsuario"] == 2) {
           $TipoDocente = ControllerPersonal::ctrGetTipoDocente($dataUsuario["idUsuario"]);
           $_SESSION["tipoDocente"] = $TipoDocente["idTipoPersonal"];
           $_SESSION["descripcionDocente"] = $TipoDocente["descripcionTipo"];
@@ -35,18 +36,47 @@ class ControllerUsuarios
           </script>';
         }
       } else {
-        echo '<br><div class="alert alert-danger" role="alert">Error en los datos ingresados, vuelve a intentarlo</div>';
+        echo '<br><div class="alert alert-danger" role="alert">Las credenciales ingresadas no son correctas</div>';
       }
     }
   }
+
   //  Verificar usuario
   public static function ctrVerificarUsuario($email, $password)
   {
     $tabla = "usuario";
     $userData = ModelUsuarios::mdlObtenerDataUsuario($tabla, $email);
+    if ($userData == null) {
+      return false;
+    }
     $verificar = password_verify($password, $userData["password"]);
+  
+    //  Primero verificamos si los datos ingresados son correctos, en el caso que si sea se verificará si el usuario está activo o no
+    if($verificar == true) {
+      $verificarActivo = self::ctrVerificarEstado($email);
+      if ($verificarActivo == "activo") {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      $verificar = false;
+    }
     return $verificar;
   }
+
+  //  Verificar estado del usuario
+  public static function ctrVerificarEstado($email)
+  {
+    $tabla = "usuario";
+    $estadoUsuario = ModelUsuarios::mdlObtenerEstadoUsuarioCorreo($tabla, $email);
+    if ($estadoUsuario["estadoUsuario"] == "1") {
+      return "activo";
+    } else {
+      return "inactivo";
+    }
+  }
+
   //  Agregar nuevo usuario
   public static function ctrGetAllUsuarios()
   {
@@ -155,5 +185,13 @@ class ControllerUsuarios
       $nuevoEstado = ModelUsuarios::mdlActualizarEstado($tabla, $codUsuario, "1");
     }
     return $nuevoEstado;
+  }
+
+  //  Validar si el correo ya existe o no
+  public static function ctrValidarCorreo($validarCorreo)
+  {
+    $tabla = "usuario";
+    $response = ModelUsuarios::mdlValidarCorreo($tabla, $validarCorreo);
+    return $response;
   }
 }

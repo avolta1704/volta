@@ -32,7 +32,16 @@ class UsuariosAjax
     $response = ControllerUsuarios::ctrActualizarEstado($codUsuarioActualizar);
     echo json_encode($response);
   }
+  //  Veficar si el correo ya existe
+  public $validarCorreo;
+  public function ajaxValidarCorreo()
+  {
+    $validarCorreo = $this->validarCorreo;
+    $response = ControllerUsuarios::ctrValidarCorreo($validarCorreo);
+    echo json_encode($response);
+  }
 }
+
 //mostar todos los usuarios DataTable
 if (isset($_POST["todosLosUsuarios"])) {
   $mostrarTodosLosUsuarios = new UsuariosAjax();
@@ -51,4 +60,11 @@ if (isset($_POST["codUsuarioActualizar"])) {
   $actualizarEstado = new UsuariosAjax();
   $actualizarEstado->codUsuarioActualizar = $_POST["codUsuarioActualizar"];
   $actualizarEstado->ajaxActualizarEstado();
+}
+
+//  Veficar si el correo ya existe
+if(isset($_POST["validarCorreo"])){
+  $validarCorreo = new UsuariosAjax();
+  $validarCorreo->validarCorreo = $_POST["validarCorreo"];
+  $validarCorreo->ajaxValidarCorreo();
 }

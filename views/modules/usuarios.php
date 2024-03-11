@@ -99,7 +99,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            <button type="submit" class="btn btn-primary btnCrearUsuario">Crear Usuario</button>
           </div>
           <?php
           $crearUsuario = new ControllerUsuarios();
