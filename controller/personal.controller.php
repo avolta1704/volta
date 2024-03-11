@@ -75,4 +75,12 @@ class ControllerPersonal
     }
   }
 
+  //  Obtener tipo de docente para el inicio de sesion
+  public static function ctrGetTipoDocente($codUsuario)
+  {
+    $table = "personal";
+    $dataTipoDocente = ModelPersonal::mdlGetTipoDocente($table, $codUsuario);
+    return $dataTipoDocente;
+  }
+
 }

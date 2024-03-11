@@ -18,6 +18,13 @@ class ControllerUsuarios
         $_SESSION["correoUsuario"] = $dataUsuario["correoUsuario"];
         $_SESSION["nombreCompleto"] = $dataUsuario["nombreUsuario"] . ' ' . $dataUsuario["apellidoUsuario"];
         $_SESSION["tipoUsuario"] = $dataUsuario["idTipoUsuario"];
+
+        //  Si el usuario es de tipo docente, se debe obtener el tipo de docente por medio de la tabla personal y tipo de personal
+        if($dataUsuario["idTipoUsuario"] == 2){
+          $TipoDocente = ControllerPersonal::ctrGetTipoDocente($dataUsuario["idUsuario"]);
+          $_SESSION["tipoDocente"] = $TipoDocente["idTipoPersonal"];
+          $_SESSION["descripcionDocente"] = $TipoDocente["descripcionTipo"];
+        }
         // Save last login
         $ultimaConexion = date("Y-m-d\TH:i:sP");
         // Update last login

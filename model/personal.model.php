@@ -82,4 +82,26 @@ class ModelPersonal
     }
   }
 
+  //  Obtener tipo de docente para el inicio de sesion
+  public static function mdlGetTipoDocente($table, $codUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    tipo_personal.idTipoPersonal, 
+    tipo_personal.descripcionTipo
+  FROM
+    $table
+    INNER JOIN
+    tipo_personal
+    ON 
+      personal.idTipoPersonal = tipo_personal.idTipoPersonal
+    INNER JOIN
+    usuario
+    ON 
+      personal.idUsuario = usuario.idUsuario
+  WHERE
+    usuario.idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
