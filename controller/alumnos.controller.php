@@ -11,7 +11,7 @@ class ControllerAlumnos
     return $listaAlumnos;
   }
 
-  //  Crear nuevo alumno
+  //  Crear nuevo alumno//
   public static function ctrCrearAlumnoExtraordinaria()
   {
     if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
@@ -41,7 +41,7 @@ class ControllerAlumnos
         $listaApoderados = json_decode($_POST["listaApoderados"], true);
         //  Se obtiene la lista de apoderados, si es vacía o nula, solo se crea el alumno. Sino se crea cada apoderado.
         if ($listaApoderados != null || $listaApoderados != "") {
-          $codAlumno = self::ctrObtenerUltimoAlumno();
+          $codAlumno = self::ctrObtenerUltimoAlumnoCreado();
           foreach ($listaApoderados as $value) {
             $dataApoderado = array(
               "numeroApoderado" => $value["numeroApoderado"],
@@ -93,15 +93,13 @@ class ControllerAlumnos
       }
     }
   }
-
   //  Obtener ultimo alumno creado
-  public static function ctrObtenerUltimoAlumno()
+  public static function ctrObtenerUltimoAlumnoCreado()
   {
     $tabla = "alumno";
-    $response = ModelAlumnos::mdlObtenerUltimoAlumno($tabla);
+    $response = ModelAlumnos::mdlObtenerUltimoAlumnoCreado($tabla);
     return $response;
   }
-
   //  Asignar alumno a apoderado
   public static function ctrAsignarAlumnoApoderado($dataApoderadoAlumno)
   {

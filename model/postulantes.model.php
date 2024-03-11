@@ -118,4 +118,11 @@ class ModelPostulantes
       return "error";
     }
   }
+  // Obtener el último postulante creado extraordinario
+  public static function mdlObtenerUltimoPostulanteCreado($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(idPostulante) FROM $tabla");
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }

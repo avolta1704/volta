@@ -62,15 +62,6 @@ class ModelAlumnos
       return "error";
     }
   }
-
-  //  Obtener ultimo alumno creado
-  public static function mdlObtenerUltimoAlumno($tabla)
-  {
-    $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) AS idAlumno FROM $tabla");
-    $statement->execute();
-    return $statement->fetch();
-  }
-
   //  Asignar alumno a apoderado
   public static function mdlAsignarAlumnoApoderado($tabla, $dataApoderadoAlumno)
   {

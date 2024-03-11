@@ -150,6 +150,12 @@ class ControllerPostulantes
       return "ok"; // Si el estado no es igual a 3, no se inicia el proceso de crear el alumno
     }
   }
-
+  // Obtener el último postulante creado extraordinario
+  public static function ctrObtenerUltimoPostulanteCreado()
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlObtenerUltimoPostulanteCreado($tabla);
+    return $response;
+  }
 
 }

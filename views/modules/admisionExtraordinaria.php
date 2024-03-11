@@ -135,7 +135,7 @@
 </main>
 
 <?php
-$crearAlumnoExtraordinario = new ControllerAlumnos();
+$crearAlumnoExtraordinario = new ControllerAdmisionAlumno();
 $crearAlumnoExtraordinario->ctrCrearAlumnoExtraordinaria();
 ?>
 
