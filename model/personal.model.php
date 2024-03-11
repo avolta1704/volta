@@ -24,14 +24,13 @@ class ModelPersonal
   //crear personal
   public static function mdlCrearUsuarioPersonal($table, $dataUsuarioPersonal)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $table (idUsuario, ididTipoPersonal, correoPersonal, nombrePersonal, apellidoPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion)
-     VALUES(:idUsuario, :idTipoUsuario, :correoUsuario, :nombreUsuario, :apellidoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idUsuario, idTipoPersonal, correoPersonal, nombrePersonal, apellidoPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:idUsuario, :idTipoPersonal, :correoPersonal, :nombrePersonal, :apellidoPersonal, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
 
     $statement->bindParam(":idUsuario", $dataUsuarioPersonal["idUsuario"], PDO::PARAM_INT);
-    $statement->bindParam(":idTipoUsuario", $dataUsuarioPersonal["idTipoUsuario"], PDO::PARAM_INT);
-    $statement->bindParam(":correoUsuario", $dataUsuarioPersonal["correoUsuario"], PDO::PARAM_STR);
-    $statement->bindParam(":nombreUsuario", $dataUsuarioPersonal["nombreUsuario"], PDO::PARAM_STR);
-    $statement->bindParam(":apellidoUsuario", $dataUsuarioPersonal["apellidoUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":idTipoPersonal", $dataUsuarioPersonal["idTipoPersonal"], PDO::PARAM_INT);
+    $statement->bindParam(":correoPersonal", $dataUsuarioPersonal["correoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":nombrePersonal", $dataUsuarioPersonal["nombrePersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPersonal", $dataUsuarioPersonal["apellidoPersonal"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataUsuarioPersonal["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataUsuarioPersonal["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataUsuarioPersonal["usuarioCreacion"], PDO::PARAM_INT);

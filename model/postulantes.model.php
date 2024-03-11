@@ -78,7 +78,7 @@ class ModelPostulantes
   //  Editar postulante
   public static function mdlEditarPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :UsuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
@@ -88,7 +88,6 @@ class ModelPostulantes
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
-
     if ($statement->execute()) {
       return "ok";
     } else {

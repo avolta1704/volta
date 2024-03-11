@@ -22,18 +22,18 @@ class ControllerPersonal
   {
     $table = "personal";
     if ($dataUsuarioPersonal["idTipoUsuario"] == 2) {
-      $idTipoUsuario = 4;
+      $idTipoPersonal = 4;
     } else if ($dataUsuarioPersonal["idTipoUsuario"] == 3) {
-      $idTipoUsuario = 6;
+      $idTipoPersonal = 6;
     } else {
-      $idTipoUsuario = "";
+      $idTipoPersonal = "";
     }
     $dataUsuarioPersonal = array(
       "idUsuario" => $dataUsuarioPersonal["idUsuario"],
-      "idTipoUsuario" => $idTipoUsuario,
-      "correoUsuario" => $dataUsuarioPersonal["correoUsuario"],
-      "nombreUsuario" => $dataUsuarioPersonal["nombreUsuario"],
-      "apellidoUsuario" => $dataUsuarioPersonal["apellidoUsuario"],
+      "idTipoPersonal" => $idTipoPersonal,
+      "correoPersonal" => $dataUsuarioPersonal["correoUsuario"],
+      "nombrePersonal" => $dataUsuarioPersonal["nombreUsuario"],
+      "apellidoPersonal" => $dataUsuarioPersonal["apellidoUsuario"],
       "fechaCreacion" => $dataUsuarioPersonal["fechaCreacion"],
       "fechaActualizacion" => $dataUsuarioPersonal["fechaActualizacion"],
       "usuarioCreacion" => $dataUsuarioPersonal["usuarioCreacion"],

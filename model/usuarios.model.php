@@ -107,6 +107,15 @@ class ModelUsuarios
     return $statement->fetch();
   }
 
+  //  Obtener estado del usuario por correo para el login
+  public static function mdlObtenerEstadoUsuarioCorreo($tabla, $email)
+  {
+    $statement = Connection::conn()->prepare("SELECT estadoUsuario FROM $tabla WHERE correoUsuario = :email");
+    $statement->bindParam(":email", $email, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch();
+  }
+  
   //  Actualizar estado del usuario
   public static function mdlActualizarEstado($tabla, $codUsuario, $estado)
   {
@@ -118,5 +127,14 @@ class ModelUsuarios
     } else {
       return "error";
     }
+  }
+
+  //  Verificar si el correo ya existe
+  public static function mdlValidarCorreo($tabla, $validarCorreo)
+  {
+    $statement = Connection::conn()->prepare("SELECT COUNT(correoUsuario) AS validacion FROM $tabla WHERE correoUsuario=:correoUsuario");
+    $statement->bindParam(":correoUsuario", $validarCorreo, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }
