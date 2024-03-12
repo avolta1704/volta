@@ -1,7 +1,7 @@
 
 // Definición inicial de dataTableAlumnos
 $(document).ready(function () {
-  var columnDefs = [
+  var columnDefsAlumno = [
     { data: "idAlumno" },
     { data: "nombresAlumno" },
     { data: "apellidosAlumno" },
@@ -12,8 +12,8 @@ $(document).ready(function () {
     { data: "buttonsAlumno" },
   ];
 
-  var table = $("#dataTableAlumnos").DataTable({
-    columns: columnDefs,
+  var tableAlumno = $("#dataTableAlumnos").DataTable({
+    columns: columnDefsAlumno,
   });
 
   // Titulo dataTableAlumnos
@@ -34,9 +34,9 @@ $(document).ready(function () {
     dataType: "json",
 
     success: function (response) {
-      table.clear();
-      table.rows.add(response);
-      table.draw();
+      tableAlumno.clear();
+      tableAlumno.rows.add(response);
+      tableAlumno.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -59,7 +59,7 @@ $(document).ready(function () {
 
   table.destroy();
 
-  columnDefs = [
+  columnDefsAlumno = [
     { data: "idAlumno" },
     { data: "nombresAlumno" },
     { data: "apellidosAlumno" },
@@ -69,7 +69,7 @@ $(document).ready(function () {
     { data: "descripcionNivel" },
     { data: "buttonsAlumno" },
   ];
-  table = $("#dataTableAlumnos").DataTable({
-    columns: columnDefs,
+  tableAlumno = $("#dataTableAlumnos").DataTable({
+    columns: columnDefsAlumno,
   });
 });

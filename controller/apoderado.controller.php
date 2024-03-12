@@ -42,7 +42,7 @@ class ControllerApoderados
     $listApoderado = ModelApoderados::mdlCrearUsuarioApoderado($table, $dataUsuarioApoderado);
     return $listApoderado;
   }
-  //  Listar alumnos
+  //  crear apoderado alumno
   public static function ctrCrearApoderadoAlumno($dataApoderado)
   {
     $tabla = "apoderado";

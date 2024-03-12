@@ -1,15 +1,19 @@
-
 // Definición inicial de dataTableAdmisionAlumnos
 $(document).ready(function () {
   var columnDefsAdmisionAlumno = [
-    { data: "idAlumno" },
-    { data: "nombresAlumno" },
+    { data: "idAdmisionAlumno" },
+    { data: "dniAlumno" },
     { data: "apellidosAlumno" },
-    { data: "sexoAlumno" },
-    { data: "stateAlumno" },
-    { data: "descripcionGrado" },
-    { data: "descripcionNivel" },
-    { data: "buttonsAlumno" },
+    { data: "nombresAlumno" },
+    { data: "tipoAdmision" },
+    { data: "fechaAdmision" },
+    { data: "estadoAdmisionAlumno" },
+    { data: "estadoAlumno" },
+    { data: "estadoSiagie" },
+    { data: "estadoMatricula" },
+    { data: "codAlumnoCaja" },
+    { data: "fechaIngresoVolta" },
+    /* { data: "buttonsAdmisionAlumno" }, */
   ];
 
   var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
@@ -47,27 +51,37 @@ $(document).ready(function () {
   $("#dataTableAdmisionAlumnos thead").html(`
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Dni</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
-        <th scope="col">Sexo</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Nivel</th>
-        <th scope="col">Grado</th>
-        <th scope="col">Acciones</th>
+        <th scope="col">Admision</th>
+        <th scope="col">Fecha Admision</th>
+        <th scope="col">Estado Admision</th>
+        <th scope="col">Estado Alumno</th>
+        <th scope="col">Siagie</th>
+        <th scope="col">Matricula</th>
+        <th scope="col">Codigo Alumno Caja</th>
+        <th scope="col">Ingreso Volta</th>
+
       </tr>
     `);
 
   tableAdmisionAlumno.destroy();
 
   columnDefsAdmisionAlumno = [
-    { data: "idAlumno" },
-    { data: "nombresAlumno" },
+    { data: "idAdmisionAlumno" },
+    { data: "dniAlumno" },
     { data: "apellidosAlumno" },
-    { data: "sexoAlumno" },
-    { data: "stateAlumno" },
-    { data: "descripcionGrado" },
-    { data: "descripcionNivel" },
-    { data: "buttonsAlumno" },
+    { data: "nombresAlumno" },
+    { data: "tipoAdmision" },
+    { data: "fechaAdmision" },
+    { data: "estadoAdmisionAlumno" },
+    { data: "estadoAlumno" },
+    { data: "estadoSiagie" },
+    { data: "estadoMatricula" },
+    { data: "codAlumnoCaja" },
+    { data: "fechaIngresoVolta" },
+    /* { data: "buttonsAdmisionAlumno" }, */
   ];
   tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
     columns: columnDefsAdmisionAlumno,

@@ -1,6 +1,6 @@
 // Definición inicial de dataTablePersonal
 $(document).ready(function () {
-  var columnDefs = [
+  var columnDefsPersonal = [
     { data: "idPersonal" },
     { data: "nombrePersonal" },
     { data: "apellidoPersonal" },
@@ -11,8 +11,8 @@ $(document).ready(function () {
     { data: "buttons" },
   ];
 
-  var table = $("#dataTablePersonal").DataTable({
-    columns: columnDefs,
+  var tablePersonal = $("#dataTablePersonal").DataTable({
+    columns: columnDefsPersonal,
   });
 
   // Titulo dataTablePersonal
@@ -33,9 +33,9 @@ $(document).ready(function () {
     dataType: "json",
 
     success: function (response) {
-      table.clear();
-      table.rows.add(response);
-      table.draw();
+      tablePersonal.clear();
+      tablePersonal.rows.add(response);
+      tablePersonal.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -56,9 +56,9 @@ $(document).ready(function () {
     </tr>
     `);
 
-  table.destroy();
+  tablePersonal.destroy();
 
-  columnDefs = [
+  columnDefsPersonal = [
     { data: "idPersonal" },
     { data: "nombrePersonal" },
     { data: "apellidoPersonal" },
@@ -68,7 +68,7 @@ $(document).ready(function () {
     { data: "tipe" },
     { data: "buttons" },
   ];
-  table = $("#dataTablePersonal").DataTable({
-    columns: columnDefs,
+  tablePersonal = $("#dataTablePersonal").DataTable({
+    columns: columnDefsPersonal,
   });
 });

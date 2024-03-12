@@ -4,8 +4,8 @@ date_default_timezone_set('America/Lima');
 class ControllerAdmision
 {
   // crear admision de postulante
-  // anioEscolarActiva = idAnioEscolar, codPostulanteEdit = idPostulante // y admision extraordinario
-  public static function ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit)
+  // anioEscolarActiva = idAnioEscolar, codPostulanteEdit = idPostulante // y admision extraordinario // $tipoAdmision 1 = ordinario, 2 = extraordinario
+  public static function ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit,$tipoAdmision)
   {
     //sesión esté iniciada
     if (session_status() == PHP_SESSION_NONE) {
@@ -13,11 +13,12 @@ class ControllerAdmision
     }
     // acceder a la variable de sesión
     $idUsuario = $_SESSION["idUsuario"];
+    // usar por el origen del dato  $tipoAdmision 1 = ordinario, 2 = extraordinario
     $dataPostulanteAdmision = array(
       "idAnioEscolar" => $anioEscolarActiva,
       "idPostulante" => $codPostulanteEdit,
       "fechaAdmision" => date("Y-m-d"),
-      "tipoAdmision" => 1,
+      "tipoAdmision" => $tipoAdmision,
       "fechaCreacion" => date("Y-m-d H:i:s"),
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioCreacion" => $idUsuario,

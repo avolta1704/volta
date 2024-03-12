@@ -10,9 +10,13 @@ class AdmisionAlumnosAjax
   public function ajaxMostrarRegistrosAdmisionAlumnos()
   {
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
-    foreach ($registrosAdmisionAlumnos as &$admisionAlumno) {
-      $admisionAlumno['stateAlumno'] = FunctionAdmisionAlumnos::getEstadosAlumnos($admisionAlumno["estadoAlumno"]);
-      $admisionAlumno['buttonsAlumno'] = FunctionAdmisionAlumnos::getBotonesAlumnos($admisionAlumno["idAlumno"], $admisionAlumno["estadoAlumno"]);
+    foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
+      $dataAdmision['tipoAdmision'] = FunctionAdmisionAlumnos::getEstadoTipoAdmision($dataAdmision["tipoAdmision"]);
+      $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
+      $dataAdmision['estadoAlumno'] = FunctionAdmisionAlumnos::getEstadoAlumno($dataAdmision["estadoAlumno"]);
+      $dataAdmision['estadoSiagie'] = FunctionAdmisionAlumnos::getEstadoSiagie($dataAdmision["estadoSiagie"]);
+      $dataAdmision['estadoMatricula'] = FunctionAdmisionAlumnos::getEstadoMatricula($dataAdmision["estadoMatricula"]);
+      /* $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"]); */
     }
     echo json_encode($registrosAdmisionAlumnos);
   }

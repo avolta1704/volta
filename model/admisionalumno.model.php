@@ -6,30 +6,21 @@ class ModelAdmisionAlumno
   //todos los registros de admision
   public static function mdlGetAdmisionAlumnos($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT
-    alumno.idAlumno, 
-    alumno.nombresAlumno, 
-    alumno.apellidosAlumno, 
-    alumno.sexoAlumno, 
-    alumno.estadoAlumno, 
-    grado.descripcionGrado, 
-    nivel.descripcionNivel, 
-    alumno_grado.estadoGradoAlumno
-  FROM
-    alumno
-    INNER JOIN
-    alumno_grado
-    ON 
-      alumno.idAlumno = alumno_grado.idAlumno
-    INNER JOIN
-    grado
-    ON 
-      alumno_grado.idGrado = grado.idGrado
-    INNER JOIN
-    nivel
-    ON 
-      grado.idNivel = nivel.idNivel
-    WHERE alumno_grado.estadoGradoAlumno = 1");
+    $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
+    al.dniAlumno,
+    al.apellidosAlumno,
+    al.nombresAlumno, 
+    ad.tipoAdmision,
+    ad.fechaAdmision,
+    adal.estadoAdmisionAlumno,
+    al.estadoAlumno, 
+    al.estadoSiagie, 
+    al.estadoMatricula, 
+    al.codAlumnoCaja, 
+    al.fechaIngresoVolta      
+    FROM $tabla adal
+    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
+    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno;");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

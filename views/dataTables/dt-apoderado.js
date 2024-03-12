@@ -1,6 +1,6 @@
 // Definición inicial de dataTableApoderado
 $(document).ready(function () {
-  var columnDefs = [
+  var columnDefsApoderado = [
     { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
@@ -12,8 +12,8 @@ $(document).ready(function () {
     { data: "buttons" },
   ];
 
-  var table = $("#dataTableApoderado").DataTable({
-    columns: columnDefs,
+  var tableApoderado = $("#dataTableApoderado").DataTable({
+    columns: columnDefsApoderado,
   });
 
   // Titulo dataTableApoderado
@@ -34,9 +34,9 @@ $(document).ready(function () {
     dataType: "json",
 
     success: function (response) {
-      table.clear();
-      table.rows.add(response);
-      table.draw();
+      tableApoderado.clear();
+      tableApoderado.rows.add(response);
+      tableApoderado.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -58,9 +58,9 @@ $(document).ready(function () {
     </tr>
     `);
 
-  table.destroy();
+  tableApoderado.destroy();
 
-  columnDefs = [
+  columnDefsApoderado = [
     { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
@@ -71,7 +71,7 @@ $(document).ready(function () {
     { data: "convivenciaAlumno" },
     { data: "buttons" },
   ];
-  table = $("#dataTableApoderado").DataTable({
-    columns: columnDefs,
+  tableApoderado = $("#dataTableApoderado").DataTable({
+    columns: columnDefsApoderado,
   });
 });
