@@ -7,13 +7,13 @@ $(document).ready(function () {
     { data: "nombresAlumno" },
     { data: "tipoAdmision" },
     { data: "fechaAdmision" },
-    { data: "estadoAdmisionAlumno" },
-    { data: "estadoAlumno" },
+    { data: "estadoAdmisionAlumn" },
+/*     { data: "estadoAlumno" },
     { data: "estadoSiagie" },
     { data: "estadoMatricula" },
     { data: "codAlumnoCaja" },
-    { data: "fechaIngresoVolta" },
-    /* { data: "buttonsAdmisionAlumno" }, */
+    { data: "fechaIngresoVolta" }, */
+    { data: "buttonsAdmisionAlumno" },
   ];
 
   var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
@@ -22,7 +22,7 @@ $(document).ready(function () {
 
   // Titulo dataTableAdmisionAlumnos
   var data = new FormData();
-  $(".tituloAdmisionAlumnos").text("Registros Admision Alumnos");
+  $(".tituloAdmisionAlumnos").text("Registros Admision");
 
   //Solicitud ajx inicial de dataTableAdmisionAlumnosAdmin
   var data = new FormData();
@@ -57,12 +57,7 @@ $(document).ready(function () {
         <th scope="col">Admision</th>
         <th scope="col">Fecha Admision</th>
         <th scope="col">Estado Admision</th>
-        <th scope="col">Estado Alumno</th>
-        <th scope="col">Siagie</th>
-        <th scope="col">Matricula</th>
-        <th scope="col">Codigo Alumno Caja</th>
-        <th scope="col">Ingreso Volta</th>
-
+        <th scope="col">Aciones</th
       </tr>
     `);
 
@@ -75,13 +70,13 @@ $(document).ready(function () {
     { data: "nombresAlumno" },
     { data: "tipoAdmision" },
     { data: "fechaAdmision" },
-    { data: "estadoAdmisionAlumno" },
-    { data: "estadoAlumno" },
-    { data: "estadoSiagie" },
-    { data: "estadoMatricula" },
-    { data: "codAlumnoCaja" },
-    { data: "fechaIngresoVolta" },
-    /* { data: "buttonsAdmisionAlumno" }, */
+    { data: "estadoAdmisionAlumn" },
+    /* { data: "estadoAlumno" }, */
+  /*   { data: "estadoSiagie" }, */
+    /* { data: "estadoMatricula" }, */
+  /*   { data: "codAlumnoCaja" },
+    { data: "fechaIngresoVolta" }, */
+    { data: "buttonsAdmisionAlumno" },
   ];
   tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
     columns: columnDefsAdmisionAlumno,

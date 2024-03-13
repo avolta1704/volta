@@ -12,12 +12,12 @@ class ModelAdmisionAlumno
     al.nombresAlumno, 
     ad.tipoAdmision,
     ad.fechaAdmision,
-    adal.estadoAdmisionAlumno,
-    al.estadoAlumno, 
+    adal.estadoAdmisionAlumno
+/*     al.estadoAlumno, 
     al.estadoSiagie, 
     al.estadoMatricula, 
     al.codAlumnoCaja, 
-    al.fechaIngresoVolta      
+    al.fechaIngresoVolta  */     
     FROM $tabla adal
     INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
     INNER JOIN alumno al ON adal.idAlumno = al.idAlumno;");

@@ -2,7 +2,7 @@
 //controller
 require_once "../functions/postulantes.functions.php";
 require_once "../controller/postulantes.controller.php";
-require_once "../controller/admisionAlumno.controller.php";
+  require_once "../controller/admisionAlumno.controller.php";
 require_once "../controller/admision.controller.php";
 require_once "../controller/anioescolar.controller.php";
 require_once "../controller/alumnos.controller.php";

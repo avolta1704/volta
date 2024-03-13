@@ -12,11 +12,9 @@ class AdmisionAlumnosAjax
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
     foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
       $dataAdmision['tipoAdmision'] = FunctionAdmisionAlumnos::getEstadoTipoAdmision($dataAdmision["tipoAdmision"]);
-      $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
-      $dataAdmision['estadoAlumno'] = FunctionAdmisionAlumnos::getEstadoAlumno($dataAdmision["estadoAlumno"]);
-      $dataAdmision['estadoSiagie'] = FunctionAdmisionAlumnos::getEstadoSiagie($dataAdmision["estadoSiagie"]);
-      $dataAdmision['estadoMatricula'] = FunctionAdmisionAlumnos::getEstadoMatricula($dataAdmision["estadoMatricula"]);
-      /* $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"]); */
+      $dataAdmision['estadoAdmisionAlumn'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
+
+         $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"]);
     }
     echo json_encode($registrosAdmisionAlumnos);
   }

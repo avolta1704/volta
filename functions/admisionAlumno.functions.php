@@ -29,7 +29,7 @@ class FunctionAdmisionAlumnos
         }
         if ($estadoAdmisionAlumno == 3) {
             $estado = '<span class="badge rounded-pill bg-succes">Pagado</span>';
-        }
+        } 
         if ($estadoAdmisionAlumno == 4) {
             $estado = '<span class="badge rounded-pill bg-danger">Anulado</span>';
         }
@@ -87,28 +87,28 @@ class FunctionAdmisionAlumnos
         if ($estadoAdmisionAlumno == 1) {
             $botones = '
         <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 2) {
             $botones = '
         <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 3) {
             $botones = '
         <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 4) {
             $botones = '
         <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
         <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
