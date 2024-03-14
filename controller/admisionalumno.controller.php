@@ -106,7 +106,7 @@ class ControllerAdmisionAlumno
                   // Tomar el año escolar activo para el registro de postulante en la tabla admision extraordiario
                   $codPostulante = $alumnoExtraordinario['idPostulante'];
                   $tipoAdmision = 2; // 1 = ordinario, 2 = extraordinario
-                  $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulante,$tipoAdmision);
+                  $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulante, $tipoAdmision);
                   if ($admisionAnioEscolar != false) {
                     // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno extraordiario
                     $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoExtraordinario);
@@ -157,5 +157,81 @@ class ControllerAdmisionAlumno
       }
     }
   }
-  
+  //ontener data de anio escolar
+  public static function ctrOGetDataAnioEscolar()
+  {
+    $tabla = "anio_escolar";
+    $dataAnioEscolar = ModelAdmisionAlumno::mdlGetDataAnioEscolar($tabla);
+    return $dataAnioEscolar;
+  }
+  // Actualizar estado admision_alumno y crear registro en cronograma_pago
+  public static function ctrActualizarestadoAdmisionAlumno($codAdmisionAlumno)
+  {
+    // Obtener el registro de anio_escolar
+    $dataAnioEscolar = self::ctrOGetDataAnioEscolar();
+    if ($dataAnioEscolar) {
+      //sesión esté iniciada
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      // acceder a la variable de sesión
+      $idUsuario = $_SESSION["idUsuario"];
+      $tabla = "cronograma_pago";
+      //crear solo una vez este array de datos por que es la matricula
+      $dataCronoPagoMatricula = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "conceptoPago" => "Matricula",
+        "montoPago" => $dataAnioEscolar["costoMatricula"],
+        "fechaLimite" => date("Y-m-d", strtotime("+30 days")),//fecha 30 dias despues de la fecha de registro
+        "estadoCronograma" => 1,//estado por defecto 1 = pendiente 2 = cancelado 3 = anulado
+        "mesPago" => date("Y-m-d"),//fecha actual de registro
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario
+      );
+      //crear 11 veces este array de datos por que es la Pension pero se tiene que crear desde marzo hasta diciembre
+      $dataAllCronoPago = array();
+      $dataAllCronoPago[] = $dataCronoPagoMatricula;
+      for ($i = 3; $i <= 12; $i++) {
+        $mesPago = date("Y") . '-' . sprintf("%02d", $i) . '-05';
+        $fechaLimite = date("Y-m-d", strtotime($mesPago . "+30 days"));
+        $dataCronoPagoPension = array(
+          "idAdmisionAlumno" => $codAdmisionAlumno,
+          "conceptoPago" => "Pension",
+          "montoPago" => $dataAnioEscolar["costoPension"],
+          "fechaLimite" => $fechaLimite,//fecha 30 dias despues de la fecha de mesPago solo en este array
+          "estadoCronograma" => 1,//estado por defecto 1 = pendiente 2 = cancelado 3 = anulado
+          "mesPago" => $mesPago,//este campo se tiene que cambiar por el mes correspondiente y tiene que ser  el 5 de cada  mes
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $idUsuario,
+          "usuarioActualizacion" => $idUsuario
+        );
+        $dataAllCronoPago[] = $dataCronoPagoPension;
+      }
+      foreach ($dataAllCronoPago as $dataAdmisionCronoPago) {
+        $response = ModelAdmisionAlumno::mdlCrearCronogramaPago($tabla, $dataAdmisionCronoPago);
+        if ($response != "ok") {
+          return "error";
+        }
+      }
+      // Actualizar el campo en la tabla admision_alumno
+      $table = "admision_alumno";
+      $dataActualizarEstadoAdAlum = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "estadoAdmisionAlumno" => 2,//estado por defecto 1 = registrado 2 = establecido 3 = cancelado
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $idUsuario
+      );
+      $response = ModelAdmisionAlumno::mdlActualizarestadoAdmisionAlumno($table, $dataActualizarEstadoAdAlum);
+      if ($response == "ok") {
+        return "ok";
+      } else {
+        return "error";
+      }
+    } else {
+      return "error";
+    }
+  }
 }

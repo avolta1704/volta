@@ -86,30 +86,30 @@ class FunctionAdmisionAlumnos
     {
         if ($estadoAdmisionAlumno == 1) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-success btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 2) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-success btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 3) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-success btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         if ($estadoAdmisionAlumno == 4) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-success btnEditarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-success btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled><i class="bi bi-check2-circle"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled><i class="bi bi-trash"></i></button>
       ';
         }
         return $botones;
