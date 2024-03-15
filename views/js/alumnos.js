@@ -7,9 +7,8 @@ $("#btnAgregarNuevoAlumno").on("click", function () {
 $("#btnAgregarNuevoAlumno").on("click", function () {
   window.location = "index.php?ruta=admisionExtraordinaria";
 });
-btnVisualizarAlumno
 
-//  Add material to list
+//  Add Apoderado
 $(".formNuevoApoderado").on("click", ".btnAgregarApoderado", function () {
   var nombres = $("#nombreApoderado").val();
   var apellidos = $("#apellidoApoderado").val();

@@ -1,7 +1,7 @@
 // Definición inicial de dataTableUsuarios
 $(document).ready(function() {
 
-  var columnDefs = [
+  var columnDefsUsuario = [
     { data: "idUsuario" },
     { data: "correoUsuario" },
     { data: "nombreUsuario" },
@@ -12,8 +12,8 @@ $(document).ready(function() {
     { data: "buttons" },
   ];
 
-var table = $("#dataTableUsuarios").DataTable({
-  columns: columnDefs,
+var tableUsuario = $("#dataTableUsuarios").DataTable({
+  columns: columnDefsUsuario,
 });
 
 // Titulo dataTableUsuarios
@@ -34,9 +34,9 @@ $.ajax({
   dataType: "json",
 
   success: function (response) {
-    table.clear();
-    table.rows.add(response);
-    table.draw();
+    tableUsuario.clear();
+    tableUsuario.rows.add(response);
+    tableUsuario.draw();
   },
   error: function (jqXHR, textStatus, errorThrown) {
     console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -57,9 +57,9 @@ $("#dataTableUsuarios thead").html(`
     </tr>
     `);
 
-table.destroy();
+tableUsuario.destroy();
 
-columnDefs = [
+columnDefsUsuario = [
   { data: "idUsuario" },
   { data: "correoUsuario" },
   { data: "nombreUsuario" },
@@ -69,8 +69,8 @@ columnDefs = [
   { data: "ultimaConexion" },
   { data: "buttons" },
 ];
-table = $("#dataTableUsuarios").DataTable({
-  columns: columnDefs,
+tableUsuario = $("#dataTableUsuarios").DataTable({
+  columns: columnDefsUsuario,
 });
 
 });

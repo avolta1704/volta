@@ -76,6 +76,7 @@ session_start();
   <script src="views/js/postulantes.js"></script>
   <script src="views/js/admision.js"></script>
   <script src="views/js/apoderado.js"></script>
+  <script src="views/js/admisionAlumno.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

@@ -125,7 +125,8 @@ class ControllerPostulantes
           $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
           if ($anioEscolarActiva != false) {
             // Tomar el año escolar activo para el registro de postulante en la tabla admision
-            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit);
+            $tipoAdmision = 1; // 1 = ordinario, 2 = extraordinario
+            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit,$tipoAdmision);
             if ($admisionAnioEscolar != false) {
               // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
               $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
@@ -150,6 +151,12 @@ class ControllerPostulantes
       return "ok"; // Si el estado no es igual a 3, no se inicia el proceso de crear el alumno
     }
   }
-
+  // Obtener el último postulante creado extraordinario
+  public static function ctrObtenerUltimoPostulanteCreado()
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlObtenerUltimoPostulanteCreado($tabla);
+    return $response;
+  }
 
 }

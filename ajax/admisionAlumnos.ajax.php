@@ -2,7 +2,7 @@
 
 require_once "../controller/admisionAlumno.controller.php";
 require_once "../model/admisionAlumno.model.php";
-require_once "../functions/admisionAlumnos.functions.php";
+require_once "../functions/admisionAlumno.functions.php";
 
 class AdmisionAlumnosAjax
 {
@@ -10,15 +10,31 @@ class AdmisionAlumnosAjax
   public function ajaxMostrarRegistrosAdmisionAlumnos()
   {
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
-    foreach ($registrosAdmisionAlumnos as &$admisionAlumno) {
-      $admisionAlumno['stateAlumno'] = FunctionAdmisionAlumnos::getEstadosAlumnos($admisionAlumno["estadoAlumno"]);
-      $admisionAlumno['buttonsAlumno'] = FunctionAdmisionAlumnos::getBotonesAlumnos($admisionAlumno["idAlumno"], $admisionAlumno["estadoAlumno"]);
+    foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
+      $dataAdmision['tipoAdmision'] = FunctionAdmisionAlumnos::getEstadoTipoAdmision($dataAdmision["tipoAdmision"]);
+      $dataAdmision['estadoAdmisionAlumn'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
+
+      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"]);
     }
     echo json_encode($registrosAdmisionAlumnos);
+  }
+  // Actualizar estado admision_alumno
+  public $codAdmisionAlumno;
+  public function ajaxActualizarEstado()
+  {
+    $codAdmisionAlumno = $this->codAdmisionAlumno;
+    $response = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumno($codAdmisionAlumno);
+    echo json_encode($response);
   }
 }
 //mostar todos los registros de admision  dataTableAdmisionAlumnos
 if (isset($_POST["registrosAdmisionAlumnos"])) {
   $mostrarRegistrosAdmisionAlumnos = new AdmisionAlumnosAjax();
   $mostrarRegistrosAdmisionAlumnos->ajaxMostrarRegistrosAdmisionAlumnos();
+}
+// Actualizar estado admision_alumno
+if (isset($_POST["codAdmisionAlumno"])) {
+  $codAdmisionAlumno = new AdmisionAlumnosAjax();
+  $codAdmisionAlumno->codAdmisionAlumno = $_POST["codAdmisionAlumno"];
+  $codAdmisionAlumno->ajaxActualizarEstado();
 }

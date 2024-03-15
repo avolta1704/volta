@@ -9,7 +9,7 @@ class ModelAdmision
     $statement = Connection::conn()->prepare("INSERT INTO $table (idAnioEscolar, idPostulante, fechaAdmision, tipoAdmision, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idAnioEscolar, :idPostulante, :fechaAdmision, :tipoAdmision, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":idAnioEscolar", $dataPostulanteAdmicion["idAnioEscolar"], PDO::PARAM_INT);
     $statement->bindParam(":idPostulante", $dataPostulanteAdmicion["idPostulante"], PDO::PARAM_INT);
-    $statement->bindParam(":fechaAdmision", $dataPostulanteAdmicion["fechaAdmision"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaAdmision", $dataPostulanteAdmicion["fechaAdmision"], PDO::PARAM_STR);
     $statement->bindParam(":tipoAdmision", $dataPostulanteAdmicion["tipoAdmision"], PDO::PARAM_INT);
     $statement->bindParam(":fechaCreacion", $dataPostulanteAdmicion["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataPostulanteAdmicion["fechaActualizacion"], PDO::PARAM_STR);

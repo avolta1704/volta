@@ -1,6 +1,6 @@
 // Definición inicial de dataTablePostulantes
 $(document).ready(function () {
-  var columnDefs = [
+  var columnDefsPostulantes = [
     { data: "idPostulante" },
     { data: "nombrePostulante" },
     { data: "apellidoPostulante" },
@@ -11,8 +11,8 @@ $(document).ready(function () {
     { data: "buttonsPostulante" },
   ];
 
-  var table = $("#dataTablePostulantes").DataTable({
-    columns: columnDefs,
+  var tablePostulantes = $("#dataTablePostulantes").DataTable({
+    columns: columnDefsPostulantes,
   });
 
   // Titulo dataTablePostulantes
@@ -33,9 +33,9 @@ $(document).ready(function () {
     dataType: "json",
 
     success: function (response) {
-      table.clear();
-      table.rows.add(response);
-      table.draw();
+      tablePostulantes.clear();
+      tablePostulantes.rows.add(response);
+      tablePostulantes.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -56,9 +56,9 @@ $(document).ready(function () {
     </tr>
     `);
 
-  table.destroy();
+  tablePostulantes.destroy();
 
-  columnDefs = [
+  columnDefsPostulantes = [
     { data: "idPostulante" },
     { data: "nombrePostulante" },
     { data: "apellidoPostulante" },
@@ -68,7 +68,7 @@ $(document).ready(function () {
     { data: "statePostulante" },
     { data: "buttonsPostulante" },
   ];
-  table = $("#dataTablePostulantes").DataTable({
-    columns: columnDefs,
+  tablePostulantes = $("#dataTablePostulantes").DataTable({
+    columns: columnDefsPostulantes,
   });
 });

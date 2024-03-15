@@ -37,11 +37,13 @@ class ModelAlumnos
   //  Crear nuevo alumno
   public static function mdlCrearAlumno($tabla, $dataAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombresAlumno, apellidosAlumno, sexoAlumno, estadoAlumno, dniAlumno, fechaNacimiento, direccionAlumno, distritoAlumno, IEPProcedencia, seguroSalud, fechaIngresoVolta, numeroEmergencia, enfermedades, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombresAlumno, :apellidosAlumno, :sexoAlumno, :estadoAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :distritoAlumno, :IEPProcedencia, :seguroSalud, :fechaIngresoVolta, :numeroEmergencia, :enfermedades, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombresAlumno, apellidosAlumno, sexoAlumno, estadoSiagie, estadoAlumno, estadoMatricula, dniAlumno, fechaNacimiento, direccionAlumno, distritoAlumno, IEPProcedencia, seguroSalud, fechaIngresoVolta, numeroEmergencia, enfermedades, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombresAlumno, :apellidosAlumno, :sexoAlumno,:estadoSiagie, :estadoAlumno,:estadoMatricula, :dniAlumno, :fechaNacimiento, :direccionAlumno, :distritoAlumno, :IEPProcedencia, :seguroSalud, :fechaIngresoVolta, :numeroEmergencia, :enfermedades, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":nombresAlumno", $dataAlumno["nombresAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":apellidosAlumno", $dataAlumno["apellidosAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":sexoAlumno", $dataAlumno["sexoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoSiagie", $dataAlumno["estadoSiagie"], PDO::PARAM_STR);
     $statement->bindParam(":estadoAlumno", $dataAlumno["estadoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoMatricula", $dataAlumno["estadoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":dniAlumno", $dataAlumno["dniAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $dataAlumno["fechaNacimiento"], PDO::PARAM_STR);
     $statement->bindParam(":direccionAlumno", $dataAlumno["direccionAlumno"], PDO::PARAM_STR);
@@ -62,15 +64,6 @@ class ModelAlumnos
       return "error";
     }
   }
-
-  //  Obtener ultimo alumno creado
-  public static function mdlObtenerUltimoAlumno($tabla)
-  {
-    $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) AS idAlumno FROM $tabla");
-    $statement->execute();
-    return $statement->fetch();
-  }
-
   //  Asignar alumno a apoderado
   public static function mdlAsignarAlumnoApoderado($tabla, $dataApoderadoAlumno)
   {
