@@ -234,4 +234,11 @@ class ControllerAdmisionAlumno
       return "error";
     }
   }
+ // ver calendario cronograma pago de la tabla  admision_alumno
+  public static function ctrDataCronoPagoAdAlumEstado($codAdAlumCalendario)
+  {
+    $tabla = "cronograma_pago";
+    $dataAdAlumCalendario = ModelAdmisionAlumno::mdlDataCronoPagoAdAlumEstado($tabla, $codAdAlumCalendario);
+    return $dataAdAlumCalendario;
+  }
 }

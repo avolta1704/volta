@@ -26,6 +26,14 @@ class AdmisionAlumnosAjax
     $response = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumno($codAdmisionAlumno);
     echo json_encode($response);
   }
+  // ver calendario cronograma pago de la tabla  admision_alumno
+  public $codAdAlumCalendario;
+  public function ajaxDataCronoPagoAdAlumEstado()
+  {
+    $codAdAlumCalendario = $this->codAdAlumCalendario;
+    $response = ControllerAdmisionAlumno::ctrDataCronoPagoAdAlumEstado($codAdAlumCalendario);
+    echo json_encode($response);
+  }
 }
 //mostar todos los registros de admision  dataTableAdmisionAlumnos
 if (isset($_POST["registrosAdmisionAlumnos"])) {
@@ -37,4 +45,10 @@ if (isset($_POST["codAdmisionAlumno"])) {
   $codAdmisionAlumno = new AdmisionAlumnosAjax();
   $codAdmisionAlumno->codAdmisionAlumno = $_POST["codAdmisionAlumno"];
   $codAdmisionAlumno->ajaxActualizarEstado();
+}
+ // ver calendario cronograma pago de la tabla  admision_alumno
+if (isset($_POST["codAdAlumCalendario"])) {
+  $codAdAlumCalendario = new AdmisionAlumnosAjax();
+  $codAdAlumCalendario->codAdAlumCalendario = $_POST["codAdAlumCalendario"];
+  $codAdAlumCalendario->ajaxDataCronoPagoAdAlumEstado();
 }
