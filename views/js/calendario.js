@@ -1,48 +1,3 @@
-//fecha limite por mes de pago de cronogra pago para el select del calendario y mes de pago
-
-// Declaración de variable global
-var dataAdAlumCronoPago;
-
-$(".dataTableAdmisionAlumnos").on(
-  "click",
-  ".btnVisualizarAdmisionAlumno",
-  function () {
-    var codAdAlumCalendario = $(this).attr("codAdAlumCalendario");
-    var data = new FormData();
-    data.append("codAdAlumCalendario", codAdAlumCalendario);
-
-    $.ajax({
-      url: "ajax/admisionAlumnos.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        // Limpieza de la variable global
-        dataAdAlumCronoPago = [];
-        // Asignación de valores a la variable global
-        dataAdAlumCronoPago = response;
-        // Imprimir los dataAdAlumCronoPago en la consola
-        console.log(dataAdAlumCronoPago);
-        // Generación de los botones
-        //showMonths(datos);
-
-
-
-
-        
-      },
-
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
-    });
-  }
-);
-
-
 function generate_year_range(start, end) {
   var years = "";
   for (var year = start; year <= end; year++) {
@@ -217,7 +172,9 @@ function showCalendar(month, year) {
 function daysInMonth(iMonth, iYear) {
   return 32 - new Date(iYear, iMonth, 32).getDate();
 }
+
 //funciones de meses
+
 // Definir la variable viewingMonth en el alcance global
 
 var viewingMonth = false;
@@ -278,45 +235,6 @@ function showMonths() {
     }
   }
 }
-/* function showMonths(dataAdAlumCronoPago) {
-    var container = document.getElementById("month-body");
-    container.innerHTML = "";
-
-    // Establece el año actual en el elemento h3
-    var anioEscolar = document.getElementById("anioEscolar");
-    anioEscolar.innerText = "Año Escolar " + new Date().getFullYear();
-
-    for (var i = 0; i < dataAdAlumCronoPago.length; i++) {
-        var button = document.createElement("button");
-        button.setAttribute("data-month", i);
-        button.innerText = dataAdAlumCronoPago[i].mesPago;
-
-        // Agrega un evento click a cada botón de mes
-        button.addEventListener("click", function () {
-            var month = this.getAttribute("data-month"); // Obtiene el mes del atributo data-month
-            jumpToMonth(month); // Llama a la función jumpToMonth con el mes seleccionado
-        });
-
-        // Obtiene el registro correspondiente al mes actual
-        var registro = dataAdAlumCronoPago[i]; 
-
-        // Establece el estilo del botón dependiendo del estado del registro
-        if (registro.estadoCronograma == 1) {
-            button.className = "btn btn-outline-warning month-picker"; // Estado pendiente
-        } else if (registro.estadoCronograma == 2) {
-            button.className = "btn btn-outline-success month-picker"; // Estado pagado
-        } else if (registro.estadoCronograma == 3) {
-            button.className = "btn btn-outline-danger month-picker"; // Estado anulado
-        }
-
-        container.appendChild(button);
-
-        // Cada 3 meses, agrega un salto de línea
-        if ((i + 1) % 3 === 0) {
-            container.appendChild(document.createElement("br"));
-        }
-    }
-} */
 document
   .getElementById("calendar-body")
   .addEventListener("click", function (e) {
@@ -330,3 +248,30 @@ function jumpToMonth(month) {
   showCalendar(currentMonth, currentYear);
   toggleView(); // Cambia la vista al calendario
 }
+
+//fecha limite por mes de pago de cronogra pago para el select del calendario y mes de pago
+/* $(".dataTableAdmisionAlumnos").on(
+  "click",
+  ".btnVisualizarAdmisionAlumno",
+  function () {
+    var codAdAlumCalendario = $(this).attr("codAdAlumCalendario");
+    var data = new FormData();
+    data.append("codAdAlumCalendario", codAdAlumCalendario);
+
+    $.ajax({
+      url: "ajax/admisionAlumnos.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+      },
+
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+); */

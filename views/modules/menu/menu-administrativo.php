@@ -15,7 +15,7 @@
       </a>
       <ul id="allPagos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="todosPagos">
+          <a href="listaPagos">
             <i class="bi bi-circle"></i><span>Todos los Pagos</span>
           </a>
         </li>
