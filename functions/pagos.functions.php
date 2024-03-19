@@ -16,6 +16,7 @@ class FunctionPagos
         }
         return $estado;
     }
+
     //  Botones para la vista de listar alumnos
     public static function getBotonesAlumnos($codAlumno, $estadoAlumno)
     {
@@ -41,5 +42,21 @@ class FunctionPagos
       ';
         }
         return $botones;
+    }
+
+    // vista de pagos buscar alumno por el dni funcion para idNivel para descripcionGrado
+    public static function getNivelAlumnoGrado($nivelAlumno)
+    {
+        //  Estado de los alumnos 1 = Inicial 2 = Primaria  3 = Secuandaria 
+        if ($nivelAlumno == 1) {
+            $nivel = 'Inicial';
+        }
+        if ($nivelAlumno == 2) {
+            $nivel = 'Primaria';
+        }
+        if ($nivelAlumno == 3) {
+            $nivel = 'Secuandaria';
+        }
+        return $nivel;
     }
 }
