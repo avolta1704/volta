@@ -8,7 +8,7 @@ session_start();
   <?php require "modules/header.php" ?>
 </head>
 
-<body>
+<body class="main w-100">
 
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
@@ -25,6 +25,8 @@ session_start();
         $_GET["ruta"] == "listaAlumnos" ||
         $_GET["ruta"] == "admisionExtraordinaria" ||
         $_GET["ruta"] == "listaPostulantes" ||
+        $_GET["ruta"] == "listaPagos" ||
+        $_GET["ruta"] == "registrarPago" ||
         $_GET["ruta"] == "listaAdmisionAlumnos" ||
         $_GET["ruta"] == "docPostulantes" ||
         $_GET["ruta"] == "nuevoPostulante" ||
@@ -77,6 +79,8 @@ session_start();
   <script src="views/js/admision.js"></script>
   <script src="views/js/apoderado.js"></script>
   <script src="views/js/admisionAlumno.js"></script>
+  <script src="views/js/calendario.js"></script>
+  <script src="views/js/pagos.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -85,6 +89,7 @@ session_start();
   <script src="views/dataTables/dt-alumnos-admin.js"></script>
   <script src="views/dataTables/dt-apoderado.js"></script>
   <script src="views/dataTables/dt-admision-alumnos.js"></script>
+  <script src="views/dataTables/dt-pagos-admin.js"></script>
 </body>
 
 </html>

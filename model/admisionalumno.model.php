@@ -68,4 +68,13 @@ class ModelAdmisionAlumno
       return "error";
     }
   }
+  // ver calendario cronograma pago de la tabla  admision_alumno
+  public static function mdlDataCronoPagoAdAlumEstado($table, $codAdAlumCalendario)
+  {
+    $statement = Connection::conn()->prepare("SELECT conceptoPago, montoPago, fechaLimite, estadoCronograma, mesPago
+      FROM $table WHERE idAdmisionAlumno = :idAdmisionAlumno");
+    $statement->bindParam(":idAdmisionAlumno", $codAdAlumCalendario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

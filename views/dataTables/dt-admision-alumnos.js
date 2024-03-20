@@ -8,7 +8,7 @@ $(document).ready(function () {
     { data: "tipoAdmision" },
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
-/*     { data: "estadoAlumno" },
+    /*     { data: "estadoAlumno" },
     { data: "estadoSiagie" },
     { data: "estadoMatricula" },
     { data: "codAlumnoCaja" },
@@ -17,6 +17,7 @@ $(document).ready(function () {
   ];
 
   var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
+    responsive: true, // Habilita la extensión Responsive
     columns: columnDefsAdmisionAlumno,
   });
 
@@ -72,13 +73,15 @@ $(document).ready(function () {
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
     /* { data: "estadoAlumno" }, */
-  /*   { data: "estadoSiagie" }, */
+    /*   { data: "estadoSiagie" }, */
     /* { data: "estadoMatricula" }, */
-  /*   { data: "codAlumnoCaja" },
+    /*   { data: "codAlumnoCaja" },
     { data: "fechaIngresoVolta" }, */
     { data: "buttonsAdmisionAlumno" },
   ];
-  tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
+
+  var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
+    responsive: true, // Habilita la extensión Responsive
     columns: columnDefsAdmisionAlumno,
   });
 });

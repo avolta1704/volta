@@ -62,7 +62,7 @@ $(document).ready(function () {
   );
 });
 //  Actualizar estado del postulante
-$(document).ready(function () {
+$3(document).ready(function () {
   $("#btnActualizarEstadoPostulante").on("click", function () {
     var codPostulanteEdit = $("#codPostulante").val();
     var estadoPostulanteEdit = $("#estadoPostulante").val();

@@ -1,0 +1,127 @@
+
+.wrapper {
+    margin: 15px auto;
+    width: 90%; /* Establece el ancho del contenedor al 90% del contenedor padre */
+}
+
+.container-calendar {
+    background: #ffffff;
+    padding: 15px;
+    width: 100%; /* Establece el ancho del calendario al 100% del contenedor padre */
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.table-calendar {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-calendar td, .table-calendar th {
+    padding: 15px;
+    border: 1px solid #e2e2e2;
+    text-align: center;
+    vertical-align: top;
+    margin: 15px auto;
+    width: 90%; /* Establece el ancho al 90% del contenedor padre */
+}
+
+.button-container-calendar button {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #00a2b7;
+    color: #fff;
+    border: 1px solid #0aa2b5;
+    border-radius: 4px;
+    padding: 5px 10px;
+}
+
+.date-picker.selected {
+    font-weight: bold;
+    outline: 1px dashed #00d42e;
+}
+
+.date-picker.selected span {
+    border-bottom: 2px solid currentColor;
+}
+
+/* sunday */
+.date-picker:nth-child(1) {
+  color: red;
+}
+
+/* friday */
+/* .date-picker:nth-child(6) {
+  color: green;
+} */
+
+#monthAndYear {
+    text-align: center;
+    margin-top: 0;
+}
+
+.button-container-calendar {
+    position: relative;
+    margin-bottom: 1em;
+    overflow: hidden;
+    clear: both;
+}
+
+#previous {
+    float: left;
+    width: 50px; /* Establece el ancho del botón a 100px */
+}
+
+#next {
+    float: right;
+    width: 50px; /* Establece el ancho del botón a 100px */
+}
+
+.footer-container-calendar select {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #00a2b7; /* Cambia el color de fondo a #00a2b7 */
+    color: #ffffff; /* Cambia el color del texto a blanco */
+    border: 1px solid #bfc5c5;
+    border-radius: 3px;
+    padding: 5px 1em;
+}
+
+.footer-container-calendar select {
+    cursor: pointer;
+    display: inline-block;
+    zoom: 1;
+    background: #ffffff;
+    color: #585858;
+    border: 1px solid #bfc5c5;
+    border-radius: 3px;
+    padding: 5px 1em;
+}
+
+#month-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.month-picker {
+    flex: 1 0 30%; /* Esto hará que los botones ocupen aproximadamente un tercio del espacio, y se ajusten para caber en filas de 3 */
+    margin: 5px;
+    text-align: center;
+    /* Asegúrate de que todos los botones tengan el mismo tamaño, independientemente del contenido */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 60px;
+}
+
+#anioEscolar {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

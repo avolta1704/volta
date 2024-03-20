@@ -22,6 +22,8 @@
 <link href="assets/vendor/simple-datatables/style.css" rel="stylesheet">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <!-- DataTables js -->
 <link href="assets/DataTables/datatables.min.css" rel="stylesheet">
 <script src="assets/DataTables/datatables.min.js"></script>
@@ -30,5 +32,6 @@
 <link href="assets/css/style.css" rel="stylesheet">
 <!-- <link href="assets/css/styleDarck.css" rel="stylesheet"> -->
 <link href="assets/css/style-volta.css" rel="stylesheet">
+<link href="assets/css/style-calendario.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.4/dist/sweetalert2.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
