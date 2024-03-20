@@ -6,22 +6,40 @@ class ModelPagos
   // Obtener todos los pagos
   public static function mdlGetAllPagos($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT 
-    idPago,
-    idAdmisionAlumno
-    idTipoPago,
-    idCronogramaPago, 
-    fechaPago, 
-    cantidadPago, 
-    metodoPago,
-    INER JOIN tipo_pago tp ON p.idTipoPago = tp.idTipoPago
-    FROM tipo_pago p
-    INNER JOIN alumno al ON p.idCronogramaPago = al.idCronogramaPago
-    nombresAlumno
-    apellidosAlumno
-    INER JOIN cronograma_pago cp ON al.idCronogramaPago = cp.idCronogramaPago
-    estadoCronograma
-    FROM $tabla");
+    $statement = Connection::conn()->prepare("
+      SELECT 
+        p.idPago,
+        p.idTipoPago,
+        p.idCronogramaPago, 
+        p.fechaPago, 
+        p.cantidadPago, 
+        p.metodoPago,
+
+        a.idAlumno,
+        
+        a.nombresAlumno,
+        a.apellidosAlumno,
+        g.idGrado,
+        g.idNivel,
+        g.descripcionGrado,
+        ag.idAlumno,
+
+        ag.idGrado,
+
+        aa.idAdmisionAlumno,
+        aa.idAlumno,
+        cp.idCronogramaPago,
+
+        cp.idAdmisionAlumno,
+
+        cp.estadoCronograma
+      FROM pago p
+      JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
+      JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
+      JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
+      JOIN grado g ON ag.idGrado = g.idGrado
+      JOIN alumno a ON aa.idAlumno = a.idAlumno
+    ");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
