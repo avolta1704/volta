@@ -107,10 +107,12 @@ class ModelPostulantes
   //  Actualizar el estado de un postulante, en el caso que este como presentado se cambia a en revisión
   public static function mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoPostulante = :estadoPostulante,fechaActualizacion = :fechaActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoPostulante = :estadoPostulante,fechaActualizacion = :fechaActualizacion, usuarioActualizacion=:usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":estadoPostulante", $dataPostulanteEdit["estadoPostulante"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $dataPostulanteEdit["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataPostulanteEdit["usuarioActualizacion"], PDO::PARAM_INT);
     $statement->bindParam(":idPostulante", $dataPostulanteEdit["idPostulante"], PDO::PARAM_INT);
-    $statement->bindParam(":fechaActualizacion", $dataPostulanteEdit["fechaActualizacion"], PDO::PARAM_INT);
+    
     if ($statement->execute()) {
       return "ok";
     } else {

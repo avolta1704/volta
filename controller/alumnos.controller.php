@@ -115,12 +115,7 @@ class ControllerAlumnos
     $dataPostulante = ModelAlumnos::mdlObtenerAlPostulante($table, $codPostulanteEdit);
     // Verificar si se obtuvo el postulante
     if ($dataPostulante) {
-      //sesión iniciada
-      if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-      }
-      // acceder a la variable de sesión
-      $idUsuario = $_SESSION["idUsuario"];
+     
       // Crear el array de datos de la admisión
       $dataArrayAlumno = array(
         "estadoSiagie" => 1,
@@ -132,8 +127,8 @@ class ControllerAlumnos
         "fechaNacimiento" => $dataPostulante["fechaNacimiento"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $idUsuario,
-        "usuarioActualizacion" => $idUsuario
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $table = "alumno";
       $result = ModelAlumnos::mdlCreatePostulateAlumno($table, $dataArrayAlumno);
@@ -145,10 +140,10 @@ class ControllerAlumnos
           "idGrado" => intval($dataPostulante["gradoPostulacion"])
         );
       } else {
-        return "error";
+        return false;
       }
     } else {
-      return "error";
+      return false;
     }
   }
 

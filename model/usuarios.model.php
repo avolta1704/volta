@@ -35,7 +35,7 @@ class ModelUsuarios
   //  Obtener todos los usuarios
   public static function mdlGetAllUsuarios($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT usuario.idUsuario, usuario.correoUsuario, usuario.nombreUsuario, usuario.apellidoUsuario, usuario.estadoUsuario, usuario.ultimaConexion, tipo_usuario.descripcionTipoUsuario FROM $tabla INNER JOIN tipo_usuario ON usuario.idTipoUsuario = tipo_usuario.idTipoUsuario");
+    $statement = Connection::conn()->prepare("SELECT usuario.idUsuario, usuario.correoUsuario, usuario.nombreUsuario, usuario.apellidoUsuario, usuario.estadoUsuario, usuario.ultimaConexion, tipo_usuario.descripcionTipoUsuario FROM $tabla INNER JOIN tipo_usuario ON usuario.idTipoUsuario = tipo_usuario.idTipoUsuario ORDER BY usuario.idUsuario DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

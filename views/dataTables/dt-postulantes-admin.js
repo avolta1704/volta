@@ -59,7 +59,12 @@ $(document).ready(function () {
   tablePostulantes.destroy();
 
   columnDefsPostulantes = [
-    { data: "idPostulante" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "nombrePostulante" },
     { data: "apellidoPostulante" },
     { data: "dniPostulante" },

@@ -4,7 +4,7 @@ $(document).ready(function () {
     { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipe" },
+    { data: "tipo" },
     { data: "numeroApoderado" },
     { data: "correoApoderado" },
     { data: "listaAlumnos" },
@@ -49,11 +49,11 @@ $(document).ready(function () {
       <th scope="col">#</th>
       <th scope="col">Nombre</th>
       <th scope="col">Apellidos</th>
-      <th scope="col">Apoderado</th>
+      <th scope="col">Tipo</th>
       <th scope="col">Celular</th>
       <th scope="col">Correo</th>
       <th scope="col">Lista Alumno</th>
-      <th scope="col">Comvivencia Alumno</th>
+      <th scope="col">Convivencia Alumno</th>
       <th scope="col">Acciones</th>
     </tr>
     `);
@@ -61,10 +61,15 @@ $(document).ready(function () {
   tableApoderado.destroy();
 
   columnDefsApoderado = [
-    { data: "idApoderado" },
+    {
+      data: null,
+      render: function (data, type, row, meta) {
+        return meta.row + meta.settings._iDisplayStart + 1;
+      },
+    },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipe" },
+    { data: "tipo" },
     { data: "numeroApoderado" },
     { data: "correoApoderado" },
     { data: "listaAlumnos" },

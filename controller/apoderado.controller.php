@@ -21,13 +21,7 @@ class ControllerApoderados
   public static function ctrCrearUsuarioApoderado($dataUsuarioApoderado)
   {
     $table = "apoderado";
-    if ($dataUsuarioApoderado["idTipoUsuario"] == 4) {
-      $idTipoUsuario = 1;
-    } else if ($dataUsuarioApoderado["idTipoUsuario"] == 3) {
-      $idTipoUsuario = 6;
-    } else {
-      $idTipoUsuario = "";
-    }
+    $idTipoUsuario = 1;
     $dataUsuarioApoderado = array(
       "idUsuario" => $dataUsuarioApoderado["idUsuario"],
       "idTipoUsuario" => $idTipoUsuario,
@@ -89,5 +83,4 @@ class ControllerApoderados
       }
     }
   }
-
 }

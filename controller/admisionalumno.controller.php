@@ -14,7 +14,7 @@ class ControllerAdmisionAlumno
   public static function ctrCrearAlumnoExtraordinaria()
   {
     if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
-      // Crear postulante extraordinario
+      // Crear postulante extraordinario con estado 3
       $tabla = "postulante";
       $datosPostulante = array(
         "nombrePostulante" => $_POST["nombresAlumno"],
@@ -37,8 +37,8 @@ class ControllerAdmisionAlumno
           "nombresAlumno" => $_POST["nombresAlumno"],
           "apellidosAlumno" => $_POST["apellidosAlumno"],
           "sexoAlumno" => $_POST["sexoAlumno"],
-          "estadoSiagie" => 1,//Activo
-          "estadoAlumno" => 3,//estado extraordinario
+          "estadoSiagie" => 2,//Inactivo
+          "estadoAlumno" => 3,//estado extraordinario -> Cambiar luego cuando se autorice el ingreso y se genere el cronograma de pagos
           "estadoMatricula" => 1,
           "dniAlumno" => $_POST["dniAlumno"],
           "fechaNacimiento" => $_POST["fechaNacimiento"],
@@ -63,21 +63,20 @@ class ControllerAdmisionAlumno
             $ultimoAlumnoCreado = ControllerAlumnos::ctrObtenerUltimoAlumnoCreado();
             // Crear un array de datos de el id de último registro de postulante, alumno  y el grado del postulante del $_POST gradoAlumno
             if ($ultimoAlumnoCreado) {
-              $alumnoExtraordinario = array(
-                "idPostulante" => intval($ultimoPostulanteCreado),
-                "idAlumno" => intval($ultimoAlumnoCreado),
-                "idGrado" => intval($_POST["gradoAlumno"])
-              );
               //funcion para agregar apoderado a alumno solo si listaApoderados contiene datos 
               if (isset($_POST["listaApoderados"]) && $_POST["listaApoderados"] != "") {
                 $listaApoderados = json_decode($_POST["listaApoderados"], true);
                 foreach ($listaApoderados as $value) {
+                  $listaAlumnos = array(
+                    "idAlumno" => $ultimoAlumnoCreado
+                  );
                   $dataApoderado = array(
                     "numeroApoderado" => $value["numeroApoderado"],
                     "tipoApoderado" => $value["tipoApoderado"],
                     "correoApoderado" => $value["correoApoderado"],
                     "nombreApoderado" => $value["nombreApoderado"],
                     "apellidoApoderado" => $value["apellidoApoderado"],
+                    "listaAlumnos" => json_encode($listaAlumnos),
                     "fechaCreacion" => date("Y-m-d\TH:i:sP"),
                     "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
                     "usuarioCreacion" => $_SESSION["idUsuario"],
@@ -85,6 +84,13 @@ class ControllerAdmisionAlumno
                   );
                   $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
                   $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
+
+                  
+                  $alumnoExtraordinario = array(
+                    "idPostulante" => intval($ultimoPostulanteCreado),
+                    "idAlumno" => intval($ultimoAlumnoCreado),
+                    "idGrado" => intval($_POST["gradoAlumno"])
+                  );
                   $dataApoderadoAlumno = array(
                     "idAlumno" => $alumnoExtraordinario['idAlumno'],
                     "idApoderado" => $codApoderado["idApoderado"],

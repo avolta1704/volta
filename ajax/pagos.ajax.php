@@ -2,6 +2,8 @@
 
 require_once "../controller/pagos.controller.php";
 require_once "../model/pagos.model.php";
+require_once "../controller/alumnos.controller.php";
+require_once "../model/alumnos.model.php";
 require_once "../functions/pagos.functions.php";
 
 class PagosAjax
@@ -11,7 +13,7 @@ class PagosAjax
   {
     $todosLosPagosAdmin = ControllerAlumnos::ctrGetAlumnos();
     foreach ($todosLosPagosAdmin as &$alumno) {
-      $alumno['stateAlumno'] = FunctionPagos::getEstadosAlumnos($alumno["estadoAlumno"]);
+      //$alumno['stateAlumno'] = FunctionPagos::getEstadosAlumnos($alumno["estadoAlumno"]);
       $alumno['buttonsAlumno'] = FunctionPagos::getBotonesAlumnos($alumno["idAlumno"], $alumno["estadoAlumno"]);
     }
     echo json_encode($todosLosPagosAdmin);

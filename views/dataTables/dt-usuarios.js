@@ -60,7 +60,11 @@ $("#dataTableUsuarios thead").html(`
 tableUsuario.destroy();
 
 columnDefsUsuario = [
-  { data: "idUsuario" },
+  { data: null,
+    render: function (data, type, row, meta) {
+      return meta.row + 1;
+    },
+  },
   { data: "correoUsuario" },
   { data: "nombreUsuario" },
   { data: "apellidoUsuario" },

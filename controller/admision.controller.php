@@ -7,12 +7,6 @@ class ControllerAdmision
   // anioEscolarActiva = idAnioEscolar, codPostulanteEdit = idPostulante // y admision extraordinario // $tipoAdmision 1 = ordinario, 2 = extraordinario
   public static function ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit,$tipoAdmision)
   {
-    //sesión esté iniciada
-    if (session_status() == PHP_SESSION_NONE) {
-      session_start();
-    }
-    // acceder a la variable de sesión
-    $idUsuario = $_SESSION["idUsuario"];
     // usar por el origen del dato  $tipoAdmision 1 = ordinario, 2 = extraordinario
     $dataPostulanteAdmision = array(
       "idAnioEscolar" => $anioEscolarActiva,
@@ -21,8 +15,8 @@ class ControllerAdmision
       "tipoAdmision" => $tipoAdmision,
       "fechaCreacion" => date("Y-m-d H:i:s"),
       "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioCreacion" => $idUsuario,
-      "usuarioActualizacion" => $idUsuario
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
     $table = "admision";
     $result = ModelAdmision::mdlCrearAdmisionPostulate($table, $dataPostulanteAdmision);
@@ -36,20 +30,14 @@ class ControllerAdmision
   //admisionAnioEscolar = idAdmision, alumnoAdmision= idAlumno, alumnoAdmision=idGrado
   public static function ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision)
   {
-    //sesión esté iniciada
-    if (session_status() == PHP_SESSION_NONE) {
-      session_start();
-    }
-    // acceder a la variable de sesión
-    $idUsuario = $_SESSION["idUsuario"];
     $dataAlumnoAdmision = array(
       "idAdmision" => $admisionAnioEscolar,
       "idAlumno" => $alumnoAdmision["idAlumno"],
       "estadoAdmisionAlumno" => 1,
       "fechaCreacion" => date("Y-m-d H:i:s"),
       "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioCreacion" => $idUsuario,
-      "usuarioActualizacion" => $idUsuario
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
     $table = "admision_alumno";
     $result = ModelAdmision::mdlCrearAlumnoAdmision($table, $dataAlumnoAdmision);

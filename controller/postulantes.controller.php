@@ -105,10 +105,15 @@ class ControllerPostulantes
     }
     $estadoPostulanteActual = $estadoPostulanteEdit;
 
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
     $dataPostulanteEdit = array(
       "idPostulante" => $codPostulanteEdit,
       "estadoPostulante" => $estadoPostulanteActual,
       "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
 
     $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
@@ -130,11 +135,7 @@ class ControllerPostulantes
             if ($admisionAnioEscolar != false) {
               // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
               $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
-              if ($admisionAlumno != false) {
-                return "ok"; // Proceso completado exitosamente
-              } else {
-                return "error";
-              }
+              return $admisionAlumno;
             } else {
               return "error";
             }
