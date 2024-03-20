@@ -3,16 +3,24 @@ require_once "connection.php";
 
 class ModelPagos
 {
-  // Obtener todos los alumnos
+  // Obtener todos los pagos
   public static function mdlGetAllPagos($tabla)
   {
     $statement = Connection::conn()->prepare("SELECT 
-    idPago, 
+    idPago,
+    idAdmisionAlumno
     idTipoPago,
     idCronogramaPago, 
     fechaPago, 
     cantidadPago, 
-    metodoPago
+    metodoPago,
+    INER JOIN tipo_pago tp ON p.idTipoPago = tp.idTipoPago
+    FROM tipo_pago p
+    INNER JOIN alumno al ON p.idCronogramaPago = al.idCronogramaPago
+    nombresAlumno
+    apellidosAlumno
+    INER JOIN cronograma_pago cp ON al.idCronogramaPago = cp.idCronogramaPago
+    estadoCronograma
     FROM $tabla");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);

@@ -38,10 +38,10 @@ $(".dataTableAdmisionAlumnos").on(
           var label2 = $("<label>").addClass("form-label h5 font-weight-bold").attr("id", "tipoCronoPago").attr("name", "tipoCronoPago").text(" - " + item.conceptoPago);
           // Crea un nuevo div para el grupo de entrada
           var inputGroup = $("<div>").addClass("input-group");
-          // Crea los campos de entrada y el botón
+          // Crea los campos de entrada 
           var input1 = $("<input>").attr("type", "text").addClass("form-control").attr("id", "fechaPago").attr("name", "fechaPago").val(item.mesPago).attr("readonly", true);
           var input2 = $("<div>").addClass("form-control form-control-sm fs-6 text-center").attr("id", "stadoCronograma").attr("name", "stadoCronograma").html(item.estadoCronogramaPago);
-          // Añade los campos de entrada y el botón al grupo de entrada
+          // Añade los campos de entrada al grupo de entrada
           inputGroup.append(input1, input2);
           // Añade las etiquetas y el grupo de entrada al div
           div.append(label1, label2, inputGroup);
@@ -79,19 +79,20 @@ $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
         $("#anioPago").val(new Date().getFullYear());
         $("#nivelAlumnoPago").val(response.nivelAlumno);
         $("#gradoAlumnoPago").val(response.descripcionGrado);
-
-        // Llena el select con las opciones correspondientes a cada array en cronogramaPago
+        // Llena el select con las opciones correspondientes de cada array de cronogramaPago
         var select = $("#cronogramaPago");
         select.empty();
         $.each(response.cronogramaPago, function(index, cronograma) {
-          if (cronograma.estadoCronograma == 1) { // Solo agrega la opción si el estado es 1
+          if (cronograma.estadoCronograma == 1) { // Solo agrega la opción si el estado es 1=pendiente
             var date = new Date(cronograma.mesPago);
             var monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             var month = monthNames[date.getMonth()];
-            select.append(new Option(month, cronograma.idCronogramaPago)); // Usa cronograma.idCronogramaPago como valor
+            select.append(new Option(month, cronograma.idCronogramaPago)); // Usa cronograma.idCronogramaPago en el value
           }
         });
-        // Cuando se selecciona una opción en el select, llena los otros campos con los datos del array correspondiente en cronogramaPago
+        // Desvincula los manejadores de eventos existentes
+        select.off('change');
+        // Cuando se selecciona una opción en el select, llena los  campos con los datos del array correspondiente al mes = arrays en cronogramaPago
         select.change(function() {
           var selectedId = $(this).val();
           var selectedCronograma = response.cronogramaPago.find(function(cronograma) {
@@ -102,9 +103,8 @@ $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
           $("#tipoPago").val(selectedCronograma.conceptoPago);
           $("#montoPago").val(selectedCronograma.montoPago);
         });
-        // Dispara el evento change para llenar los campos con los datos del primer array en cronogramaPago
+        // Dispara el evento change para llenar los campos con los datos del array en cronogramaPago seleccionado
         select.trigger('change');
-        console.log("Cambio detectado");
       } else {
         Swal.fire({
           icon: "warning",

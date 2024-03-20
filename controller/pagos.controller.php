@@ -3,7 +3,7 @@ date_default_timezone_set('America/Lima');
 
 class ControllerPagos
 {
-  //  Listar alumnos
+  // Obtener todos los pagos
   public static function ctrGetAllPagos()
   {
     $tabla = "pago";
