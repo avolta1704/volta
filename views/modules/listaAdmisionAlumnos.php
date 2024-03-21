@@ -1,4 +1,4 @@
-<main id="main" class="main" class="main w-100">
+<main id="main" class="main">
 
   <div class="pagetitle">
     <h2 class="mt-4 tituloAdmisionAlumnos"></h2><br>

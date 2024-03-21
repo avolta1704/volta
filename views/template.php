@@ -8,7 +8,7 @@ session_start();
   <?php require "modules/header.php" ?>
 </head>
 
-<body class="main w-100">
+<body>
 
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
@@ -79,7 +79,7 @@ session_start();
   <script src="views/js/admision.js"></script>
   <script src="views/js/apoderado.js"></script>
   <script src="views/js/admisionAlumno.js"></script>
-  <script src="views/js/calendario.js"></script>
+  <!-- <script src="views/js/calendario.js"></script> -->
   <script src="views/js/pagos.js"></script>
   
   <!-- datatables js -->
