@@ -63,6 +63,13 @@ class ControllerAdmisionAlumno
             $ultimoAlumnoCreado = ControllerAlumnos::ctrObtenerUltimoAlumnoCreado();
             // Crear un array de datos de el id de último registro de postulante, alumno  y el grado del postulante del $_POST gradoAlumno
             if ($ultimoAlumnoCreado) {
+
+              $alumnoExtraordinario = array(
+                "idPostulante" => intval($ultimoPostulanteCreado),
+                "idAlumno" => intval($ultimoAlumnoCreado),
+                "idGrado" => intval($_POST["gradoAlumno"])
+              );
+              
               //funcion para agregar apoderado a alumno solo si listaApoderados contiene datos 
               if (isset($_POST["listaApoderados"]) && $_POST["listaApoderados"] != "") {
                 $listaApoderados = json_decode($_POST["listaApoderados"], true);
@@ -84,13 +91,8 @@ class ControllerAdmisionAlumno
                   );
                   $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
                   $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
-
                   
-                  $alumnoExtraordinario = array(
-                    "idPostulante" => intval($ultimoPostulanteCreado),
-                    "idAlumno" => intval($ultimoAlumnoCreado),
-                    "idGrado" => intval($_POST["gradoAlumno"])
-                  );
+                
                   $dataApoderadoAlumno = array(
                     "idAlumno" => $alumnoExtraordinario['idAlumno'],
                     "idApoderado" => $codApoderado["idApoderado"],

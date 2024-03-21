@@ -75,6 +75,7 @@ class FunctionPagos
 
         return $nivel;
     }
+    //agreagar el simbolo se sol para el campo cantidad 
     public static function getCantidadPago($cantidadPago)
     {
         // Asegúrate de que $cantidadPago es un número antes de concatenar
@@ -98,7 +99,74 @@ class FunctionPagos
         if ($nivelAlumno == 3) {
             $nivel = 'Otro';
         }
-
         return $nivel;
+    }
+    // Selec tipo pago  edit
+    public static function getTipoPagoEdit($idTipoPago)
+    {
+        if ($idTipoPago == 1) {
+            $tipo = 'Matricula';
+        }
+        if ($idTipoPago == 2) {
+            $tipo = 'Pension';
+        }
+        if ($idTipoPago == 3) {
+            $tipo = 'Otro';
+        }
+        return $tipo;
+    }
+    // Selec estado pago  edit
+    public static function getEstadoPagoEdit($estadoPagoEdit)
+    {
+        if ($estadoPagoEdit == 1) {
+            $estado = 'Registrado';
+        }
+        if ($estadoPagoEdit == 2) {
+            $estado = 'Cancelado';
+        }
+        if ($estadoPagoEdit == 3) {
+            $estado = 'Anulado';
+        }
+        return $estado;
+    }
+    // Selec nivel alum pago  edit
+    public static function getNivelEdit($nivelAlumEdit)
+    {
+        if ($nivelAlumEdit == 1) {
+            $nivelEdit = 'Inical';
+        }
+        if ($nivelAlumEdit == 2) {
+            $nivelEdit = 'Primaria';
+        }
+        if ($nivelAlumEdit == 3) {
+            $nivelEdit = 'Secundaria';
+        }
+        return $nivelEdit;
+    }
+    // Selec Mes Cronograma Pago
+    public static function getMesEdit($mesPagoCrono)
+    {
+        // Crear un objeto DateTime a partir del valor de fecha recibido
+        $date = new DateTime($mesPagoCrono);
+        // Crear un array con los nombres de los meses en español
+        $meses = array(
+            1 => 'Enero',
+            2 => 'Febrero',
+            3 => 'Marzo',
+            4 => 'Abril',
+            5 => 'Mayo',
+            6 => 'Junio',
+            7 => 'Julio',
+            8 => 'Agosto',
+            9 => 'Septiembre',
+            10 => 'Octubre',
+            11 => 'Noviembre',
+            12 => 'Diciembre'
+        );
+        // Obtener el número del mes
+        $numeroMes = $date->format('n');
+        // Obtener el nombre del mes en español
+        $mesPago = $meses[$numeroMes];
+        return $mesPago;
     }
 }

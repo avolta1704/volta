@@ -8,7 +8,7 @@ session_start();
   <?php require "modules/header.php" ?>
 </head>
 
-<body class="main w-100">
+<body>
 
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
@@ -33,6 +33,7 @@ session_start();
         $_GET["ruta"] == "editarPostulante" ||
         $_GET["ruta"] == "editarApoderado" ||
         $_GET["ruta"] == "editarPersonal" ||
+        $_GET["ruta"] == "editarPago" ||
 
         $_GET["ruta"] == "cerrarSesion"
       ) {
