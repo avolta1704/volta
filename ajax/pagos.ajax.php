@@ -2,8 +2,6 @@
 
 require_once "../controller/pagos.controller.php";
 require_once "../model/pagos.model.php";
-require_once "../controller/alumnos.controller.php";
-require_once "../model/alumnos.model.php";
 require_once "../functions/pagos.functions.php";
 
 class PagosAjax
@@ -11,11 +9,14 @@ class PagosAjax
   //mostar todos los Pagos DataTableAlumnosAdmin
   public function ajaxMostrarTodosLosPagosAdmin()
   {
-    $todosLosPagosAdmin = ControllerAlumnos::ctrGetAlumnos();
-    foreach ($todosLosPagosAdmin as &$alumno) {
-      //$alumno['stateAlumno'] = FunctionPagos::getEstadosAlumnos($alumno["estadoAlumno"]);
-      $alumno['buttonsAlumno'] = FunctionPagos::getBotonesAlumnos($alumno["idAlumno"], $alumno["estadoAlumno"]);
-    }
+    $todosLosPagosAdmin = ControllerPagos::ctrGetAllPagos();
+   foreach ($todosLosPagosAdmin as &$dataPago) {
+      $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
+      $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
+      $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
+      $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
+      $dataPago['buttonsPago'] = FunctionPagos::getBotonesPagos($dataPago["idPago"], $dataPago["estadoCronograma"]);
+    } 
     echo json_encode($todosLosPagosAdmin);
   }
   // vista de pagos buscar alumno por el dni
@@ -30,7 +31,7 @@ class PagosAjax
     echo json_encode($mostrarDatosPagoDniAlumno);
   }
 }
- //mostar todos los Pagos DataTableAlumnosAdmin
+//mostar todos los Pagos DataTableAlumnosAdmin
 if (isset ($_POST["todosLosPagosAdmin"])) {
   $mostrarTodosLosPagosAdmin = new PagosAjax();
   $mostrarTodosLosPagosAdmin->ajaxMostrarTodosLosPagosAdmin();

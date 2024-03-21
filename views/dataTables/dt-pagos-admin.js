@@ -1,14 +1,22 @@
 // Definición inicial de dataTablePagos
 $(document).ready(function () {
   var columnDefsPagos = [
-    { data: "idAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "nombresAlumno" },
     { data: "apellidosAlumno" },
-    { data: "sexoAlumno" },
-    { data: "stateAlumno" },
     { data: "descripcionGrado" },
-    { data: "descripcionNivel" },
-    { data: "buttonsAlumno" },
+    { data: "nivelAlum" },
+    { data: "tipoPago" },
+    { data: "fechaPago" },
+    { data: "metodoPago" },
+    { data: "cantidadTotal" },
+    { data: "statePago" },
+    { data: "buttonsPago" },
   ];
 
   var tablePagos = $("#dataTablePagos").DataTable({
@@ -45,12 +53,15 @@ $(document).ready(function () {
   $("#dataTablePagos thead").html(`
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
-        <th scope="col">Sexo</th>
-        <th scope="col">Estado</th>
-        <th scope="col">Nivel</th>
+        <th scope="col">Apellidos</th>
         <th scope="col">Grado</th>
+        <th scope="col">Nivel</th>
+        <th scope="col">Tipo Pago</th>
+        <th scope="col">Fecha Pago</th>
+        <th scope="col">Forma Pago</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Estado</th>
         <th scope="col">Acciones</th>
       </tr>
     `);
@@ -58,14 +69,22 @@ $(document).ready(function () {
   table.destroy();
 
   columnDefsPagos = [
-    { data: "idAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "nombresAlumno" },
     { data: "apellidosAlumno" },
-    { data: "sexoAlumno" },
-    { data: "stateAlumno" },
     { data: "descripcionGrado" },
-    { data: "descripcionNivel" },
-    { data: "buttonsAlumno" },
+    { data: "nivelAlum" },
+    { data: "tipoPago" },
+    { data: "fechaPago" },
+    { data: "metodoPago" },
+    { data: "cantidadTotal" },
+    { data: "statePago" },
+    { data: "buttonsPago" },
   ];
   tablePagos = $("#dataTablePagos").DataTable({
     columns: columnDefsPagos,

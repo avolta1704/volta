@@ -4,7 +4,7 @@ class FunctionPagos
     //  Estados Cronograma de Pago Vista adminsion
     public static function getEstadoCronogramaPago($estadoCronogramaPago)
     {
-        //  Estado de los alumnos 1 = En Revisión 2 = Activo & 3 = Inactivo 
+        //  Estado de los alumnos 1 = Pendiente 2 = Cancelado & 3 = Anulado 
         if ($estadoCronogramaPago == 1) {
             $estado = '<span class="badge rounded-pill bg-warning">Pendiente</span>';
         }
@@ -18,27 +18,27 @@ class FunctionPagos
     }
 
     //  Botones para la vista de listar alumnos
-    public static function getBotonesAlumnos($codAlumno, $estadoAlumno)
+    public static function getBotonesPagos($codPago, $estadoCronograma)
     {
-        if ($estadoAlumno == 1) {
+        if ($estadoCronograma == 1) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '"><i class="bi bi-trash"></i></button>
       ';
         }
-        if ($estadoAlumno == 2) {
+        if ($estadoCronograma == 2) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . ($codAlumno) . '" disabled><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
       ';
         }
-        if ($estadoAlumno == 3) {
+        if ($estadoCronograma == 3) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . ($codAlumno) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . ($codAlumno) . '" disabled><i class="bi bi-trash"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
+        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
       ';
         }
         return $botones;
@@ -57,6 +57,48 @@ class FunctionPagos
         if ($nivelAlumno == 3) {
             $nivel = 'Secuandaria';
         }
+        return $nivel;
+    }
+    //  Nivel para el alumno
+    public static function getNivelAlumno($nivelAlumno)
+    {
+        //  Estado de los usuarios 1 = Activo & 2 = Desactivado
+        if ($nivelAlumno == 1) {
+            $nivel = 'Inical';
+        }
+        if ($nivelAlumno == 2) {
+            $nivel = 'Primaria';
+        }
+        if ($nivelAlumno == 3) {
+            $nivel = 'Secundaria';
+        }
+
+        return $nivel;
+    }
+    public static function getCantidadPago($cantidadPago)
+    {
+        // Asegúrate de que $cantidadPago es un número antes de concatenar
+        if (is_numeric($cantidadPago)) {
+            $montoSol = 'S/. ' . $cantidadPago;
+            return $montoSol;
+        } else {
+            return "Sin Valor";
+        }
+    }
+    //  Nivel para el alumno
+    public static function getTipoPago($nivelAlumno)
+    {
+        //  Estado de los usuarios 1 = Activo & 2 = Desactivado
+        if ($nivelAlumno == 1) {
+            $nivel = 'Matricula';
+        }
+        if ($nivelAlumno == 2) {
+            $nivel = 'Pencion';
+        }
+        if ($nivelAlumno == 3) {
+            $nivel = 'Otro';
+        }
+
         return $nivel;
     }
 }
