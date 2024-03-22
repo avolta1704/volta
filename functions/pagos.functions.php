@@ -22,7 +22,7 @@ class FunctionPagos
     {
         if ($estadoCronograma == 1) {
             $botones = '
-        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
         <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '"><i class="bi bi-trash"></i></button>
       ';

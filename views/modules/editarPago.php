@@ -82,7 +82,7 @@
                 <div class="col-md-4">
                   <label for="v" class="form-label" style="font-weight: bold">Año: </label>
                   <input type="text" class="form-control" id="anioPagoEdit" name="anioPagoEdit" value=""
-                    placeholder="Año Escolar" disabled>
+                    placeholder="Año Escolar" >
                 </div>
 
                 <div class="col-md-4">

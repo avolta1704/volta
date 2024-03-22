@@ -7,10 +7,7 @@ $(document).ready(function () {
         return meta.row + 1;
       },
     },
-    { data: "nombresAlumno" },
-    { data: "apellidosAlumno" },
-    { data: "descripcionGrado" },
-    { data: "nivelAlum" },
+    { data: "dniAlumno" },
     { data: "tipoPago" },
     { data: "fechaPago" },
     { data: "metodoPago" },
@@ -53,10 +50,7 @@ $(document).ready(function () {
   $("#dataTablePagos thead").html(`
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Nombres</th>
-        <th scope="col">Apellidos</th>
-        <th scope="col">Grado</th>
-        <th scope="col">Nivel</th>
+        <th scope="col">Dni</th>
         <th scope="col">Tipo Pago</th>
         <th scope="col">Fecha Pago</th>
         <th scope="col">Forma Pago</th>
@@ -75,10 +69,7 @@ $(document).ready(function () {
         return meta.row + 1;
       },
     },
-    { data: "nombresAlumno" },
-    { data: "apellidosAlumno" },
-    { data: "descripcionGrado" },
-    { data: "nivelAlum" },
+    { data: "dniAlumno" },
     { data: "tipoPago" },
     { data: "fechaPago" },
     { data: "metodoPago" },
