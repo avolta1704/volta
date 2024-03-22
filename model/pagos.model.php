@@ -19,6 +19,7 @@ class ModelPagos
         
         a.nombresAlumno,
         a.apellidosAlumno,
+        a.dniAlumno,
         g.idGrado,
         g.idNivel,
         g.descripcionGrado,
@@ -54,6 +55,23 @@ class ModelPagos
     $statement->bindParam(":metodoPago", $dataPagoAlumno["metodoPago"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataPagoAlumno["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataPagoAlumno["usuarioCreacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //editar Registro Pago
+  public static function mdlEditarPagoAlumno($tabla, $dataEditPagoAlumno)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET fechaPago = :fechaPago, cantidadPago = :cantidadPago, metodoPago = :metodoPago, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPago = :idPago");
+    $statement->bindParam(":fechaPago", $dataEditPagoAlumno["fechaPago"], PDO::PARAM_STR);
+    $statement->bindParam(":cantidadPago", $dataEditPagoAlumno["cantidadPago"], PDO::PARAM_STR);
+    $statement->bindParam(":metodoPago", $dataEditPagoAlumno["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataEditPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditPagoAlumno["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idPago", $dataEditPagoAlumno["idPago"], PDO::PARAM_INT);
 
     if ($statement->execute()) {
       return "ok";
@@ -130,5 +148,39 @@ class ModelPagos
     FROM $tabla");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlGetIdEditPago($tabla, $codPago)
+  {
+    $statement = Connection::conn()->prepare("
+        SELECT 
+          p.idPago,
+          p.idTipoPago,
+          p.idCronogramaPago, 
+          p.fechaPago, 
+          p.cantidadPago, 
+          p.metodoPago,
+          a.nombresAlumno,
+          a.apellidosAlumno,
+          a.dniAlumno,
+          a.codAlumnoCaja,
+          g.idNivel,
+          g.descripcionGrado,
+          cp.idCronogramaPago,
+          cp.conceptoPago,
+          cp.fechaLimite,
+          cp.estadoCronograma,
+          cp.mesPago
+        FROM $tabla p
+        JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
+        JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
+        JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
+        JOIN grado g ON ag.idGrado = g.idGrado
+        JOIN alumno a ON aa.idAlumno = a.idAlumno
+        WHERE p.idPago = :idPago
+      ");
+    $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
+    $statement->execute();
+
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }

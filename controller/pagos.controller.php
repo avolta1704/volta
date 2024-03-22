@@ -49,6 +49,52 @@ class ControllerPagos
       }
     }
   }
+  //  Obtener datos del Pago para editar 
+  public static function ctrGetIdEditPago($codPago)
+  {
+    $tabla = "pago";
+    $dataPago = ModelPagos::mdlGetIdEditPago($tabla, $codPago);
+    return $dataPago;
+  }
+  //  editar Pago
+  public static function ctrEditarPagoAlumno()
+  {
+    if (isset ($_POST["montoPagoEdit"]) && isset ($_POST["metodoPagoEdit"])) {
+      $tabla = "pago";
+      $dataEditPagoAlumno = array(
+        "idPago" => $_POST["pagoEdit"],
+        //"idCronogramaPago" => $_POST["cronogramaPagoEdit"],
+        "fechaPago" => $_POST["fechaRegistroPagoEdit"],
+        "cantidadPago" => $_POST["montoPagoEdit"],
+        "metodoPago" => $_POST["metodoPagoEdit"],
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $response = ModelPagos::mdlEditarPagoAlumno($tabla, $dataEditPagoAlumno);
+      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $_POST["cronogramaPagoEdit"]
+      if ($response == "ok") {
+        $tabla = "cronograma_pago";
+        $dataEditEstadoCrono = array(
+          "idCronogramaPago" => $_POST["cronogramaPagoEdit"],
+          "estadoCronograma" => $_POST["estadoPagoEdit"],
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $response = ModelPagos::mdlEditarEstadoCronograma($tabla, $dataEditEstadoCrono);
+
+        if ($response == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno Editado correctamente", "listaPagos");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Registro Pago Editar del Alumno", "listaPagos");
+          echo $mensaje;
+        }
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Registro Pago Editar del Alumno", "listaPagos");
+        echo $mensaje;
+      }
+    }
+  }
   // vista de pagos buscar alumno por el dni funcion principal
   public static function ctrGetDataPagoDniAlumno($dniAlumno)
   {

@@ -17,7 +17,7 @@ class PagosAjax
       $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
       $dataPago['buttonsPago'] = FunctionPagos::getBotonesPagos($dataPago["idPago"], $dataPago["estadoCronograma"]);
     } 
-    echo json_encode($todosLosPagosAdmin);
+      echo json_encode($todosLosPagosAdmin);
   }
   // vista de pagos buscar alumno por el dni
   public function ajaxMostrarDatosPagoDniAlumno($dniAlumno)
