@@ -38,8 +38,13 @@ class PagosAjax
     $mostrarDetallesPago['mesPagoDet'] = FunctionPagos::getMesEdit($mostrarDetallesPago["mesPago"]);
     echo json_encode($mostrarDetallesPago);
   }
+  // eliminar registro de pago
+  public function ajaxEliminarRegistroPago($codPagoDelet)
+  {
+    $eliminarRegistroPago = ControllerPagos::ctrDeleteRegistroPago($codPagoDelet);
+    echo json_encode($eliminarRegistroPago);
+  }
 }
-
 //mostar todos los Pagos DataTableAlumnosAdmin
 if (isset ($_POST["todosLosPagosAdmin"])) {
   $mostrarTodosLosPagosAdmin = new PagosAjax();
@@ -54,6 +59,11 @@ if (isset ($_POST["dniAlumno"])) {
 if (isset ($_POST["codPago"])) {
   $mostrarDetallesPago = new PagosAjax();
   $mostrarDetallesPago->ajaxMostrarDetallesPago($_POST["codPago"]);
+}
+// eliminar registro de pago
+if (isset ($_POST["codPagoDelet"])) {
+  $eliminarRegistroPago = new PagosAjax();
+  $eliminarRegistroPago->ajaxEliminarRegistroPago($_POST["codPagoDelet"]);
 }
 
 

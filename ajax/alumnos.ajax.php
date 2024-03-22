@@ -3,6 +3,8 @@
 require_once "../controller/alumnos.controller.php";
 require_once "../model/alumnos.model.php";
 require_once "../functions/alumnos.functions.php";
+require_once "../controller/usuarios.controller.php";
+require_once "../model/usuarios.model.php";
 
 class AlumnosAjax
 {

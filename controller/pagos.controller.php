@@ -95,6 +95,45 @@ class ControllerPagos
       }
     }
   }
+  // eliminar registro de pago
+  public static function ctrDeleteRegistroPago($codPagoDelet)
+  {
+    //sesión iniciada
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+    $tabla = "pago";
+    // Obtener el idCronogramaPago y estadoCronograma por codPagoDelet antes de eliminar el registro
+    $dataPagoCrono = self::ctrObtenerIdCronogramaPago($codPagoDelet);
+    // Eliminar el registro de la tabla 'pago'
+    $response = ModelPagos::mdlDeleteRegistroPago($tabla, $codPagoDelet);
+    if ($response == "ok") {
+      $table = "cronograma_pago";
+      $dataEditEstadoCrono = array(
+        "idCronogramaPago" => $dataPagoCrono['idCronogramaPago'],
+        "estadoCronograma" => 1, //regresa al estado a pendiente despues de eliminar el registro de su pago de la tabla pago
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $idUsuario,
+      );
+      $response = ModelPagos::mdlActualizarEstadoCronogramaDelete($table, $dataEditEstadoCrono);
+      if ($response == "ok") {
+        return "ok";
+      } else {
+        return $response;
+      }
+    } else {
+      return $response;
+    }
+  }
+  //obtener id de cronograma_pago y estado por idPago
+  public static function ctrObtenerIdCronogramaPago($codPagoDelet)
+  {
+    $tabla = "pago";
+    $dataPagoCrono = ModelPagos::mdlObtenerIdCronogramaPago($tabla, $codPagoDelet);
+    return $dataPagoCrono;
+  }
   // vista de pagos buscar alumno por el dni funcion principal
   public static function ctrGetDataPagoDniAlumno($dniAlumno)
   {

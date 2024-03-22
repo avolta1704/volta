@@ -21,7 +21,7 @@
 
               <div class="form-group col-md-6 mb-3">
                 <label for="formaTipoPago" class="form-label" style="font-weight: bold">Pago: </label>
-                <select class="form-control" id="formaTipoPago" name="formaTipoPago">
+                <select class="form-control" id="formaTipoPago" name="formaTipoPago" required>
                   <option value="">Seleccione el tipo de Pago</option>
                   <?php
                   $tipoPago = ControllerPagos::ctrGetAllTipoPago();
