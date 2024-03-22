@@ -10,89 +10,6 @@ class ControllerAlumnos
     $listaAlumnos = ModelAlumnos::mdlGetAlumnos($tabla);
     return $listaAlumnos;
   }
-
-  //  Crear nuevo alumno//
- /*  public static function ctrCrearAlumnoExtraordinaria()
-  {
-    if (isset($_POST["nombresAlumno"]) && isset($_POST["apellidosAlumno"])) {
-      $tabla = "alumno";
-      $dataAlumno = array(
-        "nombresAlumno" => $_POST["nombresAlumno"],
-        "apellidosAlumno" => $_POST["apellidosAlumno"],
-        "sexoAlumno" => $_POST["sexoAlumno"],
-        "estadoAlumno" => 3,
-        "dniAlumno" => $_POST["dniAlumno"],
-        "fechaNacimiento" => $_POST["fechaNacimiento"],
-        "direccionAlumno" => $_POST["direccionAlumno"],
-        "distritoAlumno" => $_POST["distrito"],
-        "IEPProcedencia" => $_POST["iepProcedencia"],
-        "seguroSalud" => $_POST["seguroSalud"],
-        "fechaIngresoVolta" => $_POST["fechaIngreso"],
-        "numeroEmergencia" => $_POST["numeroEmergencia"],
-        "enfermedades" => $_POST["enfermedadesAlumno"],
-        "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-        "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
-      $nuevoAlumno = ModelAlumnos::mdlCrearAlumno($tabla, $dataAlumno);
-
-      if ($nuevoAlumno == "ok") {
-        $listaApoderados = json_decode($_POST["listaApoderados"], true);
-        //  Se obtiene la lista de apoderados, si es vacía o nula, solo se crea el alumno. Sino se crea cada apoderado.
-        if ($listaApoderados != null || $listaApoderados != "") {
-          $codAlumno = self::ctrObtenerUltimoAlumnoCreado();
-          foreach ($listaApoderados as $value) {
-            $dataApoderado = array(
-              "numeroApoderado" => $value["numeroApoderado"],
-              "tipoApoderado" => $value["tipoApoderado"],
-              "correoApoderado" => $value["correoApoderado"],
-              "nombreApoderado" => $value["nombreApoderado"],
-              "apellidoApoderado" => $value["apellidoApoderado"],
-              "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-              "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-              "usuarioCreacion" => $_SESSION["idUsuario"],
-              "usuarioActualizacion" => $_SESSION["idUsuario"]
-            );
-            $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
-            $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
-            $dataApoderadoAlumno = array(
-              "idAlumno" => $codAlumno["idAlumno"],
-              "idApoderado" => $codApoderado["idApoderado"],
-              "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-              "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-              "usuarioCreacion" => $_SESSION["idUsuario"],
-              "usuarioActualizacion" => $_SESSION["idUsuario"]
-            );
-            $response = self::ctrAsignarAlumnoApoderado($dataApoderadoAlumno);
-          }
-          //  Le asignamos el grado del alumno
-          $dataAlumnoGrado = array(
-            "idAlumno" => $codAlumno["idAlumno"],
-            "idGrado" => $_POST["gradoAlumno"],
-            "estadoGradoAlumno" => 1,
-            "fechaCreacion" => date("Y-m-d\TH:i:sP"),
-            "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-            "usuarioCreacion" => $_SESSION["idUsuario"],
-            "usuarioActualizacion" => $_SESSION["idUsuario"]
-          );
-          ControllerGradoAlumno::ctrAsignarGradoAlumno($dataAlumnoGrado);
-        } else {
-          $response = "ok";
-        }
-        if ($response == "ok") {
-          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAlumnos");
-          echo $mensaje;
-        } else {
-          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
-          echo $mensaje;
-        }
-      } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Al Crear nuevo Alumno", "listaAlumnos");
-        echo $mensaje;
-      }
-    }
-  } */
   //  Obtener ultimo alumno creado
   public static function ctrObtenerUltimoAlumnoCreado()
   {
@@ -147,4 +64,46 @@ class ControllerAlumnos
     }
   }
 
+  //  Obtener datos de un alumno
+  public static function ctrGetDatosAlumnoEditar($codAlumno)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetDatosAlumnoEditar($tabla, $codAlumno);
+    return $response;
+  }
+
+  //  Editar datos del alumno
+  public static function ctrEditarAlumno()
+  {
+    if(isset($_POST["codAlumno"]) && isset($_POST["editarDniAlumno"]))
+    {
+      $tabla = "alumno";
+      $data = array(
+        "codAlumno" => $_POST["codAlumno"],
+        "nombresAlumno" => $_POST["editarNombreAlumno"],
+        "apellidosAlumno" => $_POST["editarApellidoAlumno"],
+        "codAlumnoCaja" => $_POST["editarCodigoCaja"],
+        "dniAlumno" => $_POST["editarDniAlumno"],
+        "fechaNacimiento" => $_POST["editarFechaNacimiento"],
+        "sexoAlumno" => $_POST["editarSexoAlumno"],
+        "direccionAlumno" => $_POST["editarDireccionAlumno"],
+        "distritoAlumno" => $_POST["editarDistritoAlumno"],
+        "IEPProcedencia" => $_POST["editarIEPProcedencia"],
+        "seguroSalud" => $_POST["editarSeguroSalud"],
+        "fechaIngresoVolta" => $_POST["editarFechaIngreso"],
+        "numeroEmergencia" => $_POST["editarNumeroEmergencia"],
+        "enfermedades" => $_POST["editarEnfermedades"],
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $response = ModelAlumnos::mdlEditarAlumno($tabla, $data);
+      if($response == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAlumnos");
+          echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAlumnos");
+          echo $mensaje;
+      }
+    }
+  }
 }

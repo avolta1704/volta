@@ -33,7 +33,11 @@ session_start();
         $_GET["ruta"] == "editarPostulante" ||
         $_GET["ruta"] == "editarApoderado" ||
         $_GET["ruta"] == "editarPersonal" ||
+
         $_GET["ruta"] == "editarPago" ||
+
+        $_GET["ruta"] == "editarAlumno" ||
+
 
         $_GET["ruta"] == "cerrarSesion"
       ) {
@@ -80,7 +84,7 @@ session_start();
   <script src="views/js/admision.js"></script>
   <script src="views/js/apoderado.js"></script>
   <script src="views/js/admisionAlumno.js"></script>
-  <script src="views/js/calendario.js"></script>
+  <!-- <script src="views/js/calendario.js"></script> -->
   <script src="views/js/pagos.js"></script>
   
   <!-- datatables js -->

@@ -1,10 +1,16 @@
-
 // Definición inicial de dataTableAlumnos
 $(document).ready(function () {
   var columnDefsAlumno = [
-    { data: "idAlumno" },
-    { data: "nombresAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "apellidosAlumno" },
+    { data: "nombresAlumno" },
+    { data: "codAlumnoCaja" },
+    { data: "dniAlumno" },
     { data: "sexoAlumno" },
     { data: "stateAlumno" },
     { data: "descripcionGrado" },
@@ -49,6 +55,8 @@ $(document).ready(function () {
         <th scope="col">#</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
+        <th scope="col">Cod Caja</th>
+        <th scope="col">DNI</th>
         <th scope="col">Sexo</th>
         <th scope="col">Estado</th>
         <th scope="col">Nivel</th>
@@ -60,10 +68,17 @@ $(document).ready(function () {
   table.destroy();
 
   columnDefsAlumno = [
-    { data: "idAlumno" },
-    { data: "nombresAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
     { data: "apellidosAlumno" },
+    { data: "nombresAlumno" },
     { data: "sexoAlumno" },
+    { data: "codAlumnoCaja" },
+    { data: "dniAlumno" },
     { data: "stateAlumno" },
     { data: "descripcionGrado" },
     { data: "descripcionNivel" },
