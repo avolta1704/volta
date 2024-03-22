@@ -12,11 +12,13 @@ class ModelAlumnos
     alumno.apellidosAlumno, 
     alumno.sexoAlumno, 
     alumno.estadoAlumno, 
+    alumno.codAlumnoCaja, 
+    alumno.dniAlumno, 
     grado.descripcionGrado, 
     nivel.descripcionNivel, 
     alumno_grado.estadoGradoAlumno
   FROM
-    alumno
+    $tabla
     INNER JOIN
     alumno_grado
     ON 
@@ -124,5 +126,58 @@ class ModelAlumnos
     $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) FROM $tabla");
     $statement->execute();
     return $statement->fetchColumn();
+  }
+
+  //  Obtener los datos del alumno para editar
+  public static function mdlGetDatosAlumnoEditar($tabla, $codAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.estadoSiagie, 
+    alumno.estadoAlumno, 
+    alumno.estadoMatricula, 
+    alumno.codAlumnoCaja, 
+    alumno.nombresAlumno, 
+    alumno.apellidosAlumno, 
+    alumno.sexoAlumno, 
+    alumno.dniAlumno, 
+    alumno.fechaNacimiento, 
+    alumno.direccionAlumno, 
+    alumno.distritoAlumno, 
+    alumno.IEPProcedencia, 
+    alumno.seguroSalud, 
+    alumno.fechaIngresoVolta, 
+    alumno.numeroEmergencia, 
+    alumno.enfermedades
+    FROM $tabla WHERE idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Editar datos de un alumno
+  public static function mdlEditarAlumno($tabla, $dataAlumno)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombresAlumno=:nombresAlumno, apellidosAlumno=:apellidosAlumno, codAlumnoCaja=:codAlumnoCaja, dniAlumno=:dniAlumno, fechaNacimiento=:fechaNacimiento, sexoAlumno=:sexoAlumno, direccionAlumno=:direccionAlumno, distritoAlumno=:distritoAlumno, IEPProcedencia=:IEPProcedencia, seguroSalud=:seguroSalud, fechaIngresoVolta=:fechaIngresoVolta, numeroEmergencia=:numeroEmergencia, enfermedades=:enfermedades, fechaActualizacion=:fechaActualizacion, usuarioActualizacion=:usuarioActualizacion WHERE idAlumno=:idAlumno");
+    $statement->bindParam(":nombresAlumno", $dataAlumno["nombresAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidosAlumno", $dataAlumno["apellidosAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":codAlumnoCaja", $dataAlumno["codAlumnoCaja"], PDO::PARAM_STR);
+    $statement->bindParam(":dniAlumno", $dataAlumno["dniAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaNacimiento", $dataAlumno["fechaNacimiento"], PDO::PARAM_STR);
+    $statement->bindParam(":sexoAlumno", $dataAlumno["sexoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":direccionAlumno", $dataAlumno["direccionAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":distritoAlumno", $dataAlumno["distritoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":IEPProcedencia", $dataAlumno["IEPProcedencia"], PDO::PARAM_STR);
+    $statement->bindParam(":seguroSalud", $dataAlumno["seguroSalud"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaIngresoVolta", $dataAlumno["fechaIngresoVolta"], PDO::PARAM_STR);
+    $statement->bindParam(":numeroEmergencia", $dataAlumno["numeroEmergencia"], PDO::PARAM_STR);
+    $statement->bindParam(":enfermedades", $dataAlumno["enfermedades"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataAlumno["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataAlumno["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idAlumno", $dataAlumno["idAlumno"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }
