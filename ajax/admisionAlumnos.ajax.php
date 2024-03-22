@@ -38,7 +38,8 @@ class AdmisionAlumnosAjax
     echo json_encode($responseCronoPago);
   }
 }
-//mostar todos los registros de admision  dataTableAdmisionAlumnos
+
+// Mostar todos los registros de admision  dataTableAdmisionAlumnos
 if (isset($_POST["registrosAdmisionAlumnos"])) {
   $mostrarRegistrosAdmisionAlumnos = new AdmisionAlumnosAjax();
   $mostrarRegistrosAdmisionAlumnos->ajaxMostrarRegistrosAdmisionAlumnos();
@@ -49,7 +50,7 @@ if (isset($_POST["codAdmisionAlumno"])) {
   $codAdmisionAlumno->codAdmisionAlumno = $_POST["codAdmisionAlumno"];
   $codAdmisionAlumno->ajaxActualizarEstado();
 }
- // ver calendario cronograma pago de la tabla  admision_alumno
+// ver calendario cronograma pago de la tabla  admision_alumno
 if (isset($_POST["codAdAlumCronograma"])) {
   $codAdAlumCronograma = new AdmisionAlumnosAjax();
   $codAdAlumCronograma->codAdAlumCronograma = $_POST["codAdAlumCronograma"];

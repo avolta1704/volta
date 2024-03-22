@@ -1,4 +1,4 @@
-<main id="main" class="main" class="main w-100">
+<main id="main" class="main">
 
   <div class="pagetitle">
     <h2 class="mt-4 tituloAdmisionAlumnos"></h2><br>
@@ -40,7 +40,7 @@
   </section>
 </main>
 <!-- Modal Cronograma Pagos Admision Alumno-->
-<div class="modal fade" id="cronogramaAdmisionPago" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">

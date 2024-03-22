@@ -17,7 +17,6 @@ $(document).ready(function () {
   ];
 
   var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
-    responsive: true, // Habilita la extensión Responsive
     columns: columnDefsAdmisionAlumno,
   });
 
@@ -81,7 +80,6 @@ $(document).ready(function () {
   ];
 
   var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
-    responsive: true, // Habilita la extensión Responsive
     columns: columnDefsAdmisionAlumno,
   });
 });
