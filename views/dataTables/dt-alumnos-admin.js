@@ -65,7 +65,7 @@ $(document).ready(function () {
       </tr>
     `);
 
-  table.destroy();
+  tableAlumno.destroy();
 
   columnDefsAlumno = [
     {

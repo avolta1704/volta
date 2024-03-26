@@ -223,4 +223,22 @@ class ModelPagos
 
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  //datos de xlsx para la creacion de registro de pagos
+  public static function mdlCrearRegistroPagoXlsx($table, $dataCreateXlxs)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :fechaCreacion, :usuarioCreacion) ");
+    $statement->bindParam(":idTipoPago", $dataCreateXlxs["idTipoPago"], PDO::PARAM_INT);
+    $statement->bindParam(":idCronogramaPago", $dataCreateXlxs["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaPago", $dataCreateXlxs["fechaPago"], PDO::PARAM_STR);
+    $statement->bindParam(":cantidadPago", $dataCreateXlxs["cantidadPago"], PDO::PARAM_STR);
+    $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

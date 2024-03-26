@@ -185,4 +185,47 @@ class ControllerPagos
     $listaTipoPagos = ModelPagos::mdlGetAllTipoPago($tabla);
     return $listaTipoPagos;
   }
+  //datos de xlsx para la creacion de registro de pagos
+  public static function ctrCrearRegistroPagoXlsx($jsonDataString)
+  {
+    //sesión iniciada
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+    // Decodificar el JSON 
+    $data = json_decode($jsonDataString, true);
+
+    foreach ($data as $key => $value) {
+      // Convertir y formatear la fecha de Excel
+      $value["FECHA_PAGO"] = self::excelDateToJSDate($value["FECHA_PAGO"]);
+
+      $dataCreateXlxs = array(
+        "idTipoPago" => $value["formaTipoPago"],
+        "idCronogramaPago" => $value["cronogramaPago"],
+        "fechaPago" => $value["FECHA_PAGO"],
+        "cantidadPago" => $value["PENCION"],
+        "metodoPago" => $value["AGENCIA"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+      );
+      $tabla = "pago";
+      $responseDateXlsx = ModelPagos::mdlCrearRegistroPagoXlsx($tabla, $dataCreateXlxs);
+    }
+    return $responseDateXlsx;
+  }
+
+  private static function excelDateToJSDate($serial)
+  {
+    if ($serial < 60) {
+      $day = $serial;
+    } else {
+      $day = $serial - 1;
+    }
+    $unixTimestamp = ($day * 24 * 60 * 60) - (70 * 365.25 * 24 * 60 * 60);
+    $date = new DateTime("@$unixTimestamp");
+    // Formatear la fecha en el formato "Año-Mes-Día"
+    return $date->format('Y-m-d');
+  }
 }

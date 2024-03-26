@@ -70,7 +70,7 @@
                 <div class="col-md-4">
                   <label for="codCajaPago" class="form-label" style="font-weight: bold">Codigo Caja: </label>
                   <input type="text" class="form-control" id="codCajaPago" name="codCajaPago" value=""
-                    placeholder="Codigo Caja Alumno">
+                    placeholder="Codigo Caja Alumno" disabled>
                 </div>
 
                 <div class="col-md-4">

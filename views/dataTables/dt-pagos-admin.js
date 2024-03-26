@@ -60,7 +60,7 @@ $(document).ready(function () {
       </tr>
     `);
 
-  table.destroy();
+  tablePagos.destroy();
 
   columnDefsPagos = [
     {

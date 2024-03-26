@@ -12,12 +12,25 @@
 
   <section class="section dashboard">
     <div class="row">
-      <div class="col-2">
+
+      <div class="col-lg-2">
+        <span style="margin: 0 10px;"></span>
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary btnAgregarNuevoPago" id="btnAgregarNuevoPago">Registrar Pago
-          </button>
+          <button type="button" class="btn btn-primary btnAgregarNuevoPago" id="btnAgregarNuevoPago">Registrar
+            Pago</button>
         </div>
       </div>
+      <div style="width: 20px;"></div>
+      <div class="col-lg-2">
+        <span style="margin: 0 10px;"></span>
+        <div class="row mb-2">
+          <button type="button" class="btn btn-warning btnCargarArchivosExcel" id="btnCargarArchivosExcel">Cargar Excel
+            Registro Pagos</button>
+          <!-- Input oculto para subir archivos xlsx -->
+          <input type="file" id="inputExcel" style="display: none;" accept=".xlsx, .xls">
+        </div>
+      </div>
+
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
@@ -51,7 +64,7 @@
       <div class="modal-body">
         <!-- Aquí van tus campos de entrada -->
         <label for="nombresDetalle">Nombres:</label>
-        <input type="text" class="form-control mb-3" id="nombresDetalle"  name="nombresDetalle" disabled>
+        <input type="text" class="form-control mb-3" id="nombresDetalle" name="nombresDetalle" disabled>
 
         <label for="apellidosDetalle">Apellidos: </label>
         <input type="text" class="form-control mb-3" id="apellidosDetalle" name="apellidosDetalle" disabled>
