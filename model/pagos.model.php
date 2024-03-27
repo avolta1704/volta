@@ -223,6 +223,20 @@ class ModelPagos
 
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  //obtener id cronograma pago alumno mas reciente de pago por idAdmisionAlumno del xlsx 
+  public static function mdlIdCronogramaPagoMasReciente($table, $idAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago
+      FROM $table 
+      WHERE idAdmisionAlumno = :idAdmisionAlumno AND estadoCronograma = 1 AND conceptoPago != 'Matricula'
+      ORDER BY idCronogramaPago ASC
+      LIMIT 1");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    //si no existen registros con estado 1 pendiente de pago devolvera vacio y se devolvera false
+    return $result ? $result['idCronogramaPago'] : false;
+  }
   //datos de xlsx para la creacion de registro de pagos
   public static function mdlCrearRegistroPagoXlsx($table, $dataCreateXlxs)
   {

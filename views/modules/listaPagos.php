@@ -75,7 +75,7 @@
         <label for="nivelDertalle">Nivel:</label>
         <input type="text" class="form-control mb-3" id="nivelDertalle" name="nivelDertalle" disabled>
 
-        <label for="codigoCajaDetalle">Codigo Caja:</label>
+        <label for="codigoCajaDetalle">Codigo:</label>
         <input type="text" class="form-control mb-3" id="codigoCajaDetalle" name="codigoCajaDetalle" disabled>
 
         <label for="mesDetalle">Mes:</label>
