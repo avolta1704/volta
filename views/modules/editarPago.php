@@ -93,7 +93,7 @@
                       <select class="form-control" id="nivelAlumnoPagoEdit" name="nivelAlumnoPagoEdit" disabled>
                         <?php
                         $getNivelEdit = new FunctionPagos();
-                        $nivelAlum = $getNivelEdit->getNivelEdit($datosPago["idNivel"]);
+                        $nivelAlum = $getNivelEdit->getNivelAlumno($datosPago["idNivel"]);
                         ?>
                         <option value="<?php echo $datosPago["idNivel"] ?>">
                           <?php echo $nivelAlum ?>

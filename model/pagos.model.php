@@ -134,7 +134,7 @@ class ModelPagos
     }
   }
   // vista de pagos buscar alumno por el dni
-  public static function mdlGetDataPagoDniAlumno($tabla, $dniAlumno)
+  public static function mdlGetDataPagoCodAlumno($tabla, $codAlumno)
   {
     $statement = Connection::conn()->prepare("SELECT 
     idAlumno,
@@ -143,8 +143,8 @@ class ModelPagos
     apellidosAlumno, 
     codAlumnoCaja
     FROM $tabla
-    WHERE dniAlumno = :dniAlumno");
-    $statement->bindParam(':dniAlumno', $dniAlumno, PDO::PARAM_INT);
+    WHERE codAlumnoCaja = :codAlumnoCaja");
+    $statement->bindParam(':codAlumnoCaja', $codAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }

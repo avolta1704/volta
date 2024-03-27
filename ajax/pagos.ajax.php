@@ -11,7 +11,11 @@ class PagosAjax
   {
     $todosLosPagosAdmin = ControllerPagos::ctrGetAllPagos();
     foreach ($todosLosPagosAdmin as &$dataPago) {
+
       //$dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
+
+      $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
+
       $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
       $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
       $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
@@ -20,15 +24,15 @@ class PagosAjax
     echo json_encode($todosLosPagosAdmin);
   }
   // vista de pagos buscar alumno por el dni
-  public function ajaxMostrarDatosPagoDniAlumno($dniAlumno)
+  public function ajaxMostrarDatosPagoAlumno($codCajaAlumno)
   {
-    $mostrarDatosPagoDniAlumno = ControllerPagos::ctrGetDataPagoDniAlumno($dniAlumno);
-    if ($mostrarDatosPagoDniAlumno === false) {
+    $datosPagoAlumno = ControllerPagos::ctrGetDataPagoCodAlumno($codCajaAlumno);
+    if ($datosPagoAlumno == false) {
       echo json_encode(false);
       return;
     }
-    $mostrarDatosPagoDniAlumno['nivelAlumno'] = FunctionPagos::getNivelAlumnoGrado($mostrarDatosPagoDniAlumno["idNivel"]);
-    echo json_encode($mostrarDatosPagoDniAlumno);
+    $datosPagoAlumno['nivelAlumno'] = FunctionPagos::getNivelAlumno($datosPagoAlumno["idNivel"]);
+    echo json_encode($datosPagoAlumno);
   }
   // vista de pagos detalles de pago
   public function ajaxMostrarDetallesPago($codPago)
@@ -46,14 +50,14 @@ class PagosAjax
   }
 }
 //mostar todos los Pagos DataTableAlumnosAdmin
-if (isset ($_POST["todosLosPagosAdmin"])) {
+if (isset($_POST["todosLosPagosAdmin"])) {
   $mostrarTodosLosPagosAdmin = new PagosAjax();
   $mostrarTodosLosPagosAdmin->ajaxMostrarTodosLosPagosAdmin();
 }
 // vista de pagos buscar alumno por el dni
-if (isset ($_POST["dniAlumno"])) {
+if (isset($_POST["codCajaAlumno"])) {
   $mostrarDatosPagoDniAlumno = new PagosAjax();
-  $mostrarDatosPagoDniAlumno->ajaxMostrarDatosPagoDniAlumno($_POST["dniAlumno"]);
+  $mostrarDatosPagoDniAlumno->ajaxMostrarDatosPagoAlumno($_POST["codCajaAlumno"]);
 }
 // vista de pagos detalles de pago
 if (isset ($_POST["codPago"])) {

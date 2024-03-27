@@ -79,7 +79,7 @@ class ControllerAlumnos
     {
       $tabla = "alumno";
       $data = array(
-        "codAlumno" => $_POST["codAlumno"],
+        "idAlumno" => $_POST["codAlumno"],
         "nombresAlumno" => $_POST["editarNombreAlumno"],
         "apellidosAlumno" => $_POST["editarApellidoAlumno"],
         "codAlumnoCaja" => $_POST["editarCodigoCaja"],

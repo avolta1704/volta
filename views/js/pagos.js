@@ -26,10 +26,12 @@ $(".dataTableAdmisionAlumnos").on(
         // Limpia el cuerpo del modal
         var modalBody = $("#cronogramaAdmisionPago .modal-body");
         modalBody.empty();
+
         // Por cada elemento en la respuesta
         $.each(response, function (index, item) {
           // Crea un nuevo div
           var div = $("<div>").addClass("mb-3");
+
           // Crea las etiquetas
           var date = new Date(item.mesPago);
           var month = date.toLocaleString("es-ES", { month: "long" });
@@ -78,9 +80,9 @@ $(".dataTableAdmisionAlumnos").on(
 
 // vista de pagos buscar alumno por el dni
 $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
-  var dniAlumno = $("#dniAlumno").val();
+  var codCajaAlumno = $("#codCajaAlumno").val();
   var data = new FormData();
-  data.append("dniAlumno", dniAlumno);
+  data.append("codCajaAlumno", codCajaAlumno);
   $.ajax({
     url: "ajax/pagos.ajax.php",
     method: "POST",
@@ -94,35 +96,22 @@ $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
         // Llena los campos de entrada con los datos de la respuesta
         $("#apellidoAlumnoPago").val(response.apellidosAlumno);
         $("#nombreAlumnoPago").val(response.nombresAlumno);
-        $("#codCajaPago").val(response.codAlumnoCaja);
+        $("#dniCajaArequipa").val(response.dniAlumno);
+
         $("#anioPago").val(new Date().getFullYear());
         $("#nivelAlumnoPago").val(response.nivelAlumno);
         $("#gradoAlumnoPago").val(response.descripcionGrado);
         // Llena el select con las opciones correspondientes de cada array de cronogramaPago
         var select = $("#cronogramaPago");
         select.empty();
+
         $.each(response.cronogramaPago, function (index, cronograma) {
           if (cronograma.estadoCronograma == 1) {
-            // Solo agrega la opción si el estado es 1=pendiente
-            var date = new Date(cronograma.mesPago);
-            var monthNames = [
-              "Enero",
-              "Febrero",
-              "Marzo",
-              "Abril",
-              "Mayo",
-              "Junio",
-              "Julio",
-              "Agosto",
-              "Septiembre",
-              "Octubre",
-              "Noviembre",
-              "Diciembre",
-            ];
-            var month = monthNames[date.getMonth()];
+            var month = cronograma.mesPago;
             select.append(new Option(month, cronograma.idCronogramaPago)); // Usa cronograma.idCronogramaPago en el value
           }
         });
+
         // Desvincula los manejadores de eventos existentes
         select.off("change");
         // Cuando se selecciona una opción en el select, llena los  campos con los datos del array correspondiente al mes = arrays en cronogramaPago
@@ -143,7 +132,7 @@ $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
       } else {
         Swal.fire({
           icon: "warning",
-          title: "Adveterencia",
+          title: "Advertencia",
           text: "Alumno sin cronograma de Pagos",
           timer: 3000,
           showConfirmButton: true,

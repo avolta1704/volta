@@ -13,7 +13,7 @@ class ControllerPagos
   //  crear registro pago alumno
   public static function ctrCrearRegistroPagoAlumno()
   {
-    if (isset ($_POST["formaTipoPago"]) && isset ($_POST["cronogramaPago"])) {
+    if (isset($_POST["formaTipoPago"]) && isset($_POST["cronogramaPago"])) {
       $tabla = "pago";
       $dataPagoAlumno = array(
         "idTipoPago" => $_POST["formaTipoPago"],
@@ -30,7 +30,7 @@ class ControllerPagos
         $tabla = "cronograma_pago";
         $dataEditEstadoCrono = array(
           "idCronogramaPago" => $_POST["cronogramaPago"],
-          "estadoCronograma" => 2,//estado cancelado
+          "estadoCronograma" => 2, //estado cancelado
           "fechaCreacion" => date("Y-m-d H:i:s"),
           "usuarioCreacion" => $_SESSION["idUsuario"]
         );
@@ -59,7 +59,7 @@ class ControllerPagos
   //  editar Pago
   public static function ctrEditarPagoAlumno()
   {
-    if (isset ($_POST["montoPagoEdit"]) && isset ($_POST["metodoPagoEdit"])) {
+    if (isset($_POST["montoPagoEdit"]) && isset($_POST["metodoPagoEdit"])) {
       $tabla = "pago";
       $dataEditPagoAlumno = array(
         "idPago" => $_POST["pagoEdit"],
@@ -135,28 +135,29 @@ class ControllerPagos
     return $dataPagoCrono;
   }
   // vista de pagos buscar alumno por el dni funcion principal
-  public static function ctrGetDataPagoDniAlumno($dniAlumno)
+  public static function ctrGetDataPagoCodAlumno($codAlumno)
   {
     $tabla = "alumno";
-    $DatosPagoDniAlumno = ModelPagos::mdlGetDataPagoDniAlumno($tabla, $dniAlumno);
+    $DatosPagoAlumno = ModelPagos::mdlGetDataPagoCodAlumno($tabla, $codAlumno);
 
-    if (!empty ($DatosPagoDniAlumno)) {
-      $idAlumno = $DatosPagoDniAlumno['idAlumno'];
+    if (!empty($DatosPagoAlumno)) {
+      $idAlumno = $DatosPagoAlumno['idAlumno'];
 
       // Obtener datos de alumno_grado
       $DatosPagoAlumnoGrado = self::mdlGetGetDataPagoAlumnoGrado($idAlumno);
-      $DatosPagoDniAlumno = array_merge($DatosPagoDniAlumno, $DatosPagoAlumnoGrado);
+      $DatosPagoAlumno = array_merge($DatosPagoAlumno, $DatosPagoAlumnoGrado);
       // Obtener datos de admision_alumno
       $DatosPagoAdmisionAlumno = self::ctrGetDataPagoAdmisionAlumno($idAlumno);
-      $DatosPagoDniAlumno['idAdmisionAlumno'] = $DatosPagoAdmisionAlumno['idAdmisionAlumno'];
+      $DatosPagoAlumno['idAdmisionAlumno'] = $DatosPagoAdmisionAlumno['idAdmisionAlumno'];
 
       // Obtener datos de cronograma_pago
       $DatosPagoCronogramaPago = self::ctrGetDataPagoCronogramaPago($DatosPagoAdmisionAlumno['idAdmisionAlumno']);
-      $DatosPagoDniAlumno['cronogramaPago'] = $DatosPagoCronogramaPago;
+      $DatosPagoAlumno['cronogramaPago'] = $DatosPagoCronogramaPago;
     }
     //enviar array de array con datos de alumno, grado, admision y cronograma
-    return $DatosPagoDniAlumno;
+    return $DatosPagoAlumno;
   }
+
   //obtener id grado alumno por id alumno 
   public static function mdlGetGetDataPagoAlumnoGrado($idAlumno)
   {
