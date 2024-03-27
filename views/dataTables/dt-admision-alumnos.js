@@ -1,18 +1,18 @@
 // Definición inicial de dataTableAdmisionAlumnos
 $(document).ready(function () {
   var columnDefsAdmisionAlumno = [
-    { data: "idAdmisionAlumno" },
-    { data: "dniAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
+    { data: "codAlumnoCaja" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
     { data: "tipoAdmision" },
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
-    /*     { data: "estadoAlumno" },
-    { data: "estadoSiagie" },
-    { data: "estadoMatricula" },
-    { data: "codAlumnoCaja" },
-    { data: "fechaIngresoVolta" }, */
     { data: "buttonsAdmisionAlumno" },
   ];
 
@@ -51,7 +51,7 @@ $(document).ready(function () {
   $("#dataTableAdmisionAlumnos thead").html(`
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Dni</th>
+        <th scope="col">Código Caja</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
         <th scope="col">Admision</th>
@@ -64,18 +64,18 @@ $(document).ready(function () {
   tableAdmisionAlumno.destroy();
 
   columnDefsAdmisionAlumno = [
-    { data: "idAdmisionAlumno" },
-    { data: "dniAlumno" },
+    {
+      data: "null",
+      render: function (data, type, row, meta) {
+        return meta.row + 1;
+      },
+    },
+    { data: "codAlumnoCaja" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
     { data: "tipoAdmision" },
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
-    /* { data: "estadoAlumno" }, */
-    /*   { data: "estadoSiagie" }, */
-    /* { data: "estadoMatricula" }, */
-    /*   { data: "codAlumnoCaja" },
-    { data: "fechaIngresoVolta" }, */
     { data: "buttonsAdmisionAlumno" },
   ];
 

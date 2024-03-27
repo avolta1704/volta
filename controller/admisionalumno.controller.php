@@ -37,8 +37,8 @@ class ControllerAdmisionAlumno
           "nombresAlumno" => $_POST["nombresAlumno"],
           "apellidosAlumno" => $_POST["apellidosAlumno"],
           "sexoAlumno" => $_POST["sexoAlumno"],
-          "estadoSiagie" => 2,//Inactivo
-          "estadoAlumno" => 3,//estado extraordinario -> Cambiar luego cuando se autorice el ingreso y se genere el cronograma de pagos
+          "estadoSiagie" => 2, //Inactivo
+          "estadoAlumno" => 3, //estado extraordinario -> Cambiar luego cuando se autorice el ingreso y se genere el cronograma de pagos
           "estadoMatricula" => 1,
           "dniAlumno" => $_POST["dniAlumno"],
           "fechaNacimiento" => $_POST["fechaNacimiento"],
@@ -69,7 +69,7 @@ class ControllerAdmisionAlumno
                 "idAlumno" => intval($ultimoAlumnoCreado),
                 "idGrado" => intval($_POST["gradoAlumno"])
               );
-              
+
               //funcion para agregar apoderado a alumno solo si listaApoderados contiene datos 
               if (isset($_POST["listaApoderados"]) && $_POST["listaApoderados"] != "") {
                 $listaApoderados = json_decode($_POST["listaApoderados"], true);
@@ -91,8 +91,8 @@ class ControllerAdmisionAlumno
                   );
                   $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
                   $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
-                  
-                
+
+
                   $dataApoderadoAlumno = array(
                     "idAlumno" => $alumnoExtraordinario['idAlumno'],
                     "idApoderado" => $codApoderado["idApoderado"],
@@ -184,15 +184,16 @@ class ControllerAdmisionAlumno
       }
       // acceder a la variable de sesión
       $idUsuario = $_SESSION["idUsuario"];
+
       $tabla = "cronograma_pago";
-      //crear solo una vez este array de datos por que es la matricula
+      //  crear solo una vez este array de datos por que es la matriculado
       $dataCronoPagoMatricula = array(
         "idAdmisionAlumno" => $codAdmisionAlumno,
         "conceptoPago" => "Matricula",
         "montoPago" => $dataAnioEscolar["costoMatricula"],
-        "fechaLimite" => date("Y-m-d", strtotime("+30 days")),//fecha 30 dias despues de la fecha de registro
-        "estadoCronograma" => 1,//estado por defecto 1 = pendiente 2 = cancelado 3 = anulado
-        "mesPago" => date("Y-m-d"),//fecha actual de registro
+        "fechaLimite" => "2021-03-05",
+        "estadoCronograma" => 1,
+        "mesPago" => "Matricula",
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $idUsuario,
@@ -201,16 +202,33 @@ class ControllerAdmisionAlumno
       //crear 11 veces este array de datos por que es la Pension pero se tiene que crear desde marzo hasta diciembre
       $dataAllCronoPago = array();
       $dataAllCronoPago[] = $dataCronoPagoMatricula;
+      $meses = array(
+        1 => "Enero",
+        2 => "Febrero",
+        3 => "Marzo",
+        4 => "Abril",
+        5 => "Mayo",
+        6 => "Junio",
+        7 => "Julio",
+        8 => "Agosto",
+        9 => "Septiembre",
+        10 => "Octubre",
+        11 => "Noviembre",
+        12 => "Diciembre"
+      );
+
       for ($i = 3; $i <= 12; $i++) {
-        $mesPago = date("Y") . '-' . sprintf("%02d", $i) . '-05';
-        $fechaLimite = date("Y-m-d", strtotime($mesPago . "+30 days"));
+        $mesPago = $meses[$i];
+        $ultimoDia = date("t", mktime(0, 0, 0, $i, 1, date("Y")));
+        $fechaLimite = date("Y"). '-' . $i . '-' . $ultimoDia;
+
         $dataCronoPagoPension = array(
           "idAdmisionAlumno" => $codAdmisionAlumno,
           "conceptoPago" => "Pension",
           "montoPago" => $dataAnioEscolar["costoPension"],
-          "fechaLimite" => $fechaLimite,//fecha 30 dias despues de la fecha de mesPago solo en este array
-          "estadoCronograma" => 1,//estado por defecto 1 = pendiente 2 = cancelado 3 = anulado
-          "mesPago" => $mesPago,//este campo se tiene que cambiar por el mes correspondiente y tiene que ser  el 5 de cada  mes
+          "fechaLimite" => $fechaLimite,
+          "estadoCronograma" => 1,
+          "mesPago" => $mesPago,
           "fechaCreacion" => date("Y-m-d H:i:s"),
           "fechaActualizacion" => date("Y-m-d H:i:s"),
           "usuarioCreacion" => $idUsuario,
@@ -228,7 +246,7 @@ class ControllerAdmisionAlumno
       $table = "admision_alumno";
       $dataActualizarEstadoAdAlum = array(
         "idAdmisionAlumno" => $codAdmisionAlumno,
-        "estadoAdmisionAlumno" => 2,//estado por defecto 1 = registrado 2 = establecido 3 = cancelado
+        "estadoAdmisionAlumno" => 2, //estado por defecto 1 = registrado 2 = establecido 3 = cancelado
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioActualizacion" => $idUsuario
       );
@@ -242,7 +260,7 @@ class ControllerAdmisionAlumno
       return "error";
     }
   }
- // ver calendario cronograma pago de la tabla  admision_alumno
+  // ver calendario cronograma pago de la tabla  admision_alumno
   public static function ctrDataCronoPagoAdAlumEstado($codAdAlumCalendario)
   {
     $tabla = "cronograma_pago";

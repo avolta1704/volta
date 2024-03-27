@@ -7,7 +7,7 @@ class ModelAdmisionAlumno
   public static function mdlGetAdmisionAlumnos($tabla)
   {
     $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
-    al.dniAlumno,
+    al.codAlumnoCaja,
     al.apellidosAlumno,
     al.nombresAlumno, 
     ad.tipoAdmision,
