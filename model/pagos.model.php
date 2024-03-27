@@ -79,12 +79,51 @@ class ModelPagos
       return "error";
     }
   }
+  //  Eliminar registro de pago
+  public static function mdlDeleteRegistroPago($tabla, $codPagoDelet)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idPago = :idPago");
+    $statement->bindParam(":idPago", $codPagoDelet, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //obtener id de cronograma_pago y estado por idPago 
+  public static function mdlObtenerIdCronogramaPago($tabla, $codPago)
+  {
+    $statement = Connection::conn()->prepare("
+        SELECT 
+          cp.idCronogramaPago
+        FROM $tabla p
+        JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
+        WHERE p.idPago = :idPago
+      ");
+    $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //Actualizar estado de cronograma_pago despues de eliminar su registro en la tabla pago
+  public static function mdlActualizarEstadoCronogramaDelete($table, $dataEditEstadoCrono)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $table SET idCronogramaPago = :idCronogramaPago, estadoCronograma = :estadoCronograma, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
+    $statement->bindParam(":idCronogramaPago", $dataEditEstadoCrono["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $dataEditEstadoCrono["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditEstadoCrono["usuarioActualizacion"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
   //  actualizar estado de  cronograma_pago por el  pago alumno idCronogramaPago = $_POST["cronogramaPago"]
   public static function mdlEditarEstadoCronograma($tabla, $dataEditEstadoCrono)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET idCronogramaPago = :idCronogramaPago, estadoCronograma = :estadoCronograma, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
-    $statement->bindParam(":idCronogramaPago", $dataEditEstadoCrono["idCronogramaPago"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_STR);
+    $statement->bindParam(":idCronogramaPago", $dataEditEstadoCrono["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_INT);
     $statement->bindParam(":fechaActualizacion", $dataEditEstadoCrono["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $dataEditEstadoCrono["usuarioActualizacion"], PDO::PARAM_STR);
 
@@ -149,6 +188,7 @@ class ModelPagos
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  //datos de pago detalles de pago
   public static function mdlGetIdEditPago($tabla, $codPago)
   {
     $statement = Connection::conn()->prepare("
@@ -182,5 +222,23 @@ class ModelPagos
     $statement->execute();
 
     return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //datos de xlsx para la creacion de registro de pagos
+  public static function mdlCrearRegistroPagoXlsx($table, $dataCreateXlxs)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :fechaCreacion, :usuarioCreacion) ");
+    $statement->bindParam(":idTipoPago", $dataCreateXlxs["idTipoPago"], PDO::PARAM_INT);
+    $statement->bindParam(":idCronogramaPago", $dataCreateXlxs["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaPago", $dataCreateXlxs["fechaPago"], PDO::PARAM_STR);
+    $statement->bindParam(":cantidadPago", $dataCreateXlxs["cantidadPago"], PDO::PARAM_STR);
+    $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }

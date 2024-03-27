@@ -84,6 +84,7 @@ session_start();
   <script src="views/js/admisionAlumno.js"></script>
   <!-- <script src="views/js/calendario.js"></script> -->
   <script src="views/js/pagos.js"></script>
+  <script src="views/js/excelUploadJson.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

@@ -21,8 +21,10 @@
 
               <div class="form-group col-md-6 mb-3">
                 <label for="formaTipoPago" class="form-label" style="font-weight: bold">Pago: </label>
+
                 <select class="form-control" id="formaTipoPago" name="formaTipoPago">
                   <option value="">Seleccione el tipo de Pago: </option>
+
                   <?php
                   $tipoPago = ControllerPagos::ctrGetAllTipoPago();
                   foreach ($tipoPago as $key => $value) {
@@ -66,8 +68,10 @@
 
               <div class="row  mb-3">
                 <div class="col-md-4">
+
                   <label for="dniCajaArequipa" class="form-label" style="font-weight: bold">DNI: </label>
                   <input type="text" class="form-control" id="dniCajaArequipa" name="dniCajaArequipa" value="" placeholder="Dni Alumno" disabled>
+
                 </div>
 
                 <div class="col-md-4">

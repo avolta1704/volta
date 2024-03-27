@@ -17,26 +17,28 @@ class FunctionPagos
     return $estado;
   }
 
-  //  Botones para la vista de listar alumnos
-  public static function getBotonesPagos($codPago, $estadoCronograma)
-  {
-    if ($estadoCronograma == 1) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+
+    //  Botones para la vista de listar alumnos
+    public static function getBotonesPagos($codPago, $estadoCronograma)
+    {
+        if ($estadoCronograma == 1) {
+            $botones = '
+        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
         <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '"><i class="bi bi-trash"></i></button>
       ';
-    }
-    if ($estadoCronograma == 2) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        }
+        if ($estadoCronograma == 2) {
+            $botones = '
+            <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
         <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
       ';
-    }
-    if ($estadoCronograma == 3) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '"><i class="bi bi-search"></i></button>
+        }
+        if ($estadoCronograma == 3) {
+            $botones = '
+            <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
+
         <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
         <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
       ';
