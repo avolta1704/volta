@@ -202,12 +202,12 @@ class ControllerPagos
     foreach ($data as $key => $value) {
       //datos del alumno y cronograma de pago mas reciente a pagar por el (COD_ALUMNO) CodigoAlumno
       $value["COD_ALUMNO_DATA"] = self::ctrDataPagoCodAlumnoXlsx($value["COD_ALUMNO"]);
-      // Convertir y formatear la fecha de Excel
+      // Convertir y formatear la fecha de xlsx a un formato válido para la base de datos
       $value["FECHA_PAGO"] = self::excelDateToJSDate($value["FECHA_PAGO"]);
 
-      // Verificar si cronogramaPago es falso
+      // Verificar si idCronogramaPago es falso
       if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false) {
-        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"]; // Agregar solo COD_ALUMNO_DATA al array de errores
+        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"]; // Agregar solo el array COD_ALUMNO_DATA si idCronogramaPago es falso al array de errores
         continue; // Saltar a la siguiente iteración del bucle
       }
 
@@ -227,11 +227,12 @@ class ControllerPagos
         $table = "cronograma_pago";
         $dataEditEstadoCrono = array(
           "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
+          "montoPago" => $value["PENSION"],
           "estadoCronograma" => 2, //estado cancelado
-          "fechaCreacion" => date("Y-m-d H:i:s"),
-          "usuarioCreacion" => $idUsuario,
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $idUsuario,
         );
-        $response = ModelPagos::mdlEditarEstadoCronograma($table, $dataEditEstadoCrono);
+        $response = ModelPagos::mdlEditarEstadoCronogramaXlsx($table, $dataEditEstadoCrono);
         if ($response != "ok") {
           return;
         }

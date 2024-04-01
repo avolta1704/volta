@@ -255,4 +255,20 @@ class ModelPagos
       return "error";
     }
   }
+  //  actualizar estado de  cronograma_pago por el Xlxs  idCronogramaPago = $value["idCronogramaPago"]
+  public static function mdlEditarEstadoCronogramaXlsx($tabla, $dataEditEstadoCrono)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET idCronogramaPago = :idCronogramaPago, montoPago = :montoPago, estadoCronograma = :estadoCronograma, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
+    $statement->bindParam(":idCronogramaPago", $dataEditEstadoCrono["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":montoPago", $dataEditEstadoCrono["montoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $dataEditEstadoCrono["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditEstadoCrono["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

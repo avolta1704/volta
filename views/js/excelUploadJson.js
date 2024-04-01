@@ -1,6 +1,17 @@
 $(document).ready(function () {
   $("#btnCargarArchivosExcel").on("click", function () {
-    $("#inputExcel").click();
+    Swal.fire({
+      icon: "warning",
+      title: "Advertencia",
+      text: "Creará registros en la base de datos desde un Excel, verifique que los datos del registro sean correctos. ¿Desea continuar?",
+      showCancelButton: true, // Muestra el botón de cancelación
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $("#inputExcel").click();
+      }
+    });
   });
 
   $("#inputExcel").on("change", function (e) {
@@ -22,7 +33,38 @@ $(document).ready(function () {
         type: "POST",
         data: { jsonDataStringXlsx: jsonDataString },
         success: function (data) {
-          console.log("Datos enviados con éxito");
+          var parsedData = JSON.parse(data);
+          if (parsedData.response === "ok" && parsedData.infoErrCronoAlum.length === 0) {
+            Swal.fire({
+              icon: "success",
+              title: "Correcto",
+              text: "Registro Cargado Correctamente",
+              showConfirmButton: true,
+            }).then(() => {
+              location.reload(); // Recarga la página
+            });
+          } else {
+            var codAlumnoCajaText = '';
+            for (var i = 0; i < parsedData.infoErrCronoAlum.length; i++) {
+              codAlumnoCajaText += parsedData.infoErrCronoAlum[i].codAlumnoCaja + ', ';
+            }
+            Swal.fire({
+              icon: "warning",
+              title: "Advertencia, Registros Parcialmente Cargados",
+              text: "Registros no Cargados: " + codAlumnoCajaText,
+              showConfirmButton: true,
+              confirmButtonText: 'OK',
+              showCancelButton: true,
+              cancelButtonText: 'Descargar Registro Simple',
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload(); // Recarga la página
+              } else if (result.isDismissed) {
+                var blob = new Blob([codAlumnoCajaText], {type: "text/plain;charset=utf-8"});
+                saveAs(blob, "codigos_alumno.txt");
+              }
+            });
+          }
         },
         error: function () {
           console.log("Error al enviar los datos");
@@ -31,5 +73,4 @@ $(document).ready(function () {
     };
     reader.readAsArrayBuffer(this.files[0]);
   });
-
 });
