@@ -40,6 +40,7 @@ class ModelPagos
       JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
       JOIN grado g ON ag.idGrado = g.idGrado
       JOIN alumno a ON aa.idAlumno = a.idAlumno
+      ORDER BY p.idPago DESC
     ");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
