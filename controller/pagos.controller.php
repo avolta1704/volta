@@ -212,7 +212,7 @@ class ControllerPagos
       }
 
       $dataCreateXlxs = array(
-        "idTipoPago" => 1,//valor de tipoPago Pension 
+        "idTipoPago" => 2,//valor de tipoPago "Pension" 
         "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
         "fechaPago" => $value["FECHA_PAGO"],
         "cantidadPago" => $value["PENSION"],
@@ -222,7 +222,7 @@ class ControllerPagos
       );
       $tabla = "pago";
       $responseDataXlsx = ModelPagos::mdlCrearRegistroPagoXlsx($tabla, $dataCreateXlxs);
-      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $value["idCronogramaPago"]
+      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $value["idCronogramaPago"] y tambien el "montoPago" => $value["PENSION"], que llega en el xlsx
       if ($responseDataXlsx == "ok") {
         $table = "cronograma_pago";
         $dataEditEstadoCrono = array(
@@ -252,12 +252,11 @@ class ControllerPagos
       // Obtener datos de admision_alumno
       $DatosPagoAdmisionAlumno = self::ctrGetDataPagoAdmisionAlumno($idAlumno);
       $DatosPagoAlumno['idAdmisionAlumno'] = $DatosPagoAdmisionAlumno['idAdmisionAlumno'];
-
       // Obtener datos de cronograma_pago
       $DatosPagoCronogramaPago = self::ctrIdCronogramaPagoMasReciente($DatosPagoAdmisionAlumno['idAdmisionAlumno']);
       $DatosPagoAlumno['idCronogramaPago'] = $DatosPagoCronogramaPago;
     }
-    //enviar array de array con datos de alumno, grado, admision y cronograma
+    //enviar array de array con datos de alumno, admision y cronograma
     return $DatosPagoAlumno;
   }
   //obtener id cronograma pago alumno por idAdmisionAlumno xlsx 

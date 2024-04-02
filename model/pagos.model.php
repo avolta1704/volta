@@ -234,7 +234,7 @@ class ModelPagos
     $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
-    //si no existen registros con estado 1 pendiente de pago devolvera vacio y se devolvera false
+    //si no existen registros con estado 1 pendiente de pago devolvera vacio y se devolvera false servira para mostrar los registros no creados de COD_ALUMNO del xlsx
     return $result ? $result['idCronogramaPago'] : false;
   }
   //datos de xlsx para la creacion de registro de pagos
@@ -255,7 +255,7 @@ class ModelPagos
       return "error";
     }
   }
-  //  actualizar estado de  cronograma_pago por el Xlxs  idCronogramaPago = $value["idCronogramaPago"]
+  //  actualizar estado de  cronograma_pago por el Xlxs  idCronogramaPago = $value["idCronogramaPago"] y tambien actualizar el monto de pago del xlsx
   public static function mdlEditarEstadoCronogramaXlsx($tabla, $dataEditEstadoCrono)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET idCronogramaPago = :idCronogramaPago, montoPago = :montoPago, estadoCronograma = :estadoCronograma, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
