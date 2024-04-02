@@ -38,8 +38,8 @@ class PagosAjax
   public function ajaxMostrarDetallesPago($codPago)
   {
     $mostrarDetallesPago = ControllerPagos::ctrGetIdEditPago($codPago);
-    $mostrarDetallesPago['nivelAlumno'] = FunctionPagos::getNivelAlumnoGrado($mostrarDetallesPago["idNivel"]);
-    $mostrarDetallesPago['mesPagoDet'] = FunctionPagos::getMesEdit($mostrarDetallesPago["mesPago"]);
+    $mostrarDetallesPago['nivelAlumno'] = FunctionPagos::getNivelAlumno($mostrarDetallesPago["idNivel"]);
+    //$mostrarDetallesPago['mesPagoDet'] = FunctionPagos::getMesEdit($mostrarDetallesPago["mesPago"]);
     echo json_encode($mostrarDetallesPago);
   }
   // eliminar registro de pago

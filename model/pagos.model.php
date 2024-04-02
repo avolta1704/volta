@@ -40,6 +40,7 @@ class ModelPagos
       JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
       JOIN grado g ON ag.idGrado = g.idGrado
       JOIN alumno a ON aa.idAlumno = a.idAlumno
+      ORDER BY p.idPago DESC
     ");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -223,6 +224,20 @@ class ModelPagos
 
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  //obtener id cronograma pago alumno mas reciente de pago por idAdmisionAlumno del xlsx 
+  public static function mdlIdCronogramaPagoMasReciente($table, $idAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago
+      FROM $table 
+      WHERE idAdmisionAlumno = :idAdmisionAlumno AND estadoCronograma = 1 AND conceptoPago != 'Matricula'
+      ORDER BY idCronogramaPago ASC
+      LIMIT 1");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    //si no existen registros con estado 1 pendiente de pago devolvera vacio y se devolvera false servira para mostrar los registros no creados de COD_ALUMNO del xlsx
+    return $result ? $result['idCronogramaPago'] : false;
+  }
   //datos de xlsx para la creacion de registro de pagos
   public static function mdlCrearRegistroPagoXlsx($table, $dataCreateXlxs)
   {
@@ -234,6 +249,22 @@ class ModelPagos
     $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //  actualizar estado de  cronograma_pago por el Xlxs  idCronogramaPago = $value["idCronogramaPago"] y tambien actualizar el monto de pago del xlsx
+  public static function mdlEditarEstadoCronogramaXlsx($tabla, $dataEditEstadoCrono)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET idCronogramaPago = :idCronogramaPago, montoPago = :montoPago, estadoCronograma = :estadoCronograma, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
+    $statement->bindParam(":idCronogramaPago", $dataEditEstadoCrono["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":montoPago", $dataEditEstadoCrono["montoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $dataEditEstadoCrono["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditEstadoCrono["usuarioActualizacion"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";

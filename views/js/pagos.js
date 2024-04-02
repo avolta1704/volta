@@ -33,19 +33,19 @@ $(".dataTableAdmisionAlumnos").on(
           var div = $("<div>").addClass("mb-3");
 
           // Crea las etiquetas
-          var date = new Date(item.mesPago);
+          /*  var date = new Date(item.mesPago);
           var month = date.toLocaleString("es-ES", { month: "long" });
           month = month.charAt(0).toUpperCase() + month.slice(1);
           var label1 = $("<label>")
             .addClass("form-label h5 font-weight-bold")
             .attr("id", "mesCronoPago")
             .attr("name", "mesCronoPago")
-            .text(month + " - ");
+            .text(month + " - "); */
           var label2 = $("<label>")
             .addClass("form-label h5 font-weight-bold")
             .attr("id", "tipoCronoPago")
             .attr("name", "tipoCronoPago")
-            .text(" - " + item.conceptoPago);
+            .text("  " + item.conceptoPago);
           // Crea un nuevo div para el grupo de entrada
           var inputGroup = $("<div>").addClass("input-group");
           // Crea los campos de entrada
@@ -64,7 +64,7 @@ $(".dataTableAdmisionAlumnos").on(
           // Añade los campos de entrada al grupo de entrada
           inputGroup.append(input1, input2);
           // Añade las etiquetas y el grupo de entrada al div
-          div.append(label1, label2, inputGroup);
+          div.append(label2, inputGroup);
           // Añade el div al cuerpo del modal
           modalBody.append(div);
         });
@@ -171,7 +171,7 @@ $(".dataTablePagos ").on("click", ".btnVisualizarPago", function () {
       $("#gradoDetalle").val(response.descripcionGrado);
       $("#nivelDertalle").val(response.nivelAlumno);
       $("#codigoCajaDetalle").val(response.codAlumnoCaja);
-      $("#mesDetalle").val(response.mesPagoDet);
+      $("#mesDetalle").val(response.mesPago);
       $("#LimitePagoDetalle").val(response.fechaLimite);
 
       // Abre el modal después de recibir la respuesta
@@ -179,45 +179,57 @@ $(".dataTablePagos ").on("click", ".btnVisualizarPago", function () {
     },
   });
 });
-//Eliminar registro de pago y actualziar el estado de cronograma de pago a 1 = pendiente
+//Eliminar registro de pago y actualizar el estado de cronograma de pago a 1 = pendiente
 $(".dataTablePagos ").on("click", ".btnEliminarPago", function () {
+  
   var codPago = $(this).attr("codPago");
   var data = new FormData();
   data.append("codPagoDelet", codPago);
 
-  $.ajax({
-    url: "ajax/pagos.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (response) {
-      if (response == "ok") {
-        Swal.fire({
-          icon: "success",
-          title: "Correcto",
-          text: "Registro Eliminado correctamente",
-          timer: 1000,
-          showConfirmButton: false,
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al Eliminar el Eegistro",
-          timer: 1000,
-          showConfirmButton: false,
-        });
-      }
-      setTimeout(function () {
-        location.reload();
-      }, 1000);
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
+  Swal.fire({
+    icon: "warning",
+    title: "Advertencia",
+    html: "¿Está seguro de eliminar el registro de pago? <br> <br> <strong>¡Esta acción no se podra deshacer!</strong>",
+    showCancelButton: true, // Muestra el botón de cancelación
+    confirmButtonText: "Sí",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "ajax/pagos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Correcto",
+              text: "Registro Eliminado correctamente",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al Eliminar el Registro",
+              timer: 1000,
+              showConfirmButton: false,
+            });
+          }
+          setTimeout(function () {
+            location.reload();
+          }, 1000);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
   });
 });
 

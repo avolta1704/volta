@@ -16,7 +16,7 @@
       <div class="col-lg-2">
         <span style="margin: 0 10px;"></span>
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary btnAgregarNuevoPago" id="btnAgregarNuevoPago">Registrar
+          <button type="button" class="btn btn-primary btnAgregarNuevoPago" id="btnAgregarNuevoPago"><i class="bi bi-cash-coin"></i>  Registrar
             Pago</button>
         </div>
       </div>
@@ -24,8 +24,9 @@
       <div class="col-lg-2">
         <span style="margin: 0 10px;"></span>
         <div class="row mb-2">
-          <button type="button" class="btn btn-warning btnCargarArchivosExcel" id="btnCargarArchivosExcel">Cargar Excel
-            Registro Pagos</button>
+          <button type="button" class="btn btn-warning btnCargarArchivosExcel" id="btnCargarArchivosExcel">
+            <i class="bi bi-file-earmark-arrow-up"></i> Cargar Excel Registro Pagos
+          </button>
           <!-- Input oculto para subir archivos xlsx -->
           <input type="file" id="inputExcel" style="display: none;" accept=".xlsx, .xls">
         </div>
@@ -75,7 +76,7 @@
         <label for="nivelDertalle">Nivel:</label>
         <input type="text" class="form-control mb-3" id="nivelDertalle" name="nivelDertalle" disabled>
 
-        <label for="codigoCajaDetalle">Codigo Caja:</label>
+        <label for="codigoCajaDetalle">Codigo:</label>
         <input type="text" class="form-control mb-3" id="codigoCajaDetalle" name="codigoCajaDetalle" disabled>
 
         <label for="mesDetalle">Mes:</label>

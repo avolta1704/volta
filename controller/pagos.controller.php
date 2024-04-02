@@ -157,7 +157,6 @@ class ControllerPagos
     //enviar array de array con datos de alumno, grado, admision y cronograma
     return $DatosPagoAlumno;
   }
-
   //obtener id grado alumno por id alumno 
   public static function mdlGetGetDataPagoAlumnoGrado($idAlumno)
   {
@@ -198,25 +197,76 @@ class ControllerPagos
     // Decodificar el JSON 
     $data = json_decode($jsonDataString, true);
 
+    $infoErrCronoAlum = array(); // Nuevo array para almacenar los arrays con errores
+
     foreach ($data as $key => $value) {
-      // Convertir y formatear la fecha de Excel
+      //datos del alumno y cronograma de pago mas reciente a pagar por el (COD_ALUMNO) CodigoAlumno
+      $value["COD_ALUMNO_DATA"] = self::ctrDataPagoCodAlumnoXlsx($value["COD_ALUMNO"]);
+      // Convertir y formatear la fecha de xlsx a un formato válido para la base de datos
       $value["FECHA_PAGO"] = self::excelDateToJSDate($value["FECHA_PAGO"]);
 
+      // Verificar si idCronogramaPago es falso
+      if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false) {
+        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"]; // Agregar solo el array COD_ALUMNO_DATA si idCronogramaPago es falso al array de errores
+        continue; // Saltar a la siguiente iteración del bucle
+      }
+
       $dataCreateXlxs = array(
-        "idTipoPago" => $value["formaTipoPago"],
-        "idCronogramaPago" => $value["cronogramaPago"],
+        "idTipoPago" => 2,//valor de tipoPago "Pension" 
+        "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
         "fechaPago" => $value["FECHA_PAGO"],
-        "cantidadPago" => $value["PENCION"],
+        "cantidadPago" => $value["PENSION"],
         "metodoPago" => $value["AGENCIA"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $idUsuario,
       );
       $tabla = "pago";
-      $responseDateXlsx = ModelPagos::mdlCrearRegistroPagoXlsx($tabla, $dataCreateXlxs);
+      $responseDataXlsx = ModelPagos::mdlCrearRegistroPagoXlsx($tabla, $dataCreateXlxs);
+      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $value["idCronogramaPago"] y tambien el "montoPago" => $value["PENSION"], que llega en el xlsx
+      if ($responseDataXlsx == "ok") {
+        $table = "cronograma_pago";
+        $dataEditEstadoCrono = array(
+          "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
+          "montoPago" => $value["PENSION"],
+          "estadoCronograma" => 2, //estado cancelado
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $idUsuario,
+        );
+        $response = ModelPagos::mdlEditarEstadoCronogramaXlsx($table, $dataEditEstadoCrono);
+        if ($response != "ok") {
+          return;
+        }
+      }
     }
-    return $responseDateXlsx;
+    // Devolver el array de errores y la respuesta "ok"
+    return array('infoErrCronoAlum' => $infoErrCronoAlum, 'response' => "ok");
   }
+  // buscar al alumno y su cronograma de pago mas reciente a pagar por el (COD_ALUMNO) CodigoAlumno  desde el xlsx subido 
+  public static function ctrDataPagoCodAlumnoXlsx($codAlumnoXlsx)
+  {
+    $tabla = "alumno";
+    $DatosPagoAlumno = ModelPagos::mdlGetDataPagoCodAlumno($tabla, $codAlumnoXlsx);
 
+    if (!empty($DatosPagoAlumno)) {
+      $idAlumno = $DatosPagoAlumno['idAlumno'];
+      // Obtener datos de admision_alumno
+      $DatosPagoAdmisionAlumno = self::ctrGetDataPagoAdmisionAlumno($idAlumno);
+      $DatosPagoAlumno['idAdmisionAlumno'] = $DatosPagoAdmisionAlumno['idAdmisionAlumno'];
+      // Obtener datos de cronograma_pago
+      $DatosPagoCronogramaPago = self::ctrIdCronogramaPagoMasReciente($DatosPagoAdmisionAlumno['idAdmisionAlumno']);
+      $DatosPagoAlumno['idCronogramaPago'] = $DatosPagoCronogramaPago;
+    }
+    //enviar array de array con datos de alumno, admision y cronograma
+    return $DatosPagoAlumno;
+  }
+  //obtener id cronograma pago alumno por idAdmisionAlumno xlsx 
+  public static function ctrIdCronogramaPagoMasReciente($idAdmisionAlumno)
+  {
+    $tabla = "cronograma_pago";
+    $DatosPagoCronogramaPago = ModelPagos::mdlIdCronogramaPagoMasReciente($tabla, $idAdmisionAlumno);
+    return $DatosPagoCronogramaPago;
+  }
+  //formatear ala fecha requeriada para la base de datos Y-m-d
   private static function excelDateToJSDate($serial)
   {
     if ($serial < 60) {

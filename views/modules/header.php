@@ -29,6 +29,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <!-- libreria xlsx exel upload -->
 <script src="assets/js/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.2/FileSaver.min.js"></script>
 
 <!-- Template Main CSS File -->
 <link href="assets/css/style.css" rel="stylesheet">
