@@ -224,29 +224,31 @@ class ModelPagos
 
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  //obtener id cronograma pago alumno mas reciente de pago por idAdmisionAlumno del xlsx 
-  public static function mdlIdCronogramaPagoMasReciente($table, $idAdmisionAlumno)
+  //obtener id cronograma pago alumno mas reciente de pago por idAdmisionAlumno y año y mes del SUBPERIODO de xlsx si no encuantra valores iguales devovlera falso 
+  public static function mdlIdCronogramaPagoMasReciente($table, $idAdmisionAlumno,$anio,$mes)
   {
     $statement = Connection::conn()->prepare("SELECT idCronogramaPago
       FROM $table 
-      WHERE idAdmisionAlumno = :idAdmisionAlumno AND estadoCronograma = 1 AND conceptoPago != 'Matricula'
-      ORDER BY idCronogramaPago ASC
+      WHERE idAdmisionAlumno = :idAdmisionAlumno AND estadoCronograma = 1 AND conceptoPago != 'Matricula' AND mesPago = :mes AND YEAR(fechaLimite) = :anio
+      ORDER BY idCronogramaPago DESC
       LIMIT 1");
     $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->bindParam(":anio", $anio, PDO::PARAM_INT);
+    $statement->bindParam(":mes", $mes, PDO::PARAM_STR);
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
-    //si no existen registros con estado 1 pendiente de pago devolvera vacio y se devolvera false servira para mostrar los registros no creados de COD_ALUMNO del xlsx
-    return $result ? $result['idCronogramaPago'] : false;
+    return $result;
   }
   //datos de xlsx para la creacion de registro de pagos
   public static function mdlCrearRegistroPagoXlsx($table, $dataCreateXlxs)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :fechaCreacion, :usuarioCreacion) ");
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, moraPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :moraPago, :fechaCreacion, :usuarioCreacion) ");
     $statement->bindParam(":idTipoPago", $dataCreateXlxs["idTipoPago"], PDO::PARAM_INT);
     $statement->bindParam(":idCronogramaPago", $dataCreateXlxs["idCronogramaPago"], PDO::PARAM_INT);
     $statement->bindParam(":fechaPago", $dataCreateXlxs["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataCreateXlxs["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":moraPago", $dataCreateXlxs["moraPago"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);
 
