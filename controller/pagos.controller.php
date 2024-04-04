@@ -210,13 +210,13 @@ class ControllerPagos
       // Verificar si idCronogramaPago es falso Y MORA no es un numero se guardara en el array ($infoErrCronoAlum) para mostrar los registros no creados por COD_ALUMNO del xlsx
       if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false || !is_numeric($value["MORA"])) {
         $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"] + array(
-            "anio" => $value["PERIODO_PAGO"]["anio"],
-            "mes" => $value["PERIODO_PAGO"]["mes"],
-            "pension" => $value["PENSION"],
-            "mora" => $value["MORA"]
+          "anio" => $value["PERIODO_PAGO"]["anio"],
+          "mes" => $value["PERIODO_PAGO"]["mes"],
+          "pension" => $value["PENSION"],
+          "mora" => $value["MORA"]
         );
         continue; // Saltar a la siguiente iteración del bucle
-    }
+      }
 
       $dataCreateXlxs = array(
         "idTipoPago" => 2,//valor de tipoPago "Pension" 
@@ -316,5 +316,12 @@ class ControllerPagos
       "mes" => $mes
     );
     return $periodo;
+  }
+  //  obtener los alumnos para pagoAlumnos para su comunicado de pago
+  public static function ctrGetAllPagoAlumnos()
+  {
+    $tabla = "alumno";
+    $listaAlumnos = ModelPagos::mdlGetAllPagoAlumnos($tabla);
+    return $listaAlumnos;
   }
 }

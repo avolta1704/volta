@@ -13,6 +13,7 @@ require_once "functions/personal.functions.php";
 require_once "functions/perfil.functions.php";
 require_once "functions/apoderado.functions.php";
 require_once "functions/pagos.functions.php";
+require_once "functions/pagoAlumnos.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";

@@ -35,6 +35,8 @@ session_start();
         $_GET["ruta"] == "editarPersonal" ||
         $_GET["ruta"] == "editarPago" ||
         $_GET["ruta"] == "editarAlumno" ||
+        $_GET["ruta"] == "listaPagoAlumnos" ||
+        $_GET["ruta"] == "registrarComunicadoPago" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -94,6 +96,7 @@ session_start();
   <script src="views/dataTables/dt-apoderado.js"></script>
   <script src="views/dataTables/dt-admision-alumnos.js"></script>
   <script src="views/dataTables/dt-pagos-admin.js"></script>
+  <script src="views/dataTables/dt-pago-alumnos.js"></script>
 </body>
 
 </html>
