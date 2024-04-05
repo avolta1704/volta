@@ -15,7 +15,7 @@
       </a>
       <ul id="allPagos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="listaPagoAlumnos">
+          <a href="listaComunicadoPago">
             <i class="bi bi-circle"></i><span>Cronograma Alumnos</span>
           </a>
         </li>

@@ -17,56 +17,62 @@
               <!--  div para ver el perfil de alumno y apoderados  dividido por la mitad con sus respectivos campos de datos basicos-->
               <div class="container" style="border-bottom: 1px solid #000;">
                 <div class="row">
+
                   <div class="col-md-6" style="border-right: 1px solid #000;">
                     <!-- Aquí van los datos del alumno -->
                     <h3 style="text-align: center;">Datos del Alumno</h3><br>
+                    <!-- datos del alumno del pago -->
+                    <?php
+                    $codAlumno = $_GET["codAlumno"];
+                    $datosAlumno = ControllerComunicado::ctrGetDatosAlumnoComunicado($codAlumno);
+                    ?>
                     <div class="row">
 
                       <div class="col-md-4">
                         <label for="apellidoAlumnoPago" class="form-label" style="font-weight: bold">Apellidos: </label>
-                        <input type="text" class="form-control" id="apellidoAlumnoPago" name="apellidoAlumnoPago"
-                          value="" placeholder="Apellido Alumno" disabled>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["apellidosAlumno"] ?>" placeholder="Apellido Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Nombres: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["nombresAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Codigo: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["codAlumnoCaja"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Dni: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["dniAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Grado: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["descripcionGrado"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Nivel: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["descripcionNivel"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Estado: </label>
-                        <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value=""
+                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["estadoAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
-                      <!-- Agrega los campos de datos del alumno aquí -->
                     </div>
                   </div>
+
                   <div class="col-md-6">
                     <!-- Aquí van los datos del apoderado -->
                     <h3 style="text-align: center;">Datos del Apoderado</h3><br>
@@ -75,40 +81,41 @@
                       <div class="col-md-4">
                         <label for="apellidoApoderadoPago" class="form-label" style="font-weight: bold">Apellidos:
                         </label>
-                        <input type="text" class="form-control" id="apellidoApoderadoPago" name="apellidoApoderadoPago"
-                          value="" placeholder="Apellido Apoderado" disabled>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["apellidoApoderado"] ?>" placeholder="Apellido Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Nombres: </label>
-                        <input type="text" class="form-control" id="nombreApoderadoPago" name="nombreApoderadoPago"
-                          value="" placeholder="Nombre Apoderado" disabled>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["nombreApoderado"] ?>" placeholder="Nombre Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Dni: </label>
-                        <input type="text" class="form-control" id="nombreApoderadoPago" name="nombreApoderadoPago"
-                          value="" placeholder="Nombre Apoderado" disabled>
+                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Tipo Apoderao: </label>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["tipoApoderado"] ?>" placeholder="Padre / Madre" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Telefono: </label>
-                        <input type="text" class="form-control" id="nombreApoderadoPago" name="nombreApoderadoPago"
-                          value="" placeholder="Nombre Apoderado" disabled>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["numeroApoderado"] ?>" placeholder="Numero Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
                         <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Correo: </label>
-                        <input type="text" class="form-control" id="nombreApoderadoPago" name="nombreApoderadoPago"
-                          value="" placeholder="Nombre Apoderado" disabled>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["correoApoderado"] ?>" placeholder="Correo Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Direccion: </label>
-                        <input type="text" class="form-control" id="nombreApoderadoPago" name="nombreApoderadoPago"
-                          value="" placeholder="Nombre Apoderado" disabled>
+                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Convivencia Alumno:
+                        </label>
+                        <input type="text" class="form-control" 
+                        value="<?php echo $datosAlumno["convivenciaAlumno"] ?>" placeholder=" Si / No" disabled>
                       </div>
-                      
+
 
                       <!-- Agrega los campos de datos del apoderado aquí -->
                     </div>
@@ -122,6 +129,11 @@
 
             <div style="display: flex; justify-content: center;">
               <div class="container" style="margin-top: 20px;">
+                <!-- cronograma de pagos alumno -->
+                <?php
+                $codCronograma = $_GET["codAdAlumCronograma"];
+                $datosCronograma = ControllerComunicado::ctrGetCronogramaPagoComunicado($codCronograma);
+                ?>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
 
                   <li class="nav-item" role="presentation">
@@ -191,81 +203,17 @@
                           <td>Otto</td>
                           <td>@mdo</td>
                         </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td colspan="2">Larry the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>
 
                   <div class="tab-pane fade" id="marzo" role="tabpanel" aria-labelledby="marzo-tab">
                     <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">First</th>
-                          <th scope="col">Last</th>
-                          <th scope="col">Handle</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td colspan="2">Larry the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                   
                   </div>
                   <div class="tab-pane fade  " id="abril" role="tabpanel" aria-labelledby="abril-tab">
                     <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">First</th>
-                          <th scope="col">Last</th>
-                          <th scope="col">Handle</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">2</th>
-                          <td>Jacob</td>
-                          <td>Thornton</td>
-                          <td>@fat</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">3</th>
-                          <td colspan="2">Larry the Bird</td>
-                          <td>@twitter</td>
-                        </tr>
-                      </tbody>
+                     
                     </table>
                   </div>
                   <div class="tab-pane fade  " id="mayo" role="tabpanel" aria-labelledby="mayo-tab">
@@ -311,8 +259,3 @@
     </div>
   </section>
 </main>
-
-<?php
-$crearRegistroPagoAlumno = new ControllerPagos();
-$crearRegistroPagoAlumno->ctrCrearRegistroPagoAlumno();
-?>

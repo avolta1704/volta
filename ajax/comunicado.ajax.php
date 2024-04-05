@@ -5,21 +5,21 @@ require_once "../model/admisionAlumno.model.php";
 require_once "../functions/admisionAlumno.functions.php";
 require_once "../functions/pagos.functions.php";
 
-require_once "../controller/pagos.controller.php";
-require_once "../model/pagos.model.php";
-require_once "../functions/pagoAlumnos.functions.php";
+require_once "../controller/comunicado.controller.php";
+require_once "../model/comunicado.model.php";
+require_once "../functions/comunicado.functions.php";
 
-class AdmisionAlumnosAjax
+class ComunicadoAjax
 {
   //mostar todos los registros de admision dataTableAdmisionAlumnos
-  public function ajaxMostrarRegistrosPagoAlumnos()
+  public function ajaxMostrarRegistrosComunicadoPago()
   {
-    $registroPagoAlumnos = ControllerPagos::ctrGetAllPagoAlumnos();
-    foreach ($registroPagoAlumnos as &$dataAdmision) {
-      $dataAdmision['btnPagoAlumnos'] = FunctionPagoAlumnos::getBotonesPagoAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAlumno"]);
-      $dataAdmision['estadoAlPag'] = FunctionPagoAlumnos::getEstadoAlumno($dataAdmision["estadoAlumno"]);
+    $registroComunicadoPago = ControllerComunicado::ctrGetAllComunicadoPago();
+    foreach ($registroComunicadoPago as &$dataAdmision) {
+      $dataAdmision['btnPagoAlumnos'] = FunctionComunicado::getBotonesPagoAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["idAlumno"], $dataAdmision["estadoAlumno"]);
+      $dataAdmision['estadoAlPag'] = FunctionComunicado::getEstadoAlumno($dataAdmision["estadoAlumno"]);
     }
-    echo json_encode($registroPagoAlumnos);
+    echo json_encode($registroComunicadoPago);
   }
   // ver calendario cronograma pago de la tabla  admision_alumno
   public $codAdAlumCronograma;
@@ -35,14 +35,14 @@ class AdmisionAlumnosAjax
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
-if (isset($_POST["registroPagoAlumnos"])) {
-  $mostrarregistroPagoAlumnos = new AdmisionAlumnosAjax();
-  $mostrarregistroPagoAlumnos->ajaxMostrarRegistrosPagoAlumnos();
+if (isset($_POST["registroComunicadoPago"])) {
+  $mostrarregistroComunicadoPago = new ComunicadoAjax();
+  $mostrarregistroComunicadoPago->ajaxMostrarRegistrosComunicadoPago();
 }
 
 // ver calendario cronograma pago de la tabla  admision_alumno
 if (isset($_POST["codAdAlumCronograma"])) {
-  $codAdAlumCronograma = new AdmisionAlumnosAjax();
+  $codAdAlumCronograma = new ComunicadoAjax();
   $codAdAlumCronograma->codAdAlumCronograma = $_POST["codAdAlumCronograma"];
   $codAdAlumCronograma->ajaxDataCronoPagoAdAlumEstado();
 }

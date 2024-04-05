@@ -221,7 +221,6 @@ class ModelPagos
       ");
     $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
     $statement->execute();
-
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
   //obtener id cronograma pago alumno mas reciente de pago por idAdmisionAlumno y año y mes del SUBPERIODO de xlsx si no encuantra valores iguales devovlera falso 
@@ -274,26 +273,5 @@ class ModelPagos
       return "error";
     }
   }
-  //  obtener los alumnos para pagoAlumnos para su comunicado de pago
-  public static function mdlGetAllPagoAlumnos($tabla)
-  {
-    $statement = Connection::conn()->prepare("SELECT
-    alumno.idAlumno, 
-    alumno.codAlumnoCaja, 
-    alumno.dniAlumno,
-    alumno.nombresAlumno, 
-    alumno.apellidosAlumno, 
-    alumno.estadoAlumno,
-    admision_alumno.idAdmisionAlumno
-    FROM
-    $tabla
-    INNER JOIN
-    admision_alumno
-    ON 
-    alumno.idAlumno = admision_alumno.idAlumno
-    WHERE alumno.estadoAlumno IN (1, 2)
-    ORDER BY alumno.idAlumno DESC");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
+
 }

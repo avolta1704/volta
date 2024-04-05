@@ -18,13 +18,13 @@
         <div class="row">
           <div class="card AdmisionAlumno">
             <div id="tableContainer" class="card-body AdmisionAlumno">
-              <!--  Titulo dataTablePagoAlumnosAdmin-->
-              <table id="dataTablePagoAlumnos" class="display dataTablePagoAlumnos" style="width: 100%">
+              <!--  Titulo dataTableComunicadoPagoAdmin-->
+              <table id="dataTableComunicadoPago" class="display dataTableComunicadoPago" style="width: 100%">
                 <thead>
-                  <!-- dataTablePagoAlumnosAdmin -->
+                  <!-- dataTableComunicadoPagoAdmin -->
                 </thead>
                 <tbody>
-                  <!--dataTablePagoAlumnosAdmin-->
+                  <!--dataTableComunicadoPagoAdmin-->
                 </tbody>
               </table>
             </div>

@@ -1,4 +1,4 @@
-// Definición inicial de dataTablePagoAlumnos
+// Definición inicial de dataTableComunicadoPago
 $(document).ready(function () {
   var columnDefPagoAlumnos = [
     {
@@ -15,20 +15,20 @@ $(document).ready(function () {
     { data: "btnPagoAlumnos" },
   ];
 
-  var tablePagoAlumnos = $("#dataTablePagoAlumnos").DataTable({
+  var tablePagoAlumnos = $("#dataTableComunicadoPago").DataTable({
     columns: columnDefPagoAlumnos,
   });
 
-  // Titulo dataTablePagoAlumnos
+  // Titulo dataTableComunicadoPago
   var data = new FormData();
-  $(".tituloPagoAlumnos").text("Registros Alumnos Pago");
+  $(".tituloPagoAlumnos").text("Registros Alumnos Pago Comunicado");
 
-  //Solicitud ajx inicial de dataTablePagoAlumnosAdmin
+  //Solicitud ajx inicial de dataTableComunicadoPagoAdmin
   var data = new FormData();
-  data.append("registroPagoAlumnos", true);
+  data.append("registroComunicadoPago", true);
 
   $.ajax({
-    url: "ajax/pagoAlumnos.ajax.php",
+    url: "ajax/comunicado.ajax.php",
     method: "POST",
     data: data,
     cache: false,
@@ -46,8 +46,8 @@ $(document).ready(function () {
     },
   });
 
-  //Estructura de dataTablePagoAlumnos
-  $("#dataTablePagoAlumnos thead").html(`
+  //Estructura de dataTableComunicadoPago
+  $("#dataTableComunicadoPago thead").html(`
       <tr>
         <th scope="col">#</th>
         <th scope="col">Código Caja</th>
@@ -76,7 +76,7 @@ $(document).ready(function () {
     { data: "btnPagoAlumnos" },
   ];
 
-  var tablePagoAlumnos = $("#dataTablePagoAlumnos").DataTable({
+  var tablePagoAlumnos = $("#dataTableComunicadoPago").DataTable({
     columns: columnDefPagoAlumnos,
   });
 });

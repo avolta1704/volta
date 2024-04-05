@@ -35,7 +35,7 @@ session_start();
         $_GET["ruta"] == "editarPersonal" ||
         $_GET["ruta"] == "editarPago" ||
         $_GET["ruta"] == "editarAlumno" ||
-        $_GET["ruta"] == "listaPagoAlumnos" ||
+        $_GET["ruta"] == "listaComunicadoPago" ||
         $_GET["ruta"] == "registrarComunicadoPago" ||
 
 
@@ -87,6 +87,7 @@ session_start();
   <!-- <script src="views/js/calendario.js"></script> -->
   <script src="views/js/pagos.js"></script>
   <script src="views/js/excelUploadJson.js"></script>
+  <script src="views/js/comunicado.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -96,7 +97,7 @@ session_start();
   <script src="views/dataTables/dt-apoderado.js"></script>
   <script src="views/dataTables/dt-admision-alumnos.js"></script>
   <script src="views/dataTables/dt-pagos-admin.js"></script>
-  <script src="views/dataTables/dt-pago-alumnos.js"></script>
+  <script src="views/dataTables/dt-comunicado.js"></script>
 </body>
 
 </html>

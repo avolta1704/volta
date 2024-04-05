@@ -317,11 +317,5 @@ class ControllerPagos
     );
     return $periodo;
   }
-  //  obtener los alumnos para pagoAlumnos para su comunicado de pago
-  public static function ctrGetAllPagoAlumnos()
-  {
-    $tabla = "alumno";
-    $listaAlumnos = ModelPagos::mdlGetAllPagoAlumnos($tabla);
-    return $listaAlumnos;
-  }
+ 
 }
