@@ -77,15 +77,16 @@ class ModelComunicado
       SELECT 
         cp.idCronogramaPago,
         cp.conceptoPago,
+        cp.montoPago,
+        cp.mesPago,
         cp.fechaLimite,
-        cp.estadoCronograma,
-        cp.mesPago
+        cp.estadoCronograma       
       FROM $tabla cp
       WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
     ");
     $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
     $statement->execute();
-    return $statement->fetch(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }
