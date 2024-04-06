@@ -39,12 +39,8 @@
 
               <div class="form-group col-md-2">
                 <label for="cronogramaPagoEdit" class="form-label" style="font-weight: bold">Cronograma Pago: </label>
-                <?php
-                $getMesEdit = new FunctionPagos();
-                $mesPagoCrono = $getMesEdit->getMesEdit($datosPago["mesPago"]);
-                ?>
                 <input type="text" class="form-control" id="cronogramaPagoEdit" name="cronogramaPagoEdit"
-                  value="<?php echo $mesPagoCrono ?>" disabled>
+                  value="<?php echo $datosPago["mesPago"] ?>" disabled>
               </div>
 
               <div class="row  mb-3">
@@ -76,7 +72,7 @@
                 <div class="col-md-4">
                   <label for="codCajaPagoEdit" class="form-label" style="font-weight: bold">Codigo Caja: </label>
                   <input type="text" class="form-control" id="codCajaPagoEdit" name="codCajaPagoEdit"
-                    value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Codigo Caja Alumno">
+                    value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Codigo Caja Alumno" disabled>
                 </div>
 
                 <div class="col-md-4">

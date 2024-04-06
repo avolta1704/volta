@@ -200,23 +200,31 @@ class ControllerPagos
     $infoErrCronoAlum = array(); // Nuevo array para almacenar los arrays con errores
 
     foreach ($data as $key => $value) {
-      //datos del alumno y cronograma de pago mas reciente a pagar por el (COD_ALUMNO) CodigoAlumno
-      $value["COD_ALUMNO_DATA"] = self::ctrDataPagoCodAlumnoXlsx($value["COD_ALUMNO"]);
       // Convertir y formatear la fecha de xlsx a un formato válido para la base de datos
       $value["FECHA_PAGO"] = self::excelDateToJSDate($value["FECHA_PAGO"]);
+      //contolador para separar texto de SUBPERIODO del xlsx para el año y mes del cronograma de pago que se va a registrar
+      $value["PERIODO_PAGO"] = self::ctrSepararTextoAnioMes($value["SUBPERIODO"]);
+      //datos del alumno y cronograma de pago mas reciente a pagar por el CodigoAlumno(COD_ALUMNO) el año y mes del xlsx SUBPERIODO 
+      $value["COD_ALUMNO_DATA"] = self::ctrDataPagoCodAlumnoXlsx($value["COD_ALUMNO"], $value["PERIODO_PAGO"]["anio"], $value["PERIODO_PAGO"]["mes"]);
 
-      // Verificar si idCronogramaPago es falso
-      if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false) {
-        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"]; // Agregar solo el array COD_ALUMNO_DATA si idCronogramaPago es falso al array de errores
+      // Verificar si idCronogramaPago es falso Y MORA no es un numero se guardara en el array ($infoErrCronoAlum) para mostrar los registros no creados por COD_ALUMNO del xlsx
+      if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false || !is_numeric($value["MORA"])) {
+        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"] + array(
+          "anio" => $value["PERIODO_PAGO"]["anio"],
+          "mes" => $value["PERIODO_PAGO"]["mes"],
+          "pension" => $value["PENSION"],
+          "mora" => $value["MORA"]
+        );
         continue; // Saltar a la siguiente iteración del bucle
       }
 
       $dataCreateXlxs = array(
         "idTipoPago" => 2,//valor de tipoPago "Pension" 
-        "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
+        "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
         "fechaPago" => $value["FECHA_PAGO"],
         "cantidadPago" => $value["PENSION"],
         "metodoPago" => $value["AGENCIA"],
+        "moraPago" => $value["MORA"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $idUsuario,
       );
@@ -226,7 +234,7 @@ class ControllerPagos
       if ($responseDataXlsx == "ok") {
         $table = "cronograma_pago";
         $dataEditEstadoCrono = array(
-          "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"],
+          "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
           "montoPago" => $value["PENSION"],
           "estadoCronograma" => 2, //estado cancelado
           "fechaActualizacion" => date("Y-m-d H:i:s"),
@@ -242,7 +250,7 @@ class ControllerPagos
     return array('infoErrCronoAlum' => $infoErrCronoAlum, 'response' => "ok");
   }
   // buscar al alumno y su cronograma de pago mas reciente a pagar por el (COD_ALUMNO) CodigoAlumno  desde el xlsx subido 
-  public static function ctrDataPagoCodAlumnoXlsx($codAlumnoXlsx)
+  public static function ctrDataPagoCodAlumnoXlsx($codAlumnoXlsx, $anio, $mes)
   {
     $tabla = "alumno";
     $DatosPagoAlumno = ModelPagos::mdlGetDataPagoCodAlumno($tabla, $codAlumnoXlsx);
@@ -253,17 +261,19 @@ class ControllerPagos
       $DatosPagoAdmisionAlumno = self::ctrGetDataPagoAdmisionAlumno($idAlumno);
       $DatosPagoAlumno['idAdmisionAlumno'] = $DatosPagoAdmisionAlumno['idAdmisionAlumno'];
       // Obtener datos de cronograma_pago
-      $DatosPagoCronogramaPago = self::ctrIdCronogramaPagoMasReciente($DatosPagoAdmisionAlumno['idAdmisionAlumno']);
+      $DatosPagoCronogramaPago = self::ctrIdCronogramaPagoMasReciente($DatosPagoAdmisionAlumno['idAdmisionAlumno'], $anio, $mes);
       $DatosPagoAlumno['idCronogramaPago'] = $DatosPagoCronogramaPago;
     }
     //enviar array de array con datos de alumno, admision y cronograma
     return $DatosPagoAlumno;
   }
-  //obtener id cronograma pago alumno por idAdmisionAlumno xlsx 
-  public static function ctrIdCronogramaPagoMasReciente($idAdmisionAlumno)
+  //obtener id cronograma pago alumno por idAdmisionAlumno, año y mes xlsx 
+  public static function ctrIdCronogramaPagoMasReciente($idAdmisionAlumno, $anio, $mes)
   {
     $tabla = "cronograma_pago";
-    $DatosPagoCronogramaPago = ModelPagos::mdlIdCronogramaPagoMasReciente($tabla, $idAdmisionAlumno);
+    //si la respuesta es false se devolvera falso, servira para mostrar los registros no creados de COD_ALUMNO del xlsx 
+    //como archivos duplicados o no encontrados por el año, mes, (fechaLimitePago,mesPago), estado(1)pendiente y Matricula
+    $DatosPagoCronogramaPago = ModelPagos::mdlIdCronogramaPagoMasReciente($tabla, $idAdmisionAlumno, $anio, $mes);
     return $DatosPagoCronogramaPago;
   }
   //formatear ala fecha requeriada para la base de datos Y-m-d
@@ -279,4 +289,33 @@ class ControllerPagos
     // Formatear la fecha en el formato "Año-Mes-Día"
     return $date->format('Y-m-d');
   }
+  //separa el texto de SUBPERIODO del xlsx para ontener el año y mes del cronograma de pago que se va a pagar 
+  public static function ctrSepararTextoAnioMes($periodo)
+  {
+    $periodo = explode(" ", $periodo);
+    $anioMes = $periodo[1]; // Obtiene el texto después del espacio
+    $anio = substr($anioMes, 0, 4); // Obtiene los primeros 4 caracteres (el año)
+    $mes = substr($anioMes, 4, 2); // Obtiene los últimos 2 caracteres (el mes)
+    $meses = array(
+      "01" => "Enero",
+      "02" => "Febrero",
+      "03" => "Marzo",
+      "04" => "Abril",
+      "05" => "Mayo",
+      "06" => "Junio",
+      "07" => "Julio",
+      "08" => "Agosto",
+      "09" => "Septiembre",
+      "10" => "Octubre",
+      "11" => "Noviembre",
+      "12" => "Diciembre"
+    );
+    $mes = $meses[$mes];
+    $periodo = array(
+      "anio" => $anio,
+      "mes" => $mes
+    );
+    return $periodo;
+  }
+ 
 }

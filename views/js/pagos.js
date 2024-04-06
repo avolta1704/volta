@@ -6,6 +6,7 @@ $("#btnAgregarNuevoPago").on("click", function () {
 $(".cerrarRegistroPago").on("click", function () {
   window.location = "index.php?ruta=listaPagos";
 });
+
 //vista modal cronograma de pagos de admision alumnos
 $(".dataTableAdmisionAlumnos").on(
   "click",
@@ -33,14 +34,6 @@ $(".dataTableAdmisionAlumnos").on(
           var div = $("<div>").addClass("mb-3");
 
           // Crea las etiquetas
-          /*  var date = new Date(item.mesPago);
-          var month = date.toLocaleString("es-ES", { month: "long" });
-          month = month.charAt(0).toUpperCase() + month.slice(1);
-          var label1 = $("<label>")
-            .addClass("form-label h5 font-weight-bold")
-            .attr("id", "mesCronoPago")
-            .attr("name", "mesCronoPago")
-            .text(month + " - "); */
           var label2 = $("<label>")
             .addClass("form-label h5 font-weight-bold")
             .attr("id", "tipoCronoPago")
@@ -181,7 +174,6 @@ $(".dataTablePagos ").on("click", ".btnVisualizarPago", function () {
 });
 //Eliminar registro de pago y actualizar el estado de cronograma de pago a 1 = pendiente
 $(".dataTablePagos ").on("click", ".btnEliminarPago", function () {
-  
   var codPago = $(this).attr("codPago");
   var data = new FormData();
   data.append("codPagoDelet", codPago);
@@ -232,117 +224,3 @@ $(".dataTablePagos ").on("click", ".btnEliminarPago", function () {
     }
   });
 });
-
-/* 
-// Verifica si los datos existen y, de ser así, los encripta y guarda
-var codPago = $(".btnEditarPago").attr("codPago");
-var dniAlumno = $(".btnEditarPago").attr("dniAlumno");
-var tipoPago = $(".btnEditarPago").attr("tipoPago");
-var estadoPago = $(".btnEditarPago").attr("estadoPago");
-var metodoPago = $(".btnEditarPago").attr("metodoPago");
-if (codPago && dniAlumno && tipoPago && estadoPago && metodoPago) {
-  encriptarYGuardar(codPago, dniAlumno, tipoPago, estadoPago, metodoPago);
-}
-// Vista de pagos editar alumno por el DNI
-$(document).ready(function () {
-  // Obtiene los valores codificados de localStorage
-  var codPagoCodificado = localStorage.getItem("codPago");
-  var dniAlumnoCodificado = localStorage.getItem("dniAlumno");
-  var tipoPagoCodificado = localStorage.getItem("tipoPago");
-  var estadoPagoCodificado = localStorage.getItem("estadoPago");
-  var metodoPagoCodificado = localStorage.getItem("metodoPago");
-
-  // Decodifica los valores
-  var codPago = atob(codPagoCodificado);
-  var dniAlumno = atob(dniAlumnoCodificado);
-  var tipoPago = atob(tipoPagoCodificado);
-  var estadoPago = atob(estadoPagoCodificado);
-  var metodoPago = atob(metodoPagoCodificado);
-  // Verifica si los valores existen
-  if (codPago && dniAlumno) {
-    // Inicia la solicitud AJAX
-    var data = new FormData();
-    data.append("dniAlumno", dniAlumno);
-
-    $.ajax({
-      url: "ajax/pagos.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        if (response !== false) {
-          // Llena los campos de entrada con los datos de la respuesta
-          $("#apellidoAlumnoPagoEdit").val(response.apellidosAlumno);
-          $("#nombreAlumnoPagoEdit").val(response.nombresAlumno);
-          $("#dniAlumnoEdit").val(response.dniAlumno);
-          $("#codCajaPagoEdit").val(response.codAlumnoCaja);
-          $("#anioPago").val(new Date().getFullYear());
-          $("#nivelAlumnoPagoEdit").val(response.nivelAlumno);
-          $("#gradoAlumnoPagoEdit").val(response.descripcionGrado);
-          $("#btnIdRegistroEdir").val(codPago);
-          $("#formatipoPagoEditEdit").val(tipoPago);
-          $("#estadoPagoEdit").val(estadoPago);
-          $("#metodoPagoEdit").val(metodoPago);
-
-          // Llena el select con las opciones correspondientes de cada array de cronogramaPago
-          var select = $("#cronogramaPagoEdit");
-          select.empty();
-          $.each(response.cronogramaPago, function (index, cronograma) {
-            if (cronograma.estadoCronograma) {
-              // Solo agrega la opción si el estado es 1=pendiente
-              var date = new Date(cronograma.mesPago);
-              var monthNames = [
-                "Enero",
-                "Febrero",
-                "Marzo",
-                "Abril",
-                "Mayo",
-                "Junio",
-                "Julio",
-                "Agosto",
-                "Septiembre",
-                "Octubre",
-                "Noviembre",
-                "Diciembre",
-              ];
-              var month = monthNames[date.getMonth()];
-              select.append(new Option(month, cronograma.idCronogramaPago)); // Usa cronograma.idCronogramaPago en el value
-            }
-          });
-          // Desvincula los manejadores de eventos existentes
-          select.off("change");
-          // Cuando se selecciona una opción en el select, llena los  campos con los datos del array correspondiente al mes = arrays en cronogramaPago
-          select.change(function () {
-            var selectedId = $(this).val();
-            var selectedCronograma = response.cronogramaPago.find(function (
-              cronograma
-            ) {
-              return cronograma.idCronogramaPago == selectedId; // Encuentra el array con el id seleccionado
-            });
-            //$("#FechaInicioPago").val(selectedCronograma.mesPago);
-            $("#fechaLimitePagoEdit").val(selectedCronograma.fechaLimite);
-            $("#tipoPagoEdit").val(selectedCronograma.conceptoPago);
-            $("#montoPagoEdit").val(selectedCronograma.montoPago);
-          });
-          // Dispara el evento change para llenar los campos con los datos del array en cronogramaPago seleccionado
-          select.trigger("change");
-        } else {
-          Swal.fire({
-            icon: "warning",
-            title: "Adveterencia",
-            text: "Alumno sin cronograma de Pagos",
-            timer: 3000,
-            showConfirmButton: true,
-          });
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
-    });
-  }
-});
- */

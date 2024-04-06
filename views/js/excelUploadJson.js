@@ -4,7 +4,7 @@ $(document).ready(function () {
     Swal.fire({
       icon: "warning",
       title: "Advertencia",
-      html: "Creará registros en la base de datos desde un Excel,<br>verifique que los datos del registro,<br> CODIGO ALUMNO sean NUMEROS validos correctos.<br><br>¿Desea continuar?",
+      html: "Creará registros en la base de datos desde un Excel,<br>verifique que los datos del registro,<br> CODIGO ALUMNO, PAGO, MORA sean NUMEROS validos correctos.<br><br>¿Desea continuar?",
       showCancelButton: true, // Muestra el botón de cancelación
       confirmButtonText: "Sí",
       cancelButtonText: "No",
@@ -78,15 +78,9 @@ $(document).ready(function () {
                 location.reload(); // Recarga la página
               });
             } else {
-              //si en la respuesta si tiene valores en infoErrCronoAlum envia un mensaje 
-              //para descargar los registros no cargados de la respuesta ajax
-              var text = "COD_ALUMNO;DNI;NOM_ALUMNO;APE_ALUMNO\n"; // Encabezado
-              for (var i = 0; i < parsedData.infoErrCronoAlum.length; i++) {
-                text += parsedData.infoErrCronoAlum[i].codAlumnoCaja + ";";
-                text += parsedData.infoErrCronoAlum[i].dniAlumno + ";";
-                text += parsedData.infoErrCronoAlum[i].nombresAlumno + ";";
-                text += parsedData.infoErrCronoAlum[i].apellidosAlumno + "\n";
-              }
+              //si en la respuesta si tiene valores en infoErrCronoAlum envia un mensaje
+              //para descargar los registros no cargados de la respuesta ajax estos registros seran por de valores no numericos
+              //de codalumno, mora, pension o que no existe el cronograma su cronograma o ya esta pagado su cronograma
               //el mesanje no se cerrar hasta descargar el archivo de los registros no cargados
               Swal.fire({
                 icon: "warning",
@@ -97,15 +91,50 @@ $(document).ready(function () {
                 allowEscapeKey: false,
               }).then((result) => {
                 if (result.isConfirmed) {
-                  var blob = new Blob([text], {
-                    type: "text/plain;charset=utf-8",
+                  // Crear un nuevo libro de trabajo
+                  var wb = XLSX.utils.book_new();
+                  // Crear una nueva hoja de cálculo a partir de los datos
+                  var ws_data = [
+                    [
+                      "COD_ALUMNO",
+                      "DNI",
+                      "NOM_ALUMNO",
+                      "APE_ALUMNO",
+                      "SUBPERIODO_ANIO",
+                      "SUBPERIODO_MES",
+                      "PENSION",
+                      "MORA",
+                    ],
+                  ];
+                  ws_data = ws_data.concat(
+                    parsedData.infoErrCronoAlum.map((item) => [
+                      item.codAlumnoCaja,
+                      item.dniAlumno,
+                      item.nombresAlumno,
+                      item.apellidosAlumno,
+                      item.anio,
+                      item.mes,
+                      item.pension,
+                      item.mora,
+                    ])
+                  );
+                  var ws = XLSX.utils.aoa_to_sheet(ws_data);
+                  XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+                  // Generar el archivo XLSX
+                  var wbout = XLSX.write(wb, {
+                    bookType: "xlsx",
+                    type: "array",
                   });
+                  // descargar el archivo XLSX
                   var date = new Date();
                   var day = String(date.getDate()).padStart(2, "0");
                   var month = String(date.getMonth() + 1).padStart(2, "0");
                   var year = date.getFullYear();
-                  var filename = `registros_no_cargados_${day}-${month}-${year}.csv`;
-                  saveAs(blob, filename);
+                  var filename = `registros_no_cargados_${day}-${month}-${year}.xlsx`;
+                  saveAs(
+                    new Blob([wbout], { type: "application/octet-stream" }),
+                    filename
+                  );
                   location.reload();
                 }
               });
