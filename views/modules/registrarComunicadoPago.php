@@ -125,64 +125,142 @@
               </div>
             </div>
 
-
-
             <div style="display: flex; justify-content: center;">
               <div class="container" style="margin-top: 20px;">
-
                 <?php
                 $codCronograma = $_GET["codAdAlumCronograma"];
                 $datosCronograma = ControllerComunicado::ctrGetCronogramaPagoComunicado($codCronograma);
                 $meses = ['matricula', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
                 ?>
-
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <?php
-                  foreach ($meses as $mes) {
-                    $active = $mes === 'matricula' ? ' active' : '';
+                  foreach ($meses as $index => $mes) {
+                    $active = $index === 0 ? ' active' : '';
                     echo '<li class="nav-item" role="presentation">';
-                    echo '<a class="nav-link' . $active . '" id="' . $mes . '-tab" data-bs-toggle="tab" role="tab" aria-controls="' . $mes . '" aria-selected="true">' . ucfirst($mes) . '</a>';
+                    echo '<a class="nav-link' . $active . '" id="' . $mes . '-tab" data-bs-toggle="tab" href="#' . $mes . '" role="tab" aria-controls="' . $mes . '" aria-selected="true">' . ucfirst($mes) . '</a>';
                     echo '</li>';
                   }
                   ?>
                 </ul>
-
-                <div class="tab-content" id="myTabContent">
+                <br>
+                <div class="tab-content" id="myTabContent" style="border-bottom: 1px solid #000;">
                   <?php
-                  foreach ($meses as $mes) {
-                    $active = $mes === 'matricula' ? ' show active' : '';
+                  foreach ($meses as $index => $mes) {
+                    $active = $index === 0 ? ' show active' : '';
                     echo '<div class="tab-pane fade' . $active . '" id="' . $mes . '" role="tabpanel" aria-labelledby="' . $mes . '-tab">';
                     echo '<div class="row">';
-                    if (isset($datosCronograma[$mes])) {
-                      foreach ($datosCronograma[$mes] as $identificador => $valor) {
+                    if (isset($datosCronograma[$index])) {
+                      $idCronogramaPago = '';
+                      foreach ($datosCronograma[$index] as $identificador => $valor) {
+                        if ($identificador == 'idCronogramaPago') {
+                          $idCronogramaPago = $valor;
+                          continue;
+                        }
                         echo '<div class="col-md-2">';
                         echo '<label class="form-label" style="font-weight: bold">' . ucfirst($identificador) . ': </label>';
                         echo '<input type="text" class="form-control" value="' . $valor . '" placeholder="Apellido Alumno" disabled>';
                         echo '</div>';
                       }
+                      echo '<div class="col-md-2" style="margin-top: 31px;">';
+
+                      echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" value="' . $idCronogramaPago . '">Registrar Comunicado</button>';
+                      echo '</div>';
                     }
                     echo '</div>';
                     echo '</div>';
                   }
                   ?>
+                  <br>
+                </div>
+                <br>
+
+                <h3 style=" font-weight: bold; text-align: center;">Informes de Comunicado</h3>
+                <br>
+                <!-- pestañas y contenido de los comunicados -->
+                <div class="container">
+
+                  <?php
+                  foreach ($datosCronograma as $index => $comunicado) {
+                    if (isset($comunicado['tituloComunicacion'])) {
+                      echo '<div class="mb-3 row">';
+                      echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
+                      echo '<div class="col">';
+                      echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
+                      echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $comunicado['tituloComunicacion'] . '">';
+                      echo '</div>';
+                      echo '<div class="col-md-2">';
+                      echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
+                      echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $comunicado['fechaComunicacion'] . '">';
+                      echo '</div>';
+                      echo '<div class="col-auto">';
+                      echo '<label class="form-label">&nbsp;</label>';
+                      echo '<div>';
+                      echo '<button class="btn btn-primary" data-id="' . $comunicado['idComunicacionPago'] . '">Editar</button>';
+                      echo '<button class="btn btn-danger" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
+                      echo '</div>';
+                      echo '</div>';
+                      echo '<div class="mb-3">';
+                      echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
+                      echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $comunicado['detalleComunicacion'] . '</textarea>';
+                      echo '</div>';
+                      echo '</div>';
+                    }
+                  }
+                  ?>
+
+                  <!-- todos los comunicado que ayan ... -->
+
                 </div>
 
               </div>
             </div>
-            
+
       </div>
-    </div>
+      </span>
 
+      <div class="container row g-3 p-3 justify-content-between">
+        <button type="button"
+          class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
 
-    </div>
-    </span>
-
-    <div class="container row g-3 p-3 justify-content-between">
-      <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
-      <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
-    </div>
-    </form>
+      </div>
+      </form>
     </div>
     </div>
   </section>
 </main>
+
+<!-- registrar modal comunicado -->
+<div class="modal" id="comunicadoModal" tabindex="-1">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registrar Comunicado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="col-md-4">
+          <label for="exampleFormControlInput2" class="form-label">Fecha</label>
+          <input type="date" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado">
+        </div>
+        <div class="col">
+          <label for="exampleFormControlInput1" class="form-label">Asunto</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto">
+        </div>
+
+
+
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"
+            placeholder="Contenido del comunicado"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
