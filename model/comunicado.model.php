@@ -70,12 +70,10 @@ class ModelComunicado
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-
   //cronograma de pago para el comunicado de pago $codCronograma = idAdmisionAlumno $tabla = cronograma_pago
-
   public static function mdlGetCronogramaPagoComunicado($tabla, $codCronograma)
   {
-      $statement = Connection::conn()->prepare("
+    $statement = Connection::conn()->prepare("
         SELECT 
           cp.idCronogramaPago,
           cp.conceptoPago,
@@ -87,15 +85,15 @@ class ModelComunicado
         WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
         GROUP BY cp.idCronogramaPago
       ");
-      $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
-      $statement->execute();
-      return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  
 
+  //comunciados asociados al cronograma de pago del alumno
   public static function mdlGetComunicadoPago($tabla, $codCronograma)
   {
-      $statement = Connection::conn()->prepare("
+    $statement = Connection::conn()->prepare("
         SELECT 
           dcp.idDetalleComunicacion,
           dcp.idComunicacionPago,
@@ -105,25 +103,13 @@ class ModelComunicado
         FROM comunicacion_pago com
         LEFT JOIN detalle_comunicacion_pago dcp ON com.idComunicacionPago = dcp.idComunicacionPago
         WHERE com.idCronogramaPago = :idCronogramaPago
+        ORDER BY dcp.fechaComunicacion DESC
       ");
-      $statement->bindParam(":idCronogramaPago", $codCronograma, PDO::PARAM_INT);
-      $statement->execute();
-      return $statement->fetchAll(PDO::FETCH_ASSOC);
+    $statement->bindParam(":idCronogramaPago", $codCronograma, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  
-  /* 
-CREATE TABLE `comunicacion_pago` (
-  `idComunicacionPago` int(11) NOT NULL,
-  `idCronogramaPago` int(11) NOT NULL,
-) 
 
-CREATE TABLE `detalle_comunicacion_pago` (
-  `idDetalleComunicacion` int(11) NOT NULL,
-  `idComunicacionPago` int(11) NOT NULL,
-  `tituloComunicacion` varchar(100) NOT NULL,
-  `detalleComunicacion` varchar(255) NOT NULL,
-  `fechaComunicacion` date NOT NULL,
-) 
- */
+
 
 }

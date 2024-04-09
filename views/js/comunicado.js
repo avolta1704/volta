@@ -16,7 +16,29 @@ $(".dataTableComunicadoPago").on("click", ".btnComunicadoPago", function () {
         }
     });
 });
+/* <!-- registrar modal comunicado --> */
+/* echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" cronogramaPago="' . $idCronogramaPago . '">Registrar Comunicado</button>'; */
+$(".dataTableComunicadoPago").on("click", ".btnCronoCumunicado", function (event) {
+  event.stopPropagation();
+  var cronogramaPago = $(this).attr("cronogramaPago");
+  var data = new FormData();
 
+  data.append("cronogramaPago", cronogramaPago);
+  $.ajax({
+    url: "ajax/alumnoss.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+
+    success: function (response) {
+
+  
+    },
+  });
+});
 //vista modal cronograma de pagos de pagoalumnos
 $(".dataTableComunicadoPago").on(
   "click",
