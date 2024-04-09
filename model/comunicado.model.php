@@ -74,18 +74,42 @@ class ModelComunicado
   public static function mdlGetCronogramaPagoComunicado($tabla, $codCronograma)
   {
     $statement = Connection::conn()->prepare("
-      SELECT 
-        cp.idCronogramaPago,
-        cp.conceptoPago,
-        cp.fechaLimite,
-        cp.estadoCronograma,
-        cp.mesPago
-      FROM $tabla cp
-      WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
-    ");
+        SELECT 
+          cp.idCronogramaPago,
+          cp.conceptoPago,
+          cp.montoPago,
+          cp.mesPago,
+          cp.fechaLimite,
+          cp.estadoCronograma
+        FROM $tabla cp
+        WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
+        GROUP BY cp.idCronogramaPago
+      ");
     $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
     $statement->execute();
-    return $statement->fetch(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  //comunciados asociados al cronograma de pago del alumno
+  public static function mdlGetComunicadoPago($tabla, $codCronograma)
+  {
+    $statement = Connection::conn()->prepare("
+        SELECT 
+          dcp.idDetalleComunicacion,
+          dcp.idComunicacionPago,
+          dcp.tituloComunicacion,
+          dcp.detalleComunicacion,
+          dcp.fechaComunicacion
+        FROM comunicacion_pago com
+        LEFT JOIN detalle_comunicacion_pago dcp ON com.idComunicacionPago = dcp.idComunicacionPago
+        WHERE com.idCronogramaPago = :idCronogramaPago
+        ORDER BY dcp.fechaComunicacion DESC
+      ");
+    $statement->bindParam(":idCronogramaPago", $codCronograma, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+
 
 }

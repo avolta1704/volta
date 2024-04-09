@@ -14,17 +14,24 @@ class ControllerComunicado
   public static function ctrGetDatosAlumnoComunicado($codAlumno)
   {
     $tabla = "alumno";
-    $listaAlumnos = ModelComunicado::mdlGetDatosAlumnoComunicado($tabla,$codAlumno);
+    $listaAlumnos = ModelComunicado::mdlGetDatosAlumnoComunicado($tabla, $codAlumno);
     return $listaAlumnos;
   }
+
   //cronograma de pago para el comunicado de pago
   public static function ctrGetCronogramaPagoComunicado($codCronograma)
   {
     $tabla = "cronograma_pago";
-    $listaAlumnos = ModelComunicado::mdlGetCronogramaPagoComunicado($tabla,$codCronograma);
-    return $listaAlumnos;
+    $datosCronograma = ModelComunicado::mdlGetCronogramaPagoComunicado($tabla, $codCronograma);
+    foreach ($datosCronograma as &$data) {
+      $idCronograma = $data["idCronogramaPago"];
+      //comunciados asociados al cronograma de pago del alumno
+      $datosComunicado = ModelComunicado::mdlGetComunicadoPago($tabla, $idCronograma);
+      $data['comunicado'] = $datosComunicado;
+      $data['estadoCronograma'] = FunctionComunicado::getEstadoComunicadoCrono($data["estadoCronograma"]);
+    }
+    return $datosCronograma;
   }
-
 
 
 }

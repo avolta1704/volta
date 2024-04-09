@@ -29,44 +29,44 @@
                     <div class="row">
 
                       <div class="col-md-4">
-                        <label for="apellidoAlumnoPago" class="form-label" style="font-weight: bold">Apellidos: </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["apellidosAlumno"] ?>" placeholder="Apellido Alumno" disabled>
+                        <label class="form-label" style="font-weight: bold">Apellidos: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["apellidosAlumno"] ?>"
+                          placeholder="Apellido Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Nombres: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["nombresAlumno"] ?>"
+                        <label class="form-label" style="font-weight: bold">Nombres: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["nombresAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Codigo: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["codAlumnoCaja"] ?>"
+                        <label class="form-label" style="font-weight: bold">Codigo: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["codAlumnoCaja"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Dni: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["dniAlumno"] ?>"
+                        <label class="form-label" style="font-weight: bold">Dni: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["dniAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Grado: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["descripcionGrado"] ?>"
+                        <label class="form-label" style="font-weight: bold">Grado: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["descripcionGrado"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Nivel: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["descripcionNivel"] ?>"
+                        <label class="form-label" style="font-weight: bold">Nivel: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["descripcionNivel"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Estado: </label>
-                        <input type="text" class="form-control"  value="<?php echo $datosAlumno["estadoAlumno"] ?>"
+                        <label class="form-label" style="font-weight: bold">Estado: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["estadoAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
@@ -79,41 +79,41 @@
                     <div class="row">
 
                       <div class="col-md-4">
-                        <label for="apellidoApoderadoPago" class="form-label" style="font-weight: bold">Apellidos:
+                        <label class="form-label" style="font-weight: bold">Apellidos:
                         </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["apellidoApoderado"] ?>" placeholder="Apellido Apoderado" disabled>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["apellidoApoderado"] ?>"
+                          placeholder="Apellido Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Nombres: </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["nombreApoderado"] ?>" placeholder="Nombre Apoderado" disabled>
+                        <label class="form-label" style="font-weight: bold">Nombres: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["nombreApoderado"] ?>"
+                          placeholder="Nombre Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Tipo Apoderao: </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["tipoApoderado"] ?>" placeholder="Padre / Madre" disabled>
+                        <label class="form-label" style="font-weight: bold">Tipo Apoderao: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["tipoApoderado"] ?>"
+                          placeholder="Padre / Madre" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Telefono: </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["numeroApoderado"] ?>" placeholder="Numero Apoderado" disabled>
+                        <label class="form-label" style="font-weight: bold">Telefono: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["numeroApoderado"] ?>"
+                          placeholder="Numero Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Correo: </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["correoApoderado"] ?>" placeholder="Correo Apoderado" disabled>
+                        <label class="form-label" style="font-weight: bold">Correo: </label>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["correoApoderado"] ?>"
+                          placeholder="Correo Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
-                        <label for="nombreApoderadoPago" class="form-label" style="font-weight: bold">Convivencia Alumno:
+                        <label class="form-label" style="font-weight: bold">Convivencia Alumno:
                         </label>
-                        <input type="text" class="form-control" 
-                        value="<?php echo $datosAlumno["convivenciaAlumno"] ?>" placeholder=" Si / No" disabled>
+                        <input type="text" class="form-control" value="<?php echo $datosAlumno["convivenciaAlumno"] ?>"
+                          placeholder=" Si / No" disabled>
                       </div>
 
 
@@ -125,126 +125,96 @@
               </div>
             </div>
 
-
-
             <div style="display: flex; justify-content: center;">
               <div class="container" style="margin-top: 20px;">
-                <!-- cronograma de pagos alumno -->
                 <?php
                 $codCronograma = $_GET["codAdAlumCronograma"];
                 $datosCronograma = ControllerComunicado::ctrGetCronogramaPagoComunicado($codCronograma);
+
+                $meses = ['matricula', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+                $nombresCampos = ['Tipo de pago', 'Cantidad pago', 'Mes', 'Fecha límite Pago', 'Estado Pago'];
                 ?>
+
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
-
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="matricula-tab" data-bs-toggle="tab" href="#matricula" role="tab"
-                      aria-controls="matricula" aria-selected="true">Matricula</a>
-                  </li>
-
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="marzo-tab" data-bs-toggle="tab" href="#marzo" role="tab"
-                      aria-controls="marzo" aria-selected="true">Marzo</a>
-                  </li>
-
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="abril-tab" data-bs-toggle="tab" href="#abril" role="tab"
-                      aria-controls="abril" aria-selected="true">Abril</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="mayo-tab" data-bs-toggle="tab" href="#mayo" role="tab" aria-controls="mayo"
-                      aria-selected="true">Mayo</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="junio-tab" data-bs-toggle="tab" href="#junio" role="tab"
-                      aria-controls="junio" aria-selected="true">Junio</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="julio-tab" data-bs-toggle="tab" href="#julio" role="tab"
-                      aria-controls="julio" aria-selected="true">Julio</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="agosto-tab" data-bs-toggle="tab" href="#agosto" role="tab"
-                      aria-controls="agosto" aria-selected="true">Agosto</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="septiembre-tab" data-bs-toggle="tab" href="#septiembre" role="tab"
-                      aria-controls="septiembre" aria-selected="true">Septiembre</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="octubre-tab" data-bs-toggle="tab" href="#octubre" role="tab"
-                      aria-controls="octubre" aria-selected="true">Octubre</a>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link " id="noviembre-tab" data-bs-toggle="tab" href="#noviembre" role="tab"
-                      aria-controls="noviembre" aria-selected="true">Noviembre</a>
-                  </li>
-
-                  <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="diciembre-tab" data-bs-toggle="tab" href="#diciembre" role="tab"
-                      aria-controls="diciembre" aria-selected="false">Diciembre</a>
-                  </li>
+                  <?php
+                  foreach ($meses as $index => $mes) {
+                    $active = $index === 0 ? ' active' : '';
+                    echo '<li class="nav-item" role="presentation">';
+                    echo '<a class="nav-link' . $active . '" id="' . $mes . '-tab" data-bs-toggle="tab" href="#' . $mes . '" role="tab" aria-controls="' . $mes . '" aria-selected="true">' . ucfirst($mes) . '</a>';
+                    echo '</li>';
+                  }
+                  ?>
                 </ul>
-                <div class="tab-content" id="myTabContent">
+                <br>
+                <div class="tab-content" id="myTabContent" style="border-bottom: 1px solid #000;">
+                  <?php
+                  foreach ($meses as $index => $mes) {
+                    $active = $index === 0 ? ' show active' : '';
+                    echo '<div class="tab-pane fade' . $active . '" id="' . $mes . '" role="tabpanel" aria-labelledby="' . $mes . '-tab">';
+                    echo '<div class="row">';
+                    if (isset($datosCronograma[$index])) {
+                      $idCronogramaPago = '';
+                      $i = 0;
+                      foreach ($datosCronograma[$index] as $identificador => $valor) {
+                        if ($identificador == 'idCronogramaPago') {
+                          $idCronogramaPago = $valor;
+                          continue;
+                        }
+                        if ($identificador == 'comunicado') {
+                          continue;
+                        }
+                        echo '<div class="col-md-2">';
+                        echo '<label class="form-label" style="font-weight: bold">' . $nombresCampos[$i] . ': </label>';
+                        echo '<input type="text" class="form-control" value="' . $valor . '" placeholder="Apellido Alumno" disabled>';
+                        echo '</div>';
+                        $i++;
+                      }
+                      echo '<div class="col-md-2" style="margin-top: 31px;">';
 
-                  <div class="tab-pane fade show active" id="matricula" role="tabpanel" aria-labelledby="matricula-tab">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">#</th>
-                          <th scope="col">First</th>
-                          <th scope="col">Last</th>
-                          <th scope="col">Handle</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row">1</th>
-                          <td>Mark</td>
-                          <td>Otto</td>
-                          <td>@mdo</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+                      echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" cronogramaPago="' . $idCronogramaPago . '">Registrar Comunicado</button>';
 
-                  <div class="tab-pane fade" id="marzo" role="tabpanel" aria-labelledby="marzo-tab">
-                    <table class="table">
-                   
-                  </div>
-                  <div class="tab-pane fade  " id="abril" role="tabpanel" aria-labelledby="abril-tab">
-                    <table class="table">
-                     
-                    </table>
-                  </div>
-                  <div class="tab-pane fade  " id="mayo" role="tabpanel" aria-labelledby="mayo-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="junio" role="tabpanel" aria-labelledby="junio-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="julio" role="tabpanel" aria-labelledby="julio-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="agosto" role="tabpanel" aria-labelledby="agosto-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="septiembre" role="tabpanel" aria-labelledby="septiembre-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="octubre" role="tabpanel" aria-labelledby="octubre-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
-                  <div class="tab-pane fade  " id="noviembre" role="tabpanel" aria-labelledby="noviembre-tab">
-                    <!-- Contenido de la pestaña Marzo -->
-                  </div>
+                      echo '</div>';
+                    }
+                    echo '</div>'; // Cierre del div de la fila
+                    echo '<br>';
+                    echo '<h3 style=" font-weight: bold; text-align: center;">Informes de Comunicado</h3>';
+                    echo '<br>';
+                    if (isset($datosCronograma[$index]['comunicado'])) {
+                      foreach ($datosCronograma[$index]['comunicado'] as $comunicado) {
+                        echo '<div class="mb-3 row">';
+                        echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
+                        echo '<div class="col">';
+                        echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
+                        echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $comunicado['tituloComunicacion'] . '">';
+                        echo '</div>';
+                        echo '<div class="col-md-2">';
+                        echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
+                        echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $comunicado['fechaComunicacion'] . '">';
+                        echo '</div>';
+                        echo '<div class="col-auto">';
+                        echo '<label class="form-label">&nbsp;</label>';
+                        echo '<div>';
 
-                  <div class="tab-pane fade" id="diciembre" role="tabpanel" aria-labelledby="diciembre-tab">
-                    <!-- Contenido de la pestaña Diciembre -->
-                  </div>
+                        echo '<button class="btn btn-primary btnEditarComuni" data-id="' . $comunicado['idDetalleComunicacion'] . '">Editar</button>';
+                        echo '<button class="btn btn-danger btnBorraraComuni" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
+                        
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="mb-3">';
+                        echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
+                        echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $comunicado['detalleComunicacion'] . '</textarea>';
+                        echo '</div>';
+                        echo '</div>'; // Cierre del div de la fila
+                      }
+                    }
+                    echo '</div>'; // Cierre del div de la pestaña
+                  }
+                  ?>
+                  <br>
                 </div>
+                <br>
               </div>
             </div>
-
 
       </div>
       </span>
@@ -252,10 +222,46 @@
       <div class="container row g-3 p-3 justify-content-between">
         <button type="button"
           class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
-        <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
+
       </div>
       </form>
     </div>
     </div>
   </section>
 </main>
+
+<!-- registrar modal comunicado -->
+<div class="modal" id="comunicadoModal" tabindex="-1">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registrar Comunicado</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="col-md-4">
+          <label for="exampleFormControlInput2" class="form-label">Fecha</label>
+          <input type="date" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado">
+        </div>
+        <div class="col">
+          <label for="exampleFormControlInput1" class="form-label">Asunto</label>
+          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto">
+        </div>
+
+
+
+        <div class="mb-3">
+          <label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"
+            placeholder="Contenido del comunicado"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
