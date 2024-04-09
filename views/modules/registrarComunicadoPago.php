@@ -127,92 +127,80 @@
 
             <div style="display: flex; justify-content: center;">
               <div class="container" style="margin-top: 20px;">
-                <?php
-                $codCronograma = $_GET["codAdAlumCronograma"];
-                $datosCronograma = ControllerComunicado::ctrGetCronogramaPagoComunicado($codCronograma);
-                $meses = ['matricula', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-                ?>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
                   <?php
-                  foreach ($meses as $index => $mes) {
-                    $active = $index === 0 ? ' active' : '';
-                    echo '<li class="nav-item" role="presentation">';
-                    echo '<a class="nav-link' . $active . '" id="' . $mes . '-tab" data-bs-toggle="tab" href="#' . $mes . '" role="tab" aria-controls="' . $mes . '" aria-selected="true">' . ucfirst($mes) . '</a>';
-                    echo '</li>';
-                  }
+                  $codCronograma = $_GET["codAdAlumCronograma"];
+                  $datosCronograma = ControllerComunicado::ctrGetCronogramaPagoComunicado($codCronograma);
+                  
+                  $meses = ['matricula', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
                   ?>
-                </ul>
-                <br>
-                <div class="tab-content" id="myTabContent" style="border-bottom: 1px solid #000;">
-                  <?php
-                  foreach ($meses as $index => $mes) {
-                    $active = $index === 0 ? ' show active' : '';
-                    echo '<div class="tab-pane fade' . $active . '" id="' . $mes . '" role="tabpanel" aria-labelledby="' . $mes . '-tab">';
-                    echo '<div class="row">';
-                    if (isset($datosCronograma[$index])) {
-                      $idCronogramaPago = '';
-                      foreach ($datosCronograma[$index] as $identificador => $valor) {
-                        if ($identificador == 'idCronogramaPago') {
-                          $idCronogramaPago = $valor;
-                          continue;
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <?php
+                    foreach ($meses as $index => $mes) {
+                      $active = $index === 0 ? ' active' : '';
+                      echo '<li class="nav-item" role="presentation">';
+                      echo '<a class="nav-link' . $active . '" id="' . $mes . '-tab" data-bs-toggle="tab" href="#' . $mes . '" role="tab" aria-controls="' . $mes . '" aria-selected="true">' . ucfirst($mes) . '</a>';
+                      echo '</li>';
+                    }
+                    ?>
+                  </ul>
+                  <br>
+                  <div class="tab-content" id="myTabContent" style="border-bottom: 1px solid #000;">
+                    <?php
+                    foreach ($meses as $index => $mes) {
+                      $active = $index === 0 ? ' show active' : '';
+                      echo '<div class="tab-pane fade' . $active . '" id="' . $mes . '" role="tabpanel" aria-labelledby="' . $mes . '-tab">';
+                      echo '<div class="row">';
+                      if (isset($datosCronograma[$index])) {
+                        $idCronogramaPago = '';
+                        foreach ($datosCronograma[$index] as $identificador => $valor) {
+                          if ($identificador == 'idCronogramaPago') {
+                            $idCronogramaPago = $valor;
+                            continue;
+                          }
+                          echo '<div class="col-md-2">';
+                          echo '<label class="form-label" style="font-weight: bold">' . ucfirst($identificador) . ': </label>';
+                          echo '<input type="text" class="form-control" value="' . $valor . '" placeholder="Apellido Alumno" disabled>';
+                          echo '</div>';
                         }
-                        echo '<div class="col-md-2">';
-                        echo '<label class="form-label" style="font-weight: bold">' . ucfirst($identificador) . ': </label>';
-                        echo '<input type="text" class="form-control" value="' . $valor . '" placeholder="Apellido Alumno" disabled>';
+                        echo '<div class="col-md-2" style="margin-top: 31px;">';
+                        echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" value="' . $idCronogramaPago . '">Registrar Comunicado</button>';
                         echo '</div>';
                       }
-                      echo '<div class="col-md-2" style="margin-top: 31px;">';
-
-                      echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" value="' . $idCronogramaPago . '">Registrar Comunicado</button>';
-                      echo '</div>';
+                      echo '</div>'; // Cierre del div de la fila
+                      echo '<br>';
+                      echo '<h3 style=" font-weight: bold; text-align: center;">Informes de Comunicado</h3>';
+                      echo '<br>';
+                      if (isset($datosCronograma[$index]['tituloComunicacion'])) {
+                        echo '<div class="mb-3 row">';
+                        echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
+                        echo '<div class="col">';
+                        echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
+                        echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $datosCronograma[$index]['tituloComunicacion'] . '">';
+                        echo '</div>';
+                        echo '<div class="col-md-2">';
+                        echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
+                        echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $datosCronograma[$index]['fechaComunicacion'] . '">';
+                        echo '</div>';
+                        echo '<div class="col-auto">';
+                        echo '<label class="form-label">&nbsp;</label>';
+                        echo '<div>';
+                        echo '<button class="btn btn-primary" data-id="' . $datosCronograma[$index]['idComunicacionPago'] . '">Editar</button>';
+                        echo '<button class="btn btn-danger" data-id="' . $datosCronograma[$index]['idComunicacionPago'] . '">Borrar</button>';
+                        echo '</div>';
+                        echo '</div>';
+                        echo '<div class="mb-3">';
+                        echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
+                        echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $datosCronograma[$index]['detalleComunicacion'] . '</textarea>';
+                        echo '</div>';
+                        echo '</div>'; // Cierre del div de la fila
+                      }
+                      echo '</div>'; // Cierre del div de la pestaña
                     }
-                    echo '</div>';
-                    echo '</div>';
-                  }
-                  ?>
+                    ?>
+                    <br>
+                  </div>
                   <br>
                 </div>
-                <br>
-
-                <h3 style=" font-weight: bold; text-align: center;">Informes de Comunicado</h3>
-                <br>
-                <!-- pestañas y contenido de los comunicados -->
-                <div class="container">
-
-                  <?php
-                  foreach ($datosCronograma as $index => $comunicado) {
-                    if (isset($comunicado['tituloComunicacion'])) {
-                      echo '<div class="mb-3 row">';
-                      echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
-                      echo '<div class="col">';
-                      echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
-                      echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $comunicado['tituloComunicacion'] . '">';
-                      echo '</div>';
-                      echo '<div class="col-md-2">';
-                      echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
-                      echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $comunicado['fechaComunicacion'] . '">';
-                      echo '</div>';
-                      echo '<div class="col-auto">';
-                      echo '<label class="form-label">&nbsp;</label>';
-                      echo '<div>';
-                      echo '<button class="btn btn-primary" data-id="' . $comunicado['idComunicacionPago'] . '">Editar</button>';
-                      echo '<button class="btn btn-danger" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
-                      echo '</div>';
-                      echo '</div>';
-                      echo '<div class="mb-3">';
-                      echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
-                      echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $comunicado['detalleComunicacion'] . '</textarea>';
-                      echo '</div>';
-                      echo '</div>';
-                    }
-                  }
-                  ?>
-
-                  <!-- todos los comunicado que ayan ... -->
-
-                </div>
-
-              </div>
             </div>
 
       </div>
