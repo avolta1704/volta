@@ -170,29 +170,31 @@
                       echo '<br>';
                       echo '<h3 style=" font-weight: bold; text-align: center;">Informes de Comunicado</h3>';
                       echo '<br>';
-                      if (isset($datosCronograma[$index]['tituloComunicacion'])) {
-                        echo '<div class="mb-3 row">';
-                        echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
-                        echo '<div class="col">';
-                        echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
-                        echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $datosCronograma[$index]['tituloComunicacion'] . '">';
-                        echo '</div>';
-                        echo '<div class="col-md-2">';
-                        echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
-                        echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $datosCronograma[$index]['fechaComunicacion'] . '">';
-                        echo '</div>';
-                        echo '<div class="col-auto">';
-                        echo '<label class="form-label">&nbsp;</label>';
-                        echo '<div>';
-                        echo '<button class="btn btn-primary" data-id="' . $datosCronograma[$index]['idComunicacionPago'] . '">Editar</button>';
-                        echo '<button class="btn btn-danger" data-id="' . $datosCronograma[$index]['idComunicacionPago'] . '">Borrar</button>';
-                        echo '</div>';
-                        echo '</div>';
-                        echo '<div class="mb-3">';
-                        echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
-                        echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $datosCronograma[$index]['detalleComunicacion'] . '</textarea>';
-                        echo '</div>';
-                        echo '</div>'; // Cierre del div de la fila
+                      if (isset($datosCronograma[$index]['comunicado'])) {
+                        foreach ($datosCronograma[$index]['comunicado'] as $comunicado) {
+                          echo '<div class="mb-3 row">';
+                          echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
+                          echo '<div class="col">';
+                          echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
+                          echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $comunicado['tituloComunicacion'] . '">';
+                          echo '</div>';
+                          echo '<div class="col-md-2">';
+                          echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
+                          echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $comunicado['fechaComunicacion'] . '">';
+                          echo '</div>';
+                          echo '<div class="col-auto">';
+                          echo '<label class="form-label">&nbsp;</label>';
+                          echo '<div>';
+                          echo '<button class="btn btn-primary" data-id="' . $comunicado['idComunicacionPago'] . '">Editar</button>';
+                          echo '<button class="btn btn-danger" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
+                          echo '</div>';
+                          echo '</div>';
+                          echo '<div class="mb-3">';
+                          echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
+                          echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $comunicado['detalleComunicacion'] . '</textarea>';
+                          echo '</div>';
+                          echo '</div>'; // Cierre del div de la fila
+                        }
                       }
                       echo '</div>'; // Cierre del div de la pestaña
                     }

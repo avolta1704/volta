@@ -75,30 +75,42 @@ class ModelComunicado
 
   public static function mdlGetCronogramaPagoComunicado($tabla, $codCronograma)
   {
-    $statement = Connection::conn()->prepare("
-      SELECT 
-        cp.idCronogramaPago,
-        cp.conceptoPago,
-        cp.montoPago,
-        cp.mesPago,
-        cp.fechaLimite,
-        cp.estadoCronograma,
-        dcp.idComunicacionPago,
-        dcp.tituloComunicacion,
-        dcp.detalleComunicacion,
-        dcp.fechaComunicacion
-      FROM $tabla cp
-      LEFT JOIN comunicacion_pago com ON cp.idCronogramaPago = com.idCronogramaPago
-      LEFT JOIN detalle_comunicacion_pago dcp ON com.idComunicacionPago = dcp.idComunicacionPago
-      WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
-      GROUP BY cp.idCronogramaPago
-    ");
-    $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+      $statement = Connection::conn()->prepare("
+        SELECT 
+          cp.idCronogramaPago,
+          cp.conceptoPago,
+          cp.montoPago,
+          cp.mesPago,
+          cp.fechaLimite,
+          cp.estadoCronograma
+        FROM $tabla cp
+        WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
+        GROUP BY cp.idCronogramaPago
+      ");
+      $statement->bindParam(":idAdmisionAlumno", $codCronograma, PDO::PARAM_INT);
+      $statement->execute();
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  
 
-
+  public static function mdlGetComunicadoPago($tabla, $codCronograma)
+  {
+      $statement = Connection::conn()->prepare("
+        SELECT 
+          dcp.idDetalleComunicacion,
+          dcp.idComunicacionPago,
+          dcp.tituloComunicacion,
+          dcp.detalleComunicacion,
+          dcp.fechaComunicacion
+        FROM comunicacion_pago com
+        LEFT JOIN detalle_comunicacion_pago dcp ON com.idComunicacionPago = dcp.idComunicacionPago
+        WHERE com.idCronogramaPago = :idCronogramaPago
+      ");
+      $statement->bindParam(":idCronogramaPago", $codCronograma, PDO::PARAM_INT);
+      $statement->execute();
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  
   /* 
 CREATE TABLE `comunicacion_pago` (
   `idComunicacionPago` int(11) NOT NULL,
