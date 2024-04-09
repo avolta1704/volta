@@ -64,11 +64,11 @@
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
-                      <div class="col-md-4">
+                      <!-- <div class="col-md-4">
                         <label class="form-label" style="font-weight: bold">Estado: </label>
                         <input type="text" class="form-control" value="<?php echo $datosAlumno["estadoAlumno"] ?>"
                           placeholder="Nombre Alumno" disabled>
-                      </div>
+                      </div> -->
 
                     </div>
                   </div>
@@ -171,7 +171,7 @@
                       }
                       echo '<div class="col-md-2" style="margin-top: 31px;">';
 
-                      echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" cronogramaPago="' . $idCronogramaPago . '">Registrar Comunicado</button>';
+                      echo '<button type="button" class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" codComunicado="' . $idCronogramaPago . '">Registrar Comunicado</button>';
 
                       echo '</div>';
                     }
@@ -195,9 +195,9 @@
                         echo '<label class="form-label">&nbsp;</label>';
                         echo '<div>';
 
-                        echo '<button class="btn btn-primary btnEditarComuni" data-id="' . $comunicado['idDetalleComunicacion'] . '">Editar</button>';
-                        echo '<button class="btn btn-danger btnBorraraComuni" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
-                        
+                        echo '<button type="button" class="btn btn-primary btnEditarComuni" data-id="' . $comunicado['idDetalleComunicacion'] . '">Editar</button>';
+                        echo '<button type="button" class="btn btn-danger btnBorraraComuni" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
+
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="mb-3">';
@@ -231,10 +231,10 @@
 </main>
 
 <!-- registrar modal comunicado -->
-<div class="modal" id="comunicadoModal" tabindex="-1">
-
+<div class="modal comunicadoModal" id="comunicadoModal" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
         <h5 class="modal-title">Registrar Comunicado</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -242,25 +242,23 @@
 
       <div class="modal-body">
         <div class="col-md-4">
-          <label for="exampleFormControlInput2" class="form-label">Fecha</label>
-          <input type="date" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado">
+          <label for="fechaComuni" class="form-label">Fecha Comunicado</label>
+          <input type="date" class="form-control" id="fechaComuni" name="fechaComuni" placeholder="Fecha Comunicado">
         </div>
         <div class="col">
-          <label for="exampleFormControlInput1" class="form-label">Asunto</label>
-          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto">
+          <label for="asuntoComuni" class="form-label">Asunto</label>
+          <input type="text" class="form-control" id="asuntoComuni" name="asuntoComuni" placeholder="Asunto">
         </div>
 
-
-
         <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="6"
+          <label for="comunicado" class="form-label">Comunicado</label>
+          <textarea class="form-control" id="comunicado" name="comunicado" rows="6"
             placeholder="Contenido del comunicado"></textarea>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary btnRegistrarComunicacion">Registrar Comunicado</button>
       </div>
     </div>
   </div>

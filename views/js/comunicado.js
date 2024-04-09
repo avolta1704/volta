@@ -1,44 +1,89 @@
-
 //  crear nuevo Comunicadopago
 $(".dataTableComunicadoPago").on("click", ".btnComunicadoPago", function () {
-    var codAdAlumCronograma = $(this).attr('codAdAlumCronograma');
-    var codAlumno = $(this).attr('codAlumno');
-    Swal.fire({
-        icon: "info",
-        title: "Registrara un comunicado de Pago",
-        html: "<strong>Continuar</strong>",
-        showCancelButton: true, // Muestra el botón de cancelación
-        confirmButtonText: "Sí",
-        cancelButtonText: "No",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location = "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" + codAdAlumCronograma + "&codAlumno=" + codAlumno;
-        }
-    });
-});
-/* <!-- registrar modal comunicado --> */
-/* echo '<button class="btn btn-warning btnCronoCumunicado" data-bs-toggle="modal" data-bs-target="#comunicadoModal" cronogramaPago="' . $idCronogramaPago . '">Registrar Comunicado</button>'; */
-$(".dataTableComunicadoPago").on("click", ".btnCronoCumunicado", function (event) {
-  event.stopPropagation();
-  var cronogramaPago = $(this).attr("cronogramaPago");
-  var data = new FormData();
-
-  data.append("cronogramaPago", cronogramaPago);
-  $.ajax({
-    url: "ajax/alumnoss.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-
-    success: function (response) {
-
-  
-    },
+  var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
+  var codAlumno = $(this).attr("codAlumno");
+  Swal.fire({
+    icon: "info",
+    title: "Registrara un comunicado de Pago",
+    html: "<strong>Continuar</strong>",
+    showCancelButton: true, // Muestra el botón de cancelación
+    confirmButtonText: "Sí",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location =
+        "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" +
+        codAdAlumCronograma +
+        "&codAlumno=" +
+        codAlumno;
+    }
   });
 });
+
+/* <!-- registrar modal comunicado --> */
+// Escucha el evento de clic en el botón .btnCronoCumunicado
+$(document).on("click", ".btnCronoCumunicado", function (event) {
+  event.stopPropagation();
+  var codComunicado = $(this).attr("codComunicado");
+
+  // Escucha el evento de clic en el botón de registro del modal
+  $(".btnRegistrarComunicacion").click(function () {
+    var fechaComuni = $("#fechaComuni").val();
+    var asuntoComuni = $("#asuntoComuni").val();
+    var comunicado = $("#comunicado").val();
+
+    var datosDeComunicado = {
+      codComunicado: codComunicado,
+      fechaComuni: fechaComuni,
+      asuntoComuni: asuntoComuni,
+      comunicado: comunicado,
+    };
+    var jsonDatosComunicado = JSON.stringify({ datos: datosDeComunicado });
+    $.ajax({
+      url: "ajax/comunicado.ajax.php",
+      method: "POST",
+      data: jsonDatosComunicado, // Envía el JSON
+      contentType: "application/json", // Indica que estás enviando datos JSON
+      dataType: "json",
+
+      success: function (response) {
+        if (response == "ok") {
+          Swal.fire({
+            icon: "success",
+            title: "Correcto",
+            text: "Comunicado registrado correctamente",
+            timer: 2000,
+            showConfirmButton: false
+          }).then(function() {
+            // Recargar la página después de cerrar el modal
+            location.reload();
+          });
+        } else {
+          Swal.fire({
+            icon: "warning",
+            title: "Advertencia",
+            text: "No se registró el comunicado",
+            timer: 2000,
+            showConfirmButton: false
+          }).then(function() {
+            // Recargar la página después de cerrar el modal
+            location.reload();
+          });
+        }
+        // Cerrar el modal después de recibir la respuesta
+        $('#comunicadoModal').modal('hide');
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error(
+          "Error en la solicitud AJAX: ",
+          textStatus,
+          errorThrown
+        );
+      },
+    });
+  });
+});
+
 //vista modal cronograma de pagos de pagoalumnos
 $(".dataTableComunicadoPago").on(
   "click",

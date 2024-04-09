@@ -109,7 +109,42 @@ class ModelComunicado
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  // Registro de comunicado de pago
+  public static function mdlCrearRegistroComunciadoPago($tabla, $dataComunicadoPago)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (idCronogramaPago, fechaCreacion, usuarioCreacion) VALUES (:idCronogramaPago, :fechaCreacion, :usuarioCreacion)");
+    $statement->bindParam(":idCronogramaPago", $dataComunicadoPago["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaCreacion", $dataComunicadoPago["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataComunicadoPago["usuarioCreacion"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //obtener el ultimo id de comunicacion_pago registrado
+  public static function mdlUltimoRegistroComunicacionPago($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(idComunicacionPago) as idComunicacionPago FROM $tabla");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Registro de detalle de comunicado de pago
+  public static function mdlCrearRegistroDetalleComunciado($tabla, $dataDetalleComunicado)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (idComunicacionPago, tituloComunicacion, detalleComunicacion, fechaComunicacion, fechaCreacion, usuarioCreacion) VALUES (:idComunicacionPago, :tituloComunicacion, :detalleComunicacion, :fechaComunicacion, :fechaCreacion, :usuarioCreacion)");
+    $statement->bindParam(":idComunicacionPago", $dataDetalleComunicado["idComunicacionPago"], PDO::PARAM_INT);
+    $statement->bindParam(":tituloComunicacion", $dataDetalleComunicado["tituloComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":detalleComunicacion", $dataDetalleComunicado["detalleComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaComunicacion", $dataDetalleComunicado["fechaComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataDetalleComunicado["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataDetalleComunicado["usuarioCreacion"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 
 
 }
