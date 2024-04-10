@@ -32,6 +32,53 @@ class ControllerComunicado
     }
     return $datosCronograma;
   }
+  // Registro de comunicado de pago
+  public static function ctrRegistrosComunicado($registroComunicado)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
 
+    $data = $registroComunicado;
 
+    $tabla = "comunicacion_pago";
+    $dataComunicadoPago = array(
+      "idCronogramaPago" => $data["codComunicado"],
+      "fechaCreacion" => date("Y-m-d H:i:s"),
+      "usuarioCreacion" => $idUsuario,
+    );
+    // Registro de comunicado de pago
+    $response = ModelComunicado::mdlCrearRegistroComunciadoPago($tabla, $dataComunicadoPago);
+    if ($response == "ok") {
+      $ultimoRegComunicado = self::ctrUltimoRegistroComunicacionPago();
+      $tabla = "detalle_comunicacion_pago";
+      $dataDetalleComunicado = array(
+        "idComunicacionPago" => $ultimoRegComunicado["idComunicacionPago"],
+        "tituloComunicacion" => $data["asuntoComuni"],
+        "detalleComunicacion" => $data["comunicado"],
+        "fechaComunicacion" => $data["fechaComuni"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+      );
+      // Registro de detalle de comunicado de pago
+      $response = ModelComunicado::mdlCrearRegistroDetalleComunciado($tabla, $dataDetalleComunicado);
+
+      if ($response == "ok") {
+        return $response;
+      } else {
+        return $response;
+      }
+    } else {
+      return $response;
+    }
+  }
+  //obtener el ultimo id de comunicacion_pago registrado
+  public static function ctrUltimoRegistroComunicacionPago()
+  {
+    $tabla = "comunicacion_pago";
+    $ultimoRegComunicado = ModelComunicado::mdlUltimoRegistroComunicacionPago($tabla);
+    return $ultimoRegComunicado;
+  }
 }

@@ -32,6 +32,14 @@ class ComunicadoAjax
     }
     echo json_encode($responseCronoPago);
   }
+  // Registro de comunicado de pago
+  public $registroComunicado;
+  public function ajaxRegistrosComunicado()
+  {
+    $registroComunicado = $this->registroComunicado;
+    $responseComunicado = ControllerComunicado::ctrRegistrosComunicado($registroComunicado);
+    echo json_encode($responseComunicado);
+  }
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
@@ -45,4 +53,13 @@ if (isset($_POST["codAdAlumCronograma"])) {
   $codAdAlumCronograma = new ComunicadoAjax();
   $codAdAlumCronograma->codAdAlumCronograma = $_POST["codAdAlumCronograma"];
   $codAdAlumCronograma->ajaxDataCronoPagoAdAlumEstado();
+}
+
+// Registro de comunicado de pago
+$datosJson = file_get_contents("php://input");
+$datos = json_decode($datosJson, true);
+if (isset($datos["datos"])) {
+  $registroComunicado = new ComunicadoAjax();
+  $registroComunicado->registroComunicado = $datos["datos"];
+  $registroComunicado->ajaxRegistrosComunicado();
 }
