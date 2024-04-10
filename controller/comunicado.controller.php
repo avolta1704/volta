@@ -68,10 +68,10 @@ class ControllerComunicado
       if ($response == "ok") {
         return $response;
       } else {
-        return $response;
+        return "error";
       }
     } else {
-      return $response;
+      return "error";
     }
   }
   //obtener el ultimo id de comunicacion_pago registrado
@@ -80,5 +80,52 @@ class ControllerComunicado
     $tabla = "comunicacion_pago";
     $ultimoRegComunicado = ModelComunicado::mdlUltimoRegistroComunicacionPago($tabla);
     return $ultimoRegComunicado;
+  }
+  // editar Registro de detalle comunicado de pago
+  public static function ctrEditarRegistroComunicado($dataEdit)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+
+    $tabla = "detalle_comunicacion_pago";
+
+    $dataEditarComunicado = array(
+      "idDetalleComunicacion" => $dataEdit["codComunicadoEdit"],
+      "tituloComunicacion" => $dataEdit["tituloComunicado"],
+      "detalleComunicacion" => $dataEdit["textoComunicado"],
+      "fechaComunicacion" => $dataEdit["fechaComunicado"],
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $idUsuario,
+    );
+    $response = ModelComunicado::mdlEditarRegistroDetalleComunciado($tabla, $dataEditarComunicado);
+    if ($response == "ok") {
+      return $response;
+    } else {
+      return "error";
+    }
+  }
+
+  // Borrar Registro de detalle comunicado de pago
+  public static function ctrBorrarRegistroComunicado($codComunicadoDetalle, $codComunicado)
+  {
+    $tabla = "detalle_comunicacion_pago";
+    // Borrar Registro de comunicado de pago
+    $response = ModelComunicado::mdlBorrarRegistroDetalleComunciado($tabla, $codComunicadoDetalle);
+    if ($response == "ok") {
+      $tabla = "comunicacion_pago";
+      // borrar Registro de detalle de comunicado de pago
+      $response = ModelComunicado::mdlBorrarRegistroComunciadoPago($tabla, $codComunicado);
+
+      if ($response == "ok") {
+        return $response;
+      } else {
+        return "error";
+      }
+    } else {
+      return "error";
+    }
   }
 }

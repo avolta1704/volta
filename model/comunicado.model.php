@@ -145,6 +145,43 @@ class ModelComunicado
       return "error";
     }
   }
-
+  // editar Registro de detalle comunicado de pago
+  public static function mdlEditarRegistroDetalleComunciado($tabla, $dataEditarComunicado)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET tituloComunicacion = :tituloComunicacion, detalleComunicacion = :detalleComunicacion, fechaComunicacion = :fechaComunicacion, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idDetalleComunicacion = :idDetalleComunicacion");
+    $statement->bindParam(":idDetalleComunicacion", $dataEditarComunicado["idDetalleComunicacion"], PDO::PARAM_INT);
+    $statement->bindParam(":tituloComunicacion", $dataEditarComunicado["tituloComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":detalleComunicacion", $dataEditarComunicado["detalleComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaComunicacion", $dataEditarComunicado["fechaComunicacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataEditarComunicado["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditarComunicado["usuarioActualizacion"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  // borrar Registro de detalle de comunicado de pago
+  public static function mdlBorrarRegistroDetalleComunciado($tabla, $codComunicadoDetalle)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idDetalleComunicacion = :idDetalleComunicacion");
+    $statement->bindParam(":idDetalleComunicacion", $codComunicadoDetalle, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  // Borrar Registro de comunicado de pago
+  public static function mdlBorrarRegistroComunciadoPago($tabla, $codComunicado)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idComunicacionPago = :idComunicacionPago");
+    $statement->bindParam(":idComunicacionPago", $codComunicado, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 
 }

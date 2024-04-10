@@ -40,12 +40,40 @@ class ComunicadoAjax
     $responseComunicado = ControllerComunicado::ctrRegistrosComunicado($registroComunicado);
     echo json_encode($responseComunicado);
   }
+  // Borrar Registro de detalle comunicado de pago
+  public $codComunicadoDetalle;
+  public $codComunicado;
+  public function ajaxBorrarRegistrosComunicado()
+  {
+    $codComunicadoDetalle = $this->codComunicadoDetalle;
+    $codComunicado = $this->codComunicado;
+    $borrarRegistroComunicado = ControllerComunicado::ctrBorrarRegistroComunicado($codComunicadoDetalle, $codComunicado);
+    echo json_encode($borrarRegistroComunicado);
+  }
+  // editar Registro de detalle comunicado de pago
+  public $codComunicadoEdit;
+  public $tituloComunicado;
+  public $fechaComunicado;
+  public $textoComunicado;
+
+  public function ajaxEditarRegistrosComunicado()
+  {
+    $dataEdit = array(
+      "codComunicadoEdit" => $this->codComunicadoEdit,
+      "tituloComunicado" => $this->tituloComunicado,
+      "fechaComunicado" => $this->fechaComunicado,
+      "textoComunicado" => $this->textoComunicado
+    );
+
+    $editarRegistroComunicado = ControllerComunicado::ctrEditarRegistroComunicado($dataEdit);
+    echo json_encode($editarRegistroComunicado);
+  }
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
 if (isset($_POST["registroComunicadoPago"])) {
-  $mostrarregistroComunicadoPago = new ComunicadoAjax();
-  $mostrarregistroComunicadoPago->ajaxMostrarRegistrosComunicadoPago();
+  $mostrarRegistroComunicadoPago = new ComunicadoAjax();
+  $mostrarRegistroComunicadoPago->ajaxMostrarRegistrosComunicadoPago();
 }
 
 // ver calendario cronograma pago de la tabla  admision_alumno
@@ -63,3 +91,30 @@ if (isset($datos["datos"])) {
   $registroComunicado->registroComunicado = $datos["datos"];
   $registroComunicado->ajaxRegistrosComunicado();
 }
+
+// Borrar Registro de detalle comunicado de pago
+if (isset($_POST["codDetallComunicadoDelet"], $_POST["codComunicadoDelet"])) {
+  $codComunicadoDetalle = $_POST["codDetallComunicadoDelet"];
+  $codComunicado = $_POST["codComunicadoDelet"];
+  $borrarRegistroComunicado = new ComunicadoAjax();
+  $borrarRegistroComunicado->codComunicadoDetalle = $codComunicadoDetalle;
+  $borrarRegistroComunicado->codComunicado = $codComunicado;
+  $borrarRegistroComunicado->ajaxBorrarRegistrosComunicado();
+}
+
+// editar Registro de detalle comunicado de pago
+if (isset($_POST["codComunicadoEdit"])) {
+  $codComunicadoEdit = $_POST["codComunicadoEdit"];
+  $tituloComunicado = $_POST["tituloComunicado"];
+  $fechaComunicado = $_POST["fechaComunicado"];
+  $textoComunicado = $_POST["textoComunicado"];
+
+  $editarRegistroComunicado = new ComunicadoAjax();
+  $editarRegistroComunicado->codComunicadoEdit = $codComunicadoEdit;
+  $editarRegistroComunicado->tituloComunicado = $tituloComunicado;
+  $editarRegistroComunicado->fechaComunicado = $fechaComunicado;
+  $editarRegistroComunicado->textoComunicado = $textoComunicado;
+
+  $editarRegistroComunicado->ajaxEditarRegistrosComunicado();
+}
+

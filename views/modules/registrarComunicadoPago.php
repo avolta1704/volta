@@ -64,12 +64,6 @@
                           placeholder="Nombre Alumno" disabled>
                       </div>
 
-                      <!-- <div class="col-md-4">
-                        <label class="form-label" style="font-weight: bold">Estado: </label>
-                        <input type="text" class="form-control" value="<?php echo $datosAlumno["estadoAlumno"] ?>"
-                          placeholder="Nombre Alumno" disabled>
-                      </div> -->
-
                     </div>
                   </div>
 
@@ -148,6 +142,7 @@
                 <br>
                 <div class="tab-content" id="myTabContent" style="border-bottom: 1px solid #000;">
                   <?php
+                  $contador = 1;
                   foreach ($meses as $index => $mes) {
                     $active = $index === 0 ? ' show active' : '';
                     echo '<div class="tab-pane fade' . $active . '" id="' . $mes . '" role="tabpanel" aria-labelledby="' . $mes . '-tab">';
@@ -165,7 +160,7 @@
                         }
                         echo '<div class="col-md-2">';
                         echo '<label class="form-label" style="font-weight: bold">' . $nombresCampos[$i] . ': </label>';
-                        echo '<input type="text" class="form-control" value="' . $valor . '" placeholder="Apellido Alumno" disabled>';
+                        echo '<input type="text" class="form-control" value="' . $valor . '" disabled>';
                         echo '</div>';
                         $i++;
                       }
@@ -181,30 +176,29 @@
                     echo '<br>';
                     if (isset($datosCronograma[$index]['comunicado'])) {
                       foreach ($datosCronograma[$index]['comunicado'] as $comunicado) {
-                        echo '<div class="mb-3 row">';
+                        echo '<div class="mb-3 row" >';
                         echo '<h3 style="font-weight: bold; text-align: center; border-top: 1px solid #000; padding-top: 10px;">Comunicado</h3>';
                         echo '<div class="col">';
-                        echo '<label for="exampleFormControlInput1" class="form-label">Asunto</label>';
-                        echo '<input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Asunto" value="' . $comunicado['tituloComunicacion'] . '">';
+                        echo '<label for="tituloComunicado' . $contador . '" class="form-label">Asunto</label>';
+                        echo '<input type="text" class="form-control" id="tituloComunicado' . $contador . '"  value="' . $comunicado['tituloComunicacion'] . '">';
                         echo '</div>';
                         echo '<div class="col-md-2">';
-                        echo '<label for="exampleFormControlInput2" class="form-label">Fecha</label>';
-                        echo '<input type="text" class="form-control" id="exampleFormControlInput2" placeholder="Fecha Comunicado" value="' . $comunicado['fechaComunicacion'] . '">';
+                        echo '<label for="fechaComunicado' . $contador . '" class="form-label">Fecha</label>';
+                        echo '<input type="date" class="form-control" id="fechaComunicado' . $contador . '" value="' . $comunicado['fechaComunicacion'] . '">';
                         echo '</div>';
                         echo '<div class="col-auto">';
                         echo '<label class="form-label">&nbsp;</label>';
                         echo '<div>';
-
-                        echo '<button type="button" class="btn btn-primary btnEditarComuni" data-id="' . $comunicado['idDetalleComunicacion'] . '">Editar</button>';
-                        echo '<button type="button" class="btn btn-danger btnBorraraComuni" data-id="' . $comunicado['idComunicacionPago'] . '">Borrar</button>';
-
+                        echo '<button type="button" class="btn btn-primary btnEditarComunicado" id="' . $contador . '" style="margin-right: 10px;" codComunicadoEdit="' . $comunicado['idDetalleComunicacion'] . '">Editar</button>';
+                        echo '<button type="button" class="btn btn-danger btnBorraraComunicado" codComunicadoDelet="' . $comunicado['idComunicacionPago'] . '"codDetallComunicadoDelet="' . $comunicado['idDetalleComunicacion'] . '">Borrar</button>';
                         echo '</div>';
                         echo '</div>';
                         echo '<div class="mb-3">';
-                        echo '<label for="exampleFormControlTextarea1" class="form-label">Comunicado</label>';
-                        echo '<textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Contenido del comunicado">' . $comunicado['detalleComunicacion'] . '</textarea>';
+                        echo '<label for="textoComunicado' . $contador . '" class="form-label">Comunicado</label>';
+                        echo '<textarea class="form-control" id="textoComunicado' . $contador . '" rows="3" >' . $comunicado['detalleComunicacion'] . '</textarea>';
                         echo '</div>';
                         echo '</div>'; // Cierre del div de la fila
+                        $contador++;
                       }
                     }
                     echo '</div>'; // Cierre del div de la pestaña
