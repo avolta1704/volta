@@ -25,7 +25,8 @@ $(".dataTableComunicadoPago").on("click", ".btnComunicadoPago", function () {
 $(document).on("click", ".btnCronoCumunicado", function (event) {
   event.stopPropagation();
   var codComunicado = $(this).attr("codComunicado");
-
+  // Desvincula cualquier controlador de eventos existente del botón .btnRegistrarComunicacion
+  $(".btnRegistrarComunicacion").off("click");
   // Escucha el evento de clic en el botón de registro del modal
   $(".btnRegistrarComunicacion").click(function () {
     var fechaComuni = $("#fechaComuni").val();
@@ -53,8 +54,8 @@ $(document).on("click", ".btnCronoCumunicado", function (event) {
             title: "Correcto",
             text: "Comunicado registrado correctamente",
             timer: 2000,
-            showConfirmButton: false
-          }).then(function() {
+            showConfirmButton: false,
+          }).then(function () {
             // Recargar la página después de cerrar el modal
             location.reload();
           });
@@ -64,21 +65,17 @@ $(document).on("click", ".btnCronoCumunicado", function (event) {
             title: "Advertencia",
             text: "No se registró el comunicado",
             timer: 2000,
-            showConfirmButton: false
-          }).then(function() {
+            showConfirmButton: false,
+          }).then(function () {
             // Recargar la página después de cerrar el modal
             location.reload();
           });
         }
         // Cerrar el modal después de recibir la respuesta
-        $('#comunicadoModal').modal('hide');
+        $("#comunicadoModal").modal("hide");
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.error(
-          "Error en la solicitud AJAX: ",
-          textStatus,
-          errorThrown
-        );
+        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
   });
@@ -93,7 +90,7 @@ $(".dataTableComunicadoPago").on(
     var data = new FormData();
     data.append("codAdAlumCronograma", codAdAlumCronograma);
     $.ajax({
-      url: "ajax/admisionAlumnos.ajax.php",
+      url: "ajax/comunicado.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -148,3 +145,132 @@ $(".dataTableComunicadoPago").on(
     });
   }
 );
+// editar comunicado  de pago
+$(document).on("click", ".btnEditarComunicado", function (event) {
+  event.stopPropagation();
+
+  var codComunicadoEdit = $(this).attr("codComunicadoEdit");
+  var contador = $(this).attr("id"); // Obtén el valor del id del botón
+
+  // Usa el contador para obtener los valores de los campos
+  var tituloComunicado = $("#tituloComunicado" + contador).val();
+  var fechaComunicado = $("#fechaComunicado" + contador).val();
+  var textoComunicado = $("#textoComunicado" + contador).val();
+
+  Swal.fire({
+    title: "¿Ha modificado el Registro?",
+    text: "¡Editar el Comunicado!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, editar!",
+    cancelButtonText: "No, cancelar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("codComunicadoEdit", codComunicadoEdit);
+      data.append("tituloComunicado", tituloComunicado);
+      data.append("fechaComunicado", fechaComunicado);
+      data.append("textoComunicado", textoComunicado);
+
+      $.ajax({
+        url: "ajax/comunicado.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Aquí puedes manejar la respuesta del servidor
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Comunicado editado",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(function () {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error al editar el comunicado",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    }
+  });
+});
+// borrar comunicado de pago
+$(document).on("click", ".btnBorraraComunicado", function (event) {
+  event.stopPropagation();
+
+  var codComunicadoDelet = $(this).attr("codComunicadoDelet");
+  var codDetallComunicadoDelet = $(this).attr("codDetallComunicadoDelet");
+
+  Swal.fire({
+    title: "¿Esta seguro?",
+    text: "¡De borrar el registro!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, borrar!",
+    cancelButtonText: "No, cancelar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("codComunicadoDelet", codComunicadoDelet);
+      data.append("codDetallComunicadoDelet", codDetallComunicadoDelet);
+
+      $.ajax({
+        url: "ajax/comunicado.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Aquí puedes manejar la respuesta del servidor
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Comunicado eliminado",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(function () {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error al eliminar el comunicado",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    }
+  });
+});
