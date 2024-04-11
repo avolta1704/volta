@@ -14,6 +14,8 @@ class ModelPagos
         p.fechaPago, 
         p.cantidadPago, 
         p.metodoPago,
+        p.moraPago,
+        p.numeroComprobante,
 
         a.idAlumno,
         
@@ -247,6 +249,26 @@ class ModelPagos
     $statement->bindParam(":fechaPago", $dataCreateXlxs["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataCreateXlxs["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":moraPago", $dataCreateXlxs["moraPago"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+//funcion de carga de archivos xlsx formato 2 registro diario
+  public static function mdlCrearRegistroPagoXlsxRegistro2($table, $dataCreateXlxs)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, numeroComprobante, moraPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :moraPago, :fechaCreacion, :usuarioCreacion) ");
+    $statement->bindParam(":idTipoPago", $dataCreateXlxs["idTipoPago"], PDO::PARAM_INT);
+    $statement->bindParam(":idCronogramaPago", $dataCreateXlxs["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaPago", $dataCreateXlxs["fechaPago"], PDO::PARAM_STR);
+    $statement->bindParam(":cantidadPago", $dataCreateXlxs["cantidadPago"], PDO::PARAM_STR);
+    $statement->bindParam(":metodoPago", $dataCreateXlxs["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":numeroComprobante", $dataCreateXlxs["numeroComprobante"], PDO::PARAM_STR);
     $statement->bindParam(":moraPago", $dataCreateXlxs["moraPago"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataCreateXlxs["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataCreateXlxs["usuarioCreacion"], PDO::PARAM_STR);

@@ -14,6 +14,15 @@ class XlsxAjax
     $responseDateXlsx = ControllerPagos::ctrCrearRegistroPagoXlsx($jsonDataStringXlsx);
     echo json_encode($responseDateXlsx);
   }
+//funcion de carga de archivos xlsx formato 2 registro diario
+    public $jsonDataStringXlsxRegistro;
+    public function ajaxdataXlsxAdminRegistro()
+    {
+      $jsonDataStringXlsxRegistro = $this->jsonDataStringXlsxRegistro;
+      $responseDateXlsxRegistro = ControllerPagos::ctrCrearRegistroPagoXlsxRegistro($jsonDataStringXlsxRegistro);
+      echo json_encode($responseDateXlsxRegistro);
+    }
+  
 }
 //datos de xlsx para la creacion de registro de pagos
 if (isset ($_POST["jsonDataStringXlsx"])) {
@@ -21,5 +30,9 @@ if (isset ($_POST["jsonDataStringXlsx"])) {
   $dataXlsx->jsonDataStringXlsx = $_POST["jsonDataStringXlsx"];
   $dataXlsx->ajaxdataXlsxAdmin();
 }
-
-
+//funcion de carga de archivos xlsx formato 2 registro diario
+if (isset ($_POST["jsonDataStringXlsxRegistro"])) {
+  $dataXlsxRegistro = new XlsxAjax();
+  $dataXlsxRegistro->jsonDataStringXlsxRegistro = $_POST["jsonDataStringXlsxRegistro"];
+  $dataXlsxRegistro->ajaxdataXlsxAdminRegistro();
+}

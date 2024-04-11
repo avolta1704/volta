@@ -11,7 +11,9 @@ $(document).ready(function () {
     { data: "tipoPago" },
     { data: "fechaPago" },
     { data: "metodoPago" },
+    { data: "numeroComprobante" },
     { data: "cantidadTotal" },
+    { data: "moraPago" },
     { data: "statePago" },
     { data: "buttonsPago" },
   ];
@@ -54,7 +56,9 @@ $(document).ready(function () {
         <th scope="col">Tipo Pago</th>
         <th scope="col">Fecha Pago</th>
         <th scope="col">Forma Pago</th>
+        <th scope="col">N° Facturacion</th>
         <th scope="col">Monto</th>
+        <th scope="col">Mora</th>
         <th scope="col">Estado</th>
         <th scope="col">Acciones</th>
       </tr>
@@ -73,7 +77,9 @@ $(document).ready(function () {
     { data: "tipoPago" },
     { data: "fechaPago" },
     { data: "metodoPago" },
+    { data: "numeroComprobante" },
     { data: "cantidadTotal" },
+    { data: "moraPago" },
     { data: "statePago" },
     { data: "buttonsPago" },
   ];

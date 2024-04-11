@@ -317,5 +317,88 @@ class ControllerPagos
     );
     return $periodo;
   }
- 
+//funcion de carga de archivos xlsx formato 2 registro diario
+  public static function ctrCrearRegistroPagoXlsxRegistro($jsonDataStringXlsxRegistro)
+  {
+    //sesión iniciada
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+    // Decodificar el JSON 
+    $data = json_decode($jsonDataStringXlsxRegistro, true);
+
+    $infoErrCronoAlum = array(); // Nuevo array para almacenar los arrays con errores
+
+
+    foreach ($data as $key => $value) {
+      // Verificar si el array tiene al menos 3 posiciónes
+      if (count($value) < 3) {
+        continue; // Saltar a la siguiente iteración del bucle
+      }
+      // Convertir el array asociativo a un array indexado
+      $indexedArray = array_values($value);
+
+      // Ahora puedes acceder a los elementos por su posición
+      $valueAtPosition0 = $indexedArray[0];//codigo alumno
+      $valueAtPosition1 = $indexedArray[1];//NOMBRE
+      $valueAtPosition2 = $indexedArray[2];
+      $valueAtPosition3 = $indexedArray[3];//NUMERO DE FACTURACION CAJA
+      $valueAtPosition4 = $indexedArray[4];//SUBPERIODO
+      $valueAtPosition5 = $indexedArray[5];//PENCION
+      $valueAtPosition6 = $indexedArray[6];//MORA
+      $valueAtPosition7 = $indexedArray[7];//AGENCIA
+
+      // Controlador para separar texto de SUBPERIODO del xlsx para el año y mes del cronograma de pago que se va a registrar
+      $value["PERIODO_PAGO"] = self::ctrSepararTextoAnioMes($valueAtPosition4);
+
+      //datos del alumno y cronograma de pago mas reciente a pagar por el CodigoAlumno(COD_ALUMNO) el año y mes del xlsx SUBPERIODO 
+      $value["COD_ALUMNO_DATA"] = self::ctrDataPagoCodAlumnoXlsx($valueAtPosition0, $value["PERIODO_PAGO"]["anio"], $value["PERIODO_PAGO"]["mes"]);
+
+      // Verificar si idCronogramaPago es falso Y MORA no es un numero se guardara en el array ($infoErrCronoAlum) para mostrar los registros no creados por COD_ALUMNO del xlsx
+      if ($value["COD_ALUMNO_DATA"]["idCronogramaPago"] === false) {
+        $infoErrCronoAlum[] = $value["COD_ALUMNO_DATA"] + array(
+          "anio" => $value["PERIODO_PAGO"]["anio"],
+          "mes" => $value["PERIODO_PAGO"]["mes"],
+          "pension" => $valueAtPosition5,
+          "mora" => $valueAtPosition6
+        );
+        continue; // Saltar a la siguiente iteración del bucle
+      }
+
+      $dataCreateXlxs = array(
+        "idTipoPago" => 2,//valor de tipoPago "Pension" 
+        "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
+        "fechaPago" => date("Y-m-d"),
+        "cantidadPago" => $valueAtPosition5,
+        "metodoPago" => $valueAtPosition7,
+        "numeroComprobante" => $valueAtPosition3,
+        "moraPago" => $valueAtPosition6,
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+      );
+      $tabla = "pago";
+      //funcion de carga de archivos xlsx formato 2 registro diario
+      $responseDataXlsx = ModelPagos::mdlCrearRegistroPagoXlsxRegistro2($tabla, $dataCreateXlxs);
+      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $value["idCronogramaPago"] y tambien el "montoPago" => $value["PENSION"], que llega en el xlsx
+      if ($responseDataXlsx == "ok") {
+        $table = "cronograma_pago";
+        $dataEditEstadoCrono = array(
+          "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
+          "montoPago" => $valueAtPosition5,
+          "estadoCronograma" => 2, //estado cancelado
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $idUsuario,
+        );
+        $response = ModelPagos::mdlEditarEstadoCronogramaXlsx($table, $dataEditEstadoCrono);
+        if ($response != "ok") {
+          return;
+        }
+      }
+    }
+    // Devolver el array de errores y la respuesta "ok"
+    return array('infoErrCronoAlum' => $infoErrCronoAlum, 'response' => "ok");
+  }
+
 }

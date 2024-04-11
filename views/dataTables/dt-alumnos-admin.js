@@ -55,9 +55,9 @@ $(document).ready(function () {
         <th scope="col">#</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
+        <th scope="col">Sexo</th>
         <th scope="col">Cod Caja</th>
         <th scope="col">DNI</th>
-        <th scope="col">Sexo</th>
         <th scope="col">Estado</th>
         <th scope="col">Nivel</th>
         <th scope="col">Grado</th>

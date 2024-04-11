@@ -12,10 +12,9 @@ class PagosAjax
     $todosLosPagosAdmin = ControllerPagos::ctrGetAllPagos();
     foreach ($todosLosPagosAdmin as &$dataPago) {
 
-      //$dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
-
+      $dataPago['moraPago'] = strval($dataPago["moraPago"]);
+      $dataPago['numeroComprobante'] = strval($dataPago["numeroComprobante"]);
       $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
-
       $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
       $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
       $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
