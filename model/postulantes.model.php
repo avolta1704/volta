@@ -34,18 +34,28 @@ class ModelPostulantes
   //  Crear postulante
   public static function mdlCrearPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombrePostulante, apellidoPostulante, dniPostulante, fechaPostulacion, fechaNacimiento, gradoPostulacion, estadoPostulante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:nombrePostulante, :apellidoPostulante, :dniPostulante, :fechaPostulacion, :fechaNacimiento, :gradoPostulacion, :estadoPostulante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombrePostulante, apellidoPostulante, sexoPostulante, dniPostulante, gradoPostulacion, fechaPostulacion, fechaNacimiento, lugarNacimiento, domicilioPostulante, colegioProcedencia, dificultadPostulante, dificultadObservacion, tipoAtencionPostulante, tratamientoPostulante, listaApoderados, estadoPostulante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:nombrePostulante, :apellidoPostulante, :sexoPostulante, :dniPostulante, :gradoPostulacion, :fechaPostulacion, :fechaNacimiento, :lugarNacimiento, :domicilioPostulante, :colegioProcedencia, :dificultadPostulante, :dificultadObservacion, :tipoAtencionPostulante, :tratamientoPostulante, :listaApoderados, :estadoPostulante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+
     $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":sexoPostulante", $datosPostulante["sexoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaPostulacion", $datosPostulante["fechaPostulacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $datosPostulante["fechaNacimiento"], PDO::PARAM_STR);
-    $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_INT);
+    $statement->bindParam(":lugarNacimiento", $datosPostulante["lugarNacimiento"], PDO::PARAM_STR);
+    $statement->bindParam(":domicilioPostulante", $datosPostulante["domicilioPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":colegioProcedencia", $datosPostulante["colegioProcedencia"], PDO::PARAM_STR);
+    $statement->bindParam(":dificultadPostulante", $datosPostulante["dificultadPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":dificultadObservacion", $datosPostulante["dificultadObservacion"], PDO::PARAM_STR);
+    $statement->bindParam(":tipoAtencionPostulante", $datosPostulante["tipoAtencionPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":tratamientoPostulante", $datosPostulante["tratamientoPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":listaApoderados", $datosPostulante["listaApoderados"], PDO::PARAM_STR);
     $statement->bindParam(":estadoPostulante", $datosPostulante["estadoPostulante"], PDO::PARAM_INT);
     $statement->bindParam(":fechaCreacion", $datosPostulante["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
-    $statement->bindParam(":usuarioCreacion", $datosPostulante["usuarioCreacion"], PDO::PARAM_STR);
-    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $datosPostulante["usuarioCreacion"], PDO::PARAM_INT);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_INT);
 
     if ($statement->execute()) {
       return "ok";
@@ -69,25 +79,65 @@ class ModelPostulantes
   //  Obtener postulante por id
   public static function mdlGetPostulanteById($tabla, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT postulante.nombrePostulante, postulante.apellidoPostulante, postulante.dniPostulante, postulante.fechaPostulacion, postulante.fechaNacimiento, grado.idGrado, grado.descripcionGrado, nivel.idNivel, nivel.descripcionNivel FROM $tabla INNER JOIN grado ON postulante.gradoPostulacion = grado.idGrado INNER JOIN nivel ON grado.idNivel = nivel.idNivel WHERE idPostulante = :idPostulante");
-    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement = Connection::conn()->prepare("SELECT
+    postulante.nombrePostulante, 
+    postulante.apellidoPostulante, 
+    grado.idGrado, 
+    grado.descripcionGrado, 
+    nivel.idNivel, 
+    nivel.descripcionNivel, 
+    postulante.sexoPostulante, 
+    postulante.dniPostulante, 
+    postulante.fechaNacimiento, 
+    postulante.lugarNacimiento, 
+    postulante.gradoPostulacion, 
+    postulante.domicilioPostulante, 
+    postulante.colegioProcedencia, 
+    postulante.dificultadPostulante, 
+    postulante.dificultadObservacion, 
+    postulante.tipoAtencionPostulante, 
+    postulante.tratamientoPostulante, 
+    postulante.fechaPostulacion,
+    postulante.listaApoderados
+  FROM
+    $tabla
+    INNER JOIN
+    grado
+    ON 
+      postulante.gradoPostulacion = grado.idGrado
+    INNER JOIN
+    nivel
+    ON 
+      grado.idNivel = nivel.idNivel
+  WHERE
+    idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
     $statement->execute();
-    return $statement->fetch();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   //  Editar postulante
   public static function mdlEditarPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, dniPostulante = :dniPostulante, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, gradoPostulacion = :gradoPostulacion, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante, sexoPostulante = :sexoPostulante, dniPostulante = :dniPostulante, gradoPostulacion = :gradoPostulacion, fechaPostulacion = :fechaPostulacion, fechaNacimiento = :fechaNacimiento, lugarNacimiento = :lugarNacimiento, domicilioPostulante = :domicilioPostulante, colegioProcedencia = :colegioProcedencia, dificultadPostulante = :dificultadPostulante, dificultadObservacion = :dificultadObservacion, tipoAtencionPostulante = :tipoAtencionPostulante, tratamientoPostulante = :tratamientoPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":nombrePostulante", $datosPostulante["nombrePostulante"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoPostulante", $datosPostulante["apellidoPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":sexoPostulante", $datosPostulante["sexoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":dniPostulante", $datosPostulante["dniPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaPostulacion", $datosPostulante["fechaPostulacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $datosPostulante["fechaNacimiento"], PDO::PARAM_STR);
-    $statement->bindParam(":gradoPostulacion", $datosPostulante["gradoPostulacion"], PDO::PARAM_STR);
+    $statement->bindParam(":lugarNacimiento", $datosPostulante["lugarNacimiento"], PDO::PARAM_STR);
+    $statement->bindParam(":domicilioPostulante", $datosPostulante["domicilioPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":colegioProcedencia", $datosPostulante["colegioProcedencia"], PDO::PARAM_STR);
+    $statement->bindParam(":dificultadPostulante", $datosPostulante["dificultadPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":dificultadObservacion", $datosPostulante["dificultadObservacion"], PDO::PARAM_STR);
+    $statement->bindParam(":tipoAtencionPostulante", $datosPostulante["tipoAtencionPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":tratamientoPostulante", $datosPostulante["tratamientoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
+
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -112,7 +162,7 @@ class ModelPostulantes
     $statement->bindParam(":fechaActualizacion", $dataPostulanteEdit["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $dataPostulanteEdit["usuarioActualizacion"], PDO::PARAM_INT);
     $statement->bindParam(":idPostulante", $dataPostulanteEdit["idPostulante"], PDO::PARAM_INT);
-    
+
     if ($statement->execute()) {
       return "ok";
     } else {
@@ -122,7 +172,7 @@ class ModelPostulantes
   // Obtener el último postulante creado extraordinario
   public static function mdlObtenerUltimoPostulanteCreado($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT MAX(idPostulante) FROM $tabla");
+    $statement = Connection::conn()->prepare("SELECT MAX(idPostulante) AS idPostulante FROM $tabla");
     $statement->execute();
     return $statement->fetchColumn();
   }

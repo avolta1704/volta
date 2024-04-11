@@ -36,13 +36,23 @@ class ControllerApoderados
     $listApoderado = ModelApoderados::mdlCrearUsuarioApoderado($table, $dataUsuarioApoderado);
     return $listApoderado;
   }
-  //  crear apoderado alumno
-  public static function ctrCrearApoderadoAlumno($dataApoderado)
+
+  //  Crear apoderado 
+  public static function ctrCrearApoderado($dataApoderado)
   {
     $tabla = "apoderado";
-    $response = ModelApoderados::mdlCrearApoderadoAlumno($tabla, $dataApoderado);
+    $response = ModelApoderados::mdlCrearApoderado($tabla, $dataApoderado);
     return $response;
   }
+
+  //  Editar datos de un apoderado
+  public static function ctrEditarApoderado($dataApoderado)
+  {
+    $tabla = "apoderado";
+    $response = ModelApoderados::mdlEditarApoderado($tabla, $dataApoderado);
+    return $response;
+  }
+
   //  Obtener ultimo apoderado creado
   public static function ctrObtenerUltimoApoderado()
   {
@@ -82,5 +92,13 @@ class ControllerApoderados
         echo $mensaje;
       }
     }
+  }
+
+  //  Obtener los datos del apoderado por el identificador
+  public static function ctrGetApoderadoById($codApoderado)
+  {
+    $tabla = "apoderado";
+    $dataApoderado = ModelApoderados::mdlGetApoderadoById($tabla, $codApoderado);
+    return $dataApoderado;
   }
 }

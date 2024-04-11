@@ -26,11 +26,6 @@
         </li>
         <li>
           <a href="contactus">
-            <i class="bi bi-circle"></i><span>Buscar Alumno</span>
-          </a>
-        </li>
-        <li>
-          <a href="contactus">
             <i class="bi bi-circle"></i><span>Reporte de Pagos</span>
           </a>
         </li>
@@ -55,7 +50,7 @@
         </li>
         <li>
           <a href="listaAdmisionAlumnos">
-            <i class="bi bi-circle"></i><span>Admisiones</span>
+            <i class="bi bi-circle"></i><span>Matriculados</span>
           </a>
         </li>
       </ul>
@@ -69,6 +64,11 @@
         <li>
           <a href="listaAlumnos">
             <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
+          </a>
+        </li>
+        <li>
+          <a href="buscarAlumno">
+            <i class="bi bi-circle"></i><span>Buscar Alumno</span>
           </a>
         </li>
       </ul>

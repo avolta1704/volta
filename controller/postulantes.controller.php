@@ -15,25 +15,92 @@ class ControllerPostulantes
   //  Registrar nuevo postulante
   public static function ctrCrearPostulante()
   {
-    if (isset($_POST["nombrePostulante"]) && isset($_POST["apellidoPostulante"])) {
+    if (isset($_POST["nombrePostulante"]) && isset($_POST["apellidoPostulante"]) && (($_POST["nombrePadre"]) || ($_POST["nombreMadre"]))) {
       $tabla = "postulante";
-      $datosPostulante = array(
-        "nombrePostulante" => $_POST["nombrePostulante"],
-        "apellidoPostulante" => $_POST["apellidoPostulante"],
-        "dniPostulante" => $_POST["dniPostulante"],
-        "fechaPostulacion" => $_POST["fechaPostulacion"],
-        "fechaNacimiento" => $_POST["fechaNacimiento"],
-        "gradoPostulacion" => $_POST["gradoAlumno"],
-        "estadoPostulante" => 1,
+      //  Mandar datos de los padres
+      $dataPadre = array(
+        "nombreApoderado" => $_POST["nombrePadre"],
+        "apellidoApoderado" => $_POST["apellidoPadre"],
+        "dniApoderado" => $_POST["dniPadre"],
+        "fechaNacimiento" => $_POST["fechaNacimientoPadre"],
+        "convivenciaAlumno" => $_POST["convivePadre"],
+        "tipoApoderado" => "Padre",
+        "gradoInstruccion" => $_POST["gradoPadre"],
+        "profesionAlumno" => $_POST["profesionPadre"],
+        "correoApoderado" => $_POST["emailPadre"],
+        "celularApoderado" => $_POST["numeroPadre"],
+        "dependenciaApoderado" => $_POST["dependenciaPadre"],
+        "centroLaboral" => $_POST["centroPadre"],
+        "telefonoTrabajo" => $_POST["numeroTrabajoPadre"],
+        "ingresoMensual" => $_POST["ingresoPadre"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
-      $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
+      $response = ControllerApoderados::ctrCrearApoderado($dataPadre);
+      $idPadre = ControllerApoderados::ctrObtenerUltimoApoderado();
+      $dataMadre = array(
+        "nombreApoderado" => $_POST["nombreMadre"],
+        "apellidoApoderado" => $_POST["apellidoMadre"],
+        "dniApoderado" => $_POST["dniMadre"],
+        "fechaNacimiento" => $_POST["fechaNacimientoMadre"],
+        "convivenciaAlumno" => $_POST["conviveMadre"],
+        "tipoApoderado" => "Madre",
+        "gradoInstruccion" => $_POST["gradoMadre"],
+        "profesionAlumno" => $_POST["profesionMadre"],
+        "correoApoderado" => $_POST["emailMadre"],
+        "celularApoderado" => $_POST["numeroMadre"],
+        "dependenciaApoderado" => $_POST["dependenciaMadre"],
+        "centroLaboral" => $_POST["centroMadre"],
+        "telefonoTrabajo" => $_POST["numeroTrabajoMadre"],
+        "ingresoMensual" => $_POST["ingresoMadre"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $response = ControllerApoderados::ctrCrearApoderado($dataMadre);
+      $idMadre = ControllerApoderados::ctrObtenerUltimoApoderado();
+
+      $listaApoderado = array(
+        "idPadre" => $idPadre["idApoderado"],
+        "idMadre" => $idMadre["idApoderado"]
+      );
+      $listaApoderado = json_encode($listaApoderado);
+
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
-        echo $mensaje;
+        $datosPostulante = array(
+          "nombrePostulante" => $_POST["nombrePostulante"],
+          "apellidoPostulante" => $_POST["apellidoPostulante"],
+          "sexoPostulante" => $_POST["sexoPostulante"],
+          "dniPostulante" => $_POST["dniPostulante"],
+          "gradoPostulacion" => $_POST["gradoAlumno"],
+          "fechaPostulacion" => $_POST["fechaPostulacion"],
+          "fechaNacimiento" => $_POST["fechaNacimiento"],
+          "lugarNacimiento" => $_POST["lugarNacimiento"],
+          "domicilioPostulante" => $_POST["domicilioPostulante"],
+          "colegioProcedencia" => $_POST["colegioProcedencia"],
+          "dificultadPostulante" => $_POST["dificultadAprendizaje"],
+          "dificultadObservacion" => $_POST["detalleDificultad"],
+          "tipoAtencionPostulante" => $_POST["tipoSalud"],
+          "tratamientoPostulante" => $_POST["tratamientoPostulante"],
+          "listaApoderados" => $listaApoderado,
+          "estadoPostulante" => 1,
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
+
+        if ($response == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
+          echo $mensaje;
+        }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
         echo $mensaje;
@@ -67,17 +134,70 @@ class ControllerPostulantes
         "idPostulante" => $_POST["codPostulante"],
         "nombrePostulante" => $_POST["editarNombre"],
         "apellidoPostulante" => $_POST["editarApellido"],
-        "dniPostulante" => $_POST["editarDNI"],
+        "sexoPostulante" => $_POST["editarSexo"],
+        "dniPostulante" => $_POST["editarDni"],
+        "gradoPostulacion" => $_POST["gradoAlumno"],
         "fechaPostulacion" => $_POST["editarFechaPostulacion"],
         "fechaNacimiento" => $_POST["editarFechaNacimiento"],
-        "gradoPostulacion" => $_POST["editarGrado"],
+        "lugarNacimiento" => $_POST["editarLugarNacimiento"],
+        "domicilioPostulante" => $_POST["editarDomicilio"],
+        "colegioProcedencia" => $_POST["editarColegioProced"],
+        "dificultadPostulante" => $_POST["editarDificultad"],
+        "dificultadObservacion" => $_POST["editarDetalleDif"],
+        "tipoAtencionPostulante" => $_POST["editarTipoSalud"],
+        "tratamientoPostulante" => $_POST["editarTratamiento"],
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $response = ModelPostulantes::mdlEditarPostulante($tabla, $datosPostulante);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
-        echo $mensaje;
+        $dataPadre = array(
+          "idApoderado" => $_POST["codPadre"],
+          "nombreApoderado" => $_POST["editarNombrePadre"],
+          "apellidoApoderado" => $_POST["editarApellidoPadre"],
+          "dniApoderado" => $_POST["editarDniPadre"],
+          "fechaNacimiento" => $_POST["editarFechaPadre"],
+          "convivenciaAlumno" => $_POST["editarConvivePadre"],
+          "gradoInstruccion" => $_POST["editarGradoPadre"],
+          "profesionAlumno" => $_POST["editarProfesionPadre"],
+          "correoApoderado" => $_POST["editarCorreoPadre"],
+          "celularApoderado" => $_POST["editarCelularPadre"],
+          "dependenciaApoderado" => $_POST["editarDepenPadre"],
+          "centroLaboral" => $_POST["editarCentroPadre"],
+          "telefonoTrabajo" => $_POST["editarNumTrabajoPadre"],
+          "ingresoMensual" => $_POST["editarIngresoPadre"],
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $dataMadre = array(
+          "idApoderado" => $_POST["codMadre"],
+          "nombreApoderado" => $_POST["editarNombreMadre"],
+          "apellidoApoderado" => $_POST["editarApellidoMadre"],
+          "dniApoderado" => $_POST["editarDniMadre"],
+          "fechaNacimiento" => $_POST["editarFechaMadre"],
+          "convivenciaAlumno" => $_POST["editarConviveMadre"],
+          "gradoInstruccion" => $_POST["editarGradoMadre"],
+          "profesionAlumno" => $_POST["editarProfesionMadre"],
+          "correoApoderado" => $_POST["editarCorreoMadre"],
+          "celularApoderado" => $_POST["editarCelularMadre"],
+          "dependenciaApoderado" => $_POST["editarDepenMadre"],
+          "centroLaboral" => $_POST["editarCentroMadre"],
+          "telefonoTrabajo" => $_POST["editarNumTrabajoMadre"],
+          "ingresoMensual" => $_POST["editarIngresoMadre"],
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+
+        //  Actualizar los datos de ambos apoderados
+        $response = ControllerApoderados::ctrEditarApoderado($dataPadre);
+        $response = ControllerApoderados::ctrEditarApoderado($dataMadre);
+        if($response == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el postulante", "listaPostulantes");
+          echo $mensaje;
+        }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el postulante", "listaPostulantes");
         echo $mensaje;
@@ -89,6 +209,15 @@ class ControllerPostulantes
   {
     $tabla = "postulante";
     $dataPostulante = ModelPostulantes::mdlGetPostulanteById($tabla, $codPostulante);
+    $listaApoderados = json_decode($dataPostulante["listaApoderados"], true);
+    if ($listaApoderados["idPadre"] != null) {
+      $dataPadre = ControllerApoderados::ctrGetApoderadoById($listaApoderados["idPadre"]);
+      $dataPostulante["dataPadre"] = $dataPadre;
+    }
+    if ($listaApoderados["idMadre"] != null) {
+      $dataMadre = ControllerApoderados::ctrGetApoderadoById($listaApoderados["idMadre"]);
+      $dataPostulante["dataMadre"] = $dataMadre;
+    }
     return $dataPostulante;
   }
 
@@ -131,7 +260,7 @@ class ControllerPostulantes
           if ($anioEscolarActiva != false) {
             // Tomar el año escolar activo para el registro de postulante en la tabla admision
             $tipoAdmision = 1; // 1 = ordinario, 2 = extraordinario
-            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit,$tipoAdmision);
+            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit, $tipoAdmision);
             if ($admisionAnioEscolar != false) {
               // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
               $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
@@ -159,5 +288,4 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlObtenerUltimoPostulanteCreado($tabla);
     return $response;
   }
-
 }

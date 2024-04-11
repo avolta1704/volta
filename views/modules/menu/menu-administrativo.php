@@ -48,6 +48,11 @@
             <i class="bi bi-circle"></i><span>Documentación</span>
           </a>
         </li>
+        <li>
+          <a href="listaAdmisionAlumnos">
+            <i class="bi bi-circle"></i><span>Matriculados</span>
+          </a>
+        </li>
       </ul>
     </li>
 
@@ -60,6 +65,11 @@
         <li>
           <a href="listaAlumnos">
             <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
+          </a>
+        </li>
+        <li>
+          <a href="buscarAlumno">
+            <i class="bi bi-circle"></i><span>Buscar Alumno</span>
           </a>
         </li>
       </ul>
