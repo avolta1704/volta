@@ -42,7 +42,7 @@
 <!-- Modal Cronograma Pagos Admision Alumno-->
 <div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog modal-dialog-centered modal-dialog-scrollable">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 650px;">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="cronogramaAdmisionPagoLabel">Cronograma Pagos Admision Alumno</h1>

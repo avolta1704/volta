@@ -24,49 +24,61 @@ $(".dataTableAdmisionAlumnos").on(
       processData: false,
       dataType: "json",
       success: function (response) {
-        // Limpia el cuerpo del modal
         var modalBody = $("#cronogramaAdmisionPago .modal-body");
         modalBody.empty();
 
-        // Por cada elemento en la respuesta
         $.each(response, function (index, item) {
-          // Crea un nuevo div
           var div = $("<div>").addClass("mb-3");
 
-          // Crea las etiquetas
           var label2 = $("<label>")
             .addClass("form-label h5 font-weight-bold")
             .attr("id", "tipoCronoPago")
             .attr("name", "tipoCronoPago")
-            .text("  " + item.conceptoPago);
-          // Crea un nuevo div para el grupo de entrada
+            .css("margin-left", "8px") // Agrega un margen a la izquierda
+            .html("<strong>" + item.mesPago + "</strong>");
+
           var inputGroup = $("<div>").addClass("input-group");
-          // Crea los campos de entrada
+
           var input1 = $("<input>")
             .attr("type", "text")
             .addClass("form-control")
             .attr("id", "fechaPago")
             .attr("name", "fechaPago")
-            .val(item.mesPago)
-            .attr("readonly", true);
-          var input2 = $("<div>")
-            .addClass("form-control form-control-sm fs-6 text-center")
+            .val("Fecha Límite: " + item.fechaLimite)
+            .attr("readonly", true)
+            .css("width", "133px"); // Ajusta este valor según tus necesidades
+
+          var input2 = $("<input>")
+            .attr("type", "text")
+            .addClass("form-control")
+            .attr("id", "montoPago")
+            .attr("name", "montoPago")
+            .val("Monto: S/ " + item.montoPago)
+            .css("width", "75px"); // Ajusta este valor según tus necesidades
+
+          var input3 = $("<div>")
+            .addClass("form-control fs-6 text-center")
             .attr("id", "stadoCronograma")
             .attr("name", "stadoCronograma")
             .html(item.estadoCronogramaPago);
-          // Añade los campos de entrada al grupo de entrada
-          inputGroup.append(input1, input2);
-          // Añade las etiquetas y el grupo de entrada al div
+
+          var button = $("<button>")
+            .addClass("btn btn-primary")
+            .attr("id", "idCronogramaPago")
+            .attr("name", "idCronogramaPago")
+            .text("Editar")
+            .val(item.idCronogramaPago);
+
+          inputGroup.append(input1, input2, input3, button);
           div.append(label2, inputGroup);
-          // Añade el div al cuerpo del modal
           modalBody.append(div);
         });
-        // Muestra el modal
+
         $("#cronogramaAdmisionPago").modal("show");
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      /*  error: function (jqXHR, textStatus, errorThrown) {
         console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
+      }, */
     });
   }
 );
