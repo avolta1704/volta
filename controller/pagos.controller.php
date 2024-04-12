@@ -317,7 +317,7 @@ class ControllerPagos
     );
     return $periodo;
   }
-//funcion de carga de archivos xlsx formato 2 registro diario
+  //funcion de carga de archivos xlsx formato 2 registro diario
   public static function ctrCrearRegistroPagoXlsxRegistro($jsonDataStringXlsxRegistro)
   {
     //sesión iniciada
@@ -400,5 +400,29 @@ class ControllerPagos
     // Devolver el array de errores y la respuesta "ok"
     return array('infoErrCronoAlum' => $infoErrCronoAlum, 'response' => "ok");
   }
+  //editar cronograma de pagos de pago modal editar 
+  public static function ctrEditarRegistroPagoModal($dataEditCronoModal)
+  {
+    //sesión iniciada
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
 
+    $table = "cronograma_pago";
+    $dataEditCronoPagoModal = array(
+      "idCronogramaPago" => $dataEditCronoModal['btnEditCronoModal'],//valor de id guardado en el boton editar
+      "fechaLimite" => $dataEditCronoModal['fechaLimtEditCrono'],
+      "montoPago" => $dataEditCronoModal['montoEditCrono'],
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $idUsuario,
+    );
+    $response = ModelPagos::mdlEditarRegistroPagoModal($table, $dataEditCronoPagoModal);
+    if ($response == "ok") {
+      return "ok";
+    } else {
+      return $response;
+    }
+  }
 }

@@ -259,7 +259,7 @@ class ModelPagos
       return "error";
     }
   }
-//funcion de carga de archivos xlsx formato 2 registro diario
+  //funcion de carga de archivos xlsx formato 2 registro diario
   public static function mdlCrearRegistroPagoXlsxRegistro2($table, $dataCreateXlxs)
   {
     $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, numeroComprobante, moraPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :moraPago, :fechaCreacion, :usuarioCreacion) ");
@@ -288,6 +288,22 @@ class ModelPagos
     $statement->bindParam(":estadoCronograma", $dataEditEstadoCrono["estadoCronograma"], PDO::PARAM_INT);
     $statement->bindParam(":fechaActualizacion", $dataEditEstadoCrono["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $dataEditEstadoCrono["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //editar cronograma de pagos de pago modal editar 
+  public static function mdlEditarRegistroPagoModal($tabla, $dataEditCronoPagoModal)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET  montoPago = :montoPago, fechaLimite = :fechaLimite, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCronogramaPago = :idCronogramaPago");
+    $statement->bindParam(":montoPago", $dataEditCronoPagoModal["montoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaLimite", $dataEditCronoPagoModal["fechaLimite"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataEditCronoPagoModal["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataEditCronoPagoModal["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idCronogramaPago", $dataEditCronoPagoModal["idCronogramaPago"], PDO::PARAM_INT);
 
     if ($statement->execute()) {
       return "ok";
