@@ -24,53 +24,159 @@ $(".dataTableAdmisionAlumnos").on(
       processData: false,
       dataType: "json",
       success: function (response) {
-        // Limpia el cuerpo del modal
         var modalBody = $("#cronogramaAdmisionPago .modal-body");
         modalBody.empty();
 
-        // Por cada elemento en la respuesta
         $.each(response, function (index, item) {
-          // Crea un nuevo div
           var div = $("<div>").addClass("mb-3");
 
-          // Crea las etiquetas
           var label2 = $("<label>")
             .addClass("form-label h5 font-weight-bold")
             .attr("id", "tipoCronoPago")
             .attr("name", "tipoCronoPago")
-            .text("  " + item.conceptoPago);
-          // Crea un nuevo div para el grupo de entrada
+            .css("margin-left", "8px") // Agrega un margen a la izquierda
+            .html("<strong>" + item.mesPago + "</strong>");
+
           var inputGroup = $("<div>").addClass("input-group");
-          // Crea los campos de entrada
+
           var input1 = $("<input>")
             .attr("type", "text")
             .addClass("form-control")
             .attr("id", "fechaPago")
             .attr("name", "fechaPago")
-            .val(item.mesPago)
-            .attr("readonly", true);
-          var input2 = $("<div>")
-            .addClass("form-control form-control-sm fs-6 text-center")
+            .val("Fecha Límite: " + item.fechaLimite)
+            .attr("readonly", true)
+            .css("width", "133px"); // Ajusta este valor según tus necesidades
+
+          var input2 = $("<input>")
+            .attr("type", "text")
+            .addClass("form-control")
+            .attr("id", "montoPago")
+            .attr("name", "montoPago")
+            .val("Monto: S/ " + item.montoPago)
+            .attr("readonly", true)
+            .css("width", "75px"); // Ajusta este valor según tus necesidades
+
+          var input3 = $("<div>")
+            .addClass("form-control fs-6 text-center")
             .attr("id", "stadoCronograma")
             .attr("name", "stadoCronograma")
             .html(item.estadoCronogramaPago);
-          // Añade los campos de entrada al grupo de entrada
-          inputGroup.append(input1, input2);
-          // Añade las etiquetas y el grupo de entrada al div
+
+          var button = $("<button>")
+            .addClass("btn btn-primary btnEditarCronogramaPagoModal")
+            .attr("data-bs-toggle", "modal")
+            .attr("data-bs-target", "#modalEditCronoPago")
+            .attr("id", "idCronogramaPagoModal")
+            .attr("name", "idCronogramaPagoModal")
+            .text("Editar")
+            .val(item.idCronogramaPago)
+            .on("click", function () {
+              // Establece los valores en los campos de entrada del modal
+              $("#mesEditCrono").val(item.mesPago).attr("value", item.mesPago);
+              $("#fechaLimtEditCrono")
+                .val(item.fechaLimite)
+                .attr("fechaLimtEditCrono", item.fechaLimite);
+              $("#montoEditCrono")
+                .val(item.montoPago)
+                .attr("montoEditCrono", item.montoPago);
+              $("#btnEditCronoModal")
+                .val(item.idCronogramaPago)
+                .attr("btnEditCronoModal", item.idCronogramaPago);
+
+              // Oculta el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("hide");
+            });
+          /* bien funciona ayudame con otra cosa necesito una funcion js  que al escuchar el btoon de editar tome el valor de  fechaLimtEditCrono,montoEditCrono  */
+          inputGroup.append(input1, input2, input3, button);
           div.append(label2, inputGroup);
-          // Añade el div al cuerpo del modal
           modalBody.append(div);
+          // Establece el manejador de eventos para el botón 'Editar' y 'Cerrar'
+          var lastButtonClicked = null;
+          // Cuando haces clic en el botón 'Editar'
+          $(".btnEditCronoModal").on("click", function () {
+            lastButtonClicked = "edit";
+            // Oculta el modal 'modalEditCronoPago'
+            $("#modalEditCronoPago").modal("hide");
+          });
+          // Cuando haces clic en el botón 'Cerrar'
+          $(".btnCerrarEditCronoModal").on("click", function () {
+            lastButtonClicked = "close";
+            // Oculta el modal 'modalEditCronoPago'
+            $("#modalEditCronoPago").modal("hide");
+          });
+          // Cuando el modal 'modalEditCronoPago' se oculta
+          $("#modalEditCronoPago").on("hidden.bs.modal", function () {
+            if (lastButtonClicked === "edit") {
+              // Cierra el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("hide");
+            } else if (lastButtonClicked === "close") {
+              // Abre el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("show");
+            }
+          });
         });
-        // Muestra el modal
+
         $("#cronogramaAdmisionPago").modal("show");
       },
-      error: function (jqXHR, textStatus, errorThrown) {
+      /*  error: function (jqXHR, textStatus, errorThrown) {
         console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
+      }, */
     });
   }
 );
+//editar cronograma de pagos de pago modal editar 
+$(".btnEditCronoModal").on("click", function () {
+  // Toma los valores de los campos de entrada
+  var fechaLimtEditCrono = $("#fechaLimtEditCrono").val();
+  var montoEditCrono = $("#montoEditCrono").val();
+  var btnEditCronoModal = $("#btnEditCronoModal").val();
 
+  // Guarda los valores en los atributos 'value' de los campos de entrada
+  $("#fechaLimtEditCrono").attr("value", fechaLimtEditCrono);
+  $("#montoEditCrono").attr("value", montoEditCrono);
+  $("#btnEditCronoModal").attr("value", btnEditCronoModal);
+
+  // Crea un objeto con los datos
+  var dataEditCronoModal = {
+    fechaLimtEditCrono: fechaLimtEditCrono,
+    montoEditCrono: montoEditCrono,
+    btnEditCronoModal: btnEditCronoModal,
+  };
+
+  // Crea un objeto FormData y añade el objeto
+  var data = new FormData();
+  data.append("dataEditCronoModal", JSON.stringify(dataEditCronoModal));
+
+  // Envía los datos al servidor con una solicitud AJAX
+  $.ajax({
+    url: "ajax/pagos.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response == "ok") {
+        // Cierra el modal
+        $("#modalEditCronoPago").modal("hide");
+
+        // Muestra el mensaje de "Actualizado"
+        Swal.fire({
+          icon: "success",
+          title: "Actualizado",
+          text: "Cronograma de Pago Actualizado",
+          timer: 2000,
+          showConfirmButton: true,
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+});
 // vista de pagos buscar alumno por el dni
 $(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
   var codCajaAlumno = $("#codCajaAlumno").val();

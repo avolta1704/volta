@@ -12,10 +12,9 @@ class PagosAjax
     $todosLosPagosAdmin = ControllerPagos::ctrGetAllPagos();
     foreach ($todosLosPagosAdmin as &$dataPago) {
 
-      //$dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
-
+      $dataPago['moraPago'] = strval($dataPago["moraPago"]);
+      $dataPago['numeroComprobante'] = strval($dataPago["numeroComprobante"]);
       $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
-
       $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
       $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
       $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
@@ -60,14 +59,30 @@ if (isset($_POST["codCajaAlumno"])) {
   $mostrarDatosPagoDniAlumno->ajaxMostrarDatosPagoAlumno($_POST["codCajaAlumno"]);
 }
 // vista de pagos detalles de pago
-if (isset ($_POST["codPago"])) {
+if (isset($_POST["codPago"])) {
   $mostrarDetallesPago = new PagosAjax();
   $mostrarDetallesPago->ajaxMostrarDetallesPago($_POST["codPago"]);
 }
 // eliminar registro de pago
-if (isset ($_POST["codPagoDelet"])) {
+if (isset($_POST["codPagoDelet"])) {
   $eliminarRegistroPago = new PagosAjax();
   $eliminarRegistroPago->ajaxEliminarRegistroPago($_POST["codPagoDelet"]);
 }
 
+class PagosAjaxx
+{
+  //editar cronograma de pagos de pago modal editar 
+  public function ajaxEditarRegistroPagoModal($dataEditCronoModal)
+  {
+    // Convierte la cadena JSON en un array asociativo
+    $dataEditCronoModal = json_decode($dataEditCronoModal, true);
+    $EditarRegistroPagoModal = ControllerPagos::ctrEditarRegistroPagoModal($dataEditCronoModal);
+    echo json_encode($EditarRegistroPagoModal);
+  }
+}
 
+//editar cronograma de pagos de pago modal editar 
+if (isset($_POST["dataEditCronoModal"])) {
+  $EditarRegistroPagoModal = new PagosAjaxx();
+  $EditarRegistroPagoModal->ajaxEditarRegistroPagoModal($_POST["dataEditCronoModal"]);
+}

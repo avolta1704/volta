@@ -156,7 +156,7 @@
                     <option value="<?php echo $datosPago["estadoCronograma"] ?>">
                       <?php echo $estadoPago ?>
                     </option>
-                    <option value="1">Registrado</option>
+                    <!-- <option value="1">Registrado</option> -->
                     <option value="2">Cancelado</option>
                     <option value="3">Anulado</option>
                   </select>
