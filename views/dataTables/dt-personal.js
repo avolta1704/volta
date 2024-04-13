@@ -16,7 +16,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTablePersonal
-  var data = new FormData();
   $(".tituloPersonal").text("Personal");
 
   //Solicitud inicial de dataTablePersonal
@@ -38,6 +37,7 @@ $(document).ready(function () {
       tablePersonal.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

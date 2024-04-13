@@ -1,13 +1,11 @@
 // Definición inicial de dataTableApoderado
 $(document).ready(function () {
   var columnDefsApoderado = [
-    { data: "idApoderado" },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipo" },
-    { data: "numeroApoderado" },
+    { data: "tipoApoderado" },
+    { data: "celularApoderado" },
     { data: "correoApoderado" },
-    { data: "listaAlumnos" },
     { data: "convivenciaAlumno" },
     { data: "buttons" },
   ];
@@ -17,7 +15,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableApoderado
-  var data = new FormData();
   $(".tituloApoderado").text("Apoderados");
 
   //Solicitud inicial de dataTableApoderado
@@ -39,6 +36,7 @@ $(document).ready(function () {
       tableApoderado.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });
@@ -52,7 +50,6 @@ $(document).ready(function () {
       <th scope="col">Tipo</th>
       <th scope="col">Celular</th>
       <th scope="col">Correo</th>
-      <th scope="col">Lista Alumno</th>
       <th scope="col">Convivencia Alumno</th>
       <th scope="col">Acciones</th>
     </tr>
@@ -69,10 +66,9 @@ $(document).ready(function () {
     },
     { data: "nombreApoderado" },
     { data: "apellidoApoderado" },
-    { data: "tipo" },
-    { data: "numeroApoderado" },
+    { data: "tipoApoderado" },
+    { data: "celularApoderado" },
     { data: "correoApoderado" },
-    { data: "listaAlumnos" },
     { data: "convivenciaAlumno" },
     { data: "buttons" },
   ];

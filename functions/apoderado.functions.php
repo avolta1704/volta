@@ -2,7 +2,7 @@
 class FunctionApoderado
 {
   //  Tipo de Apoderado
-  public static function getTipoApoderado($tipoApoderadoLogin)
+/*   public static function getTipoApoderado($tipoApoderadoLogin)
   {
     if ($tipoApoderadoLogin == "Apoderado") {
       $tipoApoderado = '<span class="badge rounded-pill bg-success">Apoderado</span>';
@@ -14,7 +14,7 @@ class FunctionApoderado
       $tipoApoderado = '<span class="badge rounded-pill bg-success">Padre</span>';
     }
     return $tipoApoderado;
-  }
+  } */
   //  Estados del Apoderado 
   public static function getEstadoApoderado($stateValue)
   {

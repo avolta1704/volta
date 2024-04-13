@@ -16,7 +16,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTablePostulantes
-  var data = new FormData();
   $(".tituloPostulantes").text("Todos los Postulantes");
 
   //Solicitud ajx inicial de dataTablePostulantesAdmin
@@ -38,6 +37,7 @@ $(document).ready(function () {
       tablePostulantes.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

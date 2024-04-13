@@ -17,7 +17,6 @@ var tableUsuario = $("#dataTableUsuarios").DataTable({
 });
 
 // Titulo dataTableUsuarios
-var data = new FormData();
 $(".tituloUsuarios").text("Usuarios");
 
 //Solicitud inicial de dataTableUsuarios
@@ -39,6 +38,7 @@ $.ajax({
     tableUsuario.draw();
   },
   error: function (jqXHR, textStatus, errorThrown) {
+    console.log(jqXHR.responseText); // procendecia de error
     console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
   },
 });

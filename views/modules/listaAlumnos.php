@@ -19,7 +19,7 @@
           <div class="card">
             <div class="card-body">
               <!--  Titulo DataTableAlumnosAdmin-->
-              <table id="dataTableAlumnos" class="display dataTableAlumnos" style="width: 100%">
+              <table id="dataTableAlumnos" class="display dataTableAlumnos" style="width: 100%">6
                 <thead>
                   <!-- DataTableAlumnosAdmin -->
                 </thead>

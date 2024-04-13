@@ -23,7 +23,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTablePagos
-  var data = new FormData();
   $(".tituloPagos").text("Todos los Pagos");
 
   //Solicitud ajx inicial de dataTablePagosAdmin
@@ -44,6 +43,7 @@ $(document).ready(function () {
       tablePagos.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

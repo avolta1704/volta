@@ -20,7 +20,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableComunicadoPago
-  var data = new FormData();
   $(".tituloPagoAlumnos").text("Registros Alumnos Pago Comunicado");
 
   //Solicitud ajx inicial de dataTableComunicadoPagoAdmin
@@ -42,6 +41,7 @@ $(document).ready(function () {
       tablePagoAlumnos.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });
