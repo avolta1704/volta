@@ -21,7 +21,6 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableAdmisionAlumnos
-  var data = new FormData();
   $(".tituloAdmisionAlumnos").text("Registros Admision");
 
   //Solicitud ajx inicial de dataTableAdmisionAlumnosAdmin
@@ -43,6 +42,7 @@ $(document).ready(function () {
       tableAdmisionAlumno.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

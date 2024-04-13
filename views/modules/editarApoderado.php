@@ -43,7 +43,7 @@
               <div class="form-group col-md-6">
                 <label for="editarNumAp" class="form-label" style="font-weight: bold">Numero: </label>
                 <input type="text" class="form-control" id="editarNumAp" name="editarNumAp"
-                  value="<?php echo $datosApoderado["numeroApoderado"] ?>">
+                  value="<?php echo $datosApoderado["celularApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">

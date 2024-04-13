@@ -6,7 +6,7 @@ class ModelApoderados
   //mostar todos los Apoderados DataTable
   public static function mdlGetAllApoderados($table)
   {
-    $statement = Connection::conn()->prepare("SELECT * FROM $table");
+    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado FROM $table");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -113,8 +113,8 @@ class ModelApoderados
     idApoderado,
     nombreApoderado,
     apellidoApoderado,
-    numeroApoderado,
     correoApoderado,
+    celularApoderado,
     listaAlumnos,
     convivenciaAlumno,
     tipoApoderado

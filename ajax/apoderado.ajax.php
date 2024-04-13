@@ -11,7 +11,7 @@ class ApoderadoAjax
   {
     $todosLosApoderados = ControllerApoderados::ctrGetAllApoderados();
     foreach ($todosLosApoderados as &$apoderado) {
-      $apoderado['tipo'] = FunctionApoderado::getTipoApoderado(intval($apoderado["tipoApoderado"]));
+      //$apoderado['tipo'] = FunctionApoderado::getTipoApoderado(intval($apoderado["tipoApoderado"]));
       $apoderado['buttons'] = FunctionApoderado::getBtnApoderado(intval($apoderado["idApoderado"]));
     }
     echo json_encode($todosLosApoderados);

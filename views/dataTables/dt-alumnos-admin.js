@@ -23,8 +23,7 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableAlumnos
-  var data = new FormData();
-  $(".tituloAlumnos").text("Todos los Alumnos");
+   $(".tituloAlumnos").text("Todos los Alumnos");
 
   //Solicitud ajx inicial de dataTableAlumnosAdmin
   var data = new FormData();
@@ -45,6 +44,7 @@ $(document).ready(function () {
       tableAlumno.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // procendecia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });
