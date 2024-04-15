@@ -14,6 +14,7 @@ require_once "functions/perfil.functions.php";
 require_once "functions/apoderado.functions.php";
 require_once "functions/pagos.functions.php";
 require_once "functions/comunicado.functions.php";
+require_once "functions/buscarAlumno.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";
@@ -29,6 +30,7 @@ require_once "controller/admisionAlumno.controller.php";
 require_once "controller/admision.controller.php";
 require_once "controller/pagos.controller.php";
 require_once "controller/comunicado.controller.php";
+require_once "controller/buscarAlumno.controller.php";
 //  Models
 require_once "model/usuarios.model.php";
 require_once "model/alumnos.model.php";
@@ -43,6 +45,7 @@ require_once "model/admisionAlumno.model.php";
 require_once "model/admision.model.php";
 require_once "model/pagos.model.php";
 require_once "model/comunicado.model.php";
+require_once "model/buscarAlumno.model.php";
 
 $template = new ControllerTemplate();
 $template -> ctrTemplate();
