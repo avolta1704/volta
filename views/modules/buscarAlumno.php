@@ -21,14 +21,14 @@
               <div class="form-group col-md-4">
                 <label for="nivAlBusq" class="form-label" style="font-weight: bold">Nivel Alumno</label>
                 <select class="form-control input-lg busqueda" id="nivAlBusq" name="nivAlBusq">
-                  <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+      
                 </select>
               </div>
 
               <div class="form-group col-md-4">
                 <label for="gradAlBusq" class="form-label" style="font-weight: bold">Grado Alumno</label>
                 <select class="form-control input-lg busqueda" id="gradAlBusq" name="gradAlBusq">
-                  <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                  
                 </select>
               </div>
             </div><br>

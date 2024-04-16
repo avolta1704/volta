@@ -25,7 +25,9 @@ class ModelBuscarAlumno
         alumno.fechaIngresoVolta, 
         alumno.numeroEmergencia, 
         alumno.enfermedades,
-        grado.descripcionGrado, 
+        grado.idGrado,
+        grado.descripcionGrado,
+        nivel.idNivel,
         nivel.descripcionNivel, 
         alumno_grado.estadoGradoAlumno,
         apoderado1.nombreApoderado as nombreApoderado1,
@@ -68,3 +70,23 @@ class ModelBuscarAlumno
   }
 }
 
+/* 
+CREATE TABLE `alumno_grado`  (
+  `idAlumnoGrado` int NOT NULL AUTO_INCREMENT,
+  `idAlumno` int NOT NULL,
+  `idGrado` int NOT NULL,
+  `estadoGradoAlumno` int NOT NULL,
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+
+CREATE TABLE `grado`  (
+  `idGrado` int NOT NULL AUTO_INCREMENT,
+  `idNivel` int NOT NULL,
+  `descripcionGrado` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+CREATE TABLE `nivel`  (
+  `idNivel` int NOT NULL AUTO_INCREMENT,
+  `descripcionNivel` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+
+ */
