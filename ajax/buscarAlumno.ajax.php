@@ -10,6 +10,11 @@ class BuscarAlumnoAjax
   public function ajaxMostrartodasLasBusquedas()
   {
     $todasLasBusquedas = ControllerBuscarAlumno::ctrGetAllBusquedaAlumno();
+    foreach ($todasLasBusquedas as &$dataBsucar) {
+      $dataBsucar['estadoAlumno'] = FunctionBuscarAlumno::getEstadoAlumnoBuscar($dataBsucar["estadoAlumno"]);
+      $dataBsucar['estadoMatricula'] = FunctionBuscarAlumno::getEstadoMatriculaBuscar($dataBsucar["estadoMatricula"]);
+      $dataBsucar['estadoSiagie'] = FunctionBuscarAlumno::getEstadosBuscarSiagiue($dataBsucar["estadoSiagie"]);
+    }
     echo json_encode($todasLasBusquedas);
   }
 }

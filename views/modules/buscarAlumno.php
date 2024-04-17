@@ -37,91 +37,91 @@
             <div class="container row g-3">
               <div class="col-md-4">
                 <label for="nombreBusqueda" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombreBusqueda" name="nombreBusqueda">
+                <input type="text" class="form-control" id="nombreBusqueda" name="nombreBusqueda" readonly>
               </div>
               <div class="col-md-4">
                 <label for="apellidoBusqueda" class="form-label">Apellido</label>
-                <input type="text" class="form-control" id="apellidoBusqueda" name="apellidoBusqueda">
+                <input type="text" class="form-control" id="apellidoBusqueda" name="apellidoBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="dniBusqueda" class="form-label">Dni</label>
-                <input type="text" class="form-control" id="dniBusqueda" name="dniBusqueda">
+                <input type="text" class="form-control" id="dniBusqueda" name="dniBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="CodCajaBusqueda" class="form-label">Codigo Caja</label>
-                <input type="text" class="form-control" id="CodCajaBusqueda" name="CodCajaBusqueda">
+                <input type="text" class="form-control" id="CodCajaBusqueda" name="CodCajaBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="gradoBusqueda" class="form-label">Grado</label>
-                <input type="text" class="form-control" id="gradoBusqueda" name="gradoBusqueda">
+                <input type="text" class="form-control" id="gradoBusqueda" name="gradoBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="nivelBusqueda" class="form-label">Nivel</label>
-                <input type="text" class="form-control" id="nivelBusqueda" name="nivelBusqueda">
+                <input type="text" class="form-control" id="nivelBusqueda" name="nivelBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="generoBusqueda" class="form-label">Genero</label>
-                <input type="text" class="form-control" id="generoBusqueda" name="generoBusqueda">
+                <input type="text" class="form-control" id="generoBusqueda" name="generoBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="nacimientoBusqueda" class="form-label">Fecha Nacimiento</label>
-                <input type="date" class="form-control" id="nacimientoBusqueda" name="nacimientoBusqueda">
+                <input type="date" class="form-control" id="nacimientoBusqueda" name="nacimientoBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="seguroBusqueda" class="form-label">Seguro Salud</label>
-                <input type="text" class="form-control" id="seguroBusqueda" name="seguroBusqueda">
+                <input type="text" class="form-control" id="seguroBusqueda" name="seguroBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="enfermedadBusqueda" class="form-label">Enfermedades</label>
-                <input type="text" class="form-control" id="enfermedadBusqueda" name="enfermedadBusqueda">
+                <input type="text" class="form-control" id="enfermedadBusqueda" name="enfermedadBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="ieProceBusqueda" class="form-label">IEE de Procedencia</label>
-                <input type="text" class="form-control" id="ieProceBusqueda" name="ieProceBusqueda">
+                <input type="text" class="form-control" id="ieProceBusqueda" name="ieProceBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="estadoAlBusqueda" class="form-label">Estado Alumno</label>
-                <input type="text" class="form-control" id="estadoAlBusqueda" name="estadoAlBusqueda">
+                <input type="text" class="form-control" id="estadoAlBusqueda" name="estadoAlBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="ingVoltaBusqueda" class="form-label">Ingreso a Volta</label>
-                <input type="date" class="form-control" id="ingVoltaBusqueda" name="ingVoltaBusqueda">
+                <input type="date" class="form-control" id="ingVoltaBusqueda" name="ingVoltaBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="direccionBusqueda" class="form-label">Direccion</label>
-                <input type="text" class="form-control" id="direccionBusqueda" name="direccionBusqueda">
+                <input type="text" class="form-control" id="direccionBusqueda" name="direccionBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="distritoBusqueda" class="form-label">Distrito</label>
-                <input type="text" class="form-control" id="distritoBusqueda" name="distritoBusqueda">
+                <input type="text" class="form-control" id="distritoBusqueda" name="distritoBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="numeroEmergBusqueda" class="form-label">Numero de Emergencia</label>
-                <input type="text" class="form-control" id="numeroEmergBusqueda" name="numeroEmergBusqueda">
+                <input type="text" class="form-control" id="numeroEmergBusqueda" name="numeroEmergBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="siagieBusqueda" class="form-label">Estado Siagie</label>
-                <input type="text" class="form-control" id="siagieBusqueda" name="siagieBusqueda">
+                <input type="text" class="form-control" id="siagieBusqueda" name="siagieBusqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="matriculaBusqueda" class="form-label">Estado Matricula</label>
-                <input type="text" class="form-control" id="matriculaBusqueda" name="matriculaBusqueda">
+                <input type="text" class="form-control" id="matriculaBusqueda" name="matriculaBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="apoderado1Busqueda" class="form-label">Apoderado</label>
-                <input type="text" class="form-control" id="apoderado1Busqueda" name="apoderado1Busqueda">
+                <input type="text" class="form-control" id="apoderado1Busqueda" name="apoderado1Busqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="numero1ApoBusqueda" class="form-label">Numero Celular 1</label>
-                <input type="text" class="form-control" id="numero1ApoBusqueda" name="numero1ApoBusqueda">
+                <input type="text" class="form-control" id="numero1ApoBusqueda" name="numero1ApoBusqueda"readonly>
               </div>
               <div class="col-md-4">
                 <label for="apoderado2Busqueda" class="form-label">Apoderado</label>
-                <input type="text" class="form-control" id="apoderado2Busqueda" name="apoderado2Busqueda">
+                <input type="text" class="form-control" id="apoderado2Busqueda" name="apoderado2Busqueda"readonly>
               </div>
               <div class="col-md-2">
                 <label for="numero2ApoBusqueda" class="form-label">Numero Celular 2</label>
-                <input type="text" class="form-control" id="numero2ApoBusqueda" name="numero2ApoBusqueda">
+                <input type="text" class="form-control" id="numero2ApoBusqueda" name="numero2ApoBusqueda"readonly>
               </div>
             </div>
 
