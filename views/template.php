@@ -37,6 +37,7 @@ session_start();
         $_GET["ruta"] == "editarAlumno" ||
         $_GET["ruta"] == "listaComunicadoPago" ||
         $_GET["ruta"] == "registrarComunicadoPago" ||
+        $_GET["ruta"] == "buscarAlumno" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -88,6 +89,7 @@ session_start();
   <script src="views/js/pagos.js"></script>
   <script src="views/js/excelUploadJson.js"></script>
   <script src="views/js/comunicado.js"></script>
+  <script src="views/js/buscarAlumno.js"></script>
   
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

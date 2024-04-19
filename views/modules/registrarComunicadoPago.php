@@ -9,7 +9,7 @@
       </div>
 
       <div class="container-fluid">
-        <form role="form" method="post" class="row g-3 m-2 formPagoAlumno">
+        <form role="form" method="post" class="row g-3 m-2 ">
 
           <span class="border border-3 p-3">
             <div class="container row g-3">

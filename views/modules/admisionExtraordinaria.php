@@ -42,7 +42,7 @@
 
               <div class="col-md-6">
                 <label for="sexoAlumno" class="form-label" style="font-weight: bold">Sexo: </label>
-                <select class="form-control input-lg" name="sexoAlumno" id="sexoAlumno" required>
+                <select class="form-control input-lg comunicado" name="sexoAlumno" id="sexoAlumno" required>
                   <option value="">Eliga una opción</option>
                   <option value="Masculino">Masculino</option>
                   <option value="Femenino">Femenino</option>
