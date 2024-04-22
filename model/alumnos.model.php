@@ -84,20 +84,7 @@ class ModelAlumnos
       return "error";
     }
   }
-  //  Obtener  al Postulante por el codPostulanteEdit
-  public static function mdlObtenerAlPostulante($table, $codPostulanteEdit)
-  {
-    $statement = Connection::conn()->prepare("SELECT
-      nombrePostulante, 
-      apellidoPostulante, 
-      dniPostulante, 
-      fechaNacimiento, 
-      gradoPostulacion 
-      FROM $table WHERE idPostulante = :idPostulante");
-    $statement->bindParam(":idPostulante", $codPostulanteEdit, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetch(PDO::FETCH_ASSOC);
-  }
+
   //  crear postulante alumno admitido
   public static function mdlCreatePostulateAlumno($tabla, $dataArrayAlumno)
   {
@@ -180,5 +167,13 @@ class ModelAlumnos
     } else {
       return "error";
     }
+  } 
+
+  //  Obtener el ultimo alumno creado
+  public static function mdlGetUltimoAlumnoCreado($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) AS idAlumno FROM $tabla");
+    $statement->execute();
+    return $statement->fetchColumn();
   }
 }

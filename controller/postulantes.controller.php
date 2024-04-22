@@ -191,7 +191,7 @@ class ControllerPostulantes
         //  Actualizar los datos de ambos apoderados
         $response = ControllerApoderados::ctrEditarApoderado($dataPadre);
         $response = ControllerApoderados::ctrEditarApoderado($dataMadre);
-        if($response == "ok") {
+        if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
           echo $mensaje;
         } else {
@@ -259,12 +259,27 @@ class ControllerPostulantes
           $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
           if ($anioEscolarActiva != false) {
             // Tomar el año escolar activo para el registro de postulante en la tabla admision
-            $tipoAdmision = 1; // 1 = ordinario, 2 = extraordinario
+            $tipoAdmision = "Ordinario";
             $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit, $tipoAdmision);
             if ($admisionAnioEscolar != false) {
               // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
-              $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
-              return $admisionAlumno;
+              $admisionAlumno = ControllerAdmisionAlumno::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
+              //  Crear un nuevo registro de anio_admision en la tabla anio_admision 
+              if ($admisionAlumno == "ok") {
+                $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
+                $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
+                if ($anioAdmision == "ok") {
+                  //  Relacionar los apoderados con los alumnos
+                  $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
+                  $alumnoCreado = ControllerAlumnos::ctrGetUltimoAlumnoCreado();
+                  $actualizarApoderados = ControllerApoderadoAlumno::ctrCrearApoderadoAlumno($listaApoderados[0], $alumnoCreado);
+                  return $actualizarApoderados;
+                } else {
+                  return "error";
+                }
+              } else {
+                return "error";
+              }
             } else {
               return "error";
             }
@@ -287,5 +302,21 @@ class ControllerPostulantes
     $tabla = "postulante";
     $response = ModelPostulantes::mdlObtenerUltimoPostulanteCreado($tabla);
     return $response;
+  }
+
+  //  Obtener datos de un postulante
+  public static function  ctrGetDatosPostulantes($codPostulanteEdit)
+  {
+    $tabla = "postulante";
+    $dataPostulante = ModelPostulantes::mdlGetDatosPostulanteEditar($tabla, $codPostulanteEdit);
+    return $dataPostulante;
+  }
+
+  //  Obtener la lista de apoderados de un postulante
+  public static function ctrGetListaApoderados($codPostulante)
+  {
+    $tabla = "postulante";
+    $listaApoderados = ModelPostulantes::mdlGetListaApoderados($tabla, $codPostulante);
+    return $listaApoderados;
   }
 }

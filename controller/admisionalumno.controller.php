@@ -89,7 +89,7 @@ class ControllerAdmisionAlumno
                     "usuarioCreacion" => $_SESSION["idUsuario"],
                     "usuarioActualizacion" => $_SESSION["idUsuario"]
                   );
-                  $nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
+                  //$nuevoApoderado = ControllerApoderados::ctrCrearApoderadoAlumno($dataApoderado);
                   $codApoderado = ControllerApoderados::ctrObtenerUltimoApoderado();
 
 
@@ -117,7 +117,7 @@ class ControllerAdmisionAlumno
                   $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulante, $tipoAdmision);
                   if ($admisionAnioEscolar != false) {
                     // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno extraordiario
-                    $admisionAlumno = ControllerAdmision::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoExtraordinario);
+                    $admisionAlumno = ControllerAdmisionAlumno::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoExtraordinario);
                     if ($admisionAlumno != false) {
                       // Proceso completado exitosamente
                       $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno Creado Correctamente", "listaAdmisionAlumnos");
@@ -266,5 +266,30 @@ class ControllerAdmisionAlumno
     $tabla = "cronograma_pago";
     $dataAdAlumCalendario = ModelAdmisionAlumno::mdlDataCronoPagoAdAlumEstado($tabla, $codAdAlumCalendario);
     return $dataAdAlumCalendario;
+  }
+
+  //  Obtener el último registro de admision_alumno
+  public static function ctrObtenerUltimoAdmisionAlumno()
+  {
+    $tabla = "admision_alumno";
+    $ultimoAdmisionAlumno = ModelAdmisionAlumno::mdlObtenerUltimoAdmisionAlumno($tabla);
+    return $ultimoAdmisionAlumno;
+  }
+
+  //  Crear admision de alumno
+  public static function ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision)
+  {
+    $dataAlumnoAdmision = array(
+      "idAdmision" => $admisionAnioEscolar,
+      "idAlumno" => $alumnoAdmision["idAlumno"],
+      "estadoAdmisionAlumno" => 1,
+      "fechaCreacion" => date("Y-m-d H:i:s"),
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $table = "admision_alumno";
+    $result = ModelAdmision::mdlCrearAlumnoAdmision($table, $dataAlumnoAdmision);
+    return $result;
   }
 }

@@ -25,14 +25,13 @@ class ControllerAlumnos
     return $response;
   }
   //  crear postulante alumno admitido
-  public static function ctrCrearAlumnoAdmision($codPostulanteEdit)
+  public static function ctrCrearAlumnoAdmision($codPostulante)
   {
     // Obtener al postulante por el código
-    $table = "postulante";
-    $dataPostulante = ModelAlumnos::mdlObtenerAlPostulante($table, $codPostulanteEdit);
+    $dataPostulante = ControllerPostulantes::ctrGetDatosPostulantes($codPostulante);
+
     // Verificar si se obtuvo el postulante
     if ($dataPostulante) {
-     
       // Crear el array de datos de la admisión
       $dataArrayAlumno = array(
         "estadoSiagie" => 1,
@@ -75,8 +74,7 @@ class ControllerAlumnos
   //  Editar datos del alumno
   public static function ctrEditarAlumno()
   {
-    if(isset($_POST["codAlumno"]) && isset($_POST["editarDniAlumno"]))
-    {
+    if (isset($_POST["codAlumno"]) && isset($_POST["editarDniAlumno"])) {
       $tabla = "alumno";
       $data = array(
         "idAlumno" => $_POST["codAlumno"],
@@ -97,13 +95,21 @@ class ControllerAlumnos
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $response = ModelAlumnos::mdlEditarAlumno($tabla, $data);
-      if($response == "ok") {
+      if ($response == "ok") {
         $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAlumnos");
-          echo $mensaje;
+        echo $mensaje;
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAlumnos");
-          echo $mensaje;
+        echo $mensaje;
       }
     }
+  }
+
+  //  Obtener el último alumno creado
+  public static function ctrGetUltimoAlumnoCreado()
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetUltimoAlumnoCreado($tabla);
+    return $response;
   }
 }

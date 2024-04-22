@@ -7,7 +7,7 @@ class ControllerAnioEscolar
   //  Crear nuevo Año Escolar
   public static function ctrCrearAnioEscolar($dataAnioEscolar)
   {
-    $tabla = "anioescolar";
+    $tabla = "anio_escolar";
     foreach ($dataAnioEscolar as $value) {
       $datosAnioEscolar = array(
         "descripcionAnio" => $value["descripcionAnio"],

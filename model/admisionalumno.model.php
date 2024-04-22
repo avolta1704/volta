@@ -78,4 +78,12 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  //  Obtener el último admision_alumno creado
+  public static function mdlObtenerUltimoAdmisionAlumno($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAdmisionAlumno FROM $table ORDER BY idAdmisionAlumno DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

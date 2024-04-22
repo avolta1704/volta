@@ -176,4 +176,28 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  //  Obtener data de un postulante
+  public static function mdlGetDatosPostulanteEditar($table, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+      nombrePostulante, 
+      apellidoPostulante, 
+      dniPostulante, 
+      fechaNacimiento, 
+      gradoPostulacion 
+      FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Obtener lista de apoderados de un postulante por el código del postulante
+  public static function mdlGetListaApoderados($table, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT listaApoderados FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll();
+  }
 }
