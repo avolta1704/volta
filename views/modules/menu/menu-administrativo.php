@@ -68,7 +68,7 @@
     <!-- REPORTES -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allReportes" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-lines-fill"></i><span>Pensiones</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-person-lines-fill"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allReportes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>

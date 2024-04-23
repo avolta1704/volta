@@ -63,12 +63,23 @@ $(document).ready(function () {
         estadoTexto = "Sin Estado";
       }
       $("#actualizarEstado #codPostulante").val(codPostulante);
-      $('#actualizarEstado #estadoPostulante option[value="' + estadoPostulante + '"]').remove();
-      $('#actualizarEstado #estadoPostulante').prepend('<option value="' + estadoPostulante + '" selected>' + estadoTexto + '</option>');
+      $(
+        '#actualizarEstado #estadoPostulante option[value="' +
+          estadoPostulante +
+          '"]'
+      ).remove();
+      $("#actualizarEstado #estadoPostulante").prepend(
+        '<option value="' +
+          estadoPostulante +
+          '" selected>' +
+          estadoTexto +
+          "</option>"
+      );
       $("#actualizarEstado").modal("show");
     }
   );
 });
+
 //  Actualizar estado del postulante
 $(document).ready(function () {
   $("#btnActualizarEstadoPostulante").on("click", function () {
@@ -110,11 +121,16 @@ $(document).ready(function () {
           });
         }
         // Cerrar el modal después de recibir la respuesta
-        $('#actualizarEstado').modal('hide');
+        $("#actualizarEstado").modal("hide");
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
   });
+});
+
+//  Buscar Postulante
+$(document).ready(function () {
+  $(".busquedaPostulante").select2();
 });
