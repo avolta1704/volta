@@ -28,7 +28,6 @@ session_start();
         $_GET["ruta"] == "listaPagos" ||
         $_GET["ruta"] == "registrarPago" ||
         $_GET["ruta"] == "listaAdmisionAlumnos" ||
-        $_GET["ruta"] == "docPostulantes" ||
         $_GET["ruta"] == "nuevoPostulante" ||
         $_GET["ruta"] == "editarPostulante" ||
         $_GET["ruta"] == "editarApoderado" ||
