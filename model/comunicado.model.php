@@ -36,7 +36,6 @@ class ModelComunicado
     alumno.dniAlumno, 
     grado.descripcionGrado, 
     nivel.descripcionNivel, 
-    apoderado.numeroApoderado,
     apoderado.tipoApoderado,
     apoderado.correoApoderado,
     apoderado.nombreApoderado,

@@ -12,10 +12,10 @@ class ControllerApoderadoAlumno
     if ($listaApoderados == null || $listaApoderados == "") {
       $response = "ok";
     } else {
-      $listaApoderados = json_decode($listaApoderados, true);
-      foreach ($listaApoderados as $key => $value) {
+      $listaApoderados = json_decode($listaApoderados[0], true);
+      foreach ($listaApoderados as $value) {
         $dataCreate = array(
-          "idApoderado" => $value[$key],
+          "idApoderado" => $value,
           "idAlumno" => $idAlumno,
           "fechaCreacion" => date("Y-m-d H:i:s"),
           "fechaActualizacion" => date("Y-m-d H:i:s"),

@@ -92,8 +92,8 @@
                       </div>
 
                       <div class="col-md-4">
-                        <label class="form-label" style="font-weight: bold">Telefono: </label>
-                        <input type="text" class="form-control" value="<?php echo $datosAlumno["numeroApoderado"] ?>"
+                        <label class="form-label" style="font-weight: bold">Teléfono: </label>
+                        <input type="text" class="form-control" value=""
                           placeholder="Numero Apoderado" disabled>
                       </div>
 
