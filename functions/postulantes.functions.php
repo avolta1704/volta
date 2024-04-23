@@ -2,69 +2,83 @@
 class FunctionPostulantes
 {
 
-    //  Estados de los postulantes
-    public static function getEstadoPostulantes($stateValue)
-    {
-        //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Aprobado & 4 = Rechazado & 5 = sin estado
-        if ($stateValue == 1) {
-            $estado = '<span class="badge rounded-pill bg-primary">Registrado</span>';
-        }
-        if ($stateValue == 2) {
-            $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
-        }
-        if ($stateValue == 3) {
-            $estado = '<span class="badge rounded-pill bg-success">Aprobado</span>';
-        }
-        if ($stateValue == 4) {
-            $estado = '<span class="badge rounded-pill bg-danger">Rechazado</span>';
-        }
-        if ($stateValue == 5) {
-            $estado = '<span class="badge rounded-pill bg-secondary">Sin Estado</span>';
-        }
-        return $estado;
+  //  Estados de los postulantes
+  public static function getEstadoPostulantes($stateValue)
+  {
+    //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Admitido & 4 = Desistido & 5 = Error
+    if ($stateValue == 1) {
+      $estado = '<span class="badge rounded-pill bg-primary">Registrado</span>';
     }
-
-
-    //  Botones para los postulantes
-    public static function getBotonesPostulante($codPostulante, $estadoPostulante)
-    {
-        if ($estadoPostulante == 1) {
-            $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoPostulante == 2) {
-            $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoPostulante == 3) {
-            $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"disabled><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoPostulante == 4) {
-            $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"disabled><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoPostulante == 5) {
-            $botones = '
-        <button type="button" class="btn btn-warning btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-success btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"><i class="bi bi-check2-circle"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled><i class="bi bi-trash"></i></button>
-      ';
-        }
-        return $botones;
+    if ($stateValue == 2) {
+      $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
     }
+    if ($stateValue == 3) {
+      $estado = '<span class="badge rounded-pill bg-success">Admitido</span>';
+    }
+    if ($stateValue == 4) {
+      $estado = '<span class="badge rounded-pill bg-danger">Desistido</span>';
+    }
+    if ($stateValue == 5) {
+      $estado = '<span class="badge rounded-pill bg-secondary">Error</span>';
+    }
+    return $estado;
+  }
 
 
+  //  Botones para los postulantes
+  public static function getBotonesPostulante($codPostulante, $estadoPostulante)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    ';
+    if ($estadoPostulante == 1) {
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '">Editar</button></li>
+        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '">Actualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '">Eliminar</button></li>
+      ';
+    }
+    if ($estadoPostulante == 2) {
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '">Editar</button></li>
+        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '">Actualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
+      ';
+    }
+    if ($estadoPostulante == 3) {
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Editar</button></li>
+        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
+      ';
+    }
+    if ($estadoPostulante == 4) {
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '" >Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Editar</button></li>
+        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
+      ';
+    }
+    if ($estadoPostulante == 5) {
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '" >Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled>Editar</button></li>
+        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
+      ';
+    }
+    $botones .= '
+    </ul>
+    </div>
+    ';
+    return $botones;
+  }
 }

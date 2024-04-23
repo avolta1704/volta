@@ -30,6 +30,14 @@ $(".dataTablePostulantes").on("click", ".btnEditarPostulante", function () {
   window.location =
     "index.php?ruta=editarPostulante&codPostulanteEditar=" + codPostulante;
 });
+
+//  Cerrar vista de nuevo y editar postulante
+$(".dataTablePostulantes").on("click", ".btnVisualizarPostulante", function () {
+  var codPostulante = $(this).attr("codPostulante");
+  window.location =
+    "index.php?ruta=visualizarPostulante&codPostulante=" + codPostulante;
+});
+
 //  Cerrar vista de nuevo y editar postulante
 $(".cerrarCrearPostulante").on("click", function () {
   window.location = "index.php?ruta=listaPostulantes";
