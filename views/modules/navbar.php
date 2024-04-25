@@ -81,13 +81,7 @@
 <?php
 $idTipoUsuario = $_SESSION["tipoUsuario"];
 $idUsuario = $_SESSION["idUsuario"];
-  // Si el tipo de usuario es 1 o 4, obtener el perfil de usuario
-if ($idTipoUsuario == 1 || $idTipoUsuario == 4) {
-  $perfilUsuario = ControllerPerfil::ctrGetAllPerfilUsuario($idUsuario);
-} else {
-  // Si el tipo de usuario es cualquier otro número, obtener el perfil del personal
-  $perfilPersonal = ControllerPerfil::ctrGetAllPerfilPersonal($idUsuario);
-}
+
 ?>
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -99,12 +93,7 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 4) {
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
               <h6><?php echo $_SESSION["nombreCompleto"]; ?></h6>
-              <!-- Mostrar el tipo de perfil del usuario o personal -->
-              <?php if ($idTipoUsuario == 1 || $idTipoUsuario == 4) { ?>
-                <span><?php echo FunctionPerfil::getTipoPerfilUsuario($perfilUsuario["idTipoUsuario"]); ?> </span>
-              <?php } else { ?>
-                <span><?php echo FunctionPerfil::getTipoPerfilPersonal($perfilPersonal["idTipoPersonal"]); ?></span> 
-              <?php } ?>
+              <span><?php echo FunctionPerfil::getTipoPerfilUsuario($idTipoUsuario); ?> </span>
             </li>
 
             <li>

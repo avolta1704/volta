@@ -72,20 +72,21 @@
       </a>
       <ul id="allReportes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="reportePagos">
-            <i class="bi bi-circle"></i><span>Reporte de Pensiones</span>
-          </a>
-        </li>
-        <li>
           <a href="reporteAdmisiones">
-            <i class="bi bi-circle"></i><span>Reporte Admisiones</span>
+            <i class="bi bi-circle"></i><span>Reporte de Admisiones</span>
           </a>
         </li>
         <li>
           <a href="reporteMatriculados">
-            <i class="bi bi-circle"></i><span>Reporte Matriculados</span>
+            <i class="bi bi-circle"></i><span>Reporte de Matriculados</span>
           </a>
         </li>
+        <li>
+          <a href="reportePagos">
+            <i class="bi bi-circle"></i><span>Reporte de Pensiones</span>
+          </a>
+        </li>
+
       </ul>
     </li>
 

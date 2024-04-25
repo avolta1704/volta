@@ -10,7 +10,6 @@ $(document).ready(function () {
     { data: "codAlumnoCaja" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
-    //{ data: "tipoAdmision" },
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
     { data: "buttonsAdmisionAlumno" },
@@ -54,7 +53,6 @@ $(document).ready(function () {
         <th scope="col">Código Caja</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
-        
         <th scope="col">Fecha Admision</th>
         <th scope="col">Estado Admision</th>
         <th scope="col">Aciones</th
@@ -73,7 +71,6 @@ $(document).ready(function () {
     { data: "codAlumnoCaja" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
-    //{ data: "tipoAdmision" },
     { data: "fechaAdmision" },
     { data: "estadoAdmisionAlumn" },
     { data: "buttonsAdmisionAlumno" },

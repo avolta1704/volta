@@ -26,10 +26,10 @@
               <!--  Titulo dataTableAdmisionAlumnosAdmin-->
               <table id="dataTableAdmisionAlumnos" class="display dataTableAdmisionAlumnos" style="width: 100%">
                 <thead>
-                  <!-- dataTableAdmisionAlumnosAdmin -->
+                  
                 </thead>
                 <tbody>
-                  <!--dataTableAdmisionAlumnosAdmin-->
+                  
                 </tbody>
               </table>
             </div>

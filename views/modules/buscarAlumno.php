@@ -33,7 +33,7 @@
               </div>
             </div><br>
             <!--resultado de la busqueda -->
-            <h3>Busqueda</h3>
+            <h3>Búsqueda</h3>
             <div class="container row g-3">
               <div class="col-md-4">
                 <label for="nombreBusqueda" class="form-label">Nombre</label>

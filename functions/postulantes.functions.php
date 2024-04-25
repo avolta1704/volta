@@ -30,10 +30,10 @@ class FunctionPostulantes
   {
     $botones = '
     <div class="btn-group">
-      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropdownMenuButton1" aria-expanded="false">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
         <i class="bi bi-pencil-square"></i>
       </button>
-    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
     ';
     if ($estadoPostulante == 1) {
       $botones .= '
