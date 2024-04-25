@@ -26,7 +26,7 @@ class ControllerPostulantes
         "convivenciaAlumno" => $_POST["convivePadre"],
         "tipoApoderado" => "Padre",
         "gradoInstruccion" => $_POST["gradoPadre"],
-        "profesionAlumno" => $_POST["profesionPadre"],
+        "profesionApoderado" => $_POST["profesionPadre"],
         "correoApoderado" => $_POST["emailPadre"],
         "celularApoderado" => $_POST["numeroPadre"],
         "dependenciaApoderado" => $_POST["dependenciaPadre"],
@@ -48,7 +48,7 @@ class ControllerPostulantes
         "convivenciaAlumno" => $_POST["conviveMadre"],
         "tipoApoderado" => "Madre",
         "gradoInstruccion" => $_POST["gradoMadre"],
-        "profesionAlumno" => $_POST["profesionMadre"],
+        "profesionApoderado" => $_POST["profesionMadre"],
         "correoApoderado" => $_POST["emailMadre"],
         "celularApoderado" => $_POST["numeroMadre"],
         "dependenciaApoderado" => $_POST["dependenciaMadre"],
@@ -159,7 +159,7 @@ class ControllerPostulantes
           "fechaNacimiento" => $_POST["editarFechaPadre"],
           "convivenciaAlumno" => $_POST["editarConvivePadre"],
           "gradoInstruccion" => $_POST["editarGradoPadre"],
-          "profesionAlumno" => $_POST["editarProfesionPadre"],
+          "profesionApoderado" => $_POST["editarProfesionPadre"],
           "correoApoderado" => $_POST["editarCorreoPadre"],
           "celularApoderado" => $_POST["editarCelularPadre"],
           "dependenciaApoderado" => $_POST["editarDepenPadre"],
@@ -177,7 +177,7 @@ class ControllerPostulantes
           "fechaNacimiento" => $_POST["editarFechaMadre"],
           "convivenciaAlumno" => $_POST["editarConviveMadre"],
           "gradoInstruccion" => $_POST["editarGradoMadre"],
-          "profesionAlumno" => $_POST["editarProfesionMadre"],
+          "profesionApoderado" => $_POST["editarProfesionMadre"],
           "correoApoderado" => $_POST["editarCorreoMadre"],
           "celularApoderado" => $_POST["editarCelularMadre"],
           "dependenciaApoderado" => $_POST["editarDepenMadre"],
@@ -318,5 +318,28 @@ class ControllerPostulantes
     $tabla = "postulante";
     $listaApoderados = ModelPostulantes::mdlGetListaApoderados($tabla, $codPostulante);
     return $listaApoderados;
+  }
+
+  //  Obtener los postulantes para el select
+  public static function ctrGetPostulantesBusqueda()
+  {
+    $tabla = "postulante";
+    $listaPostulantes = ModelPostulantes::mdlGetPostulantesBusqueda($tabla);
+    return $listaPostulantes;
+  }
+
+  //  Buscar postulante por id
+  public static function ctrBuscarPostulanteById($codPostulante)
+  {
+    $table = "postulante";
+    $dataPostulante = ModelPostulantes::mdlBuscarPostulanteById($table, $codPostulante);
+    $listaApoderados = json_decode($dataPostulante["listaApoderados"], true);
+    foreach ($listaApoderados as $key => $value) {
+      if ($value != null) {
+        $dataApoderado = ControllerApoderados::ctrGetApoderadoById($value);
+        $dataPostulante[$key] = $dataApoderado;
+      }
+    }
+    return $dataPostulante;
   }
 }

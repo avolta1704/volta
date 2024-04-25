@@ -12,7 +12,7 @@
               <h3>Datos de Busqueda</h3>
               <!-- datos para filtrar datos de busqueda -->
               <div class="form-group col-md-4">
-                <label for="apellAlBusq" class="form-label" style="font-weight: bold">Apellido Alumno </label>
+                <label for="apellAlBusq" class="form-label" style="font-weight: bold"> Alumno </label>
                 <select class="form-control input-lg busqueda" id="apellAlBusq" name="apellAlBusq">
                   <!-- Las opciones se llenarán dinámicamente con JavaScript -->
                 </select>

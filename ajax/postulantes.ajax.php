@@ -9,6 +9,7 @@ require_once "../controller/alumnos.controller.php";
 require_once "../controller/gradoAlumno.controller.php";
 require_once "../controller/anioAdmision.controller.php";
 require_once "../controller/apoderadoAlumno.controller.php";
+require_once "../controller/apoderado.controller.php";
 //Modelo
 require_once "../model/postulantes.model.php";
 require_once "../model/admisionalumno.model.php";
@@ -18,6 +19,7 @@ require_once "../model/alumnos.model.php";
 require_once "../model/gradoAlumno.model.php";
 require_once "../model/anioAdmision.model.php";
 require_once "../model/apoderadoAlumno.model.php";
+require_once "../model/apoderado.model.php";
 
 class PostulantesAjax
 {
@@ -41,7 +43,17 @@ class PostulantesAjax
     $response = ControllerPostulantes::ctrActualizarestadoPostulante($codPostulanteEdit, $estadoPostulanteEdit);
     echo json_encode($response);
   }
+
+  //  Buscar postulante para vista de buscarPostulante
+  public $codPostulanteBusqueda;
+  public function ajaxBuscarPostulante()
+  {
+    $codPostulanteBusqueda = $this->codPostulanteBusqueda;
+    $response = ControllerPostulantes::ctrBuscarPostulanteById($codPostulanteBusqueda);
+    echo json_encode($response);
+  }
 }
+
 //mostar todos los Postulantes DataTableAdmin
 if (isset($_POST["todosLosPostulantesAdmin"])) {
   $mostrarTodosLosPostulantesAdmin = new PostulantesAjax();
@@ -53,4 +65,10 @@ if (isset($_POST["codPostulanteEdit"]) && isset($_POST["estadoPostulanteEdit"]))
   $actualizarEstado->codPostulanteEdit = $_POST["codPostulanteEdit"];
   $actualizarEstado->estadoPostulanteEdit = $_POST["estadoPostulanteEdit"];
   $actualizarEstado->ajaxActualizarEstado();
+}
+//  Obtener datos del postulante por busqueda de postulante
+if (isset($_POST["codPostulanteBusqueda"])) {
+  $codPostulanteBusqueda = new PostulantesAjax();
+  $codPostulanteBusqueda->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
+  $codPostulanteBusqueda->ajaxBuscarPostulante();
 }

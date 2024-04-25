@@ -11,16 +11,17 @@
             <div class="container row g-3">
               <h3 style="font-weight: bold">Datos de Postulante</h3>
               <!-- datos para filtrar datos de busqueda -->
-              <div class="form-group col-md-6">
-                <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Apellido Postulante:</label>
+              <div class="form-group col-md-12">
+                <label for="apellidoPostulante" class="form-label" style="font-weight: bold"> Postulante:</label>
                 <select class="form-control input-lg busquedaPostulante" id="apellidoPostulante" name="apellidoPostulante">
-                  
+                  <option value="0">Seleccione Postulante</option>
+                  <?php
+                  $listaPostulantes = ControllerPostulantes::ctrGetPostulantesBusqueda();
+                  foreach($listaPostulantes as $value) {
+                    echo "<option value='" . $value["idPostulante"] . "'>" . $value["apellidoPostulante"] . " " . $value["nombrePostulante"] . "</option>";
+                  }
+                  ?>
                 </select>
-              </div>
-
-              <div class="col-md-6">
-                <label for="nombrePostulante" class="form-label" style="font-weight: bold">Nombre Postulante:</label>
-                <input type="text" class="form-control" id="nombrePostulante" name="nombrePostulante" readonly>
               </div>
             </div>
 

@@ -200,4 +200,35 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetchAll();
   }
+
+  //  Obtener todos los postulantes para la busqueda
+  public static function mdlGetPostulantesBusqueda($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idPostulante, nombrePostulante, apellidoPostulante FROM $table WHERE estadoPostulante = 1 ORDER BY idPostulante DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //  Buscar postulante por identificador
+  public static function mdlBuscarPostulanteById($table, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    postulante.sexoPostulante, 
+    postulante.dniPostulante, 
+    postulante.gradoPostulacion, 
+    postulante.fechaPostulacion, 
+    postulante.fechaNacimiento, 
+    postulante.lugarNacimiento, 
+    postulante.domicilioPostulante, 
+    postulante.colegioProcedencia, 
+    postulante.dificultadPostulante, 
+    postulante.dificultadObservacion, 
+    postulante.tipoAtencionPostulante, 
+    postulante.tratamientoPostulante,
+    postulante.listaApoderados
+    FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

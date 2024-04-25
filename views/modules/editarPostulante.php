@@ -158,7 +158,7 @@
 
               <div class="form-group col-md-6">
                 <label for="editarProfesionPadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="editarProfesionPadre" name="editarProfesionPadre" value="<?php echo $datosPostulante["dataPadre"]["profesionAlumno"] ?>" required>
+                <input type="text" class="form-control" id="editarProfesionPadre" name="editarProfesionPadre" value="<?php echo $datosPostulante["dataPadre"]["profesionApoderado"] ?>" required>
               </div>
 
               <div class="form-group col-md-6">
@@ -233,7 +233,7 @@
 
               <div class="form-group col-md-6">
                 <label for="editarProfesionMadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="editarProfesionMadre" name="editarProfesionMadre" value="<?php echo $datosPostulante["dataMadre"]["profesionAlumno"] ?>" required>
+                <input type="text" class="form-control" id="editarProfesionMadre" name="editarProfesionMadre" value="<?php echo $datosPostulante["dataMadre"]["profesionApoderado"] ?>" required>
               </div>
 
               <div class="form-group col-md-6">

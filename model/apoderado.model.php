@@ -45,7 +45,7 @@ class ModelApoderados
   // Obtener todos los alumnos
   public static function mdlCrearApoderado($tabla, $dataApoderado)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombreApoderado, apellidoApoderado, dniApoderado, fechaNacimiento, convivenciaAlumno, tipoApoderado, gradoInstruccion, profesionAlumno, correoApoderado, celularApoderado, dependenciaApoderado, centroLaboral, telefonoTrabajo, ingresoMensual, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombreApoderado, :apellidoApoderado, :dniApoderado, :fechaNacimiento, :convivenciaAlumno, :tipoApoderado, :gradoInstruccion, :profesionAlumno, :correoApoderado, :celularApoderado, :dependenciaApoderado, :centroLaboral, :telefonoTrabajo, :ingresoMensual, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombreApoderado, apellidoApoderado, dniApoderado, fechaNacimiento, convivenciaAlumno, tipoApoderado, gradoInstruccion, profesionApoderado, correoApoderado, celularApoderado, dependenciaApoderado, centroLaboral, telefonoTrabajo, ingresoMensual, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombreApoderado, :apellidoApoderado, :dniApoderado, :fechaNacimiento, :convivenciaAlumno, :tipoApoderado, :gradoInstruccion, :profesionApoderado, :correoApoderado, :celularApoderado, :dependenciaApoderado, :centroLaboral, :telefonoTrabajo, :ingresoMensual, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":nombreApoderado", $dataApoderado["nombreApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoApoderado", $dataApoderado["apellidoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":dniApoderado", $dataApoderado["dniApoderado"], PDO::PARAM_STR);
@@ -53,7 +53,7 @@ class ModelApoderados
     $statement->bindParam(":convivenciaAlumno", $dataApoderado["convivenciaAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":tipoApoderado", $dataApoderado["tipoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":gradoInstruccion", $dataApoderado["gradoInstruccion"], PDO::PARAM_STR);
-    $statement->bindParam(":profesionAlumno", $dataApoderado["profesionAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":profesionApoderado", $dataApoderado["profesionApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":correoApoderado", $dataApoderado["correoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":celularApoderado", $dataApoderado["celularApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":dependenciaApoderado", $dataApoderado["dependenciaApoderado"], PDO::PARAM_STR);
@@ -75,14 +75,14 @@ class ModelApoderados
   //  Editar datos de un apoderado
   public static function mdlEditarApoderado($tabla, $dataApoderado)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreApoderado = :nombreApoderado, apellidoApoderado = :apellidoApoderado, dniApoderado = :dniApoderado, fechaNacimiento = :fechaNacimiento, convivenciaAlumno = :convivenciaAlumno, gradoInstruccion = :gradoInstruccion, profesionAlumno = :profesionAlumno, correoApoderado = :correoApoderado, celularApoderado = :celularApoderado, dependenciaApoderado = :dependenciaApoderado, centroLaboral = :centroLaboral, telefonoTrabajo = :telefonoTrabajo, ingresoMensual = :ingresoMensual, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idApoderado = :idApoderado");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreApoderado = :nombreApoderado, apellidoApoderado = :apellidoApoderado, dniApoderado = :dniApoderado, fechaNacimiento = :fechaNacimiento, convivenciaAlumno = :convivenciaAlumno, gradoInstruccion = :gradoInstruccion, profesionApoderado = :profesionApoderado, correoApoderado = :correoApoderado, celularApoderado = :celularApoderado, dependenciaApoderado = :dependenciaApoderado, centroLaboral = :centroLaboral, telefonoTrabajo = :telefonoTrabajo, ingresoMensual = :ingresoMensual, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idApoderado = :idApoderado");
     $statement->bindParam(":nombreApoderado", $dataApoderado["nombreApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoApoderado", $dataApoderado["apellidoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":dniApoderado", $dataApoderado["dniApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $dataApoderado["fechaNacimiento"], PDO::PARAM_STR);
     $statement->bindParam(":convivenciaAlumno", $dataApoderado["convivenciaAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":gradoInstruccion", $dataApoderado["gradoInstruccion"], PDO::PARAM_STR);
-    $statement->bindParam(":profesionAlumno", $dataApoderado["profesionAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":profesionApoderado", $dataApoderado["profesionApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":correoApoderado", $dataApoderado["correoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":celularApoderado", $dataApoderado["celularApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":dependenciaApoderado", $dataApoderado["dependenciaApoderado"], PDO::PARAM_STR);
@@ -165,7 +165,7 @@ class ModelApoderados
     apoderado.telefonoTrabajo, 
     apoderado.ingresoMensual, 
     apoderado.gradoInstruccion, 
-    apoderado.profesionAlumno
+    apoderado.profesionApoderado
   FROM
     $table
   WHERE
