@@ -50,14 +50,17 @@ class ModelPagos
   //  crear registro pago alumno
   public static function mdlCrearRegistroPagoAlumno($table, $dataPagoAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, fechaCreacion, usuarioCreacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :fechaCreacion, :usuarioCreacion) ");
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, numeroComprobante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
     $statement->bindParam(":idTipoPago", $dataPagoAlumno["idTipoPago"], PDO::PARAM_INT);
     $statement->bindParam(":idCronogramaPago", $dataPagoAlumno["idCronogramaPago"], PDO::PARAM_INT);
     $statement->bindParam(":fechaPago", $dataPagoAlumno["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataPagoAlumno["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataPagoAlumno["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":numeroComprobante", $dataPagoAlumno["numeroComprobante"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataPagoAlumno["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataPagoAlumno["usuarioCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataPagoAlumno["usuarioActualizacion"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
@@ -311,5 +314,4 @@ class ModelPagos
       return "error";
     }
   }
-
 }

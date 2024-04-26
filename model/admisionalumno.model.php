@@ -86,4 +86,13 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  //  Obtener el calendario de pagos
+  public static function mdlGetCalendarioPagos($table, $codAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago, conceptoPago, montoPago, fechaLimite, mesPago FROM $table WHERE idAdmisionAlumno = :idAdmisionAlumno AND estadoCronograma = 1");
+    $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

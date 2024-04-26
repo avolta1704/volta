@@ -189,7 +189,7 @@ class ControllerAdmisionAlumno
       //  crear solo una vez este array de datos por que es la matriculado
       $dataCronoPagoMatricula = array(
         "idAdmisionAlumno" => $codAdmisionAlumno,
-        "conceptoPago" => "Matricula",
+        "conceptoPago" => "Matrícula",
         "montoPago" => $dataAnioEscolar["costoMatricula"],
         "fechaLimite" => "2021-03-05",
         "estadoCronograma" => 1,
@@ -224,7 +224,7 @@ class ControllerAdmisionAlumno
 
         $dataCronoPagoPension = array(
           "idAdmisionAlumno" => $codAdmisionAlumno,
-          "conceptoPago" => "Pension",
+          "conceptoPago" => "Pensión",
           "montoPago" => $dataAnioEscolar["costoPension"],
           "fechaLimite" => $fechaLimite,
           "estadoCronograma" => 1,
@@ -291,5 +291,13 @@ class ControllerAdmisionAlumno
     $table = "admision_alumno";
     $result = ModelAdmision::mdlCrearAlumnoAdmision($table, $dataAlumnoAdmision);
     return $result;
+  }
+
+  //  Get data del calendario de pagos
+  public static function ctrGetCalendarioPagos($codAdmisionAlumno)
+  {
+    $tabla = "cronograma_pago";
+    $dataCalendarioPagos = ModelAdmisionAlumno::mdlGetCalendarioPagos($tabla, $codAdmisionAlumno);
+    return $dataCalendarioPagos;
   }
 }

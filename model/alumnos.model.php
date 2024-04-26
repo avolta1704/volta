@@ -167,7 +167,7 @@ class ModelAlumnos
     } else {
       return "error";
     }
-  } 
+  }
 
   //  Obtener el ultimo alumno creado
   public static function mdlGetUltimoAlumnoCreado($tabla)
@@ -175,5 +175,56 @@ class ModelAlumnos
     $statement = Connection::conn()->prepare("SELECT MAX(idAlumno) AS idAlumno FROM $tabla");
     $statement->execute();
     return $statement->fetchColumn();
+  }
+
+  //  Obtener los alumnos para el pago
+  public static function mdlGetAlumnosPago($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAlumno, nombresAlumno, apellidosAlumno FROM $table");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //  Obtener la data de un alumno para crear un pago
+  public static function mdlGetDataAlumnoPago($table, $codAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.idAlumno, 
+    alumno.dniAlumno, 
+    grado.descripcionGrado, 
+    nivel.descripcionNivel, 
+    anio_escolar.descripcionAnio, 
+    admision_alumno.idAdmisionAlumno
+  FROM
+    $table
+    INNER JOIN
+    admision_alumno
+    ON 
+      alumno.idAlumno = admision_alumno.idAlumno
+    INNER JOIN
+    alumno_grado
+    ON 
+      alumno.idAlumno = alumno_grado.idAlumno
+    INNER JOIN
+    grado
+    ON 
+      alumno_grado.idGrado = grado.idGrado
+    INNER JOIN
+    nivel
+    ON 
+      grado.idNivel = nivel.idNivel
+    INNER JOIN
+    anio_admision
+    ON 
+      admision_alumno.idAdmisionAlumno = anio_admision.idAdmisionAlumno
+    INNER JOIN
+    anio_escolar
+    ON 
+      anio_admision.idAnioEscolar = anio_escolar.idAnioEscolar
+  WHERE
+    alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }

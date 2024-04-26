@@ -68,7 +68,7 @@ if (isset($_POST["codPostulanteEdit"]) && isset($_POST["estadoPostulanteEdit"]))
 }
 //  Obtener datos del postulante por busqueda de postulante
 if (isset($_POST["codPostulanteBusqueda"])) {
-  $codPostulanteBusqueda = new PostulantesAjax();
-  $codPostulanteBusqueda->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
-  $codPostulanteBusqueda->ajaxBuscarPostulante();
+  $obtenerDataPostulante = new PostulantesAjax();
+  $obtenerDataPostulante->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
+  $obtenerDataPostulante->ajaxBuscarPostulante();
 }

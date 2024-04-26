@@ -17,113 +17,94 @@
 
           <span class="border border-3 p-3">
             <div class="container row g-3">
-              <h3 style="font-weight: bold">Datos del Pago a Registrar</h3>
+              <h3 style="font-weight: bold">Datos del Pago</h3>
 
-              <div class="form-group col-md-6 mb-3">
-                <label for="formaTipoPago" class="form-label" style="font-weight: bold">Pago: </label>
+              <div class="row mb-3">
 
-                <select class="form-control" id="formaTipoPago" name="formaTipoPago">
-                  <option value="">Seleccione el tipo de Pago: </option>
-
-                  <?php
-                  $tipoPago = ControllerPagos::ctrGetAllTipoPago();
-                  foreach ($tipoPago as $key => $value) {
-                    echo '<option value="' . $value["idTipoPago"] . '">' . $value["descripcionTipo"] . '</option>';
-                  }
-                  ?>
-                </select>
-              </div>
-
-              <div class="form-group col-md-2">
-                <label for="cronogramaPago" class="form-label" style="font-weight: bold">Cronograma Pago: </label>
-                <select class="form-control" id="cronogramaPago" name="cronogramaPago">
-                  <option value="">Selecione Mes: </option>
-                </select>
-              </div>
-
-              <div class="row  mb-3">
-
-                <div class="col-md-4">
-                  <label for="codCajaAlumno" class="form-label" style="font-weight: bold">Código Caja: </label>
-                  <div class="input-group">
-                    <input type="text" class="form-control" id="codCajaAlumno" name="codCajaAlumno" placeholder="Código Caja Arequipa">
-                    <div class="input-group-append">
-                      <button class="btn btn-outline-secondary btnBuscarDniAlumno" type="button" id="btnBuscarDniAlumno">
-                        <i class="bi bi-search"></i>
-                      </button>
-                    </div>
+                <div class="col-md-12">
+                  <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Nombres y Apellidos: </label>
+                  <div class="input-group-append">
+                    <select class="form-control input-lg busquedaAlumPago" id="apellidoPostulante" name="apellidoPostulante">
+                      <option value="0">Seleccione Alumno</option>
+                      <?php
+                      $listaAlumnos = ControllerAlumnos::ctrGetAlumnosPago();
+                      foreach ($listaAlumnos as $value) {
+                        echo "<option value='" . $value["idAlumno"] . "'>" . $value["apellidosAlumno"] . " " . $value["nombresAlumno"] . "</option>";
+                      }
+                      ?>
+                    </select>
                   </div>
                 </div>
 
-                <div class="col-md-4">
-                  <label for="apellidoAlumnoPago" class="form-label" style="font-weight: bold">Apellidos: </label>
-                  <input type="text" class="form-control" id="apellidoAlumnoPago" name="apellidoAlumnoPago" value="" placeholder="Apellido Alumno" disabled>
-                </div>
-
-                <div class="col-md-4">
-                  <label for="nombreAlumnoPago" class="form-label" style="font-weight: bold">Nombres: </label>
-                  <input type="text" class="form-control" id="nombreAlumnoPago" name="nombreAlumnoPago" value="" placeholder="Nombre Alumno" disabled>
-                </div>
               </div>
 
-              <div class="row  mb-3">
-                <div class="col-md-4">
-
-                  <label for="dniCajaArequipa" class="form-label" style="font-weight: bold">DNI: </label>
-                  <input type="text" class="form-control" id="dniCajaArequipa" name="dniCajaArequipa" value="" placeholder="Dni Alumno" disabled>
-
-                </div>
+              <div class="row mb-3">
 
                 <div class="col-md-4">
-                  <label for="v" class="form-label" style="font-weight: bold">Año: </label>
-                  <input type="text" class="form-control" id="anioPago" name="anioPago" value="" placeholder="Año Escolar" disabled>
-                </div>
-
-                <div class="col-md-4">
-                  <label class="form-label" style="font-weight: bold">Grado Alumno: </label>
-
-                  <div class="row">
-                    <div class="form-group col-md-6 ">
-                      <input type="text" class="form-control" name="nivelAlumnoPago" id="nivelAlumnoPago" placeholder="Nivel Alumno" disabled>
-                    </div>
-
-                    <div class="form-group col-md-6 ">
-                      <input type="text" class="form-control" name="gradoAlumnoPago" id="gradoAlumnoPago" placeholder="Grado Alumno" disabled>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row  mb-3">
-
-                <div class="col-md-4">
-                  <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Limite Pago:
-                  </label>
-                  <input type="date" class="form-control" id="fechaLimitePago" name="fechaLimitePago" value="" disabled>
-                </div>
-
-                <div class="col-md-4">
-                  <label for="tipoPago" class="form-label" style="font-weight: bold">Tipo Pago: </label>
-                  <input type="text" class="form-control" id="tipoPago" name="tipoPago" value="" placeholder="Matricula / Pensión" disabled>
+                  <label for="cronogramaPago" class="form-label" style="font-weight: bold">Cronograma Pago: </label>
+                  <select class="form-control" id="cronogramaPago" name="cronogramaPago">
+                    <option value="">Selecione Mes: </option>
+                  </select>
                 </div>
 
                 <div class="col-md-4">
                   <label for="montoPago" class="form-label" style="font-weight: bold">Monto Pago: </label>
                   <input type="text" class="form-control" id="montoPago" name="montoPago" value="" placeholder="S/ Total Pago" readonly>
                 </div>
-
               </div>
 
               <div class="row  mb-3">
                 <div class="col-md-4">
-                  <label for="fechaRegistroPago" class="form-label" style="font-weight: bold">Fecha Registro Pago:
-                  </label>
+                  <label for="dniCajaArequipa" class="form-label" style="font-weight: bold">DNI: </label>
+                  <input type="text" class="form-control" id="dniCajaArequipa" name="dniCajaArequipa" value="" disabled>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="anioPago" class="form-label" style="font-weight: bold">Año: </label>
+                  <input type="text" class="form-control" id="anioPago" name="anioPago" value="" disabled>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="form-group col-md-6 ">
+                      <label class="form-label" style="font-weight: bold">Nivel: </label>
+                      <input type="text" class="form-control" name="nivelAlumnoPago" id="nivelAlumnoPago" disabled>
+                    </div>
+
+                    <div class="form-group col-md-6 ">
+                      <label class="form-label" style="font-weight: bold">Grado: </label>
+                      <input type="text" class="form-control" name="gradoAlumnoPago" id="gradoAlumnoPago" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Limite Pago:</label>
+                  <input type="date" class="form-control" id="fechaLimitePago" name="fechaLimitePago" value="" disabled>
+                </div>
+
+                <div class="col-md-4">
+                  <label for="tipoPago" class="form-label" style="font-weight: bold">Tipo Pago: </label>
+                  <input type="text" class="form-control" id="tipoPago" name="tipoPago" value="" readonly>
+                </div>
+              </div>
+
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label for="fechaRegistroPago" class="form-label" style="font-weight: bold">Fecha Registro Pago:</label>
                   <input type="date" class="form-control" id="fechaRegistroPago" name="fechaRegistroPago" value="">
                 </div>
 
                 <div class="col-md-4">
                   <label for="metodoPago" class="form-label" style="font-weight: bold">Método Pago: </label>
                   <input type="text" class="form-control" id="metodoPago" name="metodoPago" value="" placeholder="Efectivo / Caja Aqp / Otro">
+                </div>
+
+                <div class="col-md-4">
+                  <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
+                  <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante">
                 </div>
               </div>
 

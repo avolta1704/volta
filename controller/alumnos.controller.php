@@ -112,4 +112,22 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlGetUltimoAlumnoCreado($tabla);
     return $response;
   }
+
+  //  Obtener los alumnos para busar mediante el select2 de la vista de pagos
+  public static function ctrGetAlumnosPago()
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnosPago($tabla);
+    return $response;
+  }
+
+  //  Obtener la data de un alumno
+  public static function ctrGetDataAlumnoPago($codAlumno)
+  {
+    $tabla = "alumno";
+    $dataAlumno = ModelAlumnos::mdlGetDataAlumnoPago($tabla, $codAlumno);
+    $calendariopagos = ControllerAdmisionAlumno::ctrGetCalendarioPagos($dataAlumno["idAdmisionAlumno"]);
+    $dataAlumno["calendario"] = $calendariopagos;
+    return $dataAlumno;
+  }
 }

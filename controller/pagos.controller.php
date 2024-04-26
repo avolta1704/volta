@@ -13,30 +13,38 @@ class ControllerPagos
   //  crear registro pago alumno
   public static function ctrCrearRegistroPagoAlumno()
   {
-    if (isset($_POST["formaTipoPago"]) && isset($_POST["cronogramaPago"])) {
+    if (isset($_POST["tipoPago"]) && isset($_POST["cronogramaPago"])) {
       $tabla = "pago";
+      if($_POST["tipoPago"] == "Matrícula") {
+        $tipoPago = 1;
+      } else {
+        $tipoPago = 2;
+      }
       $dataPagoAlumno = array(
-        "idTipoPago" => $_POST["formaTipoPago"],
+        "idTipoPago" => $tipoPago,
         "idCronogramaPago" => $_POST["cronogramaPago"],
         "fechaPago" => $_POST["fechaRegistroPago"],
         "cantidadPago" => $_POST["montoPago"],
         "metodoPago" => $_POST["metodoPago"],
+        "numeroComprobante" => $_POST["nroComprobante"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"]
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
-      $response = ModelPagos::mdlCrearRegistroPagoAlumno($tabla, $dataPagoAlumno);
-      //actualizar estado de cronograma_pago por el campo idCronogramaPago = $_POST["cronogramaPago"]
-      if ($response == "ok") {
+      $crearPago = ModelPagos::mdlCrearRegistroPagoAlumno($tabla, $dataPagoAlumno);
+      //  actualizar estado de cronograma_pago por el campo idCronogramaPago = $_POST["cronogramaPago"]
+      if ($crearPago == "ok") {
         $tabla = "cronograma_pago";
         $dataEditEstadoCrono = array(
           "idCronogramaPago" => $_POST["cronogramaPago"],
-          "estadoCronograma" => 2, //estado cancelado
-          "fechaCreacion" => date("Y-m-d H:i:s"),
-          "usuarioCreacion" => $_SESSION["idUsuario"]
+          "estadoCronograma" => 2,  //estado cancelado
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
-        $response = ModelPagos::mdlEditarEstadoCronograma($tabla, $dataEditEstadoCrono);
+        $actualizarCronograma = ModelPagos::mdlEditarEstadoCronograma($tabla, $dataEditEstadoCrono);
 
-        if ($response == "ok") {
+        if ($actualizarCronograma == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPagos");
           echo $mensaje;
         } else {

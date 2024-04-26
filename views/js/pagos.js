@@ -125,7 +125,7 @@ $(".dataTableAdmisionAlumnos").on(
     });
   }
 );
-//editar cronograma de pagos de pago modal editar 
+//editar cronograma de pagos de pago modal editar
 $(".btnEditCronoModal").on("click", function () {
   // Toma los valores de los campos de entrada
   var fechaLimtEditCrono = $("#fechaLimtEditCrono").val();
@@ -177,72 +177,7 @@ $(".btnEditCronoModal").on("click", function () {
     },
   });
 });
-// vista de pagos buscar alumno por el dni
-$(".formPagoAlumno").on("click", ".btnBuscarDniAlumno", function () {
-  var codCajaAlumno = $("#codCajaAlumno").val();
-  var data = new FormData();
-  data.append("codCajaAlumno", codCajaAlumno);
-  $.ajax({
-    url: "ajax/pagos.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (response) {
-      if (response !== false) {
-        // Llena los campos de entrada con los datos de la respuesta
-        $("#apellidoAlumnoPago").val(response.apellidosAlumno);
-        $("#nombreAlumnoPago").val(response.nombresAlumno);
-        $("#dniCajaArequipa").val(response.dniAlumno);
 
-        $("#anioPago").val(new Date().getFullYear());
-        $("#nivelAlumnoPago").val(response.nivelAlumno);
-        $("#gradoAlumnoPago").val(response.descripcionGrado);
-        // Llena el select con las opciones correspondientes de cada array de cronogramaPago
-        var select = $("#cronogramaPago");
-        select.empty();
-
-        $.each(response.cronogramaPago, function (index, cronograma) {
-          if (cronograma.estadoCronograma == 1) {
-            var month = cronograma.mesPago;
-            select.append(new Option(month, cronograma.idCronogramaPago)); // Usa cronograma.idCronogramaPago en el value
-          }
-        });
-
-        // Desvincula los manejadores de eventos existentes
-        select.off("change");
-        // Cuando se selecciona una opción en el select, llena los  campos con los datos del array correspondiente al mes = arrays en cronogramaPago
-        select.change(function () {
-          var selectedId = $(this).val();
-          var selectedCronograma = response.cronogramaPago.find(function (
-            cronograma
-          ) {
-            return cronograma.idCronogramaPago == selectedId; // Encuentra el array con el id seleccionado
-          });
-          //$("#FechaInicioPago").val(selectedCronograma.mesPago);
-          $("#fechaLimitePago").val(selectedCronograma.fechaLimite);
-          $("#tipoPago").val(selectedCronograma.conceptoPago);
-          $("#montoPago").val(selectedCronograma.montoPago);
-        });
-        // Dispara el evento change para llenar los campos con los datos del array en cronogramaPago seleccionado
-        select.trigger("change");
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Advertencia",
-          text: "Alumno sin cronograma de Pagos",
-          timer: 3000,
-          showConfirmButton: true,
-        });
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
-});
 //vista para editar RegistroPago
 $(".dataTablePagos").on("click", ".btnEditarPago", function () {
   // Obtener el código de pago del atributo del botón
@@ -329,4 +264,85 @@ $(".dataTablePagos ").on("click", ".btnEliminarPago", function () {
       });
     }
   });
+});
+
+//  Buscar postulante por Apellidos y Nombres
+$(document).ready(function () {
+  $(".busquedaAlumPago").select2();
+
+  $(".busquedaAlumPago").on("change", function () {
+    var codAlumnoPago = $(this).val();
+
+    if (codAlumnoPago == "0") {
+      limpiarDatosAlumnoPago();
+    } else {
+      var data = new FormData();
+      data.append("codAlumnoPago", codAlumnoPago);
+
+      $.ajax({
+        url: "ajax/alumnos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+
+        success: function (response) {
+          actualizarDatosAlumnoPago(response);
+          actualizarMesPago(response.calendario);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // procedencia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  });
+
+  const actualizarDatosAlumnoPago = (data) => {
+    $("#dniCajaArequipa").val(data.dniAlumno);
+    $("#anioPago").val(data.descripcionAnio);
+    $("#nivelAlumnoPago").val(data.descripcionNivel);
+    $("#gradoAlumnoPago").val(data.descripcionGrado);
+  };
+
+  const limpiarDatosAlumnoPago = () => {
+    $("#dniCajaArequipa").val("");
+    $("#anioPago").val("");
+    $("#nivelAlumnoPago").val("");
+    $("#gradoAlumnoPago").val("");
+  };
+
+  const actualizarMesPago = (calendarioPagos) => {
+    let opciones = "<option value=''>Selecione Mes: </option>";
+    calendarioPagos.forEach((pago) => {
+      opciones += `<option value="${pago.idCronogramaPago}" concepto="${pago.conceptoPago}" fechaLimite="${pago.fechaLimite}" monto="${pago.montoPago}">${pago.mesPago}</option>`;
+    });
+    let cronograma = $("#cronogramaPago");
+    cronograma.html(opciones);
+  };
+
+  //  Cambiar mes de pago
+  $("#cronogramaPago").on("change", function () {
+    var codCronograma = $(this).val();
+    if (codCronograma == "") {
+      limpiarDatosCronogramaPago();
+    } else {
+      var monto = $(this).find(":selected").attr("monto");
+      var concepto = $(this).find(":selected").attr("concepto");
+      var fechaLimite = $(this).find(":selected").attr("fechaLimite");
+    
+      //  Actualizar los valores con los datos del cronograma  
+      $("#montoPago").val(monto);
+      $("#tipoPago").val(concepto);
+      $("#fechaLimitePago").val(fechaLimite);
+    }
+  });
+
+  const limpiarDatosCronogramaPago = () => {
+    $("#montoPago").val("");
+    $("#tipoPago").val("");
+    $("#fechaLimitePago").val("");
+  };
 });
