@@ -2,52 +2,58 @@
 class FunctionUsuario
 {
 
-    public static function getTipoUsuarioLogin($tipoUsuarioLogin)
-    {
-       
-        if ($tipoUsuarioLogin == 1) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrador</span>';
-        }
-        if ($tipoUsuarioLogin == 2) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Docente</span>';
-        }
-        if ($tipoUsuarioLogin == 3) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrativo</span>';
-        }
-        if ($tipoUsuarioLogin == 4) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Apoderado</span>';
-        }
-        if ($tipoUsuarioLogin > 5) {
-            $TipoUsuario = '<span class="badge rounded-pill bg-success">Sin Tipo Usuario</span>';
-        }
+  public static function getTipoUsuarioLogin($tipoUsuarioLogin)
+  {
 
-        return $TipoUsuario;
+    if ($tipoUsuarioLogin == 1) {
+      $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrador</span>';
     }
-    //  Estados de los usuarios
-    public static function getEstadoUsuarios($stateValue)
-    {
-        //  Estado de los usuarios 1 = Activo & 2 = Desactivado
-        if ($stateValue == 1) {
-            $estado = '<span class="badge rounded-pill bg-success">Activo</span>';
-        }
-        if ($stateValue == 2) {
-            $estado = '<span class="badge rounded-pill bg-danger">Desactivado</span>';
-        }
-        if ($stateValue > 3) {
-            $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
-        }
-
-        return $estado;
+    if ($tipoUsuarioLogin == 2) {
+      $TipoUsuario = '<span class="badge rounded-pill bg-success">Docente</span>';
+    }
+    if ($tipoUsuarioLogin == 3) {
+      $TipoUsuario = '<span class="badge rounded-pill bg-success">Administrativo</span>';
+    }
+    if ($tipoUsuarioLogin == 4) {
+      $TipoUsuario = '<span class="badge rounded-pill bg-success">Apoderado</span>';
+    }
+    if ($tipoUsuarioLogin > 5) {
+      $TipoUsuario = '<span class="badge rounded-pill bg-success">Sin Tipo Usuario</span>';
     }
 
-    //botones usuarios
-    public static function getBtnUsuarios($codUsuario)
-    {
-        $buttons = '
-        <button type="button" class="btn btn-warning btnActualizarUsuario" codUsuario="' . $codUsuario . '" title="Activar/Desactivar"><i class="bi bi-arrow-left-right"></i></button>
-        <button type="button" class="btn btn-danger btnDeleteUsuario" codUsuario="' . $codUsuario . '"><i class="bi bi-trash"></i></button>
-        ';
-        return $buttons;
+    return $TipoUsuario;
+  }
+  //  Estados de los usuarios
+  public static function getEstadoUsuarios($stateValue)
+  {
+    //  Estado de los usuarios 1 = Activo & 2 = Desactivado
+    if ($stateValue == 1) {
+      $estado = '<span class="badge rounded-pill bg-success">Activo</span>';
+    }
+    if ($stateValue == 2) {
+      $estado = '<span class="badge rounded-pill bg-danger">Desactivado</span>';
+    }
+    if ($stateValue > 3) {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
     }
 
+    return $estado;
+  }
+
+  //botones usuarios
+  public static function getBtnUsuarios($codUsuario)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
+        <button type="button" class="btn btnActualizarUsuario" codUsuario="' . $codUsuario . '">Activar</button>
+        <button type="button" class="btn btnDeleteUsuario" codUsuario="' . $codUsuario . '">Eliminar</button>
+      </ul>
+    </div>
+    ';
+    return $botones;
+  }
 }

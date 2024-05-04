@@ -56,9 +56,9 @@ $(document).ready(function () {
       } else if (estadoPostulante === "2") {
         estadoTexto = "En revisión";
       } else if (estadoPostulante === "3") {
-        estadoTexto = "Aprobado";
+        estadoTexto = "Admitir";
       } else if (estadoPostulante === "4") {
-        estadoTexto = "Rechazado";
+        estadoTexto = "Desestimar";
       } else {
         estadoTexto = "Sin Estado";
       }
