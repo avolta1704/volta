@@ -16,7 +16,8 @@ class ControllerAdmision
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioCreacion" => $_SESSION["idUsuario"],
       "usuarioActualizacion" => $_SESSION["idUsuario"]
-    );
+    );   
+    
     $table = "admision";
     $result = ModelAdmision::mdlCrearAdmisionPostulate($table, $dataPostulanteAdmision);
     if ($result == "ok") {
