@@ -3,7 +3,7 @@
 $idTipoUsuario = $_SESSION["tipoUsuario"];
 $idUsuario = $_SESSION["idUsuario"];
 // Si el tipo de usuario es 1 o 4, obtener el perfil de usuario
-if ($idTipoUsuario == 1 || $idTipoUsuario == 4) {
+if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
   $perfilUsuario = ControllerPerfil::ctrGetAllPerfilUsuario($idUsuario);
   $perfilUsuarioDataEdit = ControllerPerfil::ctrGetAllPerfilUsuarioDataEdit($idUsuario);
 } else {
@@ -13,7 +13,7 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 4) {
 }
 ?>
 
-<?php if ($idTipoUsuario == 1 || $idTipoUsuario == 4) { ?>
+<?php if ($idTipoUsuario == 1 || $idTipoUsuario == 5) { ?>
   <!-- Si el tipo de usuario es 1 o 4, se muestra el perfil de usuario -->
   <!-- perfil Usuario -->
   <main id="main" class="main">

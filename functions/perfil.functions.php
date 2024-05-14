@@ -17,7 +17,7 @@ class FunctionPerfil
     if ($tipoPersonalLogin == 4) {
       $tipoPersonal = '<span class="badge rounded-pill bg-success">Docente General</span>';
     }
-    if ($tipoPersonalLogin > 5) {
+    if ($tipoPersonalLogin == 5) {
       $tipoPersonal = '<span class="badge rounded-pill bg-success">Dirección</span>';
     }
     if ($tipoPersonalLogin > 6) {
@@ -42,6 +42,9 @@ class FunctionPerfil
     if ($tipoUsuariolLogin == 4) {
       $tipoPersonal = '<span class="badge rounded-pill bg-danger">Apoderado</span>';
     }
+    if ($tipoUsuariolLogin == 5) {
+      $tipoPersonal = '<span class="badge rounded-pill bg-success">Directivo</span>';
+    }
     return $tipoPersonal;
   }
   //  Tipo de perfil Personal Texto
@@ -59,7 +62,7 @@ class FunctionPerfil
     if ($tipoPersonalLogin == 4) {
       $tipoPersonal = 'Docente General';
     }
-    if ($tipoPersonalLogin > 5) {
+    if ($tipoPersonalLogin == 5) {
       $tipoPersonal = 'Dirección';
     }
     if ($tipoPersonalLogin > 6) {
@@ -82,6 +85,9 @@ class FunctionPerfil
     }
     if ($tipoUsuariolLogin == 4) {
       $tipoPersonal = 'Apoderado.|    7';
+    }
+    if ($tipoUsuariolLogin == 5) {
+      $tipoPersonal = 'Directivo';
     }
     return $tipoPersonal;
   }
