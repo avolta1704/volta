@@ -11,12 +11,12 @@
     <!-- ADMISION -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allAdmision" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-journal"></i><span>Admisión</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allAdmision" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
           <a href="listaPostulantes">
-            <i class="bi bi-circle"></i><span>Postulaciones</span>
+            <i class="bi bi-circle"></i><span>Postulantes</span>
           </a>
         </li>
         <li>
@@ -49,7 +49,7 @@
     <!-- PAGOS -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allPensiones" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-lines-fill"></i><span>Pensiones</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-wallet2"></i><span>Pensiones</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allPensiones" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -68,7 +68,7 @@
     <!-- REPORTES -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allReportes" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-person-lines-fill"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-bar-chart"></i><span>Reportes</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allReportes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
@@ -89,6 +89,24 @@
       </ul>
     </li>
 
+    <!-- ALUMNOS -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allAlumnos" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-people-fill"></i><span>Alumnos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allAlumnos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="listaAlumnos">
+            <i class="bi bi-circle"></i><span>Todos los Alumnos</span>
+          </a>
+        </li>
+        <li>
+          <a href="buscarAlumno">
+            <i class="bi bi-circle"></i><span>Buscar Alumno</span>
+          </a>
+        </li>
+      </ul>
+    </li>
     <!-- PERSONAL -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allPersonal" data-bs-toggle="collapse" href="#">
@@ -106,7 +124,7 @@
     <!-- USUARIOS -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allUsuarios" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-layout-text-window-reverse"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+        <i class="bi bi-lock-fill"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="allUsuarios" class="nav-content collapse " data-bs-parent="#sidebar-nav">
         <li>
