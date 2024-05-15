@@ -87,6 +87,13 @@ $(".dataTableAdmisionAlumnos").on(
               // Oculta el modal 'cronogramaAdmisionPago'
               $("#cronogramaAdmisionPago").modal("hide");
             });
+            
+            // Deshabilitar el botón si el estado del cronograma es "Cancelado" (es igual a "Cancelado")
+            if (item.estadoCronogramaPago == '<span class="badge rounded-pill bg-success">Cancelado</span>') {
+              button.prop("disabled", true);
+            }
+
+           
           /* bien funciona ayudame con otra cosa necesito una funcion js  que al escuchar el btoon de editar tome el valor de  fechaLimtEditCrono,montoEditCrono  */
           inputGroup.append(input1, input2, input3, button);
           div.append(label2, inputGroup);
