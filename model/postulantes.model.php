@@ -231,4 +231,41 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtiene los datos de un postulante por su código.
+   *
+   * @param int $codPostulante El código del postulante.
+   * @return array|false Los datos del postulante o false si no se encuentra.
+   */
+  public static function mdlGetDataPostulanteById($codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT * FROM postulante WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Actualiza el pago de matrícula de un postulante en la base de datos.
+   *
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param array $datosPostulante Los datos del postulante a actualizar.
+   * @return string Retorna "ok" si la actualización fue exitosa, o "error" en caso contrario.
+   */
+  public static function mdlEditarPagoPostulante($tabla, $datosPostulante)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoMatricula = :pagoMatricula, fechaPagoMatricula = :fechaPagoMatricula , fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":pagoMatricula", $datosPostulante["pagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaPagoMatricula", $datosPostulante["fechaPagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
