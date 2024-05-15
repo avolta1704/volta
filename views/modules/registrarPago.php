@@ -99,7 +99,7 @@
 
                   <div class="col-md-4">
                     <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
-                    <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante">
+                    <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante" required>
                   </div>
                 </div>';
                 } else {
@@ -181,7 +181,7 @@
 
                   <div class="col-md-4">
                     <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
-                    <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante">
+                    <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante" required>
                   </div>
                 </div>';
                 }
