@@ -14,6 +14,8 @@ class PagosAjax
 
       $dataPago['moraPago'] = strval($dataPago["moraPago"]);
       $dataPago['numeroComprobante'] = strval($dataPago["numeroComprobante"]);
+      $dataPago['nombresAlumno'] = strval($dataPago['nombresAlumno'] . ' ' . $dataPago['apellidosAlumno']);
+      $dataPago['nombresAlumno'] = strval($dataPago['nombresAlumno']);
       $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
       $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
       $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
