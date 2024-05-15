@@ -96,38 +96,45 @@ $(".dataTableAdmisionAlumnos").on(
 									item.idCronogramaPago
 								);
 
-							// Oculta el modal 'cronogramaAdmisionPago'
-							$("#cronogramaAdmisionPago").modal("hide");
-						});
-					/* bien funciona ayudame con otra cosa necesito una funcion js  que al escuchar el btoon de editar tome el valor de  fechaLimtEditCrono,montoEditCrono  */
-					inputGroup.append(input1, input2, input3, button);
-					div.append(label2, inputGroup);
-					modalBody.append(div);
-					// Establece el manejador de eventos para el botón 'Editar' y 'Cerrar'
-					var lastButtonClicked = null;
-					// Cuando haces clic en el botón 'Editar'
-					$(".btnEditCronoModal").on("click", function () {
-						lastButtonClicked = "edit";
-						// Oculta el modal 'modalEditCronoPago'
-						$("#modalEditCronoPago").modal("hide");
-					});
-					// Cuando haces clic en el botón 'Cerrar'
-					$(".btnCerrarEditCronoModal").on("click", function () {
-						lastButtonClicked = "close";
-						// Oculta el modal 'modalEditCronoPago'
-						$("#modalEditCronoPago").modal("hide");
-					});
-					// Cuando el modal 'modalEditCronoPago' se oculta
-					$("#modalEditCronoPago").on("hidden.bs.modal", function () {
-						if (lastButtonClicked === "edit") {
-							// Cierra el modal 'cronogramaAdmisionPago'
-							$("#cronogramaAdmisionPago").modal("hide");
-						} else if (lastButtonClicked === "close") {
-							// Abre el modal 'cronogramaAdmisionPago'
-							$("#cronogramaAdmisionPago").modal("show");
-						}
-					});
-				});
+              // Oculta el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("hide");
+            });
+            
+            // Deshabilitar el botón si el estado del cronograma es "Cancelado" (es igual a "Cancelado")
+            if (item.estadoCronogramaPago == '<span class="badge rounded-pill bg-success">Cancelado</span>') {
+              button.prop("disabled", true);
+            }
+
+           
+          /* bien funciona ayudame con otra cosa necesito una funcion js  que al escuchar el btoon de editar tome el valor de  fechaLimtEditCrono,montoEditCrono  */
+          inputGroup.append(input1, input2, input3, button);
+          div.append(label2, inputGroup);
+          modalBody.append(div);
+          // Establece el manejador de eventos para el botón 'Editar' y 'Cerrar'
+          var lastButtonClicked = null;
+          // Cuando haces clic en el botón 'Editar'
+          $(".btnEditCronoModal").on("click", function () {
+            lastButtonClicked = "edit";
+            // Oculta el modal 'modalEditCronoPago'
+            $("#modalEditCronoPago").modal("hide");
+          });
+          // Cuando haces clic en el botón 'Cerrar'
+          $(".btnCerrarEditCronoModal").on("click", function () {
+            lastButtonClicked = "close";
+            // Oculta el modal 'modalEditCronoPago'
+            $("#modalEditCronoPago").modal("hide");
+          });
+          // Cuando el modal 'modalEditCronoPago' se oculta
+          $("#modalEditCronoPago").on("hidden.bs.modal", function () {
+            if (lastButtonClicked === "edit") {
+              // Cierra el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("hide");
+            } else if (lastButtonClicked === "close") {
+              // Abre el modal 'cronogramaAdmisionPago'
+              $("#cronogramaAdmisionPago").modal("show");
+            }
+          });
+        });
 
 				$("#cronogramaAdmisionPago").modal("show");
 			},
