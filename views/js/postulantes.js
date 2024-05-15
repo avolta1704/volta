@@ -36,6 +36,7 @@ $(".dataTablePostulantes").on("click", ".btnVisualizarPostulante", function () {
 		"index.php?ruta=visualizarPostulante&codPostulante=" + codPostulante;
 });
 
+// Registrar el pago de matricula de un postulante
 $(".dataTablePostulantes").on("click", ".btnAnadirPago", function () {
 	var codPostulante = $(this).attr("codPostulante");
 	window.location =
