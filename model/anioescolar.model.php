@@ -30,4 +30,15 @@ class ModelAnioEscolar
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  //  Obtener datos del anio escolar
+
+  public static function mdlGetAnioEscolarActivo($table)
+  {
+    $activoAnio = 1;
+    $statement = Connection::conn()->prepare("SELECT *
+    FROM $table WHERE estadoAnio = $activoAnio");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
