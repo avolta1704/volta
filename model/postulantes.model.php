@@ -6,7 +6,7 @@ class ModelPostulantes
   //  Obtener todos los postulantes
   public static function mdlGetAllPostulantes($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.dniPostulante, postulante.fechaPostulacion,
+    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.dniPostulante, postulante.fechaPostulacion, postulante.pagoMatricula ,
     CASE 
         WHEN postulante.gradoPostulacion = 1 THEN 'Inicial 3 Años'
         WHEN postulante.gradoPostulacion = 2 THEN 'Inicial 4 Años'
