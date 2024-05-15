@@ -314,4 +314,15 @@ class ModelPagos
       return "error";
     }
   }
+
+  //  obtener datos de pago
+  public static function mdlGetIdTipoPago($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    idTipoPago,
+    descripcionTipo
+    FROM $tabla WHERE descripcionTipo = 'Pago Matrícula' ");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
