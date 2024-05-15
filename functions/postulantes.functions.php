@@ -28,6 +28,7 @@ class FunctionPostulantes
   //  Botones para los postulantes
   public static function getBotonesPostulante($codPostulante, $estadoPostulante)
   {
+    $isDisabled = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 ? ' disabled' : '';
     $botones = '
     <div class="btn-group">
       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
@@ -35,46 +36,15 @@ class FunctionPostulantes
       </button>
     <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
     ';
-    if ($estadoPostulante == 1) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '">Editar</button></li>
-        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '">Actualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '">Eliminar</button></li>
-      ';
-    }
-    if ($estadoPostulante == 2) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '">Editar</button></li>
-        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '">Actualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
-      ';
-    }
-    if ($estadoPostulante == 3) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Editar</button></li>
-        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
-      ';
-    }
-    if ($estadoPostulante == 4) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '" >Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Editar</button></li>
-        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
-      ';
-    }
-    if ($estadoPostulante == 5) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '" >Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '"disabled>Editar</button></li>
-        <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '" disabled>Actualizar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '" disabled>Eliminar</button></li>
-      ';
-    }
+
+    $botones .= '
+      <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
+      <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Editar</button></li>
+      <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"' . $isDisabled . '>Actualizar</button></li>
+      <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Eliminar</button></li>
+      <li><button type="button" class="dropdown-item btnAnadirPago" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Añadir pago</button></li>
+    ';
+
     $botones .= '
     </ul>
     </div>
