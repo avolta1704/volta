@@ -10,9 +10,19 @@ class ControllerPagos
     $listaPagos = ModelPagos::mdlGetAllPagos($tabla);
     return $listaPagos;
   }
-  //  crear registro pago alumno
+
+  /**
+   * Función para crear un registro de pago de un alumno.
+   *
+   * Esta función verifica los datos enviados por el formulario y crea un registro de pago en la base de datos.
+   * Si el tipo de pago es "Matrícula", se crea un registro de pago con cronograma de pago.
+   * Si el tipo de pago no es "Matrícula", se crea un registro de pago sin cronograma de pago.
+   *
+   * @return void
+   */
   public static function ctrCrearRegistroPagoAlumno()
   {
+    // Código para crear un registro de pago con cronograma de pago
     if (isset($_POST["tipoPago"]) && isset($_POST["cronogramaPago"])) {
       $tabla = "pago";
       if ($_POST["tipoPago"] == "Matrícula") {
@@ -55,11 +65,12 @@ class ControllerPagos
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Registro Pago del Alumno", "listaPagos");
         echo $mensaje;
       }
+      // Código para crear un registro de pago sin cronograma de pago
     } else if (isset($_POST["tipoPago"])) {
+      // crear registro pago alumno sin cronograma de pago
       $tabla = "pago";
       $dataPagoAlumno = array(
         "idTipoPago" => $_POST["tipoPago"],
-        "idCronogramaPago" => null,
         "fechaPago" => $_POST["fechaRegistroPago"],
         "cantidadPago" => $_POST["montoPago"],
         "metodoPago" => $_POST["metodoPago"],
@@ -69,11 +80,22 @@ class ControllerPagos
         "usuarioCreacion" => $_SESSION["idUsuario"],
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
-      $crearPago = ModelPagos::mdlCrearRegistroPagoAlumno($tabla, $dataPagoAlumno);
-      //$datosPostulante = self::ctrGetPostulanteById($_POST["codPostulante"]);
-      $actualizarPostulante = ModelPostulantes::mdlEditarPostulante($tabla, $dataPagoAlumno);
+      $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
 
       if ($crearPago == "ok") {
+        $nuevoPago = self::ctrlObtenerUltimoRegistro();
+        $tabla = "postulante";
+        $datosActualizadoPostulante = array(
+          "idPostulante" => intval($_GET["codPostulante"]),
+          "pagoMatricula" => $nuevoPago["idPago"],
+          "fechaPagoMatricula" => $nuevoPago["fechaPago"],
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
+      }
+
+      if ($actualizarPostulante == "ok") {
         $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
         echo $mensaje;
       } else {
@@ -82,6 +104,19 @@ class ControllerPagos
       }
     }
   }
+
+  /**
+   * Obtiene el último registro de pago.
+   *
+   * @return mixed Los datos del último pago.
+   */
+  public static function ctrlObtenerUltimoRegistro()
+  {
+    $tabla = "pago";
+    $dataPago = ModelPagos::mldGetUltimoPago($tabla);
+    return $dataPago;
+  }
+
   //  Obtener datos del Pago para editar 
   public static function ctrGetIdEditPago($codPago)
   {
