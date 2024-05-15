@@ -33,7 +33,15 @@ class ControllerAnioEscolar
   public static function ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio)
   {
     $table = "anio_escolar";
-    $listAnioEscolarActiva =  ModelAnioEscolar::mdlGetAnioEscolarEstadoActivo($table,$estadoAnio);
+    $listAnioEscolarActiva =  ModelAnioEscolar::mdlGetAnioEscolarEstadoActivo($table, $estadoAnio);
+    return $listAnioEscolarActiva;
+  }
+
+  //  Obtener datos del anio escolar
+  public static function ctrGetAnioEscolarActivo()
+  {
+    $table = "anio_escolar";
+    $listAnioEscolarActiva =  ModelAnioEscolar::mdlGetAnioEscolarActivo($table);
     return $listAnioEscolarActiva;
   }
 }
