@@ -250,6 +250,7 @@ class ControllerPostulantes
     if ($actualizarEstado == "ok" && $estadoPostulanteActual == 3) {
       // Iniciar las funciones anidadas para crear un alumno
       $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+
       if ($alumnoAdmision != false) {
         // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
         $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
@@ -269,6 +270,20 @@ class ControllerPostulantes
                 $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
                 $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
                 if ($anioAdmision == "ok") {
+
+                  $tablaPostulantes = "postulante";
+                  // Verificar si el postulante ya pago la matricula
+                  $isPagoMatricula = ModelPostulantes::mdlIsPostulantePagoMatricula($tablaPostulantes, $codPostulanteEdit);
+                  if ($isPagoMatricula == "ok") {
+                    // Crear el cronograma de pagos para el alumno
+                    $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumno($ultimoAdmisionAlumno["idAdmisionAlumno"]);
+                    if ($cronogramaPago == "ok") {
+                      return "ok";
+                    } else {
+                      return "error";
+                    }
+                  }
+
                   //  Relacionar los apoderados con los alumnos
                   $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
                   $alumnoCreado = ControllerAlumnos::ctrGetUltimoAlumnoCreado();
