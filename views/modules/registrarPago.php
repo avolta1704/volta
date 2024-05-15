@@ -29,7 +29,9 @@
 
                 <?php
                 if ($existCodePostulante) {
-                  echo '<div class="col-md-12">
+                  echo '
+                  <input type="hidden" class="form-control" id="codePostulante" name="codePostulante" value="' . $existCodePostulante . '" readonly>
+                  <div class="col-md-12">
                   <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Nombres y Apellidos: </label>
                   <div class="input-group-append">
                     <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value="' . $datosPostulante["nombrePostulante"] . ' ' . $datosPostulante["apellidoPostulante"] .
