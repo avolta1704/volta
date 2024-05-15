@@ -15,7 +15,7 @@ class ControllerPagos
   {
     if (isset($_POST["tipoPago"]) && isset($_POST["cronogramaPago"])) {
       $tabla = "pago";
-      if($_POST["tipoPago"] == "Matrícula") {
+      if ($_POST["tipoPago"] == "Matrícula") {
         $tipoPago = 1;
       } else {
         $tipoPago = 2;
@@ -55,6 +55,31 @@ class ControllerPagos
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error Registro Pago del Alumno", "listaPagos");
         echo $mensaje;
       }
+    } else if (isset($_POST["tipoPago"])) {
+      $tabla = "pago";
+      $dataPagoAlumno = array(
+        "idTipoPago" => $_POST["tipoPago"],
+        "idCronogramaPago" => null,
+        "fechaPago" => $_POST["fechaRegistroPago"],
+        "cantidadPago" => $_POST["montoPago"],
+        "metodoPago" => $_POST["metodoPago"],
+        "numeroComprobante" => $_POST["nroComprobante"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $crearPago = ModelPagos::mdlCrearRegistroPagoAlumno($tabla, $dataPagoAlumno);
+      //$datosPostulante = self::ctrGetPostulanteById($_POST["codPostulante"]);
+      $actualizarPostulante = ModelPostulantes::mdlEditarPostulante($tabla, $dataPagoAlumno);
+
+      if ($crearPago == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
+        echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");
+        echo $mensaje;
+      }
     }
   }
   //  Obtener datos del Pago para editar 
@@ -64,6 +89,7 @@ class ControllerPagos
     $dataPago = ModelPagos::mdlGetIdEditPago($tabla, $codPago);
     return $dataPago;
   }
+
   //  editar Pago
   public static function ctrEditarPagoAlumno()
   {
@@ -227,7 +253,7 @@ class ControllerPagos
       }
 
       $dataCreateXlxs = array(
-        "idTipoPago" => 2,//valor de tipoPago "Pension" 
+        "idTipoPago" => 2, //valor de tipoPago "Pension" 
         "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
         "fechaPago" => $value["FECHA_PAGO"],
         "cantidadPago" => $value["PENSION"],
@@ -349,14 +375,14 @@ class ControllerPagos
       $indexedArray = array_values($value);
 
       // Ahora puedes acceder a los elementos por su posición
-      $valueAtPosition0 = $indexedArray[0];//codigo alumno
-      $valueAtPosition1 = $indexedArray[1];//NOMBRE
+      $valueAtPosition0 = $indexedArray[0]; //codigo alumno
+      $valueAtPosition1 = $indexedArray[1]; //NOMBRE
       $valueAtPosition2 = $indexedArray[2];
-      $valueAtPosition3 = $indexedArray[3];//NUMERO DE FACTURACION CAJA
-      $valueAtPosition4 = $indexedArray[4];//SUBPERIODO
-      $valueAtPosition5 = $indexedArray[5];//PENCION
-      $valueAtPosition6 = $indexedArray[6];//MORA
-      $valueAtPosition7 = $indexedArray[7];//AGENCIA
+      $valueAtPosition3 = $indexedArray[3]; //NUMERO DE FACTURACION CAJA
+      $valueAtPosition4 = $indexedArray[4]; //SUBPERIODO
+      $valueAtPosition5 = $indexedArray[5]; //PENCION
+      $valueAtPosition6 = $indexedArray[6]; //MORA
+      $valueAtPosition7 = $indexedArray[7]; //AGENCIA
 
       // Controlador para separar texto de SUBPERIODO del xlsx para el año y mes del cronograma de pago que se va a registrar
       $value["PERIODO_PAGO"] = self::ctrSepararTextoAnioMes($valueAtPosition4);
@@ -376,7 +402,7 @@ class ControllerPagos
       }
 
       $dataCreateXlxs = array(
-        "idTipoPago" => 2,//valor de tipoPago "Pension" 
+        "idTipoPago" => 2, //valor de tipoPago "Pension" 
         "idCronogramaPago" => $value["COD_ALUMNO_DATA"]["idCronogramaPago"]["idCronogramaPago"],
         "fechaPago" => date("Y-m-d"),
         "cantidadPago" => $valueAtPosition5,
@@ -420,7 +446,7 @@ class ControllerPagos
 
     $table = "cronograma_pago";
     $dataEditCronoPagoModal = array(
-      "idCronogramaPago" => $dataEditCronoModal['btnEditCronoModal'],//valor de id guardado en el boton editar
+      "idCronogramaPago" => $dataEditCronoModal['btnEditCronoModal'], //valor de id guardado en el boton editar
       "fechaLimite" => $dataEditCronoModal['fechaLimtEditCrono'],
       "montoPago" => $dataEditCronoModal['montoEditCrono'],
       "fechaActualizacion" => date("Y-m-d H:i:s"),
@@ -432,5 +458,12 @@ class ControllerPagos
     } else {
       return $response;
     }
+  }
+  //  Obtener datos del tipo de pago
+  public static function ctrGetIdTipoPago()
+  {
+    $tabla = "tipo_pago";
+    $dataPago = ModelPagos::mdlGetIdTipoPago($tabla);
+    return $dataPago;
   }
 }
