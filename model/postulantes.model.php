@@ -231,4 +231,33 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  //  Obtener la data del checklist
+  public static function mdlGetChecklistPostulante($table, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    fichaPostulante,
+    fechaFichaPost,
+    estadoFichaPostulante,
+    fechaEntrevista
+    estadoEntrevista,
+    informePsicologico,
+    fechaInformePsicologico,
+    estadoInformePsicologico,
+    constanciaAdeudo,
+    fechaConstanciaAdeudo,
+    cartaAdmision,
+    fechaCartaAdmision,
+    pagoMatricula,
+    fechaPagoMatricula,
+    contrato
+    fechaContrato,
+    constanciaVacante,
+    fechaConstanciaVacante
+    FROM $table     
+    WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

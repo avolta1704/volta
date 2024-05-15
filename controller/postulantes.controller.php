@@ -342,4 +342,12 @@ class ControllerPostulantes
     }
     return $dataPostulante;
   }
+
+  //  Obtener el checklist del postulante
+  public static function ctrGetChecklistPostulante($codPostulante)
+  {
+    $table = "postulante";
+    $dataChecklist = ModelPostulantes::mdlGetChecklistPostulante($table, $codPostulante);
+    return $dataChecklist;
+  }
 }

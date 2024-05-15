@@ -13,8 +13,7 @@
     <?php
     $codPostulante = $_GET["codPostulante"];
     $datosPostulante = ControllerPostulantes::ctrGetPostulanteById($codPostulante);
-
-    
+    $dataChecklist = ControllerPostulantes::ctrGetChecklistPostulante($codPostulante);
     ?>
   </div>
 
