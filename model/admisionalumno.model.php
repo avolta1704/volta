@@ -95,4 +95,34 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtiene el código de admisión del alumno por admisión.
+   *
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $codAdmision El código de admisión.
+   * @return int El código de admisión del alumno.
+   */
+  public static function mdlGetCodAdmisionAlumnoByAdmision($tabla, $codAdmision)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAdmisionAlumno FROM $tabla WHERE idAdmision = :idAdmision");
+    $statement->bindParam(":idAdmision", $codAdmision, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  /**
+   * Obtiene el código del cronograma de matrícula por código de admisión del alumno.
+   *
+   * @param string $tabla La tabla en la que se realizará la consulta.
+   * @param int $codAdmisionAlumno El código de admisión del alumno.
+   * @return mixed El código del cronograma de matrícula o null si no se encuentra.
+   */
+  public static function mdlGetCodeCronogramaMatriculaByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago FROM $tabla WHERE idAdmisionAlumno = :idAdmisionAlumno AND LOWER(conceptoPago) = 'matrícula'");
+    $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }
