@@ -501,4 +501,29 @@ class ControllerPagos
     $dataPago = ModelPagos::mdlGetIdTipoPago($tabla);
     return $dataPago;
   }
+
+  /**
+   * Obtiene el pago de matrícula por su ID.
+   *
+   * @param int $pagoMatricula El ID del pago de matrícula.
+   * @return array La lista de cronograma de pago.
+   */
+  public static function ctrGetPagoMatriculaById($pagoMatricula)
+  {
+    $pago = ModelPagos::mdlGetPagoById($pagoMatricula);
+    return $pago;
+  }
+
+  /**
+   * Actualiza el ID del cronograma de pago de matrícula en la tabla de pagos.
+   *
+   * @param int $actualizarPagoMatriculaCodCronograma El código del cronograma de pago de matrícula a actualizar.
+   * @return mixed La respuesta de la función mdlActualizarIdCronogramaPagoMatricula del modelo de pagos.
+   */
+  public static function ctrActualizarIdCronogramaPagoMatricula($actualizarPagoMatriculaCodCronograma)
+  {
+    $tabla = "pago";
+    $response = ModelPagos::mdlActualizarIdCronogramaPagoMatricula($tabla, $actualizarPagoMatriculaCodCronograma);
+    return $response;
+  }
 }

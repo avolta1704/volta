@@ -250,6 +250,7 @@ class ControllerPostulantes
     if ($actualizarEstado == "ok" && $estadoPostulanteActual == 3) {
       // Iniciar las funciones anidadas para crear un alumno
       $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+
       if ($alumnoAdmision != false) {
         // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
         $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
@@ -269,6 +270,56 @@ class ControllerPostulantes
                 $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
                 $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
                 if ($anioAdmision == "ok") {
+
+                  $tablaPostulantes = "postulante";
+                  // Verificar si el postulante ya pago la matricula
+                  $isPagoMatricula = ModelPostulantes::mdlIsPostulantePagoMatricula($tablaPostulantes, $codPostulanteEdit);
+                  if ($isPagoMatricula == "ok") {
+                    // Crear el cronograma de pagos para el alumno
+                    $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumnoCancelado($ultimoAdmisionAlumno["idAdmisionAlumno"]);
+                    if ($cronogramaPago == "ok") {
+                      // TODO actualizar el pago para que tenga el id del cronograma del pago y ademas en el cronograma de pago se actualice el estado a pagado
+                      // Obtener el pagoMatricula, que es el id del pago de matricula del postulante
+                      $pagoMatricula = self::ctrGetPagoMatriculaPostulante($codPostulanteEdit);
+                      if ($pagoMatricula != null) {
+                        // obtener el codeAdmision
+                        $codAdmision = ControllerAdmision::ctrGetCodAdmisionByPostulante($codPostulanteEdit);
+
+                        if ($codAdmision != null) {
+                          // obtener el codeAdmisionAlumno
+                          $codAdmisionAlumno = ControllerAdmisionAlumno::ctrGetCodAdmisionAlumnoByAdmision($codAdmision);
+                          if ($codAdmisionAlumno != null) {
+                            $codCronogramaPago = ControllerAdmisionAlumno::ctrGetCodeCronogramaMatriculaByCodAdmisionAlumno($codAdmisionAlumno);
+
+                            if ($codCronogramaPago != null) {
+
+                              $actualizarPagoMatriculaCodCronograma = array(
+                                "idPago" => $pagoMatricula["pagoMatricula"],
+                                "idCronogramaPago" => $codCronogramaPago,
+                                "fechaActualizacion" => date("Y-m-d H:i:s"),
+                                "usuarioActualizacion" => $_SESSION["idUsuario"]
+                              );
+
+                              $response = ControllerPagos::ctrActualizarIdCronogramaPagoMatricula($actualizarPagoMatriculaCodCronograma);
+
+                              if ($response == "ok") {
+                                return "ok";
+                              } else {
+                                return "error";
+                              }
+                            }
+                          }
+                        }
+                        return "ok";
+                      } else {
+                        return "error";
+                      }
+                      return "ok";
+                    } else {
+                      return "error";
+                    }
+                  }
+
                   //  Relacionar los apoderados con los alumnos
                   $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
                   $alumnoCreado = ControllerAlumnos::ctrGetUltimoAlumnoCreado();
@@ -341,5 +392,18 @@ class ControllerPostulantes
       }
     }
     return $dataPostulante;
+  }
+
+  /**
+   * Obtiene el pago de matrícula de un postulante.
+   *
+   * @param int $codPostulante El código del postulante.
+   * @return mixed El pago de matrícula del postulante.
+   */
+  public static function ctrGetPagoMatriculaPostulante($codPostulante)
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlGetPagoMatriculaPostulante($tabla, $codPostulante);
+    return $response;
   }
 }

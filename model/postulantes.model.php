@@ -268,4 +268,38 @@ class ModelPostulantes
       return "error";
     }
   }
+
+  /**
+   * Comprueba si un postulante ha realizado el pago de la matrícula.
+   *
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $codPostulante El código del postulante.
+   * @return string Retorna "ok" si el postulante ha realizado el pago de la matrícula, o "error" en caso contrario.
+   */
+  public static function mdlIsPostulantePagoMatricula($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    if ($statement->fetchColumn() != null) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtiene el pago de matrícula de un postulante.
+   *
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $codPostulante El código del postulante.
+   * @return array|false El pago de matrícula del postulante o false si no se encuentra.
+   */
+  public static function mdlGetPagoMatriculaPostulante($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
