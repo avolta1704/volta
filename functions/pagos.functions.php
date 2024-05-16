@@ -21,28 +21,54 @@ class FunctionPagos
     //  Botones para la vista de listar alumnos
     public static function getBotonesPagos($codPago, $estadoCronograma)
     {
-        if ($estadoCronograma == 1) {
-            $botones = '
-        <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '"><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoCronograma == 2) {
-            $botones = '
-            <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
-      ';
-        }
-        if ($estadoCronograma == 3) {
-            $botones = '
-            <button type="button" class="btn btn-info btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago"><i class="bi bi-search"></i></button>
+      $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPagos" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
+      '; 
+      if ($estadoCronograma == 1) {
+        $botones .= '
+        <div>
+          <button type="button" class="dropdown-item btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago">Visualizar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEditarPago" codPago="' . ($codPago) . '">Editar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEliminarPago" codPago="' . ($codPago) . '">Eliminar</button>
+        </div>
+        ';
+      }
+      if ($estadoCronograma == 2) {
+        $botones .= '
+        <div>
+          <button type="button" class="dropdown-item btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago">Visualizar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEditarPago" codPago="' . ($codPago) . '">Editar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEliminarPago" codPago="' . ($codPago) . '">Eliminar</button>
+        </div>
+        ';
+      }
+      if ($estadoCronograma == 3) {
+        $botones .= '
+        <div>
+          <button type="button" class="dropdown-item btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago">Visualizar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEditarPago" codPago="' . ($codPago) . '">Editar</button>
+        </div>
+        <div>
+            <button type="button" class="dropdown-item btnEliminarPago" codPago="' . ($codPago) . '">Eliminar</button>
+        </div>
+        ';
+      }     
+      
 
-        <button type="button" class="btn btn-warning btnEditarPago" codPago="' . ($codPago) . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarPago" codPago="' . ($codPago) . '" ><i class="bi bi-trash"></i></button>
-      ';
-    }
     return $botones;
   }
   //  Nivel para el alumno

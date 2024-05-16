@@ -49,7 +49,7 @@
           <div class="card">
             <div class="card-body">
               <!--  Titulo dataTablePagosAdmin-->
-              <table id="dataTablePagos" class="display dataTablePagos" style="width: 100%">
+              <table id="dataTablePagos" class="display dataTablePagos" style="width: 98%">
                 <thead>
                   <!-- dataTablePagosAdmin -->
                 </thead>
