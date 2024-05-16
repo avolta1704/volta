@@ -276,8 +276,44 @@ class ControllerPostulantes
                   $isPagoMatricula = ModelPostulantes::mdlIsPostulantePagoMatricula($tablaPostulantes, $codPostulanteEdit);
                   if ($isPagoMatricula == "ok") {
                     // Crear el cronograma de pagos para el alumno
-                    $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumno($ultimoAdmisionAlumno["idAdmisionAlumno"]);
+                    $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumnoCancelado($ultimoAdmisionAlumno["idAdmisionAlumno"]);
                     if ($cronogramaPago == "ok") {
+                      // TODO actualizar el pago para que tenga el id del cronograma del pago y ademas en el cronograma de pago se actualice el estado a pagado
+                      // Obtener el pagoMatricula, que es el id del pago de matricula del postulante
+                      $pagoMatricula = self::ctrGetPagoMatriculaPostulante($codPostulanteEdit);
+                      if ($pagoMatricula != null) {
+                        // obtener el codeAdmision
+                        $codAdmision = ControllerAdmision::ctrGetCodAdmisionByPostulante($codPostulanteEdit);
+
+                        if ($codAdmision != null) {
+                          // obtener el codeAdmisionAlumno
+                          $codAdmisionAlumno = ControllerAdmisionAlumno::ctrGetCodAdmisionAlumnoByAdmision($codAdmision);
+                          if ($codAdmisionAlumno != null) {
+                            $codCronogramaPago = ControllerAdmisionAlumno::ctrGetCodeCronogramaMatriculaByCodAdmisionAlumno($codAdmisionAlumno);
+
+                            if ($codCronogramaPago != null) {
+
+                              $actualizarPagoMatriculaCodCronograma = array(
+                                "idPago" => $pagoMatricula["pagoMatricula"],
+                                "idCronogramaPago" => $codCronogramaPago,
+                                "fechaActualizacion" => date("Y-m-d H:i:s"),
+                                "usuarioActualizacion" => $_SESSION["idUsuario"]
+                              );
+
+                              $response = ControllerPagos::ctrActualizarIdCronogramaPagoMatricula($actualizarPagoMatriculaCodCronograma);
+
+                              if ($response == "ok") {
+                                return "ok";
+                              } else {
+                                return "error";
+                              }
+                            }
+                          }
+                        }
+                        return "ok";
+                      } else {
+                        return "error";
+                      }
                       return "ok";
                     } else {
                       return "error";
@@ -356,5 +392,18 @@ class ControllerPostulantes
       }
     }
     return $dataPostulante;
+  }
+
+  /**
+   * Obtiene el pago de matrícula de un postulante.
+   *
+   * @param int $codPostulante El código del postulante.
+   * @return mixed El pago de matrícula del postulante.
+   */
+  public static function ctrGetPagoMatriculaPostulante($codPostulante)
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlGetPagoMatriculaPostulante($tabla, $codPostulante);
+    return $response;
   }
 }
