@@ -8,7 +8,6 @@ $(document).ready(function () {
       },
     },
     { data: "dniAlumno" },
-    { data: "nombreCompleto" },
     { data: "fechaPago" },
     { data: "metodoPago" },
     { data: "tipoPago" },
@@ -50,15 +49,16 @@ $(document).ready(function () {
   //Estructura de dataTablePagos
   $("#dataTablePagos thead").html(`
       <tr>
-      <th scope="col">#</th>
-      <th scope="col">Dni</th>
-      <th scope="col">Nombres y Apellidos</th>
-      <th scope="col">Fecha Pago</th>
-      <th scope="col">Forma Pago</th>
-      <th scope="col">Tipo de Pago</th>
-      <th scope="col">Nro Comprobante</th>
-      <th scope="col">Monto</th>
-      <th scope="col">Acciones</th>
+        <th scope="col">#</th>
+        <th scope="col">Dni</th>
+        <th scope="col">Tipo Pago</th>
+        <th scope="col">Fecha Pago</th>
+        <th scope="col">Forma Pago</th>
+        <th scope="col">N° Facturacion</th>
+        <th scope="col">Monto</th>
+        <th scope="col">Mora</th>
+        <th scope="col">Estado</th>
+        <th scope="col">Acciones</th>
       </tr>
     `);
 
@@ -72,12 +72,13 @@ $(document).ready(function () {
       },
     },
     { data: "dniAlumno" },
-    { data: "nombreCompleto" },
+    { data: "tipoPago" },
     { data: "fechaPago" },
     { data: "metodoPago" },
-    { data: "tipoPago" },
     { data: "numeroComprobante" },
     { data: "cantidadTotal" },
+    { data: "moraPago" },
+    { data: "statePago" },
     { data: "buttonsPago" },
   ];
   tablePagos = $("#dataTablePagos").DataTable({
