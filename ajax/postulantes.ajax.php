@@ -2,7 +2,7 @@
 //controller
 require_once "../functions/postulantes.functions.php";
 require_once "../controller/postulantes.controller.php";
-  require_once "../controller/admisionalumno.controller.php";
+require_once "../controller/admisionalumno.controller.php";
 require_once "../controller/admision.controller.php";
 require_once "../controller/anioescolar.controller.php";
 require_once "../controller/alumnos.controller.php";
@@ -10,6 +10,7 @@ require_once "../controller/gradoAlumno.controller.php";
 require_once "../controller/anioAdmision.controller.php";
 require_once "../controller/apoderadoAlumno.controller.php";
 require_once "../controller/apoderado.controller.php";
+require_once "../controller/pagos.controller.php";
 //Modelo
 require_once "../model/postulantes.model.php";
 require_once "../model/admisionalumno.model.php";
@@ -20,6 +21,7 @@ require_once "../model/gradoAlumno.model.php";
 require_once "../model/anioAdmision.model.php";
 require_once "../model/apoderadoAlumno.model.php";
 require_once "../model/apoderado.model.php";
+require_once "../model/pagos.model.php";
 
 class PostulantesAjax
 {
@@ -29,7 +31,7 @@ class PostulantesAjax
     $todosLosPostulantesAdmin = ControllerPostulantes::ctrGetAllPostulantes();
     foreach ($todosLosPostulantesAdmin as &$postulantes) {
       $postulantes['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantes["estadoPostulante"]);
-      $postulantes['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantes["idPostulante"], $postulantes["estadoPostulante"]);
+      $postulantes['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantes["idPostulante"], $postulantes["estadoPostulante"], $postulantes["pagoMatricula"]);
     }
     echo json_encode($todosLosPostulantesAdmin);
   }

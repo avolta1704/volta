@@ -180,7 +180,18 @@ class ModelAlumnos
   //  Obtener los alumnos para el pago
   public static function mdlGetAlumnosPago($table)
   {
-    $statement = Connection::conn()->prepare("SELECT idAlumno, nombresAlumno, apellidosAlumno FROM $table");
+    $statement = Connection::conn()->prepare("SELECT
+    $table.idAlumno, 
+    $table.nombresAlumno, 
+    $table.apellidosAlumno
+  FROM
+    $table
+    INNER JOIN
+    admision_alumno
+    ON 
+    $table.idAlumno = admision_alumno.idAlumno
+  WHERE
+    admision_alumno.estadoAdmisionAlumno = 2");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

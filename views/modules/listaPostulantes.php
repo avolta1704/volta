@@ -5,7 +5,6 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listaPostulantes">Postulantes</a></li>
         <li class="breadcrumb-item active">Todos los Postulantes</li>
       </ol>
     </nav>

@@ -314,4 +314,91 @@ class ModelPagos
       return "error";
     }
   }
+
+  //  obtener datos de pago
+  public static function mdlGetIdTipoPago($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    idTipoPago,
+    descripcionTipo
+    FROM $tabla WHERE descripcionTipo = 'Pago Matrícula' ");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  /**
+   * Obtiene un pago por su ID.
+   *
+   * @param int $idPago El ID del pago a obtener.
+   * @return array|false Los datos del pago como un array asociativo, o false si no se encuentra el pago.
+   */
+  public static function mdlGetPagoById($idPago)
+  {
+    $statement = Connection::conn()->prepare("SELECT * FROM pago WHERE idPago = :idPago");
+    $statement->bindParam(":idPago", $idPago, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+
+  /**
+   * Crea un nuevo registro de pago de matrícula en la base de datos.
+   *
+   * @param string $table El nombre de la tabla en la que se insertará el registro.
+   * @param array $dataPagoAlumno Los datos del pago del alumno.
+   * @return mixed Retorna el registro insertado si la ejecución es exitosa, de lo contrario retorna "error".
+   */
+  public static function mdlCrearRegistroPagoMatricula($table, $dataPagoAlumno)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago,  fechaPago, cantidadPago, metodoPago, numeroComprobante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
+    $statement->bindParam(":idTipoPago", $dataPagoAlumno["idTipoPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaPago", $dataPagoAlumno["fechaPago"], PDO::PARAM_STR);
+    $statement->bindParam(":cantidadPago", $dataPagoAlumno["cantidadPago"], PDO::PARAM_STR);
+    $statement->bindParam(":metodoPago", $dataPagoAlumno["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":numeroComprobante", $dataPagoAlumno["numeroComprobante"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataPagoAlumno["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataPagoAlumno["usuarioCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataPagoAlumno["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtiene el último pago de una tabla específica.
+   *
+   * @param string $table El nombre de la tabla.
+   * @return array|null Los datos del último pago como un array asociativo, o null si no hay pagos.
+   */
+  public static function mldGetUltimoPago($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idPago, fechaPago FROM $table ORDER BY idPago DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Actualiza el ID del cronograma de pago de una matrícula en la tabla especificada.
+   *
+   * @param string $tabla El nombre de la tabla en la que se realizará la actualización.
+   * @param array $dataPago Los datos del pago a actualizar, incluyendo el ID del pago, el ID del cronograma de pago, la fecha de actualización y el usuario de actualización.
+   * @return string Retorna "ok" si la actualización se realiza correctamente, o "error" si ocurre algún error.
+   */
+  public static function mdlActualizarIdCronogramaPagoMatricula($tabla, $actualizarPagoMatriculaCodCronograma)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET  idCronogramaPago = :idCronogramaPago, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPago = :idPago");
+    $statement->bindParam(":idPago", $actualizarPagoMatriculaCodCronograma["idPago"], PDO::PARAM_INT);
+    $statement->bindParam(":idCronogramaPago", $actualizarPagoMatriculaCodCronograma["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $actualizarPagoMatriculaCodCronograma["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $actualizarPagoMatriculaCodCronograma["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

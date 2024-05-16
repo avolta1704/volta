@@ -48,4 +48,19 @@ class ModelAdmision
       return "error";
     }
   }
+
+  /**
+   * Obtiene el código de admisión por postulante.
+   *
+   * @param string $table La tabla de la base de datos.
+   * @param int $idPostulante El ID del postulante.
+   * @return int El código de admisión.
+   */
+  public static function mdlGetCodAdmisionByPostulante($table, $idPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAdmision FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }
