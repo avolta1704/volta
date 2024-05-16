@@ -379,4 +379,26 @@ class ModelPagos
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Actualiza el ID del cronograma de pago de una matrícula en la tabla especificada.
+   *
+   * @param string $tabla El nombre de la tabla en la que se realizará la actualización.
+   * @param array $dataPago Los datos del pago a actualizar, incluyendo el ID del pago, el ID del cronograma de pago, la fecha de actualización y el usuario de actualización.
+   * @return string Retorna "ok" si la actualización se realiza correctamente, o "error" si ocurre algún error.
+   */
+  public static function mdlActualizarIdCronogramaPagoMatricula($tabla, $actualizarPagoMatriculaCodCronograma)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET  idCronogramaPago = :idCronogramaPago, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPago = :idPago");
+    $statement->bindParam(":idPago", $actualizarPagoMatriculaCodCronograma["idPago"], PDO::PARAM_INT);
+    $statement->bindParam(":idCronogramaPago", $actualizarPagoMatriculaCodCronograma["idCronogramaPago"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $actualizarPagoMatriculaCodCronograma["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $actualizarPagoMatriculaCodCronograma["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
