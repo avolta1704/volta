@@ -39,6 +39,7 @@ session_start();
         $_GET["ruta"] == "visualizarPostulante" ||
         $_GET["ruta"] == "buscarAlumno" ||
         $_GET["ruta"] == "buscarPostulante" ||
+        $_GET["ruta"] == "reportePagos" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -54,7 +55,6 @@ session_start();
     include "modules/footer.php";
     echo '</footer>';
     echo '</div>';
-    
   } else {
     include "modules/login.php";
   }
@@ -63,7 +63,7 @@ session_start();
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <!-- Vendor JS Files -->
-  
+
 
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -75,7 +75,7 @@ session_start();
   <script src="assets/vendor/php-email-form/validate.js"></script>
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
- <!--  <script src="assets/js/styleDarck.js"></script> -->
+  <!--  <script src="assets/js/styleDarck.js"></script> -->
 
   <!-- funciones js -->
   <script src="views/js/usuarios.js"></script>
@@ -91,7 +91,7 @@ session_start();
   <script src="views/js/excelUploadJson.js"></script>
   <script src="views/js/comunicado.js"></script>
   <script src="views/js/buscarAlumno.js"></script>
-  
+
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
   <script src="views/dataTables/dt-personal.js"></script>
@@ -100,6 +100,7 @@ session_start();
   <script src="views/dataTables/dt-apoderado.js"></script>
   <script src="views/dataTables/dt-admision-alumnos.js"></script>
   <script src="views/dataTables/dt-pagos-admin.js"></script>
+  <script src="views/dataTables/dt-reportes-pensiones-admin.js"></script>
   <script src="views/dataTables/dt-comunicado.js"></script>
 </body>
 
