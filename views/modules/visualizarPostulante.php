@@ -276,13 +276,64 @@
             <div class="container row g-3">
               <h3 style="font-weight: bold">Checklist Postulante</h3>
 
-              <div class="form-group row">
-                <label for="visualizarNombrePadre" class="col-sm-2 col-form-label" style="font-weight: bold">Nombres: </label>
-                <div class="col-sm-3">
-                  <input type="text" class="form-control" id="visualizarNombrePadre" name="visualizarNombrePadre" value="<?php echo $datosPostulante["dataMadre"]["nombreApoderado"] ?>" disabled>
-                </div>
-              </div>
+              <!-- CHECHLIST -->
+              <?php
+              FunctionPostulantes::renderCheckList("Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPostulante"], true);
+              FunctionPostulantes::renderCheckList("Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
+              FunctionPostulantes::renderCheckList("Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
+              FunctionPostulantes::renderCheckList("Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
+              FunctionPostulantes::renderCheckList("Carta de Admisión", "checkCartaAdmision", "fechaCartaAdmision", $dataChecklist["cartaAdmision"], $dataChecklist["fechaCartaAdmision"], false);
+              FunctionPostulantes::renderCheckList("Contrato", "checkContrato", "fechaContrato", $dataChecklist["contrato"], $dataChecklist["fechaContrato"], false);
+              FunctionPostulantes::renderCheckList("Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
+              ?>
 
+              <!-- PAGO MATRÍCULA -->
+              <div class="form-group row">
+                <label for="checkPagoMatricula" class="col-sm-3 col-form-label" style="font-weight: bold">Pago Matrícula: </label>
+                <?php
+                //  En este caso en particular se evalúa con null, debido a que en la bd se guarda un identificador del pago, si no se tiene el pago, por defecto es null
+                if ($dataChecklist["pagoMatricula"] != null) {
+                ?>
+                  <div class="col-sm-2">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="checkPagoMatricula" name="checkPagoMatricula" checked>
+                      <label class="form-check-label" for="checkPagoMatricula"></label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="date" name="fechaPagoMatricula" id="fechaPagoMatricula" class="form-control fechaPagoMatricula" value="<?php echo $dataChecklist['fechaPagoMatricula']; ?>">
+                  </div>
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-success"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                    <button type="button" class="btn btn-warning"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                  </div>
+
+                <?php
+                } else {
+                ?>
+                  <div class="col-sm-2">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="checkPagoMatricula" name="checkPagoMatricula">
+                      <label class="form-check-label" for="checkPagoMatricula">Presentado</label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <input type="date" name="fechaPagoMatricula" id="fechaPagoMatricula" class="form-control fechaPagoMatricula">
+                  </div>
+                  <div class="col-sm-2">
+                    <button type="button" class="btn btn-success"><i class="bi bi-cloud-arrow-up-fill"></i></button>
+                    <button type="button" class="btn btn-warning"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                  </div>
+                <?php
+                }
+                ?>
+              </div>
+            </div>
+
+            <div class="container row g-3 p-3 justify-content-between">
+              <input type="hidden" class="codPostulante" name="codPostulante" id="codPostulante" value="<?php echo $codPostulante ?>">
+              <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarVisualizarPostualnte">Cerrar</button>
+              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Actualizar Checklist</button>
             </div>
           </span>
         </form>

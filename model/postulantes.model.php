@@ -239,7 +239,7 @@ class ModelPostulantes
     fichaPostulante,
     fechaFichaPost,
     estadoFichaPostulante,
-    fechaEntrevista
+    fechaEntrevista,
     estadoEntrevista,
     informePsicologico,
     fechaInformePsicologico,
@@ -250,7 +250,7 @@ class ModelPostulantes
     fechaCartaAdmision,
     pagoMatricula,
     fechaPagoMatricula,
-    contrato
+    contrato,
     fechaContrato,
     constanciaVacante,
     fechaConstanciaVacante
