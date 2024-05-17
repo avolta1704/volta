@@ -1,8 +1,3 @@
-//TODO: btnDescargarReporteInicial
-//TODO: btnDescargarReportePrimaria
-//TODO: btnDescargarReporteSecundaria
-//TODO: btnDescargarReporteRangoFecha
-
 // btnDescargarReportePagos
 $("#btnDescargarReportePagos").on("click", function () {
 	$.ajax({
