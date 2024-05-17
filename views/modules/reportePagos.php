@@ -1,5 +1,4 @@
 <main id="main" class="main">
-
   <div class="pagetitle">
     <h2 class="mt-4 tituloReportesPensiones"></h2><br>
     <nav>
@@ -12,6 +11,22 @@
 
   <section class="section dashboard">
     <div class="row">
+      <div class="col-lg-2">
+        <div class="row mb-2">
+          <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle d-flex gap-3 align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-download"></i> Descargar Reporte
+            </button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item" id="btnDescargarReportePagos"><i class="bi bi-file-earmark-excel"></i> Descargar reporte de pagos</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteInicial"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de inicial</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReportePrimaria"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de primaria</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteSecundaria"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de secundaria</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteRangoFecha"><i class="bi bi-file-earmark-excel"></i> Descargar deudores por rango de fecha</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
