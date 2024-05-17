@@ -87,8 +87,7 @@ function listarApoderados() {
 //  Cerrar vista de nuevo y editar postulante
 $(".dataTableAlumnos").on("click", ".btnEditarAlumno", function () {
   var codAlumno = $(this).attr("codAlumno");
-  window.location =
-    "index.php?ruta=editarAlumno&codAlumnoEditar=" + codAlumno;
+  window.location = "index.php?ruta=editarAlumno&codAlumnoEditar=" + codAlumno;
 });
 
 //  Create a new order
