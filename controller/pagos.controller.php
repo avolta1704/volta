@@ -526,4 +526,17 @@ class ControllerPagos
     $response = ModelPagos::mdlActualizarIdCronogramaPagoMatricula($tabla, $actualizarPagoMatriculaCodCronograma);
     return $response;
   }
+
+  /**
+   * Obtiene los cronogramas por ID de alumno.
+   *
+   * @param int $idAlumno El ID del alumno.
+   * @return array Los cronogramas asociados al alumno.
+   */
+  public static function ctrGetCronogramasPorIdAlumno($idAlumno)
+  {
+    $tabla = "cronograma_pago";
+    $cronogramas = ModelPagos::mdlGetCronogramasPorIdAlumno($tabla, $idAlumno);
+    return $cronogramas;
+  }
 }
