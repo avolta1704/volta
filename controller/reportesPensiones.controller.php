@@ -15,10 +15,36 @@ class ControllerReportesPensiones
   }
 
   /**
-   * Obtiene los cronogramas de pago pendientes por alumno.
+   * Obtiene los cronogramas de pago de todos los alumnos.
    *
-   * @return array Retorna un array con los cronogramas de pago pendientes por alumno.
+   * @return array Retorna un array con los cronogramas de pagos por alumno.
    */
+  public static function ctrGetCronogramasPagosGeneral()
+  {
+    // Obtener todos los cronogramas de pago de deuda pasada por alumno
+    // $respuesta = ModelReportesPensiones::mdlGetCronogramasPagoPendientesPorAlumno();
+    $respuesta = ModelReportesPensiones::mdlGetCronogramasPagoGeneral();
+
+    $alumnosAgrupados = self::ctrAgruparPorAlumno($respuesta);
+    // Agrupar por idAlumno
+
+    $dataFinal = array();
+    foreach ($alumnosAgrupados as $alumno) {
+      // obtener todos los cronogramas de todos los alumnos con deuda pasada
+      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAlumno"]);
+      // Agrupar por mes de pago
+      $mesesAlumno = self::ctrAgrupoMesesAlumno($todosLosPensionesPendientes);
+
+      $mesesAlumno["Alumno"] = $alumno["nombresAlumno"] . " " . $alumno["apellidosAlumno"];
+      $mesesAlumno["DNI"] = $alumno["dniAlumno"];
+      $mesesAlumno["Grado"] = $alumno["descripcionGrado"];
+      $mesesAlumno["Nivel"] = $alumno["descripcionNivel"];
+      $dataFinal[] = $mesesAlumno;
+    }
+
+    return $dataFinal;
+  }
+
   public static function ctrGetCronogramasPagoPendientesPorAlumno()
   {
     // Obtener todos los cronogramas de pago de deuda pasada por alumno
