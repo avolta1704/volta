@@ -401,4 +401,19 @@ class ModelPagos
       return "error";
     }
   }
+
+  /**
+   * Obtiene todos los cronogramas de pago por el ID del alumno de admisión.
+   *
+   * @param string $tabla El nombre de la tabla.
+   * @param int $idAdmisionAlumno El ID del alumno de admisión.
+   * @return array|null Los cronogramas de pago como un array asociativo, o null si no hay cronogramas.
+   */
+  public static function mdlGetCronogramasPorIdAlumno($tabla, $idAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago, conceptoPago, montoPago, fechaLimite, mesPago, estadoCronograma FROM $tabla WHERE idAdmisionAlumno = :idAdmisionAlumno");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
