@@ -90,7 +90,7 @@ $(".dataTableAlumnos").on("click", ".btnEditarAlumno", function () {
   window.location = "index.php?ruta=editarAlumno&codAlumnoEditar=" + codAlumno;
 });
 
-//  Create a new order
+//  Cerrar editar alumno
 $(".cerrarEditarAlumno").on("click", function () {
   window.location = "index.php?ruta=listaAlumnos";
 });

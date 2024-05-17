@@ -7,17 +7,12 @@ class ModelAdmisionAlumno
   public static function mdlGetAdmisionAlumnos($tabla)
   {
     $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
+    al.idAlumno,
     al.codAlumnoCaja,
     al.apellidosAlumno,
     al.nombresAlumno, 
-    
     ad.fechaAdmision,
     adal.estadoAdmisionAlumno
-    /*     al.estadoAlumno, 
-    al.estadoSiagie, 
-    al.estadoMatricula, 
-    al.codAlumnoCaja, 
-    al.fechaIngresoVolta  */ 
     FROM $tabla adal
     INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
     INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
