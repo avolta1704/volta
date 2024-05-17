@@ -350,4 +350,19 @@ class ControllerPostulantes
     $dataChecklist = ModelPostulantes::mdlGetChecklistPostulante($table, $codPostulante);
     return $dataChecklist;
   }
+
+  //  Actualizar el checklist del postulante
+  public static function ctrActualizarChecklist()
+  {
+    if (isset($_POST["codPostulanteCheck"])) {
+      $table = "postulante";
+      $dataChecklist = array(
+        "idPostulante" => $_POST["codPostulanteCheck"],
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $response = ModelPostulantes::mdlActualizarChecklist($table, $dataChecklist);
+      return $response;
+    }
+  }
 }

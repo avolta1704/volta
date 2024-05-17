@@ -235,29 +235,24 @@ class ModelPostulantes
   //  Obtener la data del checklist
   public static function mdlGetChecklistPostulante($table, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT
-    fichaPostulante,
-    fechaFichaPost,
-    estadoFichaPostulante,
-    fechaEntrevista,
-    estadoEntrevista,
-    informePsicologico,
-    fechaInformePsicologico,
-    estadoInformePsicologico,
-    constanciaAdeudo,
-    fechaConstanciaAdeudo,
-    cartaAdmision,
-    fechaCartaAdmision,
-    pagoMatricula,
-    fechaPagoMatricula,
-    contrato,
-    fechaContrato,
-    constanciaVacante,
-    fechaConstanciaVacante
-    FROM $table     
-    WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT fichaPostulante, fechaFichaPost, estadoFichaPostulante, fechaEntrevista, estadoEntrevista, informePsicologico, fechaInformePsicologico, estadoInformePsicologico, constanciaAdeudo, fechaConstanciaAdeudo, cartaAdmision, fechaCartaAdmision, pagoMatricula, fechaPagoMatricula, contrato, fechaContrato, constanciaVacante, fechaConstanciaVacante FROM $table WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Actualizar el checklist del postulante con todas las modificaciones
+  public static function mdlActualizarChecklist($table, $dataChecklist)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $table SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante WHERE idPostulante = :idPostulante");
+
+    $statement->bindParam(":nombrePostulante", $dataChecklist["nombrePostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPostulante", $dataChecklist["apellidoPostulante"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }

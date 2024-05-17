@@ -257,3 +257,9 @@ $(document).ready(function () {
     $("#ingresoMadre").val(postulante.idMadre.ingresoMensual);
   };
 });
+
+
+//  Cerrar vista de visualizar postulante
+$(".cerrarVisualizarPostulante").on("click", function () {
+  window.location = "index.php?ruta=listaPostulantes";
+});

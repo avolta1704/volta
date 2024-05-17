@@ -5,8 +5,8 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listPostulantes">Postulantes</a></li>
-        <li class="breadcrumb-item"><a href="listPostulantes">Lista Postulantes</a></li>
+        <li class="breadcrumb-item"><a href="listaPostulantes">Postulantes</a></li>
+        <li class="breadcrumb-item"><a href="listaPostulantes">Lista Postulantes</a></li>
         <li class="breadcrumb-item active">Visualizar Postulante</li>
       </ol>
     </nav>
@@ -278,7 +278,7 @@
 
               <!-- CHECHLIST -->
               <?php
-              FunctionPostulantes::renderCheckList("Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPostulante"], true);
+              FunctionPostulantes::renderCheckList("Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPost"], true);
               FunctionPostulantes::renderCheckList("Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
               FunctionPostulantes::renderCheckList("Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
               FunctionPostulantes::renderCheckList("Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
@@ -331,12 +331,16 @@
             </div>
 
             <div class="container row g-3 p-3 justify-content-between">
-              <input type="hidden" class="codPostulante" name="codPostulante" id="codPostulante" value="<?php echo $codPostulante ?>">
-              <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarVisualizarPostualnte">Cerrar</button>
+              <input type="hidden" class="codPostulanteCheck" name="codPostulanteCheck" id="codPostulanteCheck" value="<?php echo $codPostulante ?>">
+              <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarVisualizarPostulante">Cerrar</button>
               <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Actualizar Checklist</button>
             </div>
           </span>
         </form>
+        <?php 
+        $actualizarChecklist = new ControllerPostulantes();
+        $actualizarChecklist->ctrActualizarChecklist();
+        ?>
       </div>
     </div>
   </section>
