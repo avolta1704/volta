@@ -52,4 +52,32 @@ class FunctionPostulantes
     ';
     return $botones;
   }
+
+  //  Creación del checklist para los postulantes
+  public static function renderCheckList($label, $checkName, $dateName, $estado, $fecha, $mostrarBotones)
+  {
+    $isChecked = $estado == "1" ? 'checked' : '';
+    $dateValue = $estado == "1" ? $fecha : '';
+    $buttons = $mostrarBotones ? "
+        <div class='col-sm-2'>
+            <button type='button' class='btn btn-success'><i class='bi bi-cloud-arrow-up-fill'></i></button>
+            <button type='button' class='btn btn-warning'><i class='bi bi-cloud-arrow-down-fill'></i></button>
+        </div>
+    " : "";
+    echo "
+    <div class='form-group row'>
+        <label for='$checkName' class='col-sm-3 col-form-label' style='font-weight: bold'>$label: </label>
+        <div class='col-sm-2'>
+            <div class='form-check form-switch'>
+                <input class='form-check-input' type='checkbox' id='$checkName' name='$checkName' $isChecked>
+                <label class='form-check-label' for='$checkName'>Presentado</label>
+            </div>
+        </div>
+        <div class='col-sm-3'>
+            <input type='date' name='$dateName' id='$dateName' class='form-control $dateName' value='$dateValue'>
+        </div>
+        $buttons
+    </div>
+    ";
+  }
 }
