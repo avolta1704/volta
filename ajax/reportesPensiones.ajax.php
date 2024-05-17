@@ -1,8 +1,11 @@
 <?php
 
 require_once "../controller/reportesPensiones.controller.php";
+require_once "../controller/pagos.controller.php";
 require_once "../model/reportesPensiones.model.php";
+require_once "../model/pagos.model.php";
 require_once "../functions/reportesPensiones.functions.php";
+require_once "../functions/pagos.functions.php";
 
 class ReportesPensionesAjax
 {
@@ -21,8 +24,21 @@ class ReportesPensionesAjax
     }
     echo json_encode($todosLosPensionesPendientes);
   }
+
+  public function ajaxMostrarPendientesAlumno()
+  {
+
+    $todosLosPensionesPendientesPorAlumno = ControllerReportesPensiones::ctrGetCronogramasPagoPendientesPorAlumno();
+    echo json_encode($todosLosPensionesPendientesPorAlumno);
+  }
 }
+
 if (isset($_POST["todosLosPensionesPendientes"])) {
   $mostrarTodosLosPagosAdmin = new ReportesPensionesAjax();
   $mostrarTodosLosPagosAdmin->ajaxMostrarTodosLosReportes();
+}
+
+if (isset($_POST["todosLosPensionesPendientesPorAlumno"])) {
+  $mostrarPendientesAlumno = new ReportesPensionesAjax();
+  $mostrarPendientesAlumno->ajaxMostrarPendientesAlumno();
 }
