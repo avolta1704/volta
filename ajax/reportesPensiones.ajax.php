@@ -31,11 +31,23 @@ class ReportesPensionesAjax
     $todosLosPensionesPendientesPorAlumno = ControllerReportesPensiones::ctrGetCronogramasPagoPendientesPorAlumno();
     echo json_encode($todosLosPensionesPendientesPorAlumno);
   }
+
+  public function ajaxMostrarPagosGenerales()
+  {
+
+    $todosLosPagosGeneral = ControllerReportesPensiones::ctrGetCronogramasPagosGeneral();
+    echo json_encode($todosLosPagosGeneral);
+  }
 }
 
 if (isset($_POST["todosLosPensionesPendientes"])) {
   $mostrarTodosLosPagosAdmin = new ReportesPensionesAjax();
   $mostrarTodosLosPagosAdmin->ajaxMostrarTodosLosReportes();
+}
+
+if (isset($_POST["todosLosPagosGeneral"])) {
+  $mostrarPagosGeneral = new ReportesPensionesAjax();
+  $mostrarPagosGeneral->ajaxMostrarPagosGenerales();
 }
 
 if (isset($_POST["todosLosPensionesPendientesPorAlumno"])) {
