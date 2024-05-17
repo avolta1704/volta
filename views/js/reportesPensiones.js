@@ -3,7 +3,7 @@ $("#btnDescargarReportePagos").on("click", function () {
 	$.ajax({
 		url: "ajax/reportesPensiones.ajax.php",
 		method: "POST",
-		data: { todosLosPensionesPendientesPorAlumno: true },
+		data: { todosLosPagosGeneral: true },
 		dataType: "json",
 	}).done(function (data) {
 		const dataConMeses = organizarData(data);
@@ -78,6 +78,59 @@ $("#btnDescargarReporteSecundaria").on("click", function () {
 			dataFormateado,
 			"Reporte Secundaria",
 			"reporte_pagos_secundaria"
+		);
+	});
+});
+
+$('input[name="daterangepensiones"]').daterangepicker(
+	{
+		opens: "left",
+		locale: {
+			cancelLabel: "Limpiar",
+			applyLabel: "Aplicar",
+			daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+			monthNames: [
+				"Enero",
+				"Febrero",
+				"Marzo",
+				"Abril",
+				"Mayo",
+				"Junio",
+				"Julio",
+				"Agosto",
+				"Septiembre",
+				"Octubre",
+				"Noviembre",
+				"Diciembre",
+			],
+		},
+	},
+	function (start, end, label) {
+		console.log(
+			"A new date selection was made: " +
+				start.format("YYYY-MM-DD") +
+				" to " +
+				end.format("YYYY-MM-DD")
+		);
+	}
+);
+
+// btnDescargarReporteRangoFecha
+$("#btnDescargarReporteRangoFecha").on("click", function () {
+	const fechaInicio = $("#fechaInicio").val();
+	const fechaFin = $("#fechaFin").val();
+
+	$.ajax({
+		url: "ajax/reportesPensiones.ajax.php",
+		method: "POST",
+		data: { pensionesPendientesPorFecha: true, fechaInicio, fechaFin },
+		dataType: "json",
+	}).done(function (data) {
+		const dataConMeses = organizarData(data);
+		crearArchivoExcel(
+			dataConMeses,
+			"Reporte de Pagos por Fecha",
+			"reporte_pagos_fecha"
 		);
 	});
 });
