@@ -186,6 +186,7 @@ class ControllerAdmisionAlumno
       $idUsuario = $_SESSION["idUsuario"];
 
       $tabla = "cronograma_pago";
+
       //  crear solo una vez este array de datos por que es la matriculado
       $dataCronoPagoMatricula = array(
         "idAdmisionAlumno" => $codAdmisionAlumno,
@@ -217,7 +218,7 @@ class ControllerAdmisionAlumno
         12 => "Diciembre"
       );
 
-      for ($i = 3; $i <= 12; $i++) {
+      for ($i = 4; $i <= 12; $i++) {
         $mesPago = $meses[$i];
         $ultimoDia = date("t", mktime(0, 0, 0, $i, 1, date("Y")));
         $fechaLimite = date("Y") . '-' . $i . '-' . $ultimoDia;
