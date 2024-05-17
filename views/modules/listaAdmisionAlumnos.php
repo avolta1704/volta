@@ -5,8 +5,8 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listaAlumnos">Alumnos</a></li>
-        <li class="breadcrumb-item active">Registros Admision Alumnos</li>
+        <li class="breadcrumb-item"><a href="listaAdmisionAlumnos">Matriculados</a></li>
+        <li class="breadcrumb-item active">Lista Matriculados</li>
       </ol>
     </nav>
   </div>

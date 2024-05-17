@@ -21,19 +21,18 @@ class FunctionComunicado
     //  Botones para la vista de alumnosAdmision
     public static function getBotonesPagoAlumnos($codAdAlumCronograma, $codAlumno, $estadoAlumno)
     {
-        if ($estadoAlumno == 1) {
-            $botones = '
-            <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . $codAdAlumCronograma . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago" ><i class="bi bi-calendar-week"></i></button>
-            <button type="button" class="btn btn-warning btnComunicadoPago" codAdAlumCronograma="' . $codAdAlumCronograma . '" codAlumno="' . $codAlumno . '"><i class="bi bi-envelope-paper"></i></button>
-        ';
-        }
-        if ($estadoAlumno == 2) {
-            $botones = '
-                     <button type="button" class="btn btn-info btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . $codAdAlumCronograma . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago"><i class="bi bi-calendar-week"></i></button>
-            <button type="button" class="btn btn-warning btnComunicadoPago" codAdAlumCronograma="' . $codAdAlumCronograma . '" codAlumno="' . $codAlumno . '"><i class="bi bi-envelope-paper"></i></button>
-        ';
-        }
-        return $botones;
+      $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
+          <li><button type="button" class="dropdown-item btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . $codAdAlumCronograma . '" data-bs-toggle="modal"  data-bs-target="#cronogramaAdmisionPago">Ver Cronograma</button></li>
+          <li><button type="button" class="dropdown-item btnComunicadoPago" codAdAlumCronograma="' . $codAdAlumCronograma . '" codAlumno="' . $codAlumno . '">Ver Comunicados</button></li>
+        </ul>
+      </div>
+      ';
+      return $botones;
     }
     /* estado comunicado Cronograma texto  */
     public static function getEstadoComunicadoCrono($estadoAlumno)

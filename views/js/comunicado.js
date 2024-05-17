@@ -274,3 +274,8 @@ $(document).on("click", ".btnBorraraComunicado", function (event) {
     }
   });
 });
+
+//  Cerrar registros de comunicaciones
+$(".cerrarRegistroComunicaciones").on("click", function () {
+  window.location = "index.php?ruta=listaComunicadoPago";
+});
