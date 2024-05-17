@@ -7,10 +7,10 @@ $(document).ready(function () {
         return meta.row + 1;
       },
     },
-    { data: "codAlumnoCaja" },
-    { data: "dniAlumno" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
+    { data: "codAlumnoCaja" },
+    { data: "dniAlumno" },
     { data: "estadoAlPag" },
     { data: "btnPagoAlumnos" },
   ];
@@ -20,7 +20,7 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableComunicadoPago
-  $(".tituloPagoAlumnos").text("Registros Alumnos Pago Comunicado");
+  $(".tituloPagoAlumnos").text("Todas las Comunicaciones");
 
   //Solicitud ajx inicial de dataTableComunicadoPagoAdmin
   var data = new FormData();
@@ -50,10 +50,10 @@ $(document).ready(function () {
   $("#dataTableComunicadoPago thead").html(`
       <tr>
         <th scope="col">#</th>
-        <th scope="col">Código Caja</th>
-        <th scope="col">Dni</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
+        <th scope="col">Código Caja</th>
+        <th scope="col">Dni</th>
         <th scope="col">Estado</th>
         <th scope="col">Aciones</th>
       </tr>
@@ -68,10 +68,10 @@ $(document).ready(function () {
         return meta.row + 1;
       },
     },
-    { data: "codAlumnoCaja" },
-    { data: "dniAlumno" },
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
+    { data: "codAlumnoCaja" },
+    { data: "dniAlumno" },
     { data: "estadoAlPag" },
     { data: "btnPagoAlumnos" },
   ];
