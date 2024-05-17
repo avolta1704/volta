@@ -38,4 +38,38 @@ class ControllerAdmision
     $result = ModelAdmision::mdlGetCodAdmisionByPostulante($table, $idPostulante);
     return $result;
   }
+  //  eliminar Postulante Matriculado = Alumno; y volverlo a postulante
+  public static function ctrElimarDataMatriculaPostulante($codAlumnoEliminar)
+  {
+    $idAlumnoEliminar = self::ctrBuscarRegistrosDeMatriculaPostulante($codAlumnoEliminar);
+
+    $dataArrayIdEliminar = array(
+      'idAlumno' => $idAlumnoEliminar['idAlumno'],
+      'idAdmisionAlumno' => $idAlumnoEliminar['idAdmisionAlumno'],
+      'idAdmision' => $idAlumnoEliminar['idAdmision'],
+      'idAlumnoGrado' => $idAlumnoEliminar['idAlumnoGrado'],
+      'idApoderadoAlumno' => $idAlumnoEliminar['idApoderadoAlumno'],
+      'idAnioAdmision' => $idAlumnoEliminar['idAnioAdmision'],
+    );
+
+    $eliminarAlumno = ModelAdmision::mdlElimarDataMatriculaPostulante($dataArrayIdEliminar);
+    if ($eliminarAlumno != "ok") {
+      return $eliminarAlumno;
+      //acrtualizar estado de postulante a registrado = 1
+    } else{
+      $table = "postulante";
+      $actulizarEstadoPostulante = ModelAdmision::mdlActualizarEstadoPostulante($table, $idAlumnoEliminar['idPostulante'], );
+      if ($actulizarEstadoPostulante != "ok") {
+        return $actulizarEstadoPostulante;
+      }
+    }
+    return "ok"; 
+  }
+  //obtener todos los id asociados al idAlumno del postulante para eliminar registros
+  public static function ctrBuscarRegistrosDeMatriculaPostulante($codAlumnoEliminar)
+  {
+    $tabla = "alumno";
+    $idAlumnoEliminar = ModelAdmision::mdlBuscarClavesForaneasDelAlumno($tabla, $codAlumnoEliminar);
+    return $idAlumnoEliminar;
+  }
 }
