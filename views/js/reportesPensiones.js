@@ -82,48 +82,23 @@ $("#btnDescargarReporteSecundaria").on("click", function () {
 	});
 });
 
-$('input[name="daterangepensiones"]').daterangepicker(
-	{
-		opens: "left",
-		locale: {
-			cancelLabel: "Limpiar",
-			applyLabel: "Aplicar",
-			daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-			monthNames: [
-				"Enero",
-				"Febrero",
-				"Marzo",
-				"Abril",
-				"Mayo",
-				"Junio",
-				"Julio",
-				"Agosto",
-				"Septiembre",
-				"Octubre",
-				"Noviembre",
-				"Diciembre",
-			],
-		},
-	},
-	function (start, end, label) {
-		console.log(
-			"A new date selection was made: " +
-				start.format("YYYY-MM-DD") +
-				" to " +
-				end.format("YYYY-MM-DD")
-		);
-	}
-);
+$("#multiple-select-field").select2({
+	theme: "bootstrap-5",
+	width: $(this).data("width")
+		? $(this).data("width")
+		: $(this).hasClass("w-100")
+		? "100%"
+		: "style",
+	placeholder: $(this).data("placeholder"),
+	closeOnSelect: false,
+});
 
 // btnDescargarReporteRangoFecha
 $("#btnDescargarReporteRangoFecha").on("click", function () {
-	const fechaInicio = $("#fechaInicio").val();
-	const fechaFin = $("#fechaFin").val();
-
 	$.ajax({
 		url: "ajax/reportesPensiones.ajax.php",
 		method: "POST",
-		data: { pensionesPendientesPorFecha: true, fechaInicio, fechaFin },
+		data: { todosLosPagosGeneral: true },
 		dataType: "json",
 	}).done(function (data) {
 		const dataConMeses = organizarData(data);
