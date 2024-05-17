@@ -1,6 +1,7 @@
 <?php
 class FunctionAdmisionAlumnos
 {
+  
   //  Estados para  tipoAdmision
   public static function getEstadoTipoAdmision($tipoAdmision)
   {
@@ -80,6 +81,8 @@ class FunctionAdmisionAlumnos
     }
     return $estado;
   }
+
+
 
   //  Botones para la vista de alumnosAdmision
   public static function getBotonesAdmisionAlumnos($codAdmisionAlumno, $estadoAdmisionAlumno)
