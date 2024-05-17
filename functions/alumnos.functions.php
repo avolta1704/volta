@@ -17,29 +17,44 @@ class FunctionAlumnos
     return $estado;
   }
   //  Botones para la vista de listar alumnos
+
   public static function getBotonesAlumnos($codAlumno, $estadoAlumno)
   {
+    $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownAdmiAlumno" aria-expanded="false"><i class="bi bi-pencil-square"></i></button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownAdmiAlumno">
+    ';
+
     if ($estadoAlumno == 1) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-trash"></i></button>
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarAlumno" codAlumno="' . $codAlumno . '">Editar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarAlumno" codAlumno="' . $codAlumno . '">Eliminar</button></li>
       ';
     }
     if ($estadoAlumno == 2) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . $codAlumno . '" disabled><i class="bi bi-trash"></i></button>
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarAlumno" codAlumno="' . $codAlumno . '">Editar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarAlumno" codAlumno="' . $codAlumno . '" disabled>Eliminar</button></li>
       ';
     }
     if ($estadoAlumno == 3) {
-      $botones = '
-        <button type="button" class="btn btn-info btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-search"></i></button>
-        <button type="button" class="btn btn-warning btnEditarAlumno" codAlumno="' . $codAlumno . '"><i class="bi bi-pencil"></i></button>
-        <button type="button" class="btn btn-danger btnEliminarAlumno" codAlumno="' . $codAlumno . '" disabled><i class="bi bi-trash"></i></button>
+      $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#modalViewAlumno" codAlumno="' . $codAlumno . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnEditarAlumno" codAlumno="' . $codAlumno . '">Editar</button></li>
+        <li><button type="button" class="dropdown-item btnEliminarAlumno" codAlumno="' . $codAlumno . '" disabled>Eliminar</button></li>
       ';
     }
+
+    $botones .= '
+        </ul>
+      </div>
+    ';
+
     return $botones;
   }
+
+
 }

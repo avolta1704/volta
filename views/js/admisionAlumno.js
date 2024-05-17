@@ -72,3 +72,62 @@ $(document).ready(function () {
     }
   );
 });
+//eliminar alumno
+$(".dataTableAdmisionAlumnos").on("click", ".btnEliminarAdmisionAlumno", function (event) {
+  event.stopPropagation();
+
+  var codAlumno = $(this).attr("codAdmisionAlumno");
+
+  Swal.fire({
+    title: "¿Esta seguro?",
+    text: "¡De borrar el registro de Matricula del Postulante!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, borrar!",
+    cancelButtonText: "No, cancelar!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("codAlumnoEliminar", codAlumno);
+
+      $.ajax({
+        url: "ajax/admisionAlumnos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Aquí puedes manejar la respuesta del servidor
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "Registro Matricula eliminado",
+              showConfirmButton: false,
+              timer: 2000,
+            }).then(function () {
+              location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error al eliminar el registro Matricula",
+              showConfirmButton: false,
+              timer: 2000,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    }
+  });
+});
