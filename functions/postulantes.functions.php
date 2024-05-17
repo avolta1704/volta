@@ -54,14 +54,17 @@ class FunctionPostulantes
   }
 
   //  Creación del checklist para los postulantes
-  public static function renderCheckList($label, $checkName, $dateName, $estado, $fecha, $mostrarBotones)
+  public static function renderCheckList($codPostulante,$label, $checkName, $dateName, $estado, $fecha, $mostrarBotones)
   {
     $isChecked = $estado == "1" ? 'checked' : '';
     $dateValue = $estado == "1" ? $fecha : '';
     $buttons = $mostrarBotones ? "
         <div class='col-sm-2'>
-            <button type='button' class='btn btn-success'><i class='bi bi-cloud-arrow-up-fill'></i></button>
-            <button type='button' class='btn btn-warning'><i class='bi bi-cloud-arrow-down-fill'></i></button>
+            <button type='button' class='btn btn-success' id='btnUpdateFichaPostulante' data-codpostulante='$codPostulante'><i class='bi bi-cloud-arrow-up-fill'></i></button>
+            <button type='button' class='btn btn-warning' id='btnDownloadFichaPostulante'><i class='bi bi-cloud-arrow-down-fill'></i></button>
+            <!-- MANEJO DE IMAGENES -->
+            <input type='file' id='fileInput' style='display:none;' />
+            <span id='fileName' style='display:block;'></span>
         </div>
     " : "";
     echo "

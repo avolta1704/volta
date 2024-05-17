@@ -276,3 +276,115 @@ $(document).ready(function () {
 $(".cerrarVisualizarPostulante").on("click", function () {
   window.location = "index.php?ruta=listaPostulantes";
 });
+
+
+$(document).ready(function () {
+    // Iniciar Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
+        authDomain: "nscodeuploadtask-521ff.firebaseapp.com",
+        projectId: "nscodeuploadtask-521ff",
+        storageBucket: "nscodeuploadtask-521ff.appspot.com",
+        messagingSenderId: "1058923542325",
+        appId: "1:1058923542325:web:9f6945b26162c0e102fe7c"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    $("#btnUpdateFichaPostulante").on("click", function () {
+        let selectedDate = $('#fechaFichaPostulante').val(); // Reemplaza 'fechaFichaPostulante' con el id de tu input de fecha
+
+        if (!selectedDate) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor selecciona una fecha antes de subir el archivo',
+            });
+        } else {
+            $('#fileInput').click();
+        }
+    });
+
+    // Función para capturar el archivo seleccionado
+    $('#fileInput').on('change', function (e) {
+        const file = e.target.files[0];
+        const codPostulante = $('#btnUpdateFichaPostulante').data('codpostulante'); // Capturamos el codPostulante
+        let selectedDate = $('#fechaFichaPostulante').val(); // Reemplaza 'fechaFichaPostulante' con el id de tu input de fecha
+
+        // Confirmación antes de subir el archivo
+        Swal.fire({
+            icon: "warning",
+            title: "Advertencia",
+            html: "Está a punto de subir un archivo.<br>¿Desea continuar?",
+            showCancelButton: true, // Muestra el botón de cancelación
+            confirmButtonText: "Sí",
+            cancelButtonText: "No",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                uploadFileToFirebase(file, selectedDate, codPostulante);
+            }
+        });
+    });
+
+    // Función para subir el archivo a Firebase Storage
+	function uploadFileToFirebase(file, selectedDate, codPostulante) {
+		const fileName = `${codPostulante}-${selectedDate}`;
+		const storageRef = firebase.storage().ref(`myimages/${fileName}`);
+		const uploadTask = storageRef.put(file);
+	
+		// Mostrar el mensaje de éxito al finalizar la subida
+		const successSwal = Swal.mixin({
+			icon: 'success',
+			title: 'Archivo subido',
+			text: 'El archivo se ha subido correctamente.',
+			timer: 5000, // Tiempo en milisegundos (5 segundos)
+			showConfirmButton: false, // No mostrar botón de confirmación
+		});
+	
+		// Mostrar mensaje de "Subiendo archivo..."
+		Swal.fire({
+			icon: 'info',
+			title: 'Subiendo archivo...',
+			text: 'Se está subiendo el archivo, por favor espere.',
+			showConfirmButton: false, // No mostrar botón de confirmación
+		});
+	
+		uploadTask.on('state_changed',
+			function () {
+				// No se necesita hacer nada aquí, simplemente se está subiendo el archivo
+			},
+			function (error) {
+				console.error('Error al subir el archivo:', error);
+				Swal.fire({
+					icon: 'error',
+					title: 'Error',
+					text: 'Error al subir el archivo',
+				});
+			},
+			function () {
+				uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+					console.log('Archivo disponible en:', downloadURL);
+					// Mostrar el mensaje de éxito
+					successSwal.fire();
+					// Mostrar el nombre del archivo
+					$('#fileName').text(`Archivo subido: ${fileName}`).show();
+				});
+			}
+		);
+	}
+	// Agregar evento de clic al botón de descarga
+    $('#btnDownloadFichaPostulante').on('click', function () {
+        // Obtener el nombre del archivo
+        const fileName = $('#fileName').text().split(': ')[1]; // Extraer el nombre del archivo del texto
+
+        // Construir la URL de descarga usando el nombre del archivo y la ruta en Firebase Storage
+        const downloadURL = `https://nscodeuploadtask.storage.googleapis.com/myimages/${fileName}`;
+
+        // Abrir la URL de descarga en una nueva ventana del navegador
+        window.open(downloadURL, '_blank');
+    });
+	
+	
+	
+	
+}); 
+
