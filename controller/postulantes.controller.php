@@ -356,7 +356,7 @@ class ControllerPostulantes
   }
 
   //  Obtener datos de un postulante
-  public static function  ctrGetDatosPostulantes($codPostulanteEdit)
+  public static function ctrGetDatosPostulantes($codPostulanteEdit)
   {
     $tabla = "postulante";
     $dataPostulante = ModelPostulantes::mdlGetDatosPostulanteEditar($tabla, $codPostulanteEdit);
@@ -406,7 +406,7 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlGetPagoMatriculaPostulante($tabla, $codPostulante);
     return $response;
   }
-  
+
   //  Obtener el checklist del postulante
   public static function ctrGetChecklistPostulante($codPostulante)
   {
@@ -429,4 +429,20 @@ class ControllerPostulantes
       return $response;
     }
   }
+  //  url
+  public static function ctrObtenerDownloadURL($obtenerDownloadURL, $codPostulanteUrl)
+  {
+
+    $table = "postulante";
+    $dataChecklist = array(
+      "idPostulante" => $codPostulanteUrl,
+      "fichaPostulante" => $obtenerDownloadURL,
+
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelPostulantes::mdlObtenerDownloadURL($table, $dataChecklist);
+    return $response;
+  }
+
 }

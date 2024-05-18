@@ -325,4 +325,21 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+    //  Actualizar el checklist del postulante con todas las modificaciones
+    public static function mdlObtenerDownloadURL($table, $dataChecklist)
+    {
+      $statement = Connection::conn()->prepare("UPDATE $table SET fichaPostulante = :fichaPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+  
+      $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
+      $statement->bindParam(":fichaPostulante", $dataChecklist["fichaPostulante"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+  
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
 }

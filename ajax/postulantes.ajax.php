@@ -54,6 +54,17 @@ class PostulantesAjax
     $response = ControllerPostulantes::ctrBuscarPostulanteById($codPostulanteBusqueda);
     echo json_encode($response);
   }
+  //url
+  public $obtenerDownloadURL;
+  public $codPostulanteUrl;
+  public function ajaxObtenerDownloadURL()
+  {
+    $obtenerDownloadURL = $this->obtenerDownloadURL;
+    $codPostulanteUrl = $this->codPostulanteUrl;
+    $response = ControllerPostulantes::ctrObtenerDownloadURL($obtenerDownloadURL, $codPostulanteUrl);
+    echo json_encode($response);
+  }
+
 }
 
 //mostar todos los Postulantes DataTableAdmin
@@ -73,4 +84,13 @@ if (isset($_POST["codPostulanteBusqueda"])) {
   $obtenerDataPostulante = new PostulantesAjax();
   $obtenerDataPostulante->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
   $obtenerDataPostulante->ajaxBuscarPostulante();
+}
+
+//  url
+if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
+  $obtenerDownloadURL = new PostulantesAjax();
+  $obtenerDownloadURL->codPostulanteUrl = $_POST["codPostulante"];
+  $obtenerDownloadURL->obtenerDownloadURL = $_POST["downloadURL"];
+  $obtenerDownloadURL->ajaxObtenerDownloadURL();
+
 }
