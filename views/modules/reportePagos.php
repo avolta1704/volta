@@ -73,10 +73,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="seleccionarRangoFechasLabel">Selecciona el Rango de Meses</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" id="closeModalRangeMonth" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <select class="form-select" id="multiple-select-field" data-placeholder="Choose anything" multiple>
+        <select class="form-select" id="selectMonth" data-placeholder="Choose anything" multiple>
           <option>Matricula</option>
           <option>Marzo</option>
           <option>Abril</option>
@@ -91,7 +91,7 @@
         </select>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalRangeMonth">Cerrar</button>
         <button class="btn btn-primary d-flex gap-2" id="btnDescargarReporteRangoFecha"><i class="bi bi-file-earmark-excel"></i> Descargar archivo</button>
       </div>
     </div>
