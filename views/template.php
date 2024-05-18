@@ -91,6 +91,7 @@ session_start();
   <script src="views/js/excelUploadJson.js"></script>
   <script src="views/js/comunicado.js"></script>
   <script src="views/js/buscarAlumno.js"></script>
+  <script src="views/js/reportesPensiones.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

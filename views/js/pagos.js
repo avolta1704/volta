@@ -12,10 +12,32 @@ $(".cerrarRegistroPagoPostulante").on("click", function () {
 	window.location = "index.php?ruta=listaPostulantes";
 });
 
-//vista modal cronograma de pagos de admision alumnos
+// Funcion para obtener la fecha en formato "dia de mes del año"
+function formatFecha(fecha) {
+    // Obtenemos los elementos de la fecha
+    var partesFecha = fecha.split('-');
+    var año = partesFecha[0];
+    var mes = partesFecha[1];
+    var dia = partesFecha[2];
+
+    // Creamos un objeto de fecha para obtener el nombre del mes
+    var fechaObj = new Date(fecha);
+    var meses = [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+    ];
+    var nombreMes = meses[fechaObj.getMonth()];
+
+    // Formateamos la fecha
+    var fechaFormateada = dia + ' de ' + nombreMes + ' del ' + año;
+    
+    return fechaFormateada;
+}
+
+//  Vista para el modal de cronograma de pagos
 $(".dataTableAdmisionAlumnos").on(
 	"click",
-	".btnVisualizarAdmisionAlumno",
+	".btnVisualizarCronograma",
 	function () {
 		var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
 		var data = new FormData();
@@ -49,9 +71,10 @@ $(".dataTableAdmisionAlumnos").on(
 						.addClass("form-control")
 						.attr("id", "fechaPago")
 						.attr("name", "fechaPago")
-						.val("Fecha Límite: " + item.fechaLimite)
+						// uso de la funcion para justar el formato de la fecha
+						.val("Fecha Límite: " + formatFecha(item.fechaLimite))
 						.attr("readonly", true)
-						.css("width", "133px"); // Ajusta este valor según tus necesidades
+						.css("width", "auto"); // Establecer el ancho automático
 
 					var input2 = $("<input>")
 						.attr("type", "text")

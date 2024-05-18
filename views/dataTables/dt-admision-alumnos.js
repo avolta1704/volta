@@ -20,7 +20,7 @@ $(document).ready(function () {
   });
 
   // Titulo dataTableAdmisionAlumnos
-  $(".tituloAdmisionAlumnos").text("Registros Admision");
+  $(".tituloAdmisionAlumnos").text("Lista de Matriculados");
 
   //Solicitud ajx inicial de dataTableAdmisionAlumnosAdmin
   var data = new FormData();
