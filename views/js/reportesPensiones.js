@@ -82,7 +82,8 @@ $("#btnDescargarReporteSecundaria").on("click", function () {
 	});
 });
 
-$("#multiple-select-field").select2({
+// Select de meses
+$("#selectMonth").select2({
 	theme: "bootstrap-5",
 	width: $(this).data("width")
 		? $(this).data("width")
@@ -93,22 +94,75 @@ $("#multiple-select-field").select2({
 	closeOnSelect: false,
 });
 
+// Limpiar el select de meses al cerrar el modal
+$("#seleccionarRangoFechas").on("hidden.bs.modal", function () {
+	const $selectMonth = $("#selectMonth");
+	$selectMonth.val(null).trigger("change");
+});
+
 // btnDescargarReporteRangoFecha
 $("#btnDescargarReporteRangoFecha").on("click", function () {
 	$.ajax({
 		url: "ajax/reportesPensiones.ajax.php",
 		method: "POST",
-		data: { todosLosPagosGeneral: true },
+		data: { todosLosPagosPorRango: true },
 		dataType: "json",
 	}).done(function (data) {
+		const meses = $("#selectMonth").val();
+
 		const dataConMeses = organizarData(data);
-		crearArchivoExcel(
+
+		const dataFiltrada = filtrarDatosConMesesSeleccionados(
 			dataConMeses,
-			"Reporte de Pagos por Fecha",
-			"reporte_pagos_fecha"
+			meses
 		);
+
+		const dataEstadoAlumno = dataFiltrada.map((item) => {
+			if (item.Estado === 1) {
+				item.Estado = "Activo";
+			} else {
+				item.Estado = "Inactivo";
+			}
+			return item;
+		});
+
+		crearArchivoExcelConMesesSeleccionados(
+			meses,
+			dataEstadoAlumno,
+			"Reporte de Pagos por Meses",
+			"reporte_pagos_" + meses[0] + "_" + meses[meses.length - 1]
+		);
+
+		$("#seleccionarRangoFechas").modal("hide");
 	});
 });
+
+/**
+ * Filtra los datos de acuerdo a los meses especificados.
+ *
+ * @param {Array} dataConMeses - Los datos originales con información de los meses.
+ * @param {Array} mes - Los meses a filtrar.
+ * @returns {Array} - Los datos filtrados.
+ */
+const filtrarDatosConMesesSeleccionados = (dataConMeses, mes) => {
+	return dataConMeses.map((item) => {
+		const filteredItem = {
+			Alumno: item.Alumno,
+			DNI: item.DNI,
+			Grado: item.Grado,
+			Nivel: item.Nivel,
+			Estado: item.Estado,
+		};
+
+		Object.keys(item).forEach((key) => {
+			if (mes.includes(key)) {
+				filteredItem[key] = item[key];
+			}
+		});
+
+		return filteredItem;
+	});
+};
 
 /**
  * Formatea los datos de un reporte individual eliminando la propiedad "Nivel" de cada objeto.
@@ -233,6 +287,57 @@ const crearArchivoExcelSinNivel = (data, nombreHoja, nombreArchivo) => {
 			"Noviembre",
 			"Diciembre",
 		],
+	});
+
+	const date = new Date().toLocaleDateString().replaceAll("/", "-");
+
+	// Agregar estilo a la columna A
+
+	// Agregar la hoja de trabajo al libro de trabajo
+	XLSX.utils.book_append_sheet(workbook, ws, nombreHoja);
+
+	// Generar el archivo Excel
+	var excelBuffer = XLSX.write(workbook, {
+		bookType: "xlsx",
+		type: "array",
+	});
+
+	// Convertir el archivo Excel en un Blob
+	var blob = new Blob([excelBuffer], {
+		type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	});
+
+	// Crear un enlace de descarga
+	var url = URL.createObjectURL(blob);
+	var link = document.createElement("a");
+	link.href = url;
+	link.download = nombreArchivo + ".xlsx";
+	link.click();
+
+	// Liberar el enlace de descarga
+	URL.revokeObjectURL(url);
+};
+
+/**
+ * Crea un archivo Excel con los meses seleccionados.
+ *
+ * @param {Array<string>} meses - Los meses seleccionados.
+ * @param {Array<Object>} data - Los datos a incluir en el archivo Excel.
+ * @param {string} nombreHoja - El nombre de la hoja de trabajo en el archivo Excel.
+ * @param {string} nombreArchivo - El nombre del archivo Excel.
+ */
+const crearArchivoExcelConMesesSeleccionados = (
+	meses,
+	data,
+	nombreHoja,
+	nombreArchivo
+) => {
+	// Crear un nuevo libro de trabajo
+	var workbook = XLSX.utils.book_new();
+
+	// Crear una hoja de trabajo
+	const ws = XLSX.utils.json_to_sheet(data, {
+		header: ["Alumno", "DNI", "Grado", "Nivel", "Estado", ...meses],
 	});
 
 	const date = new Date().toLocaleDateString().replaceAll("/", "-");
