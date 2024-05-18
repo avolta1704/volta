@@ -356,7 +356,7 @@ class ControllerPostulantes
   }
 
   //  Obtener datos de un postulante
-  public static function  ctrGetDatosPostulantes($codPostulanteEdit)
+  public static function ctrGetDatosPostulantes($codPostulanteEdit)
   {
     $tabla = "postulante";
     $dataPostulante = ModelPostulantes::mdlGetDatosPostulanteEditar($tabla, $codPostulanteEdit);
@@ -406,7 +406,7 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlGetPagoMatriculaPostulante($tabla, $codPostulante);
     return $response;
   }
-  
+
   //  Obtener el checklist del postulante
   public static function ctrGetChecklistPostulante($codPostulante)
   {
@@ -416,17 +416,41 @@ class ControllerPostulantes
   }
 
   //  Actualizar el checklist del postulante
-  public static function ctrActualizarChecklist()
+  public static function ctrActualizarChecklist($dataActualizarcheclist)
   {
-    if (isset($_POST["codPostulanteCheck"])) {
-      $table = "postulante";
-      $dataChecklist = array(
-        "idPostulante" => $_POST["codPostulanteCheck"],
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
-      $response = ModelPostulantes::mdlActualizarChecklist($table, $dataChecklist);
-      return $response;
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
     }
+ 
+
+
+    $table = "postulante";
+    $dataChecklist = json_decode($dataActualizarcheclist, true); // Convierte la cadena JSON en un array
+    
+    $actualizarChecklist = array(
+      "idPostulante" => $dataChecklist["codPostulanteCheck"],
+      "estadoFichaPostulante" => $dataChecklist["checkFichaPostulante"] == "on" ? 1 : ($dataChecklist["checkFichaPostulante"] == "" ? 2 : 0),//Entero
+      "fechaFichaPost" => $dataChecklist["fechaFichaPostulante"] != "" ? $dataChecklist["fechaFichaPostulante"] : null,
+      "fechaEntrevista" => $dataChecklist["fechaEntrevista"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
+      "estadoEntrevista" => $dataChecklist["checkEntrevista"] == "on" ? 1 : ($dataChecklist["checkEntrevista"] == "" ? 2 : 0),
+      "fechaInformePsicologico" => $dataChecklist["fechaInformePsico"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
+      "estadoInformePsicologico" => $dataChecklist["checkInformePsico"] == "on" ? 1 : ($dataChecklist["checkInformePsico"] == "" ? 2 : 0),
+      "constanciaAdeudo" => $dataChecklist["checkConstAdeudo"] == "on" ? true : false,
+      "fechaConstanciaAdeudo" => $dataChecklist["fechaConstAdeudo"] != "" ? $dataChecklist["fechaConstAdeudo"] : "0000-00-00",
+      "cartaAdmision" => $dataChecklist["checkCartaAdmision"] == "on" ? true : false,
+      "fechaCartaAdmision" => $dataChecklist["fechaCartaAdmision"] != "" ? $dataChecklist["fechaCartaAdmision"] : "0000-00-00",
+      "contrato" => $dataChecklist["checkContrato"] == "on" ? true : false,
+      "fechaContrato" => $dataChecklist["fechaContrato"] != "" ? $dataChecklist["fechaContrato"] : "0000-00-00",
+      "constanciaVacante" => $dataChecklist["checkConstVacante"] == "on" ? true : false,
+      "fechaConstanciaVacante" => $dataChecklist["fechaConstVacante"] != "" ? $dataChecklist["fechaConstVacante"] : "0000-00-00",
+      "pagoMatricula" => $dataChecklist["checkPagoMatricula"] == "on" ? 1 : ($dataChecklist["checkPagoMatricula"] == "" ? 0 : 0),
+      "fechaPagoMatricula" => $dataChecklist["fechaPagoMatricula"] != "" ? $dataChecklist["fechaPagoMatricula"] : "0000-00-00",
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+
+    $response = ModelPostulantes::mdlActualizarChecklist($table, $actualizarChecklist);
+    return $response;
   }
+
 }

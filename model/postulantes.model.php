@@ -245,7 +245,7 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
-  
+
   //  Obtener la data del checklist
   public static function mdlGetChecklistPostulante($table, $codPostulante)
   {
@@ -278,12 +278,50 @@ class ModelPostulantes
   }
 
   //  Actualizar el checklist del postulante con todas las modificaciones
-  public static function mdlActualizarChecklist($table, $dataChecklist)
-  {
-    $statement = Connection::conn()->prepare("UPDATE $table SET nombrePostulante = :nombrePostulante, apellidoPostulante = :apellidoPostulante WHERE idPostulante = :idPostulante");
 
-    $statement->bindParam(":nombrePostulante", $dataChecklist["nombrePostulante"], PDO::PARAM_STR);
-    $statement->bindParam(":apellidoPostulante", $dataChecklist["apellidoPostulante"], PDO::PARAM_STR);
+  public static function mdlActualizarChecklist($table, $actualizarChecklist)
+  {
+    $statement = Connection::conn()->prepare("
+      UPDATE $table
+      SET estadoFichaPostulante = :estadoFichaPostulante,
+        fechaFichaPost = :fechaFichaPost,
+        estadoEntrevista = :estadoEntrevista,
+        fechaEntrevista = :fechaEntrevista,
+        estadoInformePsicologico = :estadoInformePsicologico,
+        fechaInformePsicologico = :fechaInformePsicologico,
+        constanciaAdeudo = :constanciaAdeudo,
+        fechaConstanciaAdeudo = :fechaConstanciaAdeudo,
+        cartaAdmision = :cartaAdmision,
+        fechaCartaAdmision = :fechaCartaAdmision,
+        contrato = :contrato,
+        fechaContrato = :fechaContrato,
+        constanciaVacante = :constanciaVacante,
+        fechaConstanciaVacante = :fechaConstanciaVacante,
+        pagoMatricula = :pagoMatricula,
+        fechaPagoMatricula = :fechaPagoMatricula,
+        fechaActualizacion = :fechaActualizacion,
+        usuarioActualizacion = :usuarioActualizacion
+      WHERE idPostulante = :idPostulante
+    ");
+    $statement->bindParam(":idPostulante", $actualizarChecklist["idPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoFichaPostulante", $actualizarChecklist["estadoFichaPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaFichaPost", $actualizarChecklist["fechaFichaPost"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaEntrevista", $actualizarChecklist["fechaEntrevista"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoEntrevista", $actualizarChecklist["estadoEntrevista"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaInformePsicologico", $actualizarChecklist["fechaInformePsicologico"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoInformePsicologico", $actualizarChecklist["estadoInformePsicologico"], PDO::PARAM_STR);
+    $statement->bindParam(":constanciaAdeudo", $actualizarChecklist["constanciaAdeudo"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaConstanciaAdeudo", $actualizarChecklist["fechaConstanciaAdeudo"], PDO::PARAM_STR);
+    $statement->bindParam(":cartaAdmision", $actualizarChecklist["cartaAdmision"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCartaAdmision", $actualizarChecklist["fechaCartaAdmision"], PDO::PARAM_STR);
+    $statement->bindParam(":contrato", $actualizarChecklist["contrato"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaContrato", $actualizarChecklist["fechaContrato"], PDO::PARAM_STR);
+    $statement->bindParam(":constanciaVacante", $actualizarChecklist["constanciaVacante"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaConstanciaVacante", $actualizarChecklist["fechaConstanciaVacante"], PDO::PARAM_STR);
+    $statement->bindParam(":pagoMatricula", $actualizarChecklist["pagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaPagoMatricula", $actualizarChecklist["fechaPagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $actualizarChecklist["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $actualizarChecklist["usuarioActualizacion"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";

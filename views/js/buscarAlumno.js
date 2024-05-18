@@ -171,7 +171,7 @@ $(document).ready(function () {
 
     success: function (response) {
       alumnos = response;
-      console.log(response);
+      //console.log(response);
       actualizarOpciones();
     },
     error: function (jqXHR, textStatus, errorThrown) {
