@@ -88,4 +88,42 @@ class ModelReportesComunicados
     $stmt->execute();
     return $stmt->fetchAll()[0];
   }
+
+  /**
+   * Obtiene los comunicados por rango de fechas desde la tabla especificada.
+   *
+   * @param string $table Nombre de la tabla.
+   * @return array Arreglo con los comunicados por rango de fechas.
+   */
+
+  public static function mdlGetComunicadosPorRangoFechas($table, $fechaInicio, $fechaFin)
+  {
+    $tablaCronogramaPago = 'cronograma_pago';
+    $tablaAdmisionAlumno = 'admision_alumno';
+    $tablaAlumno = 'alumno';
+    $tablaAlumnoGrado = 'alumno_grado';
+    $tablaGrado = 'grado';
+    $tablaNivel = 'nivel';
+    $detalleComunicacionPago = 'detalle_comunicacion_pago';
+
+    $stmt = Connection::conn()->prepare(
+      "SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, cp.idComunicacionPago, a.idAlumno, aa.idAdmisionAlumno, cpago.montoPago, cpago.mesPago, dcp.tituloComunicacion, dcp.detalleComunicacion, dcp.fechaComunicacion, aa.idAdmisionAlumno
+          FROM $table cp
+          INNER JOIN $tablaCronogramaPago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
+          INNER JOIN $tablaAdmisionAlumno aa ON cpago.idAdmisionAlumno = aa.idAdmisionAlumno
+          INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno    
+          INNER JOIN $tablaAlumnoGrado ag ON a.idAlumno = ag.idAlumno
+          INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
+          INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
+          INNER JOIN $detalleComunicacionPago dcp ON cp.idComunicacionPago = dcp.idComunicacionPago
+          WHERE dcp.fechaComunicacion BETWEEN :fechaInicio AND :fechaFin
+          ORDER BY dcp.fechaComunicacion ASC
+          "
+    );
+
+    $stmt->bindParam(':fechaInicio', $fechaInicio, PDO::PARAM_STR);
+    $stmt->bindParam(':fechaFin', $fechaFin, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
 }
