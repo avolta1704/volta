@@ -33,6 +33,19 @@ class ControllerReportesComunicados
   }
 
   /**
+   * Obtiene los comunicados por rango de fechas.
+   *
+   * @return array Retorna un array con los datos de los comunicados por rango de fechas.
+   */
+  public static function ctrGetComunicadosPorRangoFechas($fechaInicio, $fechaFin)
+  {
+    $table = "comunicacion_pago";
+    $comunicadosPorRangoFechas = ModelReportesComunicados::mdlGetComunicadosPorRangoFechas($table, $fechaInicio, $fechaFin);
+    $comunicadosFormat = self::ctrAgruparPorAlumno($comunicadosPorRangoFechas);
+    return $comunicadosFormat;
+  }
+
+  /**
    * Agrupa los datos por alumno.
    *
    * @param array $data Los datos a agrupar.
