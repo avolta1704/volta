@@ -363,7 +363,7 @@ function uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension) 
               var data = new FormData();
               data.append("downloadURL", downloadURL);
               data.append("codPostulante", codPostulante);
-
+//
               $.ajax({
                   url: "ajax/postulantes.ajax.php",
                   method: "POST",
