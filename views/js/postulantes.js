@@ -273,12 +273,12 @@ $(".cerrarVisualizarPostulante").on("click", function () {
 $(document).ready(function () {
   // Iniciar Firebase
   const firebaseConfig = {
-    apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
-    authDomain: "nscodeuploadtask-521ff.firebaseapp.com",
-    projectId: "nscodeuploadtask-521ff",
-    storageBucket: "nscodeuploadtask-521ff.appspot.com",
-    messagingSenderId: "1058923542325",
-    appId: "1:1058923542325:web:9f6945b26162c0e102fe7c",
+      apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
+      authDomain: "nscodeuploadtask-521ff.firebaseapp.com",
+      projectId: "nscodeuploadtask-521ff",
+      storageBucket: "nscodeuploadtask-521ff.appspot.com",
+      messagingSenderId: "1058923542325",
+      appId: "1:1058923542325:web:9f6945b26162c0e102fe7c",
   };
   firebase.initializeApp(firebaseConfig);
 
@@ -286,155 +286,144 @@ $(document).ready(function () {
   let downloadFileName = ""; // Variable global para almacenar el nombre del archivo con extensión
 
   $("#btnUpdateFichaPostulante").on("click", function () {
-    let selectedDate = $("#fechaFichaPostulante").val();
+      let selectedDate = $("#fechaFichaPostulante").val();
 
-    if (!selectedDate) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "Por favor selecciona una fecha antes de subir el archivo",
-      });
-    } else {
-      $("#fileInput").click();
-    }
+      if (!selectedDate) {
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Por favor selecciona una fecha antes de subir el archivo",
+          });
+      } else {
+          $("#fileInput").click();
+      }
   });
 
-  // Función para capturar el archivo seleccionado
-  $("#fileInput").on("change", function (e) {
-    const file = e.target.files[0];
-    const fileExtension = file.name.split(".").pop(); // Obtener la extensión del archivo
-    const codPostulante = $("#btnUpdateFichaPostulante").data("codpostulante");
-    let selectedDate = $("#fechaFichaPostulante").val();
+// Función para capturar el archivo seleccionado
+$("#fileInput").on("change", function (e) {
+  const file = e.target.files[0];
+  const fileExtension = file.name.split(".").pop(); // Obtener la extensión del archivo
+  const codPostulante = $("#btnUpdateFichaPostulante").data("codpostulante");
+  let selectedDate = $("#fechaFichaPostulante").val();
 
-    downloadFileName = `${codPostulante}-${selectedDate}.${fileExtension}`; // Guardar el nombre del archivo con la extensión
+  downloadFileName = `${codPostulante}-${selectedDate}.${fileExtension}`; // Guardar el nombre del archivo con la extensión
 
-    // Confirmación antes de subir el archivo
-    Swal.fire({
+  // Confirmación antes de subir el archivo
+  Swal.fire({
       icon: "warning",
       title: "Advertencia",
       html: "Está a punto de subir un archivo.<br>¿Desea continuar?",
       showCancelButton: true,
       confirmButtonText: "Sí",
       cancelButtonText: "No",
-    }).then((result) => {
+  }).then((result) => {
       if (result.isConfirmed) {
-        uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension);
+          uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension);
       } else {
-        // Reiniciar el input file si el usuario cancela
-        $("#fileInput").val("");
+          // Reiniciar el input file si el usuario cancela
+          $("#fileInput").val("");
       }
-    });
   });
+});
 
-  // Función para subir el archivo a Firebase Storage
-  function uploadFileToFirebase(
-    file,
-    selectedDate,
-    codPostulante,
-    fileExtension
-  ) {
-    const fileName = `${codPostulante}-${selectedDate}.${fileExtension}`;
-    const storageRef = firebase.storage().ref(`myimages/${fileName}`);
-    const uploadTask = storageRef.put(file);
+// Función para subir el archivo a Firebase Storage
+function uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension) {
+  const fileName = `${codPostulante}-${selectedDate}.${fileExtension}`;
+  const storageRef = firebase.storage().ref(`myimages/${fileName}`);
+  const uploadTask = storageRef.put(file);
 
-    // Mostrar mensaje de "Subiendo archivo..."
-    Swal.fire({
+  // Mostrar mensaje de "Subiendo archivo..."
+  Swal.fire({
       icon: "info",
       title: "Subiendo archivo...",
       text: "Se está subiendo el archivo, por favor espere.",
       showConfirmButton: false,
-    });
+      allowOutsideClick: false
+  });
 
-    uploadTask.on(
+  uploadTask.on(
       "state_changed",
-      function () {
-        // No se necesita hacer nada aquí, simplemente se está subiendo el archivo
-      },
+      null,
       function (error) {
-        console.error("Error al subir el archivo:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Error al subir el archivo",
-        });
-      },
-      function () {
-        uploadTask.snapshot.ref.getDownloadURL().then(function (url) {
-          downloadURL = url; // Guardar la URL en la variable global
-          console.log("Archivo disponible en:", downloadURL);
-          //  Subir a la base de datos el url
-          var data = new FormData();
-          data.append("downloadURL", downloadURL);
-          data.append("codPostulante", codPostulante);
-
-          $.ajax({
-            url: "ajax/postulantes.ajax.php",
-            method: "POST",
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-
-            success: function (response) {
-              if (response == "ok") {
-                // Mostrar el mensaje de éxito
-                Swal.fire({
-                  icon: "success",
-                  title: "Archivo subido",
-                  text: "El archivo se ha subido correctamente.",
-                  timer: 5000,
-                  showConfirmButton: false,
-                });
-                // Mostrar el nombre del archivo
-                $("#fileName").text(`Archivo subido: ${fileName}`).show();
-                // Reiniciar el input file para permitir nuevas subidas
-                $("#fileInput").val("");
-              } else {
-                Swal.fire({
-                  icon: "warning",
-                  title: "Adveterencia",
-                  text: "No modifico el estado del Postulante",
-                }).then(function (result) {
-                  if (result.value) {
-                    window.location = "listaPostulantes";
-                  }
-                });
-              }
-              // Cerrar el modal después de recibir la respuesta
-              $("#actualizarEstado").modal("hide");
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(jqXHR.responseText); // procedencia de error
-              console.log(
-                "Error en la solicitud AJAX: ",
-                textStatus,
-                errorThrown
-              );
-            },
+          console.error("Error al subir el archivo:", error);
+          Swal.close(); // Cerrar el Swal de "Subiendo archivo..."
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al subir el archivo",
           });
-        });
+      },
+      //funcion ajax
+      function ajaxSubir () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (url) {
+              downloadURL = url; // Guardar la URL en la variable global
+              console.log("Archivo disponible en:", downloadURL);
+
+              // Subir a la base de datos el URL
+              var data = new FormData();
+              data.append("downloadURL", downloadURL);
+              data.append("codPostulante", codPostulante);
+
+              $.ajax({
+                  url: "ajax/postulantes.ajax.php",
+                  method: "POST",
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+
+                  success: function (response) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..."
+                      if (response == "ok") {
+                          // Mostrar el mensaje de éxito
+                          Swal.fire({
+                              icon: "success",
+                              title: "Archivo subido",
+                              text: "El archivo se ha subido correctamente.",
+                              timer: 5000,
+                              showConfirmButton: false,
+                          });
+                          // Mostrar el nombre del archivo
+                          $("#fileName").text(`Archivo subido: ${fileName}`).show();
+                          // Reiniciar el input file para permitir nuevas subidas
+                          $("#fileInput").val("");
+                      } else {
+                          Swal.fire({
+                              icon: "warning",
+                              title: "Advertencia",
+                              text: "No se modificó el estado del Postulante",
+                          });
+                      }
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..." en caso de error
+                      console.log(jqXHR.responseText); // procedencia de error
+                      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+                  },
+              });
+          });
       }
-    );
-  }
+  );
+}
 
   // Agregar evento de clic al botón de descarga
   $("#btnDownloadFichaPostulante").on("click", function () {
-    if (downloadURL) {
-      // Crear un enlace temporal y hacer clic en él para iniciar la descarga
-      const link = document.createElement("a");
-      link.href = downloadURL;
-      link.target = "_blank"; // Asegurar que se abra en una nueva pestaña
-      link.download = downloadFileName; // Usar el nombre original del archivo para la descarga
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); // Eliminar el enlace temporal
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: "No se ha subido ningún archivo todavía.",
-      });
-    }
+      if (downloadURL) {
+          // Crear un enlace temporal y hacer clic en él para iniciar la descarga
+          const link = document.createElement("a");
+          link.href = downloadURL;
+          link.target = "_blank"; // Asegurar que se abra en una nueva pestaña
+          link.download = downloadFileName; // Usar el nombre original del archivo para la descarga
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link); // Eliminar el enlace temporal
+      } else {
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "No se ha subido ningún archivo todavía.",
+          });
+      }
   });
 });
