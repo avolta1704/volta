@@ -44,6 +44,88 @@ $("#btnDescargarReporteComunicados").on("click", function () {
 	});
 });
 
+// Reporte de comunicaciones por rango de fechas
+
+$('input[name="daterangecomunicados"]').daterangepicker(
+	{
+		opens: "left",
+		locale: {
+			format: "YYYY-MM-DD",
+			cancelLabel: "Limpiar",
+			applyLabel: "Aplicar",
+			fromLabel: "Desde",
+			toLabel: "Hasta",
+			daysOfWeek: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
+			monthNames: [
+				"Enero",
+				"Febrero",
+				"Marzo",
+				"Abril",
+				"Mayo",
+				"Junio",
+				"Julio",
+				"Agosto",
+				"Septiembre",
+				"Octubre",
+				"Noviembre",
+				"Diciembre",
+			],
+		},
+	},
+	function (start, end, label) {}
+);
+
+// Limpiar el select de meses al cerrar el modal
+$("#seleccionarRangoFechasComunicados").on("hidden.bs.modal", function () {
+	const $rangeFechas = $("#daterangecomunicados");
+	const fechaActual = moment().format("YYYY-MM-DD");
+	$rangeFechas.data("daterangepicker").setStartDate(fechaActual);
+	$rangeFechas.data("daterangepicker").setEndDate(fechaActual);
+});
+
+// Descargar reporte de comunicaciones por rango de fechas
+
+$("#btnDescargarReporteComunicadosFechas").on("click", function () {
+	const fechaInicio = $('input[name="daterangecomunicados"]')
+		.data("daterangepicker")
+		.startDate.format("YYYY-MM-DD");
+	const fechaFin = $('input[name="daterangecomunicados"]')
+		.data("daterangepicker")
+		.endDate.format("YYYY-MM-DD");
+
+	var data = new FormData();
+	data.append("comunicadosPorRangoFechas", true);
+	data.append("fechaInicio", fechaInicio);
+	data.append("fechaFin", fechaFin);
+
+	$.ajax({
+		url: "ajax/reportesComunicados.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (respuesta) {
+			if (respuesta) {
+				const data = respuesta.map((comunicado) => {
+					delete comunicado["idAlumno"];
+					return comunicado;
+				});
+				crearComunicadoExcel(
+					data,
+					"Comunicados",
+					"Reporte de Comunicados"
+				);
+			}
+			$("#seleccionarRangoFechasComunicados").modal("hide");
+		},
+		error: function (error) {
+			console.error("error", error);
+		},
+	});
+});
+
 /**
  * Crea un archivo Excel a partir de los datos proporcionados.
  *
