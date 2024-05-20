@@ -26,20 +26,20 @@
         </li>
       </ul>
     </li>
-    
+
     <!-- SEGUIMIENTO -->
     <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#seguimientoDocentes" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-search"></i><span>Seguimiento</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="seguimientoDocentes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="seguimientoDocentes">
-          <i class="bi bi-circle"></i><span>Seguimiento Docentes</span>
-        </a>
-      </li>
-    </ul>
-</li>
+      <a class="nav-link collapsed" data-bs-target="#seguimientoDocentes" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-search"></i><span>Seguimiento</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="seguimientoDocentes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="seguimientoDocentes">
+            <i class="bi bi-circle"></i><span>Seguimiento Docentes</span>
+          </a>
+        </li>
+      </ul>
+    </li>
 
 
 
@@ -55,8 +55,8 @@
           </a>
         </li>
         <li>
-          <a href="reporteMatriculados">
-            <i class="bi bi-circle"></i><span>Reporte de Matriculados</span>
+          <a href="reporteComunicaciones">
+            <i class="bi bi-circle"></i><span>Reporte de Comunicaciones</span>
           </a>
         </li>
         <li>

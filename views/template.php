@@ -40,6 +40,7 @@ session_start();
         $_GET["ruta"] == "buscarAlumno" ||
         $_GET["ruta"] == "buscarPostulante" ||
         $_GET["ruta"] == "reportePagos" ||
+        $_GET["ruta"] == "reporteComunicaciones" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -92,6 +93,7 @@ session_start();
   <script src="views/js/comunicado.js"></script>
   <script src="views/js/buscarAlumno.js"></script>
   <script src="views/js/reportesPensiones.js"></script>
+  <script src="views/js/reportesComunicaciones.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -103,6 +105,7 @@ session_start();
   <script src="views/dataTables/dt-pagos-admin.js"></script>
   <script src="views/dataTables/dt-reportes-pensiones-admin.js"></script>
   <script src="views/dataTables/dt-comunicado.js"></script>
+  <script src="views/dataTables/dt-reportes-comunicaciones-admin.js"></script>
 </body>
 
 </html>

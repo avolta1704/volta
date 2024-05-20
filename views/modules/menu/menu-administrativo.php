@@ -77,8 +77,8 @@
           </a>
         </li>
         <li>
-          <a href="reporteMatriculados">
-            <i class="bi bi-circle"></i><span>Reporte de Matriculados</span>
+          <a href="reporteComunicaciones">
+            <i class="bi bi-circle"></i><span>Reporte de Comunicaciones</span>
           </a>
         </li>
         <li>
