@@ -54,7 +54,7 @@ class PostulantesAjax
     $response = ControllerPostulantes::ctrBuscarPostulanteById($codPostulanteBusqueda);
     echo json_encode($response);
   }
-  //url
+  //  Insertar URL de descarga
   public $obtenerDownloadURL;
   public $codPostulanteUrl;
   public function ajaxObtenerDownloadURL()
@@ -62,6 +62,36 @@ class PostulantesAjax
     $obtenerDownloadURL = $this->obtenerDownloadURL;
     $codPostulanteUrl = $this->codPostulanteUrl;
     $response = ControllerPostulantes::ctrObtenerDownloadURL($obtenerDownloadURL, $codPostulanteUrl);
+    echo json_encode($response);
+  }
+
+  //  Obtener la URL desde la base de datos
+  public $codPostulanteDownloadUrl;
+  public function ajaxDownloadURL()
+  {
+    $codPostulanteDownloadUrl = $this->codPostulanteDownloadUrl;
+    $response = ControllerPostulantes::ctrDownloadURL($codPostulanteDownloadUrl);
+    echo json_encode($response);
+  }
+
+
+  //  Insertar URL de descarga psicologico
+  public $obtenerDownloadURLPsicologico;
+  public $codPostulanteUrlPsicologico;
+  public function ajaxObtenerDownloadURLPsicologico()
+  {
+    $obtenerDownloadURLPsicologico = $this->obtenerDownloadURL;
+    $codPostulanteUrlPsicologico = $this->codPostulanteUrl;
+    $response = ControllerPostulantes::ctrObtenerDownloadURLPsicologico($obtenerDownloadURLPsicologico, $codPostulanteUrlPsicologico);
+    echo json_encode($response);
+  }
+
+  //  Obtener la URL psicologico desde la base de datos 
+  public $codPostulanteDownloadUrlPsicologico;
+  public function ajaxDownloadURLPsicologico()
+  {
+    $codPostulanteDownloadUrlPsicologico = $this->codPostulanteDownloadUrl;
+    $response = ControllerPostulantes::ctrDownloadURLPsicologico($codPostulanteDownloadUrlPsicologico);
     echo json_encode($response);
   }
 
@@ -86,7 +116,7 @@ if (isset($_POST["codPostulanteBusqueda"])) {
   $obtenerDataPostulante->ajaxBuscarPostulante();
 }
 
-//  url
+//  Insertar URL de descarga
 if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
   $obtenerDownloadURL = new PostulantesAjax();
   $obtenerDownloadURL->codPostulanteUrl = $_POST["codPostulante"];
@@ -94,3 +124,31 @@ if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
   $obtenerDownloadURL->ajaxObtenerDownloadURL();
 
 }
+  // Obtener la URL desde la base de datos
+  if (isset($_POST["codPostulanteURL"])) {
+    $DownloadURL = new PostulantesAjax();
+    $DownloadURL->codPostulanteDownloadUrl = $_POST["codPostulanteURL"];
+    $DownloadURL->ajaxDownloadURL();
+  }
+
+
+  //  Insertar URL de descarga
+if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulante"])) {
+  $obtenerDownloadURLPsicologico = new PostulantesAjax();
+  $obtenerDownloadURLPsicologico->codPostulanteUrlPsicologico = $_POST["codPostulante"];
+  $obtenerDownloadURLPsicologico->obtenerDownloadURLPsicologico = $_POST["downloadURLPsicologico"];
+  $obtenerDownloadURLPsicologico->ajaxObtenerDownloadURLPsicologico();
+
+}
+  // Obtener la URL desde la base de datos
+  if (isset($_POST["codPostulanteURLPsicologico"])) {
+    $obtenerDownloadURLPsicologico = new PostulantesAjax();
+    $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
+    $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
+  }
+
+
+  
+
+
+  

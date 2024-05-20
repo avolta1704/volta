@@ -429,20 +429,64 @@ class ControllerPostulantes
       return $response;
     }
   }
-  //  url
+
+  //  Subir el downloadURL del postulante
   public static function ctrObtenerDownloadURL($obtenerDownloadURL, $codPostulanteUrl)
   {
-
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    
     $table = "postulante";
     $dataChecklist = array(
       "idPostulante" => $codPostulanteUrl,
       "fichaPostulante" => $obtenerDownloadURL,
-
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
     $response = ModelPostulantes::mdlObtenerDownloadURL($table, $dataChecklist);
     return $response;
   }
+
+  //  Obtener el URL del postulante
+  public static function ctrDownloadURL($codPostulanteUrl) {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $table = "postulante";
+    $response = ModelPostulantes::mdlDownloadURL($table, $codPostulanteUrl);
+    return $response;
+  }
+
+  //  Subir el downloadURL psicologico del postulante
+  public static function ctrObtenerDownloadURLPsicologico($obtenerDownloadURLPsicologico, $codPostulanteUrlPsicologico)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    
+    $table = "postulante";
+    $dataChecklist = array(
+      "idPostulante" => $codPostulanteUrlPsicologico,
+      "informePsicologico" => $obtenerDownloadURLPsicologico,
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelPostulantes::mdlObtenerDownloadURLPsicologico($table, $dataChecklist);
+    return $response;
+  }
+
+  //  Obtener el URL psicologico del postulante
+  public static function ctrDownloadURLPsicologico($codPostulanteUrlPsicologico) {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $table = "postulante";
+    $response = ModelPostulantes::mdlDownloadURLPsicologico($table, $codPostulanteUrlPsicologico);
+    return $response;
+  }
+  
 
 }
