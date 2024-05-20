@@ -19,7 +19,7 @@ class ModelReportesComunicados
     $tablaNivel = 'nivel';
 
     $stmt = Connection::conn()->prepare(
-      "SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, cp.idComunicacionPago, a.idAlumno
+      "SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, cp.idComunicacionPago, a.idAlumno, aa.idAdmisionAlumno
           FROM $table cp
           INNER JOIN $tablaCronogramaPago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
           INNER JOIN $tablaAdmisionAlumno aa ON cpago.idAdmisionAlumno = aa.idAdmisionAlumno
