@@ -18,11 +18,8 @@
               <i class="bi bi-download"></i> Descargar Reporte
             </button>
             <ul class="dropdown-menu">
-              <li><button class="dropdown-item" id="btnDescargarReportePagos"><i class="bi bi-file-earmark-excel"></i> Descargar reporte de pagos</button></li>
-              <li><button class="dropdown-item" id="btnDescargarReporteInicial"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de inicial</button></li>
-              <li><button class="dropdown-item" id="btnDescargarReportePrimaria"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de primaria</button></li>
-              <li><button class="dropdown-item" id="btnDescargarReporteSecundaria"><i class="bi bi-file-earmark-excel"></i> Descargar retrasos de secundaria</button></li>
-              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#seleccionarRangoFechas"><i class="bi bi-file-earmark-excel"></i> Descargar deudores por rango de meses</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteComunicados"><i class="bi bi-file-earmark-excel"></i> Descargar reporte de comunicaciones</button></li>
+              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#seleccionarRangoFechas"><i class="bi bi-file-earmark-excel"></i> Descargar comunicaciones por rango de fechas</button></li>
             </ul>
           </div>
         </div>
