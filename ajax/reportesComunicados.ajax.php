@@ -19,14 +19,19 @@ class ReportesComunicados
   public function ajaxMostrarTodosLosComunicados()
   {
     $todosLosComunicados = ControllerReportesComunicados::ctrGetAllAlumnosConComunicados();
+
     foreach ($todosLosComunicados as &$dataPensiones) {
       $dataPensiones['nombreAlumno'] = $dataPensiones["nombresAlumno"] . " " . $dataPensiones["apellidosAlumno"];
       $dataPensiones['dniAlumno'] = $dataPensiones["dniAlumno"];
       $dataPensiones['gradoAlumno'] = $dataPensiones["descripcionGrado"];
       $dataPensiones['nivelAlumno'] = $dataPensiones["descripcionNivel"];
-      $dataPensiones['acciones'] = FunctionReportesComunicados::getBotonesOpciones($dataPensiones["idComunicacionPago"], $dataPensiones["idAlumno"]);
+      $dataPensiones['acciones'] = FunctionReportesComunicados::getBotonesOpciones($dataPensiones["idAdmisionAlumno"], $dataPensiones["idAlumno"]);
     }
-    echo json_encode($todosLosComunicados);
+
+    // Eliminar datos duplicados basados en idalumno
+    $todosLosComunicados = FunctionReportesComunicados::eliminarDuplicadosPorIdAlumno($todosLosComunicados);
+
+    echo json_encode(array_values($todosLosComunicados));
   }
 }
 
