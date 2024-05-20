@@ -14,7 +14,6 @@ class ReportesComunicados
   /**
    * Función para mostrar todos los comunicados.
    *
-   * @return void
    */
   public function ajaxMostrarTodosLosComunicados()
   {
@@ -33,9 +32,23 @@ class ReportesComunicados
 
     echo json_encode(array_values($todosLosComunicados));
   }
+
+  /**
+   * Función para mostrar los comunicados por alumnos.
+   */
+  public function ajaxMostrarComunicadosPorAlumnos()
+  {
+    $comunicadosPorAlumno = ControllerReportesComunicados::ctrGetComunicadosPorAlumnos();
+    echo json_encode(array_values($comunicadosPorAlumno));
+  }
 }
 
 if (isset($_POST["todosLosComunicados"])) {
   $mostrarTodosLosComunicados = new ReportesComunicados();
   $mostrarTodosLosComunicados->ajaxMostrarTodosLosComunicados();
+}
+
+if (isset($_POST["comunicadosPorAlumno"])) {
+  $mostrarComunicadosPorAlumno = new ReportesComunicados();
+  $mostrarComunicadosPorAlumno->ajaxMostrarComunicadosPorAlumnos();
 }
