@@ -90,6 +90,41 @@ $todasLasAreas = $areas->ctrGetAllAreas();
   </div>
 </div>
 
+<!-- Modal editar curso -->
+<div class="modal fade" id="modalEditarCurso" tabindex="-1" aria-labelledby="modalEditarCursoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarCursoLabel">Editar Curso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditarCurso">
+          <div class="mb-3">
+            <label for="descripcionCursoEditar" class="form-label">Descripción del Curso</label>
+            <input type="text" class="form-control d-none" id="idCursoEditar" name="idCursoEditar">
+            <input type="text" class="form-control" id="descripcionCursoEditar" name="descripcionCursoEditar" required />
+          </div>
+          <div class="mb-3">
+            <label for="areaCursoEditar" class="form-label">Área del Curso</label>
+            <select class="form-select" id="areaCursoEditar" name="areaCursoEditar" required>
+              <option value="" selected>Seleccione una opción</option>
+              <?php
+              foreach ($todasLasAreas as $area) {
+                echo "<option value='" . $area['idArea'] . "'>" . $area['descripcionArea'] . "</option>";
+              }
+              ?>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btnEditarCursoModal" id="btnEditarCursoModal" name="btnEditarCursoModal" btnEditarCursoModal=" ">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal todas las áreas -->
 <div class="modal fade" id="modalAreas" tabindex="-1" aria-labelledby="modalAreasLabel" aria-hidden="true">
