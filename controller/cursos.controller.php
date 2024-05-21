@@ -59,4 +59,16 @@ class ControllerCursos
       return "error";
     }
   }
+
+  /**
+   * Obtiene un curso.
+   *
+   * @param int $idCurso El ID del curso a obtener.
+   * @return array Retorna un array con los datos del curso.
+   */
+  public static function ctrGetCurso($idCurso)
+  {
+    $response = ModelCursos::mdlGetCurso($idCurso);
+    return $response;
+  }
 }
