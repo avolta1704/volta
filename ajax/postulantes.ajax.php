@@ -11,6 +11,7 @@ require_once "../controller/anioAdmision.controller.php";
 require_once "../controller/apoderadoAlumno.controller.php";
 require_once "../controller/apoderado.controller.php";
 require_once "../controller/pagos.controller.php";
+require_once "../controller/postulantes.controller.php";
 //Modelo
 require_once "../model/postulantes.model.php";
 require_once "../model/admisionalumno.model.php";
@@ -22,6 +23,7 @@ require_once "../model/anioAdmision.model.php";
 require_once "../model/apoderadoAlumno.model.php";
 require_once "../model/apoderado.model.php";
 require_once "../model/pagos.model.php";
+require_once "../model/postulantes.model.php";
 
 class PostulantesAjax
 {
@@ -95,6 +97,14 @@ class PostulantesAjax
     echo json_encode($response);
   }
 
+  //  editar checlist del postulante
+  public $dataActualizarCheclist;
+  public function ajaxEditarCheclistPostulante()
+  {
+    $dataActualizarCheclist = $this->dataActualizarCheclist;
+    $response = ControllerPostulantes::ctrActualizarChecklist($dataActualizarCheclist);
+    echo json_encode($response);
+  }
 }
 
 //mostar todos los Postulantes DataTableAdmin
@@ -151,4 +161,10 @@ if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulantePsicol
   
 
 
-  
+  //  editar checlist del postulante
+if (isset($_POST["actualizarCheclist"])) {
+  $dataActualizarCheclist = new PostulantesAjax();
+  $dataActualizarCheclist->dataActualizarCheclist = $_POST["actualizarCheclist"];
+  $dataActualizarCheclist->ajaxEditarCheclistPostulante();
+}
+

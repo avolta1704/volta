@@ -5,8 +5,8 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listaAlumnos">Alumnos</a></li>
-        <li class="breadcrumb-item active">Registros Admision Alumnos</li>
+        <li class="breadcrumb-item"><a href="listaComunicadoPago">Pensiones</a></li>
+        <li class="breadcrumb-item active">Todas las Comunicaciones</li>
       </ol>
     </nav>
   </div>

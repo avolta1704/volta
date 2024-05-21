@@ -272,7 +272,7 @@
             </div>
           </span>
 
-          <span class="border border-3 p-3">
+          <span id="checklistPostulante" class="border border-3 p-3">
             <div class="container row g-3">
               <h3 style="font-weight: bold">Checklist Postulante</h3>
               <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
@@ -338,14 +338,11 @@
             <div class="container row g-3 p-3 justify-content-between">
               <input type="hidden" class="codPostulanteCheck" name="codPostulanteCheck" id="codPostulanteCheck" value="<?php echo $codPostulante ?>">
               <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarVisualizarPostulante">Cerrar</button>
-              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Actualizar Checklist</button>
+              <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary btnActualizarChecklistPostulante">Actualizar Checklist</button>
             </div>
           </span>
         </form>
-        <?php 
-        $actualizarChecklist = new ControllerPostulantes();
-        $actualizarChecklist->ctrActualizarChecklist();
-        ?>
+   
       </div>
     </div>
   </section>

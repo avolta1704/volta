@@ -96,21 +96,18 @@
                 <label for="editarEnfermedades" class="form-label" style="font-weight: bold">Enfermedades: </label>
                 <input type="text" class="form-control" id="editarEnfermedades" name="editarEnfermedades" value="<?php echo $datosAlumno["enfermedades"] ?>">
               </div>
-
-              <!-- Agregar un boton que si el alumno tiene su codadmisionalumno en estado 1, se le pueda habilitar el calendario de pagos y si lo tiene, pues que se muestre el calendario de pagos bajo un modal -->
-
-              <!-- <div class="form-group col-md-6">
-                <label class="switch">
-                  <input type="checkbox">
-                  <span class="slider round"></span>
-                </label>
-              </div> -->
             </div>
           </span>
 
           <div class="container row g-3 p-3 justify-content-between">
             <input type="hidden" class="codAlumno" name="codAlumno" id="codAlumno" value="<?php echo $codAlumno ?>">
-            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumno">Cerrar</button>
+            <?php
+              if(isset($GET["tipo"])){
+                echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumnoAdmision">Cerrar</button>';
+              } else {
+                echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumno">Cerrar</button>';
+              }
+            ?>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Editar Alumno</button>
           </div>
         </form>

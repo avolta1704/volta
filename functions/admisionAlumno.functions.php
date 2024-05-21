@@ -1,7 +1,7 @@
 <?php
 class FunctionAdmisionAlumnos
 {
-  
+
   //  Estados para  tipoAdmision
   public static function getEstadoTipoAdmision($tipoAdmision)
   {
@@ -82,50 +82,37 @@ class FunctionAdmisionAlumnos
     return $estado;
   }
 
-
-
   //  Botones para la vista de alumnosAdmision
-  public static function getBotonesAdmisionAlumnos($codAdmisionAlumno, $estadoAdmisionAlumno)
+  public static function getBotonesAdmisionAlumnos($codAdmisionAlumno, $estadoAdmisionAlumno, $idAlumno)
   {
     $botones = '
-    <div class="btn-group">
-      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownAdmiAlumno" aria-expanded="false">
-        <i class="bi bi-pencil-square"></i>
-      </button>
-    <ul class="dropdown-menu" aria-labelledby="dropDownAdmiAlumno">
-    ';
-    if ($estadoAdmisionAlumno == 1) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . ($codAdmisionAlumno) . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago" disabled>Ver Calendario</button></li>
-        <li><button type="button" class="dropdown-item btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '">Programar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '">Eliminar</button></li>
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownAdmiAlumno" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownAdmiAlumno">
       ';
+
+    $opciones = [
+      'Ver Calendario' => ['btnVisualizarCronograma', 'codAdAlumCronograma', '#cronogramaAdmisionPago'],
+      'Programar' => ['btnGenerarCronograma', 'codAdmisionAlumno'],
+      'Editar' => ['btnEditarAlumno', 'codAlumno'],
+      'Eliminar' => ['btnEliminarAdmisionAlumno', 'codAdmisionAlumno']
+    ];
+
+    foreach ($opciones as $texto => $opcion) {
+      $clase = $opcion[0];
+      $codigo = $opcion[1];
+      $target = isset($opcion[2]) ? 'data-bs-toggle="modal" data-bs-target="' . $opcion[2] . '"' : '';
+      $disabled = ($estadoAdmisionAlumno == 1 && $texto == 'Ver Calendario') || ($estadoAdmisionAlumno > 1 && $texto == 'Programar') || ($estadoAdmisionAlumno > 1 && $texto == 'Eliminar') ? 'disabled' : '';
+      $botones .= '<li><button type="button" class="dropdown-item ' . $clase . '" ' . $codigo . '="' . ($codigo == 'codAlumno' ? $idAlumno : $codAdmisionAlumno) . '" ' . $target . ' ' . $disabled . '>' . $texto . '</button></li>';
     }
-    if ($estadoAdmisionAlumno == 2) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . ($codAdmisionAlumno) . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago">Ver Calendario</button></li>
-        <li><button type="button" class="dropdown-item btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled>Programar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled>Eliminar</button></li>
-      ';
-    }
-    if ($estadoAdmisionAlumno == 3) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . ($codAdmisionAlumno) . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago">Ver Calendario</button></li>
-        <li><button type="button" class="dropdown-item btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled>Programar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled>Eliminar</button></li>
-      ';
-    }
-    if ($estadoAdmisionAlumno == 4) {
-      $botones .= '
-        <li><button type="button" class="dropdown-item btnVisualizarAdmisionAlumno" codAdAlumCronograma="' . ($codAdmisionAlumno) . '" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago">Ver Calendario</button></li>
-        <li><button type="button" class="dropdown-item btnEditarEstadoAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '"disabled>Programar</button></li>
-        <li><button type="button" class="dropdown-item btnEliminarAdmisionAlumno" codAdmisionAlumno="' . ($codAdmisionAlumno) . '" disabled>Eliminar</button></li>
-      ';
-    }
+
     $botones .= '
-      </ul>
-    </div>
-    ';
+        </ul>
+      </div>
+      ';
+
     return $botones;
   }
 }

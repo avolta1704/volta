@@ -34,10 +34,10 @@ function formatFecha(fecha) {
     return fechaFormateada;
 }
 
-//vista modal cronograma de pagos de admision alumnos
+//  Vista para el modal de cronograma de pagos
 $(".dataTableAdmisionAlumnos").on(
 	"click",
-	".btnVisualizarAdmisionAlumno",
+	".btnVisualizarCronograma",
 	function () {
 		var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
 		var data = new FormData();

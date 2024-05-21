@@ -725,3 +725,114 @@ function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, file
 
 });
 
+
+//editar checklist de postulante
+$(document).ready(function () {
+  $(".btnActualizarChecklistPostulante").click(function (event) {
+    event.preventDefault(); // Prevenir el comportamiento predeterminado del botón
+    swal
+      .fire({
+        title: "¿Esta seguro de Actualizar el Checklist?",
+        text: "¡Puede volver a actulizarlo!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
+        confirmButtonText: "Si, Actualizar!",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          // Inicia el flujo del código para actualizar el checklist
+          var data = new FormData();
+          var checklistData = {};
+          $("#checklistPostulante input").each(function () {
+            checklistData[$(this).attr("name")] = $(this).val();
+          });
+          // Reemplazar los valores de checklistData con los valores de checkboxStates
+          for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxStates.hasOwnProperty(checkboxes[i])) {
+              checklistData[checkboxes[i]] = checkboxStates[checkboxes[i]];
+            }
+          }
+          data.append("actualizarCheclist", JSON.stringify(checklistData));
+          //console.log(checklistData);
+          $.ajax({
+            url: "ajax/postulantes.ajax.php",
+            method: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+              if (response == "ok") {
+                Swal.fire({
+                  icon: "success",
+                  title: "Correcto",
+                  text: "Checklist actualizado correctamente",
+                }).then(function (result) {
+                  if (result.value) {
+                    // Actualizar la página actual
+                    location.reload();
+                  }
+                });
+              } else {
+                Swal.fire({
+                  icon: "warning",
+                  title: "Advertencia",
+                  text: "No se modificó el Checklist",
+                }).then(function (result) {
+                  if (result.value) {
+                    // Actualizar la página actual
+                    location.reload();
+                  }
+                });
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText); // procendecia de error
+              console.log(
+                "Error en la solicitud AJAX: ",
+                textStatus,
+                errorThrown
+              );
+            },
+          });
+        }
+      });
+  });
+});
+
+//funcion para identificar los cambios checkbox seleccionados y deseleccionados
+var checkboxes = [
+  "checkFichaPostulante",
+  "checkEntrevista",
+  "checkInformePsico",
+  "checkConstAdeudo",
+  "checkCartaAdmision",
+  "checkContrato",
+  "checkConstVacante",
+  "checkPagoMatricula",
+];
+var checkboxStates = {};
+
+document.addEventListener("DOMContentLoaded", function () {
+  for (var i = 0; i < checkboxes.length; i++) {
+    var checkboxElement = document.getElementById(checkboxes[i]);
+    if (checkboxElement) {
+      // Inicializar el estado del checkbox en el objeto checkboxStates
+      checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
+
+      checkboxElement.addEventListener("change", function () {
+        // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
+        checkboxStates[this.id] = this.checked ? "on" : "";
+
+        console.log(checkboxStates); // Imprimir el objeto checkboxStates para verificar
+      });
+    } else {
+      console.log("No se encontró el checkbox con id: " + checkboxes[i]);
+    }
+  }
+});
