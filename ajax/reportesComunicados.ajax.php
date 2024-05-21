@@ -14,7 +14,6 @@ class ReportesComunicados
   /**
    * Función para mostrar todos los comunicados.
    *
-   * @return void
    */
   public function ajaxMostrarTodosLosComunicados()
   {
@@ -33,9 +32,37 @@ class ReportesComunicados
 
     echo json_encode(array_values($todosLosComunicados));
   }
+
+  /**
+   * Función para mostrar los comunicados por alumnos.
+   */
+  public function ajaxMostrarComunicadosPorAlumnos()
+  {
+    $comunicadosPorAlumno = ControllerReportesComunicados::ctrGetComunicadosPorAlumnos();
+    echo json_encode(array_values($comunicadosPorAlumno));
+  }
+
+  /**
+   * Función para mostrar los comunicados por rango de fechas.
+   */
+  public function ajaxMostrarComunicadosPorRangoFechas($fechaInicio, $fechaFin)
+  {
+    $comunicadosPorRangoFechas = ControllerReportesComunicados::ctrGetComunicadosPorRangoFechas($fechaInicio, $fechaFin);
+    echo json_encode(array_values($comunicadosPorRangoFechas));
+  }
 }
 
 if (isset($_POST["todosLosComunicados"])) {
   $mostrarTodosLosComunicados = new ReportesComunicados();
   $mostrarTodosLosComunicados->ajaxMostrarTodosLosComunicados();
+}
+
+if (isset($_POST["comunicadosPorAlumno"])) {
+  $mostrarComunicadosPorAlumno = new ReportesComunicados();
+  $mostrarComunicadosPorAlumno->ajaxMostrarComunicadosPorAlumnos();
+}
+
+if (isset($_POST["fechaInicio"]) && isset($_POST["fechaFin"]) && isset($_POST["comunicadosPorRangoFechas"])) {
+  $mostrarComunicadosPorRangoFechas = new ReportesComunicados();
+  $mostrarComunicadosPorRangoFechas->ajaxMostrarComunicadosPorRangoFechas($_POST["fechaInicio"], $_POST["fechaFin"]);
 }
