@@ -97,4 +97,19 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Obtiene un curso.
+   *
+   * @param int $idCurso El ID del curso a obtener.
+   * @return array Retorna un array con los datos del curso.
+   */
+  static public function mdlGetCurso($idCurso)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("SELECT idCurso, descripcionCurso, idArea FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
 }
