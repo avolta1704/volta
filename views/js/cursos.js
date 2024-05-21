@@ -126,3 +126,50 @@ $(".dataTableCursos").on("click", ".btnEliminarCurso", function (event) {
 		}
 	});
 });
+
+// Editar un curso
+$(".dataTableCursos").on("click", ".btnEditarCurso", function (event) {
+	const modalEditarCurso = $("#modalEditarCurso");
+	var idCurso = $(this).attr("idCurso");
+
+	var data = new FormData();
+	data.append("idCursoEditar", idCurso);
+	data.append("btnEditarCurso", true);
+
+	$.ajax({
+		url: "ajax/cursos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			if (response == "error") {
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "El curso no pudo ser encontrada",
+					timer: 2000,
+					showConfirmButton: true,
+				});
+				return;
+			}
+
+			// Abre el modal
+			modalEditarCurso.modal("show");
+
+			// Coloca el valor de response.descripcionCurso en un input
+			$("#descripcionCursoEditar").val(response.descripcionCurso);
+			$("#areaCursoEditar").val(response.idArea);
+			$("#idCursoEditar").val(response.idCurso);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.error(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+});
