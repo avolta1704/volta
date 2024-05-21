@@ -42,4 +42,27 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Registra un curso.
+   *
+   * @param array $data Datos del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlRegistrarCurso($data)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(descripcionCurso, idArea, fechaActualizacion, usuarioActualizacion, fechaCreacion, usuarioCreacion, estadoCurso) VALUES (:descripcionCurso, :idArea, :fechaActualizacion, :usuarioActualizacion, :fechaCreacion, :usuarioCreacion,  1)");
+    $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
+    $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaCreacion", $data["fechaCreacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioCreacion", $data["usuarioCreacion"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
