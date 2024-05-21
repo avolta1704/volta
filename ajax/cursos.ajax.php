@@ -25,9 +25,25 @@ class CursosAjax
 
     echo json_encode($todosLosCursos);
   }
+
+  /**
+   * Método para registrar un curso mediante una petición AJAX.
+   *
+   */
+  public static function ajaxRegistrarCurso($dataRegistrarCursoModal)
+  {
+    $dataRegistrarCursoModal = json_decode($dataRegistrarCursoModal, true);
+    $respuesta = ControllerCursos::ctrRegistrarCurso($dataRegistrarCursoModal);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosCursosAdmin"])) {
   $mostrarTodosLosCursos = new CursosAjax();
   $mostrarTodosLosCursos->ajaxMostrarTodosLosCursos();
+}
+
+if (isset($_POST["dataRegistrarCursoModal"])) {
+  $registrarCurso = new CursosAjax();
+  $registrarCurso->ajaxRegistrarCurso($_POST["dataRegistrarCursoModal"]);
 }
