@@ -80,8 +80,8 @@ class PostulantesAjax
   public $codPostulanteUrlPsicologico;
   public function ajaxObtenerDownloadURLPsicologico()
   {
-    $obtenerDownloadURLPsicologico = $this->obtenerDownloadURL;
-    $codPostulanteUrlPsicologico = $this->codPostulanteUrl;
+    $obtenerDownloadURLPsicologico = $this->obtenerDownloadURLPsicologico;
+    $codPostulanteUrlPsicologico = $this->codPostulanteUrlPsicologico;
     $response = ControllerPostulantes::ctrObtenerDownloadURLPsicologico($obtenerDownloadURLPsicologico, $codPostulanteUrlPsicologico);
     echo json_encode($response);
   }
@@ -90,7 +90,7 @@ class PostulantesAjax
   public $codPostulanteDownloadUrlPsicologico;
   public function ajaxDownloadURLPsicologico()
   {
-    $codPostulanteDownloadUrlPsicologico = $this->codPostulanteDownloadUrl;
+    $codPostulanteDownloadUrlPsicologico = $this->codPostulanteDownloadUrlPsicologico;
     $response = ControllerPostulantes::ctrDownloadURLPsicologico($codPostulanteDownloadUrlPsicologico);
     echo json_encode($response);
   }
@@ -133,9 +133,9 @@ if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
 
 
   //  Insertar URL de descarga
-if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulante"])) {
+if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulantePsicologico"])) {
   $obtenerDownloadURLPsicologico = new PostulantesAjax();
-  $obtenerDownloadURLPsicologico->codPostulanteUrlPsicologico = $_POST["codPostulante"];
+  $obtenerDownloadURLPsicologico->codPostulanteUrlPsicologico = $_POST["codPostulantePsicologico"];
   $obtenerDownloadURLPsicologico->obtenerDownloadURLPsicologico = $_POST["downloadURLPsicologico"];
   $obtenerDownloadURLPsicologico->ajaxObtenerDownloadURLPsicologico();
 

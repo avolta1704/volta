@@ -467,7 +467,7 @@ $("#btnDownloadFichaPostulante").on("click", function () {
   const codPostulanteURL = $("#btnDownloadFichaPostulante").data("codpostulante");
 
   var data = new FormData();
-  data.append("codPostulanteURLPsicologico", codPostulanteURL);
+  data.append("codPostulanteURL", codPostulanteURL);
 
   // Realizar una solicitud AJAX para obtener la URL de la base de datos
   $.ajax({
@@ -526,7 +526,7 @@ $("#btnUpdateInformePsicologico").on("click", function () {
 // Función para capturar el archivo seleccionado
 $("#fileInput1").on("change", function (e) {
 const file = e.target.files[0];
-const archivo = "fichaPsicologica";
+const archivo1 = "fichaPsicologica";
 const fileName = file.name; // Obtener el nombre del archivo
 const fileExtension = fileName.split(".").pop(); // Obtener la extensión del archivo
 const codPostulante = $("#btnUpdateInformePsicologico").data("codpostulante"); // Obtener el código del postulante
@@ -558,10 +558,10 @@ $.ajax({
                 if (result.isConfirmed) {
                     // Si el usuario confirma, proceder con la eliminación del archivo existente y subir el nuevo archivo
                     const existingFileName = getFileNameFromURL(response.downloadURL); // Obtener el nombre del archivo existente
-                    const storageRef = firebase.storage().ref(`${archivo}/${existingFileName}`); // Crear una referencia al archivo existente
+                    const storageRef = firebase.storage().ref(`${archivo1}/${existingFileName}`); // Crear una referencia al archivo existente
                     storageRef.delete().then(() => { // Eliminar el archivo existente
                         // Archivo eliminado, ahora subimos el nuevo archivo
-                        uploadFileToFirebasePsicologico(file, selectedDate, codPostulante,fileExtension,archivo);
+                        uploadFileToFirebasePsicologico(file, selectedDate, codPostulante,fileExtension,archivo1);
                     }).catch((error) => {
                         console.error('Error al eliminar el archivo:', error);
                         Swal.fire({
@@ -577,7 +577,7 @@ $.ajax({
             });
         } else {
             // Si no existe ningún archivo subido, proceder con la subida del archivo
-            uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo);
+            uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo1);
         }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -592,9 +592,9 @@ $.ajax({
 });
 
 // Función para subir el archivo de Ficha Psicologica a Firebase Storage
-function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo) {
+function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo1) {
   const fileName = `${codPostulante}-${selectedDate}.${fileExtension}`;
-  const storageRef = firebase.storage().ref(`${archivo}/${fileName}`);
+  const storageRef = firebase.storage().ref(`${archivo1}/${fileName}`);
   // Iniciar la tarea de subida
   const uploadTask = storageRef.put(file);
 
@@ -626,7 +626,7 @@ function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, file
               // Subir a la base de datos el URL
               var data = new FormData();
               data.append("downloadURLPsicologico", downloadURL);
-              data.append("codPostulante", codPostulante);
+              data.append("codPostulantePsicologico", codPostulante);
 
               $.ajax({
                   url: "ajax/postulantes.ajax.php",
@@ -674,6 +674,53 @@ function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, file
       }
   );
 }
+
+  // Agregar evento de clic al botón de descarga de Informe Psicologico
+  $("#btnDownloadInformePsicologico").on("click", function () {
+    const codPostulanteURL = $("#btnDownloadInformePsicologico").data("codpostulante");
+  
+    var data = new FormData();
+    data.append("codPostulanteURLPsicologico", codPostulanteURL);
+  
+    // Realizar una solicitud AJAX para obtener la URL de la base de datos
+    $.ajax({
+      url: "ajax/postulantes.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+  
+        success: function (response) {
+            if (response.downloadURL) {
+                // Crear un enlace temporal y hacer clic en él para iniciar la descarga
+                const link = document.createElement("a");
+                link.href = response.downloadURL; // Usar la URL obtenida de la base de datos
+                link.target = "_blank"; // Asegurar que se abra en una nueva pestaña
+                link.download = `${codPostulanteURL}-fichaPostulante`; // Usar el nombre original del archivo para la descarga
+                document.body.appendChild(link); // Agregar el enlace temporal al cuerpo del documento
+                link.click(); // Hacer clic en el enlace
+                document.body.removeChild(link); // Eliminar el enlace temporal
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se ha registrado ningún archivo todavía.",
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al obtener la información del archivo.",
+            });
+        }
+    });
+    
+  });
 
 
 });
