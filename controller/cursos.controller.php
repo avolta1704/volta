@@ -37,4 +37,26 @@ class ControllerCursos
     $response = ModelCursos::mdlRegistrarCurso($dataRegistrarCursoModal);
     return $response;
   }
+
+  /**
+   * Elimina un curso.
+   *
+   * @param int $idCurso El ID del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  public static function ctrEliminarCurso($idCurso)
+  {
+
+    $existeCurso = ModelCursos::mdlExisteCursoEnCursoGrado($idCurso);
+    if ($existeCurso == "ok") {
+      return "error";
+    }
+
+    $response = ModelCursos::mdlEliminarCurso($idCurso);
+    if ($response == "ok") {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
