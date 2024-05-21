@@ -75,3 +75,54 @@ $("#btnRegistrarCursoModal").on("click", function () {
 		},
 	});
 });
+
+// Eliminar un curso
+$(".dataTableCursos").on("click", ".btnEliminarCurso", function (event) {
+	event.stopPropagation();
+
+	var idCurso = $(this).attr("idCurso");
+
+	Swal.fire({
+		title: "¿Estás seguro de eliminar el curso?",
+		text: "¡Si no lo está, puede cancelar la acción!",
+		icon: "warning",
+		showCancelButton: true,
+		confirmButtonColor: "#3085d6",
+		cancelButtonColor: "#d33",
+		confirmButtonText: "¡Sí, eliminar curso!",
+	}).then((result) => {
+		if (result.isConfirmed) {
+			var data = new FormData();
+			data.append("idCurso", idCurso);
+
+			$.ajax({
+				url: "ajax/cursos.ajax.php",
+				method: "POST",
+				data: data,
+				cache: false,
+				contentType: false,
+				processData: false,
+				dataType: "json",
+				success: function (response) {
+					if (response == "ok") {
+						Swal.fire({
+							icon: "success",
+							title: "¡El curso ha sido eliminado!",
+							showConfirmButton: true,
+							timer: 2000,
+						}).then((result) => {
+							location.reload();
+						});
+					} else if (response == "error") {
+						Swal.fire({
+							icon: "error",
+							title: "No se pudo eliminar el curso. Es posible que esté en uso.",
+							showConfirmButton: true,
+							timer: 2000,
+						});
+					}
+				},
+			});
+		}
+	});
+});
