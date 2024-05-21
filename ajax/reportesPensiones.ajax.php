@@ -20,12 +20,14 @@ class ReportesPensionesAjax
     foreach ($todosLosPensionesPendientes as &$dataPensiones) {
       $dataPensiones['nombreAlumno'] = $dataPensiones["nombresAlumno"] . " " . $dataPensiones["apellidosAlumno"];
       $dataPensiones['dniAlumno'] = $dataPensiones["dniAlumno"];
+      $dataPensiones['idAlumno'] = $dataPensiones["idAlumno"];
+      $dataPensiones['idAdmisionAlumno'] = $dataPensiones["idAdmisionAlumno"];
       $dataPensiones['gradoAlumno'] = $dataPensiones["descripcionGrado"];
       $dataPensiones['nivelAlumno'] = $dataPensiones["descripcionNivel"];
       $dataPensiones['mesPendientePago'] = $dataPensiones["mesPago"];
       $dataPensiones['montoDeuda'] = $dataPensiones["montoPago"];
       $dataPensiones['fechaLimitePago'] = strval($dataPensiones["fechaLimite"]);
-      $dataPensiones['acciones'] = FunctionReportesPensiones::getBotonesOpciones($dataPensiones["idCronogramaPago"], $dataPensiones["idAlumno"]);
+      $dataPensiones['acciones'] = FunctionReportesPensiones::getBotonesOpciones($dataPensiones["idCronogramaPago"], $dataPensiones["idAdmisionAlumno"], $dataPensiones["idAlumno"]);
     }
     echo json_encode($todosLosPensionesPendientes);
   }
