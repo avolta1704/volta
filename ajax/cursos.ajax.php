@@ -35,6 +35,16 @@ class CursosAjax
     $respuesta = ControllerCursos::ctrRegistrarCurso($dataRegistrarCursoModal);
     echo json_encode($respuesta);
   }
+
+  /**
+   * Método para eliminar un curso mediante una petición AJAX.
+   *
+   */
+  public static function ajaxEliminarCurso($idCurso)
+  {
+    $respuesta = ControllerCursos::ctrEliminarCurso($idCurso);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosCursosAdmin"])) {
@@ -45,4 +55,9 @@ if (isset($_POST["todosLosCursosAdmin"])) {
 if (isset($_POST["dataRegistrarCursoModal"])) {
   $registrarCurso = new CursosAjax();
   $registrarCurso->ajaxRegistrarCurso($_POST["dataRegistrarCursoModal"]);
+}
+
+if (isset($_POST["idCurso"])) {
+  $eliminarCurso = new CursosAjax();
+  $eliminarCurso->ajaxEliminarCurso($_POST["idCurso"]);
 }
