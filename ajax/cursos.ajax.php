@@ -18,7 +18,6 @@ class CursosAjax
     foreach ($todosLosCursos as &$dataPago) {
       $dataPago['areaCurso'] = strval($dataPago['descripcionArea']);
       $dataPago['nombreCurso'] = strval($dataPago['descripcionCurso']);
-      $dataPago['gradoCurso'] = strval($dataPago['descripcionGrado']);
       $dataPago['estadoCurso'] = FunctionCursos::getEstadoCurso($dataPago['estadoCurso']);
       $dataPago['buttonsCurso'] = FunctionCursos::getBotonesCursos($dataPago["idCurso"]);
     }
