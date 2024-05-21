@@ -45,6 +45,16 @@ class CursosAjax
     $respuesta = ControllerCursos::ctrEliminarCurso($idCurso);
     echo json_encode($respuesta);
   }
+
+  /**
+   * Método para obtener un curso mediante una petición AJAX.
+   *
+   */
+  public static function ajaxObtenerCurso($idCurso)
+  {
+    $respuesta = ControllerCursos::ctrGetCurso($idCurso);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosCursosAdmin"])) {
@@ -60,4 +70,9 @@ if (isset($_POST["dataRegistrarCursoModal"])) {
 if (isset($_POST["idCurso"])) {
   $eliminarCurso = new CursosAjax();
   $eliminarCurso->ajaxEliminarCurso($_POST["idCurso"]);
+}
+
+if (isset($_POST["idCursoEditar"])) {
+  $obtenerCurso = new CursosAjax();
+  $obtenerCurso->ajaxObtenerCurso($_POST["idCursoObtener"]);
 }
