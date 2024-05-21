@@ -4,7 +4,6 @@ $(document).ready(function () {
 		{ data: "idCurso" },
 		{ data: "areaCurso" },
 		{ data: "nombreCurso" },
-		{ data: "gradoCurso" },
 		{ data: "estadoCurso" },
 		{ data: "buttonsCurso" },
 	];
@@ -50,7 +49,6 @@ $(document).ready(function () {
       <th scope="col">#</th>
       <th scope="col">Área</th>
       <th scope="col">Curso</th>
-      <th scope="col">Grado</th>
       <th scope="col">Estado</th>
       <th scope="col">Acciones</th>
     </tr>
@@ -67,7 +65,6 @@ $(document).ready(function () {
 		},
 		{ data: "areaCurso" },
 		{ data: "nombreCurso" },
-		{ data: "gradoCurso" },
 		{ data: "estadoCurso" },
 		{ data: "buttonsCurso" },
 	];
