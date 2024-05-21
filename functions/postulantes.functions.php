@@ -54,14 +54,21 @@ class FunctionPostulantes
   }
 
   //  Creación del checklist para los postulantes
-  public static function renderCheckList($label, $checkName, $dateName, $estado, $fecha, $mostrarBotones)
+  public static function renderCheckList($codPostulante,$label, $checkName, $dateName, $estado, $fecha, $mostrarBotones)
   {
+    $buttonId = ($label == 'Ficha Postulante') ? 'btnUpdateFichaPostulante' : (($label == 'Informe Psicológico') ? 'btnUpdateInformePsicologico' : 'a');
+    $buttonIdDownload = ($label == 'Ficha Postulante') ? 'btnDownloadFichaPostulante' : (($label == 'Informe Psicológico') ? 'btnDownloadInformePsicologico' : 'a');
+    $inputId = ($label == 'Ficha Postulante') ? 'fileInput' : (($label == 'Informe Psicológico') ? 'fileInput1' : 'a');
+    $spanid = ($label == 'Ficha Postulante') ? 'fileName' : (($label == 'Informe Psicológico') ? 'fileName1' : 'a');
     $isChecked = $estado == "1" ? 'checked' : '';
     $dateValue = $estado == "1" ? $fecha : '';
     $buttons = $mostrarBotones ? "
         <div class='col-sm-2'>
-            <button type='button' class='btn btn-success'><i class='bi bi-cloud-arrow-up-fill'></i></button>
-            <button type='button' class='btn btn-warning'><i class='bi bi-cloud-arrow-down-fill'></i></button>
+            <button type='button' class='btn btn-success btnUpdateFichaPostulante' id='$buttonId' data-codpostulante='$codPostulante'><i class='bi bi-cloud-arrow-up-fill'></i></button>
+            <button type='button' class='btn btn-warning' id='$buttonIdDownload' data-codpostulante='$codPostulante'><i class='bi bi-cloud-arrow-down-fill'></i></button>
+            <!-- MANEJO DE IMAGENES -->
+            <input type='file' id='$inputId' style='display:none;' />
+            <span id='$spanid' style='display:block;'></span>
         </div>
     " : "";
     echo "

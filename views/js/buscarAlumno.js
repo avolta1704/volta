@@ -175,7 +175,7 @@ $(document).ready(function () {
       actualizarOpciones();
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // procedencia de error
+      //console.log(jqXHR.responseText); // procedencia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

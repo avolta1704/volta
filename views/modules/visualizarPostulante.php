@@ -275,16 +275,21 @@
           <span id="checklistPostulante" class="border border-3 p-3">
             <div class="container row g-3">
               <h3 style="font-weight: bold">Checklist Postulante</h3>
+              <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+              <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
+
+              
 
               <!-- CHECHLIST -->
               <?php
-              FunctionPostulantes::renderCheckList("Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPost"], true);
-              FunctionPostulantes::renderCheckList("Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
-              FunctionPostulantes::renderCheckList("Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
-              FunctionPostulantes::renderCheckList("Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
-              FunctionPostulantes::renderCheckList("Carta de Admisión", "checkCartaAdmision", "fechaCartaAdmision", $dataChecklist["cartaAdmision"], $dataChecklist["fechaCartaAdmision"], false);
-              FunctionPostulantes::renderCheckList("Contrato", "checkContrato", "fechaContrato", $dataChecklist["contrato"], $dataChecklist["fechaContrato"], false);
-              FunctionPostulantes::renderCheckList("Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
+              FunctionPostulantes::renderCheckList($codPostulante,"Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPost"], true);
+              
+              FunctionPostulantes::renderCheckList($codPostulante,"Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
+              FunctionPostulantes::renderCheckList($codPostulante,"Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
+              FunctionPostulantes::renderCheckList($codPostulante,"Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
+              FunctionPostulantes::renderCheckList($codPostulante,"Carta de Admisión", "checkCartaAdmision", "fechaCartaAdmision", $dataChecklist["cartaAdmision"], $dataChecklist["fechaCartaAdmision"], false);
+              FunctionPostulantes::renderCheckList($codPostulante,"Contrato", "checkContrato", "fechaContrato", $dataChecklist["contrato"], $dataChecklist["fechaContrato"], false);
+              FunctionPostulantes::renderCheckList($codPostulante,"Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
               ?>
 
               <!-- PAGO MATRÍCULA -->

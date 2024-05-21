@@ -363,4 +363,75 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+    //  Actualizar el checklist del postulante con todas las modificaciones
+    public static function mdlObtenerDownloadURL($table, $dataChecklist)
+    {
+
+      $statement = Connection::conn()->prepare("UPDATE $table SET fichaPostulante = :fichaPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+  
+      $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
+      $statement->bindParam(":fichaPostulante", $dataChecklist["fichaPostulante"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+  
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
+
+    // Obtener el link de la ficha postulante
+
+    public static function mdlDownloadURL($table, $idPostulante) {
+      $statement = Connection::conn()->prepare("SELECT fichaPostulante FROM $table WHERE idPostulante = :idPostulante");
+      $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
+
+      $statement->execute();
+      $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+      if ($result) {
+          return ["downloadURL" => $result["fichaPostulante"]]; // Devuelve la URL de descarga
+      } else {
+          return ["downloadURL" => null];
+      }
+      
+  }
+
+
+      //  Actualizar el infome psicologico del postulante con todas las modificaciones
+      public static function mdlObtenerDownloadURLPsicologico($table, $dataChecklist)
+      {
+        
+        $statement = Connection::conn()->prepare("UPDATE $table SET informePsicologico = :informePsicologico, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    
+        $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
+        $statement->bindParam(":informePsicologico", $dataChecklist["informePsicologico"], PDO::PARAM_STR);
+        $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
+        $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+    
+        if ($statement->execute()) {
+          return "ok";
+        } else {
+          return "error";
+        }
+      }
+  
+      // Obtener el link del infome psicologico
+  
+      public static function mdlDownloadURLPsicologico($table, $idPostulante) {
+        $statement = Connection::conn()->prepare("SELECT informePsicologico FROM $table WHERE idPostulante = :idPostulante");
+        $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
+  
+        $statement->execute();
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+  
+        if ($result) {
+            return ["downloadURL" => $result["informePsicologico"]]; // Devuelve la URL de descarga
+        } else {
+            return ["downloadURL" => null];
+        }
+        
+    }
 }

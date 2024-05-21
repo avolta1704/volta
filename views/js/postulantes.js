@@ -269,6 +269,463 @@ $(document).ready(function () {
 $(".cerrarVisualizarPostulante").on("click", function () {
   window.location = "index.php?ruta=listaPostulantes";
 });
+
+$(document).ready(function () {
+  // Iniciar Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
+    authDomain: "nscodeuploadtask-521ff.firebaseapp.com",
+    projectId: "nscodeuploadtask-521ff",
+    storageBucket: "nscodeuploadtask-521ff.appspot.com",
+    messagingSenderId: "1058923542325",
+    appId: "1:1058923542325:web:9f6945b26162c0e102fe7c",
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  let downloadURL = ""; // Variable global para almacenar la URL de descarga
+
+  // Agregar evento de clic al botón de subir archivo
+  $("#btnUpdateFichaPostulante").on("click", function () {
+    let selectedDate = $("#fechaFichaPostulante").val();
+
+    if (!selectedDate) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Por favor selecciona una fecha antes de subir el archivo",
+      });
+    } else {
+      $("#fileInput").click();
+    }
+  });
+
+// Función para capturar el archivo seleccionado
+$("#fileInput").on("change", function (e) {
+  const file = e.target.files[0]
+  const archivo = "fichaPostulante";
+  const fileName = file.name; // Obtener el nombre del archivo
+  const fileExtension = fileName.split(".").pop(); // Obtener la extensión del archivo
+  const codPostulante = $("#btnUpdateFichaPostulante").data("codpostulante"); // Obtener el código del postulante
+  let selectedDate = $("#fechaFichaPostulante").val(); // Obtener la fecha seleccionada
+
+
+  // Verificar si ya existe un archivo subido con el mismo nombre
+  var data = new FormData();
+  data.append("codPostulanteURL", codPostulante);
+
+  $.ajax({
+      url: "ajax/postulantes.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+          if (response.downloadURL) {
+              // Si existe un archivo subido, mostrar un mensaje de advertencia
+              Swal.fire({
+                  icon: "warning",
+                  title: "Advertencia",
+                  text: "Ya hay un archivo subido para este postulante. ¿Quiere subir otro archivo?",
+                  showCancelButton: true,
+                  confirmButtonText: "Sí",
+                  cancelButtonText: "No",
+              }).then((result) => {
+                  if (result.isConfirmed) {
+                      // Si el usuario confirma, proceder con la eliminación del archivo existente y subir el nuevo archivo
+                      const existingFileName = getFileNameFromURL(response.downloadURL); // Obtener el nombre del archivo existente
+                      const storageRef = firebase.storage().ref(`${archivo}/${existingFileName}`); // Crear una referencia al archivo existente
+                      storageRef.delete().then(() => { // Eliminar el archivo existente
+                          // Archivo eliminado, ahora subimos el nuevo archivo
+                          uploadFileToFirebase(file, selectedDate, codPostulante,fileExtension,archivo);
+                      }).catch((error) => {
+                          console.error('Error al eliminar el archivo:', error);
+                          Swal.fire({
+                              icon: "error",
+                              title: "Error",
+                              text: "Error al eliminar el archivo existente.",
+                          });
+                      });
+                  } else {
+                      // Reiniciar el input file si el usuario cancela
+                      $("#fileInput").val("");
+                  }
+              });
+          } else {
+              // Si no existe ningún archivo subido, proceder con la subida del archivo
+              uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension,archivo);
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al obtener la información del archivo.",
+          });
+      }
+  });
+});
+
+// Función para extraer el nombre del archivo de la URL
+function getFileNameFromURL(url) {
+  const decodedURL = decodeURIComponent(url); // Decodificar el URL
+  const parts = decodedURL.split('/'); // Dividir la URL en partes usando '/'
+  const lastPart = parts.pop(); // Obtener la última parte de la URL
+  const fileNameWithToken = lastPart.split('?')[0]; // Separar el nombre del archivo del token
+  return fileNameWithToken;
+}
+
+
+// Función para subir el archivo a Firebase Storage
+function uploadFileToFirebase(file, selectedDate, codPostulante, fileExtension,archivo) {
+  const fileName = `${codPostulante}-${selectedDate}.${fileExtension}`;
+  const storageRef = firebase.storage().ref(`${archivo}/${fileName}`);
+  // Iniciar la tarea de subida
+  const uploadTask = storageRef.put(file);
+
+  // Mostrar mensaje de "Subiendo archivo..."
+  Swal.fire({
+      icon: 'info',
+      title: 'Subiendo archivo...',
+      text: 'Se está subiendo el archivo, por favor espere.',
+      showConfirmButton: false,
+  });
+
+  uploadTask.on('state_changed',
+      function () {
+          // No se necesita hacer nada aquí, simplemente se está subiendo el archivo
+      },
+      function (error) {
+          console.error('Error al subir el archivo:', error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error al subir el archivo',
+          });
+      },
+      function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (url) {
+              downloadURL = url; // Guardar la URL en la variable global
+              //console.log('Archivo disponible en:', downloadURL);
+
+              // Subir a la base de datos el URL
+              var data = new FormData();
+              data.append("downloadURL", downloadURL);
+              data.append("codPostulante", codPostulante);
+
+              $.ajax({
+                  url: "ajax/postulantes.ajax.php",
+                  method: "POST",
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+
+                  success: function (response) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..."
+                      if (response == "ok") {
+                          // Mostrar el mensaje de éxito
+                          Swal.fire({
+                              icon: "success",
+                              title: "Archivo subido",
+                              text: "El archivo se ha subido correctamente.",
+                              timer: 2000,
+                              showConfirmButton: false,
+                          });
+                          // Mostrar el nombre del archivo
+                          $("#fileName").text(`Archivo subido: ${fileName}`).show();
+                          // Reiniciar el input file para permitir nuevas subidas
+                          $("#fileInput").val("");
+                      } else {
+                          Swal.fire({
+                              icon: "warning",
+                              title: "Advertencia",
+                              text: "No se modificó el estado del Postulante",
+                          });
+                      }
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..." en caso de error
+                      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'Error en la solicitud AJAX',
+                      });
+                  },
+              });
+          });
+      }
+  );
+}
+
+  // Agregar evento de clic al botón de descarga
+$("#btnDownloadFichaPostulante").on("click", function () {
+  const codPostulanteURL = $("#btnDownloadFichaPostulante").data("codpostulante");
+
+  var data = new FormData();
+  data.append("codPostulanteURL", codPostulanteURL);
+
+  // Realizar una solicitud AJAX para obtener la URL de la base de datos
+  $.ajax({
+    url: "ajax/postulantes.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+
+      success: function (response) {
+          if (response.downloadURL) {
+              // Crear un enlace temporal y hacer clic en él para iniciar la descarga
+              const link = document.createElement("a");
+              link.href = response.downloadURL; // Usar la URL obtenida de la base de datos
+              link.target = "_blank"; // Asegurar que se abra en una nueva pestaña
+              link.download = `${codPostulanteURL}-fichaPostulante`; // Usar el nombre original del archivo para la descarga
+              document.body.appendChild(link); // Agregar el enlace temporal al cuerpo del documento
+              link.click(); // Hacer clic en el enlace
+              document.body.removeChild(link); // Eliminar el enlace temporal
+          } else {
+              Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "No se ha registrado ningún archivo todavía.",
+              });
+          }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+          Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al obtener la información del archivo.",
+          });
+      }
+  });
+  
+});
+
+$("#btnUpdateInformePsicologico").on("click", function () {
+  let selectedDate = $("#fechaInformePsico").val();
+
+  if (!selectedDate) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Por favor selecciona una fecha antes de subir el archivo",
+    });
+  } else {
+    $("#fileInput1").click();
+  }
+});
+
+// Función para capturar el archivo seleccionado
+$("#fileInput1").on("change", function (e) {
+const file = e.target.files[0];
+const archivo1 = "fichaPsicologica";
+const fileName = file.name; // Obtener el nombre del archivo
+const fileExtension = fileName.split(".").pop(); // Obtener la extensión del archivo
+const codPostulante = $("#btnUpdateInformePsicologico").data("codpostulante"); // Obtener el código del postulante
+let selectedDate = $("#fechaInformePsico").val(); // Obtener la fecha seleccionada
+
+// Verificar si ya existe un archivo subido con el mismo nombre
+var data = new FormData();
+data.append("codPostulanteURLPsicologico", codPostulante);
+
+$.ajax({
+    url: "ajax/postulantes.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+        if (response.downloadURL) {
+            // Si existe un archivo subido, mostrar un mensaje de advertencia
+            Swal.fire({
+                icon: "warning",
+                title: "Advertencia",
+                text: "Ya hay un archivo subido para este postulante. ¿Quiere subir otro archivo?",
+                showCancelButton: true,
+                confirmButtonText: "Sí",
+                cancelButtonText: "No",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, proceder con la eliminación del archivo existente y subir el nuevo archivo
+                    const existingFileName = getFileNameFromURL(response.downloadURL); // Obtener el nombre del archivo existente
+                    const storageRef = firebase.storage().ref(`${archivo1}/${existingFileName}`); // Crear una referencia al archivo existente
+                    storageRef.delete().then(() => { // Eliminar el archivo existente
+                        // Archivo eliminado, ahora subimos el nuevo archivo
+                        uploadFileToFirebasePsicologico(file, selectedDate, codPostulante,fileExtension,archivo1);
+                    }).catch((error) => {
+                        console.error('Error al eliminar el archivo:', error);
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Error al eliminar el archivo existente.",
+                        });
+                    });
+                } else {
+                    // Reiniciar el input file si el usuario cancela
+                    $("#fileInput1").val("");
+                }
+            });
+        } else {
+            // Si no existe ningún archivo subido, proceder con la subida del archivo
+            uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo1);
+        }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al obtener la información del archivo.",
+        });
+    }
+});
+});
+
+// Función para subir el archivo de Ficha Psicologica a Firebase Storage
+function uploadFileToFirebasePsicologico(file, selectedDate, codPostulante, fileExtension,archivo1) {
+  const fileName = `${codPostulante}-${selectedDate}.${fileExtension}`;
+  const storageRef = firebase.storage().ref(`${archivo1}/${fileName}`);
+  // Iniciar la tarea de subida
+  const uploadTask = storageRef.put(file);
+
+  // Mostrar mensaje de "Subiendo archivo..."
+  Swal.fire({
+      icon: 'info',
+      title: 'Subiendo archivo...',
+      text: 'Se está subiendo el archivo, por favor espere.',
+      showConfirmButton: false,
+  });
+
+  uploadTask.on('state_changed',
+      function () {
+          // No se necesita hacer nada aquí, simplemente se está subiendo el archivo
+      },
+      function (error) {
+          console.error('Error al subir el archivo:', error);
+          Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Error al subir el archivo',
+          });
+      },
+      function () {
+          uploadTask.snapshot.ref.getDownloadURL().then(function (url) {
+              downloadURL = url; // Guardar la URL en la variable global
+              //console.log('Archivo disponible en:', downloadURL);
+
+              // Subir a la base de datos el URL
+              var data = new FormData();
+              data.append("downloadURLPsicologico", downloadURL);
+              data.append("codPostulantePsicologico", codPostulante);
+
+              $.ajax({
+                  url: "ajax/postulantes.ajax.php",
+                  method: "POST",
+                  data: data,
+                  cache: false,
+                  contentType: false,
+                  processData: false,
+                  dataType: "json",
+
+                  success: function (response) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..."
+                      if (response == "ok") {
+                          // Mostrar el mensaje de éxito
+                          Swal.fire({
+                              icon: "success",
+                              title: "Archivo subido",
+                              text: "El archivo se ha subido correctamente.",
+                              timer: 2000,
+                              showConfirmButton: false,
+                          });
+                          // Mostrar el nombre del archivo
+                          $("#fileName1").text(`Archivo subido: ${fileName}`).show();
+                          // Reiniciar el input file para permitir nuevas subidas
+                          $("#fileInput1").val("");
+                      } else {
+                          Swal.fire({
+                              icon: "warning",
+                              title: "Advertencia",
+                              text: "No se modificó el estado del Postulante",
+                          });
+                      }
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                      Swal.close(); // Cerrar el Swal de "Subiendo archivo..." en caso de error
+                      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Error',
+                          text: 'Error en la solicitud AJAX',
+                      });
+                  },
+              });
+          });
+      }
+  );
+}
+
+  // Agregar evento de clic al botón de descarga de Informe Psicologico
+  $("#btnDownloadInformePsicologico").on("click", function () {
+    const codPostulanteURL = $("#btnDownloadInformePsicologico").data("codpostulante");
+  
+    var data = new FormData();
+    data.append("codPostulanteURLPsicologico", codPostulanteURL);
+  
+    // Realizar una solicitud AJAX para obtener la URL de la base de datos
+    $.ajax({
+      url: "ajax/postulantes.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+  
+        success: function (response) {
+            if (response.downloadURL) {
+                // Crear un enlace temporal y hacer clic en él para iniciar la descarga
+                const link = document.createElement("a");
+                link.href = response.downloadURL; // Usar la URL obtenida de la base de datos
+                link.target = "_blank"; // Asegurar que se abra en una nueva pestaña
+                link.download = `${codPostulanteURL}-fichaPostulante`; // Usar el nombre original del archivo para la descarga
+                document.body.appendChild(link); // Agregar el enlace temporal al cuerpo del documento
+                link.click(); // Hacer clic en el enlace
+                document.body.removeChild(link); // Eliminar el enlace temporal
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "No se ha registrado ningún archivo todavía.",
+                });
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al obtener la información del archivo.",
+            });
+        }
+    });
+    
+  });
+
+
+});
+
+
 //editar checklist de postulante
 $(document).ready(function () {
   $(".btnActualizarChecklistPostulante").click(function (event) {
