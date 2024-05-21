@@ -139,5 +139,25 @@
         </li>
       </ul>
     </li>
+
+    <!-- CURSOS POR GRADO -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allCurses" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-book"></i><span>Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allCurses" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="cursos">
+            <i class="bi bi-circle"></i><span>Todos los Cursos</span>
+          </a>
+        </li>
+        <li>
+          <a href="asignarCursos">
+            <i class="bi bi-circle"></i><span>Asignar cursos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
   </ul>
 </aside>
