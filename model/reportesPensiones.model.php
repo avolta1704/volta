@@ -46,7 +46,7 @@ class ModelReportesPensiones
     $tablaNivel = 'nivel';
     $date = date('Y-m-d');
 
-    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno
+    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno, cp.idAdmisionAlumno
                                         FROM $tablaCronogramaPago cp
                                         INNER JOIN $tablaAdmisionAlumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
                                         INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno

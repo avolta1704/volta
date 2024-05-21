@@ -368,3 +368,95 @@ const crearArchivoExcelConMesesSeleccionados = (
 	// Liberar el enlace de descarga
 	URL.revokeObjectURL(url);
 };
+
+
+//  Vista para el modal de cronograma de pagos de Reporte de Pneisones Atrasadas
+$(".dataTableReportesPensiones").on("click", ".btnVisualizarAdmisionAlumno", function () {
+    var idAdmisionAlumno = $(this).attr("idAdmisionAlumno");
+    var data = new FormData();
+    data.append("codAdAlumCronograma", idAdmisionAlumno);
+
+	
+    $.ajax({
+        url: "ajax/admisionAlumnos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+            var modalBody = $("#cronogramaPagoDeuda .modal-body");
+            modalBody.empty();
+
+            $.each(response, function (index, item) {
+                var div = $("<div>").addClass("mb-3");
+
+                var label2 = $("<label>")
+                    .addClass("form-label h5 font-weight-bold")
+                    .attr("id", "tipoCronoPago")
+                    .attr("name", "tipoCronoPago")
+                    .css("margin-left", "8px") // Agrega un margen a la izquierda
+                    .html("<strong>" + item.mesPago + "</strong>");
+
+                var inputGroup = $("<div>").addClass("input-group");
+
+                var input1 = $("<input>")
+                    .attr("type", "text")
+                    .addClass("form-control")
+                    .attr("id", "fechaPago")
+                    .attr("name", "fechaPago")
+                    // uso de la funcion para justar el formato de la fecha
+                    .val("Fecha Límite: " + formatFecha(item.fechaLimite))
+                    .attr("readonly", true)
+                    .css("width", "auto"); // Establecer el ancho automático
+
+                var input2 = $("<input>")
+                    .attr("type", "text")
+                    .addClass("form-control")
+                    .attr("id", "montoPago")
+                    .attr("name", "montoPago")
+                    .val("Monto: S/ " + item.montoPago)
+                    .attr("readonly", true)
+                    .css("width", "75px"); // Ajusta este valor según tus necesidades
+
+                var input3 = $("<div>")
+                    .addClass("form-control fs-6 text-center")
+                    .attr("id", "stadoCronograma")
+                    .attr("name", "stadoCronograma")
+                    .html(item.estadoCronogramaPago);
+
+
+                // Agregamos los elementos al div principal
+                inputGroup.append(input1, input2, input3);
+                div.append(label2, inputGroup);
+                modalBody.append(div);
+            });
+
+            $("#cronogramaPagoDeuda").modal("show");
+        },
+        /*  error: function (jqXHR, textStatus, errorThrown) {
+        console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        }, */
+    });
+}
+
+
+);
+
+//vista para editar RegistroPago
+$(".dataTableReportesPensiones").on("click", ".btnEditarEstadoAdmisionAlumno", function () {
+
+	window.location = "index.php?ruta=registrarPago";
+});
+
+
+//vista para editar RegistroPago
+$(".dataTableReportesPensiones").on("click", ".btnEliminarAdmisionAlumno", function () {
+	// Obtener el código de pago del atributo del botón
+	var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
+	var codAlumno = $(this).attr("codAlumno");
+
+	/* http://localhost/volta/index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=24&codAlumno=24 */
+	window.location = "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" + codAlumno+"&codAlumno="+codAlumno;
+});
