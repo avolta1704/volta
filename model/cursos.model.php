@@ -61,4 +61,40 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Elimina un curso.
+   *
+   * @param int $idCurso El ID del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlEliminarCurso($idCurso)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Verifica si un curso está en uso en un curso grado.
+   *
+   * @return string ok si existe o error si no es el caso.
+   */
+  static public function mdlExisteCursoEnCursoGrado($idCurso)
+  {
+    $tabla = "curso_grado";
+    $stmt = Connection::conn()->prepare("SELECT idCursoGrado FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
