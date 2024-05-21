@@ -24,4 +24,22 @@ class ModelCursos
     $stmt->execute();
     return $stmt->fetchAll();
   }
+
+  /**
+   * Verifica si un Area está en uso en un curso .
+   *
+   * @return string ok si existe o error si no es el caso.
+   */
+  static public function mdlExistAreaEnCurso($idArea)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("SELECT idCurso FROM $tabla WHERE idArea = :idArea");
+    $stmt->bindParam(":idArea", $idArea, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
