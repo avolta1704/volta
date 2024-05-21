@@ -14,7 +14,7 @@
     <div class="row gap-3">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary btnAgregarCurso gap-2 justify-content-center d-flex" id="btnAgregarCurso">
+          <button type="button" class="btn btn-primary btnAgregarCurso gap-2 justify-content-center d-flex" data-bs-target="#modalAgregarCurso" data-bs-toggle="modal">
             <i class="bi bi-plus-circle"></i> Agregar
             Nuevo Curso
           </button>
@@ -50,8 +50,48 @@
   </section>
 </main>
 
-<!-- Modal todas las áreas -->
+<?php
+$areas = new ControllerAreas();
+$todasLasAreas = $areas->ctrGetAllAreas();
+?>
 
+<!-- Modal crear curso -->
+<div class="modal fade" id="modalAgregarCurso" tabindex="-1" aria-labelledby="modalAgregarCursoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAgregarCursoLabel">Agregar Nuevo Curso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formRegistrarCurso">
+          <div class="mb-3">
+            <label for="descripcionCurso" class="form-label">Descripción del Curso</label>
+            <input type="text" class="form-control" id="descripcionCurso" name="descripcionCurso" required />
+          </div>
+          <div class="mb-3">
+            <label for="areaCurso" class="form-label">Área del Curso</label>
+            <select class="form-select" id="areaCurso" name="areaCurso" required>
+              <option value="" selected>Seleccione una opción</option>
+              <?php
+              foreach ($todasLasAreas as $area) {
+                echo "<option value='" . $area['idArea'] . "'>" . $area['descripcionArea'] . "</option>";
+              }
+              ?>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btnRegistrarCursoModal" id="btnRegistrarCursoModal" name="btnRegistrarCursoModal" btnRegistrarCursoModal=" ">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal todas las áreas -->
 <div class="modal fade" id="modalAreas" tabindex="-1" aria-labelledby="modalAreasLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
     <div class="modal-content">
@@ -136,5 +176,3 @@
     </div>
   </div>
 </div>
-
-</main>
