@@ -218,4 +218,22 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Elimina un curso asignado a un grado.
+   *
+   * @param int $idCursoGrado El ID del curso asignado.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlEliminarCursoGrado($idCursoGrado)
+  {
+    $tabla = "curso_grado";
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCursoGrado = :idCursoGrado");
+    $stmt->bindParam(":idCursoGrado", $idCursoGrado, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
