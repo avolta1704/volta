@@ -55,6 +55,17 @@ class CursosAjax
     $respuesta = ControllerCursos::ctrGetCurso($idCurso);
     echo json_encode($respuesta);
   }
+
+  /**
+   * Método para editar un curso mediante una petición AJAX.
+   *
+   */
+  public static function ajaxEditarCurso($dataEditarCursoModal)
+  {
+    $dataEditarCursoModal = json_decode($dataEditarCursoModal, true);
+    $respuesta = ControllerCursos::ctrEditarCurso($dataEditarCursoModal);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosCursosAdmin"])) {
@@ -75,4 +86,9 @@ if (isset($_POST["idCurso"])) {
 if (isset($_POST["idCursoEditar"])) {
   $obtenerCurso = new CursosAjax();
   $obtenerCurso->ajaxObtenerCurso($_POST["idCursoEditar"]);
+}
+
+if (isset($_POST["dataEditarCursoModal"])) {
+  $eliminarCurso = new CursosAjax();
+  $eliminarCurso->ajaxEditarCurso($_POST["dataEditarCursoModal"]);
 }
