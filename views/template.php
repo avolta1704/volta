@@ -41,6 +41,7 @@ session_start();
         $_GET["ruta"] == "buscarPostulante" ||
         $_GET["ruta"] == "reportePagos" ||
         $_GET["ruta"] == "reporteComunicaciones" ||
+        $_GET["ruta"] == "listaPostulantesAnio" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -106,6 +107,7 @@ session_start();
   <script src="views/dataTables/dt-reportes-pensiones-admin.js"></script>
   <script src="views/dataTables/dt-comunicado.js"></script>
   <script src="views/dataTables/dt-reportes-comunicaciones-admin.js"></script>
+  <script src="views/dataTables/dt-postulantesAdmisionAnio.js"></script>
 </body>
 
 </html>
