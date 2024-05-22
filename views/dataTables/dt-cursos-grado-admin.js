@@ -10,7 +10,6 @@ $("#dataTableAsignarCursos").on(
 
 		// Definición de columnas
 		var columnDefsCursosPorGrado = [
-			{ data: "idCurso" },
 			{ data: "descripcionCurso" },
 			{ data: "buttons" },
 		];
@@ -61,7 +60,12 @@ $("#dataTableAsignarCursos").on(
 		tableCursosPorGrado.destroy();
 
 		columnDefsCursosPorGrado = [
-			{ data: "idCurso" },
+			{
+				data: "null",
+				render: function (data, type, row, meta) {
+					return meta.row + 1;
+				},
+			},
 			{ data: "descripcionCurso" },
 			{ data: "buttons" },
 		];
