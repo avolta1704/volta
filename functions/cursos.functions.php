@@ -9,7 +9,7 @@ class FunctionCursos
    */
   public static function getBotonesCursos($idCurso)
   {
-    $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCurso' idCurso='$idCurso' data-toggle='modal' data-target='#modalEditarCurso'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger btnEliminarCurso' idCurso='$idCurso'><i class='bi bi-trash'></i></button></div>";
+    $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCurso' idCurso='$idCurso' data-bs-toggle='modal' data-bs-target='#modalEditarCurso'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger btnEliminarCurso' idCurso='$idCurso'><i class='bi bi-trash'></i></button></div>";
     return $botones;
   }
 

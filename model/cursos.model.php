@@ -12,13 +12,9 @@ class ModelCursos
   {
     $tabla = "curso";
     $tablaArea = "area";
-    $tablaCursoGrado = "curso_grado";
-    $tablaGrado = "grado";
-    $stmt = Connection::conn()->prepare("SELECT c.descripcionCurso, c.idCurso, a.descripcionArea, g.descripcionGrado, c.estadoCurso
+    $stmt = Connection::conn()->prepare("SELECT c.descripcionCurso, c.idCurso, a.descripcionArea, c.estadoCurso
                 FROM $tabla c 
                 INNER JOIN $tablaArea a ON c.idArea = a.idArea
-                INNER JOIN $tablaCursoGrado cg ON c.idCurso = cg.idCurso
-                INNER JOIN $tablaGrado g ON cg.idGrado = g.idGrado
                 ORDER BY c.idCurso DESC
                 ");
     $stmt->execute();
@@ -37,6 +33,105 @@ class ModelCursos
     $stmt->bindParam(":idArea", $idArea, PDO::PARAM_INT);
     $stmt->execute();
     if ($stmt->rowCount() > 0) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Registra un curso.
+   *
+   * @param array $data Datos del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlRegistrarCurso($data)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(descripcionCurso, idArea, fechaActualizacion, usuarioActualizacion, fechaCreacion, usuarioCreacion, estadoCurso) VALUES (:descripcionCurso, :idArea, :fechaActualizacion, :usuarioActualizacion, :fechaCreacion, :usuarioCreacion,  :estadoCurso)");
+    $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
+    $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":estadoCurso", $data["estadoCurso"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaCreacion", $data["fechaCreacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioCreacion", $data["usuarioCreacion"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Elimina un curso.
+   *
+   * @param int $idCurso El ID del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlEliminarCurso($idCurso)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Verifica si un curso está en uso en un curso grado.
+   *
+   * @return string ok si existe o error si no es el caso.
+   */
+  static public function mdlExisteCursoEnCursoGrado($idCurso)
+  {
+    $tabla = "curso_grado";
+    $stmt = Connection::conn()->prepare("SELECT idCursoGrado FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->execute();
+    if ($stmt->rowCount() > 0) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtiene un curso.
+   *
+   * @param int $idCurso El ID del curso a obtener.
+   * @return array Retorna un array con los datos del curso.
+   */
+  static public function mdlGetCurso($idCurso)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("SELECT idCurso, descripcionCurso, idArea, estadoCurso FROM $tabla WHERE idCurso = :idCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch();
+  }
+
+  /**
+   * Edita un curso.
+   *
+   * @param array $data Datos del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+
+  static public function mdlEditarCurso($data)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCurso = :descripcionCurso, idArea = :idArea, estadoCurso = :estadoCurso, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCurso = :idCurso");
+    $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
+    $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":estadoCurso", $data["estadoCurso"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idCurso", $data["idCurso"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
       return "ok";
     } else {
       return "error";
