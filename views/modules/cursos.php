@@ -80,6 +80,14 @@ $todasLasAreas = $areas->ctrGetAllAreas();
               ?>
             </select>
           </div>
+          <div class="mb-3">
+            <label for="descripcionCurso" class="form-label">Estado del Curso</label>
+            <select class="form-select" id="estadoCurso" name="estadoCurso" required>
+              <option value="1" selected>Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+          </div>
+
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary btnRegistrarCursoModal" id="btnRegistrarCursoModal" name="btnRegistrarCursoModal" btnRegistrarCursoModal=" ">Guardar</button>
@@ -114,6 +122,13 @@ $todasLasAreas = $areas->ctrGetAllAreas();
                 echo "<option value='" . $area['idArea'] . "'>" . $area['descripcionArea'] . "</option>";
               }
               ?>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="descripcionCurso" class="form-label">Estado del Curso</label>
+            <select class="form-select" id="estadoCursoEditar" name="estadoCursoEditar" required>
+              <option value="1">Activo</option>
+              <option value="0">Inactivo</option>
             </select>
           </div>
           <div class="modal-footer">
