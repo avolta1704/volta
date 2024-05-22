@@ -164,4 +164,19 @@ class ControllerCursos
     $response = ModelCursos::mdlAsignarCursoAGrado($dataAsignarCurso);
     return $response;
   }
+
+  /**
+   * Eliminar un curso asignado a un grado.
+   * 
+   * @param int $idCursoGrado El ID del curso asignado.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  public static function ctrEliminarCursoGrado($data)
+  {
+    $data = json_decode($data, true);
+
+    $idCursoGrado = $data["idCursoGrado"];
+    $response = ModelCursos::mdlEliminarCursoGrado($idCursoGrado);
+    return $response;
+  }
 }
