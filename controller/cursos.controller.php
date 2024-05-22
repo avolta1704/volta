@@ -28,6 +28,7 @@ class ControllerCursos
     $dataRegistrarCursoModal = array(
       "descripcionCurso" => $data["descripcionCurso"],
       "idArea" => $data["idArea"],
+      "estadoCurso" => $data["estadoCurso"],
       "usuarioCreacion" => $idUsuario,
       "fechaCreacion" => date('Y-m-d H:i:s'),
       "usuarioActualizacion" => $idUsuario,
@@ -89,6 +90,7 @@ class ControllerCursos
       "idCurso" => $data["idCurso"],
       "descripcionCurso" => $data["descripcionCurso"],
       "idArea" => $data["idArea"],
+      "estadoCurso" => $data["estadoCurso"],
       "usuarioActualizacion" => $idUsuario,
       "fechaActualizacion" => date('Y-m-d H:i:s'),
     );
