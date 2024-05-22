@@ -137,4 +137,22 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Obtiene los grados por nivel.
+   *
+   * @return array Retorna un array con los grados.
+   */
+  static public function mdlGetGradosPorNivel()
+  {
+    $tabla = "grado";
+    $tablaNivel = "nivel";
+    $stmt = Connection::conn()->prepare("SELECT g.idGrado, g.descripcionGrado, n.descripcionNivel
+          FROM $tabla g 
+          INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
+          ORDER BY g.idNivel ASC, g.idGrado ASC 
+          ");
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
 }
