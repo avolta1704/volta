@@ -71,4 +71,29 @@ class ControllerCursos
     $response = ModelCursos::mdlGetCurso($idCurso);
     return $response;
   }
+
+  /**
+   * Edita un curso.
+   *
+   * @param array $data Datos del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  public static function ctrEditarCurso($data)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $idUsuario = $_SESSION['idUsuario'];
+    $dataEditarCursoModal = array(
+      "idCurso" => $data["idCurso"],
+      "descripcionCurso" => $data["descripcionCurso"],
+      "idArea" => $data["idArea"],
+      "usuarioActualizacion" => $idUsuario,
+      "fechaActualizacion" => date('Y-m-d H:i:s'),
+    );
+
+    $response = ModelCursos::mdlEditarCurso($dataEditarCursoModal);
+    return $response;
+  }
 }
