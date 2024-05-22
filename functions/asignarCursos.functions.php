@@ -20,9 +20,9 @@ class FunctionAsignarCursos
    * @param int $idCurso El ID del curso.
    * @return string Retorna el botón para eliminar un curso.
    */
-  public static function getButtonDeleteCurso($idCurso)
+  public static function getButtonDeleteCurso($idCursoGrado)
   {
-    return  '<button type="button" class="btn btn-outline-danger btnEliminarCurso" idCurso="' . $idCurso . '">
+    return  '<button type="button" class="btn btn-outline-danger btnEliminarCursoAsignado" id="btnEliminarCursoAsignado" idCursoGrado="' . $idCursoGrado . '">
             Eliminar
           </button>';
   }
