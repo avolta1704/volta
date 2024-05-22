@@ -1,10 +1,29 @@
 <?php
 class FunctionAsignarCursos
 {
-  public static function getButtonListarCursos()
+  /**
+   * Obtiene el botón para listar los cursos por grado.
+   * 
+   * @param int $idGrado El ID del grado.
+   * @return string Retorna el botón para listar los cursos por grado.
+   */
+  public static function getButtonListarCursos($idGrado)
   {
-    return  '<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#modalListarCursos">
+    return  '<button type="button" class="btn btn-outline-primary btnListarCursosPorGrado" data-bs-toggle="modal" id="btnListarCursosPorGrado" data-bs-target="#modalListarCursos" idGrado="' . $idGrado . '">
             Ver Cursos
+          </button>';
+  }
+
+  /**
+   * Obtiene el botón para eliminar un curso.
+   * 
+   * @param int $idCurso El ID del curso.
+   * @return string Retorna el botón para eliminar un curso.
+   */
+  public static function getButtonDeleteCurso($idCurso)
+  {
+    return  '<button type="button" class="btn btn-outline-danger btnEliminarCurso" idCurso="' . $idCurso . '">
+            Eliminar
           </button>';
   }
 }
