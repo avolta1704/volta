@@ -98,4 +98,15 @@ class ControllerCursos
     $response = ModelCursos::mdlEditarCurso($dataEditarCursoModal);
     return $response;
   }
+
+  /**
+   * Obtiene los grados por nivel.
+   *
+   * @return array Retorna un array con los grados por nivel.
+   */
+  public static function ctrGetGradosPorNivel()
+  {
+    $response = ModelCursos::mdlGetGradosPorNivel();
+    return $response;
+  }
 }
