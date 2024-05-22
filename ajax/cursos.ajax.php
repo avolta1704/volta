@@ -74,5 +74,5 @@ if (isset($_POST["idCurso"])) {
 
 if (isset($_POST["idCursoEditar"])) {
   $obtenerCurso = new CursosAjax();
-  $obtenerCurso->ajaxObtenerCurso($_POST["idCursoObtener"]);
+  $obtenerCurso->ajaxObtenerCurso($_POST["idCursoEditar"]);
 }
