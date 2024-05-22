@@ -109,4 +109,59 @@ class ControllerCursos
     $response = ModelCursos::mdlGetGradosPorNivel();
     return $response;
   }
+
+  /**
+   * Obtiene los cursos por grado.
+   *
+   * @param int $idGrado El ID del grado.
+   * @return array Retorna un array con los cursos por grado.
+   */
+  public static function ctrGetCursosPorGrado($idGrado)
+  {
+    $response = ModelCursos::mdlGetCursosPorGrado($idGrado);
+    return $response;
+  }
+
+  /**
+   * Obtiene los cursos sin asignar.
+   *
+   * @param int $idGrado El ID del grado.
+   * @return array Retorna un array con los cursos sin asignar.
+   */
+  public static function ctrGetCursosSinAsignar($idGrado)
+  {
+    $response = ModelCursos::mdlGetCursosSinAsignar($idGrado);
+    return $response;
+  }
+
+  /**
+   * Asigna un curso a un grado.
+   *
+   * @param int $idGrado El ID del grado.
+   * @param int $idCurso El ID del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+
+  public static function ctrAsignarCursoAGrado($data)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $idUsuario = $_SESSION['idUsuario'];
+
+    $data = json_decode($data, true);
+
+    $dataAsignarCurso = array(
+      "idCurso" => $data["idCursoAsignar"],
+      "idGrado" => $data["idGradoAsignar"],
+      "usuarioCreacion" => $idUsuario,
+      "fechaCreacion" => date('Y-m-d H:i:s'),
+      "usuarioActualizacion" => $idUsuario,
+      "fechaActualizacion" => date('Y-m-d H:i:s'),
+    );
+
+    $response = ModelCursos::mdlAsignarCursoAGrado($dataAsignarCurso);
+    return $response;
+  }
 }
