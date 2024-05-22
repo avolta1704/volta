@@ -162,7 +162,16 @@
                   </select>
                 </div>
 
+                
+              <!-- Numero de Comprobante -->
               </div>
+              <div class="row  mb-3">
+                <div class="col-md-4">
+                  <label for="numeroComprobanteEdit" class="form-label" style="font-weight: bold">Numero de Comprobante: </label>
+                  <input type="text" class="form-control" id="numeroComprobanteEdit" name="numeroComprobanteEdit"
+                    value="<?php echo $datosPago["numeroComprobante"] ?>" placeholder="Codigo Caja Alumno">
+                </div>
+                </div>
 
             </div>
           </span>

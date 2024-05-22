@@ -36,8 +36,10 @@ class PagosAjax
     echo json_encode($datosPagoAlumno);
   }
   // vista de pagos detalles de pago
-  public function ajaxMostrarDetallesPago($codPago)
+  public $codPago;
+  public function ajaxMostrarDetallesPago()
   {
+    $codPago = $this->codPago;
     $mostrarDetallesPago = ControllerPagos::ctrGetIdEditPago($codPago);
     $mostrarDetallesPago['nivelAlumno'] = FunctionPagos::getNivelAlumno($mostrarDetallesPago["idNivel"]);
     //$mostrarDetallesPago['mesPagoDet'] = FunctionPagos::getMesEdit($mostrarDetallesPago["mesPago"]);
@@ -63,7 +65,8 @@ if (isset($_POST["codCajaAlumno"])) {
 // vista de pagos detalles de pago
 if (isset($_POST["codPago"])) {
   $mostrarDetallesPago = new PagosAjax();
-  $mostrarDetallesPago->ajaxMostrarDetallesPago($_POST["codPago"]);
+  $mostrarDetallesPago->codPago = $_POST["codPago"];
+  $mostrarDetallesPago->ajaxMostrarDetallesPago();
 }
 // eliminar registro de pago
 if (isset($_POST["codPagoDelet"])) {

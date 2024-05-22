@@ -178,23 +178,32 @@ class ControllerPagos
     $dataPagoCrono = self::ctrObtenerIdCronogramaPago($codPagoDelet);
     // Eliminar el registro de la tabla 'pago'
     $response = ModelPagos::mdlDeleteRegistroPago($tabla, $codPagoDelet);
-    if ($response == "ok") {
-      $table = "cronograma_pago";
-      $dataEditEstadoCrono = array(
-        "idCronogramaPago" => $dataPagoCrono['idCronogramaPago'],
-        "estadoCronograma" => 1, //regresa al estado a pendiente despues de eliminar el registro de su pago de la tabla pago
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioActualizacion" => $idUsuario,
-      );
-      $response = ModelPagos::mdlActualizarEstadoCronogramaDelete($table, $dataEditEstadoCrono);
-      if ($response == "ok") {
-        return "ok";
+    // Para eliminar pago matricula postulante, cuando no hay cronograma de pago
+    if($dataPagoCrono == false){
+      //Update de la tabla postulante el campo pagoMatricula igual a null
+      $response = ModelPagos::mdlDeletePagoMatricula($codPagoDelet);
+      return $response;
+    } else {
+      if ($response == "ok") { 
+        $table = "cronograma_pago";
+        $dataEditEstadoCrono = array(
+          "idCronogramaPago" => $dataPagoCrono['idCronogramaPago'],
+          "estadoCronograma" => 1, //regresa al estado a pendiente despues de eliminar el registro de su pago de la tabla pago
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $idUsuario,
+        );
+        $response = ModelPagos::mdlActualizarEstadoCronogramaDelete($table, $dataEditEstadoCrono);
+        if ($response == "ok") {
+          return "ok";
+        } else {
+          return $response;
+        }
       } else {
         return $response;
       }
-    } else {
-      return $response;
     }
+
+    
   }
   //obtener id de cronograma_pago y estado por idPago
   public static function ctrObtenerIdCronogramaPago($codPagoDelet)

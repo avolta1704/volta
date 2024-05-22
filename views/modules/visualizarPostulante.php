@@ -292,6 +292,7 @@
               FunctionPostulantes::renderCheckList($codPostulante,"Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
               ?>
 
+
               <!-- PAGO MATRÍCULA -->
               <div class="form-group row">
                 <label for="checkPagoMatricula" class="col-sm-3 col-form-label" style="font-weight: bold">Pago Matrícula: </label>
@@ -309,8 +310,9 @@
                     <input type="date" name="fechaPagoMatricula" id="fechaPagoMatricula" class="form-control fechaPagoMatricula" value="<?php echo $dataChecklist['fechaPagoMatricula']; ?>">
                   </div>
                   <div class="col-sm-2">
-                    <button type="button" class="btn btn-success"><i class="bi bi-cloud-arrow-up-fill"></i></button>
-                    <button type="button" class="btn btn-warning"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                    <button type="button" class="btn btn-success" disabled><i class="bi bi-plus"></i></button>
+                    <button type="button" class="btn btn-warning" id="btnVisualizarPagoMatricula" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">
+                    <i class="bi bi-search"></i></button>
                   </div>
 
                 <?php
@@ -326,8 +328,10 @@
                     <input type="date" name="fechaPagoMatricula" id="fechaPagoMatricula" class="form-control fechaPagoMatricula">
                   </div>
                   <div class="col-sm-2">
-                    <button type="button" class="btn btn-success"><i class="bi bi-cloud-arrow-up-fill"></i></button>
-                    <button type="button" class="btn btn-warning"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                    <button type="button" class="btn btn-success" id="btnPagoMatricula" data-codpostulante="<?php echo $codPostulante; ?>"> 
+                    <i class="bi bi-plus"></i>
+                    </button>
+                    <button type="button" class="btn btn-warning" id="btnVisualizarPagoMatricula1"><i class="bi bi-search"></i></button>
                   </div>
                 <?php
                 }
@@ -339,6 +343,48 @@
               <input type="hidden" class="codPostulanteCheck" name="codPostulanteCheck" id="codPostulanteCheck" value="<?php echo $codPostulante ?>">
               <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarVisualizarPostulante">Cerrar</button>
               <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary btnActualizarChecklistPostulante">Actualizar Checklist</button>
+            </div>
+            <!-- modal detalle Pago -->
+            <div class="modal modalDetallePago" id="modalDetallePago" tabindex="-1">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Detalle Pago</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <!-- Aquí van tus campos de entrada -->
+                    <label for="nombresDetalle">Nombres:</label>
+                    <input type="text" class="form-control mb-3" id="nombresDetalle" name="nombresDetalle" disabled>
+
+                    <label for="apellidosDetalle">Apellidos: </label>
+                    <input type="text" class="form-control mb-3" id="apellidosDetalle" name="apellidosDetalle" disabled>
+
+                    <label for="gradoDetalle">Grado:</label>
+                    <input type="text" class="form-control mb-3" id="gradoDetalle" name="gradoDetalle" disabled>
+
+                    <label for="nivelDertalle">Nivel:</label>
+                    <input type="text" class="form-control mb-3" id="nivelDertalle" name="nivelDertalle" disabled>
+
+                    <label for="codigoCajaDetalle">Cantidad:</label>
+                    <input type="text" class="form-control mb-3" id="codigoCajaDetalle" name="codigoCajaDetalle" disabled>
+
+                    <label for="mesDetalle">Tipo de Pago:</label>
+                    <input type="text" class="form-control mb-3" id="mesDetalle" name="mesDetalle" disabled>
+
+                    <label for="LimitePagoDetalle">Fecha de Pago:</label>
+                    <input type="text" class="form-control mb-3" id="LimitePagoDetalle" name="LimitePagoDetalle" disabled>
+
+                  </div>
+
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="btnEditarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Editar</button>
+                  <button type="button" class="btn btn-danger" id="btnEliminarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Eliminar</button>
+                  <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </span>
         </form>

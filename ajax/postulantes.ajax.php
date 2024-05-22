@@ -105,6 +105,15 @@ class PostulantesAjax
     $response = ControllerPostulantes::ctrActualizarChecklist($dataActualizarCheclist);
     echo json_encode($response);
   }
+  // vista de pagos detalles de pago
+  public $codPago;
+  public function ajaxMostrarDetallesPago()
+  {
+    $codPago = $this->codPago;
+    $mostrarDetallesPago = ControllerPostulantes::ctrGetIdEditPago($codPago);
+    $mostrarDetallesPago['idTipoPago'] = FunctionPostulantes::getTipoPagoEdit($mostrarDetallesPago["idTipoPago"]);
+    echo json_encode($mostrarDetallesPago);
+  }
 }
 
 //mostar todos los Postulantes DataTableAdmin
@@ -157,14 +166,17 @@ if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulantePsicol
     $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
   }
 
-
-  
-
-
   //  editar checlist del postulante
 if (isset($_POST["actualizarCheclist"])) {
   $dataActualizarCheclist = new PostulantesAjax();
   $dataActualizarCheclist->dataActualizarCheclist = $_POST["actualizarCheclist"];
   $dataActualizarCheclist->ajaxEditarCheclistPostulante();
+}
+
+// vista de pagos detalles de pago
+if (isset($_POST["codPago"])) {
+  $mostrarDetallesPago = new PostulantesAjax();
+  $mostrarDetallesPago->codPago = $_POST["codPago"];
+  $mostrarDetallesPago->ajaxMostrarDetallesPago();
 }
 
