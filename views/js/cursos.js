@@ -3,6 +3,7 @@ $("#btnRegistrarCursoModal").on("click", function () {
 	// Toma los valores de los campos de entrada
 	var descripcionCurso = $("#descripcionCurso").val();
 	var idArea = $("#areaCurso").val();
+	var estadoCurso = $("#estadoCurso").val();
 
 	if (descripcionCurso == "") {
 		Swal.fire({
@@ -29,11 +30,13 @@ $("#btnRegistrarCursoModal").on("click", function () {
 	// Guarda los valores en los atributos 'value' de los campos de entrada
 	$("#descripcionCurso").attr("value", descripcionCurso);
 	$("#idArea").attr("value", idArea);
+	$("#estadoCurso").attr("value", estadoCurso);
 
 	// Crea un objeto con los datos
 	var dataRegistrarCursoModal = {
 		descripcionCurso: descripcionCurso,
 		idArea: idArea,
+		estadoCurso: estadoCurso,
 		btnRegistrarCursoModal: btnRegistrarCursoModal,
 	};
 
@@ -59,6 +62,7 @@ $("#btnRegistrarCursoModal").on("click", function () {
 
 				$("#descripcionCurso").val("");
 				$("#idArea").val("");
+				$("#estadoCurso").val("");
 				// Cierra el modal
 				$("#modalAgregarCurso").modal("hide");
 
@@ -159,6 +163,7 @@ $(".dataTableCursos").on("click", ".btnEditarCurso", function (event) {
 			$("#descripcionCursoEditar").val(response.descripcionCurso);
 			$("#areaCursoEditar").val(response.idArea);
 			$("#idCursoEditar").val(response.idCurso);
+			$("#estadoCursoEditar").val(response.estadoCurso == 1 ? 1 : 0);
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.error(
@@ -175,6 +180,7 @@ $(".btnEditarCursoModal").on("click", function () {
 	var idCurso = $("#idCursoEditar").val();
 	var descripcionCurso = $("#descripcionCursoEditar").val();
 	var idArea = $("#areaCursoEditar").val();
+	var estadoCurso = $("#estadoCursoEditar").val();
 
 	if (descripcionCurso == "") {
 		Swal.fire({
@@ -200,11 +206,13 @@ $(".btnEditarCursoModal").on("click", function () {
 
 	$("#descripcionCursoEditar").attr("value", descripcionCurso);
 	$("#areaCursoEditar").attr("value", idArea);
+	$("#estadoCursoEditar").attr("value", estadoCurso);
 
 	var dataEditarCursoModal = {
 		idCurso: idCurso,
 		descripcionCurso: descripcionCurso,
 		idArea: idArea,
+		estadoCurso: estadoCurso,
 		btnEditarCursoModal: true,
 	};
 
@@ -224,6 +232,7 @@ $(".btnEditarCursoModal").on("click", function () {
 				$("#descripcionCursoEditar").val("");
 				$("#areaCursoEditar").val("");
 				$("#idCursoEditar").val("");
+				$("#estadoCursoEditar").val("");
 				$("#modalEditarCurso").modal("hide");
 
 				Swal.fire({
