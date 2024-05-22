@@ -19,6 +19,7 @@ require_once "functions/reportesPensiones.functions.php";
 require_once "functions/reportesComunicados.functions.php";
 require_once "functions/cursos.functions.php";
 require_once "functions/areas.functions.php";
+require_once "functions/asignarCursos.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";

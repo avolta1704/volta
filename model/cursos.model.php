@@ -137,4 +137,103 @@ class ModelCursos
       return "error";
     }
   }
+
+  /**
+   * Obtiene los grados por nivel.
+   *
+   * @return array Retorna un array con los grados.
+   */
+  static public function mdlGetGradosPorNivel()
+  {
+    $tabla = "grado";
+    $tablaNivel = "nivel";
+    $stmt = Connection::conn()->prepare("SELECT g.idGrado, g.descripcionGrado, n.descripcionNivel
+          FROM $tabla g 
+          INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
+          ORDER BY g.idNivel ASC, g.idGrado ASC 
+          ");
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
+
+  /**
+   * Obtiene los cursos por grado.
+   *
+   * @param int $idGrado El ID del grado.
+   * @return array Retorna un array con los cursos.
+   */
+  static public function mdlGetCursosPorGrado($idGrado)
+  {
+    $tabla = "curso_grado";
+    $tablaCurso = "curso";
+    $stmt = Connection::conn()->prepare("SELECT cg.idCursoGrado, cg.idCurso, c.descripcionCurso, cg.idGrado
+          FROM $tabla cg 
+          INNER JOIN $tablaCurso c ON cg.idCurso = c.idCurso
+          WHERE cg.idGrado = :idGrado
+          ORDER BY c.descripcionCurso ASC
+          ");
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
+
+  /**
+   * Obtiene los cursos sin asignar por grado.
+   *
+   * @param int $idGrado El ID del grado.
+   * @return array Retorna un array con los cursos.
+   */
+  static public function mdlGetCursosSinAsignar($idGrado)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("SELECT c.idCurso, c.descripcionCurso
+          FROM $tabla c
+          WHERE c.idCurso NOT IN (SELECT idCurso FROM curso_grado WHERE idGrado = :idGrado)
+          ORDER BY c.descripcionCurso ASC
+          ");
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
+
+  /**
+   * Asigna un curso a un grado.
+   *
+   * @param array $data Datos de la asignación.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlAsignarCursoAGrado($data)
+  {
+    $tabla = "curso_grado";
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla (idCurso, idGrado, fechaCreacion, usuarioCreacion, fechaActualizacion, usuarioActualizacion) VALUES (:idCurso, :idGrado, :fechaCreacion, :usuarioCreacion, :fechaActualizacion, :usuarioActualizacion)");
+    $stmt->bindParam(":idCurso", $data["idCurso"], PDO::PARAM_INT);
+    $stmt->bindParam(":idGrado", $data["idGrado"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaCreacion", $data["fechaCreacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioCreacion", $data["usuarioCreacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Elimina un curso asignado a un grado.
+   *
+   * @param int $idCursoGrado El ID del curso asignado.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  static public function mdlEliminarCursoGrado($idCursoGrado)
+  {
+    $tabla = "curso_grado";
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCursoGrado = :idCursoGrado");
+    $stmt->bindParam(":idCursoGrado", $idCursoGrado, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

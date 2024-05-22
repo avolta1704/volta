@@ -42,6 +42,7 @@ session_start();
         $_GET["ruta"] == "reportePagos" ||
         $_GET["ruta"] == "reporteComunicaciones" ||
         $_GET["ruta"] == "cursos" ||
+        $_GET["ruta"] == "asignarCursos" ||
 
 
         $_GET["ruta"] == "cerrarSesion"
@@ -97,6 +98,7 @@ session_start();
   <script src="views/js/reportesComunicaciones.js"></script>
   <script src="views/js/cursos.js"></script>
   <script src="views/js/areas.js"></script>
+  <script src="views/js/asignarCursos.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -111,6 +113,8 @@ session_start();
   <script src="views/dataTables/dt-reportes-comunicaciones-admin.js"></script>
   <script src="views/dataTables/dt-cursos-admin.js"></script>
   <script src="views/dataTables/dt-areas-admin.js"></script>
+  <script src="views/dataTables/dt-asignar-cursos-admin.js"></script>
+  <script src="views/dataTables/dt-cursos-grado-admin.js"></script>
 </body>
 
 </html>
