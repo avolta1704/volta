@@ -105,6 +105,7 @@ class PostulantesAjax
     $response = ControllerPostulantes::ctrActualizarChecklist($dataActualizarCheclist);
     echo json_encode($response);
   }
+
   // vista de pagos detalles de pago
   public $codPago;
   public function ajaxMostrarDetallesPago()
@@ -114,6 +115,32 @@ class PostulantesAjax
     $mostrarDetallesPago['idTipoPago'] = FunctionPostulantes::getTipoPagoEdit($mostrarDetallesPago["idTipoPago"]);
     echo json_encode($mostrarDetallesPago);
   }
+
+  //  Obtener todos los postulantesRepostesAnio
+  public function ajaxMostrarTodosLosPostulantesReportesAnio()
+  {
+    $todosLosPostulantesReportesAnio = ControllerPostulantes::ctrGetAllPostulantesReportesAnio();
+    foreach ($todosLosPostulantesReportesAnio as &$postulantesReportAnio) {
+      $postulantesReportAnio['apellidoNombre'] = FunctionPostulantes::getUnirNombreApellidoPostulantes($postulantesReportAnio["nombrePostulante"], $postulantesReportAnio["apellidoPostulante"]);
+      $postulantesReportAnio['nivelAnioPostulante'] = FunctionPostulantes::separarTextoNivelPostulante($postulantesReportAnio["descripcionGrado"]);
+      $postulantesReportAnio['GradoAnioPostulante'] = FunctionPostulantes::separarTextoGradoPostulante($postulantesReportAnio["descripcionGrado"]);
+      $postulantesReportAnio['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantesReportAnio["estadoPostulante"]);
+      $postulantesReportAnio['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantesReportAnio["idPostulante"], $postulantesReportAnio["estadoPostulante"], $postulantesReportAnio["pagoMatricula"]);
+      // Eliminar los campos nombrePostulante y apellidoPostulante y gradoPostulante despues de usarlos
+      unset($postulantesReportAnio["nombrePostulante"]);
+      unset($postulantesReportAnio["apellidoPostulante"]);
+      unset($postulantesReportAnio["descripcionGrado"]);
+    }
+    echo json_encode($todosLosPostulantesReportesAnio);
+  }
+  //descargar todo el reporte de postulantes
+  public function ajaxDescargarReportePostulantes($datos)
+  {
+    $todosLosRegistrosPostualntes = ControllerPostulantes::ctrGetAllRegistrosPostulantesReport($datos);
+    echo json_encode($todosLosRegistrosPostualntes);
+  }
+
+
 }
 
 //mostar todos los Postulantes DataTableAdmin
@@ -134,43 +161,55 @@ if (isset($_POST["codPostulanteBusqueda"])) {
   $obtenerDataPostulante->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
   $obtenerDataPostulante->ajaxBuscarPostulante();
 }
-
 //  Insertar URL de descarga
 if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
   $obtenerDownloadURL = new PostulantesAjax();
   $obtenerDownloadURL->codPostulanteUrl = $_POST["codPostulante"];
   $obtenerDownloadURL->obtenerDownloadURL = $_POST["downloadURL"];
   $obtenerDownloadURL->ajaxObtenerDownloadURL();
-
 }
-  // Obtener la URL desde la base de datos
-  if (isset($_POST["codPostulanteURL"])) {
-    $DownloadURL = new PostulantesAjax();
-    $DownloadURL->codPostulanteDownloadUrl = $_POST["codPostulanteURL"];
-    $DownloadURL->ajaxDownloadURL();
-  }
-
-
-  //  Insertar URL de descarga
+// Obtener la URL desde la base de datos
+if (isset($_POST["codPostulanteURL"])) {
+  $DownloadURL = new PostulantesAjax();
+  $DownloadURL->codPostulanteDownloadUrl = $_POST["codPostulanteURL"];
+  $DownloadURL->ajaxDownloadURL();
+}
+//  Insertar URL de descarga
 if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulantePsicologico"])) {
   $obtenerDownloadURLPsicologico = new PostulantesAjax();
   $obtenerDownloadURLPsicologico->codPostulanteUrlPsicologico = $_POST["codPostulantePsicologico"];
   $obtenerDownloadURLPsicologico->obtenerDownloadURLPsicologico = $_POST["downloadURLPsicologico"];
   $obtenerDownloadURLPsicologico->ajaxObtenerDownloadURLPsicologico();
-
 }
-  // Obtener la URL desde la base de datos
-  if (isset($_POST["codPostulanteURLPsicologico"])) {
-    $obtenerDownloadURLPsicologico = new PostulantesAjax();
-    $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
-    $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
-  }
 
-  //  editar checlist del postulante
+// Obtener la URL desde la base de datos
+if (isset($_POST["codPostulanteURLPsicologico"])) {
+  $obtenerDownloadURLPsicologico = new PostulantesAjax();
+  $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
+  $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
+}
+
+// Obtener la URL desde la base de datos
+if (isset($_POST["codPostulanteURLPsicologico"])) {
+  $obtenerDownloadURLPsicologico = new PostulantesAjax();
+  $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
+  $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
+}
+//  editar checlist del postulante
 if (isset($_POST["actualizarCheclist"])) {
   $dataActualizarCheclist = new PostulantesAjax();
   $dataActualizarCheclist->dataActualizarCheclist = $_POST["actualizarCheclist"];
   $dataActualizarCheclist->ajaxEditarCheclistPostulante();
+}
+//  Obtener todos los postulantesRepostesAnio
+if (isset($_POST["todosLosPostulantesReportesAnio"])) {
+  $mostrarTodosLosPostulantesReportesAnio = new PostulantesAjax();
+  $mostrarTodosLosPostulantesReportesAnio->ajaxMostrarTodosLosPostulantesReportesAnio();
+}
+// Descargar todo el reporte de postulantes
+if (isset($_POST["reportesRegistrosPostualntes"])) {
+  $todosLosRegistrosPostualntes = new PostulantesAjax();
+  $todosLosRegistrosPostualntes->ajaxDescargarReportePostulantes($_POST["reportesRegistrosPostualntes"]);
 }
 
 // vista de pagos detalles de pago

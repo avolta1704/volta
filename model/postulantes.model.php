@@ -364,76 +364,60 @@ class ModelPostulantes
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
-    //  Actualizar el checklist del postulante con todas las modificaciones
-    public static function mdlObtenerDownloadURL($table, $dataChecklist)
-    {
+  //  Actualizar el checklist del postulante con todas las modificaciones
+  public static function mdlObtenerDownloadURL($table, $dataChecklist)
+  {
 
-      $statement = Connection::conn()->prepare("UPDATE $table SET fichaPostulante = :fichaPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
-  
-      $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
-      $statement->bindParam(":fichaPostulante", $dataChecklist["fichaPostulante"], PDO::PARAM_STR);
-      $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
-      $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
-  
-      if ($statement->execute()) {
-        return "ok";
-      } else {
-        return "error";
-      }
+    $statement = Connection::conn()->prepare("UPDATE $table SET fichaPostulante = :fichaPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+
+    $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":fichaPostulante", $dataChecklist["fichaPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  // Obtener el link de la ficha postulante
+
+  public static function mdlDownloadURL($table, $idPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT fichaPostulante FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
+
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+      return ["downloadURL" => $result["fichaPostulante"]]; // Devuelve la URL de descarga
+    } else {
+      return ["downloadURL" => null];
     }
 
-    // Obtener el link de la ficha postulante
-
-    public static function mdlDownloadURL($table, $idPostulante) {
-      $statement = Connection::conn()->prepare("SELECT fichaPostulante FROM $table WHERE idPostulante = :idPostulante");
-      $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
-
-      $statement->execute();
-      $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-      if ($result) {
-          return ["downloadURL" => $result["fichaPostulante"]]; // Devuelve la URL de descarga
-      } else {
-          return ["downloadURL" => null];
-      }
-      
   }
 
 
-      //  Actualizar el infome psicologico del postulante con todas las modificaciones
-      public static function mdlObtenerDownloadURLPsicologico($table, $dataChecklist)
-      {
-        
-        $statement = Connection::conn()->prepare("UPDATE $table SET informePsicologico = :informePsicologico, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
-    
-        $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
-        $statement->bindParam(":informePsicologico", $dataChecklist["informePsicologico"], PDO::PARAM_STR);
-        $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
-        $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
-    
-        if ($statement->execute()) {
-          return "ok";
-        } else {
-          return "error";
-        }
-      }
-  
-      // Obtener el link del infome psicologico
-  
-      public static function mdlDownloadURLPsicologico($table, $idPostulante) {
-        $statement = Connection::conn()->prepare("SELECT informePsicologico FROM $table WHERE idPostulante = :idPostulante");
-        $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
-  
-        $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-  
-        if ($result) {
-            return ["downloadURL" => $result["informePsicologico"]]; // Devuelve la URL de descarga
-        } else {
-            return ["downloadURL" => null];
-        }
-        
+  //  Actualizar el infome psicologico del postulante con todas las modificaciones
+  public static function mdlObtenerDownloadURLPsicologico($table, $dataChecklist)
+  {
+
+    $statement = Connection::conn()->prepare("UPDATE $table SET informePsicologico = :informePsicologico, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+
+    $statement->bindParam(":idPostulante", $dataChecklist["idPostulante"], PDO::PARAM_STR);
+    $statement->bindParam(":informePsicologico", $dataChecklist["informePsicologico"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataChecklist["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
     }
+  }
     //datos de pago detalles de pago
   public static function mdlGetIdEditPago($tabla, $codPago)
   {
@@ -477,5 +461,158 @@ class ModelPostulantes
     $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+
+  }
+
+  // Obtener el link del infome psicologico
+
+  public static function mdlDownloadURLPsicologico($table, $idPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT informePsicologico FROM $table WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $idPostulante, PDO::PARAM_STR);
+
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result) {
+      return ["downloadURL" => $result["informePsicologico"]]; // Devuelve la URL de descarga
+    } else {
+      return ["downloadURL" => null];
+    }
+  }
+  //  Obtener todos los registros postulantesRepostes para el xls
+  public static function mdlGetAllRegistrosPostulantesReport($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.fechaPostulacion,
+      CASE 
+          WHEN postulante.gradoPostulacion = 1 THEN 'Ini 3 Años'
+          WHEN postulante.gradoPostulacion = 2 THEN 'Ini 4 Años'
+          WHEN postulante.gradoPostulacion = 3 THEN 'Ini 5 Años'
+          WHEN postulante.gradoPostulacion = 4 THEN 'Prima 1er°'
+          WHEN postulante.gradoPostulacion = 5 THEN 'Prima 2do°'
+          WHEN postulante.gradoPostulacion = 6 THEN 'Prima 3er°'
+          WHEN postulante.gradoPostulacion = 7 THEN 'Prima 4to°'
+          WHEN postulante.gradoPostulacion = 8 THEN 'Prima 5to°'
+          WHEN postulante.gradoPostulacion = 9 THEN 'Prima 6to°'
+          WHEN postulante.gradoPostulacion = 10 THEN 'Secun 1er Año'
+          WHEN postulante.gradoPostulacion = 11 THEN 'Secun 2do Año'
+          WHEN postulante.gradoPostulacion = 12 THEN 'Secun 3er Año'
+          WHEN postulante.gradoPostulacion = 13 THEN 'Secun 4to Año'
+          WHEN postulante.gradoPostulacion = 14 THEN 'Secun 5to Año'
+          ELSE 'Sin Grado'
+      END AS descripcionGrado,
+      postulante.fechaFichaPost,
+      postulante.estadoFichaPostulante,
+      postulante.fechaEntrevista,
+      postulante.estadoEntrevista,
+      postulante.fechaInformePsicologico,
+      postulante.estadoInformePsicologico,
+      postulante.constanciaAdeudo,
+      postulante.fechaConstanciaAdeudo,
+      postulante.cartaAdmision,
+      postulante.fechaCartaAdmision,
+      postulante.fechaPagoMatricula,
+      postulante.contrato,
+      postulante.fechaContrato,
+      postulante.constanciaVacante,
+      postulante.pagoMatricula,
+      postulante.fechaConstanciaVacante
+      FROM $tabla 
+      ORDER BY postulante.idPostulante DESC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //  Obtener todos los postulantesRepostesAnio por rangos de fechas de meses y dias
+  public static function mdlGetFechasMesesRegistrosPostulantesReport($tabla, $datos)
+  {
+    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.fechaPostulacion,
+       CASE 
+         WHEN postulante.gradoPostulacion = 1 THEN 'Ini 3 Años'
+         WHEN postulante.gradoPostulacion = 2 THEN 'Ini 4 Años'
+         WHEN postulante.gradoPostulacion = 3 THEN 'Ini 5 Años'
+         WHEN postulante.gradoPostulacion = 4 THEN 'Prima 1er°'
+         WHEN postulante.gradoPostulacion = 5 THEN 'Prima 2do°'
+         WHEN postulante.gradoPostulacion = 6 THEN 'Prima 3er°'
+         WHEN postulante.gradoPostulacion = 7 THEN 'Prima 4to°'
+         WHEN postulante.gradoPostulacion = 8 THEN 'Prima 5to°'
+         WHEN postulante.gradoPostulacion = 9 THEN 'Prima 6to°'
+         WHEN postulante.gradoPostulacion = 10 THEN 'Secun 1er Año'
+         WHEN postulante.gradoPostulacion = 11 THEN 'Secun 2do Año'
+         WHEN postulante.gradoPostulacion = 12 THEN 'Secun 3er Año'
+         WHEN postulante.gradoPostulacion = 13 THEN 'Secun 4to Año'
+         WHEN postulante.gradoPostulacion = 14 THEN 'Secun 5to Año'
+         ELSE 'Sin Grado'
+       END AS descripcionGrado,
+       postulante.fechaFichaPost,
+       postulante.estadoFichaPostulante,
+       postulante.fechaEntrevista,
+       postulante.estadoEntrevista,
+       postulante.fechaInformePsicologico,
+       postulante.estadoInformePsicologico,
+       postulante.constanciaAdeudo,
+       postulante.fechaConstanciaAdeudo,
+       postulante.cartaAdmision,
+       postulante.fechaCartaAdmision,
+       postulante.fechaPagoMatricula,
+       postulante.contrato,
+       postulante.fechaContrato,
+       postulante.constanciaVacante,
+       postulante.pagoMatricula,
+       postulante.fechaConstanciaVacante
+       FROM $tabla 
+       WHERE postulante.fechaPostulacion BETWEEN :fechaInicio AND :fechaFin
+       ORDER BY postulante.idPostulante DESC");
+
+    $statement->bindParam(":fechaInicio", $datos['fechaInicio'], PDO::PARAM_STR);
+    $statement->bindParam(":fechaFin", $datos['fechaFin'], PDO::PARAM_STR);
+
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //  Obtener todos los postulantesRepostesAnio por rangos de años
+  public static function mdlGetFechasAniosRegistrosPostulantesReport($tabla, $datos)
+  {
+    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.fechaPostulacion,
+         CASE 
+           WHEN postulante.gradoPostulacion = 1 THEN 'Ini 3 Años'
+           WHEN postulante.gradoPostulacion = 2 THEN 'Ini 4 Años'
+           WHEN postulante.gradoPostulacion = 3 THEN 'Ini 5 Años'
+           WHEN postulante.gradoPostulacion = 4 THEN 'Prima 1er°'
+           WHEN postulante.gradoPostulacion = 5 THEN 'Prima 2do°'
+           WHEN postulante.gradoPostulacion = 6 THEN 'Prima 3er°'
+           WHEN postulante.gradoPostulacion = 7 THEN 'Prima 4to°'
+           WHEN postulante.gradoPostulacion = 8 THEN 'Prima 5to°'
+           WHEN postulante.gradoPostulacion = 9 THEN 'Prima 6to°'
+           WHEN postulante.gradoPostulacion = 10 THEN 'Secun 1er Año'
+           WHEN postulante.gradoPostulacion = 11 THEN 'Secun 2do Año'
+           WHEN postulante.gradoPostulacion = 12 THEN 'Secun 3er Año'
+           WHEN postulante.gradoPostulacion = 13 THEN 'Secun 4to Año'
+           WHEN postulante.gradoPostulacion = 14 THEN 'Secun 5to Año'
+           ELSE 'Sin Grado'
+         END AS descripcionGrado,
+         postulante.fechaFichaPost,
+         postulante.estadoFichaPostulante,
+         postulante.fechaEntrevista,
+         postulante.estadoEntrevista,
+         postulante.fechaInformePsicologico,
+         postulante.estadoInformePsicologico,
+         postulante.constanciaAdeudo,
+         postulante.fechaConstanciaAdeudo,
+         postulante.cartaAdmision,
+         postulante.fechaCartaAdmision,
+         postulante.fechaPagoMatricula,
+         postulante.contrato,
+         postulante.fechaContrato,
+         postulante.constanciaVacante,
+         postulante.pagoMatricula,
+         postulante.fechaConstanciaVacante
+         FROM $tabla 
+         WHERE YEAR(postulante.fechaPostulacion) BETWEEN :anioInicio AND :anioFin
+         ORDER BY postulante.idPostulante DESC");
+    $statement->bindParam(":anioInicio", $datos['anioInicio'], PDO::PARAM_STR);
+    $statement->bindParam(":anioFin", $datos['anioFin'], PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+
   }
 }

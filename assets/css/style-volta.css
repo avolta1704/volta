@@ -63,5 +63,13 @@
   height: 50px;
   font-size: 20px;
 }
-
-
+/* css para el calendario de resporte postulantes  */
+.daterangepicker {
+  position: fixed !important;
+  left: 31% !important;
+  top: 42% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 500px !important; /* Ajusta el ancho del calendario */
+  height: 300px !important; /* Ajusta la altura del calendario */
+  background: rgba(255, 255, 255, 1) !important; /* Ajusta el color de fondo y la opacidad */
+}

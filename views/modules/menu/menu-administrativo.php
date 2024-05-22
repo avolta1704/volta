@@ -72,7 +72,7 @@
       </a>
       <ul id="allReportes" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="reporteAdmisiones">
+          <a href="listaPostulantesAnio">
             <i class="bi bi-circle"></i><span>Reporte de Admisiones</span>
           </a>
         </li>

@@ -406,7 +406,7 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlGetPagoMatriculaPostulante($tabla, $codPostulante);
     return $response;
   }
-  
+
   //  Obtener el checklist del postulante
   public static function ctrGetChecklistPostulante($codPostulante)
   {
@@ -422,18 +422,18 @@ class ControllerPostulantes
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
- 
+
 
 
     $table = "postulante";
     $dataChecklist = json_decode($dataActualizarcheclist, true); // Convierte la cadena JSON en un array
-    
+
     $actualizarChecklist = array(
       "idPostulante" => $dataChecklist["codPostulanteCheck"],
       "estadoFichaPostulante" => $dataChecklist["checkFichaPostulante"] == "on" ? 1 : ($dataChecklist["checkFichaPostulante"] == "" ? 2 : 0),//Entero
       "fechaFichaPost" => $dataChecklist["fechaFichaPostulante"] != "" ? $dataChecklist["fechaFichaPostulante"] : null,
       "fechaEntrevista" => $dataChecklist["fechaEntrevista"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
-      "estadoEntrevista" => $dataChecklist["checkEntrevista"] == "on" ? 1 : ($dataChecklist["checkEntrevista"] == "" ? 2 : 0),
+      "estadoEntrevista" => $dataChecklist["checkEntrevista"] == "on" ? 1 : ($dataChecklist["checkEntrevista"] == "" ? 0 : 0),
       "fechaInformePsicologico" => $dataChecklist["fechaInformePsico"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
       "estadoInformePsicologico" => $dataChecklist["checkInformePsico"] == "on" ? 1 : ($dataChecklist["checkInformePsico"] == "" ? 2 : 0),
       "constanciaAdeudo" => $dataChecklist["checkConstAdeudo"] == "on" ? true : false,
@@ -460,7 +460,7 @@ class ControllerPostulantes
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
-    
+
     $table = "postulante";
     $dataChecklist = array(
       "idPostulante" => $codPostulanteUrl,
@@ -473,7 +473,8 @@ class ControllerPostulantes
   }
 
   //  Obtener el URL del postulante
-  public static function ctrDownloadURL($codPostulanteUrl) {
+  public static function ctrDownloadURL($codPostulanteUrl)
+  {
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
@@ -489,7 +490,7 @@ class ControllerPostulantes
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
-    
+
     $table = "postulante";
     $dataChecklist = array(
       "idPostulante" => $codPostulanteUrlPsicologico,
@@ -500,9 +501,9 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlObtenerDownloadURLPsicologico($table, $dataChecklist);
     return $response;
   }
-
   //  Obtener el URL psicologico del postulante
-  public static function ctrDownloadURLPsicologico($codPostulanteUrlPsicologico) {
+  public static function ctrDownloadURLPsicologico($codPostulanteUrlPsicologico)
+  {
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
@@ -511,6 +512,7 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlDownloadURLPsicologico($table, $codPostulanteUrlPsicologico);
     return $response;
   }
+
     //  Obtener datos del Pago para editar 
     public static function ctrGetIdEditPago($codPago)
     {
@@ -523,5 +525,86 @@ class ControllerPostulantes
     }
   
 
+  //  Obtener todos los postulantesRepostesAnio
+  public static function ctrGetAllPostulantesReportesAnio()
+  {
+    $tabla = "postulante";
+    $listPostulantes = ModelPostulantes::mdlGetAllPostulantes($tabla);
+    return $listPostulantes;
+  }
+  // todos los Registros postulantes para el reporte xls
+  public static function ctrGetAllRegistrosPostulantesReport($datos)
+  {
+    $tabla = "postulante";
 
+
+    if (count($datos) <= 1) {
+      // Si solo hay un dato inicia la funcion para recuperar datos,
+      $listPostulantes = ModelPostulantes::mdlGetAllRegistrosPostulantesReport($tabla);
+    } else if (isset($datos['anioInicio']) && isset($datos['anioFin'])) {
+      // Si los datos contienen años específicos
+      $listPostulantes = ModelPostulantes::mdlGetFechasAniosRegistrosPostulantesReport($tabla, $datos);
+    } else if (isset($datos['fechaInicio']) && isset($datos['fechaFin'])) {
+      // Si los datos contienen fechas específicas
+      $listPostulantes = ModelPostulantes::mdlGetFechasMesesRegistrosPostulantesReport($tabla, $datos);
+    }
+    foreach ($listPostulantes as &$postulantesReportAnio) {
+      //cabecera del reporte
+      $ordenClaves = array('CODIGO', 'APELLIDOS Y NOMBRES', 'GRADO', 'FECHA POST', 'FICHA POSTULANTE', 'FECHA ENTRE', 'FICHA ENTREVISTA', 'FECHA PSI', 'INFORME PSICOLOGICO', 'FECHA CONS', 'CONSTANCIA NO ADEUDO', 'FECHA AD', 'CARTA ADMISION', 'FECHA MAT', 'PAGO MATRICULA', 'FECHA CONT', 'CONTRATO', 'FECHA VAC', 'CONSTANCIA VACANTE', 'OBSEVACIONES');
+
+      $postulantesReportAnio['CODIGO'] = FunctionPostulantes::getUnirIdentificadorFechaPostulacionAnio($postulantesReportAnio["idPostulante"], $postulantesReportAnio["fechaPostulacion"]);
+      $postulantesReportAnio['APELLIDOS Y NOMBRES'] = FunctionPostulantes::getUnirNombreApellidoPostulantesXls($postulantesReportAnio["nombrePostulante"], $postulantesReportAnio["apellidoPostulante"]);
+      $postulantesReportAnio['GRADO'] = $postulantesReportAnio["descripcionGrado"];
+      //ficha
+      $postulantesReportAnio['FECHA POST'] = $postulantesReportAnio["fechaFichaPost"] != "" ? $postulantesReportAnio["fechaFichaPost"] : "0000-00-00";
+      $postulantesReportAnio['FICHA POSTULANTE'] = $postulantesReportAnio["estadoFichaPostulante"] ? "Listo" : "Falta";
+      //entrevista
+      $postulantesReportAnio['FECHA ENTRE'] = $postulantesReportAnio["fechaEntrevista"] != "" ? $postulantesReportAnio["fechaFichaPost"] : "0000-00-00";
+      $postulantesReportAnio['FICHA ENTREVISTA'] = $postulantesReportAnio["estadoEntrevista"] ? "Listo" : "Falta";
+      //psicologico
+      $postulantesReportAnio['FECHA PSI'] = $postulantesReportAnio["fechaInformePsicologico"] != "" ? $postulantesReportAnio["fechaInformePsicologico"] : "0000-00-00";
+      $postulantesReportAnio['INFORME PSICOLOGICO'] = $postulantesReportAnio["estadoInformePsicologico"] ? "Listo" : "Falta";
+      //costancia no adeudo
+      $postulantesReportAnio['FECHA CONS'] = $postulantesReportAnio["fechaConstanciaAdeudo"] != "" ? $postulantesReportAnio["fechaInformePsicologico"] : "0000-00-00";
+      $postulantesReportAnio['CONSTANCIA NO ADEUDO'] = $postulantesReportAnio["constanciaAdeudo"] ? "Listo" : "Falta";
+      //carta admision
+      $postulantesReportAnio['FECHA AD'] = $postulantesReportAnio["fechaCartaAdmision"] != "" ? $postulantesReportAnio["fechaCartaAdmision"] : "0000-00-00";
+      $postulantesReportAnio['CARTA ADMISION'] = $postulantesReportAnio["cartaAdmision"] ? "Listo" : "Falta";
+      //pago matricula
+      $postulantesReportAnio['FECHA MAT'] = $postulantesReportAnio["fechaPagoMatricula"] != "" ? $postulantesReportAnio["fechaPagoMatricula"] : "0000-00-00";
+      $postulantesReportAnio['PAGO MATRICULA'] = $postulantesReportAnio["pagoMatricula"] ? "Listo" : "Falta";
+      //contrato
+      $postulantesReportAnio['FECHA CONT'] = $postulantesReportAnio["fechaContrato"] != "" ? $postulantesReportAnio["fechaContrato"] : "0000-00-00";
+      $postulantesReportAnio['CONTRATO'] = $postulantesReportAnio["contrato"] ? "Listo" : "Falta";
+      //constancia vacante
+      $postulantesReportAnio['FECHA VAC'] = $postulantesReportAnio["fechaConstanciaVacante"] != "" ? $postulantesReportAnio["fechaConstanciaVacante"] : "0000-00-00";
+      $postulantesReportAnio['CONSTANCIA VACANTE'] = $postulantesReportAnio["constanciaVacante"] ? "Listo" : "Falta";
+      $postulantesReportAnio['OBSEVACIONES'] = "Observacion";
+      // Eliminar los campos nombrePostulante y apellidoPostulante y gradoPostulante despues de usarlos
+      unset($postulantesReportAnio["nombrePostulante"]);
+      unset($postulantesReportAnio["apellidoPostulante"]);
+      unset($postulantesReportAnio["fechaPostulacion"]);
+      unset($postulantesReportAnio["descripcionGrado"]);
+      unset($postulantesReportAnio["fechaEntrevista"]);
+      unset($postulantesReportAnio["idPostulante"]);
+      unset($postulantesReportAnio["fechaFichaPost"]);
+      unset($postulantesReportAnio["estadoFichaPostulante"]);
+      unset($postulantesReportAnio["estadoEntrevista"]);
+      unset($postulantesReportAnio["fechaInformePsicologico"]);
+      unset($postulantesReportAnio["estadoInformePsicologico"]);
+      unset($postulantesReportAnio["fechaConstanciaAdeudo"]);
+      unset($postulantesReportAnio["fechaCartaAdmision"]);
+      unset($postulantesReportAnio["cartaAdmision"]);
+      unset($postulantesReportAnio["fechaPagoMatricula"]);
+      unset($postulantesReportAnio["pagoMatricula"]);
+      unset($postulantesReportAnio["fechaContrato"]);
+      unset($postulantesReportAnio["contrato"]);
+      unset($postulantesReportAnio["fechaConstanciaVacante"]);
+      unset($postulantesReportAnio["constanciaVacante"]);
+      unset($postulantesReportAnio["constanciaAdeudo"]);
+      // Reordenar las claves del array para la cebezera del reporte
+      $postulantesReportAnio = array_merge(array_flip($ordenClaves), $postulantesReportAnio);
+    }
+    return $listPostulantes;
+  }
 }
