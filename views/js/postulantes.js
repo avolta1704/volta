@@ -836,3 +836,150 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 });
+// Visualizar Pago de Matricula cuando no hay pago
+$("#btnVisualizarPagoMatricula1").click(function(event) {
+  Swal.fire({
+      icon: 'warning',
+      title: 'No hay ningún pago registrado',
+      confirmButtonText: 'OK'
+  });
+});
+
+
+// Funcionalidad para el botón Registrar Pago de Matrícula
+$("#btnPagoMatricula").click(function (event) {
+
+  // Obtener el codgio de postulante de pago del atributo del botón
+  var codPostulante = $(this).data("codpostulante");
+	window.location = "index.php?ruta=registrarPago&codPostulante=" + codPostulante;
+
+});
+
+// Funcionalidad para el botón "Visualizar Pago de Matrícula" cuando hay pago realizado
+$("#btnVisualizarPagoMatricula").click(function (event) {
+  var codPago = $(this).data("pago-matricula");
+	var data = new FormData();
+	data.append("codPago", codPago);
+
+	$.ajax({
+		url: "ajax/postulantes.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+      // Obtener la descripción del grado desde la respuesta del servidor
+      var descripcionGrado = response.descripcionGrado;
+
+      // Dividir la descripción del grado en nivel y año
+      var nivel = descripcionGrado.split(' ')[0]; // Extrae la primera palabra
+      // Encontrar el índice del primer espacio en la descripción del grado
+      var primerEspacioIndex = descripcionGrado.indexOf(' ');
+
+      // Extraer el año del grado (texto después del primer espacio)
+      var año = descripcionGrado.slice(primerEspacioIndex + 1); 
+			$("#nombresDetalle").val(response.nombrePostulante);
+			$("#apellidosDetalle").val(response.apellidoPostulante);
+			$("#gradoDetalle").val(nivel);
+			$("#nivelDertalle").val(año);
+			$("#codigoCajaDetalle").val(response.cantidadPago);
+			$("#mesDetalle").val(response.idTipoPago);
+			$("#LimitePagoDetalle").val(response.fechaPago);
+
+			// Abre el modal después de recibir la respuesta
+			$("#modalDetallePago").modal("show");
+      
+		},
+	});
+});
+
+// Botón "Editar" y "Eliminar" en el modal de detalle de pago
+$(document).ready(function() {
+    // Funcionalidad para el botón "Editar"
+    $("#modalDetallePago").on("click", "#btnEditarPago", function() {
+      // Obtener el código de postulante de pago del atributo del botón
+      var codPago = $(this).data("pago-matricula");
+
+      // Mostrar un mensaje de confirmación utilizando SweetAlert
+      Swal.fire({
+          title: '¿Deseas editar este pago?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, editar',
+          cancelButtonText: 'Cancelar'
+      }).then((result) => {
+          if (result.isConfirmed) {
+              // Si el usuario confirma, redirige a la página de edición
+              /* window.location = "index.php?ruta=editarPago&codPago=" + codPago; */
+          }
+      });
+  });
+
+  // Funcionalidad para el botón "Eliminar"
+  $("#modalDetallePago").on("click", "#btnEliminarPago", function() {
+    // Obtener el código de postulante de pago del atributo del botón
+    var codPago = $(this).data("pago-matricula");
+    var data = new FormData();
+    data.append("codPagoDelet", codPago);
+  
+    Swal.fire({
+      icon: "warning",
+      title: "Advertencia",
+      html: "¿Está seguro de eliminar el registro de pago? <br> <br> <strong>¡Esta acción no se podra deshacer!</strong>",
+      showCancelButton: true, // Muestra el botón de cancelación
+      confirmButtonText: "Sí",
+      cancelButtonText: "No",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "ajax/pagos.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            if (response == "ok") {
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: "Registro Eliminado correctamente",
+                timer: 1500,
+                showConfirmButton: false,
+              });
+              // Desmarcar el checkbox
+              $("#checkPagoMatricula").prop("checked", false);
+              location.reload();
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "Error al Eliminar el Registro",
+                timer: 1000,
+                showConfirmButton: false,
+              });
+            }
+            setTimeout(function () {
+              location.reload();
+            }, 1500);
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      }
+    });
+  });
+});
+
+
+

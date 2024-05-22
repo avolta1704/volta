@@ -415,6 +415,7 @@ class ControllerPostulantes
     return $dataChecklist;
   }
 
+
   //  Actualizar el checklist del postulante
   public static function ctrActualizarChecklist($dataActualizarcheclist)
   {
@@ -510,7 +511,16 @@ class ControllerPostulantes
     $response = ModelPostulantes::mdlDownloadURLPsicologico($table, $codPostulanteUrlPsicologico);
     return $response;
   }
-  
+    //  Obtener datos del Pago para editar 
+    public static function ctrGetIdEditPago($codPago)
+    {
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      $tabla = "pago";
+      $dataPago = ModelPostulantes::mdlGetIdEditPago($tabla, $codPago);
+      return $dataPago;
+    }
   
 
 

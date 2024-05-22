@@ -96,6 +96,18 @@ class ModelPagos
       return "error";
     }
   }
+
+  //  Eliminar pago de matricula de la tabla postulante
+  public static function mdlDeletePagoMatricula($codPagoDelet)
+  {
+    $statement = Connection::conn()->prepare("UPDATE postulante SET pagoMatricula = NULL WHERE pagoMatricula = :idPago;");
+    $statement->bindParam(":idPago", $codPagoDelet, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
   //obtener id de cronograma_pago y estado por idPago 
   public static function mdlObtenerIdCronogramaPago($tabla, $codPago)
   {
@@ -205,6 +217,7 @@ class ModelPagos
           p.fechaPago, 
           p.cantidadPago, 
           p.metodoPago,
+          p.numeroComprobante,
           a.nombresAlumno,
           a.apellidosAlumno,
           a.dniAlumno,

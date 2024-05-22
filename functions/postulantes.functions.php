@@ -87,4 +87,18 @@ class FunctionPostulantes
     </div>
     ";
   }
+  // Selec tipo pago  edit
+  public static function getTipoPagoEdit($idTipoPago)
+  {
+    if ($idTipoPago == 1) {
+      $tipo = 'Matrícula';
+    }
+    if ($idTipoPago == 2) {
+      $tipo = 'Pensión';
+    }
+    if ($idTipoPago == 3) {
+      $tipo = 'Otro';
+    }
+    return $tipo;
+  }
 }

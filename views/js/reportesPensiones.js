@@ -370,7 +370,7 @@ const crearArchivoExcelConMesesSeleccionados = (
 };
 
 
-//  Vista para el modal de cronograma de pagos de Reporte de Pneisones Atrasadas
+//  Vista para el modal de cronograma de pagos de Reporte de Pensisones Atrasadas
 $(".dataTableReportesPensiones").on("click", ".btnVisualizarAdmisionAlumno", function () {
     var idAdmisionAlumno = $(this).attr("idAdmisionAlumno");
     var data = new FormData();
@@ -444,19 +444,18 @@ $(".dataTableReportesPensiones").on("click", ".btnVisualizarAdmisionAlumno", fun
 
 );
 
-//vista para editar RegistroPago
+//boton para ir a la vista agregar pago
 $(".dataTableReportesPensiones").on("click", ".btnEditarEstadoAdmisionAlumno", function () {
 
 	window.location = "index.php?ruta=registrarPago";
 });
 
 
-//vista para editar RegistroPago
+//boton para ir a la vista de comunicado de pago
 $(".dataTableReportesPensiones").on("click", ".btnEliminarAdmisionAlumno", function () {
 	// Obtener el código de pago del atributo del botón
 	var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
 	var codAlumno = $(this).attr("codAlumno");
 
-	/* http://localhost/volta/index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=24&codAlumno=24 */
 	window.location = "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" + codAlumno+"&codAlumno="+codAlumno;
 });
