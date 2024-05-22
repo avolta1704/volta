@@ -34,7 +34,7 @@ class ajaxAsignarCursos
     $todosLosCursosPorGrado = ControllerCursos::ctrGetCursosPorGrado($idGrado);
     foreach ($todosLosCursosPorGrado as &$data) {
       $data['descripcionCurso'] = strval($data['descripcionCurso']);
-      $data['buttons'] = FunctionAsignarCursos::getButtonDeleteCurso($data['idCurso']);
+      $data['buttons'] = FunctionAsignarCursos::getButtonDeleteCurso($data['idCursoGrado']);
     }
     echo json_encode($todosLosCursosPorGrado);
   }
@@ -62,6 +62,18 @@ class ajaxAsignarCursos
     $response = ControllerCursos::ctrAsignarCursoAGrado($dataAsignarCurso);
     echo json_encode($response);
   }
+
+  /**
+   * Elimina un curso asignado.
+   * 
+   * @param int $idCursoGrado El ID del curso asignado.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+  public function eliminarCursoAsignado($idCursoGrado)
+  {
+    $response = ControllerCursos::ctrEliminarCursoGrado($idCursoGrado);
+    echo json_encode($response);
+  }
 }
 
 
@@ -83,4 +95,9 @@ if (isset($_POST["idGradoAsignar"])) {
 if (isset($_POST["dataAsignarCurso"])) {
   $asignarCursoAGrado = new ajaxAsignarCursos();
   $asignarCursoAGrado->asignarCursoAGrado($_POST["dataAsignarCurso"]);
+}
+
+if (isset($_POST["dataEliminarCurso"])) {
+  $eliminarCursoAsignado = new ajaxAsignarCursos();
+  $eliminarCursoAsignado->eliminarCursoAsignado($_POST["dataEliminarCurso"]);
 }
