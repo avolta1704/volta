@@ -112,4 +112,27 @@ class ModelCursos
     $stmt->execute();
     return $stmt->fetch();
   }
+
+  /**
+   * Edita un curso.
+   *
+   * @param array $data Datos del curso.
+   * @return string Retorna un mensaje de éxito o error.
+   */
+
+  static public function mdlEditarCurso($data)
+  {
+    $tabla = "curso";
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCurso = :descripcionCurso, idArea = :idArea, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCurso = :idCurso");
+    $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
+    $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idCurso", $data["idCurso"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
