@@ -127,7 +127,7 @@ $(".dataTableCursos").on("click", ".btnEliminarCurso", function (event) {
 	});
 });
 
-// Editar un curso
+// Obtener datos a editar
 $(".dataTableCursos").on("click", ".btnEditarCurso", function (event) {
 	const modalEditarCurso = $("#modalEditarCurso");
 	var idCurso = $(this).attr("idCurso");
@@ -155,10 +155,6 @@ $(".dataTableCursos").on("click", ".btnEditarCurso", function (event) {
 				});
 				return;
 			}
-
-			// Abre el modal
-			modalEditarCurso.modal("show");
-
 			// Coloca el valor de response.descripcionCurso en un input
 			$("#descripcionCursoEditar").val(response.descripcionCurso);
 			$("#areaCursoEditar").val(response.idArea);
@@ -170,6 +166,75 @@ $(".dataTableCursos").on("click", ".btnEditarCurso", function (event) {
 				textStatus,
 				errorThrown
 			);
+		},
+	});
+});
+
+// Editar curso
+$(".btnEditarCursoModal").on("click", function () {
+	var idCurso = $("#idCursoEditar").val();
+	var descripcionCurso = $("#descripcionCursoEditar").val();
+	var idArea = $("#areaCursoEditar").val();
+
+	if (descripcionCurso == "") {
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "El campo de descripción no puede estar vacío",
+			timer: 2000,
+			showConfirmButton: true,
+		});
+		return;
+	}
+
+	if (idArea == "") {
+		Swal.fire({
+			icon: "error",
+			title: "Error",
+			text: "Selecciona un área para el curso",
+			timer: 2000,
+			showConfirmButton: true,
+		});
+		return;
+	}
+
+	$("#descripcionCursoEditar").attr("value", descripcionCurso);
+	$("#areaCursoEditar").attr("value", idArea);
+
+	var dataEditarCursoModal = {
+		idCurso: idCurso,
+		descripcionCurso: descripcionCurso,
+		idArea: idArea,
+		btnEditarCursoModal: true,
+	};
+
+	var data = new FormData();
+	data.append("dataEditarCursoModal", JSON.stringify(dataEditarCursoModal));
+
+	$.ajax({
+		url: "ajax/cursos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			if (response == "ok") {
+				$("#descripcionCursoEditar").val("");
+				$("#areaCursoEditar").val("");
+				$("#idCursoEditar").val("");
+				$("#modalEditarCurso").modal("hide");
+
+				Swal.fire({
+					icon: "success",
+					title: "Editado",
+					text: "Curso Editado",
+					showConfirmButton: true,
+				}).then((result) => {
+					location.reload();
+				});
+			}
 		},
 	});
 });
