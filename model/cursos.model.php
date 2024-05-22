@@ -48,9 +48,10 @@ class ModelCursos
   static public function mdlRegistrarCurso($data)
   {
     $tabla = "curso";
-    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(descripcionCurso, idArea, fechaActualizacion, usuarioActualizacion, fechaCreacion, usuarioCreacion, estadoCurso) VALUES (:descripcionCurso, :idArea, :fechaActualizacion, :usuarioActualizacion, :fechaCreacion, :usuarioCreacion,  1)");
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(descripcionCurso, idArea, fechaActualizacion, usuarioActualizacion, fechaCreacion, usuarioCreacion, estadoCurso) VALUES (:descripcionCurso, :idArea, :fechaActualizacion, :usuarioActualizacion, :fechaCreacion, :usuarioCreacion,  :estadoCurso)");
     $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
     $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":estadoCurso", $data["estadoCurso"], PDO::PARAM_INT);
     $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
     $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
     $stmt->bindParam(":fechaCreacion", $data["fechaCreacion"], PDO::PARAM_STR);
@@ -107,7 +108,7 @@ class ModelCursos
   static public function mdlGetCurso($idCurso)
   {
     $tabla = "curso";
-    $stmt = Connection::conn()->prepare("SELECT idCurso, descripcionCurso, idArea FROM $tabla WHERE idCurso = :idCurso");
+    $stmt = Connection::conn()->prepare("SELECT idCurso, descripcionCurso, idArea, estadoCurso FROM $tabla WHERE idCurso = :idCurso");
     $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch();
@@ -123,9 +124,10 @@ class ModelCursos
   static public function mdlEditarCurso($data)
   {
     $tabla = "curso";
-    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCurso = :descripcionCurso, idArea = :idArea, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCurso = :idCurso");
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCurso = :descripcionCurso, idArea = :idArea, estadoCurso = :estadoCurso, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCurso = :idCurso");
     $stmt->bindParam(":descripcionCurso", $data["descripcionCurso"], PDO::PARAM_STR);
     $stmt->bindParam(":idArea", $data["idArea"], PDO::PARAM_INT);
+    $stmt->bindParam(":estadoCurso", $data["estadoCurso"], PDO::PARAM_INT);
     $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
     $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
     $stmt->bindParam(":idCurso", $data["idCurso"], PDO::PARAM_INT);
