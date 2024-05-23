@@ -83,4 +83,11 @@ class ControllerPersonal
     return $dataTipoDocente;
   }
 
+  //  Obtener personal por id de usuario
+  public static function ctrGetPersonalByIdUsuario($codUsuario)
+  {
+    $table = "personal";
+    $dataPersonal = ModelPersonal::mdlGetPersonalByIdUsuario($table, $codUsuario);
+    return $dataPersonal;
+  }
 }
