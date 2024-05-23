@@ -81,6 +81,59 @@ class ModelPersonal
     }
   }
 
+  /**
+   * Editar el personal creado apartir de un usuario 
+   * 
+   * @param string $table
+   * @param array $dataPersonal
+   * @return string
+   */
+  public static function mdlEditarUsuarioPersonal($table, $dataPersonal)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $table SET idTipoPersonal = :idTipoPersonal, correoPersonal = :correoPersonal, nombrePersonal = :nombrePersonal, apellidoPersonal = :apellidoPersonal, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":idTipoPersonal", $dataPersonal["idTipoPersonal"], PDO::PARAM_INT);
+    $statement->bindParam(":correoPersonal", $dataPersonal["correoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":nombrePersonal", $dataPersonal["nombrePersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPersonal", $dataPersonal["apellidoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataPersonal["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataPersonal["usuarioActualizacion"], PDO::PARAM_INT);
+    $statement->bindParam(":idUsuario", $dataPersonal["idUsuario"], PDO::PARAM_INT);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Crear el personal apartir de un usuario
+   * 
+   * @param string $table
+   * @param array $dataUsuarioPersonal
+   * @return string 
+   */
+  public static function mdlCrearUsuarioPersonalApartirUsuario($table, $dataUsuarioPersonal)
+  {
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idUsuario, idTipoPersonal, correoPersonal, nombrePersonal, apellidoPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:idUsuario, :idTipoPersonal, :correoPersonal, :nombrePersonal, :apellidoPersonal, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+
+    $statement->bindParam(":idUsuario", $dataUsuarioPersonal["idUsuario"], PDO::PARAM_INT);
+    $statement->bindParam(":idTipoPersonal", $dataUsuarioPersonal["idTipoPersonal"], PDO::PARAM_INT);
+    $statement->bindParam(":correoPersonal", $dataUsuarioPersonal["correoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":nombrePersonal", $dataUsuarioPersonal["nombrePersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPersonal", $dataUsuarioPersonal["apellidoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCreacion", $dataUsuarioPersonal["fechaCreacion"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataUsuarioPersonal["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioCreacion", $dataUsuarioPersonal["usuarioCreacion"], PDO::PARAM_INT);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuarioPersonal["usuarioActualizacion"], PDO::PARAM_INT);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
   //  Obtener tipo de docente para el inicio de sesion
   public static function mdlGetTipoDocente($table, $codUsuario)
   {
@@ -100,6 +153,29 @@ class ModelPersonal
   WHERE
     usuario.idUsuario = :idUsuario");
     $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Obtener personal por id de usuario
+  public static function mdlGetPersonalByIdUsuario($tabla, $idUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Obtener el id del tipo de personal de administrativo
+   * 
+   * @param string $table
+   * @return int $idTipoPersonal
+   */
+
+  public static function mdlObtenerIdTipoPersonal($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idTipoPersonal FROM $table WHERE descripcionTipo = 'Administrativo'");
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
