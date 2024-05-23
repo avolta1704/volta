@@ -193,6 +193,35 @@ class ControllerUsuarios
         }
       }
 
+      // Si el usuario se cambia de administrativo a docente entonces se debe agregar o actualizar el personal
+      if ($_POST["tipoEditar"] == 2) {
+        $tablaTipoPersonal = "tipo_personal";
+
+        $idTipoDocente = ModelPersonal::mdlObtenerIdTipoPersonal($tablaTipoPersonal);
+
+        $dataPersonal = array(
+          "idUsuario" => $_POST["codUsuario"],
+          "idTipoPersonal" => $idTipoDocente["idTipoPersonal"],
+          "correoPersonal" => $_POST["correoEditar"],
+          "nombrePersonal" => $_POST["nombreEditar"],
+          "apellidoPersonal" => $_POST["apellidoEditar"],
+          "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+
+        $tabla = "personal";
+        // buscamos si existe este personal 
+        $personal = ModelPersonal::mdlGetPersonalByIdUsuario($tabla, $_POST["codUsuario"]);
+
+        if ($personal) {
+          $response = ModelPersonal::mdlEditarUsuarioPersonal($tabla, $dataPersonal);
+        } else {
+          $response = ModelPersonal::mdlCrearUsuarioPersonalApartirUsuario($tabla, $dataPersonal);
+        }
+      }
+
 
       $tabla = "usuario";
       $dataUsuario = array(
