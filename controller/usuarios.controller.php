@@ -179,10 +179,6 @@ class ControllerUsuarios
         if ($personal) {
           $response = ModelPersonal::mdlEditarUsuarioPersonal($tabla, $dataPersonal);
         }
-        //TODO: revisar si es necesario crear un nuevo personal
-        // else {
-        //   $response = ModelPersonal::mdlCrearUsuarioPersonalApartirUsuario($tabla, $dataPersonal);
-        // }
 
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta('success', 'Correcto', 'Usuario editado correctamente', 'usuarios');
@@ -197,7 +193,7 @@ class ControllerUsuarios
       if ($_POST["tipoEditar"] == 2) {
         $tablaTipoPersonal = "tipo_personal";
 
-        $idTipoDocente = ModelPersonal::mdlObtenerIdTipoPersonal($tablaTipoPersonal);
+        $idTipoDocente = ModelPersonal::mdlObtenerIdTipoDocente($tablaTipoPersonal);
 
         $dataPersonal = array(
           "idUsuario" => $_POST["codUsuario"],
