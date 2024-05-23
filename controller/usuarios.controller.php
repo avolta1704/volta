@@ -50,9 +50,9 @@ class ControllerUsuarios
       return false;
     }
     $verificar = password_verify($password, $userData["password"]);
-  
+
     //  Primero verificamos si los datos ingresados son correctos, en el caso que si sea se verificará si el usuario está activo o no
-    if($verificar == true) {
+    if ($verificar == true) {
       $verificarActivo = self::ctrVerificarEstado($email);
       if ($verificarActivo == "activo") {
         return true;
@@ -153,6 +153,47 @@ class ControllerUsuarios
   public static function ctrEditarUsuarioPersonal()
   {
     if (isset($_POST["correoEditar"])) {
+
+      // Si el usuario se cambia de docente a administrativo entonces se debe cambiar el tipo de personal a administrativo
+      if ($_POST["tipoEditar"] == 3) {
+        $tablaTipoPersonal = "tipo_personal";
+
+        $idTipoAdministrativo = ModelPersonal::mdlObtenerIdTipoPersonal($tablaTipoPersonal);
+
+        $dataPersonal = array(
+          "idUsuario" => $_POST["codUsuario"],
+          "idTipoPersonal" => $idTipoAdministrativo["idTipoPersonal"],
+          "correoPersonal" => $_POST["correoEditar"],
+          "nombrePersonal" => $_POST["nombreEditar"],
+          "apellidoPersonal" => $_POST["apellidoEditar"],
+          "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+
+        $tabla = "personal";
+        // buscamos si existe este personal 
+        $personal = ModelPersonal::mdlGetPersonalByIdUsuario($tabla, $_POST["codUsuario"]);
+
+        if ($personal) {
+          $response = ModelPersonal::mdlEditarUsuarioPersonal($tabla, $dataPersonal);
+        }
+        //TODO: revisar si es necesario crear un nuevo personal
+        // else {
+        //   $response = ModelPersonal::mdlCrearUsuarioPersonalApartirUsuario($tabla, $dataPersonal);
+        // }
+
+        if ($response == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta('success', 'Correcto', 'Usuario editado correctamente', 'usuarios');
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error', 'Error al editar el usuario', 'usuarios');
+          echo $mensaje;
+        }
+      }
+
+
       $tabla = "usuario";
       $dataUsuario = array(
         "correoUsuario" => $_POST["correoEditar"],
