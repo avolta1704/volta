@@ -49,8 +49,9 @@ class FunctionUsuario
         <i class="bi bi-pencil-square"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
-        <button type="button" class="btn btnActualizarUsuario" codUsuario="' . $codUsuario . '">Activar</button>
-        <button type="button" class="btn btnDeleteUsuario" codUsuario="' . $codUsuario . '">Eliminar</button>
+        <button type="button" class="dropdown-item btn btnActualizarUsuario" codUsuario="' . $codUsuario . '">Activar</button>
+        <button type="button" class="dropdown-item btn btnEditarUsuario" data-bs-toggle="modal" data-bs-target="#editarUsuario" codUsuario="' . $codUsuario . '">Editar</button>
+        <button type="button" class="dropdown-item btn btnDeleteUsuario" codUsuario="' . $codUsuario . '">Eliminar</button>
       </ul>
     </div>
     ';
