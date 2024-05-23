@@ -179,4 +179,18 @@ class ModelPersonal
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtener el id del tipo de personal de docente
+   * 
+   * @param string $table
+   * @return int $idTipoPersonal
+   */
+
+  public static function mdlObtenerIdTipoDocente($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idTipoPersonal FROM $table WHERE descripcionTipo = 'Docente General'");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
