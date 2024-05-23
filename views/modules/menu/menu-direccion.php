@@ -115,9 +115,7 @@
         </li>
       </ul>
     </li>
-  </ul>
-
-  <!-- CURSOS POR GRADO -->
+    <!-- CURSOS POR GRADO -->
   <li class="nav-item">
     <a class="nav-link collapsed" data-bs-target="#allCurses" data-bs-toggle="collapse" href="#">
       <i class="bi bi-book"></i><span>Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -135,6 +133,7 @@
       </li>
     </ul>
   </li>
+  </ul>
 
   </ul>
 </aside>

@@ -238,4 +238,17 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+   //  Cambiar estado del alumno
+   public static function mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno)
+   {
+     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoAlumno=:estadoAlumno WHERE idAlumno=:idAlumno");
+     $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_STR);
+     $statement->bindParam(":estadoAlumno", $cambiarEstadoAlumno, PDO::PARAM_STR);
+     if ($statement->execute()) {
+       return "ok";
+     } else {
+       return "error";
+     }
+   }
 }

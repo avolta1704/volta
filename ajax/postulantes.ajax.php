@@ -161,6 +161,7 @@ if (isset($_POST["codPostulanteBusqueda"])) {
   $obtenerDataPostulante->codPostulanteBusqueda = $_POST["codPostulanteBusqueda"];
   $obtenerDataPostulante->ajaxBuscarPostulante();
 }
+<<<<<<< HEAD
 //  Insertar URL de descarga
 if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
   $obtenerDownloadURL = new PostulantesAjax();
@@ -211,11 +212,51 @@ if (isset($_POST["reportesRegistrosPostualntes"])) {
   $todosLosRegistrosPostualntes = new PostulantesAjax();
   $todosLosRegistrosPostualntes->ajaxDescargarReportePostulantes($_POST["reportesRegistrosPostualntes"]);
 }
+=======
 
-// vista de pagos detalles de pago
-if (isset($_POST["codPago"])) {
-  $mostrarDetallesPago = new PostulantesAjax();
-  $mostrarDetallesPago->codPago = $_POST["codPago"];
-  $mostrarDetallesPago->ajaxMostrarDetallesPago();
-}
+  //  Insertar URL de descarga
+  if (isset($_POST["downloadURL"]) && isset($_POST["codPostulante"])) {
+    $obtenerDownloadURL = new PostulantesAjax();
+    $obtenerDownloadURL->codPostulanteUrl = $_POST["codPostulante"];
+    $obtenerDownloadURL->obtenerDownloadURL = $_POST["downloadURL"];
+    $obtenerDownloadURL->ajaxObtenerDownloadURL();
+
+  }
+  // Obtener la URL desde la base de datos
+  if (isset($_POST["codPostulanteURL"])) {
+    $DownloadURL = new PostulantesAjax();
+    $DownloadURL->codPostulanteDownloadUrl = $_POST["codPostulanteURL"];
+    $DownloadURL->ajaxDownloadURL();
+  }
+
+
+  //  Insertar URL de descarga
+  if (isset($_POST["downloadURLPsicologico"]) && isset($_POST["codPostulantePsicologico"])) {
+    $obtenerDownloadURLPsicologico = new PostulantesAjax();
+    $obtenerDownloadURLPsicologico->codPostulanteUrlPsicologico = $_POST["codPostulantePsicologico"];
+    $obtenerDownloadURLPsicologico->obtenerDownloadURLPsicologico = $_POST["downloadURLPsicologico"];
+    $obtenerDownloadURLPsicologico->ajaxObtenerDownloadURLPsicologico();
+
+  }
+  // Obtener la URL desde la base de datos
+  if (isset($_POST["codPostulanteURLPsicologico"])) {
+    $obtenerDownloadURLPsicologico = new PostulantesAjax();
+    $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
+    $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
+  }
+
+    //  editar checlist del postulante
+  if (isset($_POST["actualizarCheclist"])) {
+    $dataActualizarCheclist = new PostulantesAjax();
+    $dataActualizarCheclist->dataActualizarCheclist = $_POST["actualizarCheclist"];
+    $dataActualizarCheclist->ajaxEditarCheclistPostulante();
+  }
+>>>>>>> feature/Coreccion-Visual
+
+  // vista de pagos detalles de pago
+  if (isset($_POST["codPago"])) {
+    $mostrarDetallesPago = new PostulantesAjax();
+    $mostrarDetallesPago->codPago = $_POST["codPago"];
+    $mostrarDetallesPago->ajaxMostrarDetallesPago();
+  }
 
