@@ -19,7 +19,7 @@
             </button>
             <ul class="dropdown-menu">
               <li><button class="dropdown-item" id="btnDescargarReporteComunicados"><i class="bi bi-file-earmark-excel"></i> Descargar reporte de comunicaciones</button></li>
-              <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#seleccionarRangoFechasComunicados"><i class="bi bi-file-earmark-excel"></i> Descargar comunicaciones por rango de fechas</button></li>
+              <li><button class="dropdown-item" id="btnDescargarMmReport"><i class="bi bi-file-earmark-excel"></i> Descargar comunicaciones por rango de fechas</button></li>
             </ul>
           </div>
         </div>
