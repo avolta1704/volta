@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-  <h2 class="mt-4 tituloUsuarios"></h2><br>
+    <h2 class="mt-4 tituloUsuarios"></h2><br>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
@@ -26,10 +26,10 @@
               <!--  Titulo dataTableUsuarios-->
               <table id="dataTableUsuarios" class="display dataTableUsuarios" style="width: 100%">
                 <thead>
-                <!-- dataTableUsuarios -->
+                  <!-- dataTableUsuarios -->
                 </thead>
                 <tbody>
-                 <!--dataTableUsuarios-->
+                  <!--dataTableUsuarios-->
                 </tbody>
               </table>
 
