@@ -130,4 +130,12 @@ class ControllerAlumnos
     $dataAlumno["calendario"] = $calendariopagos;
     return $dataAlumno;
   }
+
+    //  Cambiar estado del alumno
+    public static function ctrCambiarEstadoAlumno($codAlumno, $cambiarEstadoAlumno)
+    {
+      $tabla = "alumno";
+      $dataAlumno = ModelAlumnos::mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno);
+      return $dataAlumno;
+    }
 }
