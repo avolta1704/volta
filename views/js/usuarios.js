@@ -105,3 +105,51 @@ $("#usuarioCorreo").on("change", function () {
     },
   });
 });
+
+//  Eliminar usuarios
+$(".dataTableUsuarios").on("click", ".btnDeleteUsuario", function () {
+  var codUsuario = $(this).attr("codUsuario");
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "¡El alumno será eliminado!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("codUsuarioEliminar", codUsuario);
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire(
+              "Eliminado",
+              "El usuario ha sido eliminado.",
+              "success"
+            ).then(() => {
+              location.reload();
+            });
+          } else {
+            Swal.fire(
+              "Error",
+              "El usuario tiene registros asociados, no se puede eliminar.",
+              "warning"
+            ).then(() => {
+              location.reload();
+            });
+          }
+        },
+      });
+    }
+  });
+});

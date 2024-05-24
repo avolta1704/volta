@@ -40,9 +40,17 @@ class UsuariosAjax
     $response = ControllerUsuarios::ctrValidarCorreo($validarCorreo);
     echo json_encode($response);
   }
+
+  public $eliminarUsuario;
+  public function ajaxEliminarUsuario()
+  {
+    $eliminarUsuario = $this->eliminarUsuario;
+    $response = ControllerUsuarios::ctrEliminarUsuario($eliminarUsuario);
+    echo json_encode($response);
+  }
 }
 
-//mostar todos los usuarios DataTable
+//  Mostar todos los usuarios DataTable
 if (isset($_POST["todosLosUsuarios"])) {
   $mostrarTodosLosUsuarios = new UsuariosAjax();
   $mostrarTodosLosUsuarios->ajaxMostrarTodosLosUsuarios();
@@ -67,4 +75,11 @@ if(isset($_POST["validarCorreo"])){
   $validarCorreo = new UsuariosAjax();
   $validarCorreo->validarCorreo = $_POST["validarCorreo"];
   $validarCorreo->ajaxValidarCorreo();
+}
+
+//  Eliminar un usuario
+if(isset($_POST["codUsuarioEliminar"])){
+  $eliminarUsuario = new UsuariosAjax();
+  $eliminarUsuario->eliminarUsuario = $_POST["codUsuarioEliminar"];
+  $eliminarUsuario->ajaxEliminarUsuario();
 }

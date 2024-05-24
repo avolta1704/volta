@@ -260,4 +260,23 @@ class ControllerUsuarios
     $response = ModelUsuarios::mdlValidarCorreo($tabla, $validarCorreo);
     return $response;
   }
+
+  public static function ctrEliminarUsuario($codUsuario)
+  {
+    $verificar = self::ctrVerificarUsuarioBD($codUsuario);
+    if ($verificar["existencia"] == true || $verificar["existencia"] == "1") {
+      return "error";
+    } else {
+      $tabla = "usuario";
+      $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+      return $response;
+    }
+  }
+
+  //  Verifica si el usuario está siendo usando en la base de datos. En caso que esté enviará 1 y no 0
+  public static function ctrVerificarUsuarioBD($codUsuario)
+  {
+    $response = ModelUsuarios::mdlVerificarUsuario($codUsuario);
+    return $response;
+  }
 }

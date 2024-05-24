@@ -137,4 +137,53 @@ class ModelUsuarios
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  //  Eliminar usuario 
+  public static function mdlEliminarUsuario($table, $codUsuario)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $table WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //  Verificar usabilidad de un usuario en toda la base de datos
+  public static function mdlVerificarUsuario($codUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT CASE 
+    WHEN EXISTS (
+        SELECT 1 FROM alumno WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM anio_admision WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM anio_escolar WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM curso WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM curso_grado WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM cursogrado_personal WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM comunicacion_pago WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM cronograma_pago WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM personal WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM pago WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM postulante WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+        UNION ALL
+        SELECT 1 FROM record_nota WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
+    ) THEN TRUE
+    ELSE FALSE
+END AS existencia
+    ");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
