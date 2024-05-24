@@ -64,6 +64,7 @@
                   } else {
                     $montoMatricula = 0;
                   }
+                  $tipoPagoCuotaInicial = ControllerPagos::ctrGetIdTipoPagoCuotaInicial();
 
                   echo '
                     <label for="montoPago" class="form-label" style="font-weight: bold">Monto Pago: </label>
@@ -71,6 +72,7 @@
                   </div>
                   <div class="col-md-4">
                     <label for="cuotaInicial" class="form-label" style="font-weight: bold">Cuota inicial: </label>
+                    <input type="text" class="form-control d-none" id="idTipoPagoCuotaInicial" name="idTipoPagoCuotaInicial" value="' . $tipoPagoCuotaInicial["idTipoPago"] . '" readonly>
                     <input type="text" class="form-control" id="cuotaInicial" name="cuotaInicial" value="' . $cuotaInicial . '" placeholder="Ingrese la cuota inicial" readonly>
                   </div>
                 </div>
