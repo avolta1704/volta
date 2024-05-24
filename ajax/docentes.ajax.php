@@ -12,8 +12,9 @@ class DocentesAjax
     $todosLosDocentes = ControllerDocentes::ctrGetAllDocentes();
     foreach ($todosLosDocentes as &$usuario) {
       $usuario['state'] = FunctionDocente::getEstadoocentes($usuario["estadoUsuario"]);
-      $usuario['grado'] = ControllerDocentes::getBtnUsuarios($usuario["idUsuario"]);
-      $usuario['buttons'] = FunctionDocente::getBtnUsuarios($usuario["idUsuario"]);
+      $usuario["grado"] = ControllerDocentes::ctrGetGrado($usuario['idPersonal']);
+      $usuario["grado"] = FunctionDocente::getGrado($usuario['grado']);
+      $usuario['buttons'] = FunctionDocente::getBtnUsuarios($usuario["idUsuario"], $usuario["estadoUsuario"]);
       
     }
     echo json_encode($todosLosDocentes);

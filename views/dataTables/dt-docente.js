@@ -5,7 +5,9 @@ $(document).ready(function() {
     { data: "idUsuario" },
     { data: "nombreUsuario" },
     { data: "apellidoUsuario" },
+    { data: "descripcionTipo" },
     { data: "state" },
+    { data: "grado" },
     { data: "buttons" },
   ];
 
@@ -46,7 +48,9 @@ $("#dataTableDocentes thead").html(`
       <th scope="col">#</th>
       <th scope="col">Nombres</th>
       <th scope="col">Apellidos</th>
+      <th scope="col">Tipo de Docente</th>
       <th scope="col">Estado</th>
+      <th scope="col">Grado Asignado</th>
       <th scope="col">Acciones</th>
     </tr>
     `);
@@ -61,7 +65,9 @@ columnDefsDocente = [
   },
   { data: "nombreUsuario" },
   { data: "apellidoUsuario" },
+  { data: "descripcionTipo" },
   { data: "state" },
+  { data: "grado" },
   { data: "buttons" },
 ];
 tableDocente = $("#dataTableDocentes").DataTable({

@@ -11,12 +11,23 @@ class ControllerDocentes
     $listUsuarios = ModelDocentes::mdlGetAllDocentes($tabla);
     return $listUsuarios;
   }
-  //  Obtener tipos de usuarios
-  public static function ctrGetTipoUsuarios()
+  public static function ctrGetCursoGrado()
   {
-    $tabla = "tipo_usuario";
-    $listTipos = ModelUsuarios::mdlGetTipoUsuarios($tabla);
-    return $listTipos;
+    $tabla = "grado";
+    $listaGrados = ModelDocentes::mdlGetCursoGrado($tabla);
+    return $listaGrados;
+  }
+  public static function ctrGetGrado($idpersonal)
+  {
+    $tabla = "usuario";
+    $listaGrados = ModelDocentes::mdlGetGrado($tabla,$idpersonal);
+    return $listaGrados;
+  }
+  public static function ctrGetCurso()
+  {
+    $tabla = "grado";
+    $listaGrados = ModelDocentes::mdlGetCurso($tabla);
+    return $listaGrados;
   }
  
 }
