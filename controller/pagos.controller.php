@@ -66,7 +66,7 @@ class ControllerPagos
         echo $mensaje;
       }
       // Código para crear un registro de pago sin cronograma de pago
-    } else if (isset($_POST["tipoPago"])) {
+    } else if (isset($_POST["tipoPago"]) && isset($_POST["idTipoPagoCuotaInicial"])) {
       // crear registro pago alumno sin cronograma de pago
       $tabla = "pago";
       $dataPagoAlumno = array(
@@ -81,7 +81,6 @@ class ControllerPagos
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
       $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
-
       if ($crearPago == "ok") {
         $nuevoPago = self::ctrlObtenerUltimoRegistro();
         $tabla = "postulante";
@@ -95,7 +94,36 @@ class ControllerPagos
         $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
       }
 
-      if ($actualizarPostulante == "ok") {
+
+      $dataPagoCuotaAlumno = array(
+        "idTipoPago" => $_POST["idTipoPagoCuotaInicial"],
+        "fechaPago" => $_POST["fechaRegistroPago"],
+        "cantidadPago" => $_POST["cuotaInicial"],
+        "metodoPago" => $_POST["metodoPago"],
+        "numeroComprobante" => $_POST["nroComprobante"],
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $tabla = "pago";
+      $crearPagoCuotaInicial = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoCuotaAlumno);
+
+      if ($crearPagoCuotaInicial == "ok") {
+        $nuevoPago = self::ctrlObtenerUltimoRegistro();
+        $tabla = "postulante";
+        $datosActualizadoPostulante = array(
+          "idPostulante" => intval($_GET["codPostulante"]),
+          "pagoCuotaIngreso" => $nuevoPago["idPago"],
+          "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $actualizarPostulanteCuota = ModelPostulantes::mdlEditarCuotaInicialPostulante($tabla, $datosActualizadoPostulante);
+      }
+
+
+      if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
         $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
         echo $mensaje;
       } else {
@@ -179,12 +207,12 @@ class ControllerPagos
     // Eliminar el registro de la tabla 'pago'
     $response = ModelPagos::mdlDeleteRegistroPago($tabla, $codPagoDelet);
     // Para eliminar pago matricula postulante, cuando no hay cronograma de pago
-    if($dataPagoCrono == false){
+    if ($dataPagoCrono == false) {
       //Update de la tabla postulante el campo pagoMatricula igual a null
       $response = ModelPagos::mdlDeletePagoMatricula($codPagoDelet);
       return $response;
     } else {
-      if ($response == "ok") { 
+      if ($response == "ok") {
         $table = "cronograma_pago";
         $dataEditEstadoCrono = array(
           "idCronogramaPago" => $dataPagoCrono['idCronogramaPago'],
@@ -202,8 +230,6 @@ class ControllerPagos
         return $response;
       }
     }
-
-    
   }
   //obtener id de cronograma_pago y estado por idPago
   public static function ctrObtenerIdCronogramaPago($codPagoDelet)
@@ -508,6 +534,14 @@ class ControllerPagos
   {
     $tabla = "tipo_pago";
     $dataPago = ModelPagos::mdlGetIdTipoPago($tabla);
+    return $dataPago;
+  }
+
+  //  Obtener idTipoPago de la cuota iniciañ
+  public static function ctrGetIdTipoPagoCuotaInicial()
+  {
+    $tabla = "tipo_pago";
+    $dataPago = ModelPagos::mdlGetIdTipoPagoCuotaInicial($tabla);
     return $dataPago;
   }
 
