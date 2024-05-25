@@ -267,7 +267,7 @@ class ModelPostulantes
   //  Obtener la data del checklist
   public static function mdlGetChecklistPostulante($table, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT fichaPostulante, fechaFichaPost, estadoFichaPostulante, fechaEntrevista, estadoEntrevista, informePsicologico, fechaInformePsicologico, estadoInformePsicologico, constanciaAdeudo, fechaConstanciaAdeudo, cartaAdmision, fechaCartaAdmision, pagoMatricula, fechaPagoMatricula, contrato, fechaContrato, constanciaVacante, fechaConstanciaVacante FROM $table WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT fichaPostulante, fechaFichaPost, estadoFichaPostulante, fechaEntrevista, estadoEntrevista, informePsicologico, fechaInformePsicologico, estadoInformePsicologico, constanciaAdeudo, fechaConstanciaAdeudo, cartaAdmision, fechaCartaAdmision, pagoMatricula, fechaPagoMatricula, contrato, fechaContrato, constanciaVacante, fechaConstanciaVacante, documentoTraslado, fechaDocumentoTraslado FROM $table WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -340,7 +340,9 @@ class ModelPostulantes
         pagoMatricula = :pagoMatricula,
         fechaPagoMatricula = :fechaPagoMatricula,
         fechaActualizacion = :fechaActualizacion,
-        usuarioActualizacion = :usuarioActualizacion
+        usuarioActualizacion = :usuarioActualizacion,
+        documentoTraslado = :documentoTraslado,
+        fechaDocumentoTraslado = :fechaDocumentoTraslado
       WHERE idPostulante = :idPostulante
     ");
     $statement->bindParam(":idPostulante", $actualizarChecklist["idPostulante"], PDO::PARAM_STR);
@@ -362,6 +364,8 @@ class ModelPostulantes
     $statement->bindParam(":fechaPagoMatricula", $actualizarChecklist["fechaPagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $actualizarChecklist["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $actualizarChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":documentoTraslado", $actualizarChecklist["documentoTraslado"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaDocumentoTraslado", $actualizarChecklist["fechaDocumentoTraslado"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
