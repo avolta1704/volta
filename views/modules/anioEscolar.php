@@ -100,3 +100,64 @@
     </div>
   </div>
 </div>
+
+<!-- Modal editar año -->
+<div class="modal fade" id="modalEditarAnio" tabindex="-1" aria-labelledby="modalEditarAnioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarAnioLabel" style="font-weight:bold">Editar Año Escolar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formEditarAnio">
+          <div class="mb-3">
+            <label for="editarDescripcionAnio" class="form-label" style="font-weight:bold">Nuevo Año Escolar</label>
+            <input type="number" step="1" class="form-control" id="editarDescripcionAnio" name="editarDescripcionAnio" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarCuotaIngreso" class="form-label" style="font-weight:bold">Cuota de Ingreso</label>
+            <input type="number" step="0.1" class="form-control" id="editarCuotaIngreso" name="editarCuotaIngreso" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarMatriculaInicial" class="form-label" style="font-weight:bold">Matrícula Inicial</label>
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaInicial" name="editarMatriculaInicial" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarPensionInicial" class="form-label" style="font-weight:bold">Pensión Inicial</label>
+            <input type="number" step="0.1" class="form-control" id="editarPensionInicial" name="editarPensionInicial" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarMatriculaPrimaria" class="form-label" style="font-weight:bold">Matrícula Primaria</label>
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaPrimaria" name="editarMatriculaPrimaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarPensionPrimaria" class="form-label" style="font-weight:bold">Pensión Primaria</label>
+            <input type="number" step="0.1" class="form-control" id="editarPensionPrimaria" name="editarPensionPrimaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarMatriculaSecundaria" class="form-label" style="font-weight:bold">Matrícula Secundaria</label>
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaSecundaria" name="editarMatriculaSecundaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarPensionSecundaria" class="form-label" style="font-weight:bold">Pensión Secundaria</label>
+            <input type="number" step="0.1" class="form-control" id="editarPensionSecundaria" name="editarPensionSecundaria" required />
+          </div>
+
+          <div class="modal-footer">
+            <input type="hidden" class="codAnioEscolar" name="codAnioEscolar" id="codAnioEscolar">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btnEditarAnioEscolar" id="btnEditarAnioEscolar" name="btnEditarAnioEscolar">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

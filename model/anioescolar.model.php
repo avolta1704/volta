@@ -54,4 +54,35 @@ class ModelAnioEscolar
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  //  Obtener un año escolar para luego editarlo
+  public static function mdlBuscarAnioEscolar($table, $codAnio)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAnioEscolar, descripcionAnio, estadoAnio, cuotaInicial, matriculaInicial, pensionInicial, matriculaPrimaria, pensionPrimaria, matriculaSecundaria, pensionSecundaria FROM $table WHERE idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAnioEscolar", $codAnio, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Editar un año escolar existente
+  public static function mdlEditarAnioEscolar($tabla, $datosEditarAnio)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET descripcionAnio = :descripcionAnio, cuotaInicial = :cuotaInicial, matriculaInicial = :matriculaInicial, pensionInicial = :pensionInicial, matriculaPrimaria = :matriculaPrimaria, pensionPrimaria = :pensionPrimaria, matriculaSecundaria = :matriculaSecundaria, pensionSecundaria = :pensionSecundaria, fechaActualizacion = :fechaActualizacion WHERE idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAnioEscolar", $datosEditarAnio["idAnioEscolar"], PDO::PARAM_INT);
+    $statement->bindParam(":descripcionAnio", $datosEditarAnio["descripcionAnio"], PDO::PARAM_STR);
+    $statement->bindParam(":cuotaInicial", $datosEditarAnio["cuotaInicial"], PDO::PARAM_STR);
+    $statement->bindParam(":matriculaInicial", $datosEditarAnio["matriculaInicial"], PDO::PARAM_STR);
+    $statement->bindParam(":pensionInicial", $datosEditarAnio["pensionInicial"], PDO::PARAM_STR);
+    $statement->bindParam(":matriculaPrimaria", $datosEditarAnio["matriculaPrimaria"], PDO::PARAM_STR);
+    $statement->bindParam(":pensionPrimaria", $datosEditarAnio["pensionPrimaria"], PDO::PARAM_STR);
+    $statement->bindParam(":matriculaSecundaria", $datosEditarAnio["matriculaSecundaria"], PDO::PARAM_STR);
+    $statement->bindParam(":pensionSecundaria", $datosEditarAnio["pensionSecundaria"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $datosEditarAnio["fechaActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

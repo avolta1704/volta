@@ -11,7 +11,7 @@ class ControllerAnioEscolar
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
-    $arrayDatos = array(
+    $arrayAnio = array(
       "descripcionAnio" => "Año " . $dataAnioEscolar["descripcionAnio"],
       "estadoAnio" => "2",
       "cuotaInicial" => $dataAnioEscolar["cuotaIngreso"],
@@ -26,7 +26,7 @@ class ControllerAnioEscolar
       "usuarioCreacion" => $_SESSION["idUsuario"],
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
-    $response = ModelAnioEscolar::mdlCrearAnioEscolar($tabla, $arrayDatos);
+    $response = ModelAnioEscolar::mdlCrearAnioEscolar($tabla, $arrayAnio);
     return $response;
   }
   //  Obtener el anio escolar por el estado activo = 1 // y admision extraordinario
@@ -51,5 +51,39 @@ class ControllerAnioEscolar
     $table = "anio_escolar";
     $listaAnios = ModelAnioEscolar::mdlGetTodosAniosEscolar($table);
     return $listaAnios;
+  }
+
+  //  Obtener un año escolar para luego editarlo
+  public static function ctrBuscarAnioEscolar($codAnio)
+  {
+    $table = "anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlBuscarAnioEscolar($table, $codAnio);
+    $descripcionAnio = explode(" ", $respuesta['descripcionAnio']);
+    $respuesta['descripcionAnio'] = $descripcionAnio[1];
+    return $respuesta;
+  }
+
+  //  Editar un año escolar existente
+  public static function ctrEditarAnioEscolar($dataEditarAnio)
+  {
+    $tabla = "anio_escolar";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $arrayAnio = array(
+      "idAnioEscolar" => $dataEditarAnio["idAnioEscolar"],
+      "descripcionAnio" => "Año " . $dataEditarAnio["descripcionAnio"],
+      "cuotaInicial" => $dataEditarAnio["cuotaIngreso"],
+      "matriculaInicial" => $dataEditarAnio["matriculaInicial"],
+      "pensionInicial" => $dataEditarAnio["pensionInicial"],
+      "matriculaPrimaria" => $dataEditarAnio["matriculaPrimaria"],
+      "pensionPrimaria" => $dataEditarAnio["pensionPrimaria"],
+      "matriculaSecundaria" => $dataEditarAnio["matriculaSecundaria"],
+      "pensionSecundaria" => $dataEditarAnio["pensionSecundaria"],
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelAnioEscolar::mdlEditarAnioEscolar($tabla, $arrayAnio);
+    return $response;
   }
 }
