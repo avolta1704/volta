@@ -489,7 +489,9 @@ class ControllerPostulantes
       "pagoMatricula" => $dataChecklist["checkPagoMatricula"] == "on" ? 1 : ($dataChecklist["checkPagoMatricula"] == "" ? 0 : 0),
       "fechaPagoMatricula" => $dataChecklist["fechaPagoMatricula"] != "" ? $dataChecklist["fechaPagoMatricula"] : "0000-00-00",
       "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioActualizacion" => $_SESSION["idUsuario"]
+      "usuarioActualizacion" => $_SESSION["idUsuario"],
+      "documentoTraslado" => $dataChecklist["checkDocumentoTraslado"] == "on" ? true : false,
+      "fechaDocumentoTraslado" => $dataChecklist["fechaDocumentoTraslado"] != "" ? $dataChecklist["fechaDocumentoTraslado"] : "0000-00-00",
     );
 
     $response = ModelPostulantes::mdlActualizarChecklist($table, $actualizarChecklist);
