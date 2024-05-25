@@ -12,7 +12,7 @@ class FunctionAnioEscolar
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropDownAniosEscolar">
         <div>
-          <button type="button" class="dropdown-item btnVisualizarAnio" codAnio="' . ($idAnio) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePago">Visualizar</button>
+          <button type="button" class="dropdown-item btnVisualizarAnio" codAnio="' . ($idAnio) . '" data-bs-toggle="modal" data-bs-target="#modalVisualizarAnio">Visualizar</button>
         </div>
         <div>
             <button type="button" class="dropdown-item btnEditarAnio" codAnio="' . ($idAnio) . '" data-bs-toggle="modal" data-bs-target="#modalEditarAnio">Editar</button>

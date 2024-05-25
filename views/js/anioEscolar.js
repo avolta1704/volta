@@ -83,7 +83,7 @@ $("#btnRegistrarAnioEscolar").on("click", function () {
 });
 
 //  Obtener los datos del anioEscolar para editar
-$(".dataTableAnios").on("click", ".btnEditarAnio", function (event) {
+$(".dataTableAnios").on("click", ".btnEditarAnio", function (e) {
   var codAnio = $(this).attr("codAnio");
 
   var data = new FormData();
@@ -185,6 +185,52 @@ $(".btnEditarAnioEscolar").on("click", function () {
           location.reload();
         });
       }
+    },
+  });
+});
+
+//  Obtener los datos del anioEscolar para visualizar
+$(".dataTableAnios").on("click", ".btnVisualizarAnio", function (e) {
+  var codAnio = $(this).attr("codAnio");
+
+  var data = new FormData();
+  data.append("codAnioBuscar", codAnio);
+
+  //  Reutilizamos la función de obtener los datos para editar
+  $.ajax({
+    url: "ajax/anioEscolar.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response == "error") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "El año no se encontró",
+          timer: 2000,
+          showConfirmButton: true,
+        });
+        return;
+      } else {
+        var estadoAnio = response.estadoAnio == 1 ? "Activo" : "Inactivo";
+        $("#visualizarDescripcionAnio").val(response.descripcionAnio);
+        $("#visualizarEstadoAnio").val(estadoAnio);
+        $("#visualizarCuotaIngreso").val(response.cuotaInicial);
+        $("#visualizarMatriculaInicial").val(response.matriculaInicial);
+        $("#visualizarPensionInicial").val(response.pensionInicial);
+        $("#visualizarMatriculaPrimaria").val(response.matriculaPrimaria);
+        $("#visualizarPensionPrimaria").val(response.pensionPrimaria);
+        $("#visualizarMatriculaSecundaria").val(response.matriculaSecundaria);
+        $("#visualizarPensionSecundaria").val(response.pensionSecundaria);
+        $("#visualizarPensionSecundaria").val(response.pensionSecundaria);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });
 });

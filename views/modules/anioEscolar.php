@@ -161,3 +161,85 @@
     </div>
   </div>
 </div>
+
+<!-- Modal visualizar año -->
+<div class="modal fade" id="modalVisualizarAnio" tabindex="-1" aria-labelledby="modalVisualizarAnioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalVisualizarAnioLabel" style="font-weight:bold">Visualizar Año Escolar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formVisualizarAnio">
+          <div class="row mb-4">
+            <label for="visualizarDescripcionAnio" class="col-sm-4 col-form-label" style="font-weight:bold">Año Escolar</label>
+            <div class="col-sm-8">
+              <input type="number" step="1" class="form-control" id="visualizarDescripcionAnio" name="visualizarDescripcionAnio" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            <label for="visualizarEstadoAnio" class="col-sm-4 col-form-label" style="font-weight:bold">Estado</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control" id="visualizarEstadoAnio" name="visualizarEstadoAnio" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarCuotaIngreso" class="col-sm-4 col-form-label" style="font-weight:bold">Cuota de Ingreso</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarCuotaIngreso" name="visualizarCuotaIngreso" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarMatriculaInicial" class="col-sm-4 col-form-label" style="font-weight:bold">M. Inicial</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaInicial" name="visualizarMatriculaInicial" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarPensionInicial" class="col-sm-4 col-form-label" style="font-weight:bold">P. Inicial</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionInicial" name="visualizarPensionInicial" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarMatriculaPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">M. Primaria</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaPrimaria" name="visualizarMatriculaPrimaria" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarPensionPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">P. Primaria</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionPrimaria" name="visualizarPensionPrimaria" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarMatriculaSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">M. Secundaria</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaSecundaria" name="visualizarMatriculaSecundaria" readonly />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <label for="visualizarPensionSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">P. Secundaria</label>
+            <div class="col-sm-8">
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionSecundaria" name="visualizarPensionSecundaria" readonly />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
