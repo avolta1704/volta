@@ -46,10 +46,34 @@
                   <input type="text" class="form-control" id="descripcionTipo" name="descripcionTipo" value="' . $tipoPago["descripcionTipo"] . '" readonly>
                   </div>
                   <div class="col-md-4">';
-                  $montoMatricula = ControllerAnioEscolar::ctrGetAnioEscolarActivo();
+                  $anioActivo = ControllerAnioEscolar::ctrGetAnioEscolarActivo();
+
+                  $cuotaInicial = $anioActivo["cuotaInicial"];
+                  $matriculaInicial = $anioActivo["matriculaInicial"];
+                  $matriculaPrimaria = $anioActivo["matriculaPrimaria"];
+                  $matriculaSecundaria = $anioActivo["matriculaSecundaria"];
+
+                  $nivel = ControllerAnioEscolar::ctrGetNivelEducacion($datosPostulante["idNivel"]);
+
+                  if ($nivel == "Inicial") {
+                    $montoMatricula = $matriculaInicial;
+                  } elseif ($nivel == "Primaria") {
+                    $montoMatricula = $matriculaPrimaria;
+                  } elseif ($nivel == "Secundaria") {
+                    $montoMatricula = $matriculaSecundaria;
+                  } else {
+                    $montoMatricula = 0;
+                  }
+                  $tipoPagoCuotaInicial = ControllerPagos::ctrGetIdTipoPagoCuotaInicial();
+
                   echo '
                     <label for="montoPago" class="form-label" style="font-weight: bold">Monto Pago: </label>
-                    <input type="text" class="form-control" id="montoPago" name="montoPago" value="' . $montoMatricula["costoMatricula"] . '" readonly>
+                    <input type="text" class="form-control" id="montoPago" name="montoPago" value="' . $montoMatricula . '" readonly>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="cuotaInicial" class="form-label" style="font-weight: bold">Cuota inicial: </label>
+                    <input type="text" class="form-control d-none" id="idTipoPagoCuotaInicial" name="idTipoPagoCuotaInicial" value="' . $tipoPagoCuotaInicial["idTipoPago"] . '" readonly>
+                    <input type="text" class="form-control" id="cuotaInicial" name="cuotaInicial" value="' . $cuotaInicial . '" placeholder="Ingrese la cuota inicial" readonly>
                   </div>
                 </div>
                 <div class="row  mb-3">

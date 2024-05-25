@@ -124,4 +124,17 @@ class ControllerAnioEscolar
     $response = ModelAnioEscolar::mdlVerificarUsoAnioEscolar($codAnio);
     return $response;
   }
+  /**
+   * Obtener el nivel de educacion
+   * 
+   * @param int $idNivelEducacion
+   * @return string
+   */
+
+  public static function ctrGetNivelEducacion($idNivelEducacion)
+  {
+    $table = "nivel";
+    $listNivelEducacion = ModelAnioEscolar::mdlGetNivelEducacion($table, $idNivelEducacion);
+    return $listNivelEducacion;
+  }
 }

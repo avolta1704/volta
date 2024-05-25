@@ -3,6 +3,24 @@ require_once "connection.php";
 
 class ModelPostulantes
 {
+
+  // iniciar transaccion
+  public static function beginTransaction()
+  {
+    Connection::conn()->beginTransaction();
+  }
+
+  // finalizar transaccion
+  public static function commit()
+  {
+    Connection::conn()->commit();
+  }
+
+  // cancelar transaccion
+  public static function rollBack()
+  {
+    Connection::conn()->rollBack();
+  }
   //  Obtener todos los postulantes
   public static function mdlGetAllPostulantes($tabla)
   {
@@ -277,6 +295,28 @@ class ModelPostulantes
     }
   }
 
+  /**
+   * Actualiza el pago de couta inicial de un postulante en la base de datos.
+   * 
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param array $datosPostulante Los datos del postulante a actualizar.
+   * @return string Retorna "ok" si la actualización fue exitosa, o "error" en caso contrario.
+   */
+  public static function mdlEditarCuotaInicialPostulante($tabla, $datosPostulante)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoCuotaIngreso = :pagoCuotaIngreso, fechaCuotaIngreso = :fechaCuotaIngreso, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":pagoCuotaIngreso", $datosPostulante["pagoCuotaIngreso"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCuotaIngreso", $datosPostulante["fechaCuotaIngreso"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
   //  Actualizar el checklist del postulante con todas las modificaciones
 
   public static function mdlActualizarChecklist($table, $actualizarChecklist)
@@ -358,7 +398,7 @@ class ModelPostulantes
    */
   public static function mdlGetPagoMatriculaPostulante($tabla, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante, pagoCuotaIngreso FROM $tabla WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -397,7 +437,6 @@ class ModelPostulantes
     } else {
       return ["downloadURL" => null];
     }
-
   }
 
 
@@ -418,7 +457,7 @@ class ModelPostulantes
       return "error";
     }
   }
-    //datos de pago detalles de pago
+  //datos de pago detalles de pago
   public static function mdlGetIdEditPago($tabla, $codPago)
   {
     $statement = Connection::conn()->prepare("
@@ -461,7 +500,6 @@ class ModelPostulantes
     $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
-
   }
 
   // Obtener el link del infome psicologico
@@ -613,6 +651,5 @@ class ModelPostulantes
     $statement->bindParam(":anioFin", $datos['anioFin'], PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
-
   }
 }
