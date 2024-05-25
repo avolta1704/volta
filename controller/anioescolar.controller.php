@@ -104,4 +104,24 @@ class ControllerAnioEscolar
     $response = ModelAnioEscolar::mdlActivarAnioEscolar($tabla, $arrayAnio);
     return $response;
   }
+
+  //  Eliminar Año Escolar
+  public static function ctrEliminarAnioEscolar($codAnioEliminar)
+  {
+    $tabla = "anio_escolar";
+    $verificar = self::ctrVerificarUsoAnioEscolar($codAnioEliminar);
+    if ($verificar["existencia"] == true || $verificar["existencia"] == "1") {
+      return "error";
+    } else {
+      $response = ModelAnioEscolar::mdlEliminarAnioEscolar($tabla, $codAnioEliminar);
+    }
+    return $response;
+  }
+
+  //  Verificar el uso del año escolar
+  public static function ctrVerificarUsoAnioEscolar($codAnio)
+  {
+    $response = ModelAnioEscolar::mdlVerificarUsoAnioEscolar($codAnio);
+    return $response;
+  }
 }

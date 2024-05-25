@@ -51,6 +51,14 @@ class AnioEscolarAjax
     $respuesta = ControllerAnioEscolar::ctrActivarAnioEscolar($dataActivarAnioEscolar);
     echo json_encode($respuesta);
   }
+
+  //  Eliminar un año escolar
+  public function ajaxEliminarAnio($codAnioEliminar)
+  {
+    $codAnioEliminar = json_decode($codAnioEliminar, true);
+    $respuesta = ControllerAnioEscolar::ctrEliminarAnioEscolar($codAnioEliminar);
+    echo json_encode($respuesta);
+  }
 }
 
 //  Visualizar todos los años Escolares en el datatable
@@ -81,4 +89,10 @@ if (isset($_POST["dataEditarAnioEscolar"])) {
 if (isset($_POST["dataActivarAnioEscolar"])) {
   $activarAnioEscolar = new AnioEscolarAjax();
   $activarAnioEscolar->ajaxActivarAnio($_POST["dataActivarAnioEscolar"]);
+}
+
+//  Eliminar un año escolar
+if (isset($_POST["codAnioEliminar"])) {
+  $eliminarAnio = new AnioEscolarAjax();
+  $eliminarAnio->ajaxEliminarAnio($_POST["codAnioEliminar"]);
 }

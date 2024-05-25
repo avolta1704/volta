@@ -102,4 +102,25 @@ class ModelAnioEscolar
       return "error";
     }
   }
+
+  //  Verificar el uso del año escolar en las tablas de la base de datos
+  public static function mdlVerificarUsoAnioEscolar($codAnio)
+  {
+    $statement = Connection::conn()->prepare("SELECT COALESCE((SELECT 1 FROM anio_admision WHERE idAnioEscolar = :idAnioEscolar LIMIT 1), 0) AS existencia");
+    $statement->bindParam(":idAnioEscolar", $codAnio, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  //  Eliminar un año escolar
+  public static function mdlEliminarAnioEscolar($tabla, $codAnio)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAnioEscolar", $codAnio, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

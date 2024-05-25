@@ -301,3 +301,60 @@ $(".dataTableAnios").on("click", ".btnActualizarEstado", function (e) {
       });
     });
 });
+
+// Eliminar un Año Escolar
+$(".dataTableAnios").on("click", ".btnEliminarAnio", function (e) {
+  var codAnio = $(this).attr("codAnio");
+
+  Swal.fire({
+    title: "¿Estás seguro de eliminar el este Año Escolar ?",
+    text: "¡Si no lo está, puede cancelar la acción!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "¡Sí, eliminar Año Escolar !",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("codAnioEliminar", codAnio);
+
+      $.ajax({
+        url: "ajax/anioEscolar.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "¡El Año Escolar ha sido eliminado!",
+              showConfirmButton: true,
+              timer: 2000,
+            }).then((result) => {
+              location.reload();
+            });
+          } else if (response == "error") {
+            Swal.fire({
+              icon: "error",
+              title:
+                "No se pudo eliminar el curso. Es posible que esté en uso.",
+              showConfirmButton: true,
+              timer: 2000,
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    }
+  });
+});
