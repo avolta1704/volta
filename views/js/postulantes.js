@@ -1195,23 +1195,31 @@ $(document).ready(function () {
 			method: "POST",
 			data: datos,
 			dataType: "json",
-		}).done(function (data) {
-			// Organizar los datos
-			const dataPostulante = data.map((item) => {
-				let obj = {};
-				Object.entries(item).forEach(([key, value]) => {
-					obj[key] = value;
+		})
+			.done(function (data) {
+				// Organizar los datos
+				const dataPostulante = data.map((item) => {
+					let obj = {};
+					Object.entries(item).forEach(([key, value]) => {
+						obj[key] = value;
+					});
+					return obj;
 				});
-				return obj;
-			});
 
-			// Crear el archivo Excel
-			crearArchivoExcel(
-				dataPostulante,
-				"Reporte de Postulantes General",
-				"reporte_postulantes_general"
-			);
-		});
+				// Crear el archivo Excel
+				crearArchivoExcel(
+					dataPostulante,
+					"Reporte de Postulantes General",
+					"reporte_postulantes_general"
+				);
+			})
+			.fail(function (jqXHR, textStatus, errorThrown) {
+				console.log(
+					"Error en la solicitud AJAX: ",
+					textStatus,
+					errorThrown
+				);
+			});
 	}
 
 	const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {
