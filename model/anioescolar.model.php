@@ -41,4 +41,12 @@ class ModelAnioEscolar
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  //  Otener todos los años escolares
+  public static function mdlGetTodosAniosEscolar($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT idAnioEscolar, descripcionAnio, estadoAnio, cuotaInicial FROM $table");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

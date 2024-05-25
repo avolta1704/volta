@@ -44,4 +44,12 @@ class ControllerAnioEscolar
     $listAnioEscolarActiva =  ModelAnioEscolar::mdlGetAnioEscolarActivo($table);
     return $listAnioEscolarActiva;
   }
+
+  //  Obtener todos los años escolares
+  public static function ctrGetTodosAniosEscolar()
+  {
+    $table = "anio_escolar";
+    $listaAnios = ModelAnioEscolar::mdlGetTodosAniosEscolar($table);
+    return $listaAnios;
+  }
 }
