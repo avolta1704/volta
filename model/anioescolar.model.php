@@ -67,7 +67,7 @@ class ModelAnioEscolar
   //  Editar un año escolar existente
   public static function mdlEditarAnioEscolar($tabla, $datosEditarAnio)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET descripcionAnio = :descripcionAnio, cuotaInicial = :cuotaInicial, matriculaInicial = :matriculaInicial, pensionInicial = :pensionInicial, matriculaPrimaria = :matriculaPrimaria, pensionPrimaria = :pensionPrimaria, matriculaSecundaria = :matriculaSecundaria, pensionSecundaria = :pensionSecundaria, fechaActualizacion = :fechaActualizacion WHERE idAnioEscolar = :idAnioEscolar");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET descripcionAnio = :descripcionAnio, cuotaInicial = :cuotaInicial, matriculaInicial = :matriculaInicial, pensionInicial = :pensionInicial, matriculaPrimaria = :matriculaPrimaria, pensionPrimaria = :pensionPrimaria, matriculaSecundaria = :matriculaSecundaria, pensionSecundaria = :pensionSecundaria, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idAnioEscolar = :idAnioEscolar");
     $statement->bindParam(":idAnioEscolar", $datosEditarAnio["idAnioEscolar"], PDO::PARAM_INT);
     $statement->bindParam(":descripcionAnio", $datosEditarAnio["descripcionAnio"], PDO::PARAM_STR);
     $statement->bindParam(":cuotaInicial", $datosEditarAnio["cuotaInicial"], PDO::PARAM_STR);
@@ -78,6 +78,23 @@ class ModelAnioEscolar
     $statement->bindParam(":matriculaSecundaria", $datosEditarAnio["matriculaSecundaria"], PDO::PARAM_STR);
     $statement->bindParam(":pensionSecundaria", $datosEditarAnio["pensionSecundaria"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosEditarAnio["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosEditarAnio["usuarioActualizacion"], PDO::PARAM_STR);
+
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //  Activar o desactivar el año escolar
+  public static function mdlActivarAnioEscolar($tabla, $datosActivarAnio)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoAnio = :estadoAnio, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAnioEscolar", $datosActivarAnio["idAnioEscolar"], PDO::PARAM_INT);
+    $statement->bindParam(":estadoAnio", $datosActivarAnio["estadoAnio"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaActualizacion", $datosActivarAnio["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosActivarAnio["usuarioActualizacion"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";

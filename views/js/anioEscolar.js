@@ -234,3 +234,70 @@ $(".dataTableAnios").on("click", ".btnVisualizarAnio", function (e) {
     },
   });
 });
+
+//  Actualizar el estado del año escolar
+$(".dataTableAnios").on("click", ".btnActualizarEstado", function (e) {
+  var codAnio = $(this).attr("codAnio");
+  var estadoAnio = $(this).attr("codEstado");
+
+  var descripcion = estadoAnio == "1" ? "Desactivar" : "Activar";
+  swal
+    .fire({
+      title: "¿Esta seguro de " + descripcion + "?",
+      text: "¡El estado del año cambiará!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, " + descripcion + "!",
+    })
+    .then((result) => {
+      var dataActivarAnioEscolar = {
+        codAnio: codAnio,
+        estadoAnio: estadoAnio,
+      };
+      var data = new FormData();
+      data.append(
+        "dataActivarAnioEscolar",
+        JSON.stringify(dataActivarAnioEscolar)
+      );
+      $.ajax({
+        url: "ajax/anioEscolar.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "error") {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Error al actualizar el estado del Año Escolar",
+              timer: 2000,
+              showConfirmButton: true,
+            });
+            return;
+          } else {
+            Swal.fire({
+              icon: "success",
+              title: "Actualizado",
+              text: "Estado del Año Escolar Actualizado",
+              showConfirmButton: true,
+            }).then((result) => {
+              location.reload();
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    });
+});

@@ -18,7 +18,7 @@ class FunctionAnioEscolar
             <button type="button" class="dropdown-item btnEditarAnio" codAnio="' . ($idAnio) . '" data-bs-toggle="modal" data-bs-target="#modalEditarAnio">Editar</button>
         </div>
         <div>
-            <button type="button" class="dropdown-item btnActualizarEstado" codAnio="' . ($idAnio) . '">' . $descripcion . '</button>
+            <button type="button" class="dropdown-item btnActualizarEstado" codAnio="' . ($idAnio) . '" codEstado="' . ($estadoAnio) . '">' . $descripcion . '</button>
         </div>
         <div>
             <button type="button" class="dropdown-item btnEliminarAnio" codAnio="' . ($idAnio) . '">Eliminar</button>

@@ -86,4 +86,22 @@ class ControllerAnioEscolar
     $response = ModelAnioEscolar::mdlEditarAnioEscolar($tabla, $arrayAnio);
     return $response;
   }
+
+  //  Activar o Desactivar año escolar
+  public static function ctrActivarAnioEscolar($dataActivarAnioEscolar)
+  {
+    $tabla = "anio_escolar";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $nuevoEstado = $dataActivarAnioEscolar["estadoAnio"] == 1 ? 2 : 1;
+    $arrayAnio = array(
+      "idAnioEscolar" => $dataActivarAnioEscolar["codAnio"],
+      "estadoAnio" => $nuevoEstado,
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelAnioEscolar::mdlActivarAnioEscolar($tabla, $arrayAnio);
+    return $response;
+  }
 }
