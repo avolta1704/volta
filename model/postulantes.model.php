@@ -3,6 +3,24 @@ require_once "connection.php";
 
 class ModelPostulantes
 {
+
+  // iniciar transaccion
+  public static function beginTransaction()
+  {
+    Connection::conn()->beginTransaction();
+  }
+
+  // finalizar transaccion
+  public static function commit()
+  {
+    Connection::conn()->commit();
+  }
+
+  // cancelar transaccion
+  public static function rollBack()
+  {
+    Connection::conn()->rollBack();
+  }
   //  Obtener todos los postulantes
   public static function mdlGetAllPostulantes($tabla)
   {
@@ -380,7 +398,7 @@ class ModelPostulantes
    */
   public static function mdlGetPagoMatriculaPostulante($tabla, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante, pagoCuotaIngreso FROM $tabla WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
