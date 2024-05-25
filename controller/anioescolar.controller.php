@@ -8,26 +8,26 @@ class ControllerAnioEscolar
   public static function ctrCrearAnioEscolar($dataAnioEscolar)
   {
     $tabla = "anio_escolar";
-    foreach ($dataAnioEscolar as $value) {
-      $datosAnioEscolar = array(
-        "descripcionAnio" => $value["descripcionAnio"],
-        "estadoAnio" => $value["estadoAnio"],
-        "costoMatricula" => $value["costoMatricula"],
-        "costoPension" => $value["costoPension"],
-        "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
-      $response = ModelAnioEscolar::mdlCrearAnioEscolar($tabla, $datosAnioEscolar);
-      if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Año escolar creado correctamente", "listaAnioEscolar");
-        echo $mensaje;
-      } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el año escolar", "listaAnioEscolar");
-        echo $mensaje;
-      }
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
     }
+    $arrayDatos = array(
+      "descripcionAnio" => "Año " . $dataAnioEscolar["descripcionAnio"],
+      "estadoAnio" => "2",
+      "cuotaInicial" => $dataAnioEscolar["cuotaIngreso"],
+      "matriculaInicial" => $dataAnioEscolar["matriculaInicial"],
+      "pensionInicial" => $dataAnioEscolar["pensionInicial"],
+      "matriculaPrimaria" => $dataAnioEscolar["matriculaPrimaria"],
+      "pensionPrimaria" => $dataAnioEscolar["pensionPrimaria"],
+      "matriculaSecundaria" => $dataAnioEscolar["matriculaSecundaria"],
+      "pensionSecundaria" => $dataAnioEscolar["pensionSecundaria"],
+      "fechaCreacion" => date("Y-m-d H:i:s"),
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelAnioEscolar::mdlCrearAnioEscolar($tabla, $arrayDatos);
+    return $response;
   }
   //  Obtener el anio escolar por el estado activo = 1 // y admision extraordinario
   public static function ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio)

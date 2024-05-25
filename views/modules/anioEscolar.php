@@ -15,8 +15,8 @@
     <div class="row gap-3">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary btnAgregarCurso gap-2 justify-content-center d-flex" data-bs-target="#modalAgregarAnio" data-bs-toggle="modal">
-            <i class="bi bi-plus-circle"></i> Agregar Año Escolar</button>
+          <button type="button" class="btn btn-primary gap-2 justify-content-center d-flex btnAgregarCurso" data-bs-target="#modalAgregarAnio" data-bs-toggle="modal">
+            <i class="bi bi-plus-circle"></i> Año Escolar</button>
         </div>
       </div>
       <!-- Left side columns -->
@@ -40,3 +40,63 @@
     </div>
   </section>
 </main>
+
+<!-- Modal crear año -->
+<div class="modal fade" id="modalAgregarAnio" tabindex="-1" aria-labelledby="modalAgregarAnio" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:bold">Agregar Nuevo Año Escolar</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formRegistrarAnio">
+          <div class="mb-3">
+            <label for="descripcionAnio" class="form-label" style="font-weight:bold">Nuevo Año Escolar</label>
+            <input type="number" step="1" class="form-control" id="descripcionAnio" name="descripcionAnio" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="cuotaIngreso" class="form-label" style="font-weight:bold">Cuota de Ingreso</label>
+            <input type="number" step="0.1" class="form-control" id="cuotaIngreso" name="cuotaIngreso" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="matriculaInicial" class="form-label" style="font-weight:bold">Matrícula Inicial</label>
+            <input type="number" step="0.1" class="form-control" id="matriculaInicial" name="matriculaInicial" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="pensionInicial" class="form-label" style="font-weight:bold">Pensión Inicial</label>
+            <input type="number" step="0.1" class="form-control" id="pensionInicial" name="pensionInicial" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="matriculaPrimaria" class="form-label" style="font-weight:bold">Matrícula Primaria</label>
+            <input type="number" step="0.1" class="form-control" id="matriculaPrimaria" name="matriculaPrimaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="pensionPrimaria" class="form-label" style="font-weight:bold">Pensión Primaria</label>
+            <input type="number" step="0.1" class="form-control" id="pensionPrimaria" name="pensionPrimaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="matriculaSecundaria" class="form-label" style="font-weight:bold">Matrícula Secundaria</label>
+            <input type="number" step="0.1" class="form-control" id="matriculaSecundaria" name="matriculaSecundaria" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="pensionSecundaria" class="form-label" style="font-weight:bold">Pensión Secundaria</label>
+            <input type="number" step="0.1" class="form-control" id="pensionSecundaria" name="pensionSecundaria" required />
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btnRegistrarAnioEscolar" id="btnRegistrarAnioEscolar" name="btnRegistrarAnioEscolar">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
