@@ -77,8 +77,13 @@
           </a>
         </li>
         <li>
-          <a href="reporteAdmisiones">
-            <i class="bi bi-circle"></i><span>Reporte Admisiones</span>
+          <a href="reporteComunicaciones">
+            <i class="bi bi-circle"></i><span>Reporte de Comunicaciones</span>
+          </a>
+        </li>
+        <li>
+          <a href="listaPostulantesAnio">
+            <i class="bi bi-circle"></i><span>Reporte de Postulantes</span>
           </a>
         </li>
         <li>
