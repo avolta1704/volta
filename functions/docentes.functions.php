@@ -45,8 +45,7 @@ class FunctionDocente
     //  Grado Asignado
     if ($grado == false) {
       $gradoasignado = '<span class="badge rounded-pill bg-danger">Sin asignar</span>';
-    }
-    else {
+    } else {
       $gradoasignado = '<span class="badge rounded-pill bg-success">Asignado</span>';
     }
 
@@ -54,36 +53,20 @@ class FunctionDocente
   }
 
   //botones usuarios
-  public static function getBtnUsuarios($codUsuario,$estadoUsuario)
+  public static function getBtnUsuarios($codPersonal, $estadoUsuario, $codTipoPersonal)
   {
-    
+    $descripcion = $estadoUsuario == 1 ? "Desactivar" : "Activar";
     $botones = '
     <div class="btn-group">
       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
         <i class="bi bi-pencil-square"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
-  ';
-
-  if ($estadoUsuario == 1) {
-    $botones .= '
-      <li><button type="button" class="dropdown-item btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#seleccionarCursosAsignados" codAlumno="' . $codUsuario . '">Asignar Curso</button></li>
-      <li><button type="button" class="dropdown-item btnDesactivarAlumno" codUsuario="' . $codUsuario . '">Desactivar</button></li>
-    ';
-  }
-  if ($estadoUsuario == 2) {
-    $botones .= '
-      <li><button type="button" class="dropdown-item btnVisualizarAlumno" data-bs-toggle="modal" data-bs-target="#seleccionarCursosAsignados" codAlumno="' . $codUsuario . '">Asignar Curso</button></li>
-      <li><button type="button" class="dropdown-item btnActivarAlumno" codUsuario="' . $codUsuario . '">Activar</button></li>
-    ';
-  }
-
-  $botones .= '
+        <li><button type="button" class="dropdown-item btnVisualizarDocente" data-bs-toggle="modal" data-bs-target="#seleccionarCursosAsignados" codPersonal="' . $codPersonal . '" codTipoPersonal="' . $codTipoPersonal . '">Asignar Curso</button></li>
+        <li><button type="button" class="dropdown-item btnDesactivarDocente" codPersonal="' . $codPersonal . '">' . $descripcion . '</button></li>
       </ul>
     </div>
   ';
-
-    
     return $botones;
   }
 }

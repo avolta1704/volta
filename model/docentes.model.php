@@ -7,16 +7,16 @@ class ModelDocentes
   {
     $statement = Connection::conn()->prepare("SELECT
     usuario.idUsuario, 
-    usuario.correoUsuario, 
     usuario.nombreUsuario, 
     usuario.apellidoUsuario, 
     usuario.estadoUsuario, 
-    usuario.ultimaConexion, 
     tipo_usuario.descripcionTipoUsuario, 
+		tipo_usuario.idTipoUsuario,
     personal.idPersonal, 
-    tipo_personal.descripcionTipo
+    tipo_personal.descripcionTipo,
+    personal.idTipoPersonal
   FROM
-    usuario
+    $tabla
     INNER JOIN
     tipo_usuario
     ON 
@@ -96,8 +96,9 @@ class ModelDocentes
   {
     $statement = Connection::conn()->prepare("SELECT
       grado.descripcionGrado, 
-      nivel.descripcionNivel, 
-      curso.descripcionCurso
+      nivel.idNivel, 
+      curso.descripcionCurso,
+      grado.idGrado
     FROM
       grado
       INNER JOIN
