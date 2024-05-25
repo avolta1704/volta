@@ -23,7 +23,7 @@ class ModelAdmisionAlumno
   //Obtener el data de anio escolar para el cronograma de pago se obtiene solo el año activo que es de valor de estado 1
   public static function mdlGetDataAnioEscolar($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT costoMatricula, costoPension
+    $statement = Connection::conn()->prepare("SELECT cuotaInicial, matriculaInicial, pensionInicial, matriculaPrimaria, pensionPrimaria, matriculaSecundaria, pensionSecundaria
     FROM $tabla
     WHERE estadoAnio = 1");
     $statement->execute();
@@ -116,6 +116,46 @@ class ModelAdmisionAlumno
   public static function mdlGetCodeCronogramaMatriculaByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
   {
     $statement = Connection::conn()->prepare("SELECT idCronogramaPago FROM $tabla WHERE idAdmisionAlumno = :idAdmisionAlumno AND LOWER(conceptoPago) = 'matrícula'");
+    $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  /**
+   * Obtiene el código del cronograma de cuota inicial por código de admisión del alumno.
+   *
+   * @param string $tabla La tabla en la que se realizará la consulta.
+   * @param int $codAdmisionAlumno El código de admisión del alumno.
+   * @return mixed El código del cronograma de pensión o null si no se encuentra.
+   */
+
+  public static function mdlGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idCronogramaPago FROM $tabla WHERE idAdmisionAlumno = :idAdmisionAlumno AND LOWER(conceptoPago) = 'cuota inicial'");
+    $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
+
+  /**
+   * Obtiene el idNivel de un alumno por su código de admision.
+   * 
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $codAdmision El código de admisión.
+   * @return int El idNivel del alumno.
+   */
+  public static function mdlGetIdNivelByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
+  {
+    $tablaAlumnoGrado = "alumno_grado";
+    $tablaGrado = "grado";
+    $tablaNivel = "nivel";
+
+    $statement = Connection::conn()->prepare("SELECT ng.descripcionNivel
+      FROM $tabla aa
+      INNER JOIN $tablaAlumnoGrado ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
+      INNER JOIN $tablaNivel ng ON g.idNivel = ng.idNivel
+      WHERE aa.idAdmisionAlumno = :idAdmisionAlumno");
     $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchColumn();
