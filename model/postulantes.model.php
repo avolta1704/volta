@@ -558,7 +558,9 @@ class ModelPostulantes
       postulante.fechaContrato,
       postulante.constanciaVacante,
       postulante.pagoMatricula,
-      postulante.fechaConstanciaVacante
+      postulante.fechaConstanciaVacante,
+      postulante.documentoTraslado,
+      postulante.fechaDocumentoTraslado
       FROM $tabla 
       ORDER BY postulante.idPostulante DESC");
     $statement->execute();
@@ -600,7 +602,9 @@ class ModelPostulantes
        postulante.fechaContrato,
        postulante.constanciaVacante,
        postulante.pagoMatricula,
-       postulante.fechaConstanciaVacante
+       postulante.fechaConstanciaVacante,
+        postulante.documentoTraslado,
+        postulante.fechaDocumentoTraslado
        FROM $tabla 
        WHERE postulante.fechaPostulacion BETWEEN :fechaInicio AND :fechaFin
        ORDER BY postulante.idPostulante DESC");
@@ -647,7 +651,9 @@ class ModelPostulantes
          postulante.fechaContrato,
          postulante.constanciaVacante,
          postulante.pagoMatricula,
-         postulante.fechaConstanciaVacante
+         postulante.fechaConstanciaVacante,
+          postulante.documentoTraslado,
+          postulante.fechaDocumentoTraslado
          FROM $tabla 
          WHERE YEAR(postulante.fechaPostulacion) BETWEEN :anioInicio AND :anioFin
          ORDER BY postulante.idPostulante DESC");
