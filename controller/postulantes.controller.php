@@ -594,7 +594,7 @@ class ControllerPostulantes
     }
     foreach ($listPostulantes as &$postulantesReportAnio) {
       //cabecera del reporte
-      $ordenClaves = array('CODIGO', 'APELLIDOS Y NOMBRES', 'GRADO', 'FECHA POST', 'FICHA POSTULANTE', 'FECHA ENTRE', 'FICHA ENTREVISTA', 'FECHA PSI', 'INFORME PSICOLOGICO', 'FECHA CONS', 'CONSTANCIA NO ADEUDO', 'FECHA AD', 'CARTA ADMISION', 'FECHA MAT', 'PAGO MATRICULA', 'FECHA CONT', 'CONTRATO', 'FECHA VAC', 'CONSTANCIA VACANTE', 'OBSEVACIONES');
+      $ordenClaves = array('CODIGO', 'APELLIDOS Y NOMBRES', 'GRADO', 'FECHA POST', 'FICHA POSTULANTE', 'FECHA ENTRE', 'FICHA ENTREVISTA', 'FECHA PSI', 'INFORME PSICOLOGICO', 'FECHA CONS', 'CONSTANCIA NO ADEUDO', 'FECHA AD', 'CARTA ADMISION', 'FECHA MAT', 'PAGO MATRICULA', 'FECHA CONT', 'CONTRATO', 'FECHA VAC', 'CONSTANCIA VACANTE', 'FECHA DOC TRASLADO', 'DOC TRASLADO', 'OBSEVACIONES');
 
       $postulantesReportAnio['CODIGO'] = FunctionPostulantes::getUnirIdentificadorFechaPostulacionAnio($postulantesReportAnio["idPostulante"], $postulantesReportAnio["fechaPostulacion"]);
       $postulantesReportAnio['APELLIDOS Y NOMBRES'] = FunctionPostulantes::getUnirNombreApellidoPostulantesXls($postulantesReportAnio["nombrePostulante"], $postulantesReportAnio["apellidoPostulante"]);
@@ -623,6 +623,9 @@ class ControllerPostulantes
       //constancia vacante
       $postulantesReportAnio['FECHA VAC'] = $postulantesReportAnio["fechaConstanciaVacante"] != "" ? $postulantesReportAnio["fechaConstanciaVacante"] : "0000-00-00";
       $postulantesReportAnio['CONSTANCIA VACANTE'] = $postulantesReportAnio["constanciaVacante"] ? "Listo" : "Falta";
+      //documento traslado
+      $postulantesReportAnio['FECHA DOC TRASLADO'] = $postulantesReportAnio["fechaDocumentoTraslado"] != "" ? $postulantesReportAnio["fechaDocumentoTraslado"] : "0000-00-00";
+      $postulantesReportAnio['DOC TRASLADO'] = $postulantesReportAnio["documentoTraslado"] ? "Listo" : "Falta";
       $postulantesReportAnio['OBSEVACIONES'] = "Observacion";
       // Eliminar los campos nombrePostulante y apellidoPostulante y gradoPostulante despues de usarlos
       unset($postulantesReportAnio["nombrePostulante"]);
@@ -646,6 +649,8 @@ class ControllerPostulantes
       unset($postulantesReportAnio["fechaConstanciaVacante"]);
       unset($postulantesReportAnio["constanciaVacante"]);
       unset($postulantesReportAnio["constanciaAdeudo"]);
+      unset($postulantesReportAnio["fechaDocumentoTraslado"]);
+      unset($postulantesReportAnio["documentoTraslado"]);
       // Reordenar las claves del array para la cebezera del reporte
       $postulantesReportAnio = array_merge(array_flip($ordenClaves), $postulantesReportAnio);
     }
