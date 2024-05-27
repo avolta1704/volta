@@ -15,9 +15,10 @@ class PagosAjax
       $dataPago['nombreCompleto'] = strval($dataPago['nombresAlumno'] . ' ' . $dataPago['apellidosAlumno']);
       $dataPago['moraPago'] = strval($dataPago["moraPago"]);
       $dataPago['numeroComprobante'] = strval($dataPago["numeroComprobante"]);
-      
+      $dataPago['tipoPago'] = strval($dataPago["conceptoPago"]);
+      $dataPago['mesPago'] = strval($dataPago["mesPago"]);
+
       $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
-      $dataPago['tipoPago'] = FunctionPagos::getTipoPago($dataPago["idTipoPago"]);
       $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
       $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
       $dataPago['buttonsPago'] = FunctionPagos::getBotonesPagos($dataPago["idPago"], $dataPago["estadoCronograma"]);
