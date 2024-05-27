@@ -479,4 +479,18 @@ class ControllerAdmisionAlumno
     $result = ModelAdmisionAlumno::mdlGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
     return $result;
   }
+
+  /**
+   * Obtener el id del postulante de la tabla admision_alumno por el código de admisión del alumno.
+   * 
+   * @param int $codAdmisionAlumno El código de admisión del alumno.
+   * @return mixed El id del postulante o null si no se encuentra.
+   */
+
+  public static function ctrGetIdPostulanteByCodAdmisionAlumno($codAdmisionAlumno)
+  {
+    $tabla = "admision_alumno";
+    $result = ModelAdmisionAlumno::mdlGetIdPostulanteByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
+    return $result;
+  }
 }
