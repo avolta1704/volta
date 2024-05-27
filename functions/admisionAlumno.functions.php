@@ -29,7 +29,7 @@ class FunctionAdmisionAlumnos
       $estado = '<span class="badge rounded-pill bg-success">Matriculado</span>';
     }
     if ($estadoAdmisionAlumno == 3) {
-      $estado = '<span class="badge rounded-pill bg-succes">Trasladado</span>';
+      $estado = '<span class="badge rounded-pill bg-primary">Trasladado</span>';
     }
     if ($estadoAdmisionAlumno == 4) {
       $estado = '<span class="badge rounded-pill bg-danger">Retirado</span>';
@@ -97,7 +97,6 @@ class FunctionAdmisionAlumnos
       'Ver Calendario' => ['btnVisualizarCronograma', 'codAdAlumCronograma', '#cronogramaAdmisionPago'],
       'Visualizar' => ['btnVisualizarAdmisionAlumno', 'codAdmisionAlumno'],
       'Editar' => ['btnEditarAlumno', 'codAlumno'],
-      'Eliminar' => ['btnEliminarAdmisionAlumno', 'codAdmisionAlumno']
     ];
 
     foreach ($opciones as $texto => $opcion) {
@@ -109,6 +108,7 @@ class FunctionAdmisionAlumnos
     }
 
     $botones .= '
+    <li><button type="button" id="btnAbrirModalEstadoMatricula" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actualizarEstadoAdmisionAlumno" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Actualizar</button></li>
         </ul>
       </div>
       ';
