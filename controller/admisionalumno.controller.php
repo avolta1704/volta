@@ -172,6 +172,38 @@ class ControllerAdmisionAlumno
     $dataAnioEscolar = ModelAdmisionAlumno::mdlGetDataAnioEscolar($tabla);
     return $dataAnioEscolar;
   }
+
+  /**
+   * Obtiene los datos del año escolar por nivel.
+   *
+   * @param string $nivel El nivel del año escolar.
+   * @return array Los datos del año escolar.
+   */
+  public static function getDataAnioEscolarByNivel($nivel)
+  {
+    $tabla = "anio_escolar";
+    $dataAnioEscolar = ModelAdmisionAlumno::mdlGetDataAnioEscolar($tabla);
+
+    if ($dataAnioEscolar) {
+      $dataAnioEscolar["coutaInicial"] = $dataAnioEscolar["cuotaInicial"];
+      switch ($nivel) {
+        case "Inicial":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaInicial"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionInicial"];
+          break;
+        case "Primaria":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaPrimaria"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionPrimaria"];
+          break;
+        case "Secundaria":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaSecundaria"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionSecundaria"];
+          break;
+      }
+    }
+
+    return $dataAnioEscolar;
+  }
   // Actualizar estado admision_alumno y crear registro en cronograma_pago
   public static function ctrActualizarestadoAdmisionAlumno($codAdmisionAlumno)
   {
@@ -305,8 +337,11 @@ class ControllerAdmisionAlumno
   public static function ctrActualizarestadoAdmisionAlumnoCancelado($codAdmisionAlumno)
   {
 
+    $tablaAdmisionAlumno = "admision_alumno";
+    $nivel = ModelAdmisionAlumno::mdlGetIdNivelByCodAdmisionAlumno($tablaAdmisionAlumno, $codAdmisionAlumno);
+
     // Obtener el registro de anio_escolar
-    $dataAnioEscolar = self::ctrOGetDataAnioEscolar();
+    $dataAnioEscolar = self::getDataAnioEscolarByNivel($nivel);
     if ($dataAnioEscolar) {
       //sesión esté iniciada
       if (session_status() == PHP_SESSION_NONE) {
@@ -329,9 +364,24 @@ class ControllerAdmisionAlumno
         "usuarioCreacion" => $idUsuario,
         "usuarioActualizacion" => $idUsuario
       );
+
+      // crear sola una vez este array para la cuota inicial
+      $dataCronoPagoCuotaInicial = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "conceptoPago" => "Cuota Inicial",
+        "montoPago" => $dataAnioEscolar["cuotaInicial"],
+        "fechaLimite" => "2021-03-05",
+        "estadoCronograma" => 2,
+        "mesPago" => "Cuota Inicial",
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario
+      );
       //crear 11 veces este array de datos por que es la Pension pero se tiene que crear desde marzo hasta diciembre
       $dataAllCronoPago = array();
       $dataAllCronoPago[] = $dataCronoPagoMatricula;
+      $dataAllCronoPago[] = $dataCronoPagoCuotaInicial;
       $meses = array(
         1 => "Enero",
         2 => "Febrero",
@@ -414,6 +464,19 @@ class ControllerAdmisionAlumno
   {
     $tabla = "cronograma_pago";
     $result = ModelAdmisionAlumno::mdlGetCodeCronogramaMatriculaByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
+    return $result;
+  }
+
+  /**
+   * Obtiene el código del cronograma de cuota inicial por código de admisión de alumno.
+   * 
+   * @param int $codAdmisionAlumno El código de admisión del alumno.
+   * @return mixed El código del cronograma de cuota inicial o null si no se encuentra.
+   */
+  public static function ctrGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($codAdmisionAlumno)
+  {
+    $tabla = "cronograma_pago";
+    $result = ModelAdmisionAlumno::mdlGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
     return $result;
   }
 }

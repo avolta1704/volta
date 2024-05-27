@@ -224,139 +224,181 @@ class ControllerPostulantes
   // Función principal para actualizar el estado del postulante y solo  crear al alumno si su admision es aprobada = 3
   public static function ctrActualizarEstadoPostulante($codPostulanteEdit, $estadoPostulanteEdit)
   {
-    $tabla = "postulante";
-    // Verificar si existe un pago de matricula para el postulante solo si el valor del estado es igual a 3 matriculado
-    if ($estadoPostulanteEdit == 3) {
+    try {
+      $tabla = "postulante";
+      // Verificar si existe un pago de matricula para el postulante solo si el valor del estado es igual a 3 matriculado
+      if ($estadoPostulanteEdit == 3) {
         $matriculaPostulanteActual = ModelPostulantes::mdlObtenerMatriculaPostulante($tabla, $codPostulanteEdit);
         // Verificar si existe un pago de matricula para el postulante
         if (empty($matriculaPostulanteActual["pagoMatricula"])) {
           // Si está vacío, devolver "error"
           return "error";
         }
-    }
-    // Verificar si el estado actual es igual al estado que se quiere actualizar
-    $estadoPostulanteActual = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulanteEdit);
+      }
+      // Verificar si el estado actual es igual al estado que se quiere actualizar
+      $estadoPostulanteActual = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulanteEdit);
 
-    // Verificar si el estado actual es igual al estado que se quiere actualizar
-    if ($estadoPostulanteActual["estadoPostulante"] == $estadoPostulanteEdit) {
-      // Si son iguales, devolver "error"
-      return "error";
-    }
-    $estadoPostulanteActual = $estadoPostulanteEdit;
+      // Verificar si el estado actual es igual al estado que se quiere actualizar
+      if ($estadoPostulanteActual["estadoPostulante"] == $estadoPostulanteEdit) {
+        // Si son iguales, lanzar una excepción
+        throw new Exception("El estado actual ya es el estado deseado.");
+      }
 
-    if (session_status() == PHP_SESSION_NONE) {
-      session_start();
-    }
+      // Iniciar la sesión si aún no se ha iniciado
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
 
-    $dataPostulanteEdit = array(
-      "idPostulante" => $codPostulanteEdit,
-      "estadoPostulante" => $estadoPostulanteActual,
-      "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioActualizacion" => $_SESSION["idUsuario"]
-    );
+      // Actualizar el estado del postulante en la base de datos
+      $dataPostulanteEdit = array(
+        "idPostulante" => $codPostulanteEdit,
+        "estadoPostulante" => $estadoPostulanteEdit,
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
 
-    $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
-    // Si la actualización del estado fue exitosa y el estado es igual a 3=aprobado
-    if ($actualizarEstado == "ok" && $estadoPostulanteActual == 3) {
-      // Iniciar las funciones anidadas para crear un alumno
-      $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+      $actualizarEstado = ModelPostulantes::mdlActualizarEstadoPostulante($tabla, $dataPostulanteEdit);
 
-      if ($alumnoAdmision != false) {
+      if ($actualizarEstado != "ok") {
+        // Si hay un error al actualizar el estado, lanzar una excepción
+        throw new Exception("Error al actualizar el estado del postulante.");
+      }
+
+      // Si el estado actual es igual a 3=aprobado, realizar operaciones adicionales
+      if ($estadoPostulanteEdit == 3) {
+        // Iniciar las funciones anidadas para crear un alumno
+        $alumnoAdmision = ControllerAlumnos::ctrCrearAlumnoAdmision($codPostulanteEdit);
+
+        if ($alumnoAdmision == false) {
+          throw new Exception("Error al crear el alumno para la admisión.");
+        }
+
         // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
         $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
-        if ($alumnoGradoAsignado == "ok") {
-          // Tomar el año escolar "estadoAnio 1 = actual 2 = anteriores" para el registro de postulante en la tabla anio_escolar
-          $estadoAnio = 1;
-          $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno($estadoAnio);
-          if ($anioEscolarActiva != false) {
-            // Tomar el año escolar activo para el registro de postulante en la tabla admision
-            $tipoAdmision = "Ordinario";
-            $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit, $tipoAdmision);
-            if ($admisionAnioEscolar != false) {
-              // Crear un nuevo registro de alumno por la tabla postulante en la tabla admision_alumno
-              $admisionAlumno = ControllerAdmisionAlumno::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
-              //  Crear un nuevo registro de anio_admision en la tabla anio_admision 
-              if ($admisionAlumno == "ok") {
-                $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
-                $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
-                if ($anioAdmision == "ok") {
 
-                  $tablaPostulantes = "postulante";
-                  // Verificar si el postulante ya pago la matricula
-                  $isPagoMatricula = ModelPostulantes::mdlIsPostulantePagoMatricula($tablaPostulantes, $codPostulanteEdit);
-                  if ($isPagoMatricula == "ok") {
-                    // Crear el cronograma de pagos para el alumno
-                    $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumnoCancelado($ultimoAdmisionAlumno["idAdmisionAlumno"]);
-                    if ($cronogramaPago == "ok") {
-                      // TODO actualizar el pago para que tenga el id del cronograma del pago y ademas en el cronograma de pago se actualice el estado a pagado
-                      // Obtener el pagoMatricula, que es el id del pago de matricula del postulante
-                      $pagoMatricula = self::ctrGetPagoMatriculaPostulante($codPostulanteEdit);
-                      if ($pagoMatricula != null) {
-                        // obtener el codeAdmision
-                        $codAdmision = ControllerAdmision::ctrGetCodAdmisionByPostulante($codPostulanteEdit);
-
-                        if ($codAdmision != null) {
-                          // obtener el codeAdmisionAlumno
-                          $codAdmisionAlumno = ControllerAdmisionAlumno::ctrGetCodAdmisionAlumnoByAdmision($codAdmision);
-                          if ($codAdmisionAlumno != null) {
-                            $codCronogramaPago = ControllerAdmisionAlumno::ctrGetCodeCronogramaMatriculaByCodAdmisionAlumno($codAdmisionAlumno);
-
-                            if ($codCronogramaPago != null) {
-
-                              $actualizarPagoMatriculaCodCronograma = array(
-                                "idPago" => $pagoMatricula["pagoMatricula"],
-                                "idCronogramaPago" => $codCronogramaPago,
-                                "fechaActualizacion" => date("Y-m-d H:i:s"),
-                                "usuarioActualizacion" => $_SESSION["idUsuario"]
-                              );
-
-                              $response = ControllerPagos::ctrActualizarIdCronogramaPagoMatricula($actualizarPagoMatriculaCodCronograma);
-
-                              if ($response == "ok") {
-                                return "ok";
-                              } else {
-                                return "error";
-                              }
-                            }
-                          }
-                        }
-                        return "ok";
-                      } else {
-                        return "error";
-                      }
-                      return "ok";
-                    } else {
-                      return "error";
-                    }
-                  }
-
-                  //  Relacionar los apoderados con los alumnos
-                  $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
-                  $alumnoCreado = ControllerAlumnos::ctrGetUltimoAlumnoCreado();
-                  $actualizarApoderados = ControllerApoderadoAlumno::ctrCrearApoderadoAlumno($listaApoderados[0], $alumnoCreado);
-                  return $actualizarApoderados;
-                } else {
-                  return "error";
-                }
-              } else {
-                return "error";
-              }
-            } else {
-              return "error";
-            }
-          } else {
-            return "error";
-          }
-        } else {
-          return "error";
+        if (
+          $alumnoGradoAsignado != "ok"
+        ) {
+          throw new Exception("Error al registrar el grado del alumno en la admisión.");
         }
-      } else {
-        return "error";
+
+        // Obtener el año escolar activo para el registro del postulante
+        $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno(1); // 1 para estadoAnio = 1
+
+        if (!$anioEscolarActiva) {
+          throw new Exception("No se encontró un año escolar activo para el registro del postulante.");
+        }
+
+        // Crear la admisión del postulante en el año escolar activo
+        $admisionAnioEscolar = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($anioEscolarActiva, $codPostulanteEdit, "Ordinario");
+
+        if (!$admisionAnioEscolar) {
+          throw new Exception("Error al crear la admisión del postulante.");
+        }
+
+        // Crear un nuevo registro de alumno por el postulante en la tabla admision_alumno
+        $admisionAlumno = ControllerAdmisionAlumno::ctrCrearAdmisionAlumno($admisionAnioEscolar, $alumnoAdmision);
+
+        if ($admisionAlumno != "ok") {
+          throw new Exception("Error al crear el registro del alumno en la admisión.");
+        }
+
+        // Crear un nuevo registro de anio_admision en la tabla anio_admision 
+        $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
+        $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
+
+        if ($anioAdmision != "ok") {
+          throw new Exception("Error al crear el registro del año de admisión.");
+        }
+
+        // Verificar si el postulante ya pagó la matrícula
+        $tablaPostulantes = "postulante";
+        $isPagoMatricula = ModelPostulantes::mdlIsPostulantePagoMatricula($tablaPostulantes, $codPostulanteEdit);
+
+        if ($isPagoMatricula != "ok") {
+          throw new Exception("El postulante no ha realizado el pago de matrícula.");
+        }
+
+        // Crear el cronograma de pagos para el alumno
+        $cronogramaPago = ControllerAdmisionAlumno::ctrActualizarestadoAdmisionAlumnoCancelado($ultimoAdmisionAlumno["idAdmisionAlumno"]);
+
+        if ($cronogramaPago != "ok") {
+          throw new Exception("Error al crear el cronograma de pagos para el alumno.");
+        }
+
+        // TODO: Actualizar el pago para que tenga el ID del cronograma del pago y, además, en el cronograma de pago se actualice el estado a pagado
+        $pagoMatricula = self::ctrGetPagoMatriculaPostulante($codPostulanteEdit);
+
+        if ($pagoMatricula == null) {
+          throw new Exception("Error al obtener el pago de matrícula del postulante.");
+        }
+
+        $codAdmision = ControllerAdmision::ctrGetCodAdmisionByPostulante($codPostulanteEdit);
+
+        if ($codAdmision == null) {
+          throw new Exception("Error al obtener el código de admisión del postulante.");
+        }
+
+        $codAdmisionAlumno = ControllerAdmisionAlumno::ctrGetCodAdmisionAlumnoByAdmision($codAdmision);
+
+        if (
+          $codAdmisionAlumno == null
+        ) {
+          throw new Exception("Error al obtener el código de admisión del alumno.");
+        }
+
+        $codCronogramaPago = ControllerAdmisionAlumno::ctrGetCodeCronogramaMatriculaByCodAdmisionAlumno($codAdmisionAlumno);
+
+        if (
+          $codCronogramaPago == null
+        ) {
+          throw new Exception("Error al obtener el código de cronograma de pago.");
+        }
+
+        $actualizarPagoMatriculaCodCronograma = array(
+          "idPago" => $pagoMatricula["pagoMatricula"],
+          "idCronogramaPago" => $codCronogramaPago,
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+
+        $response = ControllerPagos::ctrActualizarIdCronogramaPagoMatricula($actualizarPagoMatriculaCodCronograma);
+
+        if ($response != "ok") {
+          throw new Exception("Error al actualizar el ID del cronograma de pago de la matrícula.");
+        }
+
+        $codCronogramaCuotaInicial = ControllerAdmisionAlumno::ctrGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($codAdmisionAlumno);
+
+        if (
+          $codCronogramaCuotaInicial == null
+        ) {
+          throw new Exception("Error al obtener el código de cronograma de pago.");
+        }
+
+        $actualizarPagoCuotaInicialCodCronograma = array(
+          "idPago" => $pagoMatricula["pagoCuotaIngreso"],
+          "idCronogramaPago" => $codCronogramaCuotaInicial,
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+
+        $response = ControllerPagos::ctrActualizarIdCronogramaPagoMatricula($actualizarPagoCuotaInicialCodCronograma);
+
+        if ($response != "ok") {
+          throw new Exception("Error al actualizar el ID del cronograma de pago de la matrícula.");
+        }
       }
-    } else {
-      return "ok"; // Si el estado no es igual a 3, no se inicia el proceso de crear el alumno
+
+      // Commit de la transacción si todas las operaciones son exitosas
+      return "ok";
+    } catch (Exception $e) {
+      // Si ocurre un error, hacer rollback de la transacción y devolver el mensaje de error
+      return "error: " . $e->getMessage();
     }
   }
+
+
   // Obtener el último postulante creado extraordinario
   public static function ctrObtenerUltimoPostulanteCreado()
   {
@@ -440,24 +482,26 @@ class ControllerPostulantes
 
     $actualizarChecklist = array(
       "idPostulante" => $dataChecklist["codPostulanteCheck"],
-      "estadoFichaPostulante" => $dataChecklist["checkFichaPostulante"] == "on" ? 1 : ($dataChecklist["checkFichaPostulante"] == "" ? 2 : 0),//Entero
+      "estadoFichaPostulante" => $dataChecklist["checkFichaPostulante"] == "on" ? 1 : ($dataChecklist["checkFichaPostulante"] == "" ? 2 : 0), //Entero
       "fechaFichaPost" => $dataChecklist["fechaFichaPostulante"] != "" ? $dataChecklist["fechaFichaPostulante"] : null,
-      "fechaEntrevista" => $dataChecklist["fechaEntrevista"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
+      "fechaEntrevista" => $dataChecklist["fechaEntrevista"] != "" ? $dataChecklist["fechaEntrevista"] : "",
       "estadoEntrevista" => $dataChecklist["checkEntrevista"] == "on" ? 1 : ($dataChecklist["checkEntrevista"] == "" ? 0 : 0),
-      "fechaInformePsicologico" => $dataChecklist["fechaInformePsico"] != "" ? $dataChecklist["fechaEntrevista"] : "0000-00-00",
+      "fechaInformePsicologico" => $dataChecklist["fechaInformePsico"] != "" ? $dataChecklist["fechaEntrevista"] : "",
       "estadoInformePsicologico" => $dataChecklist["checkInformePsico"] == "on" ? 1 : ($dataChecklist["checkInformePsico"] == "" ? 2 : 0),
       "constanciaAdeudo" => $dataChecklist["checkConstAdeudo"] == "on" ? true : false,
-      "fechaConstanciaAdeudo" => $dataChecklist["fechaConstAdeudo"] != "" ? $dataChecklist["fechaConstAdeudo"] : "0000-00-00",
+      "fechaConstanciaAdeudo" => $dataChecklist["fechaConstAdeudo"] != "" ? $dataChecklist["fechaConstAdeudo"] : "",
       "cartaAdmision" => $dataChecklist["checkCartaAdmision"] == "on" ? true : false,
-      "fechaCartaAdmision" => $dataChecklist["fechaCartaAdmision"] != "" ? $dataChecklist["fechaCartaAdmision"] : "0000-00-00",
+      "fechaCartaAdmision" => $dataChecklist["fechaCartaAdmision"] != "" ? $dataChecklist["fechaCartaAdmision"] : "",
       "contrato" => $dataChecklist["checkContrato"] == "on" ? true : false,
-      "fechaContrato" => $dataChecklist["fechaContrato"] != "" ? $dataChecklist["fechaContrato"] : "0000-00-00",
+      "fechaContrato" => $dataChecklist["fechaContrato"] != "" ? $dataChecklist["fechaContrato"] : "",
       "constanciaVacante" => $dataChecklist["checkConstVacante"] == "on" ? true : false,
       "fechaConstanciaVacante" => $dataChecklist["fechaConstVacante"] != "" ? $dataChecklist["fechaConstVacante"] : "0000-00-00",
       //"pagoMatricula" => $dataChecklist["checkPagoMatricula"] == "on" ? 1 : ($dataChecklist["checkPagoMatricula"] == "" ? 0 : 0),
       "fechaPagoMatricula" => $dataChecklist["fechaPagoMatricula"] != "" ? $dataChecklist["fechaPagoMatricula"] : "0000-00-00",
       "fechaActualizacion" => date("Y-m-d H:i:s"),
-      "usuarioActualizacion" => $_SESSION["idUsuario"]
+      "usuarioActualizacion" => $_SESSION["idUsuario"],
+      "documentoTraslado" => $dataChecklist["checkDocumentoTraslado"] == "on" ? true : false,
+      "fechaDocumentoTraslado" => $dataChecklist["fechaDocumentoTraslado"] != "" ? $dataChecklist["fechaDocumentoTraslado"] : "",
     );
 
     $response = ModelPostulantes::mdlActualizarChecklist($table, $actualizarChecklist);
@@ -523,17 +567,17 @@ class ControllerPostulantes
     return $response;
   }
 
-    //  Obtener datos del Pago para editar 
-    public static function ctrGetIdEditPago($codPago)
-    {
-      if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-      }
-      $tabla = "pago";
-      $dataPago = ModelPostulantes::mdlGetIdEditPago($tabla, $codPago);
-      return $dataPago;
+  //  Obtener datos del Pago para editar 
+  public static function ctrGetIdEditPago($codPago)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
     }
-  
+    $tabla = "pago";
+    $dataPago = ModelPostulantes::mdlGetIdEditPago($tabla, $codPago);
+    return $dataPago;
+  }
+
 
   //  Obtener todos los postulantesRepostesAnio
   public static function ctrGetAllPostulantesReportesAnio()
@@ -560,35 +604,38 @@ class ControllerPostulantes
     }
     foreach ($listPostulantes as &$postulantesReportAnio) {
       //cabecera del reporte
-      $ordenClaves = array('CODIGO', 'APELLIDOS Y NOMBRES', 'GRADO', 'FECHA POST', 'FICHA POSTULANTE', 'FECHA ENTRE', 'FICHA ENTREVISTA', 'FECHA PSI', 'INFORME PSICOLOGICO', 'FECHA CONS', 'CONSTANCIA NO ADEUDO', 'FECHA AD', 'CARTA ADMISION', 'FECHA MAT', 'PAGO MATRICULA', 'FECHA CONT', 'CONTRATO', 'FECHA VAC', 'CONSTANCIA VACANTE', 'OBSEVACIONES');
+      $ordenClaves = array('CODIGO', 'APELLIDOS Y NOMBRES', 'GRADO', 'FECHA POST', 'FICHA POSTULANTE', 'FECHA ENTRE', 'FICHA ENTREVISTA', 'FECHA PSI', 'INFORME PSICOLOGICO', 'FECHA CONS', 'CONSTANCIA NO ADEUDO', 'FECHA AD', 'CARTA ADMISION', 'FECHA MAT', 'PAGO MATRICULA', 'FECHA CONT', 'CONTRATO', 'FECHA VAC', 'CONSTANCIA VACANTE', 'FECHA DOC TRASLADO', 'DOC TRASLADO', 'OBSEVACIONES');
 
       $postulantesReportAnio['CODIGO'] = FunctionPostulantes::getUnirIdentificadorFechaPostulacionAnio($postulantesReportAnio["idPostulante"], $postulantesReportAnio["fechaPostulacion"]);
       $postulantesReportAnio['APELLIDOS Y NOMBRES'] = FunctionPostulantes::getUnirNombreApellidoPostulantesXls($postulantesReportAnio["nombrePostulante"], $postulantesReportAnio["apellidoPostulante"]);
       $postulantesReportAnio['GRADO'] = $postulantesReportAnio["descripcionGrado"];
       //ficha
-      $postulantesReportAnio['FECHA POST'] = $postulantesReportAnio["fechaFichaPost"] != "" ? $postulantesReportAnio["fechaFichaPost"] : "0000-00-00";
+      $postulantesReportAnio['FECHA POST'] = $postulantesReportAnio["fechaFichaPost"] != "" ? ($postulantesReportAnio["fechaFichaPost"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaFichaPost"]) : "";
       $postulantesReportAnio['FICHA POSTULANTE'] = $postulantesReportAnio["estadoFichaPostulante"] ? "Listo" : "Falta";
       //entrevista
-      $postulantesReportAnio['FECHA ENTRE'] = $postulantesReportAnio["fechaEntrevista"] != "" ? $postulantesReportAnio["fechaFichaPost"] : "0000-00-00";
+      $postulantesReportAnio['FECHA ENTRE'] = $postulantesReportAnio["fechaEntrevista"] != "" ? ($postulantesReportAnio["fechaFichaPost"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaFichaPost"]) : "";
       $postulantesReportAnio['FICHA ENTREVISTA'] = $postulantesReportAnio["estadoEntrevista"] ? "Listo" : "Falta";
       //psicologico
-      $postulantesReportAnio['FECHA PSI'] = $postulantesReportAnio["fechaInformePsicologico"] != "" ? $postulantesReportAnio["fechaInformePsicologico"] : "0000-00-00";
+      $postulantesReportAnio['FECHA PSI'] = $postulantesReportAnio["fechaInformePsicologico"] != "" ? ($postulantesReportAnio["fechaInformePsicologico"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaInformePsicologico"]) : "";
       $postulantesReportAnio['INFORME PSICOLOGICO'] = $postulantesReportAnio["estadoInformePsicologico"] ? "Listo" : "Falta";
       //costancia no adeudo
-      $postulantesReportAnio['FECHA CONS'] = $postulantesReportAnio["fechaConstanciaAdeudo"] != "" ? $postulantesReportAnio["fechaInformePsicologico"] : "0000-00-00";
+      $postulantesReportAnio['FECHA CONS'] = $postulantesReportAnio["fechaConstanciaAdeudo"] != "" ? ($postulantesReportAnio["fechaInformePsicologico"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaInformePsicologico"]) : "";
       $postulantesReportAnio['CONSTANCIA NO ADEUDO'] = $postulantesReportAnio["constanciaAdeudo"] ? "Listo" : "Falta";
       //carta admision
-      $postulantesReportAnio['FECHA AD'] = $postulantesReportAnio["fechaCartaAdmision"] != "" ? $postulantesReportAnio["fechaCartaAdmision"] : "0000-00-00";
+      $postulantesReportAnio['FECHA AD'] = $postulantesReportAnio["fechaCartaAdmision"] != "" ? ($postulantesReportAnio["fechaCartaAdmision"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaCartaAdmision"]) : "";
       $postulantesReportAnio['CARTA ADMISION'] = $postulantesReportAnio["cartaAdmision"] ? "Listo" : "Falta";
       //pago matricula
-      $postulantesReportAnio['FECHA MAT'] = $postulantesReportAnio["fechaPagoMatricula"] != "" ? $postulantesReportAnio["fechaPagoMatricula"] : "0000-00-00";
+      $postulantesReportAnio['FECHA MAT'] = $postulantesReportAnio["fechaPagoMatricula"] != "" ? ($postulantesReportAnio["fechaPagoMatricula"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaPagoMatricula"]) : "";
       $postulantesReportAnio['PAGO MATRICULA'] = $postulantesReportAnio["pagoMatricula"] ? "Listo" : "Falta";
       //contrato
-      $postulantesReportAnio['FECHA CONT'] = $postulantesReportAnio["fechaContrato"] != "" ? $postulantesReportAnio["fechaContrato"] : "0000-00-00";
+      $postulantesReportAnio['FECHA CONT'] = $postulantesReportAnio["fechaContrato"] != "" ? ($postulantesReportAnio["fechaContrato"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaContrato"]) : "";
       $postulantesReportAnio['CONTRATO'] = $postulantesReportAnio["contrato"] ? "Listo" : "Falta";
       //constancia vacante
-      $postulantesReportAnio['FECHA VAC'] = $postulantesReportAnio["fechaConstanciaVacante"] != "" ? $postulantesReportAnio["fechaConstanciaVacante"] : "0000-00-00";
+      $postulantesReportAnio['FECHA VAC'] = $postulantesReportAnio["fechaConstanciaVacante"] != "" ? ($postulantesReportAnio["fechaConstanciaVacante"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaConstanciaVacante"]) : "";
       $postulantesReportAnio['CONSTANCIA VACANTE'] = $postulantesReportAnio["constanciaVacante"] ? "Listo" : "Falta";
+      //documento traslado
+      $postulantesReportAnio['FECHA DOC TRASLADO'] = $postulantesReportAnio["fechaDocumentoTraslado"] != "" ? ($postulantesReportAnio["fechaDocumentoTraslado"] == "0000-00-00" ? "" : $postulantesReportAnio["fechaDocumentoTraslado"]) : "";
+      $postulantesReportAnio['DOC TRASLADO'] = $postulantesReportAnio["documentoTraslado"] ? "Listo" : "Falta";
       $postulantesReportAnio['OBSEVACIONES'] = "Observacion";
       // Eliminar los campos nombrePostulante y apellidoPostulante y gradoPostulante despues de usarlos
       unset($postulantesReportAnio["nombrePostulante"]);
@@ -612,6 +659,8 @@ class ControllerPostulantes
       unset($postulantesReportAnio["fechaConstanciaVacante"]);
       unset($postulantesReportAnio["constanciaVacante"]);
       unset($postulantesReportAnio["constanciaAdeudo"]);
+      unset($postulantesReportAnio["fechaDocumentoTraslado"]);
+      unset($postulantesReportAnio["documentoTraslado"]);
       // Reordenar las claves del array para la cebezera del reporte
       $postulantesReportAnio = array_merge(array_flip($ordenClaves), $postulantesReportAnio);
     }

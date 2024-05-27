@@ -3,6 +3,24 @@ require_once "connection.php";
 
 class ModelPostulantes
 {
+
+  // iniciar transaccion
+  public static function beginTransaction()
+  {
+    Connection::conn()->beginTransaction();
+  }
+
+  // finalizar transaccion
+  public static function commit()
+  {
+    Connection::conn()->commit();
+  }
+
+  // cancelar transaccion
+  public static function rollBack()
+  {
+    Connection::conn()->rollBack();
+  }
   //  Obtener todos los postulantes
   public static function mdlGetAllPostulantes($tabla)
   {
@@ -261,7 +279,7 @@ class ModelPostulantes
   //  Obtener la data del checklist
   public static function mdlGetChecklistPostulante($table, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT fichaPostulante, fechaFichaPost, estadoFichaPostulante, fechaEntrevista, estadoEntrevista, informePsicologico, fechaInformePsicologico, estadoInformePsicologico, constanciaAdeudo, fechaConstanciaAdeudo, cartaAdmision, fechaCartaAdmision, pagoMatricula, fechaPagoMatricula, contrato, fechaContrato, constanciaVacante, fechaConstanciaVacante FROM $table WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT fichaPostulante, fechaFichaPost, estadoFichaPostulante, fechaEntrevista, estadoEntrevista, informePsicologico, fechaInformePsicologico, estadoInformePsicologico, constanciaAdeudo, fechaConstanciaAdeudo, cartaAdmision, fechaCartaAdmision, pagoMatricula, fechaPagoMatricula, contrato, fechaContrato, constanciaVacante, fechaConstanciaVacante, documentoTraslado, fechaDocumentoTraslado FROM $table WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -279,6 +297,28 @@ class ModelPostulantes
     $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoMatricula = :pagoMatricula, fechaPagoMatricula = :fechaPagoMatricula , fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":pagoMatricula", $datosPostulante["pagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaPagoMatricula", $datosPostulante["fechaPagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Actualiza el pago de couta inicial de un postulante en la base de datos.
+   * 
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param array $datosPostulante Los datos del postulante a actualizar.
+   * @return string Retorna "ok" si la actualización fue exitosa, o "error" en caso contrario.
+   */
+  public static function mdlEditarCuotaInicialPostulante($tabla, $datosPostulante)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoCuotaIngreso = :pagoCuotaIngreso, fechaCuotaIngreso = :fechaCuotaIngreso, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":pagoCuotaIngreso", $datosPostulante["pagoCuotaIngreso"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaCuotaIngreso", $datosPostulante["fechaCuotaIngreso"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
@@ -311,7 +351,9 @@ class ModelPostulantes
         fechaConstanciaVacante = :fechaConstanciaVacante,
         fechaPagoMatricula = :fechaPagoMatricula,
         fechaActualizacion = :fechaActualizacion,
-        usuarioActualizacion = :usuarioActualizacion
+        usuarioActualizacion = :usuarioActualizacion,
+        documentoTraslado = :documentoTraslado,
+        fechaDocumentoTraslado = :fechaDocumentoTraslado
       WHERE idPostulante = :idPostulante
     ");
     $statement->bindParam(":idPostulante", $actualizarChecklist["idPostulante"], PDO::PARAM_STR);
@@ -333,6 +375,8 @@ class ModelPostulantes
     $statement->bindParam(":fechaPagoMatricula", $actualizarChecklist["fechaPagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $actualizarChecklist["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $actualizarChecklist["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":documentoTraslado", $actualizarChecklist["documentoTraslado"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaDocumentoTraslado", $actualizarChecklist["fechaDocumentoTraslado"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
@@ -369,7 +413,7 @@ class ModelPostulantes
    */
   public static function mdlGetPagoMatriculaPostulante($tabla, $codPostulante)
   {
-    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula, idPostulante, pagoCuotaIngreso FROM $tabla WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
@@ -408,7 +452,6 @@ class ModelPostulantes
     } else {
       return ["downloadURL" => null];
     }
-
   }
 
 
@@ -429,7 +472,7 @@ class ModelPostulantes
       return "error";
     }
   }
-    //datos de pago detalles de pago
+  //datos de pago detalles de pago
   public static function mdlGetIdEditPago($tabla, $codPago)
   {
     $statement = Connection::conn()->prepare("
@@ -472,7 +515,6 @@ class ModelPostulantes
     $statement->bindParam(":idPago", $codPago, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
-
   }
 
   // Obtener el link del infome psicologico
@@ -527,7 +569,9 @@ class ModelPostulantes
       postulante.fechaContrato,
       postulante.constanciaVacante,
       postulante.pagoMatricula,
-      postulante.fechaConstanciaVacante
+      postulante.fechaConstanciaVacante,
+      postulante.documentoTraslado,
+      postulante.fechaDocumentoTraslado
       FROM $tabla 
       ORDER BY postulante.idPostulante DESC");
     $statement->execute();
@@ -569,7 +613,9 @@ class ModelPostulantes
        postulante.fechaContrato,
        postulante.constanciaVacante,
        postulante.pagoMatricula,
-       postulante.fechaConstanciaVacante
+       postulante.fechaConstanciaVacante,
+        postulante.documentoTraslado,
+        postulante.fechaDocumentoTraslado
        FROM $tabla 
        WHERE postulante.fechaPostulacion BETWEEN :fechaInicio AND :fechaFin
        ORDER BY postulante.idPostulante DESC");
@@ -616,7 +662,9 @@ class ModelPostulantes
          postulante.fechaContrato,
          postulante.constanciaVacante,
          postulante.pagoMatricula,
-         postulante.fechaConstanciaVacante
+         postulante.fechaConstanciaVacante,
+          postulante.documentoTraslado,
+          postulante.fechaDocumentoTraslado
          FROM $tabla 
          WHERE YEAR(postulante.fechaPostulacion) BETWEEN :anioInicio AND :anioFin
          ORDER BY postulante.idPostulante DESC");
@@ -624,6 +672,5 @@ class ModelPostulantes
     $statement->bindParam(":anioFin", $datos['anioFin'], PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
-
   }
 }

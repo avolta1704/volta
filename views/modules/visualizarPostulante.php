@@ -278,18 +278,19 @@
               <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
               <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
 
-              
+
 
               <!-- CHECHLIST -->
               <?php
-              FunctionPostulantes::renderCheckList($codPostulante,"Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPost"], true);
-              
-              FunctionPostulantes::renderCheckList($codPostulante,"Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
-              FunctionPostulantes::renderCheckList($codPostulante,"Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
-              FunctionPostulantes::renderCheckList($codPostulante,"Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
-              FunctionPostulantes::renderCheckList($codPostulante,"Carta de Admisión", "checkCartaAdmision", "fechaCartaAdmision", $dataChecklist["cartaAdmision"], $dataChecklist["fechaCartaAdmision"], false);
-              FunctionPostulantes::renderCheckList($codPostulante,"Contrato", "checkContrato", "fechaContrato", $dataChecklist["contrato"], $dataChecklist["fechaContrato"], false);
-              FunctionPostulantes::renderCheckList($codPostulante,"Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Ficha Postulante", "checkFichaPostulante", "fechaFichaPostulante", $dataChecklist["estadoFichaPostulante"], $dataChecklist["fechaFichaPost"], true);
+
+              FunctionPostulantes::renderCheckList($codPostulante, "Entrevista", "checkEntrevista", "fechaEntrevista", $dataChecklist["estadoEntrevista"], $dataChecklist["fechaEntrevista"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Informe Psicológico", "checkInformePsico", "fechaInformePsico", $dataChecklist["estadoInformePsicologico"], $dataChecklist["fechaInformePsicologico"], true);
+              FunctionPostulantes::renderCheckList($codPostulante, "Constancia Adeudo", "checkConstAdeudo", "fechaConstAdeudo", $dataChecklist["constanciaAdeudo"], $dataChecklist["fechaConstanciaAdeudo"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Carta de Admisión", "checkCartaAdmision", "fechaCartaAdmision", $dataChecklist["cartaAdmision"], $dataChecklist["fechaCartaAdmision"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Contrato", "checkContrato", "fechaContrato", $dataChecklist["contrato"], $dataChecklist["fechaContrato"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Constancia de Vacante", "checkConstVacante", "fechaConstVacante", $dataChecklist["constanciaVacante"], $dataChecklist["fechaConstanciaVacante"], false);
+              FunctionPostulantes::renderCheckList($codPostulante, "Documento de traslado", "checkDocumentoTraslado", "fechaDocumentoTraslado", $dataChecklist["documentoTraslado"], $dataChecklist["fechaDocumentoTraslado"], false);
               ?>
 
 
@@ -312,7 +313,7 @@
                   <div class="col-sm-2">
                     <button type="button" class="btn btn-success" disabled><i class="bi bi-plus"></i></button>
                     <button type="button" class="btn btn-warning" id="btnVisualizarPagoMatricula" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">
-                    <i class="bi bi-search"></i></button>
+                      <i class="bi bi-search"></i></button>
                   </div>
 
                 <?php
@@ -328,8 +329,8 @@
                     <input type="date" name="fechaPagoMatricula" id="fechaPagoMatricula" class="form-control fechaPagoMatricula">
                   </div>
                   <div class="col-sm-2">
-                    <button type="button" class="btn btn-success" id="btnPagoMatricula" data-codpostulante="<?php echo $codPostulante; ?>"> 
-                    <i class="bi bi-plus"></i>
+                    <button type="button" class="btn btn-success" id="btnPagoMatricula" data-codpostulante="<?php echo $codPostulante; ?>">
+                      <i class="bi bi-plus"></i>
                     </button>
                     <button type="button" class="btn btn-warning" id="btnVisualizarPagoMatricula1"><i class="bi bi-search"></i></button>
                   </div>
@@ -379,16 +380,16 @@
                   </div>
 
                   <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="btnEditarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Editar</button>
-                  <button type="button" class="btn btn-danger" id="btnEliminarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Eliminar</button>
-                  <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btnEditarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Editar</button>
+                    <button type="button" class="btn btn-danger" id="btnEliminarPago" data-pago-matricula="<?php echo $dataChecklist["pagoMatricula"]; ?>">Eliminar</button>
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
             </div>
           </span>
         </form>
-   
+
       </div>
     </div>
   </section>

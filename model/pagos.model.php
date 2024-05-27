@@ -338,6 +338,21 @@ class ModelPagos
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtener idTipo pago cuota inicial por descripcionTipo
+   * 
+   * @param string $tabla
+   */
+  public static function mdlGetIdTipoPagoCuotaInicial($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    idTipoPago
+    FROM $tabla WHERE descripcionTipo = 'Pago Cuota Inicial'");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   /**
    * Obtiene un pago por su ID.
    *

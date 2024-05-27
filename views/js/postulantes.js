@@ -861,25 +861,26 @@ $(document).ready(function () {
       });
   });
 
-  //funcion para identificar los cambios checkbox seleccionados y deseleccionados
-  var checkboxes = [
-    "checkFichaPostulante",
-    "checkEntrevista",
-    "checkInformePsico",
-    "checkConstAdeudo",
-    "checkCartaAdmision",
-    "checkContrato",
-    "checkConstVacante",
-    "checkPagoMatricula",
-  ];
-  var checkboxStates = {};
-  //identificar si se selecciona o deselecciona un checkbox
-  //document.addEventListener("DOMContentLoaded", function () {
-    for (var i = 0; i < checkboxes.length; i++) {
-      var checkboxElement = document.getElementById(checkboxes[i]);
-      if (checkboxElement) {
-        // Inicializar el estado del checkbox en el objeto checkboxStates
-        checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
+//funcion para identificar los cambios checkbox seleccionados y deseleccionados
+var checkboxes = [
+  "checkFichaPostulante",
+  "checkEntrevista",
+  "checkInformePsico",
+  "checkConstAdeudo",
+  "checkCartaAdmision",
+  "checkContrato",
+  "checkConstVacante",
+  "checkPagoMatricula",
+  "checkDocumentoTraslado",
+];
+var checkboxStates = {};
+//identificar si se selecciona o deselecciona un checkbox
+document.addEventListener("DOMContentLoaded", function () {
+  for (var i = 0; i < checkboxes.length; i++) {
+    var checkboxElement = document.getElementById(checkboxes[i]);
+    if (checkboxElement) {
+      // Inicializar el estado del checkbox en el objeto checkboxStates
+      checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
 
         checkboxElement.addEventListener("change", function () {
           // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
@@ -900,6 +901,12 @@ $("#btnVisualizarPagoMatricula1").click(function (event) {
     title: "No hay ningún pago registrado",
     confirmButtonText: "OK",
   });
+$("#btnVisualizarPagoMatricula1").click(function (event) {
+	Swal.fire({
+		icon: "warning",
+		title: "No hay ningún pago registrado",
+		confirmButtonText: "OK",
+	});
 });
 
 // Funcionalidad para el botón Registrar Pago de Matrícula
@@ -1148,23 +1155,27 @@ $(document).ready(function () {
       method: "POST",
       data: datos,
       dataType: "json",
-    }).done(function (data) {
-      // Organizar los datos
-      const dataPostulante = data.map((item) => {
-        let obj = {};
-        Object.entries(item).forEach(([key, value]) => {
-          obj[key] = value;
+    })
+      .done(function (data) {
+        // Organizar los datos
+        const dataPostulante = data.map((item) => {
+          let obj = {};
+          Object.entries(item).forEach(([key, value]) => {
+            obj[key] = value;
+          });
+          return obj;
         });
-        return obj;
-      });
 
-      // Crear el archivo Excel
-      crearArchivoExcel(
-        dataPostulante,
-        "Reporte de Postulantes General",
-        "reporte_postulantes_general"
-      );
-    });
+        // Crear el archivo Excel
+        crearArchivoExcel(
+          dataPostulante,
+          "Reporte de Postulantes General",
+          "reporte_postulantes_general"
+        );
+      })
+      .fail(function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      });
   }
 
   const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {

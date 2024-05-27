@@ -123,4 +123,17 @@ class ModelAnioEscolar
       return "error";
     }
   }
+  /**
+   * Obtener el nivel de educacion
+   * 
+   * @param int $idNivelEducacion
+   * @return string
+   */
+  public static function mdlGetNivelEducacion($table, $idNivelEducacion)
+  {
+    $statement = Connection::conn()->prepare("SELECT descripcionNivel FROM $table WHERE idNivel = :idNivel");
+    $statement->bindParam(":idNivel", $idNivelEducacion, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }
