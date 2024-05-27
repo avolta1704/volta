@@ -13,15 +13,26 @@ class FunctionPostulantes
       $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
     }
     if ($stateValue == 3) {
-      $estado = '<span class="badge rounded-pill bg-success">Admitido</span>';
+      $estado = '<span class="badge rounded-pill bg-success">Matriculado</span>';
     }
     if ($stateValue == 4) {
-      $estado = '<span class="badge rounded-pill bg-danger">Desistido</span>';
+      $estado = '<span class="badge rounded-pill bg-danger">Desestimado</span>';
     }
     if ($stateValue == 5) {
       $estado = '<span class="badge rounded-pill bg-secondary">Error</span>';
     }
     return $estado;
+  }
+  //  Estados de marticula del postulante
+  public static function getEstadoMatricula($stateMatricula)
+  {
+    //  si el estado del postulante contiene valor 0 o null se muestra como no pagado si contiene valor tiene un pago registrado en el campo pagoMatricula
+    if (empty($stateMatricula) || $stateMatricula == 0 || $stateMatricula == null) {
+      $matricula = '<span class="badge rounded-pill bg-warning">No Pagado</span>';
+    } else {
+      $matricula = '<span class="badge rounded-pill bg-primary">Pagado</span>';
+    }
+    return $matricula;
   }
 
 
@@ -42,8 +53,9 @@ class FunctionPostulantes
       <li><button type="button" class="dropdown-item btnVisualizarPostulante" codPostulante="' . ($codPostulante) . '">Visualizar</button></li>
       <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Editar</button></li>
       <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"' . $isDisabled . '>Actualizar</button></li>
-      <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Eliminar</button></li>
       <li><button type="button" class="dropdown-item btnAnadirPago" codPostulante="' . ($codPostulante) . '"' . $isPagoMatricula . '>Añadir pago</button></li>
+      <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Eliminar</button></li>
+
     ';
 
     $botones .= '

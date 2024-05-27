@@ -225,6 +225,16 @@ class ControllerPostulantes
   public static function ctrActualizarEstadoPostulante($codPostulanteEdit, $estadoPostulanteEdit)
   {
     $tabla = "postulante";
+    // Verificar si existe un pago de matricula para el postulante solo si el valor del estado es igual a 3 matriculado
+    if ($estadoPostulanteEdit == 3) {
+        $matriculaPostulanteActual = ModelPostulantes::mdlObtenerMatriculaPostulante($tabla, $codPostulanteEdit);
+        // Verificar si existe un pago de matricula para el postulante
+        if (empty($matriculaPostulanteActual["pagoMatricula"])) {
+          // Si está vacío, devolver "error"
+          return "error";
+        }
+    }
+    // Verificar si el estado actual es igual al estado que se quiere actualizar
     $estadoPostulanteActual = ModelPostulantes::mdlObtenerEstadoPostulante($tabla, $codPostulanteEdit);
 
     // Verificar si el estado actual es igual al estado que se quiere actualizar
@@ -444,7 +454,7 @@ class ControllerPostulantes
       "fechaContrato" => $dataChecklist["fechaContrato"] != "" ? $dataChecklist["fechaContrato"] : "0000-00-00",
       "constanciaVacante" => $dataChecklist["checkConstVacante"] == "on" ? true : false,
       "fechaConstanciaVacante" => $dataChecklist["fechaConstVacante"] != "" ? $dataChecklist["fechaConstVacante"] : "0000-00-00",
-      "pagoMatricula" => $dataChecklist["checkPagoMatricula"] == "on" ? 1 : ($dataChecklist["checkPagoMatricula"] == "" ? 0 : 0),
+      //"pagoMatricula" => $dataChecklist["checkPagoMatricula"] == "on" ? 1 : ($dataChecklist["checkPagoMatricula"] == "" ? 0 : 0),
       "fechaPagoMatricula" => $dataChecklist["fechaPagoMatricula"] != "" ? $dataChecklist["fechaPagoMatricula"] : "0000-00-00",
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioActualizacion" => $_SESSION["idUsuario"]

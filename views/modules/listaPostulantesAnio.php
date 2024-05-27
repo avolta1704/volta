@@ -75,6 +75,7 @@ $postulante->ctrBorrarPostulante();
           <option value="2">En Revisión</option>
           <option value="3">Aprobado</option>
           <option value="4">Rechazado</option>
+    
         </select>
       </div>
       <div class="modal-footer">

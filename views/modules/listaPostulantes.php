@@ -58,13 +58,14 @@ $postulante->ctrBorrarPostulante();
           <!-- <option value=""></option> -->
           <option value="1">Registrado</option>
           <option value="2">En Revisión</option>
-          <option value="3">Aprobado</option>
-          <option value="4">Rechazado</option>
+          <option value="3">Matriculado</option>
+          <option value="5">Desestimado</option>
         </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnActualizarEstado" id="btnActualizarEstadoPostulante">Actualizar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstado"
+          id="btnActualizarEstadoPostulante">Actualizar</button>
       </div>
     </div>
   </div>

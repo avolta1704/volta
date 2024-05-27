@@ -8,6 +8,7 @@ $(document).ready(function () {
     { data: "fechaPostulacion" },
     { data: "descripcionGrado" },
     { data: "statePostulante" },
+    { data: "pagoMatricula" },
     { data: "buttonsPostulante" },
   ];
 
@@ -52,6 +53,7 @@ $(document).ready(function () {
       <th scope="col">Fecha Postulación</th>
       <th scope="col">Grado Postulación</th>
       <th scope="col">Estado</th>
+      <th scope="col">Matricula</th>
       <th scope="col">Acciones</th>
     </tr>
     `);
@@ -71,6 +73,7 @@ $(document).ready(function () {
     { data: "fechaPostulacion" },
     { data: "descripcionGrado" },
     { data: "statePostulante" },
+    { data: "pagoMatricula" },
     { data: "buttonsPostulante" },
   ];
   tablePostulantes = $("#dataTablePostulantes").DataTable({

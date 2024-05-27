@@ -34,6 +34,7 @@ class PostulantesAjax
     foreach ($todosLosPostulantesAdmin as &$postulantes) {
       $postulantes['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantes["estadoPostulante"]);
       $postulantes['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantes["idPostulante"], $postulantes["estadoPostulante"], $postulantes["pagoMatricula"]);
+      //$postulantes['estadoMatricula'] = FunctionPostulantes::getestadoPostulantes($postulantes["pagoMatricula"]);
     }
     echo json_encode($todosLosPostulantesAdmin);
   }

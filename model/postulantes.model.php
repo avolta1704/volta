@@ -24,12 +24,17 @@ class ModelPostulantes
         WHEN postulante.gradoPostulacion = 14 THEN 'Secundaria 5to Año'
         ELSE 'Sin Grado'
     END AS descripcionGrado,
+    CASE
+      WHEN postulante.pagoMatricula IS NOT NULL AND postulante.pagoMatricula != '' AND postulante.pagoMatricula != 0 THEN 'Pagado'
+      ELSE 'Sin Pago'
+    END AS pagoMatricula,
     postulante.estadoPostulante 
     FROM $tabla 
     ORDER BY postulante.idPostulante DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  //pagoMatricula = dato o null o 0
 
   //  Crear postulante
   public static function mdlCrearPostulante($tabla, $datosPostulante)
@@ -144,7 +149,14 @@ class ModelPostulantes
       return "error";
     }
   }
-
+  //  Obtener la matricula de un postulante
+  public static function mdlObtenerMatriculaPostulante($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare("SELECT pagoMatricula FROM $tabla WHERE idPostulante = :idPostulante");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
   //  Obtener estado del postulante
   public static function mdlObtenerEstadoPostulante($tabla, $codPostulante)
   {
@@ -297,7 +309,6 @@ class ModelPostulantes
         fechaContrato = :fechaContrato,
         constanciaVacante = :constanciaVacante,
         fechaConstanciaVacante = :fechaConstanciaVacante,
-        pagoMatricula = :pagoMatricula,
         fechaPagoMatricula = :fechaPagoMatricula,
         fechaActualizacion = :fechaActualizacion,
         usuarioActualizacion = :usuarioActualizacion
@@ -318,7 +329,7 @@ class ModelPostulantes
     $statement->bindParam(":fechaContrato", $actualizarChecklist["fechaContrato"], PDO::PARAM_STR);
     $statement->bindParam(":constanciaVacante", $actualizarChecklist["constanciaVacante"], PDO::PARAM_STR);
     $statement->bindParam(":fechaConstanciaVacante", $actualizarChecklist["fechaConstanciaVacante"], PDO::PARAM_STR);
-    $statement->bindParam(":pagoMatricula", $actualizarChecklist["pagoMatricula"], PDO::PARAM_STR);
+    //$statement->bindParam(":pagoMatricula", $actualizarChecklist["pagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaPagoMatricula", $actualizarChecklist["fechaPagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $actualizarChecklist["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $actualizarChecklist["usuarioActualizacion"], PDO::PARAM_STR);

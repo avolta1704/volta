@@ -63,9 +63,9 @@ $(document).ready(function () {
       } else if (estadoPostulante === "2") {
         estadoTexto = "En revisión";
       } else if (estadoPostulante === "3") {
-        estadoTexto = "Admitir";
+        estadoTexto = "Matriculado";
       } else if (estadoPostulante === "4") {
-        estadoTexto = "Desestimar";
+        estadoTexto = "Desestimado";
       } else {
         estadoTexto = "Sin Estado";
       }
@@ -119,8 +119,8 @@ $(document).ready(function () {
         } else {
           Swal.fire({
             icon: "warning",
-            title: "Adveterencia",
-            text: "No modifico el estado del Postulante",
+            title: "Matricula no resgistrada",
+            text: "El Postulante no registrada una matricula *VERIFICAR*",
           }).then(function (result) {
             if (result.value) {
               window.location = "listaPostulantes";
@@ -860,130 +860,126 @@ $(document).ready(function () {
         }
       });
   });
-});
 
-//funcion para identificar los cambios checkbox seleccionados y deseleccionados
-var checkboxes = [
-  "checkFichaPostulante",
-  "checkEntrevista",
-  "checkInformePsico",
-  "checkConstAdeudo",
-  "checkCartaAdmision",
-  "checkContrato",
-  "checkConstVacante",
-  "checkPagoMatricula",
-];
-var checkboxStates = {};
-//identificar si se selecciona o deselecciona un checkbox
-document.addEventListener("DOMContentLoaded", function () {
-  for (var i = 0; i < checkboxes.length; i++) {
-    var checkboxElement = document.getElementById(checkboxes[i]);
-    if (checkboxElement) {
-      // Inicializar el estado del checkbox en el objeto checkboxStates
-      checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
+  //funcion para identificar los cambios checkbox seleccionados y deseleccionados
+  var checkboxes = [
+    "checkFichaPostulante",
+    "checkEntrevista",
+    "checkInformePsico",
+    "checkConstAdeudo",
+    "checkCartaAdmision",
+    "checkContrato",
+    "checkConstVacante",
+    "checkPagoMatricula",
+  ];
+  var checkboxStates = {};
+  //identificar si se selecciona o deselecciona un checkbox
+  //document.addEventListener("DOMContentLoaded", function () {
+    for (var i = 0; i < checkboxes.length; i++) {
+      var checkboxElement = document.getElementById(checkboxes[i]);
+      if (checkboxElement) {
+        // Inicializar el estado del checkbox en el objeto checkboxStates
+        checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
 
-      checkboxElement.addEventListener("change", function () {
-        // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
-        checkboxStates[this.id] = this.checked ? "on" : "";
+        checkboxElement.addEventListener("change", function () {
+          // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
+          checkboxStates[this.id] = this.checked ? "on" : "";
 
-        //console.log(checkboxStates); // Imprimir el objeto checkboxStates para verificar
-      });
-    } else {
-      console.log("No se encontró el checkbox con id: " + checkboxes[i]);
+          //console.log(checkboxStates); // Imprimir el objeto checkboxStates para verificar
+        });
+      } else {
+        //console.log("No se encontró el checkbox con id: " + checkboxes[i]);
+      }
     }
-  }
+  //});
 });
-
 // Visualizar Pago de Matricula cuando no hay pago
-$("#btnVisualizarPagoMatricula1").click(function(event) {
+$("#btnVisualizarPagoMatricula1").click(function (event) {
   Swal.fire({
-      icon: 'warning',
-      title: 'No hay ningún pago registrado',
-      confirmButtonText: 'OK'
+    icon: "warning",
+    title: "No hay ningún pago registrado",
+    confirmButtonText: "OK",
   });
 });
 
-
 // Funcionalidad para el botón Registrar Pago de Matrícula
 $("#btnPagoMatricula").click(function (event) {
-
   // Obtener el codgio de postulante de pago del atributo del botón
   var codPostulante = $(this).data("codpostulante");
-	window.location = "index.php?ruta=registrarPago&codPostulante=" + codPostulante;
-
+  window.location =
+    "index.php?ruta=registrarPago&codPostulante=" + codPostulante;
 });
 
 // Funcionalidad para el botón "Visualizar Pago de Matrícula" cuando hay pago realizado
 $("#btnVisualizarPagoMatricula").click(function (event) {
   var codPago = $(this).data("pago-matricula");
-	var data = new FormData();
-	data.append("codPago", codPago);
+  var data = new FormData();
+  data.append("codPago", codPago);
 
-	$.ajax({
-		url: "ajax/postulantes.ajax.php",
-		method: "POST",
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-		success: function (response) {
+  $.ajax({
+    url: "ajax/postulantes.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
       // Obtener la descripción del grado desde la respuesta del servidor
       var descripcionGrado = response.descripcionGrado;
 
       // Dividir la descripción del grado en nivel y año
-      var nivel = descripcionGrado.split(' ')[0]; // Extrae la primera palabra
+      var nivel = descripcionGrado.split(" ")[0]; // Extrae la primera palabra
       // Encontrar el índice del primer espacio en la descripción del grado
-      var primerEspacioIndex = descripcionGrado.indexOf(' ');
+      var primerEspacioIndex = descripcionGrado.indexOf(" ");
 
       // Extraer el año del grado (texto después del primer espacio)
-      var año = descripcionGrado.slice(primerEspacioIndex + 1); 
-			$("#nombresDetalle").val(response.nombrePostulante);
-			$("#apellidosDetalle").val(response.apellidoPostulante);
-			$("#gradoDetalle").val(nivel);
-			$("#nivelDertalle").val(año);
-			$("#codigoCajaDetalle").val(response.cantidadPago);
-			$("#mesDetalle").val(response.idTipoPago);
-			$("#LimitePagoDetalle").val(response.fechaPago);
+      var año = descripcionGrado.slice(primerEspacioIndex + 1);
+      $("#nombresDetalle").val(response.nombrePostulante);
+      $("#apellidosDetalle").val(response.apellidoPostulante);
+      $("#gradoDetalle").val(nivel);
+      $("#nivelDertalle").val(año);
+      $("#codigoCajaDetalle").val(response.cantidadPago);
+      $("#mesDetalle").val(response.idTipoPago);
+      $("#LimitePagoDetalle").val(response.fechaPago);
 
-			// Abre el modal después de recibir la respuesta
-			$("#modalDetallePago").modal("show");
-      
-		},
-	});
+      // Abre el modal después de recibir la respuesta
+      $("#modalDetallePago").modal("show");
+    },
+  });
 });
 
 // Botón "Editar" y "Eliminar" en el modal de detalle de pago
-$(document).ready(function() {
-    // Funcionalidad para el botón "Editar"
-    $("#modalDetallePago").on("click", "#btnEditarPago", function() {
-      // Obtener el código de postulante de pago del atributo del botón
-      var codPago = $(this).data("pago-matricula");
+$(document).ready(function () {
+  // Funcionalidad para el botón "Editar"
+  $("#modalDetallePago").on("click", "#btnEditarPago", function () {
+    // Obtener el código de postulante de pago del atributo del botón
+    var codPago = $(this).data("pago-matricula");
 
-      // Mostrar un mensaje de confirmación utilizando SweetAlert
-      Swal.fire({
-          title: '¿Deseas editar este pago?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Sí, editar',
-          cancelButtonText: 'Cancelar'
-      }).then((result) => {
-          if (result.isConfirmed) {
-              // Si el usuario confirma, redirige a la página de edición
-              /* window.location = "index.php?ruta=editarPago&codPago=" + codPago; */
-          }
-      });
+    // Mostrar un mensaje de confirmación utilizando SweetAlert
+    Swal.fire({
+      title: "¿Deseas editar este pago?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, editar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, redirige a la página de edición
+        /* window.location = "index.php?ruta=editarPago&codPago=" + codPago; */
+      }
+    });
   });
 
   // Funcionalidad para el botón "Eliminar"
-  $("#modalDetallePago").on("click", "#btnEliminarPago", function() {
+  $("#modalDetallePago").on("click", "#btnEliminarPago", function () {
     // Obtener el código de postulante de pago del atributo del botón
     var codPago = $(this).data("pago-matricula");
     var data = new FormData();
     data.append("codPagoDelet", codPago);
-  
+
     Swal.fire({
       icon: "warning",
       title: "Advertencia",
@@ -1038,9 +1034,6 @@ $(document).ready(function() {
     });
   });
 });
-
-
-
 
 /* inicio */
 //  Descargar reporte exel de notas por meses
@@ -1207,4 +1200,3 @@ $(document).ready(function () {
   };
 });
 /* fin */
-
