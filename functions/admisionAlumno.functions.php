@@ -95,7 +95,7 @@ class FunctionAdmisionAlumnos
 
     $opciones = [
       'Ver Calendario' => ['btnVisualizarCronograma', 'codAdAlumCronograma', '#cronogramaAdmisionPago'],
-      'Visualizar' => ['btnVisualizarAlumno', 'codAdmisionAlumno'],
+      'Visualizar' => ['btnVisualizarAdmisionAlumno', 'codAdmisionAlumno'],
       'Editar' => ['btnEditarAlumno', 'codAlumno'],
       'Eliminar' => ['btnEliminarAdmisionAlumno', 'codAdmisionAlumno']
     ];
