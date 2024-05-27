@@ -53,9 +53,10 @@ class FunctionDocente
   }
 
   //botones usuarios
-  public static function getBtnUsuarios($codPersonal, $estadoUsuario, $codTipoPersonal)
+  public static function getBtnUsuarios($codPersonal, $estadoUsuario, $codTipoPersonal,$idUsuario)
   {
     $descripcion = $estadoUsuario == 1 ? "Desactivar" : "Activar";
+    $buttonId = $estadoUsuario == 1 ? "btnDesactivarDocente" : "btnActivarDocente";
     $botones = '
     <div class="btn-group">
       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
@@ -63,7 +64,7 @@ class FunctionDocente
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
         <li><button type="button" class="dropdown-item btnVisualizarDocente" data-bs-toggle="modal" data-bs-target="#seleccionarCursosAsignados" codPersonal="' . $codPersonal . '" codTipoPersonal="' . $codTipoPersonal . '">Asignar Curso</button></li>
-        <li><button type="button" class="dropdown-item btnDesactivarDocente" codPersonal="' . $codPersonal . '">' . $descripcion . '</button></li>
+        <li><button type="button" class="dropdown-item" id="' . $buttonId . '" idUsuario="' . $idUsuario . '">' . $descripcion . '</button></li>
       </ul>
     </div>
   ';

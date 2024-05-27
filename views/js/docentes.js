@@ -2,82 +2,53 @@ $(document).ready(function () {
   // Agregar el evento click al botón "Asignar Curso"
   $("#btnAsignarCurso").on("click", function () {
     // Obtener los valores seleccionados
-    var gradoSeleccionado = $("#selectGrado").val();
-    var cursoSeleccionado = $("#selectCurso").val();
+    var gradoSeleccionado = $("#selectGrado").find(":selected").text();
+    var cursoSeleccionado = $("#selectCurso").find(":selected").text();
     var idPersonal = $("#codPersonal").val();
 
-    // Mostrar los valores en una alerta de SweetAlert
-    Swal.fire({
-      title: "Datos Seleccionados",
-      html:
-        "<p><strong>Grado seleccionado:</strong> " +
-        gradoSeleccionado +
-        "</p>" +
-        "<p><strong>Curso seleccionado:</strong> " +
-        cursoSeleccionado +
-        "</p>" +
-        "<p><strong>ID Personal:</strong> " +
-        idPersonal +
-        "</p>",
-      icon: "info",
-      confirmButtonText: "Aceptar",
+    var data = new FormData();
+    data.append("gradoSeleccionado", gradoSeleccionado);
+    data.append("cursoSeleccionado", cursoSeleccionado);
+    data.append("idPersonal", idPersonal);
+    
+    $.ajax({
+        url: "ajax/docentes.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+
+          if (response == "ok") {
+            Swal.fire({
+              title: "¡Éxito!",
+              text: "Curso asignado correctamente",
+              icon: "success",
+              confirmButtonText: "Aceptar",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
+          } else {
+            Swal.fire({
+              title: "¡Error!",
+              text: "No se pudo asignar el curso",
+              icon: "error",
+              confirmButtonText: "Aceptar",
+            });
+          }
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // procendecia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
     });
   });
-
-  /*   $(".selectGrado").on("change", "#selectGrado", function () {
-    var gradoSeleccionado = this.value;
-    var selectCursoContainer = document.getElementById("selectCursoContainer");
-    var gradoNivel =
-      this.options[this.selectedIndex].getAttribute("data-nivel");
-    var selectCurso = document.getElementById("selectCurso");
-
-    // Limpiar la selección del segundo select si no se ha seleccionado un grado
-    if (gradoSeleccionado === "") {
-      selectCursoContainer.style.display = "none";
-      selectCurso.value = "";
-      return;
-    }
-
-    // Mostrar el segundo select solo para Docente Secundaria y Docente General
-    var tipoDocente = "<?php echo $listaDocentes[0]['descripcionTipo']; ?>";
-    if (
-      tipoDocente === "Docente Secundaria" ||
-      tipoDocente === "Docente General"
-    ) {
-      selectCursoContainer.style.display = "";
-    } else {
-      selectCursoContainer.style.display = "none";
-      selectCurso.value = "";
-    } */
-
-  /*     // Mostrar solo los cursos que corresponden al grado seleccionado
-    for (var i = 0; i < selectCurso.options.length; i++) {
-      var option = selectCurso.options[i];
-      if (option.getAttribute("data-grado") === gradoSeleccionado) {
-        option.style.display = "";
-      } else {
-        option.style.display = "none";
-      }
-    }
-  }); */
 });
-
-// Si deseas realizar alguna acción adicional con los datos seleccionados, puedes hacerlo aquí
-/*     SELECT
-	curso_grado.idCursoGrado
-FROM
-	curso_grado
-	INNER JOIN
-	curso
-	ON 
-		curso_grado.idCurso = curso.idCurso
-	INNER JOIN
-	grado
-	ON 
-		curso_grado.idGrado = grado.idGrado
-WHERE
-	curso.descripcionCurso = 'Ciencia y tecnologia' AND
-	grado.descripcionGrado = '1er Año' */
 
 $(".dataTableDocentes").on("click", ".btnVisualizarDocente", function () {
   // Obtener los valores seleccionados
@@ -153,11 +124,11 @@ $(".selectGrado").on("change", ".selectGrado", function () {
       processData: false,
       dataType: "json",
       success: function (response) {
+        var opciones = "";
+        var select = "";
+
         response.forEach((curso) => {
           if (idGrado == curso.idGrado) {
-            var opciones = "";
-            //listaGrados = JSON.parse(response);
-
             opciones +=
               '<option value="' +
               curso.idGrado +
@@ -166,27 +137,18 @@ $(".selectGrado").on("change", ".selectGrado", function () {
               '">' +
               curso.descripcionCurso +
               "</option>";
-
-            selectDiv = document.getElementById("selectCurso");
-            select =
-              '<label for="selectCurso" class="form-label">Selecciona el Curso:</label>' +
-              '<select class="form-select selectCurso" id="selectCurso" data-placeholder="Elegir curso">' +
-              '<option value="">Selecciona curso...</option>' +
-              opciones +
-              "</select>";
-            selectDiv.innerHTML = select;
           }
         });
-        // <label for="selectCurso" class="form-label">Selecciona el Curso:</label>
-        //               <select class="form-select" id="selectCurso" data-placeholder="Elegir curso">
-        //                   <option value="">Selecciona un curso...</option>
-        //                   <?php
-        //                   $listaCursos = ControllerDocentes::ctrGetCurso();
-        //                   foreach ($listaCursos as $curso) {
-        //                       echo "<option value='" . $curso["descripcionCurso"] . "' data-grado='" . $curso["descripcionGrado"] . "' style='display:none;'>" . $curso["descripcionCurso"] . "</option>";
-        //                   }
-        //                   ?>
-        //               </select>
+
+        selectDiv = document.getElementById("selectCurso");
+        select =
+          '<label for="selectCurso" class="form-label">Selecciona el Curso:</label>' +
+          '<select class="form-select selectCurso" id="selectCurso" data-placeholder="Elegir curso">' +
+          '<option value="">Selecciona curso...</option>' +
+          opciones +
+          "</select>";
+
+        selectDiv.innerHTML = select;
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log(jqXHR.responseText); // procendecia de error
@@ -194,4 +156,101 @@ $(".selectGrado").on("change", ".selectGrado", function () {
       },
     });
   }
+});
+
+//Desactivar Docente
+$("#dataTableDocentes").on("click", "#btnDesactivarDocente", function () {
+  var idUsuario = $(this).attr("idUsuario");
+
+  Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡El Docente será desactivado!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar'
+  }).then((result) => {
+      if (result.isConfirmed) {
+          var docenteEstado = 2;
+          var data = new FormData();
+          data.append("idUsuarioEstado", idUsuario);
+          data.append("docenteEstado", docenteEstado);
+          
+          $.ajax({
+              url: "ajax/docentes.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                  if (response == "ok") {
+                      Swal.fire(
+                          'Desactivado',
+                          'El Docente ha sido desactivado.',
+                          'success'
+                      ).then(() => {
+                          location.reload();
+                      });
+                  }
+              }
+          });
+      }
+  });
+});
+
+//Activar Docente
+$("#dataTableDocentes").on("click", "#btnActivarDocente", function () {
+var idUsuario = $(this).attr("idUsuario");
+
+Swal.fire({
+    title: '¿Estás seguro?',
+    text: "¡El Docente será activado!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Sí, activar',
+    cancelButtonText: 'Cancelar'
+}).then((result) => {
+    if (result.isConfirmed) {
+        var docenteEstado = 1;
+        var data = new FormData();
+        data.append("idUsuarioEstado", idUsuario);
+        data.append("docenteEstado", docenteEstado);
+        
+        $.ajax({
+            url: "ajax/docentes.ajax.php",
+            method: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (response) {
+                if (response == "ok") {
+                    Swal.fire(
+                        'Activado',
+                        'El Docente ha sido activado.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                }
+            }
+        });
+    }
+});
+});
+
+// Funcionalidad para el botón Registrar Pago de Matrícula
+$("#btnPagoMatricula").click(function (event) {
+
+  // Obtener el codgio de postulante de pago del atributo del botón
+  var codPostulante = $(this).data("codpostulante");
+	window.location = "index.php?ruta=registrarPago&codPostulante=" + codPostulante;
+
 });

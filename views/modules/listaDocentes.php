@@ -15,8 +15,6 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuario">Agregar
-            Docente</button>
         </div>
       </div>
       <!-- Left side columns -->
@@ -61,7 +59,7 @@
             <div class="modal-footer">
                 <input type="hidden" class="codPersonal" id="codPersonal" name="codPersonal">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary d-flex gap-2" id="btnAsignarCurso"><i class="bi bi-file-earmark-excel"></i> Asignar Curso</button>
+                <button class="btn btn-primary d-flex gap-2" id="btnAsignarCurso"><i class="bi bi-book"></i> Asignar Curso</button>
             </div>
         </div>
     </div>
