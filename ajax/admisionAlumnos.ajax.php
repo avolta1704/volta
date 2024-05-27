@@ -14,7 +14,7 @@ class AdmisionAlumnosAjax
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
     foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
       //$dataAdmision['tipoAdmision'] = FunctionAdmisionAlumnos::getEstadoTipoAdmision($dataAdmision["tipoAdmision"]);
-      $dataAdmision['estadoAdmisionAlumn'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
+      $dataAdmision['estadoAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
       $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"]);
     }
     echo json_encode($registrosAdmisionAlumnos);
@@ -66,7 +66,7 @@ if (isset($_POST["codAdAlumCronograma"])) {
   $codAdAlumCronograma->ajaxDataCronoPagoAdAlumEstado();
 }
 
-  //  eliminar Postulante Matriculado
+//  eliminar Postulante Matriculado
 if (isset($_POST["codAlumnoEliminar"])) {
   $obtenerAlumnoDataEliminar = new AdmisionAlumnosAjax();
   $obtenerAlumnoDataEliminar->codAlumnoEliminar = $_POST["codAlumnoEliminar"];
