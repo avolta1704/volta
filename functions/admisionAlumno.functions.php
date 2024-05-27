@@ -21,18 +21,18 @@ class FunctionAdmisionAlumnos
   //  Estados para estadoAdmisionAlumno
   public static function getEstadoAdmisionAlumno($estadoAdmisionAlumno)
   {
-    //  Estado estadoAdmisionAlumno 1 = registtrado  2 = Programado  & 3 = Pagado 4 = Anulado 
+    //  Estado estadoAdmisionAlumno 1 = registrado  2 = Matriculado  & 3 = Trasladado 4 = Retirado 
     if ($estadoAdmisionAlumno == 1) {
       $estado = '<span class="badge rounded-pill bg-warning">Registrado</span>';
     }
     if ($estadoAdmisionAlumno == 2) {
-      $estado = '<span class="badge rounded-pill bg-primary">Programado</span>';
+      $estado = '<span class="badge rounded-pill bg-success">Matriculado</span>';
     }
     if ($estadoAdmisionAlumno == 3) {
-      $estado = '<span class="badge rounded-pill bg-succes">Pagado</span>';
+      $estado = '<span class="badge rounded-pill bg-succes">Trasladado</span>';
     }
     if ($estadoAdmisionAlumno == 4) {
-      $estado = '<span class="badge rounded-pill bg-danger">Anulado</span>';
+      $estado = '<span class="badge rounded-pill bg-danger">Retirado</span>';
     }
     return $estado;
   }
@@ -95,7 +95,7 @@ class FunctionAdmisionAlumnos
 
     $opciones = [
       'Ver Calendario' => ['btnVisualizarCronograma', 'codAdAlumCronograma', '#cronogramaAdmisionPago'],
-      'Programar' => ['btnGenerarCronograma', 'codAdmisionAlumno'],
+      'Visualizar' => ['btnVisualizarAlumno', 'codAdmisionAlumno'],
       'Editar' => ['btnEditarAlumno', 'codAlumno'],
       'Eliminar' => ['btnEliminarAdmisionAlumno', 'codAdmisionAlumno']
     ];
