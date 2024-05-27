@@ -35,7 +35,9 @@ class ModelPagos
 
         cp.idAdmisionAlumno,
 
-        cp.estadoCronograma
+        cp.estadoCronograma,
+        cp.conceptoPago,
+        cp.mesPago
       FROM pago p
       JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
       JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
