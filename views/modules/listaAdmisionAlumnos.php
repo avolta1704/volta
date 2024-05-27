@@ -5,7 +5,6 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listaAdmisionAlumnos">Matriculados</a></li>
         <li class="breadcrumb-item active">Lista Matriculados</li>
       </ol>
     </nav>
@@ -26,10 +25,10 @@
               <!--  Titulo dataTableAdmisionAlumnosAdmin-->
               <table id="dataTableAdmisionAlumnos" class="display dataTableAdmisionAlumnos" style="width: 100%">
                 <thead>
-                  
+
                 </thead>
                 <tbody>
-                  
+
                 </tbody>
               </table>
             </div>
@@ -40,8 +39,7 @@
   </section>
 </main>
 <!-- Modal Cronograma Pagos Admision Alumno-->
-<div class="modal fade" id="cronogramaAdmisionPago"  data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
+<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 700px;">
     <div class="modal-content">
       <div class="modal-header">
