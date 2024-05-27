@@ -102,11 +102,11 @@
           <div class="container row g-3 p-3 justify-content-between">
             <input type="hidden" class="codAlumno" name="codAlumno" id="codAlumno" value="<?php echo $codAlumno ?>">
             <?php
-              if(isset($GET["tipo"])){
-                echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumnoAdmision">Cerrar</button>';
-              } else {
-                echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumno">Cerrar</button>';
-              }
+            if (isset($_GET["tipo"])) {
+              echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumnoAdmision">Cerrar</button>';
+            } else {
+              echo '<button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarEditarAlumno">Cerrar</button>';
+            }
             ?>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Editar Alumno</button>
           </div>
