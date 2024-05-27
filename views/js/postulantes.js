@@ -861,39 +861,39 @@ $(document).ready(function () {
       });
   });
 
-//funcion para identificar los cambios checkbox seleccionados y deseleccionados
-var checkboxes = [
-  "checkFichaPostulante",
-  "checkEntrevista",
-  "checkInformePsico",
-  "checkConstAdeudo",
-  "checkCartaAdmision",
-  "checkContrato",
-  "checkConstVacante",
-  "checkPagoMatricula",
-  "checkDocumentoTraslado",
-];
-var checkboxStates = {};
-//identificar si se selecciona o deselecciona un checkbox
-document.addEventListener("DOMContentLoaded", function () {
+  //funcion para identificar los cambios checkbox seleccionados y deseleccionados
+  var checkboxes = [
+    "checkFichaPostulante",
+    "checkEntrevista",
+    "checkInformePsico",
+    "checkConstAdeudo",
+    "checkCartaAdmision",
+    "checkContrato",
+    "checkConstVacante",
+    "checkPagoMatricula",
+    "checkDocumentoTraslado",
+  ];
+  var checkboxStates = {};
+  //identificar si se selecciona o deselecciona un checkbox
+  //document.addEventListener("DOMContentLoaded", function () {
   for (var i = 0; i < checkboxes.length; i++) {
     var checkboxElement = document.getElementById(checkboxes[i]);
     if (checkboxElement) {
       // Inicializar el estado del checkbox en el objeto checkboxStates
       checkboxStates[checkboxes[i]] = checkboxElement.checked ? "on" : "";
 
-        checkboxElement.addEventListener("change", function () {
-          // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
-          checkboxStates[this.id] = this.checked ? "on" : "";
+      checkboxElement.addEventListener("change", function () {
+        // Actualizar el estado del checkbox en el objeto checkboxStates cuando cambie
+        checkboxStates[this.id] = this.checked ? "on" : "";
 
-          //console.log(checkboxStates); // Imprimir el objeto checkboxStates para verificar
-        });
-      } else {
-        //console.log("No se encontró el checkbox con id: " + checkboxes[i]);
-      }
+        //console.log(checkboxStates); // Imprimir el objeto checkboxStates para verificar
+      });
+    } else {
+      //console.log("No se encontró el checkbox con id: " + checkboxes[i]);
     }
-  //});
+  }
 });
+
 // Visualizar Pago de Matricula cuando no hay pago
 $("#btnVisualizarPagoMatricula1").click(function (event) {
   Swal.fire({
@@ -901,12 +901,6 @@ $("#btnVisualizarPagoMatricula1").click(function (event) {
     title: "No hay ningún pago registrado",
     confirmButtonText: "OK",
   });
-$("#btnVisualizarPagoMatricula1").click(function (event) {
-	Swal.fire({
-		icon: "warning",
-		title: "No hay ningún pago registrado",
-		confirmButtonText: "OK",
-	});
 });
 
 // Funcionalidad para el botón Registrar Pago de Matrícula

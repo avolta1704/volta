@@ -93,7 +93,7 @@ class FunctionPostulantes
             </div>
         </div>
         <div class='col-sm-3'>
-            <input type='date' name='$dateName' id='$dateName' class='form-control $dateName' value='$dateValue'>
+            <input type='date' name='$dateName' id='$dateName' class='form-control $dateName' value='$fecha'>
         </div>
         $buttons
     </div>
