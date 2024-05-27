@@ -160,4 +160,19 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  /**
+   * Obtiene el idPostulante de un alumno por su código de admision.
+   * 
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $codAdmision El código de admisión.
+   * @return int El idPostulante del alumno.
+   */
+  public static function mdlGetIdPostulanteByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT idPostulante FROM admision WHERE idAdmision = (SELECT idAdmision FROM $tabla WHERE idAdmisionAlumno = :idAdmisionAlumno)");
+    $statement->bindParam(":idAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
+  }
 }
