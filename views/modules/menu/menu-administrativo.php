@@ -86,7 +86,11 @@
             <i class="bi bi-circle"></i><span>Reporte de Pensiones</span>
           </a>
         </li>
-
+        <li>
+          <a href="reporteAdmisiones">
+            <i class="bi bi-circle"></i><span>Reporte Matriculados</span>
+          </a>
+        </li>
       </ul>
     </li>
 
