@@ -35,6 +35,7 @@ class AdmisionAlumnosAjax
     $responseCronoPago = ControllerAdmisionAlumno::ctrDataCronoPagoAdAlumEstado($codAdAlumCronograma);
     foreach ($responseCronoPago as &$dataCronoPago) {
       $dataCronoPago['estadoCronogramaPago'] = FunctionPagos::getEstadoCronogramaPago($dataCronoPago["estadoCronograma"]);
+      $dataCronoPago['fechaPago'] = FunctionPagos::getFechaPagoModal($dataCronoPago["fechaPago"]);
     }
     echo json_encode($responseCronoPago);
   }

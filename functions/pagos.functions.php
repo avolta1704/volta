@@ -6,13 +6,13 @@ class FunctionPagos
   {
     //  Estado de los alumnos 1 = Pendiente 2 = Cancelado & 3 = Anulado 
     if ($estadoCronogramaPago == 1) {
-      $estado = '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+      $estado = "Pendiente";
     }
     if ($estadoCronogramaPago == 2) {
-      $estado = '<span class="badge rounded-pill bg-success">Cancelado</span>';
+      $estado = "Cancelado";
     }
     if ($estadoCronogramaPago == 3) {
-      $estado = '<span class="badge rounded-pill bg-danger">Anulado</span>';
+      $estado = "Anulado";
     }
     return $estado;
   }
@@ -167,5 +167,17 @@ class FunctionPagos
     // Obtener el nombre del mes en español
     $mesPago = $meses[$numeroMes];
     return $mesPago;
+  }
+  // fechapago para el cronograma de pago modal 
+  public static function getFechaPagoModal($fechaPago)
+  {
+    //  si el valor es null se muestra como no pagado esto por que la consulta es LEFT JOIN si tiene valor devuelve la fecha de pago
+    if ($fechaPago == null) {
+      $estado = "No Pagado";
+    }
+    if ($fechaPago !== null) {
+      $estado = $fechaPago;
+    }
+    return $estado;
   }
 }

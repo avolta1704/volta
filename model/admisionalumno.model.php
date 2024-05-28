@@ -65,14 +65,27 @@ class ModelAdmisionAlumno
     }
   }
   // ver calendario cronograma pago de la tabla  admision_alumno
+
   public static function mdlDataCronoPagoAdAlumEstado($table, $codAdAlumCalendario)
   {
-    $statement = Connection::conn()->prepare("SELECT conceptoPago, montoPago, fechaLimite, estadoCronograma, mesPago, idCronogramaPago
-      FROM $table WHERE idAdmisionAlumno = :idAdmisionAlumno");
+    $statement = Connection::conn()->prepare("
+      SELECT cp.conceptoPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, cp.mesPago, cp.idCronogramaPago, p.fechaPago
+      FROM $table cp
+      LEFT JOIN pago p ON cp.idCronogramaPago = p.idCronogramaPago
+      WHERE cp.idAdmisionAlumno = :idAdmisionAlumno
+    ");
     $statement->bindParam(":idAdmisionAlumno", $codAdAlumCalendario, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  /* CREATE TABLE `pago`  (
+  `idPago` int NOT NULL AUTO_INCREMENT,
+  `idTipoPago` int NOT NULL,
+  `idCronogramaPago` int NULL DEFAULT NULL,
+  `fechaPago` date NOT NULL,
+)
+ */
 
   //  Obtener el último admision_alumno creado
   public static function mdlObtenerUltimoAdmisionAlumno($table)

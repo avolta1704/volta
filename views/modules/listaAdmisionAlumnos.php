@@ -40,7 +40,8 @@
 </main>
 
 <!-- Modal Actualizar Admision Alumno-->
-<div class="modal fade" id="actualizarEstadoAdmisionAlumno" aria-hidden="true" aria-labelledby="actualizarEstadoAdmisionAlumno" tabindex="-1">
+<div class="modal fade" id="actualizarEstadoAdmisionAlumno" aria-hidden="true"
+  aria-labelledby="actualizarEstadoAdmisionAlumno" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content ">
       <div class="modal-header">
@@ -59,7 +60,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnActualizarEstadoMatricula" id="btnActualizarEstadoMatricula">Actualizar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstadoMatricula"
+          id="btnActualizarEstadoMatricula">Actualizar</button>
       </div>
     </div>
   </div>
@@ -67,11 +69,13 @@
 
 
 <!-- Modal Cronograma Pagos Admision Alumno-->
-<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 700px;">
+<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 770px;">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="cronogramaAdmisionPagoLabel">Cronograma Pagos Admision Alumno</h1>
+        <h1 class="modal-title fs-5" id="cronogramaAdmisionPagoLabel" style="padding-left: 150px; font-weight: bold;">
+          Cronograma Pagos Admision Alumno</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -85,7 +89,8 @@
 </div>
 
 <!-- Modal editar  -->
-<div class="modal fade" id="modalEditCronoPago" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalEditCronoPagoLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditCronoPago" data-bs-backdrop="static" tabindex="-1"
+  aria-labelledby="modalEditCronoPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -100,17 +105,20 @@
           </div>
           <div class="mb-3">
             <label for="fechaLimtEditCrono" class="col-form-label">Fecha Limite:</label>
-            <input type="date" class="form-control form-control-sm" id="fechaLimtEditCrono" name="fechaLimtEditCrono" fechaLimtEditCrono="">
+            <input type="date" class="form-control form-control-sm" id="fechaLimtEditCrono" name="fechaLimtEditCrono"
+              fechaLimtEditCrono="" disabled>
           </div>
           <div class="mb-3">
             <label for="montoEditCrono" class="col-form-label">Monto Pago:</label>
-            <input type="number" step="0.01" class="form-control form-control-sm" id="montoEditCrono" name="montoEditCrono" montoEditCrono="">
+            <input type="number" step="0.01" class="form-control form-control-sm" id="montoEditCrono"
+              name="montoEditCrono" montoEditCrono="">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btnCerrarEditCronoModal" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnEditCronoModal" id="btnEditCronoModal" name="btnEditCronoModal" btnEditCronoModal=" ">Editar</button>
+        <button type="button" class="btn btn-primary btnEditCronoModal" id="btnEditCronoModal" name="btnEditCronoModal"
+          btnEditCronoModal=" ">Editar</button>
       </div>
     </div>
   </div>
