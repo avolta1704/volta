@@ -41,6 +41,7 @@ session_start();
         $_GET["ruta"] == "buscarPostulante" ||
         $_GET["ruta"] == "reportePagos" ||
         $_GET["ruta"] == "reporteComunicaciones" ||
+        $_GET["ruta"] == "visualizarMatriculado" ||
 
         $_GET["ruta"] == "cursos" ||
         $_GET["ruta"] == "asignarCursos" ||
