@@ -190,13 +190,6 @@ if (isset($_POST["codPostulanteURLPsicologico"])) {
   $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
   $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
 }
-
-// Obtener la URL desde la base de datos
-if (isset($_POST["codPostulanteURLPsicologico"])) {
-  $obtenerDownloadURLPsicologico = new PostulantesAjax();
-  $obtenerDownloadURLPsicologico->codPostulanteDownloadUrlPsicologico = $_POST["codPostulanteURLPsicologico"];
-  $obtenerDownloadURLPsicologico->ajaxDownloadURLPsicologico();
-}
 //  editar checlist del postulante
 if (isset($_POST["actualizarCheclist"])) {
   $dataActualizarCheclist = new PostulantesAjax();

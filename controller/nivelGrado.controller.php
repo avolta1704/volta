@@ -5,15 +5,17 @@ date_default_timezone_set('America/Lima');
 class ControllerNivelGrado
 {
   //  Obtener todos los niveles
-  public static function ctrGetAllNiveles($tabla)
+  public static function ctrGetAllNiveles()
   {
     
   }
 
   //  Obtener todos los grados
-  public static function ctrGetAllGrados($tabla)
+  public static function ctrGetAllGrados()
   {
-   
+    $table = "grado";
+    $listaGrados = ModelNivelGrado::mdlGetAllGrados($table);
+    return $listaGrados;
   }
 
   //  Obtener todos los grados por nivel

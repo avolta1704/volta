@@ -20,6 +20,7 @@ require_once "functions/reportesComunicados.functions.php";
 require_once "functions/cursos.functions.php";
 require_once "functions/areas.functions.php";
 require_once "functions/asignarCursos.functions.php";
+require_once "functions/docentes.functions.php";
 require_once "functions/anioescolar.functions.php";
 
 //  Controllers
@@ -43,6 +44,7 @@ require_once "controller/reportesPensiones.controller.php";
 require_once "controller/reportesComunicados.controller.php";
 require_once "controller/cursos.controller.php";
 require_once "controller/areas.controller.php";
+require_once "controller/docentes.controller.php";
 
 //  Models
 require_once "model/usuarios.model.php";
@@ -65,6 +67,7 @@ require_once "model/reportesPensiones.model.php";
 require_once "model/reportesComunicados.model.php";
 require_once "model/cursos.model.php";
 require_once "model/areas.model.php";
+require_once "model/docentes.model.php";
 
 $template = new ControllerTemplate();
 $template->ctrTemplate();
