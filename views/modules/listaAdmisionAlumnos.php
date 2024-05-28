@@ -13,8 +13,7 @@
     <div class="row">
       <div class="col-2">
         <div class="row mb-2">
-          <!-- <button type="button" class="btn btn-primary btnAgregarNuevoAlumno" id="btnAgregarNuevoAlumno">Admisión
-            Extraordinaria</button> -->
+
         </div>
       </div>
       <!-- Left side columns -->

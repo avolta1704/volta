@@ -399,14 +399,6 @@ class ControllerPostulantes
   }
 
 
-  // Obtener el último postulante creado extraordinario
-  public static function ctrObtenerUltimoPostulanteCreado()
-  {
-    $tabla = "postulante";
-    $response = ModelPostulantes::mdlObtenerUltimoPostulanteCreado($tabla);
-    return $response;
-  }
-
   //  Obtener datos de un postulante
   public static function ctrGetDatosPostulantes($codPostulanteEdit)
   {

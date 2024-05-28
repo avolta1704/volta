@@ -2,22 +2,6 @@
 class FunctionAdmisionAlumnos
 {
 
-  //  Estados para  tipoAdmision
-  public static function getEstadoTipoAdmision($tipoAdmision)
-  {
-    $tipoAdmision = intval($tipoAdmision);
-    //  Estado tipoAdmision 1 = ordinario 2 = Extraordinario & 3 = Proceso
-    if ($tipoAdmision == 1) {
-      $tipo = '<span class="badge rounded-pill bg-secondary">Ordinario</span>';
-    }
-    if ($tipoAdmision == 2) {
-      $tipo = '<span class="badge rounded-pill bg-secondary">Extra Ordinario</span>';
-    }
-    if ($tipoAdmision == "") {
-      $tipo = '<span class="badge rounded-pill bg-secondary">Proceso</span>';
-    }
-    return $tipo;
-  }
   //  Estados para estadoAdmisionAlumno
   public static function getEstadoAdmisionAlumno($estadoAdmisionAlumno)
   {
