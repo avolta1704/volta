@@ -108,7 +108,12 @@ class FunctionAdmisionAlumnos
     }
 
     $botones .= '
-    <li><button type="button" id="btnAbrirModalEstadoMatricula" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actualizarEstadoAdmisionAlumno" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Actualizar</button></li>
+        <li>
+          <button type="button" id="btnAbrirModalEstadoMatricula" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actualizarEstadoAdmisionAlumno" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Actualizar</button>
+        </li>
+        <li>
+          <button type="button" id="btnEliminarAdmisionAlumno" class="dropdown-item" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Eliminar</button>
+        </li>
         </ul>
       </div>
       ';
