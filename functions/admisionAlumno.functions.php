@@ -23,16 +23,18 @@ class FunctionAdmisionAlumnos
   {
     //  Estado estadoAdmisionAlumno 1 = registrado  2 = Matriculado  & 3 = Trasladado 4 = Retirado 
     if ($estadoAdmisionAlumno == 1) {
-      $estado = '<span class="badge rounded-pill bg-warning">Registrado</span>';
-    }
+      $estado = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
+    } else
     if ($estadoAdmisionAlumno == 2) {
       $estado = '<span class="badge rounded-pill bg-success">Matriculado</span>';
-    }
+    } else
     if ($estadoAdmisionAlumno == 3) {
-      $estado = '<span class="badge rounded-pill bg-primary">Trasladado</span>';
-    }
+      $estado = '<span class="badge rounded-pill bg-warning">Trasladado</span>';
+    } else
     if ($estadoAdmisionAlumno == 4) {
       $estado = '<span class="badge rounded-pill bg-danger">Retirado</span>';
+    } else {
+      $estado = '<span class="badge rounded-pill bg-secondary">Otro</span>';
     }
     return $estado;
   }
