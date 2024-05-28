@@ -55,7 +55,6 @@
           <option value="2" selected>Matriculado</option>
           <option value="3">Trasladado</option>
           <option value="5">Retirado</option>
-          <option value="6">Eliminar</option>
         </select>
       </div>
       <div class="modal-footer">
