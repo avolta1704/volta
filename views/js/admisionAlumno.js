@@ -73,11 +73,11 @@ $(document).ready(function () {
 //eliminar alumno
 $(".dataTableAdmisionAlumnos").on(
 	"click",
-	".btnEliminarAdmisionAlumno",
+	"#btnEliminarAdmisionAlumno",
 	function (event) {
 		event.stopPropagation();
 
-		var codAlumno = $(this).attr("codAdmisionAlumno");
+		var codAlumno = $(this).attr("idAdmisionAlumno");
 
 		Swal.fire({
 			title: "¿Esta seguro?",
