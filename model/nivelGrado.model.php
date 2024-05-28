@@ -12,7 +12,9 @@ class ModelNivelGrado
   //  Obtener todos los grados
   public static function mdlGetAllGrados($tabla)
   {
-    
+    $statement = Connection::conn()->prepare("SELECT grado.idGrado, grado.descripcionGrado FROM $tabla");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   //  Obtener todos los grados por nivel
@@ -21,6 +23,6 @@ class ModelNivelGrado
     $statement = Connection::conn()->prepare("SELECT grado.idGrado, grado.descripcionGrado FROM $tabla WHERE idNivel = :idNivel");
     $statement->bindParam(":idNivel", $codNivel, PDO::PARAM_INT);
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 }
