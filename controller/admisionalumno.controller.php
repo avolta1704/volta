@@ -479,4 +479,43 @@ class ControllerAdmisionAlumno
     $result = ModelAdmisionAlumno::mdlGetCodeCronogramaCuotaInicialByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
     return $result;
   }
+
+  /**
+   * Obtener el id del postulante de la tabla admision_alumno por el código de admisión del alumno.
+   * 
+   * @param int $codAdmisionAlumno El código de admisión del alumno.
+   * @return mixed El id del postulante o null si no se encuentra.
+   */
+
+  public static function ctrGetIdPostulanteByCodAdmisionAlumno($codAdmisionAlumno)
+  {
+    $tabla = "admision_alumno";
+    $result = ModelAdmisionAlumno::mdlGetIdPostulanteByCodAdmisionAlumno($tabla, $codAdmisionAlumno);
+    return $result;
+  }
+
+  /**
+   * Editar el estado de admisión del alumno.
+   * 
+   * @param array $data Los datos del estado de admisión del alumno.
+   * @return string "ok" si se actualiza correctamente o "error" si no se actualiza.
+   */
+  public static function ctrEditarEstadoAdmisionAlumno($data)
+  {
+    $tabla = "admision_alumno";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+
+    $dataActualizarEstadoAdAlum = array(
+      "idAdmisionAlumno" => $data["codAdmisionAlumno"],
+      "estadoAdmisionAlumno" => $data["estado"], //estado por defecto 1 = registrado 2 = establecido 3 = cancelado
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $idUsuario
+    );
+    $result = ModelAdmisionAlumno::mdlActualizarestadoAdmisionAlumno($tabla, $dataActualizarEstadoAdAlum);
+    return $result;
+  }
 }

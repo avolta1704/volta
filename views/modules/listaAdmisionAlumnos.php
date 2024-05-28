@@ -5,7 +5,6 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listaAdmisionAlumnos">Matriculados</a></li>
         <li class="breadcrumb-item active">Lista Matriculados</li>
       </ol>
     </nav>
@@ -26,10 +25,10 @@
               <!--  Titulo dataTableAdmisionAlumnosAdmin-->
               <table id="dataTableAdmisionAlumnos" class="display dataTableAdmisionAlumnos" style="width: 100%">
                 <thead>
-                  
+
                 </thead>
                 <tbody>
-                  
+
                 </tbody>
               </table>
             </div>
@@ -39,9 +38,36 @@
     </div>
   </section>
 </main>
+
+<!-- Modal Actualizar Admision Alumno-->
+<div class="modal fade" id="actualizarEstadoAdmisionAlumno" aria-hidden="true" aria-labelledby="actualizarEstadoAdmisionAlumno" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content ">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Actualizar Estado del Alumno Matriculado</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="" id="codAdmisionAlumno">
+        <select class="form-control" name="estadoMatricula" id="estadoMatricula">
+          <!-- <option value=""></option> -->
+          <option value="1">Anulado</option>
+          <option value="2" selected>Matriculado</option>
+          <option value="3">Trasladado</option>
+          <option value="5">Retirado</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstadoMatricula" id="btnActualizarEstadoMatricula">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- Modal Cronograma Pagos Admision Alumno-->
-<div class="modal fade" id="cronogramaAdmisionPago"  data-bs-keyboard="false" tabindex="-1"
-  aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
+<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 700px;">
     <div class="modal-content">
       <div class="modal-header">

@@ -40,7 +40,7 @@ class FunctionPostulantes
   public static function getBotonesPostulante($codPostulante, $estadoPostulante, $pagoMatricula)
   {
     $isDisabled = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 ? ' disabled' : '';
-    $isPagoMatricula = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 || $pagoMatricula != null ? ' disabled' : '';
+    $isPagoMatricula = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 || $pagoMatricula == null ? ' disabled' : '';
     $botones = '
     <div class="btn-group">
       <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownPostulantes" aria-expanded="false">
@@ -160,6 +160,4 @@ class FunctionPostulantes
     $fechaAnio = $fechaPostulacion[0]; // Obtiene el texto antes del primer -
     return $fechaAnio;
   }
-
-
 }
