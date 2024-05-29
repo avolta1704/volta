@@ -87,6 +87,10 @@ class ModelPostulantes
     }
   }
 
+
+
+  
+
   //  Eliminar postulante
   public static function mdlBorrarPostulante($tabla, $codPostulante)
   {
@@ -665,5 +669,13 @@ class ModelPostulantes
     $statement->bindParam(":anioFin", $datos['anioFin'], PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  //Obtener el idPostulante del ultimo Postulante Creado
+  public static function mdlObtenerIdPostulante()
+  {
+    $statement = Connection::conn()->prepare("SELECT idPostulante FROM postulante ORDER BY fechaCreacion DESC LIMIT 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }

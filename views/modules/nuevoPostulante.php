@@ -26,6 +26,16 @@
             <div class="container row g-3">
               <h3 style="font-weight: bold">Datos del Postulante</h3>
 
+
+              <div class="form-group col-md-12 añoAdmision">
+                <label for="anioAdmision" class="col-form-label" style="font-weight: bold">Año de Admision:</label>
+                <select class="form-control" name="anioAdmision" id="anioAdmision" required>
+                  <option value="">Eliga una opción</option>
+                </select>
+              </div>
+              
+              
+
               <div class="form-group col-md-6">
                 <label for="nombrePostulante" class="form-label" style="font-weight: bold">Nombres: </label>
                 <input type="text" class="form-control" id="nombrePostulante" name="nombrePostulante" value="" required>
@@ -122,6 +132,8 @@
           <span class="border border-3 p-3">
             <div class="container row g-3">
               <h3 style="font-weight: bold">Datos del Padre</h3>
+
+              
               <div class="form-group col-md-6">
                 <label for="nombrePadre" class="form-label" style="font-weight: bold">Nombres: </label>
                 <input type="text" class="form-control" id="nombrePadre" name="nombrePadre" value="" required>
@@ -279,4 +291,5 @@
 <?php
 $crearPostulante = new ControllerPostulantes();
 $crearPostulante->ctrCrearPostulante();
+
 ?>
