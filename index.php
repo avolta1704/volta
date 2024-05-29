@@ -45,6 +45,9 @@ require_once "controller/reportesComunicados.controller.php";
 require_once "controller/cursos.controller.php";
 require_once "controller/areas.controller.php";
 require_once "controller/docentes.controller.php";
+require_once "controller/anioPostulacion.controller.php";
+
+
 
 //  Models
 require_once "model/usuarios.model.php";
@@ -68,6 +71,8 @@ require_once "model/reportesComunicados.model.php";
 require_once "model/cursos.model.php";
 require_once "model/areas.model.php";
 require_once "model/docentes.model.php";
+require_once "model/anioPostulante.model.php";
+
 
 $template = new ControllerTemplate();
 $template->ctrTemplate();

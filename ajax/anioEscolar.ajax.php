@@ -15,7 +15,10 @@ class AnioEscolarAjax
       $anio['descripcionAnio'] = strval($anio['descripcionAnio']);
       $anio['cuotaInicial'] = strval($anio['cuotaInicial']);
       $anio['botonesAnio'] = FunctionAnioEscolar::getButtonsAnioEscolar($anio["idAnioEscolar"], $anio["estadoAnio"]);
+      // Definir el estado del anioescolar en numeros
+      $anio['statusAnio'] = $anio['estadoAnio'];
       $anio['estadoAnio'] = FunctionAnioEscolar::getEstadoAnioEscolar($anio['estadoAnio']);
+
     }
     echo json_encode($listaAnios);
   }

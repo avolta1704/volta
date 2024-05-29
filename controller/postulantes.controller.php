@@ -94,9 +94,26 @@ class ControllerPostulantes
         );
         $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
 
+        
+        
+        
+
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
-          echo $mensaje;
+          // Obtener el Año de Admision seleccionado
+          $anioEscolar = $_POST["anioAdmision"];
+          //Obtener el idPostulante del ultimo Postulante Creado
+          $idPostulante = ModelPostulantes::mdlObtenerIdPostulante();
+          foreach ($idPostulante as &$idPostulanteObtenido) {
+            $idPostulanteObtenidoVariable = $idPostulanteObtenido;
+          }
+          // Insertar datos en la tabla anio_postulante
+          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable,$anioEscolar);
+          //Validar si se ha creado correctamente en la tabla anio_postulante
+          if ($mensajeaniopostulante == "ok"){
+            echo $mensaje;
+          }
+          
         } else {
           $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
           echo $mensaje;

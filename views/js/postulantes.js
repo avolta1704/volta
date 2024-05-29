@@ -1276,4 +1276,52 @@ $(document).ready(function () {
     URL.revokeObjectURL(url);
   };
 });
+
+// Opciones del select #anioAdmision
+$(document).ready(function () {
+  // Agregar el evento click al select con el ID anioAdmision
+    var data = new FormData();
+    data.append("todoslosAnios", true);
+
+    $.ajax({
+      url: "ajax/anioEscolar.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+
+      success: function (response) {
+        console.log(response);
+        var opciones = "";
+        response.forEach((anioEscolar) => {
+          // Define como seleccionado el año escolar activo, pero muestra todos los años
+          if (anioEscolar.statusAnio == 1) {
+            opciones +=
+              '<option value="' +
+              anioEscolar.idAnioEscolar +
+              '" selected>' +
+              anioEscolar.descripcionAnio +
+              "</option>";
+          } else {
+            opciones +=
+              '<option value="' +
+              anioEscolar.idAnioEscolar +
+              '">' +
+              anioEscolar.descripcionAnio +
+              "</option>";
+          }
+        });
+        // Obtén el select existente
+        var select = $("#anioAdmision");
+        // Agrega las opciones al select
+        select.append(opciones);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR.responseText);
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  });
 /* fin */
