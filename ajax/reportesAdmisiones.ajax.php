@@ -51,6 +51,22 @@ class ReportesAdmisionesAjax
     ];
     echo json_encode($data);
   }
+
+  /**
+   * Mostrar reporte de edad y sexo
+   * 
+   * @return result json
+   */
+  public function ajaxMostrarReporteEdadSexo()
+  {
+    $reporteEdadSexo = ControllerReportesAdmisiones::ctrGetReporteEdadSexo();
+    $grados = ControllerNivelGrado::ctrGetAllGradosByNivel();
+    $data = [
+      "reportePorEdadSexo" => $reporteEdadSexo,
+      "grados" => $grados
+    ];
+    echo json_encode($data);
+  }
 }
 
 if (isset($_POST["todosLasAdmisiones"])) {
@@ -66,4 +82,9 @@ if (isset($_POST["anioLectivo"])) {
 if (isset($_POST["reportesNuevosAntiguos"])) {
   $reporteNuevosAntiguos = new ReportesAdmisionesAjax();
   $reporteNuevosAntiguos->ajaxMostrarReporteNuevosAntiguos();
+}
+
+if (isset($_POST["reportesPorEdadSexo"])) {
+  $reporteEdadSexo = new ReportesAdmisionesAjax();
+  $reporteEdadSexo->ajaxMostrarReporteEdadSexo();
 }
