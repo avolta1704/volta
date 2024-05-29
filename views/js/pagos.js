@@ -128,6 +128,11 @@ $(".dataTableAdmisionAlumnos").on(
             .attr("name", "idCronogramaPagoModal")
             .text("Editar")
             .val(item.idCronogramaPago)
+            .prop(
+              "disabled",
+              item.estadoCronogramaPago == "Cancelado" ||
+                item.estadoCronogramaPago == "Anulado"
+            ) // Deshabilitar el botón si el estado es "Cancelado" o "Anulado"
             .on("click", function () {
               // Establece los valores en los campos de entrada del modal
               $("#mesEditCrono").val(item.mesPago).attr("value", item.mesPago);

@@ -276,6 +276,7 @@ $(".cerrarVisualizarPostulante").on("click", function () {
 });
 
 $(document).ready(function () {
+  if (window.location.href.indexOf('index.php?ruta=visualizarPostulante') > -1) {
   // Iniciar Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
@@ -851,6 +852,7 @@ $(document).ready(function () {
       },
     });
   });
+  }
 });
 
 //editar checklist de postulante
