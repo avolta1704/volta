@@ -12,16 +12,19 @@ class FunctionReportesAdmisiones
     //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Admitido & 4 = Desistido & 5 = Error
     if ($estado == 1) {
       $estadoAdmision = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
-    }
+    } else
     if ($estado == 2) {
       $estadoAdmision = '<span class="badge rounded-pill bg-success">Matriculado</span>';
-    }
+    } else
     if ($estado == 3) {
       $estadoAdmision = '<span class="badge rounded-pill bg-warning">Trasladado</span>';
-    }
+    } else
     if ($estado == 4) {
       $estadoAdmision = '<span class="badge rounded-pill bg-danger">Retirado</span>';
+    } else {
+      $estadoAdmision = '<span class="badge rounded-pill bg-secondary">Otro</span>';
     }
+
     return $estadoAdmision;
   }
 
