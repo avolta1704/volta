@@ -37,4 +37,16 @@ class ControllerReportesAdmisiones
     $respuesta = ModelReportesAdmisiones::mdlGetReporteNuevosAntiguos($tabla);
     return $respuesta;
   }
+
+  /**
+   * Obtiene el reporte de edad y sexo.
+   * 
+   * @return array/string $respuesta Retorna un array con los datos de las admisiones o un string con un mensaje de error.
+   */
+  static public function ctrGetReporteEdadSexo()
+  {
+    $tabla = "admision_alumno";
+    $respuesta = ModelReportesAdmisiones::mdlGetReporteEdadSexo($tabla);
+    return $respuesta;
+  }
 }
