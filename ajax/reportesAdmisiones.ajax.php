@@ -36,6 +36,21 @@ class ReportesAdmisionesAjax
 
     echo json_encode($data);
   }
+
+  /**
+   * Mostrar reporte de nuevos y antiguos
+   * @return result json
+   */
+  public function ajaxMostrarReporteNuevosAntiguos()
+  {
+    $reporteNuevosAntiguos = ControllerReportesAdmisiones::ctrGetReporteNuevosAntiguos();
+    $grados = ControllerNivelGrado::ctrGetAllGradosByNivel();
+    $data = [
+      "reporteNuevosAntiguos" => $reporteNuevosAntiguos,
+      "grados" => $grados
+    ];
+    echo json_encode($data);
+  }
 }
 
 if (isset($_POST["todosLasAdmisiones"])) {
@@ -46,4 +61,9 @@ if (isset($_POST["todosLasAdmisiones"])) {
 if (isset($_POST["anioLectivo"])) {
   $reportesPorAnioLectivo = new ReportesAdmisionesAjax();
   $reportesPorAnioLectivo->ajaxMostrarReportesPorAnioLectivo($_POST["anioLectivo"]);
+}
+
+if (isset($_POST["reportesNuevosAntiguos"])) {
+  $reporteNuevosAntiguos = new ReportesAdmisionesAjax();
+  $reporteNuevosAntiguos->ajaxMostrarReporteNuevosAntiguos();
 }
