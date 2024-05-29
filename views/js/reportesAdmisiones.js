@@ -251,3 +251,102 @@ function crearExcelPorAntiguedad(data) {
 	XLSX.utils.book_append_sheet(wb, ws, "Reporte Nuevos Antiguos");
 	XLSX.writeFile(wb, "ReporteNuevosAntiguos.xlsx");
 }
+
+// reportes por edad/sexo
+$("#btnDescargarReporteEdadSexo").on("click", function () {
+	const data = new FormData();
+	data.append("reportesPorEdadSexo", true);
+
+	$.ajax({
+		url: "ajax/reportesAdmisiones.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			console.log(response);
+			const dataPorSexo = agruparPorSexo(response);
+			crearExcelPorSexo(dataPorSexo);
+
+			if (response.length == 0) {
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "No se encontraron registros",
+				});
+				return;
+			}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+});
+
+// agrupar alumnos por sexo
+function agruparPorSexo(result) {
+	const grados = result.grados;
+	const data = result.reportePorEdadSexo;
+
+	const dataPorGradoSexo = [];
+	grados.forEach((grado) => {
+		const hombres = data.filter(
+			(element) =>
+				element.descripcionGrado == grado.descripcionGrado &&
+				element.descripcionNivel == grado.descripcionNivel &&
+				element.sexoAlumno == "Masculino"
+		).length;
+
+		const mujeres = data.filter(
+			(element) =>
+				element.descripcionGrado == grado.descripcionGrado &&
+				element.descripcionNivel == grado.descripcionNivel &&
+				element.sexoAlumno == "Femenino"
+		).length;
+
+		dataPorGradoSexo.push({
+			grado: grado.descripcionGrado,
+			nivel: grado.descripcionNivel,
+			hombres: hombres,
+			mujeres: mujeres,
+		});
+	});
+
+	return dataPorGradoSexo;
+}
+
+// funcion para crear un excel por sexo
+function crearExcelPorSexo(data) {
+	const wb = XLSX.utils.book_new();
+	const ws_data = [["Grado", "Nivel", "Hombres", "Mujeres", "Total"]];
+	data.forEach((element) => {
+		ws_data.push([
+			element.grado,
+			element.nivel,
+			element.hombres,
+			element.mujeres,
+			element.hombres + element.mujeres,
+		]);
+	});
+
+	// Add the total row to ws_data
+	ws_data.push([
+		"Total General",
+		"",
+		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
+		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
+		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
+	]);
+
+	const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	XLSX.utils.book_append_sheet(wb, ws, "Reporte Por Sexo");
+	XLSX.writeFile(wb, "ReportePorSexo.xlsx");
+}
