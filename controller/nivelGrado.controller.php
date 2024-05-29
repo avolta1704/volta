@@ -7,7 +7,6 @@ class ControllerNivelGrado
   //  Obtener todos los niveles
   public static function ctrGetAllNiveles()
   {
-    
   }
 
   //  Obtener todos los grados
@@ -26,4 +25,16 @@ class ControllerNivelGrado
     return $gradoNivel;
   }
 
+  /**
+   * Obtener todos los grados por nivel
+   * 
+   * @return array/string $respuesta Retorna un array con los datos de los grados o un string con un mensaje de error.
+   */
+
+  public static function ctrGetAllGradosByNivel()
+  {
+    $tabla = "grado";
+    $respuesta = ModelNivelGrado::mdlGetAllGradosByNivel($tabla);
+    return $respuesta;
+  }
 }

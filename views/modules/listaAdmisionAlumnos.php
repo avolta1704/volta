@@ -48,13 +48,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <input type="" id="codAdmisionAlumno">
+        <input type="hidden" id="codAdmisionAlumno">
         <select class="form-control" name="estadoMatricula" id="estadoMatricula">
-          <!-- <option value=""></option> -->
           <option value="1">Anulado</option>
-          <option value="2" selected>Matriculado</option>
+          <option value="2">Matriculado</option>
           <option value="3">Trasladado</option>
-          <option value="5">Retirado</option>
+          <option value="4">Retirado</option>
         </select>
       </div>
       <div class="modal-footer">

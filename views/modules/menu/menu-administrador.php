@@ -87,7 +87,7 @@
           </a>
         </li>
         <li>
-          <a href="reporteMatriculados">
+          <a href="reporteAdmisiones">
             <i class="bi bi-circle"></i><span>Reporte Matriculados</span>
           </a>
         </li>
