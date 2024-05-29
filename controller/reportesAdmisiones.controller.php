@@ -25,4 +25,16 @@ class ControllerReportesAdmisiones
     $respuesta = ModelReportesAdmisiones::mdlGetReportesPorAnioLectivo($tabla, $aniosLectivo);
     return $respuesta;
   }
+
+  /**
+   * Obtiene el reporte de nuevos y antiguos.
+   * 
+   * @return array/string $respuesta Retorna un array con los datos de las admisiones o un string con un mensaje de error.   * 
+   */
+  static public function ctrGetReporteNuevosAntiguos()
+  {
+    $tabla = "admision_alumno";
+    $respuesta = ModelReportesAdmisiones::mdlGetReporteNuevosAntiguos($tabla);
+    return $respuesta;
+  }
 }
