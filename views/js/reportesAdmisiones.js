@@ -150,3 +150,104 @@ function crearExcelPorGradoNivel(data) {
 $("#modalAnioLectivo").on("hidden.bs.modal", function () {
 	$("#anioLectivo").val(null).trigger("change");
 });
+
+// reportes por antiguedad
+$("#btnDescargarReporteNuevosAntiguos").on("click", function () {
+	const data = new FormData();
+	data.append("reportesNuevosAntiguos", true);
+
+	$.ajax({
+		url: "ajax/reportesAdmisiones.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			const dataPorAntiguedad = agruparPorAntiguedad(response);
+			crearExcelPorAntiguedad(dataPorAntiguedad);
+
+			if (response.length == 0) {
+				Swal.fire({
+					icon: "error",
+					title: "Error",
+					text: "No se encontraron registros",
+				});
+				return;
+			}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+
+	// limpiar el select
+	$("#anioLectivo").val(null).trigger("change");
+});
+
+// agrupar alumnos por antiguedad por el campo de alumno nuevoAlumno , 1 => nuevo, 0 => antiguo
+function agruparPorAntiguedad(result) {
+	const grados = result.grados;
+	const data = result.reporteNuevosAntiguos;
+
+	const dataPorGradoAntiguedad = [];
+	grados.forEach((grado) => {
+		const nuevos = data.filter(
+			(element) =>
+				element.descripcionGrado == grado.descripcionGrado &&
+				element.descripcionNivel == grado.descripcionNivel &&
+				element.nuevoAlumno == 1
+		).length;
+
+		const antiguos = data.filter(
+			(element) =>
+				element.descripcionGrado == grado.descripcionGrado &&
+				element.descripcionNivel == grado.descripcionNivel &&
+				element.nuevoAlumno == 0
+		).length;
+
+		dataPorGradoAntiguedad.push({
+			grado: grado.descripcionGrado,
+			nivel: grado.descripcionNivel,
+			nuevos: nuevos,
+			antiguos: antiguos,
+		});
+	});
+
+	return dataPorGradoAntiguedad;
+}
+
+// funcion para crear un excel por antiguedad
+function crearExcelPorAntiguedad(data) {
+	const wb = XLSX.utils.book_new();
+	const ws_data = [["Grado", "Nivel", "Nuevos", "Antiguos", "Total"]];
+	data.forEach((element) => {
+		ws_data.push([
+			element.grado,
+			element.nivel,
+			element.nuevos,
+			element.antiguos,
+			element.nuevos + element.antiguos,
+		]);
+	});
+
+	// Add the total row to ws_data
+	ws_data.push([
+		"Total General",
+		"",
+		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
+		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
+		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
+	]);
+
+	const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	XLSX.utils.book_append_sheet(wb, ws, "Reporte Nuevos Antiguos");
+	XLSX.writeFile(wb, "ReporteNuevosAntiguos.xlsx");
+}
