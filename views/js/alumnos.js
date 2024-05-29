@@ -1,12 +1,4 @@
-//  Create a new order
-$("#btnAgregarNuevoAlumno").on("click", function () {
-  window.location = "index.php?ruta=admisionExtraordinaria";
-});
 
-//  Visualizar alumno
-$("#btnAgregarNuevoAlumno").on("click", function () {
-  window.location = "index.php?ruta=admisionExtraordinaria";
-});
 
 //  Add Apoderado
 $(".formNuevoApoderado").on("click", ".btnAgregarApoderado", function () {

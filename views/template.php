@@ -23,7 +23,6 @@ session_start();
         $_GET["ruta"] == "personal" ||
         $_GET["ruta"] == "perfil" ||
         $_GET["ruta"] == "listaAlumnos" ||
-        $_GET["ruta"] == "admisionExtraordinaria" ||
         $_GET["ruta"] == "listaPostulantes" ||
         $_GET["ruta"] == "listaPagos" ||
         $_GET["ruta"] == "registrarPago" ||

@@ -13,7 +13,6 @@ class AdmisionAlumnosAjax
   {
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
     foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
-      //$dataAdmision['tipoAdmision'] = FunctionAdmisionAlumnos::getEstadoTipoAdmision($dataAdmision["tipoAdmision"]);
       $dataAdmision['estadoAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
       $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"]);
     }
