@@ -290,6 +290,8 @@ class ControllerPostulantes
           throw new Exception("Error al crear el alumno para la admisión.");
         }
 
+
+
         // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
         $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
 
@@ -304,6 +306,18 @@ class ControllerPostulantes
 
         if (!$anioEscolarActiva) {
           throw new Exception("No se encontró un año escolar activo para el registro del postulante.");
+        }
+
+
+        $dataalumnoAnioEscolar = array(
+          "idAlumno" => $alumnoAdmision['idAlumno'],
+          "idGrado" => $alumnoAdmision["idGrado"],          
+          "idAnioEscolar" => $anioEscolarActiva,
+        );
+        $alumnoAnioEscolar = ControllerAlumnoAnioEscolar::ctrCrearAlumnoAnioEscolar($dataalumnoAnioEscolar);
+
+        if ($alumnoAnioEscolar=="error") {
+          throw new Exception("Error al registrar el año escolar del alumno en la admisión.");
         }
 
         // Crear la admisión del postulante en el año escolar activo

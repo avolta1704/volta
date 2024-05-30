@@ -11,7 +11,8 @@ require_once "../controller/anioAdmision.controller.php";
 require_once "../controller/apoderadoAlumno.controller.php";
 require_once "../controller/apoderado.controller.php";
 require_once "../controller/pagos.controller.php";
-require_once "../controller/postulantes.controller.php";
+require_once "../controller/alumnoAnioEscolar.controller.php";
+
 //Modelo
 require_once "../model/postulantes.model.php";
 require_once "../model/admisionalumno.model.php";
@@ -23,7 +24,9 @@ require_once "../model/anioAdmision.model.php";
 require_once "../model/apoderadoAlumno.model.php";
 require_once "../model/apoderado.model.php";
 require_once "../model/pagos.model.php";
-require_once "../model/postulantes.model.php";
+require_once "../model/alumnoAnioEscolar.model.php";
+
+
 
 class PostulantesAjax
 {
