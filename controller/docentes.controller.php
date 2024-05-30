@@ -38,7 +38,7 @@ class ControllerDocentes
     return $dataAlumno;
   }
 
-  //  Crear admision de alumno
+  //  Asignar curso a docente
   public static function ctroAsignarCurso($idPersonal, $response)
   {
     if (session_status() == PHP_SESSION_NONE) {
@@ -54,10 +54,22 @@ class ControllerDocentes
     );
     $table = "cursogrado_personal";
     $result = ModelDocentes::mdlAsignarCurso($table, $dataCursoGradoPersonal);
-    return $result;
+    $idCursoGradoPersonal = ModelDocentes::mdlObtenerIdUltimoPostulante();
+    $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno(1); // 1 para estadoAnio = 1
+
+    $asignaraniocursogrado = ControllerAnioCursoGrado::ctrCrearAnioCursoGrado($idCursoGradoPersonal,$anioEscolarActiva);
+    if($asignaraniocursogrado =="error"){
+      error_log("Error al asignar el año del curso grado");
+    }
+    else{
+      return $result;
+    }
+
+
+    
   }
 
-  //  Crear admision de alumno
+  //  Obtener ID de cursos ya seleccionados
   public static function ctroObteneridCursos($gradoSeleccionado)
   {
     $table = "curso_grado";

@@ -5,6 +5,12 @@ require_once "../model/docentes.model.php";
 require_once "../functions/docentes.functions.php";
 require_once "../controller/nivelGrado.controller.php";
 require_once "../model/nivelGrado.model.php";
+require_once "../controller/cursos.controller.php";
+require_once "../model/cursos.model.php";
+require_once "../controller/anioescolar.controller.php";
+require_once "../model/anioescolar.model.php";
+require_once "../controller/anioCursoGrado.controller.php";
+require_once "../model/anioCursoGrado.model.php";
 
 class DocentesAjax
 {
