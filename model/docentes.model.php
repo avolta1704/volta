@@ -163,7 +163,8 @@ class ModelDocentes
   public static function mdlObteneridCursos($table, $gradoSeleccionado)
   {
     $statement = Connection::conn()->prepare("SELECT
-    curso_grado.idCursoGrado
+    curso_grado.idCursoGrado, 
+    area.descripcionArea
   FROM
     $table
     INNER JOIN
@@ -174,8 +175,12 @@ class ModelDocentes
     grado
     ON 
       curso_grado.idGrado = grado.idGrado
+    INNER JOIN
+    area
+    ON 
+      curso.idArea = area.idArea
   WHERE
-    grado.descripcionGrado = :descripcionGrado");
+    grado.descripcionGrado =  :descripcionGrado");
     $statement->bindParam(":descripcionGrado", $gradoSeleccionado);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -206,6 +211,32 @@ class ModelDocentes
       grado.descripcionGrado = :descripcionGrado");
     $statement->bindParam(":descripcionGrado", $gradoSeleccionado, PDO::PARAM_STR);
     $statement->bindParam(":cursoSeleccionado", $cursoSeleccionado, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //  Obtener id Personal de grado ya asignado
+  public static function mdlObteneridPersonalGrado($tabla, $gradoSeleccionado)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    cursogrado_personal.idPersonal, 
+    curso_grado.idCursoGrado
+  FROM
+    $tabla
+    INNER JOIN
+    curso_grado
+    ON 
+      cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+    INNER JOIN
+    curso
+    ON 
+      curso_grado.idCurso = curso.idCurso
+    INNER JOIN
+    grado
+    ON 
+      curso_grado.idGrado = grado.idGrado
+  WHERE
+    grado.descripcionGrado = :descripcionGrado");
+    $statement->bindParam(":descripcionGrado", $gradoSeleccionado, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
@@ -241,13 +272,101 @@ class ModelDocentes
     }
   }
 
-  //  Cambiar estado del docente
+  //  Obtener ultimo id de curso grado personal
   public static function mdlObtenerIdUltimoPostulante()
   {
     $statement = Connection::conn()->prepare("SELECT idCursogradoPersonal FROM cursogrado_personal ORDER BY fechaCreacion DESC LIMIT 1");
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result['idCursogradoPersonal'];
+
+  }
+
+  //  Obtener todos los cursos asignados al docente
+  public static function mdlCursosporDocente($tabla, $codPersonal)
+  {
+    $statement = Connection::conn()->prepare("  SELECT
+    curso.descripcionCurso, 
+    cursogrado_personal.idCursogradoPersonal,
+    grado.descripcionGrado,
+    nivel.descripcionNivel
+  FROM
+    curso
+    INNER JOIN
+    curso_grado
+    ON 
+      curso.idCurso = curso_grado.idCurso
+    INNER JOIN
+    cursogrado_personal
+    ON 
+      curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
+    INNER JOIN
+    grado
+    ON 
+      curso_grado.idGrado = grado.idGrado
+    INNER JOIN
+	  nivel
+	  ON 
+		  grado.idNivel = nivel.idNivel
+  WHERE
+    cursogrado_personal.idPersonal = :codPersonal");
+    $statement->bindParam(":codPersonal", $codPersonal, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  static public function mdlEliminarCursoGradoPersonal($tabla, $idCursogradoPersonal)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCursogradoPersonal = :idCursogradoPersonal");
+    $stmt->bindParam(":idCursogradoPersonal", $idCursogradoPersonal, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  static public function mdlEliminarAnioCursoGrado($idCursogradoPersonal)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM anio_cursogrado WHERE idCursogradoPersonal = :idCursogradoPersonal");
+    $stmt->bindParam(":idCursogradoPersonal", $idCursogradoPersonal, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  //  Obtener id de cursos a reemplazar
+  public static function mdlObteneridCursosReemplaza($table, $gradoSeleccionado)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    curso_grado.idCursoGrado, 
+    cursogrado_personal.idPersonal, 
+    area.descripcionArea
+  FROM
+    $table
+    INNER JOIN
+    curso
+    ON 
+      curso_grado.idCurso = curso.idCurso
+    INNER JOIN
+    grado
+    ON 
+      curso_grado.idGrado = grado.idGrado
+    INNER JOIN
+    cursogrado_personal
+    ON 
+      curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
+    INNER JOIN
+    area
+    ON 
+      curso.idArea = area.idArea
+  WHERE
+    grado.descripcionGrado = :descripcionGrado");
+    $statement->bindParam(":descripcionGrado", $gradoSeleccionado);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
   /**
