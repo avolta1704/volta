@@ -226,7 +226,6 @@ class ModelDocentes
     } else {
       return "error";
     }
-
   }
 
   //  Cambiar estado del docente
@@ -240,5 +239,54 @@ class ModelDocentes
     } else {
       return "error";
     }
+  }
+
+  /**
+   * Obtener el idDocente por idUsuario
+   * 
+   * @param int $idUsuario ID del usuario
+   * @return int $idPersonal ID del docente
+   */
+  public static function mdlObtenerIdPersonalByIdUsuario($idUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT idPersonal FROM personal WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC)["idPersonal"];
+  }
+
+  /**
+   * Obtener los cursos asignados al docente
+   * 
+   * @param int $idPersonal ID del docente
+   * @return array $response Array con los cursos asignados al docente
+   */
+  public static function mdlObtenerCursosAsignados($idPersonal)
+  {
+    $statement = Connection::conn()->prepare("SELECT    
+    c.descripcionCurso,
+    g.descripcionGrado,
+    cgp.idPersonal,
+    cg.idCurso,
+    g.idGrado
+  FROM
+    cursogrado_personal as cgp
+    INNER JOIN
+    curso_grado as cg
+    ON 
+      cgp.idCursoGrado = cg.idCursoGrado
+    INNER JOIN
+    curso as c
+    ON 
+      cg.idCurso = c.idCurso
+    INNER JOIN
+    grado as g
+    ON 
+      cg.idGrado = g.idGrado
+  WHERE
+    cgp.idPersonal = :idPersonal");
+    $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 }
