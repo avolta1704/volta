@@ -94,9 +94,9 @@ class ControllerPostulantes
         );
         $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
 
-        
-        
-        
+
+
+
 
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
@@ -108,12 +108,11 @@ class ControllerPostulantes
             $idPostulanteObtenidoVariable = $idPostulanteObtenido;
           }
           // Insertar datos en la tabla anio_postulante
-          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable,$anioEscolar);
+          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
           //Validar si se ha creado correctamente en la tabla anio_postulante
-          if ($mensajeaniopostulante == "ok"){
+          if ($mensajeaniopostulante == "ok") {
             echo $mensaje;
           }
-          
         } else {
           $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
           echo $mensaje;
@@ -290,17 +289,6 @@ class ControllerPostulantes
           throw new Exception("Error al crear el alumno para la admisión.");
         }
 
-
-
-        // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
-        $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
-
-        if (
-          $alumnoGradoAsignado != "ok"
-        ) {
-          throw new Exception("Error al registrar el grado del alumno en la admisión.");
-        }
-
         // Obtener el año escolar activo para el registro del postulante
         $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno(1); // 1 para estadoAnio = 1
 
@@ -311,12 +299,12 @@ class ControllerPostulantes
 
         $dataalumnoAnioEscolar = array(
           "idAlumno" => $alumnoAdmision['idAlumno'],
-          "idGrado" => $alumnoAdmision["idGrado"],          
+          "idGrado" => $alumnoAdmision["idGrado"],
           "idAnioEscolar" => $anioEscolarActiva,
         );
         $alumnoAnioEscolar = ControllerAlumnoAnioEscolar::ctrCrearAlumnoAnioEscolar($dataalumnoAnioEscolar);
 
-        if ($alumnoAnioEscolar=="error") {
+        if ($alumnoAnioEscolar == "error") {
           throw new Exception("Error al registrar el año escolar del alumno en la admisión.");
         }
 
