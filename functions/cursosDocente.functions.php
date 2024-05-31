@@ -41,7 +41,8 @@ class FunctionCursosDocente
     ';
 
     $acciones .= '
-      <li><button type="button" class="dropdown-item btn" idAlumno="' . ($idAlumno) . '">Visualizar</button></li>
+      <li><button type="button" class="dropdown-item" data-bs-toggle="modal" id="btnVisualizarDataAlumnoCurso" data-bs-target="#modalVisualizarDatosAlumno" idAlumno="' . ($idAlumno) . '">Visualizar</button></li>
+      <li><button type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalVisualizarDatosAlsumno" idAlumno="' . ($idAlumno) . '">Cronograma</button></li>
       </ul>
     </div>
     ';
