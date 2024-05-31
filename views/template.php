@@ -113,6 +113,7 @@ session_start();
   <script src="views/js/docentes.js"></script>
   <script src="views/js/reportesAdmisiones.js"></script>
   <script src="views/js/notasCursoDocente.js"></script>
+  <script src="views/js/alumnosCursoDocente.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
