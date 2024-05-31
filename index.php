@@ -47,6 +47,7 @@ require_once "controller/areas.controller.php";
 require_once "controller/docentes.controller.php";
 require_once "controller/anioPostulacion.controller.php";
 require_once "controller/alumnoAnioEscolar.controller.php";
+require_once "controller/anioCursoGrado.controller.php";
 
 
 
@@ -74,6 +75,9 @@ require_once "model/areas.model.php";
 require_once "model/docentes.model.php";
 require_once "model/anioPostulante.model.php";
 require_once "model/alumnoAnioEscolar.model.php";
+require_once "model/anioCursoGrado.model.php";
+require_once "model/bimestre.model.php";
+require_once "model/unidad.model.php";
 
 
 $template = new ControllerTemplate();

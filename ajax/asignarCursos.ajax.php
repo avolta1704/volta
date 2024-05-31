@@ -4,6 +4,8 @@ require_once "../functions/cursos.functions.php";
 require_once "../functions/asignarCursos.functions.php";
 require_once "../controller/cursos.controller.php";
 require_once "../model/cursos.model.php";
+require_once "../model/bimestre.model.php";
+require_once "../model/unidad.model.php";
 
 class ajaxAsignarCursos
 {

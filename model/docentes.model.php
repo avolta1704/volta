@@ -147,7 +147,7 @@ class ModelDocentes
     $statement = Connection::conn()->prepare("INSERT INTO $table (idCursoGrado, idPersonal, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idCursoGrado, :idPersonal, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":idCursoGrado", $dataCursoGradoPersonal["idCursoGrado"], PDO::PARAM_INT);
     $statement->bindParam(":idPersonal", $dataCursoGradoPersonal["idPersonal"], PDO::PARAM_INT);
-    $statement->bindParam(":fechaCreacion", $dataCursoGradoPersonal["fechaCreacion"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaCreacion", $dataCursoGradoPersonal["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataCursoGradoPersonal["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataCursoGradoPersonal["usuarioCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $dataCursoGradoPersonal["usuarioActualizacion"], PDO::PARAM_STR);
@@ -241,4 +241,14 @@ class ModelDocentes
       return "error";
     }
   }
+
+    //  Cambiar estado del docente
+    public static function mdlObtenerIdUltimoPostulante()
+    {
+      $statement = Connection::conn()->prepare("SELECT idCursogradoPersonal FROM cursogrado_personal ORDER BY fechaCreacion DESC LIMIT 1");
+      $statement->execute();
+      $result = $statement->fetch(PDO::FETCH_ASSOC);
+      return $result['idCursogradoPersonal'];
+
+    }
 }

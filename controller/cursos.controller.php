@@ -162,7 +162,70 @@ class ControllerCursos
     );
 
     $response = ModelCursos::mdlAsignarCursoAGrado($dataAsignarCurso);
-    return $response;
+
+    $idUltimoIdCursoGrado = ModelCursos::mdlObtenerUltimoIdCreado();
+    $descripcionesBimestre = [
+      ["I BIMESTRE", 1],
+      ["II BIMESTRE", 0],
+      ["III BIMESTRE", 0],
+      ["IV BIMESTRE", 0]
+    ];
+
+    foreach ($descripcionesBimestre as $descripcionBimestre) {
+      $dataBimestre = array(
+        "idCursoGrado" => $idUltimoIdCursoGrado,
+        "descripcionBimestre" => $descripcionBimestre[0],
+        "estadoBimestre" => $descripcionBimestre[1],
+        "fechaCreacion" => date('Y-m-d H:i:s'),
+        "fechaActualizacion" => date('Y-m-d H:i:s'),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario,
+      );
+
+      $insercionbimestre = ModelBimestre::mdlInsertarBimestre($dataBimestre);
+
+    }
+
+    if ($insercionbimestre != "error") {
+      $todoslosidBimestre = ModelBimestre::mdlObtenerUltimoIdCreado($idUltimoIdCursoGrado);
+      $descripcionesUnidad = [
+        ["I UNIDAD", 1],
+        ["II UNIDAD", 0],
+        ["III UNIDAD", 0],
+        ["IV UNIDAD", 0],
+        ["V UNIDAD", 0],
+        ["VI UNIDAD", 0],
+        ["VII UNIDAD", 0],
+        ["VIII UNIDAD", 0]
+      ];
+      $unidadesPorBimestre = 2;
+
+      foreach ($descripcionesUnidad as $index => $unidad) {
+        $idBimestreIndex = floor($index / $unidadesPorBimestre);
+
+        if (!isset($todoslosidBimestre[$idBimestreIndex])) {
+          // Maneja el error
+          break;
+        }
+
+        $idBimestre = $todoslosidBimestre[$idBimestreIndex]['idBimestre'];
+
+        $dataUnidad = array(
+          "idBimestre" => $idBimestre,
+          "descripcionUnidad" => $unidad[0],
+          "estadoUnidad" => $unidad[1],
+          "fechaCreacion" => date('Y-m-d H:i:s'),
+          "fechaActualizacion" => date('Y-m-d H:i:s'),
+          "usuarioCreacion" => $idUsuario,
+          "usuarioActualizacion" => $idUsuario,
+        );
+
+        $responseunidad = ModelUnidad::mdlInsertarUnidad($dataUnidad);
+      }
+      if ($responseunidad != "error") {
+        return $response;
+      }
+    }
   }
 
   /**
