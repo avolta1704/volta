@@ -130,6 +130,7 @@ session_start();
   <script src="views/dataTables/dt-anio-escolar.js"></script>
   <script src="views/dataTables/dt-docente.js"></script>
   <script src="views/dataTables/dt-reportes-admisiones-admin.js"></script>
+  <script src="views/dataTables/dt-cursos-grado-docente.js"></script>
 </body>
 
 </html>
