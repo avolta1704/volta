@@ -49,6 +49,7 @@ session_start();
         $_GET["ruta"] == "listaPostulantesAnio" ||
         $_GET["ruta"] == "anioEscolar" ||
         $_GET["ruta"] == "listaDocentes" ||
+        $_GET["ruta"] == "cursosDocente" ||
 
 
 
@@ -130,6 +131,8 @@ session_start();
   <script src="views/dataTables/dt-anio-escolar.js"></script>
   <script src="views/dataTables/dt-docente.js"></script>
   <script src="views/dataTables/dt-reportes-admisiones-admin.js"></script>
+  <script src="views/dataTables/dt-cursos-docente.js"></script>
+  <script src="views/dataTables/dt-lista-alumnos-curso.js"></script>
 </body>
 
 </html>
