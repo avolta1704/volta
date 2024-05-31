@@ -22,6 +22,7 @@ require_once "functions/areas.functions.php";
 require_once "functions/asignarCursos.functions.php";
 require_once "functions/docentes.functions.php";
 require_once "functions/anioescolar.functions.php";
+require_once "functions/cursosDocente.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";
@@ -47,7 +48,6 @@ require_once "controller/areas.controller.php";
 require_once "controller/docentes.controller.php";
 require_once "controller/anioPostulacion.controller.php";
 require_once "controller/alumnoAnioEscolar.controller.php";
-
 
 
 //  Models
