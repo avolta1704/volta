@@ -182,3 +182,5 @@ $("#dataTableCursosPorGrado").on(
 		});
 	}
 );
+
+

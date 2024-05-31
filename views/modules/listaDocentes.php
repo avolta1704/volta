@@ -65,4 +65,35 @@
     </div>
 </div>
 
+<!-- Modal Listar Cursos -->
+<div class="modal fade" id="modalListarCursosDocente" tabindex="-1" aria-labelledby="modalListarCursosDocenteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalListarCursosDocenteLabel">Listado de Cursos Asignados al Docente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="col-lg-4">
+          <div class="row mb-2">
+          </div>
+        </div>
+
+        <!--  Titulo dataTableCursosPorGradoAdmin-->
+        <table id="dataTableCursosPorGradoPersonal" class="display dataTableCursosPorGradoPersonal" style="width: 95%">
+          <thead>
+            <!-- dataTableCursosPorGradoAdmin -->
+          </thead>
+          <tbody>
+            <!--dataTableCursosPorGradoAdmin-->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>

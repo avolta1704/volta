@@ -65,9 +65,18 @@ class FunctionDocente
         <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
         <li><button type="button" class="dropdown-item btnVisualizarDocente" data-bs-toggle="modal" data-bs-target="#seleccionarCursosAsignados" codPersonal="' . $codPersonal . '" codTipoPersonal="' . $codTipoPersonal . '">Asignar Curso</button></li>
         <li><button type="button" class="dropdown-item" id="' . $buttonId . '" idUsuario="' . $idUsuario . '">' . $descripcion . '</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarAsignaciones" id="btnVisualizarAsignaciones" data-bs-toggle="modal" data-bs-target="#modalListarCursosDocente" codPersonal="' . $codPersonal . '" codTipoPersonal="' . $codTipoPersonal . '">Ver Asignaciones</button></li>
+
       </ul>
     </div>
   ';
     return $botones;
+  }
+
+  public static function getButtonDeleteCurso($idCursogradoPersonal)
+  {
+    return  '<button type="button" class="btn btn-outline-danger btnEliminarCursoAsignadoDocente" id="btnEliminarCursoAsignadoDocente" idCursogradoPersonal="' . $idCursogradoPersonal . '">
+            Eliminar
+          </button>';
   }
 }
