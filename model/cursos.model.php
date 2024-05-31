@@ -236,4 +236,14 @@ class ModelCursos
       return "error";
     }
   }
+
+  static public function mdlObtenerUltimoIdCreado()
+  {
+    $tabla = "curso_grado";
+    $statement = Connection::conn()->prepare("SELECT idCursoGrado FROM curso_grado ORDER BY fechaCreacion DESC LIMIT 1");
+    $statement->execute();
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+    return $result['idCursoGrado'];
+    
+  }
 }

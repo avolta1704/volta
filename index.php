@@ -76,6 +76,8 @@ require_once "model/docentes.model.php";
 require_once "model/anioPostulante.model.php";
 require_once "model/alumnoAnioEscolar.model.php";
 require_once "model/anioCursoGrado.model.php";
+require_once "model/bimestre.model.php";
+require_once "model/unidad.model.php";
 
 
 $template = new ControllerTemplate();
