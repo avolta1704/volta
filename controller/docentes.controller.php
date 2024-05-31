@@ -100,4 +100,28 @@ class ControllerDocentes
     $dataAlumno = ModelDocentes::mdlCambiarEstadoDocente($tabla, $idUsuarioEstado, $cambiarEstadoDocente);
     return $dataAlumno;
   }
+
+  /**
+   * Obtener los cursos asignados al docente
+   * 
+   * @param int $idPersonal ID del docente
+   * @return array $response Array con los cursos asignados al docente
+   */
+  public static function ctrObtenerCursosAsignados()
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
+
+    $idPersonal = ModelDocentes::mdlObtenerIdPersonalByIdUsuario($idUsuario);
+
+    if ($idPersonal == null) {
+      return "error";
+    }
+
+    $cursos = ModelDocentes::mdlObtenerCursosAsignados($idPersonal);
+
+    return $cursos;
+  }
 }

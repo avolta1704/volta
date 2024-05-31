@@ -11,6 +11,7 @@ require_once "../controller/anioescolar.controller.php";
 require_once "../model/anioescolar.model.php";
 require_once "../controller/anioCursoGrado.controller.php";
 require_once "../model/anioCursoGrado.model.php";
+require_once "../functions/cursosDocente.functions.php";
 
 class DocentesAjax
 {
@@ -23,11 +24,8 @@ class DocentesAjax
       $getGrado = ControllerDocentes::ctrGetGrado($docente['idPersonal']);
       $docente['buttons'] = FunctionDocente::getBtnUsuarios($docente["idPersonal"], $docente["estadoUsuario"], $docente["idTipoPersonal"], $docente["idUsuario"]);
       $docente["grado"] = FunctionDocente::getGrado($getGrado);
-
     }
     echo json_encode($todosLosDocentes);
-
-
   }
 
   //mostar todos los usuarios DataTable
@@ -62,7 +60,6 @@ class DocentesAjax
         $idPersonalRepetido = $idPersonaldeCursos['idPersonal'];
         $idcursogradoRepetido = $idPersonaldeCursos['idCursoGrado'];
         $response1 = ControllerDocentes::ctroCambiarIdPersonal($idPersonalRepetido, $idPersonal, $idcursogradoRepetido);
-
       }
       echo json_encode($response1);
     } else {
@@ -72,10 +69,8 @@ class DocentesAjax
         foreach ($TodoslosidCursos as $todosid) {
           $idcursoGrado = $todosid['idCursoGrado'];
           $response1 = ControllerDocentes::ctroAsignarCurso($idPersonal, $idcursoGrado);
-
         }
         echo json_encode($response1);
-
       } else {
         $idPersonal = $this->idPersonal;
         $response = ControllerDocentes::ctrobtenerIdCursogrado($gradoSeleccionado, $cursoSeleccionado);
@@ -96,6 +91,22 @@ class DocentesAjax
     $cambiarEstadoDocente = $this->cambiarEstadoDocente;
     $idUsuarioEstado = $this->idUsuarioEstado;
     $response = ControllerDocentes::ctrCambiarEstadoDocente($idUsuarioEstado, $cambiarEstadoDocente);
+    echo json_encode($response);
+  }
+
+  /**
+   * Obtener los cursos asignados al docente
+   *
+   * @return array $response Array con los cursos asignados al docente
+   */
+  public function ajaxObtenerCursosAsignados()
+  {
+    $response = ControllerDocentes::ctrObtenerCursosAsignados();
+
+    foreach ($response as &$curso) {
+      $curso["acciones"] = FunctionCursosDocente::getAccionesCursosDocente($curso["idCurso"], $curso["idGrado"], $curso["idPersonal"]);
+    }
+
     echo json_encode($response);
   }
 }
@@ -125,7 +136,6 @@ if (isset($_POST["gradoSeleccionado"]) && isset($_POST["cursoSeleccionado"]) && 
   $obtenerIdCursogrado->cursoSeleccionado = $_POST["cursoSeleccionado"];
   $obtenerIdCursogrado->idPersonal = $_POST["idPersonal"];
   $obtenerIdCursogrado->ajaxobtenerIdCursogrado();
-
 }
 
 //  Cambiar estado del docente
@@ -134,6 +144,10 @@ if (isset($_POST["idUsuarioEstado"]) && isset($_POST["docenteEstado"])) {
   $cambiarEstadoDocente->idUsuarioEstado = $_POST["idUsuarioEstado"];
   $cambiarEstadoDocente->cambiarEstadoDocente = $_POST["docenteEstado"];
   $cambiarEstadoDocente->ajaxCambiarEstadoDocente();
-
 }
 
+// Obtener los cursos asignados al docente
+if (isset($_POST["todosLosCursosAsignados"])) {
+  $obtenerCursosAsignados = new DocentesAjax();
+  $obtenerCursosAsignados->ajaxObtenerCursosAsignados();
+}
