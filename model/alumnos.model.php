@@ -322,4 +322,24 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetchAll();
   }
+
+  /**
+   * Modelo para obtener los datos de un alumno por su ID.
+   * 
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @param int $idAlumno ID del alumno.
+   * @return array $response Array con los datos del alumno.
+   */
+
+  public static function mdlGetAlumnoById($tabla, $idAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT *
+  FROM
+    $tabla as a
+  WHERE
+    a.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
