@@ -64,8 +64,7 @@ $("#dataTableListadoAlumnosCurso").on(
 				headerRow.append($("<th>").text("Fecha Límite"));
 				headerRow.append($("<th>").text("Monto"));
 				headerRow.append($("<th>").text("Estado"));
-				headerRow.append($("<th>").text("Fecha de Pago")); // Nueva cabecera
-				headerRow.append($("<th>").text("Acciones"));
+				headerRow.append($("<th>").text("Fecha de Pago"));
 				thead.append(headerRow);
 				table.append(thead);
 
@@ -114,52 +113,12 @@ $("#dataTableListadoAlumnosCurso").on(
 					}
 					fechaPagoCell.append(spanFechaPago);
 
-					var button = $("<button>")
-						.addClass(
-							"btn btn-primary btnEditarCronogramaPagoModal"
-						)
-						.attr("data-bs-toggle", "modal")
-						.attr("data-bs-target", "#modalEditCronoPago")
-						.attr("id", "idCronogramaPagoModal")
-						.attr("name", "idCronogramaPagoModal")
-						.text("Editar")
-						.val(item.idCronogramaPago)
-						.prop(
-							"disabled",
-							item.estadoCronogramaPago == "Cancelado" ||
-								item.estadoCronogramaPago == "Anulado"
-						) // Deshabilitar el botón si el estado es "Cancelado" o "Anulado"
-						.on("click", function () {
-							// Establece los valores en los campos de entrada del modal
-							$("#mesEditCrono")
-								.val(item.mesPago)
-								.attr("value", item.mesPago);
-							$("#fechaLimtEditCrono")
-								.val(item.fechaLimite)
-								.attr("fechaLimtEditCrono", item.fechaLimite);
-							$("#montoEditCrono")
-								.val(item.montoPago)
-								.attr("montoEditCrono", item.montoPago);
-							$("#btnEditCronoModal")
-								.val(item.idCronogramaPago)
-								.attr(
-									"btnEditCronoModal",
-									item.idCronogramaPago
-								);
-
-							// Oculta el modal 'cronogramaAdmisionPago'
-							$("#cronogramaAdmisionPago").modal("hide");
-						});
-
-					var accionesCell = $("<td>").append(button);
-
 					row.append(
 						counterCell,
 						fechaLimiteCell,
 						montoPagoCell,
 						estadoCronogramaPagoCell,
-						fechaPagoCell,
-						accionesCell
+						fechaPagoCell
 					);
 					tbody.append(row);
 				});
