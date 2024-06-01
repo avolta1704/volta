@@ -67,7 +67,6 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalVisualizarDatosAlumnoLabel">Datos del alumno</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -76,28 +75,28 @@
             <h3 style="font-weight: bold">Datos del Alumno</h3>
             <div class="row g-3">
               <div class="col-md-6">
-                <label for="nombresAlumnoVisualizar" class="form-label">Nombres</label>
+                <label for="nombresAlumnoVisualizar" class="form-label" style="font-weight:bold" style="font-weight:bold">Nombres</label>
                 <input type="text" class="form-control" id="nombresAlumnoVisualizar" readonly>
               </div>
               <div class="col-md-6">
-                <label for="apellidosAlumnoVisualizar" class="form-label">Apellido</label>
+                <label for="apellidosAlumnoVisualizar" class="form-label" style="font-weight:bold">Apellido</label>
                 <input type="text" class="form-control" id="apellidosAlumnoVisualizar" readonly>
               </div>
               <div class="col-md-6">
-                <label for="dniAlumnoVisualizar" class="form-label">DNI</label>
+                <label for="dniAlumnoVisualizar" class="form-label" style="font-weight:bold">DNI</label>
                 <input type="text" class="form-control" id="dniAlumnoVisualizar" readonly>
               </div>
               <div class="col-md-6">
-                <label for="fechaNacimientoVisualizar" class="form-label">Fecha de nacimiento</label>
+                <label for="fechaNacimientoVisualizar" class="form-label" style="font-weight:bold">Fecha de nacimiento</label>
                 <input type="text" class="form-control" id="fechaNacimientoVisualizar" readonly>
               </div>
               <div class="col-md-6">
-                <label for="direccionAlumnoVisualizar" class="form-label">Dirección</label>
-                <input type="text" class="form-control" id="direccionAlumnoVisualizar" readonly>
+                <label for="sexoAlumno" class="form-label" style="font-weight:bold">Dirección</label>
+                <input type="text" class="form-control" id="sexoAlumno" readonly>
               </div>
               <div class="col-md-6">
-                <label for="telefonoAlumnoVisualizar" class="form-label">Teléfono</label>
-                <input type="text" class="form-control" id="telefonoAlumnoVisualizar" readonly>
+                <label for="telefonoEmergencia" class="form-label" style="font-weight:bold">Teléfono</label>
+                <input type="text" class="form-control" id="telefonoEmergencia" readonly>
               </div>
             </div>
           </div>

@@ -333,11 +333,7 @@ class ModelAlumnos
 
   public static function mdlGetAlumnoById($tabla, $idAlumno)
   {
-    $statement = Connection::conn()->prepare("SELECT *
-  FROM
-    $tabla as a
-  WHERE
-    a.idAlumno = :idAlumno");
+    $statement = Connection::conn()->prepare("SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, a.fechaNacimiento, a.sexoAlumno, a.numeroEmergencia FROM $tabla as a WHERE a.idAlumno = :idAlumno");
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
