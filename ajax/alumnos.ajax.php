@@ -7,6 +7,7 @@ require_once "../controller/usuarios.controller.php";
 require_once "../model/usuarios.model.php";
 require_once "../controller/admisionalumno.controller.php";
 require_once "../model/admisionalumno.model.php";
+require_once "../functions/cursosDocente.functions.php";
 
 class AlumnosAjax
 {
@@ -38,16 +39,28 @@ class AlumnosAjax
     $response = ControllerAlumnos::ctrGetDataAlumnoPago($codAlumnoPago);
     echo json_encode($response);
   }
-    //  Cambiar estado del alumno
-    public $cambiarEstadoAlumno;
-    public $codAlumnoEstado;
-    public function ajaxCambiarEstadoAlumno()
-    {
-      $cambiarEstadoAlumno = $this->cambiarEstadoAlumno;
-      $codAlumnoEstado = $this->codAlumnoEstado;
-      $response = ControllerAlumnos::ctrCambiarEstadoAlumno($codAlumnoEstado, $cambiarEstadoAlumno);
-      echo json_encode($response);
+  //  Cambiar estado del alumno
+  public $cambiarEstadoAlumno;
+  public $codAlumnoEstado;
+  public function ajaxCambiarEstadoAlumno()
+  {
+    $cambiarEstadoAlumno = $this->cambiarEstadoAlumno;
+    $codAlumnoEstado = $this->codAlumnoEstado;
+    $response = ControllerAlumnos::ctrCambiarEstadoAlumno($codAlumnoEstado, $cambiarEstadoAlumno);
+    echo json_encode($response);
+  }
+  /**
+   * Método para mostrar todos los alumnos de un curso mediante una petición AJAX.
+   */
+  public function ajaxMostrarTodosLosAlumnosCurso($data)
+  {
+    $data = json_decode($data, true);
+    $todosLosAlumnosCurso = ControllerAlumnos::ctrGetAlumnosCurso($data["idCurso"], $data["idGrado"], $data["idPersonal"]);
+    foreach ($todosLosAlumnosCurso as &$alumno) {
+      $alumno['acciones'] = FunctionCursosDocente::getAccionesAlumnosPorCurso($alumno["idAlumno"]);
     }
+    echo json_encode($todosLosAlumnosCurso);
+  }
 }
 
 //mostar todos los Alumnos DataTableAdmin
@@ -70,11 +83,15 @@ if (isset($_POST["codAlumnoPago"])) {
   $obtenerAlumnoData->ajaxMostrarDatosAlumnoPago();
 }
 
-  //  Cambiar estado del alumno
-  if (isset($_POST["codAlumnoEstado"]) && isset($_POST["AlumnoEstado"])) {
-    $cambiarEstadoAlumno = new AlumnosAjax();
-    $cambiarEstadoAlumno->codAlumnoEstado = $_POST["codAlumnoEstado"];
-    $cambiarEstadoAlumno->cambiarEstadoAlumno = $_POST["AlumnoEstado"];
-    $cambiarEstadoAlumno->ajaxCambiarEstadoAlumno();
+//  Cambiar estado del alumno
+if (isset($_POST["codAlumnoEstado"]) && isset($_POST["AlumnoEstado"])) {
+  $cambiarEstadoAlumno = new AlumnosAjax();
+  $cambiarEstadoAlumno->codAlumnoEstado = $_POST["codAlumnoEstado"];
+  $cambiarEstadoAlumno->cambiarEstadoAlumno = $_POST["AlumnoEstado"];
+  $cambiarEstadoAlumno->ajaxCambiarEstadoAlumno();
+}
 
-  }
+if (isset($_POST["todosLosAlumnosCurso"])) {
+  $mostrarTodosLosAlumnosCurso = new AlumnosAjax();
+  $mostrarTodosLosAlumnosCurso->ajaxMostrarTodosLosAlumnosCurso($_POST["todosLosAlumnosCurso"]);
+}

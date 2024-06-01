@@ -54,19 +54,21 @@ class ControllerDocentes
     );
     $table = "cursogrado_personal";
     $result = ModelDocentes::mdlAsignarCurso($table, $dataCursoGradoPersonal);
+
     $idCursoGradoPersonal = ModelDocentes::mdlObtenerIdUltimoPostulante();
     $anioEscolarActiva = ControllerAnioEscolar::ctrAnioEscolarActivoParaRegistroAlumno(1); // 1 para estadoAnio = 1
 
-    $asignaraniocursogrado = ControllerAnioCursoGrado::ctrCrearAnioCursoGrado($idCursoGradoPersonal,$anioEscolarActiva);
-    if($asignaraniocursogrado =="error"){
+    $asignaraniocursogrado = ControllerAnioCursoGrado::ctrCrearAnioCursoGrado($idCursoGradoPersonal, $anioEscolarActiva);
+
+
+    if ($asignaraniocursogrado == "error") {
       error_log("Error al asignar el año del curso grado");
-    }
-    else{
+    } else {
       return $result;
     }
 
 
-    
+
   }
 
   //  Obtener ID de cursos ya seleccionados
@@ -85,6 +87,15 @@ class ControllerDocentes
     return $result;
   }
 
+  
+  //  Obtener el ID Personal grado
+  public static function ctroObteneridPersonalGrado($gradoSeleccionado)
+  {
+    $table = "cursogrado_personal";
+    $result = ModelDocentes::mdlObteneridPersonalGrado($table, $gradoSeleccionado);
+    return $result;
+  }
+
   //  Obtener el ID Personal de cursos ya seleccionaods
   public static function ctroCambiarIdPersonal($idPersonalRepetido, $idPersonalReemplazo, $idcursogradoRepetido)
   {
@@ -99,5 +110,56 @@ class ControllerDocentes
     $tabla = "usuario";
     $dataAlumno = ModelDocentes::mdlCambiarEstadoDocente($tabla, $idUsuarioEstado, $cambiarEstadoDocente);
     return $dataAlumno;
+  }
+
+  //  Obtener todos los cursos asignados al docente
+  public static function ctrCursosporDocente($codPersonal)
+  {
+    $tabla = "curso";
+    $dataAlumno = ModelDocentes::mdlCursosporDocente($tabla, $codPersonal);
+    return $dataAlumno;
+  }
+
+  //  Obtener todos los cursos asignados al docente
+  public static function ctrEliminarCursoGradoPersonal($idCursogradoPersonal)
+  {
+    $tabla = "cursogrado_personal";
+    $dataAnioEscolar = ModelDocentes::mdlEliminarAnioCursoGrado($idCursogradoPersonal);
+    if ($dataAnioEscolar != "error") {
+      $dataCursos = ModelDocentes::mdlEliminarCursoGradoPersonal($tabla, $idCursogradoPersonal);
+      return $dataCursos;
+    }
+  }
+
+    //  Obtener ID de cursos ya seleccionados para reemplazar
+    public static function ctroObteneridCursosReemplaza($gradoSeleccionado)
+    {
+      $table = "curso_grado";
+      $result = ModelDocentes::mdlObteneridCursosReemplaza($table, $gradoSeleccionado);
+      return $result;
+    }
+
+  /**
+   * Obtener los cursos asignados al docente
+   * 
+   * @param int $idPersonal ID del docente
+   * @return array $response Array con los cursos asignados al docente
+   */
+  public static function ctrObtenerCursosAsignados()
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
+
+    $idPersonal = ModelDocentes::mdlObtenerIdPersonalByIdUsuario($idUsuario);
+
+    if ($idPersonal == null) {
+      return "error";
+    }
+
+    $cursos = ModelDocentes::mdlObtenerCursosAsignados($idPersonal);
+
+    return $cursos;
   }
 }

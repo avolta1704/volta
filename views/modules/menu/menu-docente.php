@@ -31,20 +31,20 @@
         </li>
       </ul>
     </li>
-    
+
     <!-- CURSOS -->
     <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#allCursos" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-book"></i><span>Mis Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="allCursos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="cursos">
-          <i class="bi bi-circle"></i><span>Todos mis cursos</span>
-        </a>
-      </li>
-    </ul>
-</li>
+      <a class="nav-link collapsed" data-bs-target="#allCursos" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-book"></i><span>Mis Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allCursos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="cursosDocente">
+            <i class="bi bi-circle"></i><span>Todos mis cursos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
 
 
 
@@ -68,7 +68,7 @@
       </ul>
     </li>
 
-    
+
 
   </ul>
 </aside>

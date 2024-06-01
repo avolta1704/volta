@@ -131,11 +131,36 @@ class ControllerAlumnos
     return $dataAlumno;
   }
 
-    //  Cambiar estado del alumno
-    public static function ctrCambiarEstadoAlumno($codAlumno, $cambiarEstadoAlumno)
-    {
-      $tabla = "alumno";
-      $dataAlumno = ModelAlumnos::mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno);
-      return $dataAlumno;
-    }
+  //  Cambiar estado del alumno
+  public static function ctrCambiarEstadoAlumno($codAlumno, $cambiarEstadoAlumno)
+  {
+    $tabla = "alumno";
+    $dataAlumno = ModelAlumnos::mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno);
+    return $dataAlumno;
+  }
+
+  /**
+   * Método para mostrar todos los alumnos de un curso.
+   * 
+   * @return array $response Array con los alumnos de un curso.
+   */
+  public static function ctrGetAlumnosCurso($idCurso, $idGrado, $idPersonal)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnosCurso($tabla, $idCurso, $idGrado, $idPersonal);
+    return $response;
+  }
+
+  /**
+   * Método para obtener los datos de un alumno por su ID.
+   * 
+   * @param int $idAlumno ID del alumno.
+   * @return array $response Array con los datos del alumno.
+   */
+  public static function ctrGetAlumnoById($idAlumno)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnoById($tabla, $idAlumno);
+    return $response;
+  }
 }

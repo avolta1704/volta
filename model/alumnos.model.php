@@ -239,16 +239,103 @@ class ModelAlumnos
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
-   //  Cambiar estado del alumno
-   public static function mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno)
-   {
-     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoAlumno=:estadoAlumno WHERE idAlumno=:idAlumno");
-     $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_STR);
-     $statement->bindParam(":estadoAlumno", $cambiarEstadoAlumno, PDO::PARAM_STR);
-     if ($statement->execute()) {
-       return "ok";
-     } else {
-       return "error";
-     }
-   }
+  //  Cambiar estado del alumno
+  public static function mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoAlumno=:estadoAlumno WHERE idAlumno=:idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_STR);
+    $statement->bindParam(":estadoAlumno", $cambiarEstadoAlumno, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  /**
+   * Modelo para obtener los alumnos de un curso.
+   *
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @return array $response Array con los alumnos de un curso.
+   */
+  public static function mdlGetAlumnosCurso($tabla, $idCurso, $idGrado, $idPersonal)
+  {
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
+    $tablaNivel = "nivel";
+    $tablaGrado = "grado";
+    $tablaAnioEscolar = "anio_escolar";
+    $tablaCursoGrado = "curso_grado";
+    $tablaCurso = "curso";
+    $tablaCursoGradoPersonal = "cursogrado_personal";
+
+    $statement = Connection::conn()->prepare("SELECT
+    a.idAlumno,
+    a.nombresAlumno,
+    a.apellidosAlumno,
+    a.dniAlumno,
+    g.descripcionGrado,
+    n.descripcionNivel,
+    a.estadoAlumno    
+  FROM
+    $tabla as a    
+    INNER JOIN
+    $tablaAlumnoAnioEscolar as a_ae
+    ON 
+      a.idAlumno = a_ae.idAlumno
+    INNER JOIN
+    $tablaGrado as g
+    ON 
+      a_ae.idGrado = g.idGrado
+    INNER JOIN
+    $tablaNivel as n
+    ON 
+      g.idNivel = n.idNivel
+    INNER JOIN
+    $tablaCursoGrado as c_g
+    ON 
+      g.idGrado = c_g.idGrado
+    INNER JOIN 
+    $tablaCurso as c
+    ON 
+      c_g.idCurso = c.idCurso
+    INNER JOIN
+    $tablaCursoGradoPersonal as cg_personal
+    ON 
+      c_g.idCursoGrado = cg_personal.idCursoGrado
+    INNER JOIN
+    $tablaAnioEscolar as ae
+    ON 
+      a_ae.idAnioEscolar = ae.idAnioEscolar
+  WHERE
+    g.idGrado = :idGrado
+    AND
+    c.idCurso = :idCurso
+    AND
+    cg_personal.idPersonal = :idPersonal    
+    AND
+    a.estadoAlumno = 1
+    AND
+    ae.estadoAnio = 1
+    ORDER BY a.nombresAlumno ASC");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll();
+  }
+
+  /**
+   * Modelo para obtener los datos de un alumno por su ID.
+   * 
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @param int $idAlumno ID del alumno.
+   * @return array $response Array con los datos del alumno.
+   */
+
+  public static function mdlGetAlumnoById($tabla, $idAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, a.fechaNacimiento, a.sexoAlumno, a.numeroEmergencia FROM $tabla as a WHERE a.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
