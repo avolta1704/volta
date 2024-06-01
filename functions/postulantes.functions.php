@@ -40,6 +40,7 @@ class FunctionPostulantes
   public static function getBotonesPostulante($codPostulante, $estadoPostulante, $pagoMatricula)
   {
     $isDisabled = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 ? ' disabled' : '';
+    $idDisabled =  $estadoPostulante == 3 ? ' disabled' : '';
     $isPagoMatricula = $estadoPostulante == 3 || $estadoPostulante == 4 || $estadoPostulante == 5 || strtolower($pagoMatricula) == "pagado" ? ' disabled' : '';
     $botones = '
     <div class="btn-group">
@@ -54,7 +55,7 @@ class FunctionPostulantes
       <li><button type="button" class="dropdown-item btnEditarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Editar</button></li>
       <li><button type="button" class="dropdown-item btnActualizarEstadoPostulante" data-bs-toggle="modal" data-bs-target="#actualizarEstado" codPostulante="' . ($codPostulante) . '" codEstado="' . $estadoPostulante . '"' . $isDisabled . '>Actualizar</button></li>
       <li><button type="button" class="dropdown-item btnAnadirPago" codPostulante="' . ($codPostulante) . '"' . $isPagoMatricula . '>Añadir pago</button></li>
-      <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"' . $isDisabled . '>Eliminar</button></li>
+      <li><button type="button" class="dropdown-item btnEliminarPostulante" codPostulante="' . ($codPostulante) . '"' . $idDisabled . '>Eliminar</button></li>
 
     ';
 

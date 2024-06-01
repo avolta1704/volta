@@ -39,12 +39,6 @@
     </div>
   </section>
 </main>
-
-<?php
-$postulante = new ControllerPostulantes();
-$postulante->ctrBorrarPostulante();
-?>
-
 <div class="modal fade" id="actualizarEstado" aria-hidden="true" aria-labelledby="actualizarEstado" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-sm">
     <div class="modal-content tablaActualizaEstadoPostulante">
@@ -70,3 +64,20 @@ $postulante->ctrBorrarPostulante();
     </div>
   </div>
 </div>
+<!-- eliminar postulante sin matricula  -->
+<?php
+if (isset($_GET['codPostulanteEliminar']) && !isset($_GET['pagoMatricula'])) {
+  $postulante = new ControllerPostulantes();
+  $codPostulante = $_GET['codPostulanteEliminar'];
+  $postulante->ctrBorrarPostulante($codPostulante);
+}
+?>
+<!-- eliminar postulante si tiene pago matricula  -->
+<?php
+if (isset($_GET['codPostulanteEliminar']) && isset($_GET['pagoMatricula'])) {
+  $postulanteMatricula = new ControllerPostulantes();
+  $codPostulante = $_GET['codPostulanteEliminar'];
+  $pagoMatricula = $_GET['pagoMatricula'];
+  $postulanteMatricula->ctrBorrarPostulantePagoMatricula($codPostulante, $pagoMatricula);
+}
+?>

@@ -143,10 +143,13 @@ class PostulantesAjax
     $todosLosRegistrosPostualntes = ControllerPostulantes::ctrGetAllRegistrosPostulantesReport($datos);
     echo json_encode($todosLosRegistrosPostualntes);
   }
-
-
+  //verificar si existe un registro de pago matricula en el postulante
+  public function ajaxVerificarPagoMatricula($codPostulanteDelet)
+  {
+    $pagoMatricula = ControllerPostulantes::ctrVerificarRegistroPogoMatricula($codPostulanteDelet);
+    echo json_encode($pagoMatricula);
+  }
 }
-
 //mostar todos los Postulantes DataTableAdmin
 if (isset($_POST["todosLosPostulantesAdmin"])) {
   $mostrarTodosLosPostulantesAdmin = new PostulantesAjax();
@@ -209,11 +212,16 @@ if (isset($_POST["reportesRegistrosPostualntes"])) {
   $todosLosRegistrosPostualntes = new PostulantesAjax();
   $todosLosRegistrosPostualntes->ajaxDescargarReportePostulantes($_POST["reportesRegistrosPostualntes"]);
 }
-
 // vista de pagos detalles de pago
 if (isset($_POST["codPago"])) {
   $mostrarDetallesPago = new PostulantesAjax();
   $mostrarDetallesPago->codPago = $_POST["codPago"];
   $mostrarDetallesPago->ajaxMostrarDetallesPago();
 }
+// verificar si existe un registro de pago matricula en el postulante
+if (isset($_POST["codPostulanteVeryEliminar"])) {
+  $codPostulanteVeryEliminar = new PostulantesAjax();
+  $codPostulanteVeryEliminar->ajaxVerificarPagoMatricula($_POST["codPostulanteVeryEliminar"]);
+}
+
 

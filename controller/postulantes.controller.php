@@ -94,9 +94,9 @@ class ControllerPostulantes
         );
         $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
 
-        
-        
-        
+
+
+
 
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
@@ -108,12 +108,12 @@ class ControllerPostulantes
             $idPostulanteObtenidoVariable = $idPostulanteObtenido;
           }
           // Insertar datos en la tabla anio_postulante
-          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable,$anioEscolar);
+          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
           //Validar si se ha creado correctamente en la tabla anio_postulante
-          if ($mensajeaniopostulante == "ok"){
+          if ($mensajeaniopostulante == "ok") {
             echo $mensaje;
           }
-          
+
         } else {
           $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
           echo $mensaje;
@@ -124,24 +124,45 @@ class ControllerPostulantes
       }
     }
   }
-
   //  Eliminar postulante
-  public static function ctrBorrarPostulante()
+  public static function ctrBorrarPostulante($codPostulante)
   {
-    if (isset($_GET["codPostulanteEliminar"])) {
-      $tabla = "postulante";
-      $codPostulante = $_GET["codPostulanteEliminar"];
-      $response = ModelPostulantes::mdlBorrarPostulante($tabla, $codPostulante);
-      if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
-        echo $mensaje;
-      } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
-        echo $mensaje;
-      }
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlBorrarPostulante($tabla, $codPostulante);
+    if ($response == "ok") {
+      $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
+      echo $mensaje;
+    } else {
+      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
+      echo $mensaje;
+    }
+
+  }
+  //  verificar si existe un pago de matricula para el postulante y recuperar los datos de pago idpago que esta en el campo pagoMatricula
+  public static function ctrVerificarRegistroPogoMatricula($codPostulante)
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlVerificarPagoMatricula($tabla, $codPostulante);
+    if ($response['pagoMatricula'] !== null && $response['pagoMatricula'] !== '') {
+      return $response;
+    } else {
+      return "error";
     }
   }
+  //Eliminar postulante con pago matricula
+  public static function ctrBorrarPostulantePagoMatricula($codPostulante, $pagoMatricula)
+  {
+    $tabla = "postulante";
+    $response = ModelPostulantes::mdlBorrarPostulantePagoMatricula($tabla, $codPostulante, $pagoMatricula);
+    if ($response == "ok") {
+      $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
+      echo $mensaje;
+    } else {
+      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
+      echo $mensaje;
+    }
 
+  }
   //  Editar postulante
   public static function ctrEditarPostulante()
   {
@@ -311,12 +332,12 @@ class ControllerPostulantes
 
         $dataalumnoAnioEscolar = array(
           "idAlumno" => $alumnoAdmision['idAlumno'],
-          "idGrado" => $alumnoAdmision["idGrado"],          
+          "idGrado" => $alumnoAdmision["idGrado"],
           "idAnioEscolar" => $anioEscolarActiva,
         );
         $alumnoAnioEscolar = ControllerAlumnoAnioEscolar::ctrCrearAlumnoAnioEscolar($dataalumnoAnioEscolar);
 
-        if ($alumnoAnioEscolar=="error") {
+        if ($alumnoAnioEscolar == "error") {
           throw new Exception("Error al registrar el año escolar del alumno en la admisión.");
         }
 

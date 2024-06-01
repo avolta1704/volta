@@ -86,11 +86,18 @@ class ModelPostulantes
       return "error";
     }
   }
-
-
-
-  
-
+  //  verificar si existe un pago de matricula para el postulante
+  public static function mdlVerificarPagoMatricula($tabla, $codPostulante)
+  {
+    $statement = Connection::conn()->prepare(
+      "SELECT p.pagoMatricula 
+      FROM $tabla AS p 
+      WHERE p.idPostulante = :idPostulante"
+    );
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
   //  Eliminar postulante
   public static function mdlBorrarPostulante($tabla, $codPostulante)
   {
@@ -102,7 +109,19 @@ class ModelPostulantes
       return "error";
     }
   }
-
+  //Eliminar postulante con pago matricula
+  public static function mdlBorrarPostulantePagoMatricula($tabla, $codPostulante, $pagoMatricula)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM pago WHERE idPago = :idPago;
+    DELETE FROM $tabla WHERE idPostulante = :idPostulante;");
+    $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->bindParam(":idPago", $pagoMatricula, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
   //  Obtener postulante por id
   public static function mdlGetPostulanteById($tabla, $codPostulante)
   {
@@ -291,9 +310,10 @@ class ModelPostulantes
    */
   public static function mdlEditarPagoPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoMatricula = :pagoMatricula, fechaPagoMatricula = :fechaPagoMatricula , fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoMatricula = :pagoMatricula, fechaPagoMatricula = :fechaPagoMatricula, estadoPostulante = :estadoPostulante , fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":pagoMatricula", $datosPostulante["pagoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":fechaPagoMatricula", $datosPostulante["fechaPagoMatricula"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoPostulante", $datosPostulante["estadoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);
@@ -313,9 +333,10 @@ class ModelPostulantes
    */
   public static function mdlEditarCuotaInicialPostulante($tabla, $datosPostulante)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoCuotaIngreso = :pagoCuotaIngreso, fechaCuotaIngreso = :fechaCuotaIngreso, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET pagoCuotaIngreso = :pagoCuotaIngreso, fechaCuotaIngreso = :fechaCuotaIngreso, estadoPostulante = :estadoPostulante, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPostulante = :idPostulante");
     $statement->bindParam(":pagoCuotaIngreso", $datosPostulante["pagoCuotaIngreso"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCuotaIngreso", $datosPostulante["fechaCuotaIngreso"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoPostulante", $datosPostulante["estadoPostulante"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $datosPostulante["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $datosPostulante["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPostulante", $datosPostulante["idPostulante"], PDO::PARAM_STR);

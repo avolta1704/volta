@@ -87,6 +87,7 @@ class ControllerPagos
         $datosActualizadoPostulante = array(
           "idPostulante" => intval($_GET["codPostulante"]),
           "pagoMatricula" => $nuevoPago["idPago"],
+          "estadoPostulante" => 2,
           "fechaPagoMatricula" => $nuevoPago["fechaPago"],
           "fechaActualizacion" => date("Y-m-d H:i:s"),
           "usuarioActualizacion" => $_SESSION["idUsuario"]
@@ -116,6 +117,7 @@ class ControllerPagos
           "idPostulante" => intval($_GET["codPostulante"]),
           "pagoCuotaIngreso" => $nuevoPago["idPago"],
           "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
+          "estadoPostulante" => 2,
           "fechaActualizacion" => date("Y-m-d H:i:s"),
           "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
