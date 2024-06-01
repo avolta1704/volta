@@ -18,8 +18,9 @@ $("#dataTableListadoAlumnosCurso").on(
 				$("#nombresAlumnoVisualizar").val(response.nombresAlumno);
 				$("#apellidosAlumnoVisualizar").val(response.apellidosAlumno);
 				$("#dniAlumnoVisualizar").val(response.dniAlumno);
-				$("#fechaNacimientoVisualizar").val(response.fechaNacimiento);
-				$("#direccionAlumnoVisualizar").val(response.direccionAlumno);
+        $("#fechaNacimientoVisualizar").val(response.fechaNacimiento);
+				$("#sexoAlumno").val(response.sexoAlumno);
+				$("#telefonoEmergencia").val(response.numeroEmergencia);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.responseText); // procendecia de error
