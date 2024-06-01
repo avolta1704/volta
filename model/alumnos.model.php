@@ -15,23 +15,21 @@ class ModelAlumnos
     alumno.codAlumnoCaja, 
     alumno.dniAlumno, 
     grado.descripcionGrado, 
-    nivel.descripcionNivel, 
-    alumno_grado.estadoGradoAlumno
+    nivel.descripcionNivel
     FROM
     $tabla
     INNER JOIN
-    alumno_grado
+    alumno_anio_escolar
     ON 
-    alumno.idAlumno = alumno_grado.idAlumno
+    alumno.idAlumno = alumno_anio_escolar.idAlumno
     INNER JOIN
     grado
     ON 
-    alumno_grado.idGrado = grado.idGrado
+    alumno_anio_escolar.idGrado = grado.idGrado
     INNER JOIN
     nivel
     ON 
     grado.idNivel = nivel.idNivel
-    WHERE alumno_grado.estadoGradoAlumno = 1
     ORDER BY alumno.idAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
