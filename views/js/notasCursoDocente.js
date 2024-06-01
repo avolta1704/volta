@@ -12,13 +12,18 @@ $("#dataTableCursosDocente").on("click", "#btnNotasCursoDocente", function () {
     idPersonal;
 });
 $(document).ready(function () {
-  // Solicitud AJAX inicial
-  const idCurso = $(this).attr("idCurso");
-  const idGrado = $(this).attr("idGrado");
+  // Obtener la URL actual
+  var urlParams = new URLSearchParams(window.location.search);
+
+  // Obtener el valor de los parámetros de la URL
+  var ruta = urlParams.get("ruta");
+  var idCurso = urlParams.get("idCurso");
+  var idGrado = urlParams.get("idGrado");
+  var idPersonal = urlParams.get("idPersonal");
   var data = new FormData();
   data.append("todoslosBimestres", true);
-  data.append("idCurso", true);
-  data.append("idGrado", true);
+  data.append("idCurso", idCurso);
+  data.append("idGrado", idGrado);
 
   // Define los nombres de los botones con texto, clases e ids como marcadores de posición
   var buttonNames = [
@@ -42,7 +47,7 @@ $(document).ready(function () {
       response.forEach((value, index) => {
         if (buttonNames[index]) {
           buttonNames[index].text = value.descripcionBimestre;
-          buttonNames[index].id = "btnBimestre";
+          buttonNames[index].id = "btnBimestre";  
         }
       });
 
@@ -57,7 +62,7 @@ $(document).ready(function () {
           .css("margin-right", "10px") // Añadir margen a cada botón
           .click(function () {
             // Definir una variable igual a la descripción del bimestre al hacer clic en el botón
-            var descripcionBimestre = button.text;
+            var idBimestre = value.idBimestre;
           });
         buttonContainer.append(btn);
       });
