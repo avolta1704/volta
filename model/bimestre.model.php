@@ -28,5 +28,12 @@ class ModelBimestre
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+// Obtener todos los bimestres
+  public static function mdlObtenerTodosLosBimestres($tabla){
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT descripcionBimestre
+    FROM $tabla;");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 
 }

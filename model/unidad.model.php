@@ -15,12 +15,29 @@ class ModelUnidad
     $stmt->bindParam(":fechaActualizacion", $dataUnidad["fechaActualizacion"], PDO::PARAM_STR);
     $stmt->bindParam(":usuarioCreacion", $dataUnidad["usuarioCreacion"], PDO::PARAM_INT);
     $stmt->bindParam(":usuarioActualizacion", $dataUnidad["usuarioActualizacion"], PDO::PARAM_INT);
-    
+
     if ($stmt->execute()) {
       return "ok";
     } else {
       return "error";
     }
+  }
+  // Obtener todas las unidades
+  public static function mdlObtenerTodasLasUnidades($tabla, $descripcionBimestre)
+  {
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT
+    descripcionUnidad
+  FROM
+  $tabla
+    INNER JOIN
+    bimestre
+    ON 
+      unidad.idBimestre = bimestre.idBimestre
+  WHERE
+    bimestre.descripcionBimestre = :descripcionBimestre;");
+    $stmt->bindParam(":descripcionBimestre", $descripcionBimestre, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

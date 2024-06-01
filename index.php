@@ -49,6 +49,7 @@ require_once "controller/docentes.controller.php";
 require_once "controller/anioPostulacion.controller.php";
 require_once "controller/alumnoAnioEscolar.controller.php";
 require_once "controller/anioCursoGrado.controller.php";
+require_once "controller/bimestre.controller.php";
 
 
 //  Models
