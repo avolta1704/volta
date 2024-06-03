@@ -317,7 +317,7 @@ $(document).ready(function () {
 });
 
 //  Cerrar vista de visualizar postulante
-$(".cerrarVisualizarPostulante").on("click", function () {
+$("#cerrarVisualizarPostulante").on("click", function () {
 	window.location = "index.php?ruta=listaPostulantes";
 });
 
