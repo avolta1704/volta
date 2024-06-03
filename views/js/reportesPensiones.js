@@ -13,6 +13,7 @@ $("#btnDescargarReportePagos").on("click", function () {
 			"reporte_pagos_general"
 		);
 	}).fail(function (jqXHR, textStatus, errorThrown) {
+    console.log( jqXHR.responseText );
     console.log(
       "Error en la solicitud AJAX: ",
       textStatus,
@@ -23,7 +24,8 @@ $("#btnDescargarReportePagos").on("click", function () {
       icon: 'error',
       title: '¡Error!',
       text: 'No se pudo descargar el reporte de pagos.', 
-      showConfirmButton: true,
+      showConfirmButton: false,
+      timer: 1500      
     })
   });
 });
