@@ -93,14 +93,6 @@ class ControllerPostulantes
           "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
         $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
-
-
-
-
-
-
-
-
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
           // Obtener el Año de Admision seleccionado
@@ -112,9 +104,7 @@ class ControllerPostulantes
           }
           // Insertar datos en la tabla anio_postulante
           $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
-          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
           //Validar si se ha creado correctamente en la tabla anio_postulante
-          if ($mensajeaniopostulante == "ok") {
           if ($mensajeaniopostulante == "ok") {
             echo $mensaje;
           }
