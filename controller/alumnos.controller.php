@@ -96,10 +96,10 @@ class ControllerAlumnos
       );
       $response = ModelAlumnos::mdlEditarAlumno($tabla, $data);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAdmisionAlumnos");
         echo $mensaje;
       } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAdmisionAlumnos");
         echo $mensaje;
       }
     }
@@ -162,5 +162,17 @@ class ControllerAlumnos
     $tabla = "alumno";
     $response = ModelAlumnos::mdlGetAlumnoById($tabla, $idAlumno);
     return $response;
+  }
+    /**
+   * funcion para mostrar los datos de alumno.
+   * @param int $idAlumno ID del alumno.
+   * @return array $response Array de datos con los datos de alumno.
+   */
+  public static function ctrMostrarDatosAlumno($idAlumno)
+  {
+    $tabla = "alumno";
+    $datosAlumno = ModelAlumnos::mdlMostrarDatosAlumno($tabla, $idAlumno);
+    // combinar los dos arrays
+    return $datosAlumno;
   }
 }

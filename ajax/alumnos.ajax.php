@@ -21,16 +21,21 @@ class AlumnosAjax
     }
     echo json_encode($todosLosAlumnosAdmin);
   }
-
-  public $codALumnoVisualizar;
-  //  Obtener los datos del alumno para el modal visualizar
+  //  Obtener los datos del alumno para visualizar
+  public $codAlumnoVisualizar;
   public function ajaxMostrarDatosAlumno()
   {
-    $codALumnoVisualizar = $this->codALumnoVisualizar;
-    $response = ControllerUsuarios::ctrGetUsuarioEdit($codALumnoVisualizar);
-    echo json_encode($response);
+    $datosAlumno = ControllerAlumnos::ctrMostrarDatosAlumno($this->codAlumnoVisualizar);
+    $datosAlumno['estadoMatricula'] = FunctionAlumnos::getEstadosmatricula($datosAlumno["estadoMatricula"]);
+    $datosAlumno['estadoSiagie'] = FunctionAlumnos::getEstadoSiagie($datosAlumno["estadoSiagie"]);
+    // Verificar cada identificador de los datos del alumno
+    array_walk($datosAlumno, function (&$value) {
+      if (is_null($value) || $value === '') {
+        $value = 'Sin registro';
+      }
+    });
+    echo json_encode($datosAlumno);
   }
-
   //  Obtener los datos del alumno para realizar el pago
   public $codAlumnoPago;
   public function ajaxMostrarDatosAlumnoPago()
@@ -69,11 +74,11 @@ if (isset($_POST["todosLosAlumnosAdmin"])) {
   $mostrarTodosLosAlumnosAdmin->ajaxMostrarTodosLosAlumnosAdmin();
 }
 
-//  Obtener el id del alumno para visualizar sus datos en el modal ---> FALTA
+//  Obtener los datos del alumno para visualizar
 if (isset($_POST["codAlumnoVisualizar"])) {
-  $getDatosModalAlumnos = new AlumnosAjax();
-  //$getDatosModalAlumnos->codAlumnoVisualizar = $_POST["codAlumnoVisualizar"];
-  $getDatosModalAlumnos->ajaxMostrarDatosAlumno();
+  $alumno = new AlumnosAjax();
+  $alumno->codAlumnoVisualizar = $_POST["codAlumnoVisualizar"];
+  $alumno->ajaxMostrarDatosAlumno();
 }
 
 //  Obtener los datos del alumno para realizar el pago

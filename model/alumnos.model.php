@@ -36,7 +36,6 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-
   //  Crear nuevo alumno
   public static function mdlCrearAlumno($tabla, $dataAlumno)
   {
@@ -335,6 +334,30 @@ class ModelAlumnos
   {
     $statement = Connection::conn()->prepare("SELECT a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, a.fechaNacimiento, a.sexoAlumno, a.numeroEmergencia FROM $tabla as a WHERE a.idAlumno = :idAlumno");
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  /**
+   * funcion de modelo para mostrar los datos de alumno.
+   * @param int $idAlumno ID del alumno.
+   * @param string $tabla alumno de la tabla de la base de datos.
+   * @return array $response Array de datos con los datos de alumno.
+   */
+  public static function mdlMostrarDatosAlumno($tabla, $codALumnoVisualizar)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.fechaIngresoVolta, 
+    alumno.estadoMatricula, 
+    alumno.estadoSiagie, 
+    alumno.IEPProcedencia, 
+    alumno.numeroEmergencia, 
+    alumno.direccionAlumno, 
+    alumno.distritoAlumno, 
+    alumno.seguroSalud, 
+    alumno.fechaNacimiento, 
+    alumno.enfermedades
+    FROM $tabla WHERE idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codALumnoVisualizar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }

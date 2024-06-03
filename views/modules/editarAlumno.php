@@ -45,7 +45,7 @@
 
               <div class="form-group col-md-6">
                 <label for="editarDniAlumno" class="form-label" style="font-weight: bold">DNI: </label>
-                <input type="text" class="form-control" id="editarDniAlumno" name="editarDniAlumno" value="<?php echo $datosAlumno["dniAlumno"] ?>" required>
+                <input type="number" class="form-control" id="editarDniAlumno" name="editarDniAlumno" value="<?php echo $datosAlumno["dniAlumno"] ?>" required>
               </div>
 
               <div class="form-group col-md-6">
@@ -89,7 +89,7 @@
 
               <div class="form-group col-md-6">
                 <label for="editarNumeroEmergencia" class="form-label" style="font-weight: bold">Número Emergencia: </label>
-                <input type="text" class="form-control" id="editarNumeroEmergencia" name="editarNumeroEmergencia" value="<?php echo $datosAlumno["numeroEmergencia"] ?>">
+                <input type="number" class="form-control" id="editarNumeroEmergencia" name="editarNumeroEmergencia" value="<?php echo $datosAlumno["numeroEmergencia"] ?>">
               </div>
 
               <div class="form-group col-md-6">

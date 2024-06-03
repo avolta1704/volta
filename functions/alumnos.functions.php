@@ -56,6 +56,29 @@ class FunctionAlumnos
 
     return $botones;
   }
-
-
+// estado matricula para la visualizacion del alumno 
+  public static function getEstadosmatricula($estadoMatricula)
+  {
+    if ($estadoMatricula == null) {
+      $estado = "Sin Pagado";
+    }
+    if ($estadoMatricula == 1) {
+      $estado =  "Pagado";
+    }
+    return $estado;
+  }
+// estado siagie para la visualizacion del alumno 
+  public static function getEstadoSiagie($estadoSiagie)
+  {
+    if ($estadoSiagie == null) {
+      $estado = "No Pagado";
+    }
+    if ($estadoSiagie == 1) {
+      $estado = "Sin Registro";
+    }
+    if ($estadoSiagie == 2) {
+      $estado = "Registrado";
+    }
+    return $estado;
+  }
 }

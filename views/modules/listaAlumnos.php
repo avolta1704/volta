@@ -42,50 +42,45 @@
         <h5 class="modal-title" style="font-weight: bold">Datos Alumno</h5>
       </div>
       <div class="modal-body">
-        <!-- Nombre Alumno -->
         <div class="form-group">
-          <label for="verNombreAlumno" class="col-form-label" style="font-weight: bold">Nombre Alumno:</label>
-          <input type="text" class="form-control" id="verNombreAlumno" name="verNombreAlumno" style="border:none" disabled>
+          <label for="fechaIngresoVoltaAlu" class="col-form-label" style="font-weight: bold">Ingreso a Volta:</label>
+          <input type="text" class="form-control" id="fechaIngresoVoltaAlu" name="fechaIngresoVoltaAlu" style="border:none" disabled>
         </div>
-        <!-- Apellido Alumno -->
         <div class="form-group">
-          <label for="verApellidoAlumno" class="col-form-label" style="font-weight: bold">Apellido Alumno:</label>
-          <input type="text" class="form-control" id="verApellidoAlumno" name="verApellidoAlumno" style="border:none" disabled>
+          <label for="estadoMatriculaAlu" class="col-form-label" style="font-weight: bold">Matricula Alumno:</label>
+          <input type="text" class="form-control" id="estadoMatriculaAlu" name="estadoMatriculaAlu" style="border:none" disabled>
         </div>
-        <!-- Código de Caja Arequipa -->
         <div class="form-group">
-          <label for="verCodCajaAlumno" class="col-form-label" style="font-weight: bold">Código Caja Arequipa:</label>
-          <input type="text" class="form-control" id="verCodCajaAlumno" name="verCodCajaAlumno" style="border:none" disabled>
+          <label for="estadoSiagieAlu" class="col-form-label" style="font-weight: bold">Estado Siagie:</label>
+          <input type="text" class="form-control" id="estadoSiagieAlu" name="estadoSiagieAlu" style="border:none" disabled>
         </div>
-        <!-- DNI -->
         <div class="form-group">
-          <label for="verDniAlumno" class="col-form-label" style="font-weight: bold">DNI:</label>
-          <input type="text" class="form-control" id="verDniAlumno" name="verDniAlumno" style="border:none" disabled>
+          <label for="IEPProcedenciaAlu" class="col-form-label" style="font-weight: bold">IEE Procedencia:</label>
+          <input type="text" class="form-control" id="IEPProcedenciaAlu" name="IEPProcedenciaAlu" style="border:none" disabled>
         </div>
-        <!-- Nivel -->
         <div class="form-group">
-          <label for="verNivelAlumno" class="col-form-label" style="font-weight: bold">Nivel:</label>
-          <input type="text" class="form-control" id="verNivelAlumno" name="verNivelAlumno" style="border:none" disabled>
+          <label for="numeroEmergenciaAlu" class="col-form-label" style="font-weight: bold">Numero emergencia:</label>
+          <input type="text" class="form-control" id="numeroEmergenciaAlu" name="numeroEmergenciaAlu" style="border:none" disabled>
         </div>
-        <!-- Grado -->
         <div class="form-group">
-          <label for="verGradoAlumno" class="col-form-label" style="font-weight: bold">Grado:</label>
-          <input type="text" class="form-control" id="verGradoAlumno" name="verGradoAlumno" style="border:none" disabled>
+          <label for="direccionAlumnoAlu" class="col-form-label" style="font-weight: bold">Direccion:</label>
+          <input type="text" class="form-control" id="direccionAlumnoAlu" name="direccionAlumnoAlu" style="border:none" disabled>
         </div>
-        <!-- Estado Siagie -->
         <div class="form-group">
-          <label for="verEstadoSiagie" class="col-form-label" style="font-weight: bold">Estado Siagie:</label>
-          <input type="text" class="form-control" id="verEstadoSiagie" name="verEstadoSiagie" style="border:none" disabled>
+          <label for="distritoAlumnoAlu" class="col-form-label" style="font-weight: bold">Distrito:</label>
+          <input type="text" class="form-control" id="distritoAlumnoAlu" name="distritoAlumnoAlu" style="border:none" disabled>
         </div>
-        <!-- Estado Alumno -->
         <div class="form-group">
-          <label for="verEstadoAlumno" class="col-form-label" style="font-weight: bold">Estado Alumno:</label>
-          <input type="text" class="form-control" id="verEstadoAlumno" name="verEstadoAlumno" style="border:none" disabled>
+          <label for="seguroSaludAlu" class="col-form-label" style="font-weight: bold">Seguro de Salud:</label>
+          <input type="text" class="form-control" id="seguroSaludAlu" name="seguroSaludAlu" style="border:none" disabled>
         </div>
-        <!-- Estado Matrícula -->
         <div class="form-group">
-          <label for="verEstadoMatrícula" class="col-form-label" style="font-weight: bold">Estado Matrícula:</label>
-          <input type="text" class="form-control" id="verEstadoMatrícula" name="verEstadoMatrícula" style="border:none" disabled>
+          <label for="fechaNacimientoAlu" class="col-form-label" style="font-weight: bold">Fecha Nacimiento:</label>
+          <input type="text" class="form-control" id="fechaNacimientoAlu" name="fechaNacimientoAlu" style="border:none" disabled>
+        </div>
+        <div class="form-group">
+          <label for="enfermedadesAlu" class="col-form-label" style="font-weight: bold">Enfermedades:</label>
+          <input type="text" class="form-control" id="enfermedadesAlu" name="enfermedadesAlu" style="border:none" disabled>
         </div>
       </div>
       <div class="modal-footer">
