@@ -342,6 +342,7 @@ class ModelAlumnos
    * @param int $idAlumno ID del alumno.
    * @param string $tabla alumno de la tabla de la base de datos.
    * @return array $response Array de datos con los datos de alumno.
+   * 
    */
   public static function mdlMostrarDatosAlumno($tabla, $codALumnoVisualizar)
   {
