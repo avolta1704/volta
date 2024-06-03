@@ -8,18 +8,17 @@ class FunctionPostulantes
     //  Estado de los postulantes 1 = Registrado & 2 = En revisión & 3 = Admitido & 4 = Desistido & 5 = Error
     if ($stateValue == 1) {
       $estado = '<span class="badge rounded-pill bg-primary">Registrado</span>';
-    }
+    }else
     if ($stateValue == 2) {
       $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
-    }
+    }else
     if ($stateValue == 3) {
       $estado = '<span class="badge rounded-pill bg-success">Matriculado</span>';
-    }
+    }else
     if ($stateValue == 4) {
       $estado = '<span class="badge rounded-pill bg-danger">Desestimado</span>';
-    }
-    if ($stateValue == 5) {
-      $estado = '<span class="badge rounded-pill bg-secondary">Error</span>';
+    }else{
+      $estado = '<span class="badge rounded-pill bg-secondary">Otro</span>';
     }
     return $estado;
   }
