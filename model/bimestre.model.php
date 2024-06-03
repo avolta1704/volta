@@ -28,5 +28,25 @@ class ModelBimestre
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+// Obtener todos los bimestres
+  public static function mdlObtenerTodosLosBimestres($tabla, $idCurso, $idGrado){
+    $stmt = Connection::conn()->prepare("SELECT
+    bimestre.idBimestre, 
+    bimestre.descripcionBimestre,
+    bimestre.estadoBimestre
+  FROM
+    $tabla
+    INNER JOIN
+    curso_grado
+    ON 
+      bimestre.idCursoGrado = curso_grado.idCursoGrado
+  WHERE
+    curso_grado.idCurso = :idCurso AND
+    curso_grado.idGrado = :idGrado");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 
 }

@@ -66,7 +66,18 @@ class AlumnosAjax
     }
     echo json_encode($todosLosAlumnosCurso);
   }
+  // Metod para mostrar todos los alumnos de un curso mediante una petición AJAX en la vista para ver notas.
+  public function ajaxMostrarTodosLosAlumnosCursoNotas($data)
+  {
+    $data = json_decode($data, true);
+    $todosLosAlumnosCurso = ControllerAlumnos::ctrGetAlumnosCursoNotas($data["idCurso"], $data["idGrado"], $data["idPersonal"], $data["idBimestre"], $data["idUnidad"]);
+    foreach ($todosLosAlumnosCurso as &$alumno) {
+      $alumno['acciones'] = FunctionCursosDocente::getAccionesAlumnosPorCursoNotas($alumno["idAlumno"]);
+    }
+    echo json_encode($todosLosAlumnosCurso);
+  }
 }
+
 
 //mostar todos los Alumnos DataTableAdmin
 if (isset($_POST["todosLosAlumnosAdmin"])) {
@@ -99,4 +110,9 @@ if (isset($_POST["codAlumnoEstado"]) && isset($_POST["AlumnoEstado"])) {
 if (isset($_POST["todosLosAlumnosCurso"])) {
   $mostrarTodosLosAlumnosCurso = new AlumnosAjax();
   $mostrarTodosLosAlumnosCurso->ajaxMostrarTodosLosAlumnosCurso($_POST["todosLosAlumnosCurso"]);
+}
+
+if (isset($_POST["todosLosAlumnosCursoNotas"])) {
+  $mostrarTodosLosAlumnosCursoNotas = new AlumnosAjax();
+  $mostrarTodosLosAlumnosCursoNotas->ajaxMostrarTodosLosAlumnosCursoNotas($_POST["todosLosAlumnosCursoNotas"]);
 }

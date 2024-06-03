@@ -22,6 +22,18 @@
           <div class="row">
             <div class="card">
               <div class="card-body">
+                <!-- Espacio añadido antes de los botones -->
+                <div class="mb-4"></div>
+                <!-- Contenedor de botones -->
+                <div id="buttonContainer" class="mb-3"></div>
+                <!-- Espacio añadido después del primer botónContainer -->
+                <div class="mb-4"></div>
+                <!-- Segundo contenedor de botones -->
+                <div id="secondButtonContainer" class="mb-3"></div>
+                <!-- Espacio añadido después del segundo botónContainer -->
+                <div class="mb-4"></div>
+                <!-- Tercer contenedor de botones -->
+                <div id="thirdButtonContainer" class="mb-3"></div>
                 <!--  Titulo dataTableNotasCursoDocenteAdmin-->
                 <table id="dataTableNotasCursoDocente" class="display dataTableNotasCursoDocente " style="width: 100%">
                   <thead>
