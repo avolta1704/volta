@@ -339,6 +339,13 @@ class ControllerPostulantes
           throw new Exception("Error al crear el registro del alumno en la admisión.");
         }
 
+        //  Registrar los apoderados para el alumno
+        $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
+        $updateApoderadosAlumno = ControllerAlumnos::ctrAsignarAlumnoApoderado($alumnoAdmision['idAlumno'], $listaApoderados);
+        if($updateApoderadosAlumno != "ok") {
+          throw new Exception("Error al obtener la lista de apoderados del postulante.");
+        }
+
         // Crear un nuevo registro de anio_admision en la tabla anio_admision 
         $ultimoAdmisionAlumno = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
         $anioAdmision = ControllerAnioAdmision::ctrCrearAnioAdmision($ultimoAdmisionAlumno["idAdmisionAlumno"], $anioEscolarActiva);
