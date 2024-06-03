@@ -138,6 +138,8 @@ session_start();
   <script src="views/dataTables/dt-lista-alumnos-curso.js"></script>
   <script src="views/dataTables/dt-notas-curso-docente.js"></script>
   <script src="views/dataTables/dt-cursos-grado-docente.js"></script>
+  <script src="views/dataTables/dt-lista-postulantes.js"></script>
+  <script src="views/dataTables/dt-competencias.js"></script>
 </body>
 
 </html>

@@ -136,4 +136,54 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
   });
 });
 
+$("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
+  $('#modalCompetenciaUnidad').modal('show');
+});
+$("#modalIngresarCompetencia").on("click", "#btnCerrarModalCompetencia", function () {
+  $('#modalIngresarCompetencia').modal('hide');
+  $('#modalCompetenciaUnidad').modal('show');
+});
+$("#btnAgregarCompetencia").on("click", function () {
+  var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
+  $("#btnCrearCompetencia").attr("idUnidad", idUnidad); // Establece el valor de idUnidad en el botón btnCrearCompetencia
+});
+
+
+$("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
+  var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnCrearCompetencia
+  var notaText = $("#notaText").val(); // Obtén el valor del elemento con id notaText
+  console.log(notaText);
+  var data = new FormData();
+  data.append("idUnidadCrear", idUnidad);
+  data.append("descripcionCompetenciaCrear", notaText);
+  $.ajax({
+    url: "ajax/unidad.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      if(response !="error"){
+        Swal.fire({
+          title: 'Operación Exitosa',
+          text: 'La operación se ha realizado con éxito.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+      });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR.responseText); // Procedencia de error
+      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+});
+
+
+
+
+
+
+
 
