@@ -210,13 +210,13 @@ class ModelAlumnos
     ON 
       alumno.idAlumno = admision_alumno.idAlumno
     INNER JOIN
-    alumno_grado
+    alumno_anio_escolar
     ON 
-      alumno.idAlumno = alumno_grado.idAlumno
+      alumno.idAlumno = alumno_anio_escolar.idAlumno
     INNER JOIN
     grado
     ON 
-      alumno_grado.idGrado = grado.idGrado
+    alumno_anio_escolar.idGrado = grado.idGrado
     INNER JOIN
     nivel
     ON 
