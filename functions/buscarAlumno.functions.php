@@ -6,15 +6,12 @@ class FunctionBuscarAlumno
   {
     if (empty($estadoAlumno)) {
       return $estadoAlumno;
-    }
-    if ($estadoAlumno == 1) {
-      $estado = "Activo";
-    }
+    }else
     if ($estadoAlumno == 2) {
-      $estado = "Inactivo";
-    }
+      $estado = "Activo";
+    }else
     if ($estadoAlumno == 3) {
-      $estado = "En revisión";
+      $estado = "Inactivo";
     }
     return $estado;
   }

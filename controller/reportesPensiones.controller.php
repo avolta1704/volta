@@ -70,7 +70,7 @@ class ControllerReportesPensiones
       $mesesAlumno["DNI"] = $alumno["dniAlumno"];
       $mesesAlumno["Grado"] = $alumno["descripcionGrado"];
       $mesesAlumno["Nivel"] = $alumno["descripcionNivel"];
-      $mesesAlumno["Estado"] = $alumno["estadoAlumno"];
+      $mesesAlumno["Estado"] = $alumno["estadoAdmisionAlumno"];
       $dataFinal[] = $mesesAlumno;
     }
 

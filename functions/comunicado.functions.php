@@ -6,14 +6,16 @@ class FunctionComunicado
     public static function getEstadoAlumno($estadoAlumno)
     {
         //  Estado de los alumnos 1 = Activo 2 = Inactivo & 3 = en revisión estraordinaria 
-        if ($estadoAlumno == 1) {
-            $estado = '<span class="badge rounded-pill bg-success">Activo</span>';
-        }
         if ($estadoAlumno == 2) {
-            $estado = '<span class="badge rounded-pill bg-danger">Inactivo</span>';
-        }
+            $estado = '<span class="badge rounded-pill bg-success">Activo</span>';
+        }else
         if ($estadoAlumno == 3) {
+            $estado = '<span class="badge rounded-pill bg-danger">Inactivo</span>';
+        }else
+        if ($estadoAlumno == 1) {
             $estado = '<span class="badge rounded-pill bg-warning">En revisión</span>';
+          }else{
+            $estado = '<span class="badge rounded-pill bg-secondary">Otro</span>';
         }
         return $estado;
     }

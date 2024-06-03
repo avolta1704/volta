@@ -149,13 +149,13 @@ class ModelAdmisionAlumno
    */
   public static function mdlGetIdNivelByCodAdmisionAlumno($tabla, $codAdmisionAlumno)
   {
-    $tablaAlumnoGrado = "alumno_grado";
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
 
     $statement = Connection::conn()->prepare("SELECT ng.descripcionNivel
       FROM $tabla aa
-      INNER JOIN $tablaAlumnoGrado ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN $tablaAlumnoAnioEscolar ag ON aa.idAlumno = ag.idAlumno
       INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
       INNER JOIN $tablaNivel ng ON g.idNivel = ng.idNivel
       WHERE aa.idAdmisionAlumno = :idAdmisionAlumno");

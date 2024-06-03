@@ -47,7 +47,7 @@ class ControllerAdmision
       'idAlumno' => $idAlumnoEliminar['idAlumno'],
       'idAdmisionAlumno' => $idAlumnoEliminar['idAdmisionAlumno'],
       'idAdmision' => $idAlumnoEliminar['idAdmision'],
-      'idAlumnoGrado' => $idAlumnoEliminar['idAlumnoGrado'],
+      'idAlumnoAnioEscolar' => $idAlumnoEliminar['idAlumnoAnioEscolar'],
       'idApoderadoAlumno' => $idAlumnoEliminar['idApoderadoAlumno'],
       'idAnioAdmision' => $idAlumnoEliminar['idAnioAdmision'],
     );
@@ -56,14 +56,14 @@ class ControllerAdmision
     if ($eliminarAlumno != "ok") {
       return $eliminarAlumno;
       //acrtualizar estado de postulante a registrado = 1
-    } else{
+    } else {
       $table = "postulante";
-      $actulizarEstadoPostulante = ModelAdmision::mdlActualizarEstadoPostulante($table, $idAlumnoEliminar['idPostulante'], );
-      if ($actulizarEstadoPostulante != "ok") {
-        return $actulizarEstadoPostulante;
+      $actualizarEstadoPostulante = ModelAdmision::mdlActualizarEstadoPostulante($table, $idAlumnoEliminar['idPostulante'],);
+      if ($actualizarEstadoPostulante != "ok") {
+        return $actualizarEstadoPostulante;
       }
     }
-    return "ok"; 
+    return "ok";
   }
   //obtener todos los id asociados al idAlumno del postulante para eliminar registros
   public static function ctrBuscarRegistrosDeMatriculaPostulante($codAlumnoEliminar)
