@@ -48,4 +48,22 @@ class FunctionCursosDocente
     ';
     return $acciones;
   }
+  // Opciones para los alumnos por curso en la vista para notas
+  static public function getAccionesAlumnosPorCursoNotas($idAlumno)
+  {
+    $acciones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownAdmisiones" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+    <ul class="dropdown-menu" aria-labelledby="dropDownAdmisiones">
+    ';
+
+    $acciones .= '
+      <li><button id="btnVisualizarCronogramaAlumno" type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#cronogramaAdmisionPago" codAdAlumCronograma="' . ($idAlumno) . '">Ver Notas</button></li>
+      </ul>
+    </div>
+    ';
+    return $acciones;
+  }
 }

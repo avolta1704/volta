@@ -151,6 +151,13 @@ class ControllerAlumnos
     return $response;
   }
 
+  public static function ctrGetAlumnosCursoNotas($idCurso, $idGrado, $idPersonal, $idBimestre, $idUnidad)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnosCursoNotas($tabla, $idCurso, $idGrado, $idPersonal, $idBimestre, $idUnidad);
+    return $response;
+  }
+
   /**
    * Método para obtener los datos de un alumno por su ID.
    * 

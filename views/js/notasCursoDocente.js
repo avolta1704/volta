@@ -99,6 +99,8 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
     success: function (response) {
       $("#secondButtonContainer").empty();
       $("#thirdButtonContainer").empty();
+      // Limpiar el DataTable
+      $("#dataTableNotasCursoDocente").DataTable().clear().draw();
       // Actualiza el texto y el id de los botones basándose en la respuesta AJAX
       response.forEach((value, index) => {
         if (buttonNames[index]) {
@@ -134,32 +136,4 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
   });
 });
 
-$("#secondButtonContainer").on("click", "#btnUnidad", function () {
 
-
-  var idUnidad = $(this).data("idUnidad"); // Obtener idUnidad
-  var idBimestre = $(this).data("idBimestre"); // Obtener idBimestre
-
-  // Define los nombres de los botones con texto, clases e ids como marcadores de posición
-  var buttonNames = [
-    { text: "Importar Notas", class: "btn btn-primary", id: "btnImportarNotas" },
-    { text: "Ver Competencias", class: "btn btn-secondary", id: "btnVerCompetencias" },
-    { text: "Registrar Notas", class: "btn btn-success", id: "btnRegistrarNotas" },
-    { text: "Cerrar Notas", class: "btn btn-danger", id: "btnCerrarNotas" },
-  ];
-
-  const buttonContainer = $("#thirdButtonContainer");
-  buttonContainer.empty(); // Limpiar el contenedor de botones
-
-  buttonNames.forEach((button) => {
-    const btn = $("<button></button>")
-      .attr("type", "button")
-      .attr("id", button.id)
-      .addClass(button.class)
-      .text(button.text)
-      .css("margin-right", "10px") // Añadir margen a cada botón
-      .data("idUnidad", idUnidad) // Guardar idUnidad en data
-      .data("idBimestre", idBimestre); // Guardar idBimestre en data
-    buttonContainer.append(btn);
-  });
-});

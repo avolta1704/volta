@@ -323,6 +323,87 @@ class ModelAlumnos
     return $statement->fetchAll();
   }
 
+  public static function mdlGetAlumnosCursoNotas($tabla, $idCurso, $idGrado, $idPersonal, $idBimestre, $idUnidad)
+  {
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
+    $tablaNivel = "nivel";
+    $tablaGrado = "grado";
+    $tablaAnioEscolar = "anio_escolar";
+    $tablaCursoGrado = "curso_grado";
+    $tablaCurso = "curso";
+    $tablaCursoGradoPersonal = "cursogrado_personal";
+
+    $statement = Connection::conn()->prepare("SELECT
+    a.idAlumno,
+    a.nombresAlumno,
+    a.apellidosAlumno,
+    a.dniAlumno,
+    g.descripcionGrado,
+    n.descripcionNivel,
+    bimestre.descripcionBimestre, 
+    unidad.descripcionUnidad  
+  FROM
+    $tabla as a    
+    INNER JOIN
+    $tablaAlumnoAnioEscolar as a_ae
+    ON 
+      a.idAlumno = a_ae.idAlumno
+    INNER JOIN
+    $tablaGrado as g
+    ON 
+      a_ae.idGrado = g.idGrado
+    INNER JOIN
+    $tablaNivel as n
+    ON 
+      g.idNivel = n.idNivel
+    INNER JOIN
+    $tablaCursoGrado as c_g
+    ON 
+      g.idGrado = c_g.idGrado
+    INNER JOIN 
+    $tablaCurso as c
+    ON 
+      c_g.idCurso = c.idCurso
+    INNER JOIN
+    $tablaCursoGradoPersonal as cg_personal
+    ON 
+      c_g.idCursoGrado = cg_personal.idCursoGrado
+    INNER JOIN
+    $tablaAnioEscolar as ae
+    ON 
+      a_ae.idAnioEscolar = ae.idAnioEscolar
+    INNER JOIN
+    bimestre
+    ON 
+    c_g.idCursoGrado = bimestre.idCursoGrado
+    INNER JOIN
+    unidad
+    ON 
+		bimestre.idBimestre = unidad.idBimestre
+  WHERE
+    g.idGrado = :idGrado
+    AND
+    c.idCurso = :idCurso
+    AND
+    cg_personal.idPersonal = :idPersonal    
+    AND
+    a.estadoAlumno = 1
+    AND
+    ae.estadoAnio = 1
+    AND
+    bimestre.idBimestre = :idBimestre
+    AND
+    unidad.idUnidad = :idUnidad
+    ORDER BY a.nombresAlumno ASC");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_INT);
+    $statement->bindParam(":idBimestre", $idBimestre, PDO::PARAM_INT);
+    $statement->bindParam(":idUnidad", $idUnidad, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll();
+  }
+
   /**
    * Modelo para obtener los datos de un alumno por su ID.
    * 
