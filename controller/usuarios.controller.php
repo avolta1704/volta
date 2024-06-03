@@ -279,4 +279,23 @@ class ControllerUsuarios
     $response = ModelUsuarios::mdlVerificarUsuario($codUsuario);
     return $response;
   }
+
+  /**
+   * Obtener el tipo de usuario
+   * 
+   * @param int $idUsuario id del usuario
+   * @return string tipo de usuario 
+   */
+  public static function ctrGetTipoUsuario()
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
+    $usuario = ControllerUsuarios::ctrGetUsuarioEdit($idUsuario);
+    $idTipoUsuario = $usuario["idTipoUsuario"];
+    $tabla = "tipo_usuario";
+    $response = ModelUsuarios::mdlObtenerTipoUsuario($tabla, $idTipoUsuario);
+    return $response;
+  }
 }
