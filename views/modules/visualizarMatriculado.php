@@ -11,9 +11,7 @@
     </nav>
     <?php
     $codAlumno = $_GET["codAdmisionAlumno"];
-    $codPostulante = ControllerAdmisionAlumno::ctrGetIdPostulanteByCodAdmisionAlumno($codAlumno);
-
-    $datosAlumno = ControllerPostulantes::ctrGetPostulanteById($codPostulante);
+    $datosAlumno = ControllerAlumnos::ctrGetDatosVisualizar($codAlumno);
     ?>
   </div>
 
