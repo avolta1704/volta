@@ -4,10 +4,10 @@ date_default_timezone_set('America/Lima');
 class ControllerUnidad
 {
   // Obtener todas las unidades
-  public static function ctrObtenerTodasLasUnidades($descripcionBimestre)
+  public static function ctrObtenerTodasLasUnidades($idBimestre)
   {
     $tabla = "unidad";
-    $dataUnidad = ModelUnidad::mdlObtenerTodasLasUnidades($tabla, $descripcionBimestre);
+    $dataUnidad = ModelUnidad::mdlObtenerTodasLasUnidades($tabla, $idBimestre);
     return $dataUnidad;
   }
 }

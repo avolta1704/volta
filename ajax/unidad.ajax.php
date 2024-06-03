@@ -6,11 +6,11 @@ require_once "../model/unidad.model.php";
 class UnidadAjax
 {
   // Obtener todas las unidades
-  public $descripcionBimestre;
+  public $idBimestre;
   public function ajaxObtenerTodasLasUnidades()
   {
-    $descripcionBimestre = $this->descripcionBimestre;
-    $response = ControllerUnidad::ctrObtenerTodasLasUnidades($descripcionBimestre);
+    $idBimestre = $this->idBimestre;
+    $response = ControllerUnidad::ctrObtenerTodasLasUnidades($idBimestre);
     echo json_encode($response);
   }
 
@@ -18,8 +18,8 @@ class UnidadAjax
 
 
 // Editar estado de admision alumno
-if (isset($_POST["descripcionBimestre"])) {
+if (isset($_POST["idBimestre"])) {
   $todaslasUnidades = new UnidadAjax();
-  $todaslasUnidades->descripcionBimestre = $_POST["descripcionBimestre"];
+  $todaslasUnidades->idBimestre = $_POST["idBimestre"];
   $todaslasUnidades->ajaxObtenerTodasLasUnidades();
 }

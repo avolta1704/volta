@@ -32,7 +32,8 @@ class ModelBimestre
   public static function mdlObtenerTodosLosBimestres($tabla, $idCurso, $idGrado){
     $stmt = Connection::conn()->prepare("SELECT
     bimestre.idBimestre, 
-    bimestre.descripcionBimestre
+    bimestre.descripcionBimestre,
+    bimestre.estadoBimestre
   FROM
     $tabla
     INNER JOIN

@@ -47,7 +47,11 @@ $(document).ready(function () {
       response.forEach((value, index) => {
         if (buttonNames[index]) {
           buttonNames[index].text = value.descripcionBimestre;
-          buttonNames[index].id = "btnBimestre";  
+          buttonNames[index].id = "btnBimestre";
+          buttonNames[index].data = {
+            idBimestre: value.idBimestre,
+            estadoBimestre: value.estadoBimestre,
+          }; // Almacenar idBimestre y estado del bimestre en data
         }
       });
 
@@ -60,10 +64,8 @@ $(document).ready(function () {
           .addClass(button.class)
           .text(button.text)
           .css("margin-right", "10px") // Añadir margen a cada botón
-          .click(function () {
-            // Definir una variable igual a la descripción del bimestre al hacer clic en el botón
-            var idBimestre = value.idBimestre;
-          });
+          .data("idBimestre", button.data.idBimestre) // Guardar idBimestre en data
+          .prop("disabled", button.data.estadoBimestre == 0); // Deshabilitar botón si estadoUnidad es 0
         buttonContainer.append(btn);
       });
     },
@@ -75,7 +77,7 @@ $(document).ready(function () {
 });
 // Funcionalidad para los Botones de Bimestres
 $("#buttonContainer").on("click", "#btnBimestre", function () {
-  var descripcionBimestre = $(this).text();
+  var idBimestre = $(this).data("idBimestre"); // Obtener idBimestre
   // Define los nombres de los botones con texto, clases e ids como marcadores de posición
   var buttonNames = [
     { text: "Placeholder 1", class: "btn btn-warning", id: "" },
@@ -83,7 +85,7 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
   ];
   // Solicitud AJAX inicial
   var data = new FormData();
-  data.append("descripcionBimestre", descripcionBimestre);
+  data.append("idBimestre", idBimestre);
 
   $.ajax({
     url: "ajax/unidad.ajax.php",
@@ -96,11 +98,17 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
 
     success: function (response) {
       $("#secondButtonContainer").empty();
+      $("#thirdButtonContainer").empty();
       // Actualiza el texto y el id de los botones basándose en la respuesta AJAX
       response.forEach((value, index) => {
         if (buttonNames[index]) {
           buttonNames[index].text = value.descripcionUnidad;
           buttonNames[index].id = "btnUnidad";
+          buttonNames[index].data = {
+            idUnidad: value.idUnidad,
+            estadoUnidad: value.estadoUnidad,
+            idBimestre: idBimestre,
+          }; // Almacenar idUnidad y estadoUnidad en data
         }
       });
 
@@ -113,10 +121,9 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
           .addClass(button.class)
           .text(button.text)
           .css("margin-right", "10px") // Añadir margen a cada botón
-          .click(function () {
-            // Definir una variable igual a la descripción de la unidad al hacer clic en el botón
-            var descripcionUnidad = button.text;
-          });
+          .data("idUnidad", button.data.idUnidad) // Guardar idUnidad en data
+          .data("idBimestre", button.data.idBimestre) // Guardar idBimestre en data
+          .prop("disabled", button.data.estadoUnidad == 0); // Deshabilitar botón si estadoUnidad es 0
         buttonContainer.append(btn);
       });
     },
@@ -124,5 +131,35 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
       console.log(jqXHR.responseText); // Procedencia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
+  });
+});
+
+$("#secondButtonContainer").on("click", "#btnUnidad", function () {
+
+
+  var idUnidad = $(this).data("idUnidad"); // Obtener idUnidad
+  var idBimestre = $(this).data("idBimestre"); // Obtener idBimestre
+
+  // Define los nombres de los botones con texto, clases e ids como marcadores de posición
+  var buttonNames = [
+    { text: "Importar Notas", class: "btn btn-primary", id: "btnImportarNotas" },
+    { text: "Ver Competencias", class: "btn btn-secondary", id: "btnVerCompetencias" },
+    { text: "Registrar Notas", class: "btn btn-success", id: "btnRegistrarNotas" },
+    { text: "Cerrar Notas", class: "btn btn-danger", id: "btnCerrarNotas" },
+  ];
+
+  const buttonContainer = $("#thirdButtonContainer");
+  buttonContainer.empty(); // Limpiar el contenedor de botones
+
+  buttonNames.forEach((button) => {
+    const btn = $("<button></button>")
+      .attr("type", "button")
+      .attr("id", button.id)
+      .addClass(button.class)
+      .text(button.text)
+      .css("margin-right", "10px") // Añadir margen a cada botón
+      .data("idUnidad", idUnidad) // Guardar idUnidad en data
+      .data("idBimestre", idBimestre); // Guardar idBimestre en data
+    buttonContainer.append(btn);
   });
 });

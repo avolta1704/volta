@@ -23,19 +23,21 @@ class ModelUnidad
     }
   }
   // Obtener todas las unidades
-  public static function mdlObtenerTodasLasUnidades($tabla, $descripcionBimestre)
+  public static function mdlObtenerTodasLasUnidades($tabla, $idBimestre)
   {
-    $stmt = Connection::conn()->prepare("SELECT DISTINCT
-    descripcionUnidad
+    $stmt = Connection::conn()->prepare("SELECT
+    descripcionUnidad, 
+    unidad.idUnidad,
+    unidad.estadoUnidad
   FROM
-  $tabla
+    $tabla
     INNER JOIN
     bimestre
     ON 
       unidad.idBimestre = bimestre.idBimestre
   WHERE
-    bimestre.descripcionBimestre = :descripcionBimestre;");
-    $stmt->bindParam(":descripcionBimestre", $descripcionBimestre, PDO::PARAM_STR);
+    bimestre.idBimestre = :idBimestre;");
+    $stmt->bindParam(":idBimestre", $idBimestre, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
