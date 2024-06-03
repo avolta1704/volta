@@ -380,7 +380,14 @@ class ModelDocentes
     $statement = Connection::conn()->prepare("SELECT idPersonal FROM personal WHERE idUsuario = :idUsuario");
     $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_STR);
     $statement->execute();
-    return $statement->fetch(PDO::FETCH_ASSOC)["idPersonal"];
+    $result = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if ($result === false) {
+      // Manejar el caso en que no se encuentre ningún resultado
+      return null;
+    }
+
+    return $result["idPersonal"] ?? null;
   }
 
   /**

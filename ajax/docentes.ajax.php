@@ -165,12 +165,18 @@ class DocentesAjax
   public function ajaxObtenerCursosAsignados()
   {
     $response = ControllerDocentes::ctrObtenerCursosAsignados();
+    // Verificar si $response es un array antes de usarlo en foreach
+    if (is_array($response)) {
+      foreach ($response as &$curso) {
+        $curso["acciones"] = FunctionCursosDocente::getAccionesCursosDocente($curso["idCurso"], $curso["idGrado"], $curso["idPersonal"]);
+      }
 
-    foreach ($response as &$curso) {
-      $curso["acciones"] = FunctionCursosDocente::getAccionesCursosDocente($curso["idCurso"], $curso["idGrado"], $curso["idPersonal"]);
+      // Enviar la respuesta como JSON
+      echo json_encode($response);
+    } else {
+      // Manejar el caso en que $response no es un array
+      echo json_encode(array("error" => "No se recibieron los datos esperados."));
     }
-
-    echo json_encode($response);
   }
 }
 

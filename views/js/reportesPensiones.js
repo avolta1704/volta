@@ -12,7 +12,20 @@ $("#btnDescargarReportePagos").on("click", function () {
 			"Reporte de Pagos General",
 			"reporte_pagos_general"
 		);
-	});
+	}).fail(function (jqXHR, textStatus, errorThrown) {
+    console.log(
+      "Error en la solicitud AJAX: ",
+      textStatus,
+      errorThrown
+    );
+
+    Swal.fire({
+      icon: 'error',
+      title: '¡Error!',
+      text: 'No se pudo descargar el reporte de pagos.', 
+      showConfirmButton: true,
+    })
+  });
 });
 
 // btnDescargarReporteInicial

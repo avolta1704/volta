@@ -14,7 +14,7 @@ class ModelReportesComunicados
     $tablaCronogramaPago = 'cronograma_pago';
     $tablaAdmisionAlumno = 'admision_alumno';
     $tablaAlumno = 'alumno';
-    $tablaAlumnoGrado = 'alumno_grado';
+    $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
 
@@ -24,7 +24,7 @@ class ModelReportesComunicados
           INNER JOIN $tablaCronogramaPago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
           INNER JOIN $tablaAdmisionAlumno aa ON cpago.idAdmisionAlumno = aa.idAdmisionAlumno
           INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno    
-          INNER JOIN $tablaAlumnoGrado ag ON a.idAlumno = ag.idAlumno
+          INNER JOIN $tablaAlumnoAnioEscolar  ag ON a.idAlumno = ag.idAlumno
           INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
           INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
           "
@@ -45,7 +45,7 @@ class ModelReportesComunicados
     $tablaCronogramaPago = 'cronograma_pago';
     $tablaAdmisionAlumno = 'admision_alumno';
     $tablaAlumno = 'alumno';
-    $tablaAlumnoGrado = 'alumno_grado';
+    $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
     $detalleComunicacionPago = 'detalle_comunicacion_pago';
@@ -56,7 +56,7 @@ class ModelReportesComunicados
           INNER JOIN $tablaCronogramaPago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
           INNER JOIN $tablaAdmisionAlumno aa ON cpago.idAdmisionAlumno = aa.idAdmisionAlumno
           INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno    
-          INNER JOIN $tablaAlumnoGrado ag ON a.idAlumno = ag.idAlumno
+          INNER JOIN $tablaAlumnoAnioEscolar ag ON a.idAlumno = ag.idAlumno
           INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
           INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
           INNER JOIN $detalleComunicacionPago dcp ON cp.idComunicacionPago = dcp.idComunicacionPago
@@ -101,7 +101,7 @@ class ModelReportesComunicados
     $tablaCronogramaPago = 'cronograma_pago';
     $tablaAdmisionAlumno = 'admision_alumno';
     $tablaAlumno = 'alumno';
-    $tablaAlumnoGrado = 'alumno_grado';
+    $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
     $detalleComunicacionPago = 'detalle_comunicacion_pago';
@@ -112,7 +112,7 @@ class ModelReportesComunicados
           INNER JOIN $tablaCronogramaPago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
           INNER JOIN $tablaAdmisionAlumno aa ON cpago.idAdmisionAlumno = aa.idAdmisionAlumno
           INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno    
-          INNER JOIN $tablaAlumnoGrado ag ON a.idAlumno = ag.idAlumno
+          INNER JOIN $tablaAlumnoAnioEscolar ag ON a.idAlumno = ag.idAlumno
           INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
           INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
           INNER JOIN $detalleComunicacionPago dcp ON cp.idComunicacionPago = dcp.idComunicacionPago

@@ -11,7 +11,7 @@ $(document).ready(function () {
 		{ data: "apellidosAlumno" },
 		{ data: "nombresAlumno" },
 		{ data: "fechaAdmision" },
-		{ data: "estadoAlumno" },
+		{ data: "estadoAdmisionAlumno" },
 		{ data: "buttonsAdmisionAlumno" },
 	];
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
 		{ data: "apellidosAlumno" },
 		{ data: "nombresAlumno" },
 		{ data: "fechaAdmision" },
-		{ data: "estadoAlumno" },
+		{ data: "estadoAdmisionAlumno" },
 		{ data: "buttonsAdmisionAlumno" },
 	];
 
