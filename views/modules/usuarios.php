@@ -46,9 +46,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Agregar Nuevo Usuario</h5>
+        <h5 class="modal-title">Nuevo Usuario</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <!-- Cuerpo modal -->
@@ -56,37 +55,37 @@
         <form role="form" method="post">
           <!-- Correo Electrónico -->
           <div class="form-group">
-            <label for="usuarioCorreo" class="col-form-label">Correo Electrónico:</label>
+            <label for="usuarioCorreo" class="col-form-label" style="font-weight: bold">Correo Electrónico:</label>
             <input type="email" class="form-control" id="usuarioCorreo" name="usuarioCorreo" required>
           </div>
 
           <!-- Nombre -->
           <div class="form-group">
-            <label for="nombreUsuario" class="col-form-label">Nombre:</label>
+            <label for="nombreUsuario" class="col-form-label" style="font-weight: bold">Nombre:</label>
             <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
           </div>
 
           <!-- Apellido -->
           <div class="form-group">
-            <label for="apellidoUsuario" class="col-form-label">Apellido:</label>
+            <label for="apellidoUsuario" class="col-form-label" style="font-weight: bold">Apellido:</label>
             <input type="text" class="form-control" id="apellidoUsuario" name="apellidoUsuario" required>
           </div>
 
           <!-- DNI -->
           <div class="form-group">
-            <label for="dniUsuario" class="col-form-label">DNI:</label>
+            <label for="dniUsuario" class="col-form-label" style="font-weight: bold">DNI:</label>
             <input type="text" class="form-control" id="dniUsuario" name="dniUsuario" required>
           </div>
 
           <!-- Contraseña -->
           <div class="form-group">
-            <label for="passwordUsuario" class="col-form-label">Contraseña:</label>
+            <label for="passwordUsuario" class="col-form-label" style="font-weight: bold">Contraseña:</label>
             <input type="password" class="form-control" id="passwordUsuario" name="passwordUsuario" required>
           </div>
 
           <!-- Perfil -->
           <div class="form-group">
-            <label for="tipoUsuario" class="col-form-label">Perfil:</label>
+            <label for="tipoUsuario" class="col-form-label" style="font-weight: bold">Perfil:</label>
             <select class="form-control" name="tipoUsuario">
               <?php
               $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
