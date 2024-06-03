@@ -11,7 +11,7 @@ class ModelComunicado
       alumno.dniAlumno,
       alumno.nombresAlumno, 
       alumno.apellidosAlumno, 
-      alumno.estadoAlumno,
+      admision_alumno.estadoAdmisionAlumno,
       admision_alumno.idAdmisionAlumno
       FROM
       $tabla
@@ -19,7 +19,7 @@ class ModelComunicado
       admision_alumno
       ON 
       alumno.idAlumno = admision_alumno.idAlumno
-      WHERE alumno.estadoAlumno IN (1, 2)
+      WHERE admision_alumno.estadoAdmisionAlumno IN (1, 2)
       ORDER BY alumno.idAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -31,7 +31,6 @@ class ModelComunicado
     alumno.nombresAlumno, 
     alumno.apellidosAlumno, 
     alumno.sexoAlumno, 
-    alumno.estadoAlumno, 
     alumno.codAlumnoCaja, 
     alumno.dniAlumno, 
     grado.descripcionGrado, 
@@ -44,13 +43,17 @@ class ModelComunicado
     FROM
     $tabla
     INNER JOIN
-    alumno_grado
+    alumno_anio_escolar
     ON 
-    alumno.idAlumno = alumno_grado.idAlumno
+    alumno.idAlumno = alumno_anio_escolar.idAlumno
     INNER JOIN
     grado
     ON 
-    alumno_grado.idGrado = grado.idGrado
+    alumno_anio_escolar.idGrado = grado.idGrado
+    INNER JOIN
+    admision_alumno
+    ON
+    alumno.idAlumno = admision_alumno.idAlumno
     INNER JOIN
     nivel
     ON 
@@ -63,7 +66,7 @@ class ModelComunicado
     apoderado
     ON 
     apoderado_alumno.idApoderado = apoderado.idApoderado
-    WHERE alumno_grado.estadoGradoAlumno = 1 AND alumno.idAlumno = :idAlumno
+    WHERE admision_alumno.estadoAdmisionAlumno = 2 AND alumno.idAlumno = :idAlumno
     LIMIT 1");
     $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
     $statement->execute();

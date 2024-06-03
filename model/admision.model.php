@@ -70,13 +70,13 @@ class ModelAdmision
      alumno.idAlumno,
      admision_alumno.idAdmisionAlumno,
      admision_alumno.idAdmision,
-     alumno_grado.idAlumnoGrado,
+     alumno_anio_escolar.idAlumnoAnioEscolar,
      apoderado_alumno.idApoderadoAlumno,
      anio_admision.idAnioAdmision,
      postulante.idPostulante
      FROM alumno
      LEFT JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno
-     LEFT JOIN alumno_grado ON alumno.idAlumno = alumno_grado.idAlumno
+     LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
      LEFT JOIN apoderado_alumno ON alumno.idAlumno = apoderado_alumno.idAlumno
      LEFT JOIN anio_admision ON admision_alumno.idAdmisionAlumno = anio_admision.idAdmisionAlumno
      LEFT JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
@@ -92,14 +92,14 @@ class ModelAdmision
   {
     $statement = Connection::conn()->prepare("DELETE FROM anio_admision WHERE idAnioAdmision = :idAnioAdmision;
      DELETE FROM apoderado_alumno WHERE idApoderadoAlumno = :idApoderadoAlumno;
-     DELETE FROM alumno_grado WHERE idAlumnoGrado = :idAlumnoGrado;
+     DELETE FROM alumno_anio_escolar WHERE idAlumnoAnioEscolar = :idAlumnoAnioEscolar;
      DELETE FROM admision_alumno WHERE idAdmisionAlumno = :idAdmisionAlumno;
      DELETE FROM alumno WHERE idAlumno = :idAlumno;
      DELETE FROM admision WHERE idAdmision = :idAdmision;");
 
     $statement->bindParam(":idAnioAdmision", $dataArrayIdEliminar['idAnioAdmision'], PDO::PARAM_INT);
     $statement->bindParam(":idApoderadoAlumno", $dataArrayIdEliminar['idApoderadoAlumno'], PDO::PARAM_INT);
-    $statement->bindParam(":idAlumnoGrado", $dataArrayIdEliminar['idAlumnoGrado'], PDO::PARAM_INT);
+    $statement->bindParam(":idAlumnoAnioEscolar", $dataArrayIdEliminar['idAlumnoAnioEscolar'], PDO::PARAM_INT);
     $statement->bindParam(":idAdmisionAlumno", $dataArrayIdEliminar['idAdmisionAlumno'], PDO::PARAM_INT);
     $statement->bindParam(":idAlumno", $dataArrayIdEliminar['idAlumno'], PDO::PARAM_INT);
     $statement->bindParam(":idAdmision", $dataArrayIdEliminar['idAdmision'], PDO::PARAM_INT);

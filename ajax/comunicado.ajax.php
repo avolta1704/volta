@@ -16,8 +16,8 @@ class ComunicadoAjax
   {
     $registroComunicadoPago = ControllerComunicado::ctrGetAllComunicadoPago();
     foreach ($registroComunicadoPago as &$dataAdmision) {
-      $dataAdmision['btnPagoAlumnos'] = FunctionComunicado::getBotonesPagoAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["idAlumno"], $dataAdmision["estadoAlumno"]);
-      $dataAdmision['estadoAlPag'] = FunctionComunicado::getEstadoAlumno($dataAdmision["estadoAlumno"]);
+      $dataAdmision['btnPagoAlumnos'] = FunctionComunicado::getBotonesPagoAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["idAlumno"], $dataAdmision["estadoAdmisionAlumno"]);
+      $dataAdmision['estadoAlPag'] = FunctionComunicado::getEstadoAlumno($dataAdmision["estadoAdmisionAlumno"]);
     }
     echo json_encode($registroComunicadoPago);
   }

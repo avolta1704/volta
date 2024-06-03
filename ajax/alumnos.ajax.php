@@ -16,8 +16,8 @@ class AlumnosAjax
   {
     $todosLosAlumnosAdmin = ControllerAlumnos::ctrGetAlumnos();
     foreach ($todosLosAlumnosAdmin as &$alumno) {
-      $alumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($alumno["estadoAlumno"]);
-      $alumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($alumno["idAlumno"], $alumno["estadoAlumno"]);
+      $alumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($alumno["estadoAdmisionAlumno"]);
+      $alumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($alumno["idAlumno"], $alumno["estadoAdmisionAlumno"]);
     }
     echo json_encode($todosLosAlumnosAdmin);
   }

@@ -35,8 +35,6 @@ class ControllerAlumnos
       // Crear el array de datos de la admisión
       $dataArrayAlumno = array(
         "estadoSiagie" => 1,
-        "estadoAlumno" => 1,
-        "estadoMatricula" => 1,
         "nombresAlumno" => $dataPostulante["nombrePostulante"],
         "apellidosAlumno" => $dataPostulante["apellidoPostulante"],
         "dniAlumno" => $dataPostulante["dniPostulante"],
@@ -131,6 +129,7 @@ class ControllerAlumnos
     return $dataAlumno;
   }
 
+  // TODO : Ya no existe esta funcionalidad en la vista
   //  Cambiar estado del alumno
   public static function ctrCambiarEstadoAlumno($codAlumno, $cambiarEstadoAlumno)
   {

@@ -41,7 +41,7 @@ class ModelPagos
       FROM pago p
       JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
       JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
-      JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
+      JOIN alumno_anio_escolar ag ON aa.idAlumno = ag.idAlumno
       JOIN grado g ON ag.idGrado = g.idGrado
       JOIN alumno a ON aa.idAlumno = a.idAlumno
       ORDER BY p.idPago DESC
@@ -234,7 +234,7 @@ class ModelPagos
         FROM $tabla p
         JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
         JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
-        JOIN alumno_grado ag ON aa.idAlumno = ag.idAlumno
+        JOIN alumno_anio_escolar ag ON aa.idAlumno = ag.idAlumno
         JOIN grado g ON ag.idGrado = g.idGrado
         JOIN alumno a ON aa.idAlumno = a.idAlumno
         WHERE p.idPago = :idPago

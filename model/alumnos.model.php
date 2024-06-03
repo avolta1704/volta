@@ -6,32 +6,35 @@ class ModelAlumnos
   // Obtener todos los alumnos
   public static function mdlGetAlumnos($tabla)
   {
+    $tablaAdmisionAlumno = "admision_alumno";
     $statement = Connection::conn()->prepare("SELECT
     alumno.idAlumno, 
     alumno.nombresAlumno, 
     alumno.apellidosAlumno, 
     alumno.sexoAlumno, 
-    alumno.estadoAlumno, 
     alumno.codAlumnoCaja, 
     alumno.dniAlumno, 
     grado.descripcionGrado, 
-    nivel.descripcionNivel, 
-    alumno_grado.estadoGradoAlumno
+    nivel.descripcionNivel,
+    aa.estadoAdmisionAlumno
     FROM
     $tabla
     INNER JOIN
-    alumno_grado
+    alumno_anio_escolar
     ON 
-    alumno.idAlumno = alumno_grado.idAlumno
+    alumno.idAlumno = alumno_anio_escolar.idAlumno
     INNER JOIN
     grado
     ON 
-    alumno_grado.idGrado = grado.idGrado
+    alumno_anio_escolar.idGrado = grado.idGrado
     INNER JOIN
     nivel
     ON 
     grado.idNivel = nivel.idNivel
-    WHERE alumno_grado.estadoGradoAlumno = 1
+    INNER JOIN
+    $tablaAdmisionAlumno as aa
+    ON
+    alumno.idAlumno =aa.idAlumno
     ORDER BY alumno.idAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -40,13 +43,11 @@ class ModelAlumnos
   //  Crear nuevo alumno
   public static function mdlCrearAlumno($tabla, $dataAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombresAlumno, apellidosAlumno, sexoAlumno, estadoSiagie, estadoAlumno, estadoMatricula, dniAlumno, fechaNacimiento, direccionAlumno, distritoAlumno, IEPProcedencia, seguroSalud, fechaIngresoVolta, numeroEmergencia, enfermedades, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombresAlumno, :apellidosAlumno, :sexoAlumno,:estadoSiagie, :estadoAlumno,:estadoMatricula, :dniAlumno, :fechaNacimiento, :direccionAlumno, :distritoAlumno, :IEPProcedencia, :seguroSalud, :fechaIngresoVolta, :numeroEmergencia, :enfermedades, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombresAlumno, apellidosAlumno, sexoAlumno, estadoSiagie, dniAlumno, fechaNacimiento, direccionAlumno, distritoAlumno, IEPProcedencia, seguroSalud, fechaIngresoVolta, numeroEmergencia, enfermedades, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombresAlumno, :apellidosAlumno, :sexoAlumno,:estadoSiagie, :dniAlumno, :fechaNacimiento, :direccionAlumno, :distritoAlumno, :IEPProcedencia, :seguroSalud, :fechaIngresoVolta, :numeroEmergencia, :enfermedades, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":nombresAlumno", $dataAlumno["nombresAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":apellidosAlumno", $dataAlumno["apellidosAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":sexoAlumno", $dataAlumno["sexoAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":estadoSiagie", $dataAlumno["estadoSiagie"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoAlumno", $dataAlumno["estadoAlumno"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoMatricula", $dataAlumno["estadoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":dniAlumno", $dataAlumno["dniAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $dataAlumno["fechaNacimiento"], PDO::PARAM_STR);
     $statement->bindParam(":direccionAlumno", $dataAlumno["direccionAlumno"], PDO::PARAM_STR);
@@ -88,10 +89,8 @@ class ModelAlumnos
   //  crear postulante alumno admitido
   public static function mdlCreatePostulateAlumno($tabla, $dataArrayAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (estadoSiagie, estadoAlumno, estadoMatricula, nombresAlumno, apellidosAlumno, dniAlumno, fechaNacimiento, direccionAlumno, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:estadoSiagie,:estadoAlumno,:estadoMatricula,:nombresAlumno, :apellidosAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (estadoSiagie, nombresAlumno, apellidosAlumno, dniAlumno, fechaNacimiento, direccionAlumno, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:estadoSiagie,:nombresAlumno, :apellidosAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":estadoSiagie", $dataArrayAlumno["estadoSiagie"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoAlumno", $dataArrayAlumno["estadoAlumno"], PDO::PARAM_STR);
-    $statement->bindParam(":estadoMatricula", $dataArrayAlumno["estadoMatricula"], PDO::PARAM_STR);
     $statement->bindParam(":nombresAlumno", $dataArrayAlumno["nombresAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":apellidosAlumno", $dataArrayAlumno["apellidosAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":dniAlumno", $dataArrayAlumno["dniAlumno"], PDO::PARAM_STR);
@@ -121,8 +120,6 @@ class ModelAlumnos
   {
     $statement = Connection::conn()->prepare("SELECT
     alumno.estadoSiagie, 
-    alumno.estadoAlumno, 
-    alumno.estadoMatricula, 
     alumno.codAlumnoCaja, 
     alumno.nombresAlumno, 
     alumno.apellidosAlumno, 
@@ -213,13 +210,13 @@ class ModelAlumnos
     ON 
       alumno.idAlumno = admision_alumno.idAlumno
     INNER JOIN
-    alumno_grado
+    alumno_anio_escolar
     ON 
-      alumno.idAlumno = alumno_grado.idAlumno
+      alumno.idAlumno = alumno_anio_escolar.idAlumno
     INNER JOIN
     grado
     ON 
-      alumno_grado.idGrado = grado.idGrado
+    alumno_anio_escolar.idGrado = grado.idGrado
     INNER JOIN
     nivel
     ON 
@@ -239,6 +236,7 @@ class ModelAlumnos
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
+  // TODO Ya no va el cambiar el estado del alumno
   //  Cambiar estado del alumno
   public static function mdlCambiarEstadoAlumno($tabla, $codAlumno, $cambiarEstadoAlumno)
   {
@@ -266,6 +264,7 @@ class ModelAlumnos
     $tablaCursoGrado = "curso_grado";
     $tablaCurso = "curso";
     $tablaCursoGradoPersonal = "cursogrado_personal";
+    $tablaAdmisionAlumno = "admision_alumno";
 
     $statement = Connection::conn()->prepare("SELECT
     a.idAlumno,
@@ -274,13 +273,17 @@ class ModelAlumnos
     a.dniAlumno,
     g.descripcionGrado,
     n.descripcionNivel,
-    a.estadoAlumno    
+    admision.estadoAdmisionAlumno
   FROM
     $tabla as a    
     INNER JOIN
     $tablaAlumnoAnioEscolar as a_ae
     ON 
       a.idAlumno = a_ae.idAlumno
+    INNER JOIN 
+    $tablaAdmisionAlumno as admision
+    ON 
+      a.idAlumno = admision.idAlumno
     INNER JOIN
     $tablaGrado as g
     ON 
@@ -312,7 +315,7 @@ class ModelAlumnos
     AND
     cg_personal.idPersonal = :idPersonal    
     AND
-    a.estadoAlumno = 1
+    admision.estadoAdmisionalumno = 1
     AND
     ae.estadoAnio = 1
     ORDER BY a.nombresAlumno ASC");

@@ -5,8 +5,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="listPostulantes">Postulantes</a></li>
-        <li class="breadcrumb-item"><a href="listPostulantes">Lista Postulantes</a></li>
+        <li class="breadcrumb-item"><a href="listaPostulantes">Lista Postulantes</a></li>
         <li class="breadcrumb-item active">Nuevo Postulante</li>
       </ol>
     </nav>
@@ -33,8 +32,8 @@
                   <option value="">Eliga una opción</option>
                 </select>
               </div>
-              
-              
+
+
 
               <div class="form-group col-md-6">
                 <label for="nombrePostulante" class="form-label" style="font-weight: bold">Nombres: </label>
@@ -133,7 +132,7 @@
             <div class="container row g-3">
               <h3 style="font-weight: bold">Datos del Padre</h3>
 
-              
+
               <div class="form-group col-md-6">
                 <label for="nombrePadre" class="form-label" style="font-weight: bold">Nombres: </label>
                 <input type="text" class="form-control" id="nombrePadre" name="nombrePadre" value="" required>

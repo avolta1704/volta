@@ -98,6 +98,9 @@ class ControllerPostulantes
 
 
 
+
+
+
         if ($response == "ok") {
           $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante creado correctamente", "listaPostulantes");
           // Obtener el Año de Admision seleccionado
@@ -109,7 +112,9 @@ class ControllerPostulantes
           }
           // Insertar datos en la tabla anio_postulante
           $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
+          $mensajeaniopostulante = ControllerAnioPostulacion::ctrCrearAnioPostulacion($idPostulanteObtenidoVariable, $anioEscolar);
           //Validar si se ha creado correctamente en la tabla anio_postulante
+          if ($mensajeaniopostulante == "ok") {
           if ($mensajeaniopostulante == "ok") {
             echo $mensaje;
           }
@@ -309,17 +314,6 @@ class ControllerPostulantes
 
         if ($alumnoAdmision == false) {
           throw new Exception("Error al crear el alumno para la admisión.");
-        }
-
-
-
-        // Crear un nuevo registro del alumno creado en la tabla alumno_grado 
-        $alumnoGradoAsignado = ControllerGradoAlumno::ctrRegistrarGradoAlumnoAdmision($alumnoAdmision);
-
-        if (
-          $alumnoGradoAsignado != "ok"
-        ) {
-          throw new Exception("Error al registrar el grado del alumno en la admisión.");
         }
 
         // Obtener el año escolar activo para el registro del postulante
