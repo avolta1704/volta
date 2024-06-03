@@ -69,8 +69,9 @@ class FunctionAdmisionAlumnos
   }
 
   //  Botones para la vista de alumnosAdmision
-  public static function getBotonesAdmisionAlumnos($codAdmisionAlumno, $estadoAdmisionAlumno, $idAlumno)
+  public static function getBotonesAdmisionAlumnos($codAdmisionAlumno, $estadoAdmisionAlumno, $idAlumno, $isAdministrativo)
   {
+    $disabledAdministrativo = $isAdministrativo ? 'disabled' : '';
     $botones = '
       <div class="btn-group">
         <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownAdmiAlumno" aria-expanded="false">
@@ -89,16 +90,16 @@ class FunctionAdmisionAlumnos
       $clase = $opcion[0];
       $codigo = $opcion[1];
       $target = isset($opcion[2]) ? 'data-bs-toggle="modal" data-bs-target="' . $opcion[2] . '"' : '';
-      $disabled = ($estadoAdmisionAlumno == 1 && $texto == 'Ver Calendario') || ($estadoAdmisionAlumno > 1 && $texto == 'Programar') || ($estadoAdmisionAlumno > 1 && $texto == 'Eliminar') ? 'disabled' : '';
+      $disabled = ($estadoAdmisionAlumno == 1 && $texto == 'Ver Calendario') || ($estadoAdmisionAlumno > 1 && $texto == 'Programar') || ($estadoAdmisionAlumno > 1 && $texto == 'Eliminar' || ($texto == "Editar" && $isAdministrativo)) ? 'disabled' : '';
       $botones .= '<li><button type="button" class="dropdown-item ' . $clase . '" ' . $codigo . '="' . ($codigo == 'codAlumno' ? $idAlumno : $codAdmisionAlumno) . '" ' . $target . ' ' . $disabled . '>' . $texto . '</button></li>';
     }
 
     $botones .= '
         <li>
-          <button type="button" id="btnAbrirModalEstadoMatricula" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actualizarEstadoAdmisionAlumno" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Actualizar</button>
+          <button type="button" id="btnAbrirModalEstadoMatricula" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#actualizarEstadoAdmisionAlumno" idAdmisionAlumno="' . $codAdmisionAlumno . '"  ' . $disabledAdministrativo . '>Actualizar</button>
         </li>
         <li>
-          <button type="button" id="btnEliminarAdmisionAlumno" class="dropdown-item" idAdmisionAlumno="' . $codAdmisionAlumno . '" >Eliminar</button>
+          <button type="button" id="btnEliminarAdmisionAlumno" class="dropdown-item" idAdmisionAlumno="' . $codAdmisionAlumno . '" ' . $disabledAdministrativo . '>Eliminar</button>
         </li>
         </ul>
       </div>

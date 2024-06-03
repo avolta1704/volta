@@ -6,15 +6,23 @@ require_once "../functions/admisionAlumno.functions.php";
 require_once "../functions/pagos.functions.php";
 require_once "../controller/admision.controller.php";
 require_once "../model/admision.model.php";
+require_once "../controller/usuarios.controller.php";
+require_once "../model/usuarios.model.php";
 class AdmisionAlumnosAjax
 {
   //mostar todos los registros de admision dataTableAdmisionAlumnos
   public function ajaxMostrarRegistrosAdmisionAlumnos()
   {
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
+    
+    $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
+
+    $isAdministrativo = $tipoUsuario == "Administrativo";
+
+
     foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
       $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
-      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"]);
+      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo);
     }
     echo json_encode($registrosAdmisionAlumnos);
   }

@@ -186,4 +186,18 @@ END AS existencia
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtener el tipo del usuario
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param int $idUsuario id del usuario
+   * @return string tipo de usuario
+   */
+  public static function mdlObtenerTipoUsuario($tabla, $idTipoUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT descripcionTipoUsuario FROM $tabla WHERE idTipoUsuario = $idTipoUsuario");
+    $statement->execute();
+    return $statement->fetch();
+  }
 }
