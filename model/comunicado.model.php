@@ -11,7 +11,7 @@ class ModelComunicado
       alumno.dniAlumno,
       alumno.nombresAlumno, 
       alumno.apellidosAlumno, 
-      alumno.estadoAlumno,
+      admision_alumno.estadoAdmisionAlumno,
       admision_alumno.idAdmisionAlumno
       FROM
       $tabla
@@ -19,7 +19,7 @@ class ModelComunicado
       admision_alumno
       ON 
       alumno.idAlumno = admision_alumno.idAlumno
-      WHERE alumno.estadoAlumno IN (1, 2)
+      WHERE admision_alumno.estadoAdmisionAlumno IN (1, 2)
       ORDER BY alumno.idAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -31,7 +31,6 @@ class ModelComunicado
     alumno.nombresAlumno, 
     alumno.apellidosAlumno, 
     alumno.sexoAlumno, 
-    alumno.estadoAlumno, 
     alumno.codAlumnoCaja, 
     alumno.dniAlumno, 
     grado.descripcionGrado, 
