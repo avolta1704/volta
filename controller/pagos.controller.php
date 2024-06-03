@@ -247,7 +247,7 @@ class ControllerPagos
     if (!empty($DatosPagoAlumno)) {
       $idAlumno = $DatosPagoAlumno['idAlumno'];
 
-      // Obtener datos de alumno_grado
+      // Obtener datos de alumno_anio_escolar
       $DatosPagoAlumnoGrado = self::mdlGetGetDataPagoAlumnoGrado($idAlumno);
       $DatosPagoAlumno = array_merge($DatosPagoAlumno, $DatosPagoAlumnoGrado);
       // Obtener datos de admision_alumno
@@ -264,7 +264,7 @@ class ControllerPagos
   //obtener id grado alumno por id alumno 
   public static function mdlGetGetDataPagoAlumnoGrado($idAlumno)
   {
-    $tabla = "alumno_grado";
+    $tabla = "alumno_anio_escolar";
     $DatosPagoAlumnoGrado = ModelPagos::mdlGetGetDataPagoAlumnoGrado($tabla, $idAlumno);
     return $DatosPagoAlumnoGrado;
   }
