@@ -42,7 +42,7 @@ class ModelReportesAdmisiones
     $tablaAlumno = "alumno";
     $tablaAnioAdmision = "anio_admision";
     $tablaAnioEscolar = "anio_escolar";
-    $tablaAlumnoGrado = "alumno_grado";
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
     $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel
@@ -51,7 +51,7 @@ class ModelReportesAdmisiones
       INNER JOIN $tablaAnioAdmision AS ana ON a.idAnioEscolar = ana.idAnioEscolar
       INNER JOIN $tablaAnioEscolar AS ae ON ana.idAnioEscolar = ae.idAnioEscolar
       INNER JOIN $tablaAlumno AS al ON aa.idAlumno = al.idAlumno
-      INNER JOIN $tablaAlumnoGrado AS ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN $tablaAlumnoAnioEscolar AS ag ON aa.idAlumno = ag.idAlumno
       INNER JOIN $tablaGrado AS g ON ag.idGrado = g.idGrado
       INNER JOIN $tablaNivel AS n ON g.idNivel = n.idNivel
       WHERE ana.idAnioEscolar IN ($aniosLectivo)");
@@ -74,7 +74,7 @@ class ModelReportesAdmisiones
     $tablaAlumno = "alumno";
     $tablaAnioAdmision = "anio_admision";
     $tablaAnioEscolar = "anio_escolar";
-    $tablaAlumnoGrado = "alumno_grado";
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
     $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel,al.nuevoAlumno
@@ -83,7 +83,7 @@ class ModelReportesAdmisiones
       INNER JOIN $tablaAnioAdmision AS ana ON aa.idAdmisionAlumno = ana.idAdmisionAlumno
       INNER JOIN $tablaAnioEscolar AS ae ON ana.idAnioEscolar = ae.idAnioEscolar
       INNER JOIN $tablaAlumno AS al ON aa.idAlumno = al.idAlumno
-      INNER JOIN $tablaAlumnoGrado AS ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN $tablaAlumnoAnioEscolar  AS ag ON aa.idAlumno = ag.idAlumno
       INNER JOIN $tablaGrado AS g ON ag.idGrado = g.idGrado
       INNER JOIN $tablaNivel AS n ON g.idNivel = n.idNivel
       WHERE ae.estadoAnio = 1 AND aa.estadoAdmisionAlumno = 2");
@@ -106,7 +106,7 @@ class ModelReportesAdmisiones
     $tablaAlumno = "alumno";
     $tablaAnioAdmision = "anio_admision";
     $tablaAnioEscolar = "anio_escolar";
-    $tablaAlumnoGrado = "alumno_grado";
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
     $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel, al.sexoAlumno
@@ -115,7 +115,7 @@ class ModelReportesAdmisiones
       INNER JOIN $tablaAnioAdmision AS ana ON aa.idAdmisionAlumno = ana.idAdmisionAlumno
       INNER JOIN $tablaAnioEscolar AS ae ON ana.idAnioEscolar = ae.idAnioEscolar
       INNER JOIN $tablaAlumno AS al ON aa.idAlumno = al.idAlumno
-      INNER JOIN $tablaAlumnoGrado AS ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN $tablaAlumnoAnioEscolar AS ag ON aa.idAlumno = ag.idAlumno
       INNER JOIN $tablaGrado AS g ON ag.idGrado = g.idGrado
       INNER JOIN $tablaNivel AS n ON g.idNivel = n.idNivel
       WHERE ae.estadoAnio = 1");
