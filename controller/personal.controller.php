@@ -21,13 +21,15 @@ class ControllerPersonal
   public static function ctrCrearUsuarioPersonal($dataUsuarioPersonal)
   {
     $table = "personal";
-    if ($dataUsuarioPersonal["idTipoUsuario"] == 2) {
-      $idTipoPersonal = 4;
-    } else if ($dataUsuarioPersonal["idTipoUsuario"] == 3) {
-      $idTipoPersonal = 6;
-    } else {
-      $idTipoPersonal = "";
-    }
+
+    $tipoUsuarioMap = [
+      1 => "",  //  Administrador
+      2 => 4, //  Docente -> Docente General
+      3 => 6, //  Administrativo -> Administrativo 
+      5 => 5  //  Dirección -> Director
+    ];
+    $idTipoPersonal = $tipoUsuarioMap[$dataUsuarioPersonal["idTipoUsuario"]] ?? null;
+
     $dataUsuarioPersonal = array(
       "idUsuario" => $dataUsuarioPersonal["idUsuario"],
       "idTipoPersonal" => $idTipoPersonal,
