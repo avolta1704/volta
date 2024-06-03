@@ -171,7 +171,6 @@ $(document).ready(function () {
 
     success: function (response) {
       alumnos = response;
-      //console.log(response);
       actualizarOpciones();
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -231,13 +230,12 @@ $(document).ready(function () {
     $("#seguroBusqueda").val(alumno["seguroSalud"]);
     $("#enfermedadBusqueda").val(alumno["enfermedades"]);
     $("#ieProceBusqueda").val(alumno["IEPProcedencia"]);
-    $("#estadoAlBusqueda").val(alumno["estadoAlumno"]);
+    $("#estadoAlBusqueda").val(alumno["estadoAdmisionAlumno"]);
     $("#ingVoltaBusqueda").val(alumno["fechaIngresoVolta"]);
     $("#direccionBusqueda").val(alumno["direccionAlumno"]);
     $("#distritoBusqueda").val(alumno["distritoAlumno"]);
     $("#numeroEmergBusqueda").val(alumno["numeroEmergencia"]);
     $("#siagieBusqueda").val(alumno["estadoSiagie"]);
-    $("#matriculaBusqueda").val(alumno["estadoMatricula"]);
     $("#apoderado1Busqueda").val(
       alumno.nombreApoderado1 + " " + alumno.apellidoApoderado1
     );
