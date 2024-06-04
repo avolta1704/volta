@@ -126,7 +126,7 @@ class ControllerPagos
 
 
       if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
+        $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
         echo $mensaje;
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");

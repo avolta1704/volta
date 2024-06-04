@@ -22,4 +22,24 @@ class ControllerFunciones
     return $alert;
   }
 
+  // Mensaje de alerta por acción con timer
+  public static function mostrarAlertaTimer($tipo, $titulo, $mensaje, $ruta)
+  {
+    $alert =
+      '<script>
+            Swal.fire({
+              icon: "' . $tipo . '",
+              title: "' . $titulo . '",
+              text: "' . $mensaje . '",
+              timer: 1500,
+              showConfirmButton: false
+            }).then(function(result){
+              if(result.dismiss === Swal.DismissReason.timer){
+                window.location = "' . $ruta . '";
+              }
+            });
+          </script>';
+    return $alert;
+  }
+
 }

@@ -53,7 +53,7 @@
           <option value="1">Registrado</option>
           <option value="2">En Revisión</option>
           <option value="3">Matriculado</option>
-          <option value="5">Desestimado</option>
+          <option value="4">Desestimado</option>
         </select>
       </div>
       <div class="modal-footer">

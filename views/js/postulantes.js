@@ -162,8 +162,8 @@ $(document).ready(function () {
 				} else {
 					Swal.fire({
 						icon: "warning",
-						title: "Matricula no resgistrada",
-						text: "El Postulante no registrada una matricula *VERIFICAR*",
+						title: "Matricula no registrada",
+						text: "El Postulante no tiene registrada una matrícula. *VERIFICAR*",
 					}).then(function (result) {
 						if (result.value) {
 							window.location = "listaPostulantes";
@@ -317,7 +317,7 @@ $(document).ready(function () {
 });
 
 //  Cerrar vista de visualizar postulante
-$(".cerrarVisualizarPostulante").on("click", function () {
+$("#cerrarVisualizarPostulante").on("click", function () {
 	window.location = "index.php?ruta=listaPostulantes";
 });
 

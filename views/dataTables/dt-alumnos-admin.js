@@ -13,8 +13,8 @@ $(document).ready(function () {
     { data: "dniAlumno" },
     { data: "sexoAlumno" },
     { data: "stateAlumno" },
-    { data: "descripcionGrado" },
     { data: "descripcionNivel" },
+    { data: "descripcionGrado" },
     { data: "buttonsAlumno" },
   ];
 
@@ -80,8 +80,8 @@ $(document).ready(function () {
     { data: "codAlumnoCaja" },
     { data: "dniAlumno" },
     { data: "stateAlumno" },
-    { data: "descripcionGrado" },
     { data: "descripcionNivel" },
+    { data: "descripcionGrado" },
     { data: "buttonsAlumno" },
   ];
   tableAlumno = $("#dataTableAlumnos").DataTable({
