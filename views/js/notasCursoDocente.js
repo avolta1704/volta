@@ -136,41 +136,53 @@ $("#buttonContainer").on("click", "#btnBimestre", function () {
   });
 });
 
+// Funcionalidad para el boton Ver Competencias
 $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
-  $('#modalCompetenciaUnidad').modal('show');
+  $("#modalCompetenciaUnidad").modal("show");
 });
-$("#modalIngresarCompetencia").on("click", "#btnCerrarModalCompetencia", function () {
-  $('#modalIngresarCompetencia').modal('hide');
-  $('#modalCompetenciaUnidad').modal('show');
-});
+//Funcionalidad para el boton cerrar el modal de crear competencia
+$("#modalIngresarCompetencia").on(
+  "click",
+  "#btnCerrarModalCompetencia",
+  function () {
+    $("#modalIngresarCompetencia").modal("hide");
+    $("#modalCompetenciaUnidad").modal("show");
+  }
+);
+// Funcionalidad para asignarle un idUnidad al botón btnAgregarCompetencia
 $("#btnAgregarCompetencia").on("click", function () {
   var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
   $("#btnCrearCompetencia").attr("idUnidad", idUnidad); // Establece el valor de idUnidad en el botón btnCrearCompetencia
 });
-
-
+// Funcionalidad para el botón de crear competencia
 $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
   var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnCrearCompetencia
   var notaText = $("#notaText").val(); // Obtén el valor del elemento con id notaText
-  console.log(notaText);
   var data = new FormData();
   data.append("idUnidadCrear", idUnidad);
   data.append("descripcionCompetenciaCrear", notaText);
   $.ajax({
     url: "ajax/unidad.ajax.php",
     method: "POST",
+    method: "POST",
     data: data,
     cache: false,
     contentType: false,
     processData: false,
+    dataType: "json",
     success: function (response) {
-      if(response !="error"){
+      if (response == "ok") {
         Swal.fire({
-          title: 'Operación Exitosa',
-          text: 'La operación se ha realizado con éxito.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-      });
+          title: "Competencia Creada",
+          text: "La competencia se ha creado con éxito.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $("#modalIngresarCompetencia").modal("hide");
+            $("#modalCompetenciaUnidad").modal("hide");
+          }
+        });
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -180,10 +192,65 @@ $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
   });
 });
 
-
-
-
-
-
-
-
+// Funcionalidad para el modal de editar competencia
+$("#dataTableCompetencias").on("click", ".btnEditarCompetencias", function () {
+  var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón
+  descripcionCompetencia = $(this).attr("descripcionCompetencia"); // Obtén la descripción de la competencia
+  const notaText = $("#notaTextEditar");
+  notaText.val(descripcionCompetencia); // Establece el valor del campo de entrada con la descripción de la competencia
+  // Funcionalidad del boton Guardar Competencia
+  $("#modalEditarCompetencia").on("click", "#btnGuardarCompetencia", function () {
+    const currentValue = notaText.val();
+    if (currentValue != descripcionCompetencia) {
+      var data = new FormData();
+      data.append("idCompetencia", idCompetencia);
+      data.append("notaTextModificada", currentValue);
+      // Modificar la competencia
+      $.ajax({
+        url: "ajax/unidad.ajax.php",
+        method: "POST",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              title: "Competencia Modificada",
+              text: "La competencia se ha modificado con éxito.",
+              icon: "success",
+              confirmButtonText: "Aceptar",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                $("#modalEditarCompetencia").modal("hide");
+                $("#modalCompetenciaUnidad").modal("hide");
+              }
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // Procedencia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    } else {
+      Swal.fire({
+        title: "Sin Cambios",
+        text: "No se han realizado cambios en la competencia.",
+        icon: "info",
+        confirmButtonText: "Aceptar",
+      });
+    }
+  });
+});
+//Funcionalidad para el boton cerrar el modal de editar competencia
+$("#modalEditarCompetencia").on(
+  "click",
+  "#btnCerrarModalEditarCompetencia",
+  function () {
+    $("#modalEditarCompetencia").modal("hide");
+    $("#modalCompetenciaUnidad").modal("show");
+  }
+);

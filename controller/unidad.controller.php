@@ -19,7 +19,7 @@ class ControllerUnidad
     return $dataUnidad;
   }
 
-  // Obtener todas las competencias
+  // Crear Competencia
   public static function ctrCrearCompetencia($idUnidad, $descripcionCompetenciaCrear)
   {
     $tabla = "competencias";
@@ -37,4 +37,20 @@ class ControllerUnidad
     $response = ModelUnidad::mdlCrearCompetencia($tabla, $arrayCompetencias);
     return $response;
   }
+
+    // Modificar Competencia
+    public static function ctrModificarCompetencia($idCompetencia, $notaTextModificada)
+    {
+      $tabla = "competencias";
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      $arrayCompetenciaMoficiada = array(
+        "descripcionCompetencia" => $notaTextModificada,
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $response = ModelUnidad::mdlModificarCompetencia($tabla, $arrayCompetenciaMoficiada, $idCompetencia);
+      return $response;
+    }
 }

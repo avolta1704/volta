@@ -22,7 +22,7 @@ class UnidadAjax
     $idUnidad = $this->idUnidad;
     $response = ControllerUnidad::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
-      $data['buttons'] = FunctionUnidad::getButtons($data['idCompetencia']);
+      $data['buttons'] = FunctionUnidad::getButtons($data['idCompetencia'], $data['descripcionCompetencia']);
     }
     echo json_encode($response);
   }
@@ -33,7 +33,18 @@ class UnidadAjax
   {
     $idUnidadCrear = $this->idUnidadCrear;
     $descripcionCompetenciaCrear = $this->descripcionCompetenciaCrear;
-    $response = ControllerUnidad::ctrCrearCompetencia($idUnidadCrear,$descripcionCompetenciaCrear);
+    $response = ControllerUnidad::ctrCrearCompetencia($idUnidadCrear, $descripcionCompetenciaCrear);
+    echo json_encode($response);
+  }
+
+  // Modificar competencia
+  public $idCompetencia;
+  public $notaTextModificada;
+  public function ajaxModificarCompetencia()
+  {
+    $idCompetencia = $this->idCompetencia;
+    $notaTextModificada = $this->notaTextModificada;
+    $response = ControllerUnidad::ctrModificarCompetencia($idCompetencia, $notaTextModificada);
     echo json_encode($response);
   }
 
@@ -58,4 +69,12 @@ if (isset($_POST["idUnidadCrear"]) && isset($_POST["descripcionCompetenciaCrear"
   $insertarCompetencias->idUnidadCrear = $_POST["idUnidadCrear"];
   $insertarCompetencias->descripcionCompetenciaCrear = $_POST["descripcionCompetenciaCrear"];
   $insertarCompetencias->ajaxCrearCompetencia();
+}
+
+// Modificar competencia
+if (isset($_POST["idCompetencia"]) && isset($_POST["notaTextModificada"])) {
+  $insertarCompetencias = new UnidadAjax();
+  $insertarCompetencias->idCompetencia = $_POST["idCompetencia"];
+  $insertarCompetencias->notaTextModificada = $_POST["notaTextModificada"];
+  $insertarCompetencias->ajaxModificarCompetencia();
 }

@@ -112,3 +112,29 @@
     </div>
   </div>
 </div>
+
+<!-- Modal para Modificar Competencias -->
+<div class="modal fade" id="modalEditarCompetencia" tabindex="-1" aria-labelledby="modalEditarCompetenciaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarCompetenciaLabel">Editar Competencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="notaForm">
+                    <div class="form-group">
+                        <label for="notaText">Competencia:</label>
+                        <textarea class="form-control" id="notaTextEditar" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="btnCerrarModalEditarCompetencia" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarCompetencia">Guardar Competencia</button>
+            </div>
+        </div>
+    </div>
+</div>
