@@ -164,7 +164,6 @@ $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
   $.ajax({
     url: "ajax/unidad.ajax.php",
     method: "POST",
-    method: "POST",
     data: data,
     cache: false,
     contentType: false,
@@ -199,51 +198,58 @@ $("#dataTableCompetencias").on("click", ".btnEditarCompetencias", function () {
   const notaText = $("#notaTextEditar");
   notaText.val(descripcionCompetencia); // Establece el valor del campo de entrada con la descripción de la competencia
   // Funcionalidad del boton Guardar Competencia
-  $("#modalEditarCompetencia").on("click", "#btnGuardarCompetencia", function () {
-    const currentValue = notaText.val();
-    if (currentValue != descripcionCompetencia) {
-      var data = new FormData();
-      data.append("idCompetencia", idCompetencia);
-      data.append("notaTextModificada", currentValue);
-      // Modificar la competencia
-      $.ajax({
-        url: "ajax/unidad.ajax.php",
-        method: "POST",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          if (response == "ok") {
-            Swal.fire({
-              title: "Competencia Modificada",
-              text: "La competencia se ha modificado con éxito.",
-              icon: "success",
-              confirmButtonText: "Aceptar",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $("#modalEditarCompetencia").modal("hide");
-                $("#modalCompetenciaUnidad").modal("hide");
-              }
-            });
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR.responseText); // Procedencia de error
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
-    } else {
-      Swal.fire({
-        title: "Sin Cambios",
-        text: "No se han realizado cambios en la competencia.",
-        icon: "info",
-        confirmButtonText: "Aceptar",
-      });
+  $("#modalEditarCompetencia").on(
+    "click",
+    "#btnGuardarCompetencia",
+    function () {
+      const currentValue = notaText.val();
+      if (currentValue != descripcionCompetencia) {
+        var data = new FormData();
+        data.append("idCompetencia", idCompetencia);
+        data.append("notaTextModificada", currentValue);
+        // Modificar la competencia
+        $.ajax({
+          url: "ajax/unidad.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            if (response == "ok") {
+              Swal.fire({
+                title: "Competencia Modificada",
+                text: "La competencia se ha modificado con éxito.",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $("#modalEditarCompetencia").modal("hide");
+                  $("#modalCompetenciaUnidad").modal("hide");
+                }
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText); // Procedencia de error
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
+          },
+        });
+      } else {
+        Swal.fire({
+          title: "Sin Cambios",
+          text: "No se han realizado cambios en la competencia.",
+          icon: "info",
+          confirmButtonText: "Aceptar",
+        });
+      }
     }
-  });
+  );
 });
 //Funcionalidad para el boton cerrar el modal de editar competencia
 $("#modalEditarCompetencia").on(
@@ -254,3 +260,125 @@ $("#modalEditarCompetencia").on(
     $("#modalCompetenciaUnidad").modal("show");
   }
 );
+
+$("#modalCompetenciaUnidad").on(
+  "click",
+  "#btnDuplicarCompetencia",
+  function () {
+    var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
+    // Limpiar el contenedor
+    $("#competenciasContainer").empty();
+    // Contenedor donde se agregarán las opciones
+    var competenciasContainer = $("#competenciasContainer");
+    // Obtener la URL actual
+    var urlParams = new URLSearchParams(window.location.search);
+
+    // Obtener el valor de los parámetros de la URL
+    var ruta = urlParams.get("ruta");
+    var idCurso = urlParams.get("idCurso");
+    var idGrado = urlParams.get("idGrado");
+    var idPersonal = urlParams.get("idPersonal");
+
+    var data = new FormData();
+    data.append("competenciasDuplicar", true);
+    data.append("idCurso", idCurso);
+    data.append("idGrado", idGrado);
+    data.append("idPersonal", idPersonal);
+    // Modificar la competencia
+    $.ajax({
+      url: "ajax/unidad.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        // Iterar sobre el array de opciones y agregarlas al contenedor
+        response.forEach(function (competencia, index) {
+          var checkboxId = "competencia" + (index + 1);
+          var checkboxInput = $("<input>")
+            .addClass("form-check-input")
+            .attr({ type: "checkbox", id: checkboxId });
+          var checkboxLabel = $("<label>")
+            .addClass("btn btn-outline-primary")
+            .text(competencia.descripcionCompetencia)
+            .attr({ for: checkboxId, role: "button" });
+          var formCheck = $("<div>")
+            .addClass("form-check")
+            .append(checkboxInput, checkboxLabel);
+          competenciasContainer.append(formCheck);
+        });
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR.responseText); // Procedencia de error
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+    $("#modalDuplicarCompetencia").on(
+      "click",
+      "#btnDuplicarCompetenciaModal",
+      function () {
+        // Obtener todos los checkboxes marcados
+        var selectedCheckboxes = $(
+          "#competenciasContainer input[type='checkbox']:checked"
+        );
+        // Inicializar los contadores
+        var countZero = 0;
+        var countOne = 0;
+
+        // Iterar sobre los checkboxes marcados y obtener sus valores
+        selectedCheckboxes.each(function () {
+          var checkboxValue = $(this).next("label").text();
+          var data = new FormData();
+          data.append("checkboxValue", checkboxValue);
+          data.append("idUnidad", idUnidad);
+          // Modificar la competencia
+          $.ajax({
+            url: "ajax/unidad.ajax.php",
+            method: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            success: function (response) {
+              if (response == "ok") {
+                countZero++;
+              } else if (response == "creado") {
+                countOne++;
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.log(jqXHR.responseText); // Procedencia de error
+              console.log(
+                "Error en la solicitud AJAX: ",
+                textStatus,
+                errorThrown
+              );
+            },
+          });
+        });
+        Swal.fire({
+          title: "Competencias Duplicadas",
+          text: "La competencias seleccionada se han insertado con éxito.",
+          icon: "success",
+          confirmButtonText: "Aceptar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $("#modalDuplicarCompetencia").modal("hide");
+            $("#modalCompetenciaUnidad").modal("hide");
+          }
+        });
+      }
+    );
+  }
+);
+$("#modalDuplicarCompetencia").on(
+  "click",
+  "#btnCerrarmodalDuplicarCompetencia",
+  function () {
+    $("#modalDuplicarCompetencia").modal("hide");
+    $("#modalCompetenciaUnidad").modal("show");
+  });
+

@@ -5,6 +5,7 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
 
   // Asignar idGrado a un atributo del btnAsignarNuevoCurso
   $("#btnAgregarCompetencia").attr("idUnidad", idUnidad);
+  $("#btnDuplicarCompetencia").attr("idUnidad", idUnidad);
 
   // Definición de columnas
   var columnDefsCursosPorGrado = [

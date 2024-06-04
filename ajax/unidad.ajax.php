@@ -47,7 +47,28 @@ class UnidadAjax
     $response = ControllerUnidad::ctrModificarCompetencia($idCompetencia, $notaTextModificada);
     echo json_encode($response);
   }
-
+  // Duplicar Competencia
+  public $idCursoDuplicar;
+  public $idGradoDuplicar;
+  public $idPersonalDuplicar;
+  public function ajaxDuplicarCompetencia()
+  {
+    $idCursoDuplicar = $this->idCursoDuplicar;
+    $idGradoDuplicar = $this->idGradoDuplicar;
+    $idPersonalDuplicar = $this->idPersonalDuplicar;
+    $response = ControllerUnidad::ctrDuplicarCompetencia($idCursoDuplicar, $idGradoDuplicar,  $idPersonalDuplicar);
+    echo json_encode($response);
+  }
+    // Crear competencias DUPLICADA
+    public $idUnidadDuplicado;
+    public $checkboxValue;
+    public function ajaxInsertarDuplicadosCompetencia()
+    {
+      $idUnidadDuplicado = $this->idUnidadDuplicado;
+      $checkboxValue = $this->checkboxValue;
+      $response = ControllerUnidad::ctrInsertarDuplicadosCompetencia($idUnidadDuplicado, $checkboxValue);
+      echo json_encode($response);
+    }
 }
 // Editar estado de admision alumno
 if (isset($_POST["idBimestre"])) {
@@ -73,8 +94,25 @@ if (isset($_POST["idUnidadCrear"]) && isset($_POST["descripcionCompetenciaCrear"
 
 // Modificar competencia
 if (isset($_POST["idCompetencia"]) && isset($_POST["notaTextModificada"])) {
-  $insertarCompetencias = new UnidadAjax();
-  $insertarCompetencias->idCompetencia = $_POST["idCompetencia"];
-  $insertarCompetencias->notaTextModificada = $_POST["notaTextModificada"];
-  $insertarCompetencias->ajaxModificarCompetencia();
+  $modficarCompetencias = new UnidadAjax();
+  $modficarCompetencias->idCompetencia = $_POST["idCompetencia"];
+  $modficarCompetencias->notaTextModificada = $_POST["notaTextModificada"];
+  $modficarCompetencias->ajaxModificarCompetencia();
+}
+
+// Duplicar Competencia
+if (isset($_POST["competenciasDuplicar"]) && isset($_POST["idCurso"]) && isset($_POST["idGrado"]) && isset($_POST["idPersonal"])) {
+  $duplicarCompetencia = new UnidadAjax();
+  $duplicarCompetencia->idCursoDuplicar = $_POST["idCurso"];
+  $duplicarCompetencia->idGradoDuplicar = $_POST["idGrado"];
+  $duplicarCompetencia->idPersonalDuplicar = $_POST["idPersonal"];
+  $duplicarCompetencia->ajaxDuplicarCompetencia();
+}
+
+// Insertar Duplicados competencia
+if (isset($_POST["checkboxValue"]) && isset($_POST["idUnidad"])) {
+  $insertarDuplicadosCompetencia = new UnidadAjax();
+  $insertarDuplicadosCompetencia->checkboxValue = $_POST["checkboxValue"];
+  $insertarDuplicadosCompetencia->idUnidadDuplicado = $_POST["idUnidad"];
+  $insertarDuplicadosCompetencia->ajaxInsertarDuplicadosCompetencia();
 }
