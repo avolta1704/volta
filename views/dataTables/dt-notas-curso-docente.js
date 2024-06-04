@@ -97,9 +97,6 @@ $(document).ready(function () {
 });
 
 function crearButtons(idUnidad, idBimestre) {
-  // Define los nombres de los botones con texto, clases e ids como marcadores de posición
-  console.log(idUnidad);
-  console.log(idBimestre);
   var buttonNames = [
     {
       text: "Importar Notas",

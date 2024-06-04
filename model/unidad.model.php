@@ -42,4 +42,55 @@ class ModelUnidad
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  // Obtener todas las competencias
+  public static function mdlObtenerCompetencia($tabla, $idUnidad)
+  {
+    $stmt = Connection::conn()->prepare("SELECT
+      competencias.idCompetencia, 
+      competencias.descripcionCompetencia
+    FROM
+      $tabla
+      INNER JOIN
+      unidad
+      ON 
+        competencias.idUnidad = unidad.idUnidad
+    WHERE
+      competencias.idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  // Insertar Competencia
+  public static function mdlCrearCompetencia($tabla, $arrayCompetencias)
+  {
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(idUnidad, descripcionCompetencia, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idUnidad, :descripcionCompetencia, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $stmt->bindParam(":idUnidad", $arrayCompetencias["idUnidad"], PDO::PARAM_INT);
+    $stmt->bindParam(":descripcionCompetencia", $arrayCompetencias["descripcionCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaCreacion", $arrayCompetencias["fechaCreacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaActualizacion", $arrayCompetencias["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioCreacion", $arrayCompetencias["usuarioCreacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":usuarioActualizacion", $arrayCompetencias["usuarioActualizacion"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  // Modificar Competencia
+  public static function mdlModificarCompetencia($tabla, $arrayCompetenciaMoficiada, $idCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCompetencia = :descripcionCompetencia, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCompetencia = :idCompetencia");
+    $stmt->bindParam(":descripcionCompetencia", $arrayCompetenciaMoficiada["descripcionCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaActualizacion", $arrayCompetenciaMoficiada["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $arrayCompetenciaMoficiada["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idCompetencia", $idCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
 }
