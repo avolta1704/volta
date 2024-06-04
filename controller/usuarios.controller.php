@@ -298,4 +298,78 @@ class ControllerUsuarios
     $response = ModelUsuarios::mdlObtenerTipoUsuario($tabla, $idTipoUsuario);
     return $response;
   }
+
+  /**
+   * Dar acceso a la vista actual
+   * 
+   * @return string script para redireccionar
+   */
+  public static function ctrTieneAcceso(){
+    
+    $tipoUsuario = self::ctrGetTipoUsuario();
+    $usuario = strtolower($tipoUsuario["descripcionTipoUsuario"]);
+
+    if ( $usuario == "administrador") {
+      // Dar acceso a todas las URLs
+      return;
+    } elseif ($usuario == "administrativo") {
+      // Dar acceso a URLs específicas para administrativos
+      $allowedUrls = array(
+        "listaPostulantes",
+        "buscarPostulante",
+        "listaAdmisionAlumnos",
+        "buscarAlumno",
+        "listaPagos",
+        "listaComunicadoPago",
+        "reporteComunicaciones",
+        "reportePagos",
+        "reporteAdmisiones",
+
+      );
+    } elseif ($usuario == "dirección") {
+      // Dar acceso a URLs específicas para directivos
+      $allowedUrls = array(
+        "listaAlumnos",
+        "buscarAlumno",
+        "buscarAlumno",
+        "anioEscolar",
+        "reporteAdmisiones",
+        "reporteComunicaciones",
+        "reportePagos",
+        "personal",
+        "usuarios",
+        "apoderado",
+        "cursos",
+        "asignarCursos",
+        "listaDocentes"
+      );
+    } elseif ($usuario == "docente") {
+      // Dar acceso a URLs específicas para docentes
+      $allowedUrls = array(
+        "listaAlumnos",
+        "cursosDocente",
+      );
+    } elseif ($usuario == "apoderado") {
+      // Dar acceso a URLs específicas para apoderados
+      $allowedUrls = array(
+        ""
+      );
+    } 
+
+
+    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    $currentUrl = basename($currentPath);
+    print_r($allowedUrls);
+
+    if($currentUrl == "inicio"){
+      return;
+    }
+    if (!in_array($currentUrl, $allowedUrls)) {
+      return '<script>
+        window.location = "inicio";
+      </script>';
+    }
+
+
+  }
 }
