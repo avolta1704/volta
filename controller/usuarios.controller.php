@@ -152,8 +152,12 @@ class ControllerUsuarios
   //  Editar usuario
   public static function ctrEditarUsuarioPersonal()
   {
-    if (isset($_POST["correoEditar"])) {
-
+    if (isset($_POST["correoEditar"]) && isset($_POST["tipoEditar"])) {
+      if ($_POST["tipoEditar"] == 4) {
+        $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error, No se puede cambiar un Personal a Apoderado', 'NO SE PUEDE EDITAR AL APODERADO EN ESTE MODULO', 'usuarios');
+        echo $mensaje;
+        exit();
+      }
       // Si el usuario se cambia de docente a administrativo entonces se debe cambiar el tipo de personal a administrativo
       if ($_POST["tipoEditar"] == 3) {
         $tablaTipoPersonal = "tipo_personal";
@@ -217,8 +221,6 @@ class ControllerUsuarios
           $response = ModelPersonal::mdlCrearUsuarioPersonalApartirUsuario($tabla, $dataPersonal);
         }
       }
-
-
       $tabla = "usuario";
       $dataUsuario = array(
         "correoUsuario" => $_POST["correoEditar"],
@@ -228,17 +230,65 @@ class ControllerUsuarios
         "idTipoUsuario" => $_POST["tipoEditar"],
         "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
         "usuarioActualizacion" => $_SESSION["idUsuario"],
-        "idUsuario" => $_POST["codUsuario"]
+        "idUsuario" => $_POST["codUsuario"],
       );
       $response = ModelUsuarios::mdlEditarUsuarioPersonal($tabla, $dataUsuario);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta('success', 'Correcto', 'Usuario editado correctamente', 'usuarios');
-        echo $mensaje;
+        $tabla = "personal";
+
+        switch ($_POST["tipoEditar"]) {
+          case 1:
+            $idTipoPersonal = 5;
+            break;
+          case 2:
+            $idTipoPersonal = 4;
+            break;
+          case 3:
+            $idTipoPersonal = 6;
+            break;
+          case 4:
+            $idTipoPersonal = 7;
+            break;
+          case 5:
+            $idTipoPersonal = 5;
+            break;
+          default:
+            $idTipoPersonal = 0; // Valor por defecto si $_POST["tipoEditar"] no coincide con ningún caso
+        }
+        $dataUsuarioPersonal = array(
+          "idUsuario" => $_POST["codUsuario"],
+          "correoPersonal" => $_POST["correoEditar"],
+          "idTipoPersonal" => $idTipoPersonal,
+          "nombrePersonal" => $_POST["nombreEditar"],
+          "apellidoPersonal" => $_POST["apellidoEditar"],
+          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"],
+        );
+        $actuPersonal = self::ctrActualizarDatosPersonal($tabla, $dataUsuarioPersonal);
+        if ($actuPersonal == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlerta('success', 'Correcto', 'Usuario editado correctamente', 'usuarios');
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error', 'Error al actualizar los datos personales', 'usuarios');
+          echo $mensaje;
+        }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error', 'Error al editar el usuario', 'usuarios');
         echo $mensaje;
       }
     }
+  }
+  //  Actualizar datos del personal
+  public static function ctrActualizarDatosPersonal($tabla, $dataUsuarioPersonal)
+  {
+    $response = ControllerPersonal::ctrActualizarDatosPersonal($tabla, $dataUsuarioPersonal);
+    return $response;
+  }
+  //  Actualizar datos del usuario
+  public static function ctrActualizarDatoUsuario($tabla, $dataUsuario)
+  {
+    $response = ModelUsuarios::mdlActualizarDatosPersonal($tabla, $dataUsuario);
+    return $response;
   }
   //  Actualizar estado del usuario
   public static function ctrActualizarEstado($codUsuario)

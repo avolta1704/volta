@@ -115,13 +115,28 @@ class ModelUsuarios
     $statement->execute();
     return $statement->fetch();
   }
-  
+
   //  Actualizar estado del usuario
   public static function mdlActualizarEstado($tabla, $codUsuario, $estado)
   {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoUsuario=:estadoUsuario WHERE idUsuario=:idUsuario");
     $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_STR);
     $statement->bindParam(":estadoUsuario", $estado, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  //  Actualizar datos del usuario por el personal
+  public static function mdlActualizarDatosPersonal($tabla, $dataUsuario)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreUsuario = :nombreUsuario, apellidoUsuario = :apellidoUsuario,  fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":nombreUsuario", $dataUsuario["nombreUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoUsuario", $dataUsuario["apellidoUsuario"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataUsuario["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idUsuario", $dataUsuario["idUsuario"], PDO::PARAM_STR);
     if ($statement->execute()) {
       return "ok";
     } else {

@@ -80,7 +80,31 @@ class ModelPersonal
       return "error";
     }
   }
-
+  // obtener id del usuario para editar al personal
+  public static function mdlObtenerIdUsuario($table, $codPersonal)
+  {
+    $statement = Connection::conn()->prepare("SELECT idUsuario FROM $table WHERE idPersonal = :idPersonal");
+    $statement->bindParam(":idPersonal", $codPersonal, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  //  Actualizar datos del personal
+  public static function mdlActualizarDatosPersonal($tabla, $dataUsuarioPersonal)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombrePersonal = :nombrePersonal, apellidoPersonal = :apellidoPersonal, correoPersonal = :correoPersonal, idTipoPersonal = :idTipoPersonal, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":nombrePersonal", $dataUsuarioPersonal["nombrePersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":apellidoPersonal", $dataUsuarioPersonal["apellidoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":correoPersonal", $dataUsuarioPersonal["correoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataUsuarioPersonal["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuarioPersonal["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idTipoPersonal", $dataUsuarioPersonal["idTipoPersonal"], PDO::PARAM_STR);
+    $statement->bindParam(":idUsuario", $dataUsuarioPersonal["idUsuario"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
   /**
    * Editar el personal creado apartir de un usuario 
    * 

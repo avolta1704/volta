@@ -76,7 +76,7 @@ class ControllerApoderados
         "idApoderado" => $_POST["codApoderado"],
         "nombreApoderado" => $_POST["editarNombreAp"],
         "apellidoApoderado" => $_POST["editarApellidoAp"],
-        "numeroApoderado" => $_POST["editarNumAp"],
+        "celularApoderado" => $_POST["editarNumAp"],
         "listaAlumnos" => $_POST["editarHijosAp"],
         "convivenciaAlumno" => $_POST["editarComvivAp"],
         "tipoApoderado" => $_POST["editarTipoApo"],

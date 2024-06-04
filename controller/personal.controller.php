@@ -68,13 +68,59 @@ class ControllerPersonal
       );
       $response = ModelPersonal::mdlIdEditarPersonal($tabla, $dataEditPersonal);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Personal editado correctamente", "personal");
-        echo $mensaje;
+        $tabla = "usuario";
+        // obtener id del usuario para editar al personal
+        $codUsuario = self::ctrObtenerIdUsuario($tabla, $_POST["codPersonal"]);
+        if ($codUsuario === false) {
+          $mensaje = ControllerFunciones::mostrarAlerta("warning", "Advertencia", "Se actualizó el personal pero no el usuario. Revisar Personal.", "personal");
+          echo $mensaje;
+        } else {
+          $dataUsuario = array(
+            "idUsuario" => $codUsuario["idUsuario"],
+            "nombreUsuario" => $_POST["editarNombrePersonal"],
+            "apellidoUsuario" => $_POST["editarApellidoPersonal"],
+            "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"],
+          );
+          $actuPersonal = self::ctrActualizarDatoUsuario($tabla, $dataUsuario);
+          if ($actuPersonal == "ok") {
+            $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Personal editado correctamente", "personal");
+            echo $mensaje;
+          } else {
+            $mensaje = ControllerFunciones::mostrarAlerta('error', 'Error', 'Error al actualizar los datos personales', 'personal');
+            echo $mensaje;
+          }
+        }
       } else {
         $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el Personal", "personal");
         echo $mensaje;
       }
     }
+  }
+  // obtener id del usuario para editar al personal
+  public static function ctrObtenerIdUsuario($tabla, $codUsuario)
+  {
+    $tabla = "personal";
+    $response = ModelPersonal::mdlObtenerIdUsuario($tabla, $codUsuario);
+
+    // Verificar si la respuesta es nula o vacía
+    if ($response == null || $response == '') {
+      return false;
+    }
+    return $response;
+  }
+  //  Actualizar datos del usuario
+  public static function ctrActualizarDatoUsuario($tabla, $dataUsuario)
+  {
+    $response = ControllerUsuarios::ctrActualizarDatoUsuario($tabla, $dataUsuario);
+    return $response;
+  }
+
+  //  Actualizar datos del personal
+  public static function ctrActualizarDatosPersonal($tabla, $dataUsuarioPersonal)
+  {
+    $response = ModelPersonal::mdlActualizarDatosPersonal($tabla, $dataUsuarioPersonal);
+    return $response;
   }
 
   //  Obtener tipo de docente para el inicio de sesion

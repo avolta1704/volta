@@ -129,10 +129,10 @@ class ModelApoderados
   //  Editar Apoderado
   public static function mdlIdEditarApoderado($tabla, $dataEditApoderado)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreApoderado = :nombreApoderado, apellidoApoderado = :apellidoApoderado, numeroApoderado = :numeroApoderado, listaAlumnos = :listaAlumnos, convivenciaAlumno = :convivenciaAlumno, tipoApoderado = :tipoApoderado, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idApoderado = :idApoderado");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET nombreApoderado = :nombreApoderado, apellidoApoderado = :apellidoApoderado, celularApoderado = :celularApoderado, listaAlumnos = :listaAlumnos, convivenciaAlumno = :convivenciaAlumno, tipoApoderado = :tipoApoderado, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idApoderado = :idApoderado");
     $statement->bindParam(":nombreApoderado", $dataEditApoderado["nombreApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoApoderado", $dataEditApoderado["apellidoApoderado"], PDO::PARAM_STR);
-    $statement->bindParam(":numeroApoderado", $dataEditApoderado["numeroApoderado"], PDO::PARAM_STR);
+    $statement->bindParam(":celularApoderado", $dataEditApoderado["celularApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":listaAlumnos", $dataEditApoderado["listaAlumnos"], PDO::PARAM_STR);
     $statement->bindParam(":convivenciaAlumno", $dataEditApoderado["convivenciaAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":tipoApoderado", $dataEditApoderado["tipoApoderado"], PDO::PARAM_STR);
