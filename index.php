@@ -24,6 +24,7 @@ require_once "functions/docentes.functions.php";
 require_once "functions/anioescolar.functions.php";
 require_once "functions/cursosDocente.functions.php";
 require_once "functions/unidad.functions.php";
+require_once "functions/competencia.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";
@@ -52,6 +53,7 @@ require_once "controller/alumnoAnioEscolar.controller.php";
 require_once "controller/anioCursoGrado.controller.php";
 require_once "controller/bimestre.controller.php";
 require_once "controller/unidad.controller.php";
+require_once "controller/competencia.controller.php";
 
 
 //  Models
@@ -81,6 +83,7 @@ require_once "model/alumnoAnioEscolar.model.php";
 require_once "model/anioCursoGrado.model.php";
 require_once "model/bimestre.model.php";
 require_once "model/unidad.model.php";
+require_once "model/competencia.model.php";
 
 
 $template = new ControllerTemplate();

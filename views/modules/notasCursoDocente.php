@@ -52,7 +52,8 @@
 </main>
 
 <!-- Modal Listar Cursos -->
-<div class="modal fade" id="modalCompetenciaUnidad" tabindex="-1" aria-labelledby="modalCompetenciaUnidadLabel" aria-hidden="true">
+<div class="modal fade" id="modalCompetenciaUnidad" tabindex="-1" aria-labelledby="modalCompetenciaUnidadLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -62,12 +63,14 @@
       <div class="modal-body">
         <div class="row mb-2">
           <div class="col-auto">
-            <button type="button" class="btn btn-primary btnAgregarCompetencia gap-2 justify-content-center d-flex me-2" data-bs-target="#modalIngresarCompetencia" data-bs-toggle="modal" id="btnAgregarCompetencia" idUnidad="">
+            <button type="button" class="btn btn-primary btnAgregarCompetencia gap-2 justify-content-center d-flex me-2"
+              data-bs-target="#modalIngresarCompetencia" data-bs-toggle="modal" id="btnAgregarCompetencia" idUnidad="">
               <i class="bi bi-plus-circle"></i> Agregar Competencia
             </button>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-warning btnDuplicarCompetencia gap-2 justify-content-center d-flex" data-bs-target="#modalDuplicarCompetencia" data-bs-toggle="modal" id="btnDuplicarCompetencia" idUnidad="">
+            <button type="button" class="btn btn-warning btnDuplicarCompetencia gap-2 justify-content-center d-flex"
+              data-bs-target="#modalDuplicarCompetencia" data-bs-toggle="modal" id="btnDuplicarCompetencia" idUnidad="">
               <i class="bi bi-files"></i> Duplicar Competencias
             </button>
           </div>
@@ -147,7 +150,8 @@
 
 
 <!-- Modal Duplicar Competencia -->
-<div class="modal fade" id="modalDuplicarCompetencia" tabindex="-1" aria-labelledby="modalDuplicarCompetenciaLabel" aria-hidden="true">
+<div class="modal fade" id="modalDuplicarCompetencia" tabindex="-1" aria-labelledby="modalDuplicarCompetenciaLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -160,13 +164,20 @@
             <label class="form-label">Seleccione Competencias para Duplicar</label>
             <div id="competenciasContainer" class="ml-5">
               <!-- Aquí se agregarán las opciones desde JavaScript -->
+              <div id="competenciasContainer">
+                <input type="checkbox" id="competencia1">
+                <label for="competencia1">Competencia 1</label>
+                <input type="checkbox" id="competencia2">
+                <label for="competencia2">Competencia 2</label>
+              </div>
             </div>
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="btnDuplicarCompetenciaModal">Insertar</button>
-        <button type="button" class="btn btn-secondary" id="btnCerrarmodalDuplicarCompetencia" data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarmodalDuplicarCompetencia"
+          data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

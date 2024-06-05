@@ -153,6 +153,8 @@ $("#modalIngresarCompetencia").on(
 $("#btnAgregarCompetencia").on("click", function () {
   var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
   $("#btnCrearCompetencia").attr("idUnidad", idUnidad); // Establece el valor de idUnidad en el botón btnCrearCompetencia
+  // Limpiar el contenido de notaText
+  $("#notaText").val("");
 });
 // Funcionalidad para el botón de crear competencia
 $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
@@ -162,7 +164,7 @@ $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
   data.append("idUnidadCrear", idUnidad);
   data.append("descripcionCompetenciaCrear", notaText);
   $.ajax({
-    url: "ajax/unidad.ajax.php",
+    url: "ajax/competencia.ajax.php",
     method: "POST",
     data: data,
     cache: false,
@@ -193,7 +195,7 @@ $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
 
 // Funcionalidad para el modal de editar competencia
 $("#dataTableCompetencias").on("click", ".btnEditarCompetencias", function () {
-  var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón
+  idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón
   descripcionCompetencia = $(this).attr("descripcionCompetencia"); // Obtén la descripción de la competencia
   const notaText = $("#notaTextEditar");
   notaText.val(descripcionCompetencia); // Establece el valor del campo de entrada con la descripción de la competencia
@@ -209,7 +211,7 @@ $("#dataTableCompetencias").on("click", ".btnEditarCompetencias", function () {
         data.append("notaTextModificada", currentValue);
         // Modificar la competencia
         $.ajax({
-          url: "ajax/unidad.ajax.php",
+          url: "ajax/competencia.ajax.php",
           method: "POST",
           data: data,
           cache: false,
@@ -261,6 +263,7 @@ $("#modalEditarCompetencia").on(
   }
 );
 
+// Funcionalidad para el modal de duplicar competencia
 $("#modalCompetenciaUnidad").on(
   "click",
   "#btnDuplicarCompetencia",
@@ -286,7 +289,7 @@ $("#modalCompetenciaUnidad").on(
     data.append("idPersonal", idPersonal);
     // Modificar la competencia
     $.ajax({
-      url: "ajax/unidad.ajax.php",
+      url: "ajax/competencia.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -315,7 +318,8 @@ $("#modalCompetenciaUnidad").on(
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
-    $("#modalDuplicarCompetencia").on(
+    //Funcionalidad para Duplicar las Competencias Seleccionadas
+    $("#modalDuplicarCompetencia").off('click', '#btnDuplicarCompetenciaModal').on(
       "click",
       "#btnDuplicarCompetenciaModal",
       function () {
@@ -323,62 +327,116 @@ $("#modalCompetenciaUnidad").on(
         var selectedCheckboxes = $(
           "#competenciasContainer input[type='checkbox']:checked"
         );
-        // Inicializar los contadores
-        var countZero = 0;
-        var countOne = 0;
-
+        // Inicializar el array
+        var checkboxValues = [];
+    
         // Iterar sobre los checkboxes marcados y obtener sus valores
         selectedCheckboxes.each(function () {
           var checkboxValue = $(this).next("label").text();
-          var data = new FormData();
-          data.append("checkboxValue", checkboxValue);
-          data.append("idUnidad", idUnidad);
-          // Modificar la competencia
-          $.ajax({
-            url: "ajax/unidad.ajax.php",
-            method: "POST",
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: "json",
-            success: function (response) {
-              if (response == "ok") {
-                countZero++;
-              } else if (response == "creado") {
-                countOne++;
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              console.log(jqXHR.responseText); // Procedencia de error
-              console.log(
-                "Error en la solicitud AJAX: ",
-                textStatus,
-                errorThrown
-              );
-            },
-          });
+          checkboxValues.push(checkboxValue);
         });
-        Swal.fire({
-          title: "Competencias Duplicadas",
-          text: "La competencias seleccionada se han insertado con éxito.",
-          icon: "success",
-          confirmButtonText: "Aceptar",
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $("#modalDuplicarCompetencia").modal("hide");
-            $("#modalCompetenciaUnidad").modal("hide");
-          }
+    
+        var data = new FormData();
+        data.append("checkboxValues", JSON.stringify(checkboxValues));
+        data.append("idUnidadModificado", idUnidad);
+        $.ajax({
+          url: "ajax/competencia.ajax.php",
+          method: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: "json",
+          success: function (response) {
+            console.log(response); // Verifica el contenido de la respuesta
+            // Mostrar el Swal correspondiente
+            if (response == "ok") {
+              Swal.fire({
+                title: "Competencias Duplicadas",
+                text: "Se han insertado con éxito.",
+                icon: "success",
+                confirmButtonText: "Aceptar",
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  $("#modalDuplicarCompetencia").modal("hide");
+                  $("#modalCompetenciaUnidad").modal("hide");
+                }
+              });
+            } else if (response == "duplicado") {
+              Swal.fire({
+                title: "Competencias Duplicadas",
+                text: "No se han insertado esos datos porque ya están creados.",
+                icon: "info",
+                confirmButtonText: "Aceptar",
+              });
+            } else {
+              // Manejar cualquier otra respuesta
+              Swal.fire({
+                title: "Error",
+                text: "Ha ocurrido un error inesperado.",
+                icon: "error",
+                confirmButtonText: "Aceptar",
+              });
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+          },
         });
       }
     );
-  }
-);
+  });
+
+
 $("#modalDuplicarCompetencia").on(
   "click",
   "#btnCerrarmodalDuplicarCompetencia",
   function () {
     $("#modalDuplicarCompetencia").modal("hide");
     $("#modalCompetenciaUnidad").modal("show");
+  }
+);
+$("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
+  var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón}
+  Swal.fire({
+    title: "¿Estás seguro de que deseas eliminar la competencia?",
+    text: "¡Se eliminará la competencia seleccionada!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("idCompetenciaEliminar", idCompetencia);
+      $.ajax({
+        url: "ajax/competencia.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              title: "¡Competencia Eliminada!",
+              text: "La competencia ha sido eliminada con éxito.",
+              icon: "success",
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                $("#modalCompetenciaUnidad").modal("hide");
+              }
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // Procedencia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
   });
-
+});

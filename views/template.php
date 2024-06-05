@@ -15,8 +15,8 @@ session_start();
     require "modules/navbar.php";
     require "modules/menu.php";
     
-  $acceso = new ControllerUsuarios();
-  echo $acceso->ctrTieneAcceso(); 
+  // $acceso = new ControllerUsuarios();
+  // echo $acceso->ctrTieneAcceso(); 
 
     if (isset($_GET["ruta"])) {
       if (
