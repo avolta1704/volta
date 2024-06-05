@@ -47,20 +47,20 @@ class CompetenciaAjax
     $idCursoDuplicar = $this->idCursoDuplicar;
     $idGradoDuplicar = $this->idGradoDuplicar;
     $idPersonalDuplicar = $this->idPersonalDuplicar;
-    $response = ControllerCompetencia::ctrDuplicarCompetencia($idCursoDuplicar, $idGradoDuplicar,  $idPersonalDuplicar);
+    $response = ControllerCompetencia::ctrDuplicarCompetencia($idCursoDuplicar, $idGradoDuplicar, $idPersonalDuplicar);
     echo json_encode($response);
   }
-    // Crear competencias DUPLICADA
-    public $idUnidadDuplicado;
-    public $checkboxValue;
-    public function ajaxInsertarDuplicadosCompetencia()
-    {
-      $idUnidadDuplicado = $this->idUnidadDuplicado;
-      $checkboxValue = $this->checkboxValue;
-      $response = ControllerCompetencia::ctrInsertarDuplicadosCompetencia($idUnidadDuplicado, $checkboxValue);
-      echo json_encode($response);
-    }
-    // Obtener todas las competencias
+  // Crear competencias DUPLICADA
+  public $idUnidadDuplicado;
+  public $checkboxValues;
+  public function ajaxInsertarDuplicadosCompetencia()
+  {
+    $idUnidadDuplicado = $this->idUnidadDuplicado;
+    $checkboxValues = $this->checkboxValues;
+    $response = ControllerCompetencia::ctrInsertarDuplicadosCompetencia($idUnidadDuplicado, $checkboxValues);
+    echo json_encode($response);
+  }
+  // Eliminar competencia
   public $idCompetenciaEliminar;
   public function ajaxEliminarCompetencia()
   {
@@ -103,10 +103,12 @@ if (isset($_POST["competenciasDuplicar"]) && isset($_POST["idCurso"]) && isset($
 }
 
 // Insertar Duplicados competencia
-if (isset($_POST["checkboxValue"]) && isset($_POST["idUnidad"])) {
+if (isset($_POST["checkboxValues"]) && isset($_POST["idUnidadModificado"])) {
+  $checkboxValues = json_decode($_POST["checkboxValues"]);
+  $idUnidad = $_POST["idUnidadModificado"];
   $insertarDuplicadosCompetencia = new CompetenciaAjax();
-  $insertarDuplicadosCompetencia->checkboxValue = $_POST["checkboxValue"];
-  $insertarDuplicadosCompetencia->idUnidadDuplicado = $_POST["idUnidad"];
+  $insertarDuplicadosCompetencia->checkboxValues = $checkboxValues;
+  $insertarDuplicadosCompetencia->idUnidadDuplicado = $idUnidad;
   $insertarDuplicadosCompetencia->ajaxInsertarDuplicadosCompetencia();
 }
 //Eliminar Competencia
