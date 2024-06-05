@@ -153,6 +153,8 @@ $("#modalIngresarCompetencia").on(
 $("#btnAgregarCompetencia").on("click", function () {
   var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
   $("#btnCrearCompetencia").attr("idUnidad", idUnidad); // Establece el valor de idUnidad en el botón btnCrearCompetencia
+  // Limpiar el contenido de notaText
+  $("#notaText").val("");
 });
 // Funcionalidad para el botón de crear competencia
 $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
@@ -380,7 +382,8 @@ $("#modalDuplicarCompetencia").on(
   function () {
     $("#modalDuplicarCompetencia").modal("hide");
     $("#modalCompetenciaUnidad").modal("show");
-});
+  }
+);
 $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
   var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón}
   Swal.fire({

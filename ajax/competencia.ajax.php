@@ -13,7 +13,7 @@ class CompetenciaAjax
     $idUnidad = $this->idUnidad;
     $response = ControllerCompetencia::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
-      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data['descripcionCompetencia']);
+      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data['descripcionCompetencia'], $data['idNotaCompetencia']);
     }
     echo json_encode($response);
   }

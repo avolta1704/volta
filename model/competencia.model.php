@@ -46,16 +46,21 @@ class ModelCompetencia
   public static function mdlObtenerCompetencia($tabla, $idUnidad)
   {
     $stmt = Connection::conn()->prepare("SELECT
-      competencias.idCompetencia, 
-      competencias.descripcionCompetencia
-    FROM
-      $tabla
-      INNER JOIN
-      unidad
-      ON 
-        competencias.idUnidad = unidad.idUnidad
-    WHERE
-      competencias.idUnidad = :idUnidad");
+    competencias.idCompetencia, 
+    competencias.descripcionCompetencia, 
+    nota_competencia.idNotaCompetencia
+  FROM
+    competencias
+    INNER JOIN
+    unidad
+    ON 
+      competencias.idUnidad = unidad.idUnidad
+    LEFT JOIN
+    nota_competencia
+    ON 
+      competencias.idCompetencia = nota_competencia.idCompetencia
+  WHERE
+    competencias.idUnidad = :idUnidad");
     $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
