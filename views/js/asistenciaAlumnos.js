@@ -101,11 +101,6 @@ $("#btnTomarAsistencia").click(function () {
 	tableAlumnosCurso = $("#dataTableTomarAsistencia").DataTable({
 		columns: columnDefsAlumnosCurso,
 	});
-
-	// Evitar que se recargue la página con F5 o en el navegador
-	$(window).on("beforeunload", function () {
-		return "Desea salir de la página?";
-	});
 });
 
 $asistenciaAlumnos = [];
@@ -165,7 +160,30 @@ $("#btnGuardarAsistencia").click(function () {
 
 		success: function (response) {
 			console.log(response);
-			$asistenciaAlumnos = [];
+			// cerramos el modal
+			$("#modalTomarAsistencia").modal("hide");
+			if (response === "ok") {
+				Swal.fire({
+					icon: "success",
+					title: "¡Éxito!",
+					text: "La asistencia de los alumnos se ha guardado correctamente",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
+
+			if (response === "error") {
+				Swal.fire({
+					icon: "error",
+					title: "¡Error!",
+					text: "La asistencia de los alumnos no se ha guardado correctamente",
+					showConfirmButton: false,
+					timer: 1500,
+				});
+			}
+
+			// actualizamos la tabla
+			$("#dataTableAsistenciaAlumnos").DataTable().ajax.reload();
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR.responseText); // procendecia de error
