@@ -28,6 +28,9 @@ class ModelAsistenciaAlumnos
     a.idAlumno,
     a.nombresAlumno,
     a.apellidosAlumno,
+    g.idGrado,
+    c.idCurso,
+    cg_personal.idPersonal,
     asis.estadoAsistencia
   FROM
     $tablaAlumno as a    
@@ -67,6 +70,8 @@ class ModelAsistenciaAlumnos
     $tabla as asis
     ON 
       a_ae.idAlumnoAnioEscolar = asis.idAlumnoAnioEscolar    
+      AND
+      asis.fechaAsistencia = :diaActual 
   WHERE
     g.idGrado = :idGrado
     AND
@@ -76,9 +81,7 @@ class ModelAsistenciaAlumnos
     AND
     admision.estadoAdmisionAlumno = 2 -- 2 es el estado de alumno matriculado y activo
     AND
-    ae.estadoAnio = 1
-    AND
-    asis.fechaAsistencia = :diaActual 
+    ae.estadoAnio = 1    
     ORDER BY a.nombresAlumno ASC");
     $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
     $statement->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
@@ -86,5 +89,45 @@ class ModelAsistenciaAlumnos
     $statement->bindParam(":diaActual", $diaActual, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll();
+  }
+
+  /**
+   * Crear la asistencia del alumno para el dia actual
+   * 
+   * @param array $data array con la informacion de la asistencia del alumno
+   * @return string $respuesta  respuesta de la creacion de la asistencia del alumno o error en caso de que no se haya podido realizar la operacion
+   */
+  static public function mdlCrearAsistenciaAlumno($data)
+  {
+    $tabla = "asistencia";
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (idAlumnoAnioEscolar, fechaAsistencia, estadoAsistencia) VALUES (:idAlumnoAnioEscolar, :fechaAsistencia, :estadoAsistencia)");
+    $statement->bindParam(":idAlumnoAnioEscolar", $data["idAlumnoAnioEscolar"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaAsistencia", $data["fechaAsistencia"], PDO::PARAM_STR);
+    $statement->bindParam(":estadoAsistencia", $data["estadoAsistencia"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return Connection::conn()->errorInfo();
+    }
+  }
+
+  /**
+   * Actualizar la asistencia del alumno para el dia actual
+   * 
+   * @param array $data array con la informacion de la asistencia del alumno
+   * @return string $respuesta  respuesta de la actualizacion de la asistencia del alumno o error en caso de que no se haya podido realizar la operacion
+   */
+  static public function mdlActualizarAsistenciaAlumno($data)
+  {
+    $tabla = "asistencia";
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoAsistencia = :estadoAsistencia WHERE idAlumnoAnioEscolar = :idAlumnoAnioEscolar AND fechaAsistencia = :fechaAsistencia");
+    $statement->bindParam(":estadoAsistencia", $data["estadoAsistencia"], PDO::PARAM_STR);
+    $statement->bindParam(":idAlumnoAnioEscolar", $data["idAlumnoAnioEscolar"], PDO::PARAM_INT);
+    $statement->bindParam(":fechaAsistencia", $data["fechaAsistencia"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return Connection::conn()->errorInfo();
+    }
   }
 }
