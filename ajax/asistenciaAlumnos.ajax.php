@@ -3,6 +3,7 @@
 require_once "../controller/asistenciaAlumnos.controller.php";
 require_once "../model/asistenciaAlumnos.model.php";
 require_once "../functions/asistenciaAlumnos.functions.php";
+require_once "../model/transactionManager.model.php";
 
 class AsistenciaAlumnosAjax
 {
@@ -71,12 +72,13 @@ class AsistenciaAlumnosAjax
 
       $asistencia[] = array(
         'idAlumno' => $idAlumno,
+        'idAlumnoAnioEscolar' => $alumno['idAlumnoAnioEscolar'],
         'estadoAsistencia' => $estado
       );
     }
 
     // Utilizar el arreglo de asistencia en la creación o actualización de la asistencia de los alumnos
-    $respuesta = ControllerAsistenciaAlumnos::ctrCrearActualizarAsistenciaAlumnos($asistencia);
+    $respuesta = ControllerAsistenciaAlumnos::ctrCrearActualizarAsistenciaAlumnos($data["idCurso"], $data["idGrado"], $data["idPersonal"], $asistencia);
     echo json_encode($respuesta);
   }
 }
