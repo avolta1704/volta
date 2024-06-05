@@ -440,3 +440,52 @@ $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
     }
   });
 });
+
+// Funcionalidad para cerrar Unidad
+$("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
+  var idUnidad = $(this).data("idUnidad"); //Obtener idUnidad
+  var idBimestre = $(this).data("idBimestre"); //Obtener idBimestre
+  Swal.fire({
+    title: "¿Estás seguro de que deseas cerrar la unidad?",
+    text: "¡Se cerrará la unidad seleccionada!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("idUnidadCerrar", idUnidad);
+      data.append("idBimestreCerrar", idBimestre);
+      $.ajax({
+        url: "ajax/unidad.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              title: "Unidad Cerrada",
+              text: "La unidad se ha cerrado con éxito.",
+              icon: "success",
+              confirmButtonText: "Aceptar",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload();
+              }
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // Procedencia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  });
+});

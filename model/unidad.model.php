@@ -42,4 +42,57 @@ class ModelUnidad
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public static function mdlCerrarUnidad($tabla, $idUnidadCerrar)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET estadoUnidad = 0 WHERE idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidadCerrar, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  public static function mdlObtenerTodoslosDatosparaAsignarNota($tabla, $idUnidadCerrar){
+    $stmt = Connection::conn()->prepare("SELECT
+    nota_competencia.idNotaCompetencia, 
+    nota_competencia.notaCompetencia, 
+    nota_unidad.notaUnidad, 
+    competencias.idUnidad, 
+    competencias.descripcionCompetencia, 
+    nota_unidad.idNotaUnidad
+  FROM
+    $tabla
+    INNER JOIN
+    competencias
+    ON 
+      unidad.idUnidad = competencias.idUnidad
+    INNER JOIN
+    nota_competencia
+    ON 
+      competencias.idCompetencia = nota_competencia.idCompetencia
+    INNER JOIN
+    nota_unidad
+    ON 
+      nota_competencia.idNotaUnidad = nota_unidad.idNotaUnidad AND
+      unidad.idUnidad = nota_unidad.idUnidad
+  WHERE
+    nota_unidad.idUnidad = :idUnidadCerrar");
+    $stmt->bindParam(":idUnidadCerrar", $idUnidadCerrar, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlInsertarNotaUnidad($tabla, $idNotaUnidad, $notaUnidad)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET notaUnidad = :notaUnidad WHERE idNotaUnidad = :idNotaUnidad");
+    $stmt->bindParam(":notaUnidad", $notaUnidad, PDO::PARAM_STR);
+    $stmt->bindParam(":idNotaUnidad", $idNotaUnidad, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+
 }
