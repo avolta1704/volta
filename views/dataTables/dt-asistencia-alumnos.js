@@ -12,7 +12,6 @@ $(document).ready(function () {
 		{ data: "nombresAlumno" },
 		{ data: "apellidosAlumno" },
 		{ data: "estadoAsistencia" },
-		{ data: "acciones" },
 	];
 
 	var tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
@@ -65,7 +64,6 @@ $(document).ready(function () {
       <th scope="col">Nombre</th>
       <th scope="col">Apellido</th>
       <th scope="col">Estado de Asistencia</th>
-      <th scope="col">Acciones</th>
     </tr>
     `);
 
@@ -81,7 +79,6 @@ $(document).ready(function () {
 		{ data: "nombresAlumno" },
 		{ data: "apellidosAlumno" },
 		{ data: "estadoAsistencia" },
-		{ data: "acciones" },
 	];
 	tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
 		columns: columnDefsAlumnosCurso,
