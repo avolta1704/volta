@@ -458,9 +458,9 @@ class ModelAlumnos
    * Método para obtener los datos de un alumno por su ID para visualizar.
    * 
    * @param string $tabla Nombre de la tabla de la base de datos.
-   * @param int $codAlumno ID del alumno.
+   * @param int $codAdmisionAlumno ID del alumno.
    */
-  public static function mdlGetDatosVisualizar($tabla, $codAlumno)
+  public static function mdlGetDatosVisualizar($tabla, $codAdmisionAlumno)
   {
     $statement = Connection::conn()->prepare("SELECT
     alumno.nombresAlumno, 
@@ -478,17 +478,26 @@ class ModelAlumnos
     postulante.dificultadObservacion, 
     postulante.tipoAtencionPostulante, 
     postulante.tratamientoPostulante, 
-    apoderado.idApoderado
+    apoderado2.idApoderado AS apoderado1, 
+    apoderado1.idApoderado AS apoderado2
   FROM
     $tabla
     INNER JOIN
-    apoderado_alumno
+    apoderado_alumno AS apm
     ON 
-      alumno.idAlumno = apoderado_alumno.idAlumno
+      alumno.idAlumno = apm.idAlumno
     INNER JOIN
-    apoderado
+    apoderado AS apoderado1
     ON 
-      apoderado_alumno.idApoderado = apoderado.idApoderado
+      apm.idApoderado = apoderado1.idApoderado
+    INNER JOIN
+    apoderado_alumno AS app
+    ON 
+      alumno.idAlumno = app.idAlumno
+    INNER JOIN
+    apoderado AS apoderado2
+    ON 
+      app.idApoderado = apoderado2.idApoderado     
     INNER JOIN
     admision_alumno
     ON 
@@ -512,8 +521,11 @@ class ModelAlumnos
     ON 
       nivel.idNivel = grado.idNivel AND
       alumno_anio_escolar.idGrado = grado.idGrado
-      WHERE alumno.idAlumno = :idAlumno");
-    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
+  WHERE
+    admision_alumno.idAdmisionAlumno = :IdAdmisionAlumno
+    LIMIT 1 OFFSET 2
+  ");
+    $statement->bindParam(":IdAdmisionAlumno", $codAdmisionAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
