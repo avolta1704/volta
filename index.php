@@ -84,7 +84,7 @@ require_once "model/anioCursoGrado.model.php";
 require_once "model/bimestre.model.php";
 require_once "model/unidad.model.php";
 require_once "model/asistenciaAlumnos.model.php";
-
+require_once "model/transactionManager.model.php";
 
 $template = new ControllerTemplate();
 $template->ctrTemplate();
