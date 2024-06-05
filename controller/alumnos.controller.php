@@ -17,11 +17,29 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlObtenerUltimoAlumnoCreado($tabla);
     return $response;
   }
-  //  Asignar alumno a apoderado
-  public static function ctrAsignarAlumnoApoderado($dataApoderadoAlumno)
+  
+  /**
+   * Método para asignar un apoderado a un alumno, añade al padre como a la madre.
+   * 
+   * @param int $codAlumno ID del alumno.
+   * @param string $listaApoderados JSON con los datos de los apoderados.
+   * @return string $response Respuesta de la consulta.
+   */
+  public static function ctrAsignarAlumnoApoderado($codAlumno, $listaApoderados)
   {
     $tabla = "apoderado_alumno";
-    $response = ModelAlumnos::mdlAsignarAlumnoApoderado($tabla, $dataApoderadoAlumno);
+    $listaApoderados = json_decode($listaApoderados, true);
+    $dataAlumno = array(
+      "idAlumno" => $codAlumno,
+      "idApoderado" => $listaApoderados["idPadre"],
+      "fechaCreacion" => date("Y-m-d H:i:s"),
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelAlumnos::mdlAsignarAlumnoApoderado($tabla, $dataAlumno);
+    $dataAlumno["idApoderado"] = $listaApoderados["idMadre"];
+    $response = ModelAlumnos::mdlAsignarAlumnoApoderado($tabla, $dataAlumno);
     return $response;
   }
   //  crear postulante alumno admitido
@@ -180,5 +198,17 @@ class ControllerAlumnos
     $datosAlumno = ModelAlumnos::mdlMostrarDatosAlumno($tabla, $idAlumno);
     // combinar los dos arrays
     return $datosAlumno;
+  }
+
+  /**
+   * Método para obtener los datos de un alumno por su ID para visualizar.
+   * 
+   * @param int $codAlumno ID del alumno.
+   */
+  public static function ctrGetDatosVisualizar($codAlumno)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetDatosVisualizar($tabla, $codAlumno);
+    return $response;
   }
 }

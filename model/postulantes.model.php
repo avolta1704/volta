@@ -244,7 +244,7 @@ class ModelPostulantes
     $statement = Connection::conn()->prepare("SELECT listaApoderados FROM $table WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
     $statement->execute();
-    return $statement->fetchAll();
+    return $statement->fetch(PDO::FETCH_COLUMN);
   }
 
   //  Obtener todos los postulantes para la busqueda

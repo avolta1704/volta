@@ -453,4 +453,68 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Método para obtener los datos de un alumno por su ID para visualizar.
+   * 
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @param int $codAlumno ID del alumno.
+   */
+  public static function mdlGetDatosVisualizar($tabla, $codAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.nombresAlumno, 
+    alumno.apellidosAlumno, 
+    postulante.fechaPostulacion, 
+    alumno.fechaNacimiento, 
+    alumno.sexoAlumno, 
+    postulante.lugarNacimiento, 
+    alumno.dniAlumno, 
+    alumno.direccionAlumno, 
+    nivel.descripcionNivel, 
+    grado.descripcionGrado, 
+    postulante.colegioProcedencia, 
+    postulante.dificultadPostulante, 
+    postulante.dificultadObservacion, 
+    postulante.tipoAtencionPostulante, 
+    postulante.tratamientoPostulante, 
+    apoderado.idApoderado
+  FROM
+    $tabla
+    INNER JOIN
+    apoderado_alumno
+    ON 
+      alumno.idAlumno = apoderado_alumno.idAlumno
+    INNER JOIN
+    apoderado
+    ON 
+      apoderado_alumno.idApoderado = apoderado.idApoderado
+    INNER JOIN
+    admision_alumno
+    ON 
+      alumno.idAlumno = admision_alumno.idAlumno
+    INNER JOIN
+    admision
+    ON 
+      admision_alumno.idAdmision = admision.idAdmision
+    INNER JOIN
+    postulante
+    ON 
+      admision.idPostulante = postulante.idPostulante
+    INNER JOIN
+    alumno_anio_escolar
+    ON 
+      alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN
+    nivel
+    INNER JOIN
+    grado
+    ON 
+      nivel.idNivel = grado.idNivel AND
+      alumno_anio_escolar.idGrado = grado.idGrado
+      WHERE alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
