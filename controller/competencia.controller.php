@@ -72,5 +72,11 @@ class ControllerCompetencia
     $response = ModelCompetencia::mdlInsertarDuplicadosCompetencia($tabla, $arrayCompetencias);
     return $response;
   }
+  public static function ctrEliminarCompetencia($idCompetenciaEliminar)
+  {
+    $tabla = "competencias";
+    $response = ModelCompetencia::mdlEliminarCompetencia($tabla, $idCompetenciaEliminar);
+    return $response;
+  }
 }
 

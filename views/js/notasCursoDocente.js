@@ -361,7 +361,7 @@ $("#modalCompetenciaUnidad").on(
         });
         Swal.fire({
           title: "Competencias Duplicadas",
-          text: "La competencias seleccionada se han insertado con éxito.",
+          text: "Se han insertado con éxito.",
           icon: "success",
           confirmButtonText: "Aceptar",
         }).then((result) => {
@@ -380,5 +380,48 @@ $("#modalDuplicarCompetencia").on(
   function () {
     $("#modalDuplicarCompetencia").modal("hide");
     $("#modalCompetenciaUnidad").modal("show");
+});
+$("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
+  var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón}
+  Swal.fire({
+    title: "¿Estás seguro de que deseas eliminar la competencia?",
+    text: "¡Se eliminará la competencia seleccionada!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Si",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("idCompetenciaEliminar", idCompetencia);
+      $.ajax({
+        url: "ajax/competencia.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              title: "¡Competencia Eliminada!",
+              text: "La competencia ha sido eliminada con éxito.",
+              icon: "success",
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                $("#modalCompetenciaUnidad").modal("hide");
+              }
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // Procedencia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
   });
-
+});

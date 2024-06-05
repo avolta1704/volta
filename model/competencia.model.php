@@ -158,5 +158,19 @@ class ModelCompetencia
       return "error";
     }
   }
+  public static function mdlEliminarCompetencia($tabla, $idCompetenciaEliminar)
+  {
+    $stmt = Connection::conn()->prepare("DELETE competencias
+    FROM competencias
+    LEFT JOIN nota_competencia ON competencias.idCompetencia = nota_competencia.idCompetencia
+    WHERE nota_competencia.idCompetencia IS NULL
+    AND competencias.idCompetencia =  :idCompetencia");
+    $stmt->bindParam(":idCompetencia", $idCompetenciaEliminar, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 
 }

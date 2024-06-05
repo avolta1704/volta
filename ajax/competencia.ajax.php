@@ -60,6 +60,14 @@ class CompetenciaAjax
       $response = ControllerCompetencia::ctrInsertarDuplicadosCompetencia($idUnidadDuplicado, $checkboxValue);
       echo json_encode($response);
     }
+    // Obtener todas las competencias
+  public $idCompetenciaEliminar;
+  public function ajaxEliminarCompetencia()
+  {
+    $idCompetenciaEliminar = $this->idCompetenciaEliminar;
+    $response = ControllerCompetencia::ctrEliminarCompetencia($idCompetenciaEliminar);
+    echo json_encode($response);
+  }
 }
 
 //Obtener competencias
@@ -100,4 +108,10 @@ if (isset($_POST["checkboxValue"]) && isset($_POST["idUnidad"])) {
   $insertarDuplicadosCompetencia->checkboxValue = $_POST["checkboxValue"];
   $insertarDuplicadosCompetencia->idUnidadDuplicado = $_POST["idUnidad"];
   $insertarDuplicadosCompetencia->ajaxInsertarDuplicadosCompetencia();
+}
+//Eliminar Competencia
+if (isset($_POST["idCompetenciaEliminar"])) {
+  $eliminarCompetencia = new CompetenciaAjax();
+  $eliminarCompetencia->idCompetenciaEliminar = $_POST["idCompetenciaEliminar"];
+  $eliminarCompetencia->ajaxEliminarCompetencia();
 }
