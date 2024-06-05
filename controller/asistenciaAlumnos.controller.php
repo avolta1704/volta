@@ -55,37 +55,70 @@ class ControllerAsistenciaAlumnos
    * @param array $data array con la informacion de la asistencia de los alumnos
    * @return string $respuesta  respuesta de la creacion o actualizacion de la asistencia de los alumnos o error en caso de que no se haya podido realizar la operacion
    */
-  static public function ctrCrearActualizarAsistenciaAlumnos($data)
+  static public function ctrCrearActualizarAsistenciaAlumnos($idCurso, $idGrado, $idPersonal, $data)
   {
-    // Primero obtener todos los alumnos del curso
-    $alumnos = ControllerAsistenciaAlumnos::ctrMostrarAsistenciaAlumnosTomarAsistencia($data["idCurso"], $data["idGrado"], $data["idPersonal"]);
-    // Luego recorrer los alumnos y crear o actualizar la asistencia
-    foreach ($alumnos as $alumno) {
-      // vemos si este alumno viene en el arreglo de la asistencia
-      $alumnoEncontrado = false;
-      foreach ($data["alumnos"] as $alumnoAsistencia) {
-        if ($alumno["idAlumno"] == $alumnoAsistencia["idAlumno"]) {
-          $alumnoEncontrado = true;
-          break;
+    // Primero obtener todos las asistencias de los alumnos del curso y grado seleccionado
+    $tabla = "asistencia";
+    $hoy = date("Y-m-d");
+    $asistenciaAlumnos = ModelAsistenciaAlumnos::mdlMostrarAsistenciaAlumnosPorFecha($tabla, $idCurso, $idGrado, $idPersonal, $hoy);
+
+    // Recorrer todos los alumnos del curso
+    try {
+      // Start transaction
+      // TransactionManager::mdlIniciarTransaccion();
+
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      // acceder a la variable de sesión
+      $idUsuario = $_SESSION["idUsuario"];
+
+      foreach ($data as $alumno) {
+        $idAlumno = $alumno["idAlumno"];
+        if (in_array($idAlumno, array_column($asistenciaAlumnos, 'idAlumno'))) {
+          $estado = $alumno["estadoAsistencia"];
+          $fechaAsistencia = date("Y-m-d");
+          $data = [
+            "idAlumnoAnioEscolar" => $alumno["idAlumnoAnioEscolar"],
+            "fechaAsistencia" => $fechaAsistencia,
+            "estadoAsistencia" => $estado,
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $idUsuario
+          ];
+          $respuesta = ModelAsistenciaAlumnos::mdlActualizarAsistenciaAlumno($data);
+          if ($respuesta != "ok") {
+            // Rollback transaction
+            // TransactionManager::mdlCancelarTransaccion();
+            return $respuesta;
+          }
+        } else {
+          $fechaAsistencia = date("Y-m-d");
+          $data = [
+            "idAlumnoAnioEscolar" => $alumno["idAlumnoAnioEscolar"],
+            "fechaAsistencia" => $fechaAsistencia,
+            "estadoAsistencia" => $alumno["estadoAsistencia"],
+            "fechaCreacion" => date("Y-m-d H:i:s"),
+            "usuarioCreacion" => $idUsuario,
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $idUsuario
+          ];
+          $respuesta = ModelAsistenciaAlumnos::mdlCrearAsistenciaAlumno($data);
+          if ($respuesta != "ok") {
+            // Rollback transaction
+            // TransactionManager::mdlCancelarTransaccion();
+            return $respuesta;
+          }
         }
       }
 
-      // si el alumno no fue encontrado en el arreglo de la asistencia, entonces se debe crear la asistencia
-      if (!$alumnoEncontrado) {
-        $respuesta = ModelAsistenciaAlumnos::mdlCrearAsistenciaAlumno($data["idCurso"], $data["idGrado"], $data["idPersonal"], $alumno["idAlumno"], $data["fecha"], $data["estado"]);
-        if (!$respuesta) {
-          return "error";
-        }
-      }
-    }
+      // Commit transaction
+      // TransactionManager::mdlFinalizarTransaccion();
 
-    // Luego recorrer los alumnos y actualizar la asistencia
-    foreach ($data["alumnos"] as $alumnoAsistencia) {
-      $respuesta = ModelAsistenciaAlumnos::mdlActualizarAsistenciaAlumno($data["idCurso"], $data["idGrado"], $data["idPersonal"], $alumnoAsistencia["idAlumno"], $data["fecha"], $alumnoAsistencia["estado"]);
-      if (!$respuesta) {
-        return "error";
-      }
+      return "ok";
+    } catch (Exception $e) {
+      // Rollback transaction
+      TransactionManager::mdlCancelarTransaccion();
+      return "Error: " . $e->getMessage() . " - " . $e;
     }
-    return "ok";
   }
 }
