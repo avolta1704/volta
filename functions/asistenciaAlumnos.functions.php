@@ -10,14 +10,20 @@ class FunctionsAsistenciaAlumnos
   public static function getEstadoAsistencia($estado)
   {
     switch ($estado) {
-      case "A":
+      case "A": // Asistió
         $estadoAsistencia = "<span class='badge bg-success'>Asistió</span>";
         break;
-      case "F":
+      case "F": // Faltó
         $estadoAsistencia = "<span class='badge bg-danger'>Faltó</span>";
         break;
-      case "J":
-        $estadoAsistencia = "<span class='badge bg-warning'>Justificado</span>";
+      case "T": // Inasistencia Injustificado
+        $estadoAsistencia = "<span class='badge bg-warning'>Inasistencia Injustificado</span>";
+        break;
+      case "J": // Falta Justificado
+        $estadoAsistencia = "<span class='badge bg-warning'>Falta Justificado</span>";
+        break;
+      case "U": // Tardanza Justificado
+        $estadoAsistencia = "<span class='badge bg-warning'>Tardanza</span>";
         break;
       default:
         $estadoAsistencia = "<span class='badge bg-secondary'>Sin registrar</span>";
@@ -32,12 +38,14 @@ class FunctionsAsistenciaAlumnos
    * @param string $estado El estado de la asistencia.
    * @return string El dropdown para seleccionar el estado de la asistencia.
    */
-  public static function getDropdownEstadoAsistencia($estado)
+  public static function getDropdownEstadoAsistencia($idAlumno, $idCurso, $idGrado, $idPersonal, $estado)
   {
-    $dropdown = "<select class='form-select' name='estado' required>";
+    $dropdown = "<select class='form-select' name='estado' required id='asistenciaAlumno' idAlumno='$idAlumno' idCurso='$idCurso' idGrado='$idGrado' idPersonal='$idPersonal'>";
     $dropdown .= "<option value='A' " . ($estado == "A" ? "selected" : "") . ">Asistió</option>";
     $dropdown .= "<option value='F' " . ($estado == "F" ? "selected" : "") . ">Faltó</option>";
-    $dropdown .= "<option value='J' " . ($estado == "J" ? "selected" : "") . ">Justificado</option>";
+    $dropdown .= "<option value='T' " . ($estado == "T" ? "selected" : "") . ">Inasistencia Injustificado</option>";
+    $dropdown .= "<option value='J' " . ($estado == "J" ? "selected" : "") . ">Falta Justificado</option>";
+    $dropdown .= "<option value='U' " . ($estado == "U" ? "selected" : "") . ">Tardanza Justificado</option>";
     $dropdown .= "</select>";
     return $dropdown;
   }
