@@ -162,7 +162,7 @@ $("#modalIngresarCompetencia").on("click", "#btnCrearCompetencia", function () {
   data.append("idUnidadCrear", idUnidad);
   data.append("descripcionCompetenciaCrear", notaText);
   $.ajax({
-    url: "ajax/unidad.ajax.php",
+    url: "ajax/competencia.ajax.php",
     method: "POST",
     data: data,
     cache: false,
@@ -209,7 +209,7 @@ $("#dataTableCompetencias").on("click", ".btnEditarCompetencias", function () {
         data.append("notaTextModificada", currentValue);
         // Modificar la competencia
         $.ajax({
-          url: "ajax/unidad.ajax.php",
+          url: "ajax/competencia.ajax.php",
           method: "POST",
           data: data,
           cache: false,
@@ -286,7 +286,7 @@ $("#modalCompetenciaUnidad").on(
     data.append("idPersonal", idPersonal);
     // Modificar la competencia
     $.ajax({
-      url: "ajax/unidad.ajax.php",
+      url: "ajax/competencia.ajax.php",
       method: "POST",
       data: data,
       cache: false,
@@ -335,7 +335,7 @@ $("#modalCompetenciaUnidad").on(
           data.append("idUnidad", idUnidad);
           // Modificar la competencia
           $.ajax({
-            url: "ajax/unidad.ajax.php",
+            url: "ajax/competencia.ajax.php",
             method: "POST",
             data: data,
             cache: false,

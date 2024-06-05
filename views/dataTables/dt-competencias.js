@@ -24,7 +24,7 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
   data.append("idUnidad", idUnidad);
 
   $.ajax({
-    url: "ajax/unidad.ajax.php",
+    url: "ajax/competencia.ajax.php",
     method: "POST",
     data: data,
     cache: false,
