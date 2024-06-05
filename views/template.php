@@ -14,9 +14,9 @@ session_start();
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
     require "modules/navbar.php";
     require "modules/menu.php";
-    
-  $acceso = new ControllerUsuarios();
-  echo $acceso->ctrTieneAcceso(); 
+
+    // $acceso = new ControllerUsuarios();
+    // echo $acceso->ctrTieneAcceso(); 
 
     if (isset($_GET["ruta"])) {
       if (
@@ -54,6 +54,7 @@ session_start();
         $_GET["ruta"] == "listaDocentes" ||
         $_GET["ruta"] == "cursosDocente" ||
         $_GET["ruta"] == "notasCursoDocente" ||
+        $_GET["ruta"] == "visualizarAsistencia" ||
 
 
 
@@ -117,6 +118,7 @@ session_start();
   <script src="views/js/reportesAdmisiones.js"></script>
   <script src="views/js/notasCursoDocente.js"></script>
   <script src="views/js/alumnosCursoDocente.js"></script>
+  <script src="views/js/asistenciaAlumnos.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -141,8 +143,9 @@ session_start();
   <script src="views/dataTables/dt-lista-alumnos-curso.js"></script>
   <script src="views/dataTables/dt-notas-curso-docente.js"></script>
   <script src="views/dataTables/dt-cursos-grado-docente.js"></script>
-  <script src="views/dataTables/dt-lista-postulantes.js"></script>
+  <!-- <script src="views/dataTables/dt-lista-postulantes.js"></script> -->
   <script src="views/dataTables/dt-competencias.js"></script>
+  <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
 </body>
 
 </html>
