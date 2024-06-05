@@ -20,7 +20,7 @@ class FunctionCursosDocente
     $acciones .= '
       <li><button type="button" class="dropdown-item btnVerAlumnosCurso" id="btnVerAlumnosCurso" data-bs-toggle="modal" data-bs-target="#modalListadoAlumnosCurso" idCurso="' . ($idCurso) . '" idGrado="' . ($idGrado) . '" idPersonal="' . ($idPersonal) . '" >Ver alumnos</button></li>
       <li><button type="button" class="dropdown-item" id="btnNotasCursoDocente" idCurso="' . ($idCurso) . '" idGrado="' . ($idGrado) . '" idPersonal="' . ($idPersonal) . '" >Notas</button></li>
-      <li><button type="button" class="dropdown-item btn" idPersonal="' . ($idPersonal) . '" disabled>Asistencia</button></li>
+      <li><button type="button" class="dropdown-item btnVisualizarAsistencia" idCurso="' . ($idCurso) . '" idGrado="' . ($idGrado) . '" idPersonal="' . ($idPersonal) . '" >Asistencia</button></li>
       </ul>
     </div>
     ';
