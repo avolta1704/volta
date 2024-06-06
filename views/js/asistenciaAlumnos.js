@@ -127,10 +127,15 @@ $("#dataTableTomarAsistencia").on("change", "#asistenciaAlumno", function () {
 			estadoAsistencia: asistencia,
 		});
 	} else {
-		$asistenciaAlumnos[index].asistencia = asistencia;
+		$asistenciaAlumnos[index].estadoAsistencia = asistencia;
 	}
 
 	console.log($asistenciaAlumnos);
+});
+
+// Limpiar la asistencia de los alumnos al cerrar el modal
+$("#modalTomarAsistencia").on("hidden.bs.modal", function () {
+	$asistenciaAlumnos = [];
 });
 
 // Guardar la asistencia de los alumnos
@@ -181,9 +186,9 @@ $("#btnGuardarAsistencia").click(function () {
 					timer: 1500,
 				});
 			}
-
-			// actualizamos la tabla
-			$("#dataTableAsistenciaAlumnos").DataTable().ajax.reload();
+			// limpia el array de asistencia
+			$asistenciaAlumnos = [];
+			actualizarTabla();
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR.responseText); // procendecia de error
@@ -194,4 +199,81 @@ $("#btnGuardarAsistencia").click(function () {
 			);
 		},
 	});
+
+	function actualizarTabla() {
+		var columnDefsAlumnosCurso = [
+			{ data: "idAlumno" },
+			{ data: "nombresAlumno" },
+			{ data: "apellidosAlumno" },
+			{ data: "estadoAsistencia" },
+		];
+		var tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
+			columns: columnDefsAlumnosCurso,
+			retrieve: true,
+			paging: false,
+		});
+		const dataListaAlumnosCurso = {
+			idCurso: idCurso,
+			idGrado: idGrado,
+			idPersonal: idPersonal,
+			todosLosAlumnosCurso: true,
+		};
+
+		// actualizamos la tabla
+		var data = new FormData();
+		data.append(
+			"todosLosAlumnosAsistenciaCurso",
+			JSON.stringify(dataListaAlumnosCurso)
+		);
+
+		$.ajax({
+			url: "ajax/asistenciaAlumnos.ajax.php",
+			method: "POST",
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+
+			success: function (response) {
+				tableAlumnosCurso.clear();
+				tableAlumnosCurso.rows.add(response);
+				tableAlumnosCurso.draw();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText); // procendecia de error
+				console.log(
+					"Error en la solicitud AJAX: ",
+					textStatus,
+					errorThrown
+				);
+			},
+		});
+		//Estructura de dataTableAlumnosCurso
+		$("#dataTableAsistenciaAlumnos thead").html(`
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Estado de Asistencia</th>
+    </tr>
+    `);
+
+		tableAlumnosCurso.destroy();
+
+		columnDefsAlumnosCurso = [
+			{
+				data: null,
+				render: function (data, type, row, meta) {
+					return meta.row + 1;
+				},
+			},
+			{ data: "nombresAlumno" },
+			{ data: "apellidosAlumno" },
+			{ data: "estadoAsistencia" },
+		];
+		tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
+			columns: columnDefsAlumnosCurso,
+		});
+	}
 });
