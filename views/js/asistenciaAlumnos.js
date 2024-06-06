@@ -277,3 +277,132 @@ $("#btnGuardarAsistencia").click(function () {
 		});
 	}
 });
+
+//Descargar un template de la asistencia de los alumnos
+
+$("#btnDescargarTemplateAsistencia").click(function () {
+	const idCurso = $(this).attr("idCurso");
+	const idGrado = $(this).attr("idGrado");
+	const idPersonal = $(this).attr("idPersonal");
+
+	const dataListaAlumnosCurso = {
+		idCurso: idCurso,
+		idGrado: idGrado,
+		idPersonal: idPersonal,
+		todosLosAlumnosCurso: true,
+	};
+	// crear la formdata con datalistaAlumnosCurso
+	var data = new FormData();
+	data.append(
+		"todosLosAlumnosAsistenciaCurso",
+		JSON.stringify(dataListaAlumnosCurso)
+	);
+
+	$.ajax({
+		url: "ajax/asistenciaAlumnos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			const data = orderData(response);
+			createXLSXTemplate(data, getDiasLaborables());
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+
+	/**
+	 * Funcion para ordenar la data de los alumnos y los dias laborables vacios
+	 * @param {Array} data la data que se va a ordenar
+	 */
+	function orderData(data) {
+		// los dias como keys
+		const diasLaborables = getDiasLaborables();
+		const dias = diasLaborables.map((dia) => {
+			return {
+				[dia]: "",
+			};
+		});
+
+		const orderedData = data.map((alumno, index) => {
+			return {
+				Nro: index + 1,
+				IUU: alumno.idAlumnoAnioEscolar,
+				Alumnos: `${alumno.nombresAlumno} ${alumno.apellidosAlumno}`,
+				...dias.reduce((acc, dia) => {
+					return { ...acc, ...dia };
+				}),
+			};
+		});
+		return orderedData;
+	}
+
+	/**
+	 * Funcion para obtener los dias laborables del mes actual
+	 * @returns {Array} los dias laborables del mes actual
+	 */
+	function getDiasLaborables() {
+		const fecha = new Date();
+		const mes = fecha.getMonth();
+		const anio = fecha.getFullYear();
+		const dias = new Date(anio, mes + 1, 0).getDate();
+		const diasLaborables = [];
+		for (let i = 1; i <= dias; i++) {
+			const fecha = new Date(anio, mes, i);
+			const dia = fecha.getDay();
+			if (dia !== 0 && dia !== 6) {
+				diasLaborables.push(`${i}/${mes + 1}/${anio}`);
+			}
+		}
+		return diasLaborables;
+	}
+
+	/**
+	 * Funcion para crear un archivo xlsx con la plantilla de la asistencia de los alumnos
+	 * @param {Array} data la data que se va a convertir en xlsx
+	 */
+	function createXLSXTemplate(data, diasLaborables) {
+		const mesActual = new Date().toLocaleString("es-ES", {
+			month: "long",
+		});
+		const wb = XLSX.utils.book_new();
+
+		const ws = XLSX.utils.json_to_sheet(data, [
+			["Nro", "IUU", "Alumnos"],
+			...diasLaborables,
+		]);
+
+		// ajustar los anchos de la columnas para nro iuu y alumnos y para el resto poner ancho de 5
+		const wscols = [
+			{ wch: 5 }, // Nro
+			{ wch: 5 }, // IUU
+			{ wch: 20 }, // Alumnos
+			...diasLaborables.map(() => {
+				return { wch: 10 };
+			}),
+		];
+		ws["!cols"] = wscols;
+
+		XLSX.utils.book_append_sheet(wb, ws, "Asistencia de " + mesActual);
+
+		const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+		const dataBlob = new Blob([wbout], {
+			type: "application/octet-stream",
+		});
+		const url = URL.createObjectURL(dataBlob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = "asistencia_" + mesActual + ".xlsx";
+		a.click();
+		URL.revokeObjectURL(url);
+	}
+});
