@@ -8,7 +8,7 @@ $nombreCurso = ControllerCursos::ctrGetCurso($idCurso)["descripcionCurso"];
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h2 class="mt-4">Asistencia de los Alumnos para el curso <?php echo $nombreCurso ?></h2>
+    <h2 class="mt-4">Asistencia de los Alumnos para el curso <?php echo $nombreCurso ?> | <?php echo date("d-m-Y") ?></h2>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
