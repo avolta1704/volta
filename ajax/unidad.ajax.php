@@ -3,6 +3,8 @@
 require_once "../controller/unidad.controller.php";
 require_once "../model/unidad.model.php";
 require_once "../functions/unidad.functions.php";
+require_once "../model/bimestre.model.php";
+require_once "../model/alumnoAnioEscolar.model.php";
 
 class UnidadAjax
 {
@@ -18,11 +20,15 @@ class UnidadAjax
   // Cerrar Unidad
   public $idUnidadCerrar;
   public $idBimestreCerrar;
+  public $idCursoCerrar;
+  public $idGradoCerrar;
   public function ajaxCerrarUnidad()
   {
     $idUnidadCerrar = $this->idUnidadCerrar;
     $idBimestreCerrar = $this->idBimestreCerrar;
-    $response = ControllerUnidad::ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar);
+    $idCursoCerrar = $this->idCursoCerrar;
+    $idGradoCerrar = $this->idGradoCerrar;
+    $response = ControllerUnidad::ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar);
     echo json_encode($response);
   }
 }
@@ -33,9 +39,11 @@ if (isset($_POST["idBimestre"])) {
   $todaslasUnidades->ajaxObtenerTodasLasUnidades();
 }
 // Cerrar Unidad
-  if (isset($_POST["idUnidadCerrar"]) && isset($_POST["idBimestreCerrar"])) {
+  if (isset($_POST["idUnidadCerrar"]) && isset($_POST["idBimestreCerrar"]) && isset($_POST["idCursoCerrar"]) && isset($_POST["idGradoCerrar"])) {
   $unidadCerrar = new UnidadAjax();
   $unidadCerrar -> idUnidadCerrar = $_POST["idUnidadCerrar"];
   $unidadCerrar -> idBimestreCerrar =$_POST["idBimestreCerrar"];
+  $unidadCerrar -> idCursoCerrar = $_POST["idCursoCerrar"];
+  $unidadCerrar -> idGradoCerrar =$_POST["idGradoCerrar"];
   $unidadCerrar ->ajaxCerrarUnidad();
 }

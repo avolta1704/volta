@@ -11,39 +11,101 @@ class ControllerUnidad
     return $dataUnidad;
   }
 
-  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar)
+  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar)
   {
-    $tabla = "unidad";
-    $sumatoriaNotaCompetencia = 0;
-    $i = 0;
-    $todoslosDatosparaSubirNota = ModelUnidad::mdlObtenerTodoslosDatosparaAsignarNota($tabla, $idUnidadCerrar);
-    foreach ($todoslosDatosparaSubirNota as $datos) {
-      $idNotaUnidad = $datos["idNotaUnidad"];
-      $notaCompetencia = $datos["notaCompetencia"];
-      // Asignar un valor numérico a cada nota de competencia
-      switch ($notaCompetencia) {
-        case 'AD':
-          $notaNumerica = 20;
+    $tablaalumnoanioescolar = "alumno_anio_escolar";
+    $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso($tablaalumnoanioescolar, $idCursoCerrar, $idGradoCerrar);
+
+    foreach ($todoslosAlumnosdelCurso as $alumno) {
+      $idAlumnoAnioEscolar = $alumno['idAlumnoAnioEscolar'];
+
+      $tabla = "unidad";
+      $todoslosDatosparaSubirNota = ModelUnidad::mdlObtenerTodoslosDatosparaAsignarNota($tabla, $idUnidadCerrar, $idAlumnoAnioEscolar);
+
+      $idNotaUnidad = $todoslosDatosparaSubirNota[0]["idNotaUnidad"];
+
+      $tiponotaCompetencia = "notaCompetencia";
+      $notaUnidad = calcularNotaUnidad($todoslosDatosparaSubirNota, $tiponotaCompetencia);
+
+      $tablanotaunidad = "nota_unidad";
+      // Insertar nota de la unidad y cerrarla
+      $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad($tablanotaunidad, $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar);
+      // Obtener todos los bimestres y unidades
+      $idCursoGrado = ModelBimestre::mdlObtenerCursoGradoBimestre($idBimestreCerrar);
+      $todosLosBimestresYUnidades = ModelBimestre::mdlObtenerTodosLosBimestresyUnidadesEstados($idCursoGrado);
+
+      $unidadActivada = false;
+      $bimestreActualEncontrado = false;
+      $activarSiguienteBimestre = false;
+
+      foreach ($todosLosBimestresYUnidades as $index => $bu) {
+        if ($bu['idBimestre'] == $idBimestreCerrar) {
+          $bimestreActualEncontrado = true;
+          if ($bu['idUnidad'] == $idUnidadCerrar) {
+            if ($index == count($todosLosBimestresYUnidades) - 1 || $todosLosBimestresYUnidades[$index + 1]['idBimestre'] != $idBimestreCerrar) {
+              $activarSiguienteBimestre = true;
+              $todasLasNotas = ModelBimestre::mdlObtenerTodaslasNotasdeUnidad($idBimestreCerrar, $idAlumnoAnioEscolar);
+
+              $tipodeNotaUnidad = "notaUnidad";
+              $promedioNotas = calcularNotaUnidad($todasLasNotas, $tipodeNotaUnidad);
+              ModelBimestre::mdlSubirNotaPromedioBimestreUnidad($idBimestreCerrar, $promedioNotas, $idAlumnoAnioEscolar);
+            } else {
+              ModelUnidad::mdlActivarUnidad($todosLosBimestresYUnidades[$index + 1]['idUnidad'], 1);
+              $unidadActivada = true;
+              break;
+            }
+          }
+        } elseif ($bimestreActualEncontrado && !$unidadActivada && $activarSiguienteBimestre) {
+          ModelBimestre::mdlActualizarEstadoBimestreCerrarUnidad($bu['idBimestre'], 1);
+          ModelUnidad::mdlActivarUnidad($bu['idUnidad'], 1);
           break;
-        case 'A':
-          $notaNumerica = 15;
-          break;
-        case 'B':
-          $notaNumerica = 10;
-          break;
-        case 'C':
-          $notaNumerica = 5;
-          break;
-        default:
-          $notaNumerica = 0;
-          break;
+        }
       }
-      $sumatoriaNotaCompetencia = $sumatoriaNotaCompetencia + $notaNumerica;
-      $i = $i + 1;
     }
+
+
+    if ($respuestanotaunidad == "ok") {
+      $dataUnidad = ModelUnidad::mdlCerrarUnidad($tabla, $idUnidadCerrar);
+      return $dataUnidad;
+    }
+
+
+  }
+}
+
+function calcularNotaUnidad($todoslosDatosparaSubirNota, $tipodenota)
+{
+  $sumatoriaNotaCompetencia = 0;
+  $i = 0;
+
+  foreach ($todoslosDatosparaSubirNota as $datos) {
+    $notaCompetencia = $datos[$tipodenota];
+    // Asignar un valor numérico a cada nota de competencia
+    switch ($notaCompetencia) {
+      case 'AD':
+        $notaNumerica = 20;
+        break;
+      case 'A':
+        $notaNumerica = 15;
+        break;
+      case 'B':
+        $notaNumerica = 10;
+        break;
+      case 'C':
+        $notaNumerica = 5;
+        break;
+      default:
+        $notaNumerica = 0;
+        break;
+    }
+    $sumatoriaNotaCompetencia += $notaNumerica;
+    $i++;
+  }
+
+  if ($i > 0) { // Asegurar que no haya división por cero
     $promedio = $sumatoriaNotaCompetencia / $i; // Promedio numérico
     $notaUnidadNumerica = round($promedio); // Redondear el promedio a un número entero
-  
+
     // Convertir el promedio numérico a una nota de competencia
     if ($notaUnidadNumerica < 9) {
       $notaUnidad = 'C';
@@ -54,14 +116,10 @@ class ControllerUnidad
     } else {
       $notaUnidad = 'AD';
     }
-    $tablanotaunidad = "nota_unidad";
-    $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad($tablanotaunidad, $idNotaUnidad, $notaUnidad);
-    if($respuestanotaunidad =="ok"){
-      $dataUnidad = ModelUnidad::mdlCerrarUnidad($tabla, $idUnidadCerrar);
-      return $dataUnidad;
-    }
-
-
+  } else {
+    $notaUnidad = 'C'; // Valor por defecto si no hay datos
   }
+
+  return $notaUnidad;
 }
 

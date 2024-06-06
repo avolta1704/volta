@@ -319,23 +319,22 @@ $("#modalCompetenciaUnidad").on(
       },
     });
     //Funcionalidad para Duplicar las Competencias Seleccionadas
-    $("#modalDuplicarCompetencia").off('click', '#btnDuplicarCompetenciaModal').on(
-      "click",
-      "#btnDuplicarCompetenciaModal",
-      function () {
+    $("#modalDuplicarCompetencia")
+      .off("click", "#btnDuplicarCompetenciaModal")
+      .on("click", "#btnDuplicarCompetenciaModal", function () {
         // Obtener todos los checkboxes marcados
         var selectedCheckboxes = $(
           "#competenciasContainer input[type='checkbox']:checked"
         );
         // Inicializar el array
         var checkboxValues = [];
-    
+
         // Iterar sobre los checkboxes marcados y obtener sus valores
         selectedCheckboxes.each(function () {
           var checkboxValue = $(this).next("label").text();
           checkboxValues.push(checkboxValue);
         });
-    
+
         var data = new FormData();
         data.append("checkboxValues", JSON.stringify(checkboxValues));
         data.append("idUnidadModificado", idUnidad);
@@ -380,13 +379,16 @@ $("#modalCompetenciaUnidad").on(
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
           },
         });
-      }
-    );
-  });
-
+      });
+  }
+);
 
 $("#modalDuplicarCompetencia").on(
   "click",
@@ -443,6 +445,12 @@ $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
 
 // Funcionalidad para cerrar Unidad
 $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
+  // Obtener la URL actual
+  var urlParams = new URLSearchParams(window.location.search);
+  // Obtener el valor de los parámetros de la URL
+  var ruta = urlParams.get("ruta");
+  var idCurso = urlParams.get("idCurso");
+  var idGrado = urlParams.get("idGrado");
   var idUnidad = $(this).data("idUnidad"); //Obtener idUnidad
   var idBimestre = $(this).data("idBimestre"); //Obtener idBimestre
   Swal.fire({
@@ -459,6 +467,8 @@ $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
       var data = new FormData();
       data.append("idUnidadCerrar", idUnidad);
       data.append("idBimestreCerrar", idBimestre);
+      data.append("idCursoCerrar", idCurso);
+      data.append("idGradoCerrar", idGrado);
       $.ajax({
         url: "ajax/unidad.ajax.php",
         method: "POST",
