@@ -394,6 +394,30 @@ $("#btnDescargarTemplateAsistencia").click(function () {
 
 		XLSX.utils.book_append_sheet(wb, ws, "Asistencia de " + mesActual);
 
+		// Crear la tabla de leyenda para el docente
+		const wsLeyenda = XLSX.utils.aoa_to_sheet([
+			["Leyenda"],
+			["A", "ASISTIÓ"],
+			["F", "FALTÓ"],
+			["T", "INASISTENCIA INJUSTIFICADA"],
+			["J", "FALTA JUSTIFICADA"],
+			["U", "TARDANZA JUSTIFICADA"],
+		]);
+		XLSX.utils.sheet_add_aoa(wsLeyenda, [["Tipos de Asistencia"]], {
+			s: { r: 0, c: 0 },
+			e: { r: 0, c: 1 },
+		});
+		XLSX.utils.sheet_add_aoa(wsLeyenda, [["Código", "Descripción"]], {
+			s: { r: 1, c: 0 },
+			e: { r: 1, c: 1 },
+		});
+		const wsLeyendaCols = [
+			{ wch: 6 }, // Código
+			{ wch: 20 }, // Descripción
+		];
+		wsLeyenda["!cols"] = wsLeyendaCols;
+		XLSX.utils.book_append_sheet(wb, wsLeyenda, "Leyenda");
+
 		const wbout = XLSX.write(wb, { bookType: "xlsx", type: "array" });
 		const dataBlob = new Blob([wbout], {
 			type: "application/octet-stream",
