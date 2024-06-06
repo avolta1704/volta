@@ -203,12 +203,12 @@ class ControllerAlumnos
   /**
    * Método para obtener los datos de un alumno por su ID para visualizar.
    * 
-   * @param int $codAlumno ID del alumno.
+   * @param int $codAdmisionAlumno ID del alumno.
    */
-  public static function ctrGetDatosVisualizar($codAlumno)
+  public static function ctrGetDatosVisualizar($codAdmisionAlumno)
   {
     $tabla = "alumno";
-    $response = ModelAlumnos::mdlGetDatosVisualizar($tabla, $codAlumno);
+    $response = ModelAlumnos::mdlGetDatosVisualizar($tabla, $codAdmisionAlumno);
     return $response;
   }
 }

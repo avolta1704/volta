@@ -175,5 +175,37 @@ class ModelApoderados
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
-  
+  /**
+   * Método para obtener los datos de uno o varios apoderados.
+   * 
+   * @param string $tabla ID del alumno.
+   * @param int $apoderado1 JSON con los datos de los apoderados.
+   * @param int $apoderado2 JSON con los datos de los apoderados.
+   * @return array $response Respuesta de la consulta.
+   */
+  public static function mdlGetDatosApoderados($tabla, $apoderado1, $apoderado2)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+	apoderado.nombreApoderado, 
+	apoderado.profesionApoderado, 
+	apoderado.apellidoApoderado, 
+	apoderado.correoApoderado, 
+	apoderado.dniApoderado, 
+	apoderado.celularApoderado, 
+	apoderado.fechaNacimiento, 
+	apoderado.dependenciaApoderado, 
+	apoderado.convivenciaAlumno, 
+	apoderado.centroLaboral, 
+	apoderado.gradoInstruccion, 
+	apoderado.telefonoTrabajo, 
+	apoderado.ingresoMensual, 
+	apoderado.tipoApoderado
+FROM
+	$tabla
+WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2");
+    $statement->bindParam(":apoderado1", $apoderado1, PDO::PARAM_INT);
+    $statement->bindParam(":apoderado2", $apoderado2, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

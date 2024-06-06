@@ -101,4 +101,17 @@ class ControllerApoderados
     $dataApoderado = ModelApoderados::mdlGetApoderadoById($tabla, $codApoderado);
     return $dataApoderado;
   }
+
+  /**
+   * Obtener los datos de los apoderados
+   * @param $apoderado1
+   * @param $apoderado2
+   * @return $dataApoderado
+   */
+  public static function ctrGetDatosApoderados($apoderado1, $apoderado2)
+  {
+    $tabla = "apoderado";
+    $dataApoderado = ModelApoderados::mdlGetDatosApoderados($tabla, $apoderado1, $apoderado2);
+    return $dataApoderado;
+  }
 }
