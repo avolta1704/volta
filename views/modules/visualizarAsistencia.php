@@ -23,9 +23,9 @@ $nombreCurso = ControllerCursos::ctrGetCurso($idCurso)["descripcionCurso"];
       <div class="row">
         <div class="col-lg-12">
           <div class="d-flex gap-4">
-            <button type="button" class="btn btn-primary" id="btnTomarAsistencia" data-bs-toggle="modal" data-bs-target="#modalTomarAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>">Tomar Asistencia</button>
-            <button type="button" class="btn btn-primary" id="btnDescargarTemplateAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>">Descargar Template</button>
-            <button type="button" class="btn btn-primary" id="btnSubirExcelAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>">Subir Excel</button>
+            <button type="button" class="btn btn-primary gap-2 d-flex" id="btnTomarAsistencia" data-bs-toggle="modal" data-bs-target="#modalTomarAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>"> <i class="bi bi-clipboard-check-fill"></i>Tomar Asistencia</button>
+            <button type="button" class="btn btn-warning d-flex gap-2" id="btnSubirExcelAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>"><i class="bi bi-file-earmark-arrow-up-fill"></i>Subir Excel</button>
+            <button type="button" class="btn btn-success d-flex gap-2" id="btnDescargarTemplateAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>"> <i class="bi bi-file-earmark-arrow-down-fill"></i>Descargar Template</button>
           </div>
         </div>
       </div>
