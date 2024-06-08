@@ -1,5 +1,4 @@
 <?php
-
 require_once "connection.php";
 
 class TransactionManager
@@ -19,8 +18,14 @@ class TransactionManager
   {
     $conn = Connection::conn();
     if (self::$isTransactionActive) {
-      $conn->commit();
-      self::$isTransactionActive = false;
+      try {
+        $conn->commit();
+      } catch (PDOException $e) {
+        // Log the exception message or handle it as necessary
+        throw $e;
+      } finally {
+        self::$isTransactionActive = false;
+      }
     }
   }
 
@@ -28,8 +33,14 @@ class TransactionManager
   {
     $conn = Connection::conn();
     if (self::$isTransactionActive) {
-      $conn->rollBack();
-      self::$isTransactionActive = false;
+      try {
+        $conn->rollBack();
+      } catch (PDOException $e) {
+        // Log the exception message or handle it as necessary
+        throw $e;
+      } finally {
+        self::$isTransactionActive = false;
+      }
     }
   }
 }
