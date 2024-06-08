@@ -127,5 +127,30 @@ GROUP BY
       return "error";
     }
   }
+  public static function mdlValidarNotasCompetencias($tabla, $idUnidadValidacion,$idAlumnoAnioEscolar){
+    $stmt = Connection::conn()->prepare("SELECT
+      nota_competencia.notaCompetencia, 
+      competencias.idCompetencia
+    FROM
+      nota_competencia
+      INNER JOIN
+      competencias
+      ON 
+        nota_competencia.idCompetencia = competencias.idCompetencia
+      INNER JOIN
+      alumno_anio_escolar
+      INNER JOIN
+      nota_unidad
+      ON 
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND
+        nota_competencia.idNotaUnidad = nota_unidad.idNotaUnidad
+    WHERE
+      alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar AND
+      competencias.idUnidad = :idUnidad");
+      $stmt->bindParam(":idAlumnoAnioEscolar",$idAlumnoAnioEscolar, PDO::PARAM_INT);
+      $stmt->bindParam( ":idUnidad", $idUnidadValidacion, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 
 }

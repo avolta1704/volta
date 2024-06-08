@@ -16,6 +16,7 @@ class ControllerUnidad
     $tablaalumnoanioescolar = "alumno_anio_escolar";
     $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso($tablaalumnoanioescolar, $idCursoCerrar, $idGradoCerrar);
 
+
     foreach ($todoslosAlumnosdelCurso as $alumno) {
       $idAlumnoAnioEscolar = $alumno['idAlumnoAnioEscolar'];
 
@@ -26,11 +27,10 @@ class ControllerUnidad
 
       $tiponotaCompetencia = "notaCompetencia";
       $notaUnidad = calcularNotaUnidad($todoslosDatosparaSubirNota, $tiponotaCompetencia);
-
       $tablanotaunidad = "nota_unidad";
-      // Insertar nota de la unidad y cerrarla
+
       $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad($tablanotaunidad, $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar);
-      // Obtener todos los bimestres y unidades
+
       $idCursoGrado = ModelBimestre::mdlObtenerCursoGradoBimestre($idBimestreCerrar);
       $todosLosBimestresYUnidades = ModelBimestre::mdlObtenerTodosLosBimestresyUnidadesEstados($idCursoGrado);
 
@@ -63,13 +63,10 @@ class ControllerUnidad
       }
     }
 
-
     if ($respuestanotaunidad == "ok") {
       $dataUnidad = ModelUnidad::mdlCerrarUnidad($tabla, $idUnidadCerrar);
       return $dataUnidad;
     }
-
-
   }
 }
 

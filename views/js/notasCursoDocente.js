@@ -455,7 +455,7 @@ $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
   var idBimestre = $(this).data("idBimestre"); //Obtener idBimestre
   Swal.fire({
     title: "¿Estás seguro de que deseas cerrar la unidad?",
-    text: "¡Se cerrará la unidad seleccionada!",
+    text: "¡Asegurese de subir todas las notas!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -465,12 +465,11 @@ $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
   }).then((result) => {
     if (result.isConfirmed) {
       var data = new FormData();
-      data.append("idUnidadCerrar", idUnidad);
-      data.append("idBimestreCerrar", idBimestre);
-      data.append("idCursoCerrar", idCurso);
-      data.append("idGradoCerrar", idGrado);
+      data.append("idUnidadValidacion", idUnidad);
+      data.append("idCursoValidar", idCurso);
+      data.append("idGradoValidar", idGrado);
       $.ajax({
-        url: "ajax/unidad.ajax.php",
+        url: "ajax/competencia.ajax.php",
         method: "POST",
         data: data,
         cache: false,
@@ -478,24 +477,51 @@ $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
         processData: false,
         dataType: "json",
         success: function (response) {
-          if (response == "ok") {
+          if(response =="ok"){
+            var data = new FormData();
+            data.append("idUnidadCerrar", idUnidad);
+            data.append("idBimestreCerrar", idBimestre);
+            data.append("idCursoCerrar", idCurso);
+            data.append("idGradoCerrar", idGrado);
+            $.ajax({
+              url: "ajax/unidad.ajax.php",
+              method: "POST",
+              data: data,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: "json",
+              success: function (response) {
+                if (response == "ok") {
+                  Swal.fire({
+                    title: "Unidad Cerrada",
+                    text: "La unidad se ha cerrado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      location.reload();
+                    }
+                  });
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR.responseText); // Procedencia de error
+                console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+              },
+            });
+          } else {
             Swal.fire({
-              title: "Unidad Cerrada",
-              text: "La unidad se ha cerrado con éxito.",
-              icon: "success",
-              confirmButtonText: "Aceptar",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                location.reload();
-              }
+              title: 'Error',
+              text: "¡Valide la asignación de notas de los alumnos!",
+              icon: 'error',
+              confirmButtonText: 'Aceptar',
             });
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          console.log(jqXHR.responseText); // Procedencia de error
-          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-        },
-      });
+        }
+      }
+      )
+
     }
   });
 });
