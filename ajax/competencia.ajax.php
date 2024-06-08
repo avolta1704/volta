@@ -3,6 +3,7 @@
 require_once "../controller/competencia.controller.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/competencia.functions.php";
+require_once "../model/alumnoAnioEscolar.model.php";
 
 class CompetenciaAjax
 {
@@ -13,7 +14,7 @@ class CompetenciaAjax
     $idUnidad = $this->idUnidad;
     $response = ControllerCompetencia::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
-      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data['descripcionCompetencia'], $data['idNotaCompetencia']);
+      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data['descripcionCompetencia'], $data['maxNotaCompetencia']);
     }
     echo json_encode($response);
   }
@@ -69,7 +70,6 @@ class CompetenciaAjax
     echo json_encode($response);
   }
 }
-
 //Obtener competencias
 if (isset($_POST["idUnidad"])) {
   $obtenerCompetencias = new CompetenciaAjax();
@@ -117,3 +117,4 @@ if (isset($_POST["idCompetenciaEliminar"])) {
   $eliminarCompetencia->idCompetenciaEliminar = $_POST["idCompetenciaEliminar"];
   $eliminarCompetencia->ajaxEliminarCompetencia();
 }
+

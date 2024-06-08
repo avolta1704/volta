@@ -98,5 +98,24 @@ class ControllerCompetencia
     $response = ModelCompetencia::mdlEliminarCompetencia($tabla, $idCompetenciaEliminar);
     return $response;
   }
+
+  // Validar si el alumno tiene competencia asignada y nota asignada
+  public static function ctrValidarNotasCompetencias($idUnidadValidacion, $todoslosAlumnosdelCurso)
+  {
+    foreach ($todoslosAlumnosdelCurso as $alumno) {
+      $response = ModelCompetencia::mdlValidarNotasCompetencias("competencias", $idUnidadValidacion, $alumno['idAlumnoAnioEscolar']);
+
+      // Verificar si $response está vacío
+      if (empty($response)) {
+        return "error";
+      }
+      foreach ($response as $notaCompetencia) {
+        if ($notaCompetencia['notaCompetencia'] == null || $notaCompetencia['idCompetencia'] == null) {
+          return "error";
+        }
+      }
+    }
+    return "ok";
+  }
 }
 

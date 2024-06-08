@@ -10,9 +10,9 @@ class ModelCompetencia
   {
     $stmt = Connection::conn()->prepare("SELECT
     competencias.idCompetencia, 
-    competencias.descripcionCompetencia, 
-    nota_competencia.idNotaCompetencia
-  FROM
+    competencias.descripcionCompetencia,
+    MAX(nota_competencia.notaCompetencia) AS maxNotaCompetencia
+FROM
     competencias
     INNER JOIN
     unidad
@@ -22,8 +22,11 @@ class ModelCompetencia
     nota_competencia
     ON 
       competencias.idCompetencia = nota_competencia.idCompetencia
-  WHERE
-    competencias.idUnidad = :idUnidad");
+WHERE
+    competencias.idUnidad = :idUnidad
+GROUP BY
+    competencias.idCompetencia, 
+    competencias.descripcionCompetencia");
     $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -123,6 +126,31 @@ class ModelCompetencia
     } else {
       return "error";
     }
+  }
+  public static function mdlValidarNotasCompetencias($tabla, $idUnidadValidacion,$idAlumnoAnioEscolar){
+    $stmt = Connection::conn()->prepare("SELECT
+      nota_competencia.notaCompetencia, 
+      competencias.idCompetencia
+    FROM
+      nota_competencia
+      INNER JOIN
+      competencias
+      ON 
+        nota_competencia.idCompetencia = competencias.idCompetencia
+      INNER JOIN
+      alumno_anio_escolar
+      INNER JOIN
+      nota_unidad
+      ON 
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND
+        nota_competencia.idNotaUnidad = nota_unidad.idNotaUnidad
+    WHERE
+      alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar AND
+      competencias.idUnidad = :idUnidad");
+      $stmt->bindParam(":idAlumnoAnioEscolar",$idAlumnoAnioEscolar, PDO::PARAM_INT);
+      $stmt->bindParam( ":idUnidad", $idUnidadValidacion, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
 }

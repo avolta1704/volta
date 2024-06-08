@@ -42,4 +42,80 @@ class ModelUnidad
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public static function mdlCerrarUnidad($tabla, $idUnidadCerrar)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET estadoUnidad = 0 WHERE idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidadCerrar, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  public static function mdlObtenerTodoslosDatosparaAsignarNota($tabla, $idUnidadCerrar, $idAlumnoAnioEscolar)
+  {
+    $stmt = Connection::conn()->prepare("SELECT
+      nota_competencia.idNotaCompetencia, 
+      nota_competencia.notaCompetencia, 
+      nota_unidad.notaUnidad, 
+      competencias.idUnidad, 
+      competencias.descripcionCompetencia, 
+      nota_unidad.idNotaUnidad, 
+      alumno_anio_escolar.idAlumnoAnioEscolar
+    FROM
+      unidad
+      INNER JOIN
+      competencias
+      ON 
+        unidad.idUnidad = competencias.idUnidad
+      INNER JOIN
+      nota_competencia
+      ON 
+        competencias.idCompetencia = nota_competencia.idCompetencia
+      INNER JOIN
+      nota_unidad
+      ON 
+        nota_competencia.idNotaUnidad = nota_unidad.idNotaUnidad AND
+        unidad.idUnidad = nota_unidad.idUnidad
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        nota_unidad.idAlumnoAnioEscolar = alumno_anio_escolar.idAlumnoAnioEscolar
+    WHERE
+      nota_unidad.idUnidad = :idUnidadCerrar AND
+      alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar");
+    $stmt->bindParam(":idUnidadCerrar", $idUnidadCerrar, PDO::PARAM_INT);
+    $stmt->bindParam(":idAlumnoAnioEscolar",$idAlumnoAnioEscolar, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlInsertarNotaUnidad($tabla, $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET notaUnidad = :notaUnidad WHERE idNotaUnidad = :idNotaUnidad AND idAlumnoAnioEscolar = :idAlumnoAnioEscolar");
+    $stmt->bindParam(":notaUnidad", $notaUnidad, PDO::PARAM_STR);
+    $stmt->bindParam(":idNotaUnidad", $idNotaUnidad, PDO::PARAM_INT);
+    $stmt->bindParam(":idAlumnoAnioEscolar", $idAlumnoAnioEscolar, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  public static function mdlActivarUnidad($idUnidadActivar, $estadoUnidadNuevo)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE unidad
+      SET estadoUnidad = :estadoUnidad
+      WHERE idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidadActivar, PDO::PARAM_INT);
+    $stmt->bindParam(":estadoUnidad", $estadoUnidadNuevo, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+
 }

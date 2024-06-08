@@ -319,23 +319,22 @@ $("#modalCompetenciaUnidad").on(
       },
     });
     //Funcionalidad para Duplicar las Competencias Seleccionadas
-    $("#modalDuplicarCompetencia").off('click', '#btnDuplicarCompetenciaModal').on(
-      "click",
-      "#btnDuplicarCompetenciaModal",
-      function () {
+    $("#modalDuplicarCompetencia")
+      .off("click", "#btnDuplicarCompetenciaModal")
+      .on("click", "#btnDuplicarCompetenciaModal", function () {
         // Obtener todos los checkboxes marcados
         var selectedCheckboxes = $(
           "#competenciasContainer input[type='checkbox']:checked"
         );
         // Inicializar el array
         var checkboxValues = [];
-    
+
         // Iterar sobre los checkboxes marcados y obtener sus valores
         selectedCheckboxes.each(function () {
           var checkboxValue = $(this).next("label").text();
           checkboxValues.push(checkboxValue);
         });
-    
+
         var data = new FormData();
         data.append("checkboxValues", JSON.stringify(checkboxValues));
         data.append("idUnidadModificado", idUnidad);
@@ -380,13 +379,16 @@ $("#modalCompetenciaUnidad").on(
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+            console.log(
+              "Error en la solicitud AJAX: ",
+              textStatus,
+              errorThrown
+            );
           },
         });
-      }
-    );
-  });
-
+      });
+  }
+);
 
 $("#modalDuplicarCompetencia").on(
   "click",
@@ -435,6 +437,119 @@ $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
         error: function (jqXHR, textStatus, errorThrown) {
           console.log(jqXHR.responseText); // Procedencia de error
           console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  });
+});
+
+// Funcionalidad para cerrar Unidad
+$("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
+  // Obtener la URL actual
+  var urlParams = new URLSearchParams(window.location.search);
+  // Obtener el valor de los parámetros de la URL
+  var ruta = urlParams.get("ruta");
+  var idCurso = urlParams.get("idCurso");
+  var idGrado = urlParams.get("idGrado");
+  var idUnidad = $(this).data("idUnidad"); //Obtener idUnidad
+  var idBimestre = $(this).data("idBimestre"); //Obtener idBimestre
+
+  Swal.fire({
+    title: "¿Estás seguro de que deseas cerrar la unidad?",
+    text: "¡Asegúrese de subir todas las notas!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí",
+    cancelButtonText: "No",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      var data = new FormData();
+      data.append("idUnidadCerrar", idUnidad);
+      data.append("idBimestreCerrar", idBimestre);
+      data.append("idCursoCerrar", idCurso);
+      data.append("idGradoCerrar", idGrado);
+
+      // Mostrar barra de progreso de carga
+      Swal.fire({
+        title: "Cargando...",
+        html: `
+          <div style="margin-top: 20px;">
+            <div style="width: 100%; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+              <div id="progress-bar" style="height: 20px; background-color: #4caf50; width: 0%; transition: width 0.3s;"></div>
+            </div>
+          </div>
+        `,
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+          let progressBar = document.getElementById("progress-bar");
+
+          // Hacer la solicitud AJAX
+          $.ajax({
+            url: "ajax/unidad.ajax.php",
+            method: "POST",
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            dataType: "json",
+            xhr: function () {
+              var xhr = new window.XMLHttpRequest();
+              // Progreso de la carga
+              xhr.upload.addEventListener("progress", function (evt) {
+                if (evt.lengthComputable) {
+                  var percentComplete = evt.loaded / evt.total;
+                  percentComplete = percentComplete * 100;
+                  progressBar.style.width = Math.min(percentComplete, 90) + '%'; // Límite al 90% para la simulación
+                }
+              }, false);
+              return xhr;
+            },
+            success: function (response) {
+              // Completar la barra de progreso al finalizar la solicitud
+              progressBar.style.width = '100%';
+              setTimeout(() => {
+                Swal.close(); // Cerrar el Swal de la barra de progreso
+                if (response == "ok") {
+                  Swal.fire({
+                    title: "Unidad Cerrada",
+                    text: "La unidad se ha cerrado con éxito.",
+                    icon: "success",
+                    confirmButtonText: "Aceptar",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      location.reload();
+                    }
+                  });
+                } else {
+                  Swal.fire({
+                    title: "Error",
+                    text: "¡Valide la asignación de notas de los alumnos!",
+                    icon: "error",
+                    confirmButtonText: "Aceptar",
+                  });
+                }
+              }, 300); // Pequeño retardo para mostrar el progreso completo antes de cerrar
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              // Completar la barra de progreso al finalizar la solicitud
+              progressBar.style.width = '100%';
+              setTimeout(() => {
+                Swal.close(); // Cerrar el Swal de la barra de progreso
+                Swal.fire({
+                  title: "Error",
+                  text: "Hubo un problema con la petición AJAX.",
+                  icon: "error",
+                  confirmButtonText: "Aceptar",
+                });
+              }, 300); // Pequeño retardo para mostrar el progreso completo antes de cerrar
+              console.log(jqXHR.responseText); // Procedencia de error
+              console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+            }
+          });
         },
       });
     }
