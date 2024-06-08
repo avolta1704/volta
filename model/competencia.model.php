@@ -10,9 +10,9 @@ class ModelCompetencia
   {
     $stmt = Connection::conn()->prepare("SELECT
     competencias.idCompetencia, 
-    competencias.descripcionCompetencia, 
-    nota_competencia.idNotaCompetencia
-  FROM
+    competencias.descripcionCompetencia,
+    MAX(nota_competencia.notaCompetencia) AS maxNotaCompetencia
+FROM
     competencias
     INNER JOIN
     unidad
@@ -22,8 +22,11 @@ class ModelCompetencia
     nota_competencia
     ON 
       competencias.idCompetencia = nota_competencia.idCompetencia
-  WHERE
-    competencias.idUnidad = :idUnidad");
+WHERE
+    competencias.idUnidad = :idUnidad
+GROUP BY
+    competencias.idCompetencia, 
+    competencias.descripcionCompetencia");
     $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
