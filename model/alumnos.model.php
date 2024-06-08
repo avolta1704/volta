@@ -336,7 +336,7 @@ class ModelAlumnos
     $tablaCursoGradoPersonal = "cursogrado_personal";
     $tablaAdmisionAlumno = "admision_alumno";
 
-      $statement = Connection::conn()->prepare("SELECT
+    $statement = Connection::conn()->prepare("SELECT
       a.idAlumno,
       a.nombresAlumno,
       a.apellidosAlumno,
@@ -516,5 +516,35 @@ class ModelAlumnos
     $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Método para obtener los datos de un alumno por su idAlumnoAnioEscolar
+   * 
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @param int $idAlumnoAnioEscolar ID del alumno en el año escolar.
+   * @return array $response Array con los datos del alumno.
+   */
+  public static function mdlGetAlumnoByIdAnioEscolar($tabla, $idAlumnoAnioEscolar)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    a.nombresAlumno,
+    a.apellidosAlumno,
+    a.idAlumno,
+    aae.idAlumnoAnioEscolar
+    FROM
+    $tabla as a
+    INNER JOIN
+    alumno_anio_escolar as aae
+    ON 
+      a.idAlumno = aae.idAlumno
+    WHERE
+      aae.idAlumnoAnioEscolar = :idAlumnoAnioEscolar");
+    $statement->bindParam(":idAlumnoAnioEscolar", $idAlumnoAnioEscolar, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return $statement->fetch();
+    } else {
+      return "error";
+    }
   }
 }
