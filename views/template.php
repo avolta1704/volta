@@ -119,6 +119,7 @@ session_start();
   <script src="views/js/notasCursoDocente.js"></script>
   <script src="views/js/alumnosCursoDocente.js"></script>
   <script src="views/js/asistenciaAlumnos.js"></script>
+  <script src="views/js/subirExcelAsistencia.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
