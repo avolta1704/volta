@@ -131,7 +131,7 @@ $nombreCurso = ControllerCursos::ctrGetCurso($idCurso)["descripcionCurso"];
                     </div>
                   </div>
                   <div class="d-flex gap-4">
-                    <button type="button" class="btn btn-primary" id="btnSubirExcelAsistencia" idCurso="<?php echo $idCurso ?>" idGrado="<?php echo $idGrado ?>" idPersonal="<?php echo $idPersonal ?>">Subir Excel</button>
+                    <button type="button" class="btn btn-primary" id="btnSubirExcelAsistencia">Subir Excel</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                   </div>
                 </div>
