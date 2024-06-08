@@ -272,7 +272,8 @@ class ModelAlumnos
     a.dniAlumno,
     g.descripcionGrado,
     n.descripcionNivel,
-    admision.estadoAdmisionAlumno
+    admision.estadoAdmisionAlumno,
+    a_ae.idAlumnoAnioEscolar
   FROM
     $tabla as a    
     INNER JOIN
