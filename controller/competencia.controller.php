@@ -104,36 +104,29 @@ class ControllerCompetencia
   {
     $tablaalumnoanioescolar = "alumno_anio_escolar";
     $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso($tablaalumnoanioescolar, $idCursoValidar, $idGradoValidar);
-
     $todosLosAlumnosTienenNotaId = true;
-
     foreach ($todoslosAlumnosdelCurso as $alumno) {
       $idAlumnoAnioEscolar = $alumno['idAlumnoAnioEscolar'];
       $tabla = "competencias";
-
       $response = ModelCompetencia::mdlValidarNotasCompetencias($tabla, $idUnidadValidacion, $idAlumnoAnioEscolar);
       // Verificar si $response está vacío
       if (empty($response)) {
         $todosLosAlumnosTienenNotaId = false;
         break;
       }
-
       foreach ($response as $notaCompetencia) {
         if ($notaCompetencia['notaCompetencia'] == null || $notaCompetencia['idCompetencia'] == null) {
           $todosLosAlumnosTienenNotaId = false;
           break;
         }
       }
-
       if (!$todosLosAlumnosTienenNotaId) {
         break;
       }
     }
-
     if (!$todosLosAlumnosTienenNotaId) {
       return "error";
     }
-
     return "ok";
   }
 }

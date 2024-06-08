@@ -82,7 +82,6 @@ class CompetenciaAjax
     echo json_encode($response);
   }
 }
-
 //Obtener competencias
 if (isset($_POST["idUnidad"])) {
   $obtenerCompetencias = new CompetenciaAjax();

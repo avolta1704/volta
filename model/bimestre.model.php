@@ -85,6 +85,7 @@ class ModelBimestre
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  //Actualizar el estado del bimestre
   public static function mdlActualizarEstadoBimestreCerrarUnidad($idBimestre, $estadoBimestrenuevo)
   {
     $stmt = Connection::conn()->prepare("UPDATE bimestre
@@ -98,7 +99,7 @@ class ModelBimestre
       return "error";
     }
   }
-
+  // Obtener todas las notas de las unidades asignadas al Bimestre
   public static function mdlObtenerTodaslasNotasdeUnidad($idBimestre, $idAlumnoAnioEscolar)
   {
     $stmt = Connection::conn()->prepare("SELECT
@@ -132,7 +133,7 @@ class ModelBimestre
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-
+  //Subir la nota Bimestre
   public static function mdlSubirNotaPromedioBimestreUnidad($idBimestre,$promedioNotas, $idAlumnoAnioEscolar){
     $stmt = Connection::conn()->prepare("UPDATE nota_bimestre
       SET notaBimestre = :notaBimestre
