@@ -118,85 +118,24 @@ $("#btnSubirExcelAsistencia").click(function () {
 			contentType: false,
 			processData: false,
 			dataType: "json",
-			beforeSend: function () {
-				swal.fire({
-					title: "Cargando",
-					text: "Subiendo archivo...",
-					icon: "info",
-					showCancelButton: false,
-					showConfirmButton: false,
-					allowOutsideClick: false,
-					allowEscapeKey: false,
-					allowEnterKey: false,
-					onBeforeOpen: () => {
-						swal.showLoading();
-					},
-					onClose: () => {
-						const dataDelete = new FormData();
-						dataDelete.append(
-							"deleteAsistenciaAlumnosExcel",
-							JSON.stringify(dataAsistencia)
-						);
-						dataExcel.append(
-							"asistenciaAlumnosExcel",
-							JSON.stringify(xlData)
-						);
-
-						$.ajax({
-							url: "ajax/asistenciaAlumnos.ajax.php",
-							method: "POST",
-							data: dataExcel,
-							cache: false,
-							contentType: false,
-							processData: false,
-							dataType: "json",
-							beforeSend: function () {
-								swal.fire({
-									title: "Cancelando",
-									text: "Cancelando los datos de asistencia...",
-									icon: "warn",
-									showCancelButton: false,
-									showConfirmButton: false,
-									allowOutsideClick: false,
-									allowEscapeKey: false,
-									allowEnterKey: false,
-									onBeforeOpen: () => {
-										swal.showLoading();
-									},
-									onClose: () => {
-										swal.close();
-									},
-								});
-							},
-							success: function (response) {
-								if (response == "ok") {
-									swal.fire({
-										title: "Exito",
-										text: "Se cancelaron los datos de asistencia",
-										icon: "success",
-										button: "Aceptar",
-									});
-								} else {
-									swal.fire({
-										title: "Error",
-										text: "Hubo un error al cancelar los datos de asistencia",
-										icon: "error",
-										button: "Aceptar",
-									});
-								}
-							},
-						});
-					},
-				});
-			},
 			success: function (response) {
 				if (response == "ok") {
+					// limpiar el input file
+					$("#excelAsistencia").val("");
+
+					// mostrar mensaje de exito
 					swal.fire({
 						title: "Exito",
 						text: "El archivo se subio correctamente",
 						icon: "success",
 						button: "Aceptar",
 					});
+
+					//cerrar el modal
+					$("#modalSubirExcelAsistencia").modal("hide");
+
+					// recargar la tabla
+					actualizarTabla();
 				} else {
 					swal.fire({
 						title: "Error",
@@ -207,12 +146,12 @@ $("#btnSubirExcelAsistencia").click(function () {
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
-				console.log(jqXHR);
-				console.log(textStatus);
-				console.log(errorThrown);
-			},
-			complete: function () {
-				$("#excelAsistencia").val("");
+				console.log(jqXHR.responseText); // procendecia de error
+				console.log(
+					"Error en la solicitud AJAX: ",
+					textStatus,
+					errorThrown
+				);
 			},
 		});
 	};
@@ -234,5 +173,91 @@ $("#btnSubirExcelAsistencia").click(function () {
 			}
 		}
 		return diasLaborables;
+	}
+
+	/**
+	 * Recargo la tabla
+	 *
+	 */
+	function actualizarTabla() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const idCurso = urlParams.get("idCurso");
+		const idGrado = urlParams.get("idGrado");
+		const idPersonal = urlParams.get("idPersonal");
+
+		var columnDefsAlumnosCurso = [
+			{ data: "idAlumno" },
+			{ data: "nombresAlumno" },
+			{ data: "apellidosAlumno" },
+			{ data: "estadoAsistencia" },
+		];
+		var tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
+			columns: columnDefsAlumnosCurso,
+			retrieve: true,
+			paging: false,
+		});
+		const dataListaAlumnosCurso = {
+			idCurso: idCurso,
+			idGrado: idGrado,
+			idPersonal: idPersonal,
+			todosLosAlumnosCurso: true,
+		};
+
+		// actualizamos la tabla
+		var data = new FormData();
+		data.append(
+			"todosLosAlumnosAsistenciaCurso",
+			JSON.stringify(dataListaAlumnosCurso)
+		);
+
+		$.ajax({
+			url: "ajax/asistenciaAlumnos.ajax.php",
+			method: "POST",
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+
+			success: function (response) {
+				tableAlumnosCurso.clear();
+				tableAlumnosCurso.rows.add(response);
+				tableAlumnosCurso.draw();
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText); // procendecia de error
+				console.log(
+					"Error en la solicitud AJAX: ",
+					textStatus,
+					errorThrown
+				);
+			},
+		});
+		//Estructura de dataTableAlumnosCurso
+		$("#dataTableAsistenciaAlumnos thead").html(`
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
+      <th scope="col">Estado de Asistencia</th>
+    </tr>
+    `);
+
+		tableAlumnosCurso.destroy();
+
+		columnDefsAlumnosCurso = [
+			{
+				data: null,
+				render: function (data, type, row, meta) {
+					return meta.row + 1;
+				},
+			},
+			{ data: "nombresAlumno" },
+			{ data: "apellidosAlumno" },
+			{ data: "estadoAsistencia" },
+		];
+		tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
+			columns: columnDefsAlumnosCurso,
+		});
 	}
 });
