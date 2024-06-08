@@ -17,7 +17,7 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlObtenerUltimoAlumnoCreado($tabla);
     return $response;
   }
-  
+
   /**
    * Método para asignar un apoderado a un alumno, añade al padre como a la madre.
    * 
@@ -187,7 +187,7 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlGetAlumnoById($tabla, $idAlumno);
     return $response;
   }
-    /**
+  /**
    * funcion para mostrar los datos de alumno.
    * @param int $idAlumno ID del alumno.
    * @return array $response Array de datos con los datos de alumno.
@@ -209,6 +209,19 @@ class ControllerAlumnos
   {
     $tabla = "alumno";
     $response = ModelAlumnos::mdlGetDatosVisualizar($tabla, $codAdmisionAlumno);
+    return $response;
+  }
+
+  /**
+   * Método para obtener los datos de un alumno por su idAlumnoAnioEscolar
+   * 
+   * @param int $idAlumnoAnioEscolar ID del alumno en el año escolar.
+   * @return array $response Array con los datos del alumno.
+   */
+  public static function ctrGetAlumnoByIdAnioEscolar($idAlumnoAnioEscolar)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnoByIdAnioEscolar($tabla, $idAlumnoAnioEscolar);
     return $response;
   }
 }
