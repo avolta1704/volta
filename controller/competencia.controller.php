@@ -100,32 +100,20 @@ class ControllerCompetencia
   }
 
   // Validar si el alumno tiene competencia asignada y nota asignada
-  public static function ctrValidarNotasCompetencias($idUnidadValidacion, $idCursoValidar, $idGradoValidar)
+  public static function ctrValidarNotasCompetencias($idUnidadValidacion, $todoslosAlumnosdelCurso)
   {
-    $tablaalumnoanioescolar = "alumno_anio_escolar";
-    $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso($tablaalumnoanioescolar, $idCursoValidar, $idGradoValidar);
-    $todosLosAlumnosTienenNotaId = true;
     foreach ($todoslosAlumnosdelCurso as $alumno) {
-      $idAlumnoAnioEscolar = $alumno['idAlumnoAnioEscolar'];
-      $tabla = "competencias";
-      $response = ModelCompetencia::mdlValidarNotasCompetencias($tabla, $idUnidadValidacion, $idAlumnoAnioEscolar);
+      $response = ModelCompetencia::mdlValidarNotasCompetencias("competencias", $idUnidadValidacion, $alumno['idAlumnoAnioEscolar']);
+
       // Verificar si $response está vacío
       if (empty($response)) {
-        $todosLosAlumnosTienenNotaId = false;
-        break;
+        return "error";
       }
       foreach ($response as $notaCompetencia) {
         if ($notaCompetencia['notaCompetencia'] == null || $notaCompetencia['idCompetencia'] == null) {
-          $todosLosAlumnosTienenNotaId = false;
-          break;
+          return "error";
         }
       }
-      if (!$todosLosAlumnosTienenNotaId) {
-        break;
-      }
-    }
-    if (!$todosLosAlumnosTienenNotaId) {
-      return "error";
     }
     return "ok";
   }

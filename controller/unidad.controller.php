@@ -11,25 +11,18 @@ class ControllerUnidad
     return $dataUnidad;
   }
   // Funcionalidad para cerrar la unidad
-  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar)
+  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar, $idsAlumnos)
   {
-    $tablaalumnoanioescolar = "alumno_anio_escolar";
-    // Obtener todos los alumnos de un curso y grado específicos
-    $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso($tablaalumnoanioescolar, $idCursoCerrar, $idGradoCerrar);
-    // Iterar sobre cada alumno del curso
-    foreach ($todoslosAlumnosdelCurso as $alumno) {
-      $idAlumnoAnioEscolar = $alumno['idAlumnoAnioEscolar'];
-      $tabla = "unidad";
+    // Iterar sobre cada ID de alumno
+    foreach ($idsAlumnos as $idAlumnoAnioEscolar) {
       // Obtener todos los datos necesarios para asignar la nota de la unidad
-      $todoslosDatosparaSubirNota = ModelUnidad::mdlObtenerTodoslosDatosparaAsignarNota($tabla, $idUnidadCerrar, $idAlumnoAnioEscolar);
+      $todoslosDatosparaSubirNota = ModelUnidad::mdlObtenerTodoslosDatosparaAsignarNota("unidad", $idUnidadCerrar, $idAlumnoAnioEscolar);
       // Obtener el ID de la nota de la unidad
       $idNotaUnidad = $todoslosDatosparaSubirNota[0]["idNotaUnidad"];
-      $tiponotaCompetencia = "notaCompetencia";
       // Calcular la nota de la unidad para el alumno
-      $notaUnidad = calcularNotaUnidad($todoslosDatosparaSubirNota, $tiponotaCompetencia);
-      $tablanotaunidad = "nota_unidad";
+      $notaUnidad = calcularNotaUnidad($todoslosDatosparaSubirNota, "notaCompetencia");
       // Insertar la nota calculada en la tabla correspondiente
-      $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad($tablanotaunidad, $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar);
+      $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad("nota_unidad", $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar);
       // Obtener el curso y grado del bimestre
       $idCursoGrado = ModelBimestre::mdlObtenerCursoGradoBimestre($idBimestreCerrar);
       // Obtener todos los bimestres y unidades con sus estados
@@ -61,55 +54,37 @@ class ControllerUnidad
             }
           }
         } elseif ($bimestreActualEncontrado && !$unidadActivada && $activarSiguienteBimestre) {
-          ModelBimestre::mdlActualizarEstadoBimestreCerrarUnidad($idBimestreCerrar,0);
+          ModelBimestre::mdlActualizarEstadoBimestreCerrarUnidad($idBimestreCerrar, 0);
           // Activar el siguiente bimestre y su unidad
           ModelBimestre::mdlActualizarEstadoBimestreCerrarUnidad($bu['idBimestre'], 1);
           ModelUnidad::mdlActivarUnidad($bu['idUnidad'], 1);
           break;
         }
       }
+      // Verificar si la inserción de la nota de unidad fue exitosa
+      if ($respuestanotaunidad != "ok") {
+        return "error";
+      }
     }
-
-    // Verificar si la inserción de la nota de unidad fue exitosa
-    if ($respuestanotaunidad == "ok") {
-      // Cerrar la unidad y retornar el resultado
-      $dataUnidad = ModelUnidad::mdlCerrarUnidad($tabla, $idUnidadCerrar);
-      return $dataUnidad;
-    }
+    // Cerrar la unidad y retornar el resultado
+    return ModelUnidad::mdlCerrarUnidad("unidad", $idUnidadCerrar);
   }
 }
 //Funcion para calcular el promedio de las notas
 function calcularNotaUnidad($todoslosDatosparaSubirNota, $tipodenota)
 {
   $sumatoriaNotaCompetencia = 0;
-  $i = 0;
+  $notasNumericas = ['AD' => 20, 'A' => 15, 'B' => 10, 'C' => 5, 'default' => 0];
 
   foreach ($todoslosDatosparaSubirNota as $datos) {
     $notaCompetencia = $datos[$tipodenota];
-    // Asignar un valor numérico a cada nota de competencia
-    switch ($notaCompetencia) {
-      case 'AD':
-        $notaNumerica = 20;
-        break;
-      case 'A':
-        $notaNumerica = 15;
-        break;
-      case 'B':
-        $notaNumerica = 10;
-        break;
-      case 'C':
-        $notaNumerica = 5;
-        break;
-      default:
-        $notaNumerica = 0;
-        break;
-    }
+    $notaNumerica = isset($notasNumericas[$notaCompetencia]) ? $notasNumericas[$notaCompetencia] : $notasNumericas['default'];
     $sumatoriaNotaCompetencia += $notaNumerica;
-    $i++;
   }
 
-  if ($i > 0) { // Asegurar que no haya división por cero
-    $promedio = $sumatoriaNotaCompetencia / $i; // Promedio numérico
+  $numDatos = count($todoslosDatosparaSubirNota);
+  if ($numDatos > 0) { // Asegurar que no haya división por cero
+    $promedio = $sumatoriaNotaCompetencia / $numDatos; // Promedio numérico
     $notaUnidadNumerica = round($promedio); // Redondear el promedio a un número entero
 
     // Convertir el promedio numérico a una nota de competencia
@@ -125,7 +100,6 @@ function calcularNotaUnidad($todoslosDatosparaSubirNota, $tipodenota)
   } else {
     $notaUnidad = 'C'; // Valor por defecto si no hay datos
   }
-
   return $notaUnidad;
 }
 

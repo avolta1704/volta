@@ -69,18 +69,6 @@ class CompetenciaAjax
     $response = ControllerCompetencia::ctrEliminarCompetencia($idCompetenciaEliminar);
     echo json_encode($response);
   }
-
-  // Validar Notas Competencias
-  public $idUnidadValidacion;
-  public $idCursoValidar;
-  public $idGradoValidar;
-  public function ajaxValidarNotasCompetencias(){
-    $idUnidadValidacion = $this->idUnidadValidacion;
-    $idCursoValidar = $this->idCursoValidar;
-    $idGradoValidar = $this->idGradoValidar;
-    $response = ControllerCompetencia::ctrValidarNotasCompetencias($idUnidadValidacion,$idCursoValidar, $idGradoValidar);
-    echo json_encode($response);
-  }
 }
 //Obtener competencias
 if (isset($_POST["idUnidad"])) {
@@ -130,11 +118,3 @@ if (isset($_POST["idCompetenciaEliminar"])) {
   $eliminarCompetencia->ajaxEliminarCompetencia();
 }
 
-//Validar notas Competencias y Alumnos
-if (isset($_POST["idUnidadValidacion"]) && isset($_POST["idCursoValidar"]) && isset($_POST["idGradoValidar"])) {
-  $validarNotasCompetencias = new CompetenciaAjax();
-  $validarNotasCompetencias-> idUnidadValidacion = $_POST["idUnidadValidacion"];
-  $validarNotasCompetencias -> idCursoValidar = $_POST["idCursoValidar"];
-  $validarNotasCompetencias -> idGradoValidar =$_POST["idGradoValidar"];
-  $validarNotasCompetencias->ajaxValidarNotasCompetencias();
-}
