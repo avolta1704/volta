@@ -1,7 +1,7 @@
 <?php
 
-require_once "../controller/admisionAlumno.controller.php";
-require_once "../model/admisionAlumno.model.php";
+require_once "../controller/admisionalumno.controller.php";
+require_once "../model/admisionalumno.model.php";
 require_once "../functions/admisionAlumno.functions.php";
 require_once "../functions/pagos.functions.php";
 
@@ -117,4 +117,3 @@ if (isset($_POST["codComunicadoEdit"])) {
 
   $editarRegistroComunicado->ajaxEditarRegistrosComunicado();
 }
-
