@@ -279,3 +279,8 @@ $(document).on("click", ".btnBorraraComunicado", function (event) {
 $(".cerrarRegistroComunicaciones").on("click", function () {
   window.location = "index.php?ruta=listaComunicadoPago";
 });
+
+//  Cerrar registros de comunicaciones
+$(".cerrarRegistroComunicacionesReporte").on("click", function () {
+  window.location = "index.php?ruta=reporteComunicaciones";
+});

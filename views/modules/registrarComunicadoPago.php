@@ -1,6 +1,7 @@
 <main id="main" class="main">
 
 
+
   <section class="section dashboard">
     <div class="row">
       <div class="col-lg-2">
@@ -23,7 +24,9 @@
                     <h3 style="text-align: center;">Datos del Alumno</h3><br>
                     <!-- datos del alumno del pago -->
                     <?php
+                    $reporteComunicado = isset($_GET["reporteComunicados"]);
                     $codAlumno = $_GET["codAlumno"];
+                    
                     $datosAlumno = ControllerComunicado::ctrGetDatosAlumnoComunicado($codAlumno);
                     ?>
                     <div class="row">
@@ -93,8 +96,7 @@
 
                       <div class="col-md-4">
                         <label class="form-label" style="font-weight: bold">Teléfono: </label>
-                        <input type="text" class="form-control" value=""
-                          placeholder="Numero Apoderado" disabled>
+                        <input type="text" class="form-control" value="" placeholder="Numero Apoderado" disabled>
                       </div>
 
                       <div class="col-md-4">
@@ -214,7 +216,8 @@
       </span>
 
       <div class="container row g-3 p-3 justify-content-between">
-        <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroComunicaciones">Cerrar</button>
+        <button type="button"
+          class="col-1 d-inline-flex-center p-2 btn btn-secondary <?php echo ($reporteComunicado == 1) ? 'cerrarRegistroComunicacionesReporte' : 'cerrarRegistroComunicaciones'; ?>">Cerrar</button>
       </div>
       </form>
     </div>
