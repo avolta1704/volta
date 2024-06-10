@@ -119,10 +119,10 @@ class ControllerAlumnos
       );
       $response = ModelAlumnos::mdlEditarAlumno($tabla, $data);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAdmisionAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAlumnos");
         echo $mensaje;
       } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAdmisionAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAlumnos");
         echo $mensaje;
       }
     }
