@@ -79,7 +79,7 @@ class ControllerApoderados
         "celularApoderado" => $_POST["editarNumAp"],
         "listaAlumnos" => $_POST["editarHijosAp"],
         "convivenciaAlumno" => $_POST["editarComvivAp"],
-        "tipoApoderado" => $_POST["editarTipoApo"],
+        "tipoApoderado" => $_POST["editarTipoApo"], 
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );

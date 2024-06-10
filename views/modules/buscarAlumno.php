@@ -146,8 +146,7 @@
 
           </span>
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button"
-              class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
+      
           </div>
         </form>
       </div>
