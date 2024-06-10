@@ -47,10 +47,6 @@
           <input type="text" class="form-control" id="fechaIngresoVoltaAlu" name="fechaIngresoVoltaAlu" style="border:none" disabled>
         </div>
         <div class="form-group">
-          <label for="estadoMatriculaAlu" class="col-form-label" style="font-weight: bold">Matricula Alumno:</label>
-          <input type="text" class="form-control" id="estadoMatriculaAlu" name="estadoMatriculaAlu" style="border:none" disabled>
-        </div>
-        <div class="form-group">
           <label for="estadoSiagieAlu" class="col-form-label" style="font-weight: bold">Estado Siagie:</label>
           <input type="text" class="form-control" id="estadoSiagieAlu" name="estadoSiagieAlu" style="border:none" disabled>
         </div>
@@ -65,10 +61,6 @@
         <div class="form-group">
           <label for="direccionAlumnoAlu" class="col-form-label" style="font-weight: bold">Direccion:</label>
           <input type="text" class="form-control" id="direccionAlumnoAlu" name="direccionAlumnoAlu" style="border:none" disabled>
-        </div>
-        <div class="form-group">
-          <label for="distritoAlumnoAlu" class="col-form-label" style="font-weight: bold">Distrito:</label>
-          <input type="text" class="form-control" id="distritoAlumnoAlu" name="distritoAlumnoAlu" style="border:none" disabled>
         </div>
         <div class="form-group">
           <label for="seguroSaludAlu" class="col-form-label" style="font-weight: bold">Seguro de Salud:</label>

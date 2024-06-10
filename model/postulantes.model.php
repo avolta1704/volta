@@ -231,8 +231,16 @@ class ModelPostulantes
       apellidoPostulante, 
       dniPostulante, 
       fechaNacimiento, 
-      gradoPostulacion 
-      FROM $table WHERE idPostulante = :idPostulante");
+      gradoPostulacion, 
+      postulante.sexoPostulante, 
+      postulante.domicilioPostulante, 
+      postulante.colegioProcedencia, 
+      postulante.tipoAtencionPostulante,
+      postulante.dificultadObservacion
+    FROM
+      postulante
+    WHERE
+      idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);

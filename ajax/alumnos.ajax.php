@@ -26,7 +26,7 @@ class AlumnosAjax
   public function ajaxMostrarDatosAlumno()
   {
     $datosAlumno = ControllerAlumnos::ctrMostrarDatosAlumno($this->codAlumnoVisualizar);
-    $datosAlumno['estadoMatricula'] = FunctionAlumnos::getEstadosmatricula($datosAlumno["estadoMatricula"]);
+    /* $datosAlumno['estadoMatricula'] = FunctionAlumnos::getEstadosmatricula($datosAlumno["estadoMatricula"]); */
     $datosAlumno['estadoSiagie'] = FunctionAlumnos::getEstadoSiagie($datosAlumno["estadoSiagie"]);
     // Verificar cada identificador de los datos del alumno
     array_walk($datosAlumno, function (&$value) {

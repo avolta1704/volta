@@ -101,12 +101,12 @@ $(".dataTableAlumnos").on("click", ".btnVisualizarAlumno", function () {
 
     success: function (response) {
       $("#fechaIngresoVoltaAlu").val(response["fechaIngresoVolta"]);
-      $("#estadoMatriculaAlu").val(response["estadoMatricula"]);
       $("#estadoSiagieAlu").val(response["estadoSiagie"]);
       $("#IEPProcedenciaAlu").val(response["IEPProcedencia"]);
       $("#numeroEmergenciaAlu").val(response["numeroEmergencia"]);
       $("#direccionAlumnoAlu").val(response["direccionAlumno"]);
-      $("#distritoAlumnoAlu").val(response["distritoAlumno"]);
+      //Eliminar de la base de datos
+      /* $("#distritoAlumnoAlu").val(response["distritoAlumno"]); */
       $("#seguroSaludAlu").val(response["seguroSalud"]);
       $("#fechaNacimientoAlu").val(response["fechaNacimiento"]);
       $("#enfermedadesAlu").val(response["enfermedades"]);
