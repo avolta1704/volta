@@ -462,7 +462,7 @@ $(".dataTableReportesPensiones").on("click", ".btnVisualizarAdmisionAlumno", fun
 //boton para ir a la vista agregar pago
 $(".dataTableReportesPensiones").on("click", ".btnEditarEstadoAdmisionAlumno", function () {
 
-	window.location = "index.php?ruta=registrarPago";
+	window.location = "index.php?ruta=registrarPago&ReportePensiones=1";
 });
 
 

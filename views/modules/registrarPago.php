@@ -4,6 +4,8 @@
     <h1>Registrar Pago</h1>
     <?php
     $existCodePostulante = isset($_GET["codPostulante"]);
+    $reportePensiones = isset($_GET["ReportePensiones"]);
+
     if ($existCodePostulante) {
       $codPostulante = $_GET["codPostulante"];
       $datosPostulante = ControllerPostulantes::ctrGetPostulanteById($codPostulante);
@@ -216,7 +218,8 @@
           </span>
 
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary <?php echo ($existCodePostulante) ? 'cerrarRegistroPagoPostulante' : 'cerrarRegistroPago'; ?>">Cancelar</button>
+            <button type="button"
+              class="col-1 d-inline-flex-center p-2 btn btn-secondary <?php echo ($existCodePostulante) ? 'cerrarRegistroPagoPostulante' : (($reportePensiones == 1) ? 'cerrarRegistroPagoPensiones' : 'cerrarRegistroPago'); ?>">Cancelar</button>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
           </div>
         </form>
