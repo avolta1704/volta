@@ -30,6 +30,7 @@
               <div class="row mb-3">
 
                 <?php
+                $fechaActual = date('Y-m-d');
                 if ($existCodePostulante) {
                   echo '
                   <input type="hidden" class="form-control" id="codePostulante" name="codePostulante" value="' . $existCodePostulante . '" readonly>
@@ -132,20 +133,20 @@
                   echo '<div class="col-md-12">
                   <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Nombres y Apellidos: </label>
                   <div class="input-group-append">
-                    <select class="form-control input-lg busquedaAlumPago" id="apellidoPostulante" name="apellidoPostulante">
-                      <option value="0">Seleccione Alumno</option>';
+                    <select class="form-control input-lg busquedaAlumPago" id="apellidoPostulante" name="apellidoPostulante" required>
+                      <option value="">Seleccione Alumno</option>';
                   $listaAlumnos = ControllerAlumnos::ctrGetAlumnosPago();
                   foreach ($listaAlumnos as $value) {
                     echo "<option value='" . $value["idAlumno"] . "'>" . $value["apellidosAlumno"] . " " . $value["nombresAlumno"] . "</option>";
                   }
-                  echo '</select>
+                  echo ' </select>
                   </div>
                 </div>
                 <div class="row mb-3">
 
                   <div class="col-md-4">
                     <label for="cronogramaPago" class="form-label" style="font-weight: bold">Cronograma Pago: </label>
-                    <select class="form-control" id="cronogramaPago" name="cronogramaPago">
+                    <select class="form-control" id="cronogramaPago" name="cronogramaPago" required>
                       <option value="">Selecione Mes: </option>
                     </select>
                   </div>
@@ -197,12 +198,12 @@
                 <div class="row mb-3">
                   <div class="col-md-4">
                     <label for="fechaRegistroPago" class="form-label" style="font-weight: bold">Fecha Registro Pago:</label>
-                    <input type="date" class="form-control" id="fechaRegistroPago" name="fechaRegistroPago" value="">
+                    <input type="date" class="form-control" id="fechaRegistroPago" name="fechaRegistroPago" value="' . $fechaActual . '">
                   </div>
 
                   <div class="col-md-4">
                     <label for="metodoPago" class="form-label" style="font-weight: bold">Método Pago: </label>
-                    <input type="text" class="form-control" id="metodoPago" name="metodoPago" value="" placeholder="Efectivo / Caja Aqp / Otro">
+                    <input type="text" class="form-control" id="metodoPago" name="metodoPago" value="" placeholder="Efectivo / Caja Aqp / Otro" required>
                   </div>
 
                   <div class="col-md-4">
