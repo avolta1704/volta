@@ -21,7 +21,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableDocentes-->
               <table id="dataTableDocentes" class="display dataTableDocentes" style="width: 100%">
                 <thead>
