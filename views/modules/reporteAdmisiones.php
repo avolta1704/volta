@@ -29,7 +29,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableReportesAdmisionesAdmin-->
               <table id="dataTableReportesAdmisiones" class="display dataTableReportesAdmisiones" style="width: 100%">
                 <thead>
