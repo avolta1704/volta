@@ -7,10 +7,17 @@ $(".cerrarRegistroPago").on("click", function () {
   window.location = "index.php?ruta=listaPagos";
 });
 
+//  cerrar crear lista pensiones
+$(".cerrarRegistroPagoPensiones").on("click", function () {
+  window.location = "index.php?ruta=reportePagos";
+});
+
 // cerrar crear nuevo pago de postulante
 $(".cerrarRegistroPagoPostulante").on("click", function () {
   window.location = "index.php?ruta=listaPostulantes";
 });
+
+
 
 // Funcion para obtener la fecha en formato "dia de mes del año"
 function formatFecha(fecha) {

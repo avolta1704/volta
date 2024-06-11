@@ -57,6 +57,13 @@ class ControllerAlumnos
         "apellidosAlumno" => $dataPostulante["apellidoPostulante"],
         "dniAlumno" => $dataPostulante["dniPostulante"],
         "fechaNacimiento" => $dataPostulante["fechaNacimiento"],
+        "sexoAlumno" => $dataPostulante["sexoPostulante"],
+        "direccionAlumno" => $dataPostulante["domicilioPostulante"],
+        "IEPProcedencia" => $dataPostulante["colegioProcedencia"],
+        "seguroSalud" => $dataPostulante["tipoAtencionPostulante"],
+        "fechaIngresoVolta" => date("Y-m-d H:i:s"),
+        "nuevoAlumno" => 1,
+        "enfermedades" => $dataPostulante["dificultadObservacion"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
@@ -112,10 +119,10 @@ class ControllerAlumnos
       );
       $response = ModelAlumnos::mdlEditarAlumno($tabla, $data);
       if ($response == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAdmisionAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Alumno editado correctamente", "listaAlumnos");
         echo $mensaje;
       } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAdmisionAlumnos");
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el alumno", "listaAlumnos");
         echo $mensaje;
       }
     }

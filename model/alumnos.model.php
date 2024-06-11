@@ -88,13 +88,19 @@ class ModelAlumnos
   //  crear postulante alumno admitido
   public static function mdlCreatePostulateAlumno($tabla, $dataArrayAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (estadoSiagie, nombresAlumno, apellidosAlumno, dniAlumno, fechaNacimiento, direccionAlumno, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:estadoSiagie,:nombresAlumno, :apellidosAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (estadoSiagie, nombresAlumno, apellidosAlumno, sexoAlumno,dniAlumno, fechaNacimiento, direccionAlumno, IEPProcedencia,seguroSalud,fechaIngresoVolta,nuevoAlumno,enfermedades,fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:estadoSiagie,:nombresAlumno, :apellidosAlumno, :sexoAlumno, :dniAlumno, :fechaNacimiento, :direccionAlumno, :IEPProcedencia, :seguroSalud,:fechaIngresoVolta,:nuevoAlumno,:enfermedades,:fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $statement->bindParam(":estadoSiagie", $dataArrayAlumno["estadoSiagie"], PDO::PARAM_STR);
     $statement->bindParam(":nombresAlumno", $dataArrayAlumno["nombresAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":apellidosAlumno", $dataArrayAlumno["apellidosAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":sexoAlumno", $dataArrayAlumno["sexoAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":dniAlumno", $dataArrayAlumno["dniAlumno"], PDO::PARAM_STR);
     $statement->bindParam(":fechaNacimiento", $dataArrayAlumno["fechaNacimiento"], PDO::PARAM_STR);
     $statement->bindParam(":direccionAlumno", $dataArrayAlumno["direccionAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":IEPProcedencia", $dataArrayAlumno["IEPProcedencia"], PDO::PARAM_STR);
+    $statement->bindParam(":seguroSalud", $dataArrayAlumno["seguroSalud"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaIngresoVolta", $dataArrayAlumno["fechaIngresoVolta"], PDO::PARAM_STR);
+    $statement->bindParam(":nuevoAlumno", $dataArrayAlumno["nuevoAlumno"], PDO::PARAM_STR);
+    $statement->bindParam(":enfermedades", $dataArrayAlumno["enfermedades"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataArrayAlumno["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataArrayAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataArrayAlumno["usuarioCreacion"], PDO::PARAM_STR);
@@ -440,7 +446,6 @@ class ModelAlumnos
   {
     $statement = Connection::conn()->prepare("SELECT
     alumno.fechaIngresoVolta, 
-    alumno.estadoMatricula, 
     alumno.estadoSiagie, 
     alumno.IEPProcedencia, 
     alumno.numeroEmergencia, 

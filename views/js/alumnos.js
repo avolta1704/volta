@@ -101,12 +101,12 @@ $(".dataTableAlumnos").on("click", ".btnVisualizarAlumno", function () {
 
     success: function (response) {
       $("#fechaIngresoVoltaAlu").val(response["fechaIngresoVolta"]);
-      $("#estadoMatriculaAlu").val(response["estadoMatricula"]);
       $("#estadoSiagieAlu").val(response["estadoSiagie"]);
       $("#IEPProcedenciaAlu").val(response["IEPProcedencia"]);
       $("#numeroEmergenciaAlu").val(response["numeroEmergencia"]);
       $("#direccionAlumnoAlu").val(response["direccionAlumno"]);
-      $("#distritoAlumnoAlu").val(response["distritoAlumno"]);
+      //Eliminar de la base de datos
+      /* $("#distritoAlumnoAlu").val(response["distritoAlumno"]); */
       $("#seguroSaludAlu").val(response["seguroSalud"]);
       $("#fechaNacimientoAlu").val(response["fechaNacimiento"]);
       $("#enfermedadesAlu").val(response["enfermedades"]);
@@ -148,50 +148,6 @@ $(".dataTableAlumnos").on("click", ".btnDesactivarAlumno", function () {
             Swal.fire(
               "Desactivado",
               "El alumno ha sido desactivado.",
-              "success"
-            ).then(() => {
-              location.reload();
-            });
-          }
-        },
-      });
-    }
-  });
-});
-
-//Activar Alumno
-$(".dataTableAlumnos").on("click", ".btnActivarAlumno", function () {
-  var codAlumno = $(this).attr("codAlumno");
-
-  Swal.fire({
-    title: "¿Estás seguro?",
-    text: "¡El alumno será activado!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Sí, activar",
-    cancelButtonText: "Cancelar",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      var estadoAlumno = 1;
-      var data = new FormData();
-      data.append("codAlumnoEstado", codAlumno);
-      data.append("AlumnoEstado", estadoAlumno);
-
-      $.ajax({
-        url: "ajax/alumnos.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-          if (response == "ok") {
-            Swal.fire(
-              "Activado",
-              "El alumno ha sido activado.",
               "success"
             ).then(() => {
               location.reload();

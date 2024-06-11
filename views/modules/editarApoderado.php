@@ -61,18 +61,22 @@
               <div class="form-group col-md-6 ">
                 <label for="editarComvivAp" class="col-form-label">Comvivencia con el/l@s Alumn@s:</label>
                 <select class="form-control" name="editarComvivAp" id="editarComvivAp" required>
-                  <option value="<?php echo $datosApoderado["convivenciaAlumno"] ?>">Selecione</option>
-                  <option value="Si">Si</option>
-                  <option value="No">No</option>
+                  <option value="Selecione" <?php echo $datosApoderado["convivenciaAlumno"] == 'Selecione' ? 'selected' : ''; ?>>Selecione</option>
+                  <option value="Si" <?php echo $datosApoderado["convivenciaAlumno"] == 'Si' ? 'selected' : ''; ?>>Si
+                  </option>
+                  <option value="No" <?php echo $datosApoderado["convivenciaAlumno"] == 'No' ? 'selected' : ''; ?>>No
+                  </option>
                 </select>
               </div>
 
               <div class="form-group col-md-6 ">
                 <label for="editarTipoApo" class="col-form-label">Tipo Apoderado:</label>
                 <select class="form-control" name="editarTipoApo" id="editarTipoApo" required>
-                  <option value="<?php echo $datosApoderado["tipoApoderado"] ?>">Apoderado</option>
-                  <option value="2">Madre</option>
-                  <option value="3">Padre</option>
+                  <option value="Apoderado" <?php echo $datosApoderado["tipoApoderado"] == 'Apoderado' ? 'selected' : ''; ?>>Apoderado</option>
+                  <option value="Madre" <?php echo $datosApoderado["tipoApoderado"] == 'Madre' ? 'selected' : ''; ?>>Madre
+                  </option>
+                  <option value="Padre" <?php echo $datosApoderado["tipoApoderado"] == 'Padre' ? 'selected' : ''; ?>>Padre
+                  </option>
                 </select>
               </div>
 

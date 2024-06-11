@@ -8,7 +8,7 @@ $(".dataTableReportesComunicaciones").on(
       "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" +
       codAlumnoComunicado +
       "&codAlumno=" +
-      codAlumno;
+      codAlumno+"&reporteComunicados=1";
   }
 );
 
