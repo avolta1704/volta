@@ -16,7 +16,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableCursosDocenteAdmin-->
               <table id="dataTableCursosDocente" class="display dataTableCursosDocente " style="width: 100%">
                 <thead>
@@ -43,7 +43,7 @@
         <h5 class="modal-title" id="modalListadoAlumnosCursoLabel">Listado de alumnos por curso</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-responsive">
         <!--  Titulo dataTableAlumnosPorCurso-->
         <table id="dataTableListadoAlumnosCurso" class="display dataTableListadoAlumnosCurso " style="width: 100%">
           <thead>
