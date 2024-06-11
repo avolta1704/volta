@@ -17,7 +17,7 @@
       <div class="col-12">
         <div class="row">
           <div class="card AdmisionAlumno">
-            <div id="tableContainer" class="card-body AdmisionAlumno">
+            <div id="tableContainer" class="card-body AdmisionAlumno table-responsive">
               <!--  Titulo dataTableComunicadoPagoAdmin-->
               <table id="dataTableComunicadoPago" class="display dataTableComunicadoPago" style="width: 100%">
                 <thead>
