@@ -66,5 +66,8 @@ $(document).ready(function () {
 	];
 	tableAsignarCursos = $("#dataTableAsignarCursos").DataTable({
 		columns: columnDefsAsignarCursos,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });
