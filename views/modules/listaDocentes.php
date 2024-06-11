@@ -80,14 +80,16 @@
         </div>
 
         <!--  Titulo dataTableCursosPorGradoAdmin-->
-        <table id="dataTableCursosPorGradoPersonal" class="display dataTableCursosPorGradoPersonal" style="width: 95%">
-          <thead>
-            <!-- dataTableCursosPorGradoAdmin -->
-          </thead>
-          <tbody>
-            <!--dataTableCursosPorGradoAdmin-->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table id="dataTableCursosPorGradoPersonal" class="display dataTableCursosPorGradoPersonal" style="width: 95%">
+            <thead>
+              <!-- dataTableCursosPorGradoAdmin -->
+            </thead>
+            <tbody>
+              <!--dataTableCursosPorGradoAdmin-->
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
