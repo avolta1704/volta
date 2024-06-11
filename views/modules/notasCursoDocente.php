@@ -35,14 +35,16 @@
                 <!-- Tercer contenedor de botones -->
                 <div id="thirdButtonContainer" class="mb-3"></div>
                 <!--  Titulo dataTableNotasCursoDocenteAdmin-->
-                <table id="dataTableNotasCursoDocente" class="display dataTableNotasCursoDocente " style="width: 100%">
-                  <thead>
-                    <!-- dataTableNotasCursoDocenteAdmin -->
-                  </thead>
-                  <tbody>
-                    <!--dataTableNotasCursoDocenteAdmin-->
-                  </tbody>
-                </table>
+                <div class="table-responsive">
+                  <table id="dataTableNotasCursoDocente" class="display dataTableNotasCursoDocente " style="width: 100%">
+                    <thead>
+                      <!-- dataTableNotasCursoDocenteAdmin -->
+                    </thead>
+                    <tbody>
+                      <!--dataTableNotasCursoDocenteAdmin-->
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
