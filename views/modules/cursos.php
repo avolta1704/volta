@@ -159,7 +159,7 @@ $todasLasAreas = $areas->ctrGetAllAreas();
           </div>
         </div>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-responsive">
         <!--  Titulo dataTableCursosAdmin-->
         <table id="dataTableAreas" class="display dataTableAreas" style="width: 100%">
           <thead>
