@@ -1,7 +1,7 @@
 <?php
 
-require_once "../controller/admisionAlumno.controller.php";
-require_once "../model/admisionAlumno.model.php";
+require_once "../controller/admisionalumno.controller.php";
+require_once "../model/admisionalumno.model.php";
 require_once "../functions/admisionAlumno.functions.php";
 require_once "../functions/pagos.functions.php";
 require_once "../controller/admision.controller.php";
@@ -14,7 +14,7 @@ class AdmisionAlumnosAjax
   public function ajaxMostrarRegistrosAdmisionAlumnos()
   {
     $registrosAdmisionAlumnos = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
-    
+
     $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
 
     $isAdministrativo = $tipoUsuario == "Administrativo";
