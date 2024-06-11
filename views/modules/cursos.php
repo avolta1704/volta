@@ -32,7 +32,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableCursosAdmin-->
               <table id="dataTableCursos" class="display dataTableCursos " style="width: 100%">
                 <thead>
