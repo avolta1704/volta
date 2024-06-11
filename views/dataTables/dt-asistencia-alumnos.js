@@ -82,5 +82,8 @@ $(document).ready(function () {
 	];
 	tableAlumnosCurso = $("#dataTableAsistenciaAlumnos").DataTable({
 		columns: columnDefsAlumnosCurso,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

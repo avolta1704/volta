@@ -39,7 +39,7 @@ $nombreCurso = ControllerCursos::ctrGetCurso($idCurso)["descripcionCurso"];
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableCursosDocenteAdmin-->
               <table id="dataTableAsistenciaAlumnos" class="display dataTableAsistenciaAlumnos " style="width: 100%">
                 <thead>
@@ -68,7 +68,7 @@ $nombreCurso = ControllerCursos::ctrGetCurso($idCurso)["descripcionCurso"];
           <div class="col-lg-12">
             <div class="row">
               <div class="card">
-                <div class="card-body">
+                <div class="card-body table-responsive">
                   <!--  Titulo dataTableCursosDocenteAdmin-->
                   <table id="dataTableTomarAsistencia" class="display dataTableTomarAsistencia " style="width: 100%">
                     <thead>
