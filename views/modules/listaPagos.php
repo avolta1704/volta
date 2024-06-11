@@ -47,7 +47,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTablePagosAdmin-->
               <table id="dataTablePagos" class="display dataTablePagos" style="width: 98%">
                 <thead>
