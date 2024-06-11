@@ -82,5 +82,8 @@ $(document).ready(function () {
 
 	var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable({
 		columns: columnDefsAdmisionAlumno,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });
