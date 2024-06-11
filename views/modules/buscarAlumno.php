@@ -103,10 +103,6 @@
                 <label for="siagieBusqueda" class="form-label">Estado Siagie</label>
                 <input type="text" class="form-control" id="siagieBusqueda" name="siagieBusqueda" readonly>
               </div>
-              <div class="col-md-2">
-                <label for="matriculaBusqueda" class="form-label">Estado Matricula</label>
-                <input type="text" class="form-control" id="matriculaBusqueda" name="matriculaBusqueda" readonly>
-              </div>
               <div class="col-md-4">
                 <label for="apoderado1Busqueda" class="form-label">Apoderado</label>
                 <input type="text" class="form-control" id="apoderado1Busqueda" name="apoderado1Busqueda" readonly>

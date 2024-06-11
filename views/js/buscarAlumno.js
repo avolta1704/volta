@@ -34,71 +34,6 @@ $(document).ready(function () {
     $("#apellAlBusq").html("<option>Ninguna opción</option>");
     $(".busqueda").select2();
   });
-  
-/*   $(document).ready(function () {
-    //filtro para nivel
-    $("#nivAlBusq").html(`
-        <option value="0">Ninguna opción</option>
-        <option value="1">Inicial</option>
-        <option value="2">Primaria</option>
-        <option value="3">Secundaria</option>
-    `);
-
-    // Escucha el evento 'change' en el select de nivel
-    $("#nivAlBusq")
-      .change(function () {
-        var nivelSeleccionado = $(this).val();
-
-        // Define las opciones para cada nivel
-        var opcionesInicial = `
-        <option>Ninguna opción</option>
-            <option value="1">3 Años</option>
-            <option value="2">4 Años</option>
-            <option value="3">5 Años</option>
-        `;
-        var opcionesPrimaria = `
-        <option>Ninguna opción</option>
-            <option value="4">1er Grado</option>
-            <option value="5">2do Grado</option>
-            <option value="6">3er Grado</option>
-            <option value="7">4to Grado</option>
-            <option value="8">5to Grado</option>
-            <option value="9">6to Grado</option>
-        `;
-        var opcionesSecundaria = `
-        <option>Ninguna opción</option>
-            <option value="10">1er Año</option>
-            <option value="11">2do Año</option>
-            <option value="12">3er Año</option>
-            <option value="13">4to Año</option>
-            <option value="14">5to Año</option>
-        `;
-
-        // Verifica el nivel seleccionado y muestra las opciones correspondientes
-        if (nivelSeleccionado == "1") {
-          $("#gradAlBusq").html(opcionesInicial);
-        } else if (nivelSeleccionado == "2") {
-          $("#gradAlBusq").html(opcionesPrimaria);
-        } else if (nivelSeleccionado == "3") {
-          $("#gradAlBusq").html(opcionesSecundaria);
-        } else {
-          $("#gradAlBusq").html(`
-                <option value="0">Ninguna opción</option>
-                ${opcionesInicial}
-                ${opcionesPrimaria}
-                ${opcionesSecundaria}
-            `);
-        }
-      })
-      .change(); // Dispara el evento 'change' al cargar la página
-
-    //filtro para apellidos y nombre
-    $("#apellAlBusq").html("<option>Ninguna opción</option>");
-    $("#apellAlBusq").change(); // Dispara el evento 'change' al cargar la página
-
-    $(".busqueda").select2();
-  }); */
-
   //tdoos los datos de busqueda por apellidos
   // Controlador de eventos para cambios en el selector de nivel
   $("#nivAlBusq").on("change", function () {
@@ -119,6 +54,50 @@ $(document).ready(function () {
     let nivelSeleccionado = Number($("#nivAlBusq").val());
     let gradoSeleccionado = Number($("#gradAlBusq").val());
 
+    console.log("nivelSeleccionado:", nivelSeleccionado); // Registro para depuración
+    console.log("gradoSeleccionado:", gradoSeleccionado); // Registro para depuración
+
+    // Actualizar las opciones de grado basándose en el nivel seleccionado
+    let opcionesGrado = "<option value='0'>Ninguna opción</option>";
+
+    if (nivelSeleccionado === 1) {
+      // Inicial
+      opcionesGrado += `
+          <option value="1">3 Años</option>
+          <option value="2">4 Años</option>
+          <option value="3">5 Años</option>
+      `;
+    } else if (nivelSeleccionado === 2) {
+      // Primaria
+      opcionesGrado += `
+          <option value="4">1er Grado</option>
+          <option value="5">2do Grado</option>
+          <option value="6">3er Grado</option>
+          <option value="7">4to Grado</option>
+          <option value="8">5to Grado</option>
+          <option value="9">6to Grado</option>
+      `;
+    } else if (nivelSeleccionado === 3) {
+      // Secundaria
+      opcionesGrado += `
+          <option value="10">1er Año</option>
+          <option value="11">2do Año</option>
+          <option value="12">3er Año</option>
+          <option value="13">4to Año</option>
+          <option value="14">5to Año</option>
+      `;
+    }
+
+    $("#gradAlBusq").html(opcionesGrado);
+
+    // Si la opción seleccionada en el selector de grado es "Ninguna opción", mantenerla seleccionada
+    if (gradoSeleccionado === 0) {
+      $("#gradAlBusq").val("0");
+    } else {
+      // Volver a seleccionar la opción de grado que estaba seleccionada antes de actualizar las opciones
+      $("#gradAlBusq").val(gradoSeleccionado);
+    }
+
     let opciones = "<option>Ninguna opción</option>";
 
     // Objeto para rastrear los idAlumno que ya se han agregado
@@ -132,8 +111,12 @@ $(document).ready(function () {
         continue;
       }
 
-      // Si se seleccionó un grado y el alumno no está en ese grado, salta a la siguiente iteración
-      if (!isNaN(gradoSeleccionado) && alumno.idGrado !== gradoSeleccionado) {
+      // Si se seleccionó un grado y el alumno no está en ese grado, y el grado seleccionado no es "Ninguna opción", salta a la siguiente iteración
+      if (
+        !isNaN(gradoSeleccionado) &&
+        alumno.idGrado !== gradoSeleccionado &&
+        gradoSeleccionado !== 0
+      ) {
         continue;
       }
 
@@ -199,20 +182,20 @@ $(document).ready(function () {
       }
     }
   });
+  // Controlador de eventos para cambios en los selectores
+  $("#nivAlBusq, #gradAlBusq").on("change", function () {
+    var selectorId = $(this).attr("id");
+    var valorSeleccionado = $(this).val();
 
-  // Controlador de eventos para cambios en el selector de nivel
-  $("#nivAlBusq").on("change", function () {
-    if ($(this).val() === "Ninguna opción") {
-      limpiarCampos();
-    } else {
-      actualizarOpciones();
-    }
-  });
+    limpiarCampos();
 
-  // Controlador de eventos para cambios en el selector de grado
-  $("#gradAlBusq").on("change", function () {
-    if ($(this).val() === "Ninguna opción") {
-      limpiarCampos();
+    if (valorSeleccionado === "Ninguna opción") {
+      // Establecer el valor del selector a "Ninguna opción"
+      if (selectorId === "nivAlBusq") {
+        $("#gradAlBusq").val("0");
+        // Asignar 0 a gradoSeleccionado
+        gradoSeleccionado = 0;
+      }
     } else {
       actualizarOpciones();
     }
@@ -236,13 +219,9 @@ $(document).ready(function () {
     $("#distritoBusqueda").val(alumno["distritoAlumno"]);
     $("#numeroEmergBusqueda").val(alumno["numeroEmergencia"]);
     $("#siagieBusqueda").val(alumno["estadoSiagie"]);
-    $("#apoderado1Busqueda").val(
-      alumno.nombreApoderado1 + " " + alumno.apellidoApoderado1
-    );
+    $("#apoderado1Busqueda").val(alumno["apoderado1Busqueda"]);
     $("#numero1ApoBusqueda").val(alumno["celularApoderado1"]);
-    $("#apoderado2Busqueda").val(
-      alumno.nombreApoderado2 + " " + alumno.apellidoApoderado2
-    );
+    $("#apoderado2Busqueda").val(alumno["apoderado2Busqueda"]);
     $("#numero2ApoBusqueda").val(alumno["celularApoderado2"]);
   }
   //limpiar los registros al selecionar otro apellido o ninguna opción

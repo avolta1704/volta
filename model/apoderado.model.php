@@ -208,4 +208,26 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlGetAllApoderadosByAlumno($table, $idAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+      apoderado.nombreApoderado, 
+      apoderado.apellidoApoderado, 
+      apoderado.celularApoderado
+    FROM
+      apoderado
+      INNER JOIN
+      apoderado_alumno
+      ON 
+        apoderado.idApoderado = apoderado_alumno.idApoderado
+      INNER JOIN
+      alumno
+      ON 
+        apoderado_alumno.idAlumno = alumno.idAlumno
+    WHERE
+      alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
