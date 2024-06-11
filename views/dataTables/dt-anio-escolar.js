@@ -69,5 +69,8 @@ $(document).ready(function () {
 	];
 	tableAnio = $("#dataTableAnios").DataTable({
 		columns: columnDefsAnios,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });
