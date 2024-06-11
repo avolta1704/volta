@@ -31,7 +31,7 @@ class ControllerReportesPensiones
     $dataFinal = array();
     foreach ($alumnosAgrupados as $alumno) {
       // obtener todos los cronogramas de todos los alumnos con deuda pasada
-      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAlumno"]);
+      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAdmisionAlumno"]);
       // Agrupar por mes de pago
       $mesesAlumno = self::ctrAgrupoMesesAlumno($todosLosPensionesPendientes);
 
@@ -62,7 +62,7 @@ class ControllerReportesPensiones
     $dataFinal = array();
     foreach ($alumnosAgrupados as $alumno) {
       // obtener todos los cronogramas de todos los alumnos con deuda pasada
-      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAlumno"]);
+      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAdmisionAlumno"]);
       // Agrupar por mes de pago
       $mesesAlumno = self::ctrAgrupoMesesAlumno($todosLosPensionesPendientes);
 
@@ -93,7 +93,7 @@ class ControllerReportesPensiones
     $dataFinal = array();
     foreach ($alumnosAgrupados as $alumno) {
       // obtener todos los cronogramas de todos los alumnos con deuda pasada
-      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAlumno"]);
+      $todosLosPensionesPendientes = ControllerPagos::ctrGetCronogramasPorIdAlumno($alumno["idAdmisionAlumno"]);
       // Agrupar por mes de pago
       $mesesAlumno = self::ctrAgrupoMesesAlumno($todosLosPensionesPendientes);
 
