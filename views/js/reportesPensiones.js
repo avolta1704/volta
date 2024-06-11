@@ -5,29 +5,31 @@ $("#btnDescargarReportePagos").on("click", function () {
 		method: "POST",
 		data: { todosLosPagosGeneral: true },
 		dataType: "json",
-	}).done(function (data) {
-		const dataConMeses = organizarData(data);
-		crearArchivoExcel(
-			dataConMeses,
-			"Reporte de Pagos General",
-			"reporte_pagos_general"
-		);
-	}).fail(function (jqXHR, textStatus, errorThrown) {
-    console.log( jqXHR.responseText );
-    console.log(
-      "Error en la solicitud AJAX: ",
-      textStatus,
-      errorThrown
-    );
+	})
+		.done(function (data) {
+			const dataConMeses = organizarData(data);
+			crearArchivoExcel(
+				dataConMeses,
+				"Reporte de Pagos General",
+				"reporte_pagos_general"
+			);
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText);
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
 
-    Swal.fire({
-      icon: 'error',
-      title: '¡Error!',
-      text: 'No se pudo descargar el reporte de pagos.', 
-      showConfirmButton: false,
-      timer: 1500      
-    })
-  });
+			Swal.fire({
+				icon: "error",
+				title: "¡Error!",
+				text: "No se pudo descargar el reporte de pagos.",
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		});
 });
 
 // btnDescargarReporteInicial
@@ -122,34 +124,58 @@ $("#btnDescargarReporteRangoFecha").on("click", function () {
 		method: "POST",
 		data: { todosLosPagosPorRango: true },
 		dataType: "json",
-	}).done(function (data) {
-		const meses = $("#selectMonth").val();
+	})
+		.done(function (data) {
+			const meses = $("#selectMonth").val();
 
-		const dataConMeses = organizarData(data);
+			const dataConMeses = organizarData(data);
 
-		const dataFiltrada = filtrarDatosConMesesSeleccionados(
-			dataConMeses,
-			meses
-		);
+			const dataFiltrada = filtrarDatosConMesesSeleccionados(
+				dataConMeses,
+				meses
+			);
 
-		const dataEstadoAlumno = dataFiltrada.map((item) => {
-			if (item.Estado === 1) {
-				item.Estado = "Activo";
-			} else {
-				item.Estado = "Inactivo";
-			}
-			return item;
+			const dataEstadoAlumno = dataFiltrada.map((item) => {
+				if (item.Estado === 1) {
+					item.Estado = "Anulado";
+				} else if (item.Estado === 2) {
+					item.Estado = "Matriculado";
+				} else if (item.Estado === 3) {
+					item.Estado = "Trasladado";
+				} else if (item.Estado === 4) {
+					item.Estado = "Retirado";
+				} else {
+					item.Estado = "Sin estado";
+				}
+
+				return item;
+			});
+
+			crearArchivoExcelConMesesSeleccionados(
+				meses,
+				dataEstadoAlumno,
+				"Reporte de Pagos por Meses",
+				"reporte_pagos_" + meses[0] + "_" + meses[meses.length - 1]
+			);
+
+			$("#seleccionarRangoFechas").modal("hide");
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText);
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+
+			Swal.fire({
+				icon: "error",
+				title: "¡Error!",
+				text: "No se pudo descargar el reporte de pagos.",
+				showConfirmButton: false,
+				timer: 1500,
+			});
 		});
-
-		crearArchivoExcelConMesesSeleccionados(
-			meses,
-			dataEstadoAlumno,
-			"Reporte de Pagos por Meses",
-			"reporte_pagos_" + meses[0] + "_" + meses[meses.length - 1]
-		);
-
-		$("#seleccionarRangoFechas").modal("hide");
-	});
 });
 
 /**
@@ -200,8 +226,11 @@ const organizarData = (data) => {
 	const dataConMeses = data.map((item) => {
 		item.meses.forEach((mes) => {
 			if (mes.estadoCronograma === 1) {
-				mes.estadoCronograma = 0;
-			} else if (mes.estadoCronograma === 2) {
+				mes.estadoCronograma = "";
+			} else if (
+				mes.estadoCronograma === 2 ||
+				mes.estadoCronograma === 3
+			) {
 				mes.estadoCronograma = 1;
 			}
 			item[mes.mesPago] = mes.estadoCronograma;
@@ -384,93 +413,101 @@ const crearArchivoExcelConMesesSeleccionados = (
 	URL.revokeObjectURL(url);
 };
 
-
 //  Vista para el modal de cronograma de pagos de Reporte de Pensisones Atrasadas
-$(".dataTableReportesPensiones").on("click", ".btnVisualizarAdmisionAlumno", function () {
-    var idAdmisionAlumno = $(this).attr("idAdmisionAlumno");
-    var data = new FormData();
-    data.append("codAdAlumCronograma", idAdmisionAlumno);
+$(".dataTableReportesPensiones").on(
+	"click",
+	".btnVisualizarAdmisionAlumno",
+	function () {
+		var idAdmisionAlumno = $(this).attr("idAdmisionAlumno");
+		var data = new FormData();
+		data.append("codAdAlumCronograma", idAdmisionAlumno);
 
-	
-    $.ajax({
-        url: "ajax/admisionAlumnos.ajax.php",
-        method: "POST",
-        data: data,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: "json",
-        success: function (response) {
-            var modalBody = $("#cronogramaPagoDeuda .modal-body");
-            modalBody.empty();
+		$.ajax({
+			url: "ajax/admisionAlumnos.ajax.php",
+			method: "POST",
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+			success: function (response) {
+				var modalBody = $("#cronogramaPagoDeuda .modal-body");
+				modalBody.empty();
 
-            $.each(response, function (index, item) {
-                var div = $("<div>").addClass("mb-3");
+				$.each(response, function (index, item) {
+					var div = $("<div>").addClass("mb-3");
 
-                var label2 = $("<label>")
-                    .addClass("form-label h5 font-weight-bold")
-                    .attr("id", "tipoCronoPago")
-                    .attr("name", "tipoCronoPago")
-                    .css("margin-left", "8px") // Agrega un margen a la izquierda
-                    .html("<strong>" + item.mesPago + "</strong>");
+					var label2 = $("<label>")
+						.addClass("form-label h5 font-weight-bold")
+						.attr("id", "tipoCronoPago")
+						.attr("name", "tipoCronoPago")
+						.css("margin-left", "8px") // Agrega un margen a la izquierda
+						.html("<strong>" + item.mesPago + "</strong>");
 
-                var inputGroup = $("<div>").addClass("input-group");
+					var inputGroup = $("<div>").addClass("input-group");
 
-                var input1 = $("<input>")
-                    .attr("type", "text")
-                    .addClass("form-control")
-                    .attr("id", "fechaPago")
-                    .attr("name", "fechaPago")
-                    // uso de la funcion para justar el formato de la fecha
-                    .val("Fecha Límite: " + formatFecha(item.fechaLimite))
-                    .attr("readonly", true)
-                    .css("width", "auto"); // Establecer el ancho automático
+					var input1 = $("<input>")
+						.attr("type", "text")
+						.addClass("form-control")
+						.attr("id", "fechaPago")
+						.attr("name", "fechaPago")
+						// uso de la funcion para justar el formato de la fecha
+						.val("Fecha Límite: " + formatFecha(item.fechaLimite))
+						.attr("readonly", true)
+						.css("width", "auto"); // Establecer el ancho automático
 
-                var input2 = $("<input>")
-                    .attr("type", "text")
-                    .addClass("form-control")
-                    .attr("id", "montoPago")
-                    .attr("name", "montoPago")
-                    .val("Monto: S/ " + item.montoPago)
-                    .attr("readonly", true)
-                    .css("width", "75px"); // Ajusta este valor según tus necesidades
+					var input2 = $("<input>")
+						.attr("type", "text")
+						.addClass("form-control")
+						.attr("id", "montoPago")
+						.attr("name", "montoPago")
+						.val("Monto: S/ " + item.montoPago)
+						.attr("readonly", true)
+						.css("width", "75px"); // Ajusta este valor según tus necesidades
 
-                var input3 = $("<div>")
-                    .addClass("form-control fs-6 text-center")
-                    .attr("id", "stadoCronograma")
-                    .attr("name", "stadoCronograma")
-                    .html(item.estadoCronogramaPago);
+					var input3 = $("<div>")
+						.addClass("form-control fs-6 text-center")
+						.attr("id", "stadoCronograma")
+						.attr("name", "stadoCronograma")
+						.html(item.estadoCronogramaPago);
 
+					// Agregamos los elementos al div principal
+					inputGroup.append(input1, input2, input3);
+					div.append(label2, inputGroup);
+					modalBody.append(div);
+				});
 
-                // Agregamos los elementos al div principal
-                inputGroup.append(input1, input2, input3);
-                div.append(label2, inputGroup);
-                modalBody.append(div);
-            });
-
-            $("#cronogramaPagoDeuda").modal("show");
-        },
-        /*  error: function (jqXHR, textStatus, errorThrown) {
+				$("#cronogramaPagoDeuda").modal("show");
+			},
+			/*  error: function (jqXHR, textStatus, errorThrown) {
         console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
         }, */
-    });
-}
-
-
+		});
+	}
 );
 
 //boton para ir a la vista agregar pago
-$(".dataTableReportesPensiones").on("click", ".btnEditarEstadoAdmisionAlumno", function () {
-
-	window.location = "index.php?ruta=registrarPago&ReportePensiones=1";
-});
-
+$(".dataTableReportesPensiones").on(
+	"click",
+	".btnEditarEstadoAdmisionAlumno",
+	function () {
+		window.location = "index.php?ruta=registrarPago&ReportePensiones=1";
+	}
+);
 
 //boton para ir a la vista de comunicado de pago
-$(".dataTableReportesPensiones").on("click", ".btnEliminarAdmisionAlumno", function () {
-	// Obtener el código de pago del atributo del botón
-	var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
-	var codAlumno = $(this).attr("codAlumno");
+$(".dataTableReportesPensiones").on(
+	"click",
+	".btnEliminarAdmisionAlumno",
+	function () {
+		// Obtener el código de pago del atributo del botón
+		var codAdAlumCronograma = $(this).attr("codAdAlumCronograma");
+		var codAlumno = $(this).attr("codAlumno");
 
-	window.location = "index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" + codAlumno+"&codAlumno="+codAlumno;
-});
+		window.location =
+			"index.php?ruta=registrarComunicadoPago&codAdAlumCronograma=" +
+			codAlumno +
+			"&codAlumno=" +
+			codAlumno;
+	}
+);
