@@ -16,14 +16,17 @@ class ModelReportesPensiones
     $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
+    $tablaAnioEscolar = 'anio_escolar';
 
-    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno
+    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno, aa.idAdmisionAlumno
                                         FROM $tablaCronogramaPago cp
                                         INNER JOIN $tablaAdmisionAlumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
                                         INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno
                                         INNER JOIN $tablaAlumnoAnioEscolar ag ON a.idAlumno = ag.idAlumno
+                                        INNER JOIN $tablaAnioEscolar an ON ag.idAnioEscolar = an.idAnioEscolar
                                         INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
                                         INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
+                                        WHERE an.estadoAnio = 1
                                         ORDER BY cp.fechaLimite ASC");
 
     $stmt->execute();
@@ -43,6 +46,7 @@ class ModelReportesPensiones
     $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
+    $tablaAnioEscolar = 'anio_escolar';
     $date = date('Y-m-d');
 
     $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno, cp.idAdmisionAlumno
@@ -50,9 +54,10 @@ class ModelReportesPensiones
                                         INNER JOIN $tablaAdmisionAlumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
                                         INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno
                                         INNER JOIN $tablaAlumnoAnioEscolar ag ON a.idAlumno = ag.idAlumno
+                                        INNER JOIN $tablaAnioEscolar an ON ag.idAnioEscolar = an.idAnioEscolar
                                         INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
                                         INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
-                                        WHERE cp.fechaLimite < '$date' AND cp.estadoCronograma = 1 ORDER BY cp.fechaLimite ASC");
+                                        WHERE cp.fechaLimite < '$date' AND cp.estadoCronograma = 1 AND an.estadoAnio = 1 ORDER BY cp.fechaLimite ASC");
 
     $stmt->execute();
     return $stmt->fetchAll();
@@ -69,17 +74,19 @@ class ModelReportesPensiones
     $tablaAdmisionAlumno = 'admision_alumno';
     $tablaAlumno = 'alumno';
     $tablaAlumnoAnioEscolar = 'alumno_anio_escolar';
+    $tablaAnioEscolar = 'anio_escolar';
     $tablaGrado = 'grado';
     $tablaNivel = 'nivel';
-    $date = date('Y-m-d');
 
-    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno, ag.estadoAdmisionAlumno
+    $stmt = Connection::conn()->prepare("SELECT cp.idCronogramaPago, cp.mesPago, cp.montoPago, cp.fechaLimite, cp.estadoCronograma, a.nombresAlumno, a.apellidosAlumno, a.dniAlumno, g.descripcionGrado, n.descripcionNivel, a.idAlumno, cp.idAdmisionAlumno, aa.estadoAdmisionAlumno
                                         FROM $tablaCronogramaPago cp
                                         INNER JOIN $tablaAdmisionAlumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
                                         INNER JOIN $tablaAlumno a ON aa.idAlumno = a.idAlumno
                                         INNER JOIN $tablaAlumnoAnioEscolar ag ON a.idAlumno = ag.idAlumno
+                                        INNER JOIN $tablaAnioEscolar an ON ag.idAnioEscolar = an.idAnioEscolar
                                         INNER JOIN $tablaGrado g ON ag.idGrado = g.idGrado
                                         INNER JOIN $tablaNivel n ON g.idNivel = n.idNivel
+                                        WHERE an.estadoAnio = 1
                                         ORDER BY cp.fechaLimite ASC");
 
     $stmt->execute();
