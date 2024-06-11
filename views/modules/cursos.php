@@ -32,7 +32,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTableCursosAdmin-->
               <table id="dataTableCursos" class="display dataTableCursos " style="width: 100%">
                 <thead>
@@ -159,7 +159,7 @@ $todasLasAreas = $areas->ctrGetAllAreas();
           </div>
         </div>
       </div>
-      <div class="modal-body">
+      <div class="modal-body table-responsive">
         <!--  Titulo dataTableCursosAdmin-->
         <table id="dataTableAreas" class="display dataTableAreas" style="width: 100%">
           <thead>

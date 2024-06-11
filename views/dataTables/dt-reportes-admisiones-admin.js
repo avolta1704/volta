@@ -44,6 +44,9 @@ $(document).ready(function () {
 	];
 	tableReportesAdmisiones = $("#dataTableReportesAdmisiones").DataTable({
 		columns: columnDefsAdmisiones,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 
 	// Titulo dataTableReportesAdmisiones

@@ -85,6 +85,9 @@ $(document).ready(function () {
     { data: "buttonsAlumno" },
   ];
   tableAlumno = $("#dataTableAlumnos").DataTable({
-    columns: columnDefsAlumno,
+		columns: columnDefsAlumno,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });

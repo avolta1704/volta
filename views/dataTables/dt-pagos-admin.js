@@ -89,5 +89,8 @@ $(document).ready(function () {
 	];
 	tablePagos = $("#dataTablePagos").DataTable({
 		columns: columnDefsPagos,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

@@ -70,5 +70,8 @@ $(document).ready(function () {
 	];
 	tableCursos = $("#dataTableCursos").DataTable({
 		columns: columnDefsCursos,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

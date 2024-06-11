@@ -92,7 +92,10 @@ $(document).ready(function () {
     { data: "acciones" },
   ];
   tableAlumnosCurso = $("#dataTableNotasCursoDocente").DataTable({
-    columns: columnDefsAlumnosCurso,
+		columns: columnDefsAlumnosCurso,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });
 

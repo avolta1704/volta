@@ -67,5 +67,8 @@ $(document).ready(function () {
 	];
 	tableDocente = $("#dataTableCursosDocente").DataTable({
 		columns: columnDefsDocente,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

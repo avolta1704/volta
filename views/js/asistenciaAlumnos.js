@@ -100,6 +100,9 @@ $("#btnTomarAsistencia").click(function () {
 	];
 	tableAlumnosCurso = $("#dataTableTomarAsistencia").DataTable({
 		columns: columnDefsAlumnosCurso,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });
 

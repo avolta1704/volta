@@ -80,5 +80,8 @@ $("#dataTableCursosDocente").on("click", "#btnVerAlumnosCurso", function () {
 	];
 	tableAlumnosCurso = $("#dataTableListadoAlumnosCurso").DataTable({
 		columns: columnDefsAlumnosCurso,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

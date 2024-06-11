@@ -71,7 +71,10 @@ columnDefsDocente = [
   { data: "buttons" },
 ];
 tableDocente = $("#dataTableDocentes").DataTable({
-  columns: columnDefsDocente,
+	columns: columnDefsDocente,
+	language: {
+		url: "views/dataTables/Spanish.json",
+	},
 });
 
 });

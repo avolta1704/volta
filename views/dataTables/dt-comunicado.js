@@ -77,6 +77,9 @@ $(document).ready(function () {
   ];
 
   var tablePagoAlumnos = $("#dataTableComunicadoPago").DataTable({
-    columns: columnDefPagoAlumnos,
+		columns: columnDefPagoAlumnos,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });

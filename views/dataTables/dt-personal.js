@@ -69,6 +69,9 @@ $(document).ready(function () {
     { data: "buttons" },
   ];
   tablePersonal = $("#dataTablePersonal").DataTable({
-    columns: columnDefsPersonal,
+		columns: columnDefsPersonal,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });

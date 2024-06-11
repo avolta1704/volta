@@ -75,6 +75,9 @@ $("#dataTableDocentes").on(
 
 		tableCursosPorGrado = $("#dataTableCursosPorGradoPersonal").DataTable({
 			columns: columnDefsCursosPorGrado,
+			language: {
+				url: "views/dataTables/Spanish.json",
+			},
 		});
 	}
 );

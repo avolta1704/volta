@@ -51,6 +51,9 @@ $(document).ready(function () {
 		"#dataTableReportesComunicaciones"
 	).DataTable({
 		columns: columnDefsComunicaciones,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 
 	// Titulo dataTableReportesComunicaciones

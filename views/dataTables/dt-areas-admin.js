@@ -60,5 +60,8 @@ $(document).ready(function () {
 	];
 	tableAreas = $("#dataTableAreas").DataTable({
 		columns: columnDefsAreas,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 });

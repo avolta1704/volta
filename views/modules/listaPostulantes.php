@@ -22,7 +22,7 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body table-responsive">
               <!--  Titulo dataTablePostulantesAdmin-->
               <table id="dataTablePostulantes" class="display dataTablePostulantes" style="width: 100%">
                 <thead>
@@ -58,8 +58,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnActualizarEstado"
-          id="btnActualizarEstadoPostulante">Actualizar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstado" id="btnActualizarEstadoPostulante">Actualizar</button>
       </div>
     </div>
   </div>
