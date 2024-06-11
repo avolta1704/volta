@@ -65,6 +65,9 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
   ];
 
   tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
-    columns: columnDefsCursosPorGrado,
+		columns: columnDefsCursosPorGrado,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });
