@@ -56,6 +56,9 @@ $(document).ready(function () {
 	];
 	tableReportesPensiones = $("#dataTableReportesPensiones").DataTable({
 		columns: columnDefsPagos,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
 	});
 
 	// Titulo dataTableReportesPensiones
