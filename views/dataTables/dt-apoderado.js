@@ -73,6 +73,9 @@ $(document).ready(function () {
     { data: "buttons" },
   ];
   tableApoderado = $("#dataTableApoderado").DataTable({
-    columns: columnDefsApoderado,
+		columns: columnDefsApoderado,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
   });
 });
