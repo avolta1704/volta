@@ -43,7 +43,8 @@ $("#btnDescargarAnioLectivo").on("click", function () {
 		dataType: "json",
 		success: function (response) {
 			const dataPorGradoNivel = agruparPorGradoNivel(response);
-			crearExcelPorGradoNivel(dataPorGradoNivel);
+			const anios = separarAnioLectivo(response.reportesPorAnioLectivo);
+			crearExcelPorGradoNivel(dataPorGradoNivel, anios);
 
 			if (response.length == 0) {
 				Swal.fire({
@@ -67,6 +68,19 @@ $("#btnDescargarAnioLectivo").on("click", function () {
 	// limpiar el select
 	$("#anioLectivo").val(null).trigger("change");
 });
+
+// Funcion para separar solo los años lectivos
+function separarAnioLectivo(data) {
+	const anios = [];
+	data.forEach((element) => {
+		const anio = element.descripcionAnio.split(" ")[1];
+		if (!anios.includes(anio)) {
+			anios.push(anio);
+		}
+	});
+
+	return anios;
+}
 
 // funcion agrupar por grado y sacar un total de matriculados, retirados y trasladados
 function agruparPorGradoNivel(result) {
@@ -92,7 +106,7 @@ function agruparPorGradoNivel(result) {
 				(element) =>
 					element.descripcionGrado == grado.descripcionGrado &&
 					element.descripcionNivel == grado.descripcionNivel &&
-					element.estadoAdmisionAlumno == 1 //"Retirado"
+					element.estadoAdmisionAlumno == 4 //"Retirado"
 			).length,
 			trasladado: data.filter(
 				(element) =>
@@ -114,33 +128,52 @@ function agruparPorGradoNivel(result) {
 }
 
 // funcion para crear un excel por grado y nivel
-function crearExcelPorGradoNivel(data) {
+function crearExcelPorGradoNivel(data, anios) {
 	const wb = XLSX.utils.book_new();
+
 	const ws_data = [
-		["Grado", "Nivel", "Matriculados", "Retirados", "Trasladados", "Total"],
+		[
+			`ESTUDIANTES MATRICULADOS, RETIRADOS Y TRASLADADOS ${anios.join(
+				"-"
+			)} `,
+		],
+		[],
+		["GRADO", "MATRICULADOS", "RETIRADOS", "TRASLADADOS", "TOTAL"],
 	];
 	data.forEach((element) => {
 		ws_data.push([
-			element.grado,
-			element.nivel,
-			element.estados.matriculado,
-			element.estados.retirado,
-			element.estados.trasladado,
-			element.total,
+			element.nivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.grado.substring(0, 1).padStart(2, "0") +
+				" A",
+			element.estados.matriculado === 0
+				? ""
+				: element.estados.matriculado,
+			element.estados.retirado === 0 ? "" : element.estados.retirado,
+			element.estados.trasladado === 0 ? "" : element.estados.trasladado,
+			element.total === 0 ? "" : element.total,
 		]);
 	});
 
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		"",
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
-		{ f: `SUM(F2:F${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
+		{ f: `SUM(E4:E${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+	// Poner ancho a las columnas
+	ws["!cols"] = [
+		{ width: 12 },
+		{ width: 15 },
+		{ width: 11 },
+		{ width: 13 },
+		{ width: 7 },
+	];
 
 	XLSX.utils.book_append_sheet(wb, ws, "Reporte Matriculados");
 	XLSX.writeFile(wb, "ReporteMatriculados.xlsx");
@@ -186,9 +219,6 @@ $("#btnDescargarReporteNuevosAntiguos").on("click", function () {
 			);
 		},
 	});
-
-	// limpiar el select
-	$("#anioLectivo").val(null).trigger("change");
 });
 
 // agrupar alumnos por antiguedad por el campo de alumno nuevoAlumno , 1 => nuevo, 0 => antiguo
@@ -226,30 +256,35 @@ function agruparPorAntiguedad(result) {
 // funcion para crear un excel por antiguedad
 function crearExcelPorAntiguedad(data) {
 	const wb = XLSX.utils.book_new();
-	const ws_data = [["Grado", "Nivel", "Nuevos", "Antiguos", "Total"]];
+	const ws_data = [
+		["ESTUDIANTES ANTIGUOS Y NUEVOS"],
+		[""],
+		["CUENTA", "ANTIGUOS", "NUEVOS", "Total"]
+	];
 	data.forEach((element) => {
 		ws_data.push([
-			element.grado,
-			element.nivel,
-			element.nuevos,
-			element.antiguos,
-			element.nuevos + element.antiguos,
+			element.nivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.grado.substring(0, 1).padStart(2, "0") +
+				" A",
+				element.antiguos === 0 ? "":element.antiguos,
+				element.nuevos === 0 ? "" : element.nuevos,
+			(element.nuevos + element.antiguos) === 0 ? "":element.nuevos + element.antiguos,
 		]);
 	});
 
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		"",
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-	XLSX.utils.book_append_sheet(wb, ws, "Reporte Nuevos Antiguos");
-	XLSX.writeFile(wb, "ReporteNuevosAntiguos.xlsx");
+	XLSX.utils.book_append_sheet(wb, ws, "Reporte Antiguos Nuevos");
+	XLSX.writeFile(wb, "ReporteAntiguosNuevos.xlsx");
 }
 
 // reportes por edad/sexo
@@ -266,7 +301,6 @@ $("#btnDescargarReporteEdadSexo").on("click", function () {
 		processData: false,
 		dataType: "json",
 		success: function (response) {
-			console.log(response);
 			const dataPorSexo = agruparPorSexo(response);
 			crearExcelPorSexo(dataPorSexo);
 
@@ -325,24 +359,28 @@ function agruparPorSexo(result) {
 // funcion para crear un excel por sexo
 function crearExcelPorSexo(data) {
 	const wb = XLSX.utils.book_new();
-	const ws_data = [["Grado", "Nivel", "Hombres", "Mujeres", "Total"]];
+	const ws_data = [
+		["ESTUDIANTES MUJERES Y HOMBRES"],
+		[""],
+		["CUENTA", "MUJERES", "HOMBRES", "Total"]];
 	data.forEach((element) => {
 		ws_data.push([
-			element.grado,
-			element.nivel,
-			element.hombres,
-			element.mujeres,
-			element.hombres + element.mujeres,
+			element.nivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.grado.substring(0, 1).padStart(2, "0") +
+				" A",
+			element.mujeres === 0 ? "" : element.mujeres,
+			element.hombres === 0 ? "" : element.hombres,
+			element.hombres + element.mujeres === 0 ? "" : element.hombres + element.mujeres,
 		]);
 	});
 
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		"",
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);

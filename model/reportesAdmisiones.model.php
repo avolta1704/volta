@@ -45,7 +45,7 @@ class ModelReportesAdmisiones
     $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
-    $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel, ae.descripcionAnio
       FROM $tabla AS aa
       INNER JOIN $tablaAdmision AS a ON aa.idAdmision = a.idAdmision
       INNER JOIN $tablaAnioAdmision AS ana ON a.idAnioEscolar = ana.idAnioEscolar
@@ -77,7 +77,7 @@ class ModelReportesAdmisiones
     $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
-    $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel,al.nuevoAlumno
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel,al.nuevoAlumno
       FROM $tabla AS aa
       INNER JOIN $tablaAdmision AS a ON aa.idAdmision = a.idAdmision
       INNER JOIN $tablaAnioAdmision AS ana ON aa.idAdmisionAlumno = ana.idAdmisionAlumno
@@ -86,7 +86,7 @@ class ModelReportesAdmisiones
       INNER JOIN $tablaAlumnoAnioEscolar  AS ag ON aa.idAlumno = ag.idAlumno
       INNER JOIN $tablaGrado AS g ON ag.idGrado = g.idGrado
       INNER JOIN $tablaNivel AS n ON g.idNivel = n.idNivel
-      WHERE ae.estadoAnio = 1 AND aa.estadoAdmisionAlumno = 2");
+      WHERE ae.estadoAnio = 1");
     if ($stmt->execute()) {
       return $stmt->fetchAll();
     } else {
@@ -109,7 +109,7 @@ class ModelReportesAdmisiones
     $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
     $tablaGrado = "grado";
     $tablaNivel = "nivel";
-    $stmt = Connection::conn()->prepare("SELECT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel, al.sexoAlumno
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT aa.idAdmisionAlumno, a.idAnioEscolar, ae.estadoAnio, aa.idAlumno, aa.estadoAdmisionAlumno, al.nombresAlumno, al.apellidosAlumno, g.descripcionGrado, n.descripcionNivel, al.sexoAlumno
       FROM $tabla AS aa
       INNER JOIN $tablaAdmision AS a ON aa.idAdmision = a.idAdmision
       INNER JOIN $tablaAnioAdmision AS ana ON aa.idAdmisionAlumno = ana.idAdmisionAlumno
