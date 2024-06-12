@@ -302,7 +302,6 @@ $("#btnDescargarReporteEdadSexo").on("click", function () {
 		processData: false,
 		dataType: "json",
 		success: function (response) {
-			console.log(response);
 			const dataPorSexo = agruparPorSexo(response);
 			crearExcelPorSexo(dataPorSexo);
 
@@ -361,24 +360,28 @@ function agruparPorSexo(result) {
 // funcion para crear un excel por sexo
 function crearExcelPorSexo(data) {
 	const wb = XLSX.utils.book_new();
-	const ws_data = [["Grado", "Nivel", "Hombres", "Mujeres", "Total"]];
+	const ws_data = [
+		["ESTUDIANTES MUJERES Y HOMBRES"],
+		[""],
+		["CUENTA", "MUJERES", "HOMBRES", "Total"]];
 	data.forEach((element) => {
 		ws_data.push([
-			element.grado,
-			element.nivel,
-			element.hombres,
-			element.mujeres,
-			element.hombres + element.mujeres,
+			element.nivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.grado.substring(0, 1).padStart(2, "0") +
+				" A",
+			element.mujeres === 0 ? "" : element.mujeres,
+			element.hombres === 0 ? "" : element.hombres,
+			element.hombres + element.mujeres === 0 ? "" : element.hombres + element.mujeres,
 		]);
 	});
 
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		"",
+		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
 		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
 		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
