@@ -511,3 +511,39 @@ $(".dataTableReportesPensiones").on(
 			codAlumno;
 	}
 );
+
+
+// Descargar reporte general del pensiones
+$("#btnDescargarExcelReportePagos").on("click", function () {  
+	  $.ajax({
+		  url: "ajax/pagos.ajax.php",
+		  method: "POST",
+		  data: {"todosLosPagosAdmin": true},
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  dataType: "json",
+		  success: function (response) {
+
+			console.log(response)
+  
+			  if (response.length == 0) {
+				  Swal.fire({
+					  icon: "error",
+					  title: "Error",
+					  text: "No se encontraron registros",
+				  });
+				  return;
+			  }
+		  },
+		  error: function (jqXHR, textStatus, errorThrown) {
+			  console.log(jqXHR.responseText); // procendecia de error
+			  console.log(
+				  "Error en la solicitud AJAX: ",
+				  textStatus,
+				  errorThrown
+			  );
+		  },
+	  });
+  })
+  
