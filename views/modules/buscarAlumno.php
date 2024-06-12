@@ -67,7 +67,11 @@
                 <label for="nacimientoBusqueda" class="form-label">Fecha Nacimiento</label>
                 <input type="date" class="form-control" id="nacimientoBusqueda" name="nacimientoBusqueda" readonly>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-1">
+                <label for="nacimientoBusqueda" class="form-label">Edad</label>
+                <input type="text" class="form-control" id="edadBusqueda" name="edadBusqueda" readonly>
+              </div>
+              <div class="col-md-3">
                 <label for="seguroBusqueda" class="form-label">Seguro Salud</label>
                 <input type="text" class="form-control" id="seguroBusqueda" name="seguroBusqueda" readonly>
               </div>
@@ -81,7 +85,7 @@
               </div>
               <div class="col-md-2">
                 <label for="estadoAlBusqueda" class="form-label">Estado Alumno</label>
-                <input type="text" class="form-control" id="estadoAlBusqueda" name="estadoAlBusqueda" readonly>
+                <input type="text" class="form-control" id="estadoAlBusquedaNA" name="estadoAlBusquedaNA" readonly>
               </div>
               <div class="col-md-2">
                 <label for="ingVoltaBusqueda" class="form-label">Ingreso a Volta</label>
@@ -103,29 +107,77 @@
                 <label for="siagieBusqueda" class="form-label">Estado Siagie</label>
                 <input type="text" class="form-control" id="siagieBusqueda" name="siagieBusqueda" readonly>
               </div>
+              <div class="col-md-2">
+                <label for="estadoAlBusqueda" class="form-label">Estado MatrÍcula</label>
+                <input type="text" class="form-control" id="estadoAlBusqueda" name="estadoAlBusqueda" readonly>
+              </div>
               <div class="col-md-4">
                 <label for="apoderado1Busqueda" class="form-label">Apoderado</label>
                 <input type="text" class="form-control" id="apoderado1Busqueda" name="apoderado1Busqueda" readonly>
               </div>
               <div class="col-md-2">
+                <label for="dni1ApoBusqueda" class="form-label">DNI Apoderado 1</label>
+                <input type="text" class="form-control" id="dni1ApoBusqueda" name="numero1ApoBusqueda" readonly>
+              </div>
+              <div class="col-md-2">
                 <label for="numero1ApoBusqueda" class="form-label">Numero Celular 1</label>
                 <input type="text" class="form-control" id="numero1ApoBusqueda" name="numero1ApoBusqueda" readonly>
+              </div>
+              <div class="col-md-1">
+                <label for="convive1Busqueda" class="form-label">Convive</label>
+                <input type="text" class="form-control" id="convive1Busqueda" name="conviveBusqueda" readonly>
+              </div>
+              <div class="col-md-3">
+                <label for="emailApoBusqueda" class="form-label">Email Apoderado 1</label>
+                <input type="text" class="form-control" id="email1ApoBusqueda" name="emailApoBusqueda" readonly>
               </div>
               <div class="col-md-4">
                 <label for="apoderado2Busqueda" class="form-label">Apoderado</label>
                 <input type="text" class="form-control" id="apoderado2Busqueda" name="apoderado2Busqueda" readonly>
               </div>
               <div class="col-md-2">
+                <label for="dni2ApoBusqueda" class="form-label">DNI Apoderado 2</label>
+                <input type="text" class="form-control" id="dni2ApoBusqueda" name="numero1ApoBusqueda" readonly>
+              </div>
+              <div class="col-md-2">
                 <label for="numero2ApoBusqueda" class="form-label">Numero Celular 2</label>
                 <input type="text" class="form-control" id="numero2ApoBusqueda" name="numero2ApoBusqueda" readonly>
               </div>
+              <div class="col-md-1">
+                <label for="convive2ApoBusqueda" class="form-label">Convive</label>
+                <input type="text" class="form-control" id="convive2ApoBusqueda" name="conviveBusqueda" readonly>
+              </div>
+              <div class="col-md-3">
+                <label for="email2ApoBusqueda" class="form-label">Email Apoderado 2</label>
+                <input type="text" class="form-control" id="email2ApoBusqueda" name="emailApoBusqueda" readonly>
+              </div>
+              <div class="col-md-2">
+                <label for="montoPagoMatriculaL" class="form-label">Monto Matricula</label>
+                <input type="text" class="form-control" id="montoPagoMatricula" name="montoPagoMatricula" readonly>
+              </div>
+              <div class="col-md-2">
+                <label for="numeroComprobanteMatriculaL" class="form-label">Recibo Matricula</label>
+                <input type="text" class="form-control" id="numeroComprobanteMatricula" name="numeroComprobanteMatricula" readonly>
+              </div>
+              <div class="col-md-2">
+                <label for="montoPagoCuotaL" class="form-label">Cuota de Ingreso</label>
+                <input type="text" class="form-control" id="cuotaBusqueda" name="montoPagoCuota" readonly>
+              </div>
+              <div class="col-md-2">
+                <label for="numeroComprobanteCuotaL" class="form-label">Recibo de Admisión</label>
+                <input type="text" class="form-control" id="comprobanteCuotaBusqueda" name="numeroComprobanteCuota" readonly>
+              </div>
+              <div class="col-md-2">
+                <label for="montoPagoPensionL" class="form-label">Monto Pensión</label>
+                <input type="text" class="form-control" id="pensionBusqueda" name="montoPagoPension" readonly>
+              </div>
             </div><br>
 
-            <h3 >Cronograma Pagos y Comunicados</h3><br>
+            <h3>Cronograma Pagos y Comunicados</h3><br>
             <div class="container" id="comunicadosCronograma">
               <!-- pestaña para los comunicados y cronograma de pago -->
               <ul class="nav nav-tabs" id="myTabComunicadosCronograma" role="tablist">
-               
+
                 <!-- Agrega más elementos de lista aquí para los otros meses -->
               </ul>
 
@@ -142,7 +194,7 @@
 
           </span>
           <div class="container row g-3 p-3 justify-content-between">
-      
+
           </div>
         </form>
       </div>

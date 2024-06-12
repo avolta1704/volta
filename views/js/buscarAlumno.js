@@ -6,29 +6,12 @@ $(document).ready(function () {
   // Inicializa los selectores con las opciones por defecto
   $(document).ready(function () {
     //filtro para nivel
+    //filtro para nivel
     $("#nivAlBusq").html(`
-        <option>Ninguna opción</option>
-        <option value="1">Inicial</option>
-        <option value="2">Primaria</option>
-        <option value="3">Secundaria</option>
-    `);
-    //filtro para grado
-    $("#gradAlBusq").html(`
-        <option>Ninguna opción</option>
-        <option value="1">3 Años</option>
-        <option value="2">4 Años</option>
-        <option value="3">5 Años</option>
-        <option value="4">1er Grado</option>
-        <option value="5">2do Grado</option>
-        <option value="6">3er Grado</option>
-        <option value="7">4to Grado</option>
-        <option value="8">5to Grado</option>
-        <option value="9">6to Grado</option>
-        <option value="10">1er Año</option>
-        <option value="11">2do Año</option>
-        <option value="12">3er Año</option>
-        <option value="13">4to Año</option>
-        <option value="14">5to Año</option>
+      <option>Ninguna opción</option>
+      <option value="1">Inicial</option>
+      <option value="2">Primaria</option>
+      <option value="3">Secundaria</option>
     `);
     //filtro para apellidos y nombre
     $("#apellAlBusq").html("<option>Ninguna opción</option>");
@@ -53,9 +36,6 @@ $(document).ready(function () {
     // Obtén los valores seleccionados en los selectores de nivel y grado
     let nivelSeleccionado = Number($("#nivAlBusq").val());
     let gradoSeleccionado = Number($("#gradAlBusq").val());
-
-    console.log("nivelSeleccionado:", nivelSeleccionado); // Registro para depuración
-    console.log("gradoSeleccionado:", gradoSeleccionado); // Registro para depuración
 
     // Actualizar las opciones de grado basándose en el nivel seleccionado
     let opcionesGrado = "<option value='0'>Ninguna opción</option>";
@@ -89,12 +69,11 @@ $(document).ready(function () {
     }
 
     $("#gradAlBusq").html(opcionesGrado);
-
-    // Si la opción seleccionada en el selector de grado es "Ninguna opción", mantenerla seleccionada
-    if (gradoSeleccionado === 0) {
+    // Si la opción seleccionada en el selector de nivel es "Ninguna opción" o NaN, mantenerla seleccionada
+    if (isNaN(nivelSeleccionado) || Number(nivelSeleccionado) === 0) {
       $("#gradAlBusq").val("0");
     } else {
-      // Volver a seleccionar la opción de grado que estaba seleccionada antes de actualizar las opciones
+      // Si el nivel ha cambiado, seleccionar "Ninguna opción" en el selector de grado
       $("#gradAlBusq").val(gradoSeleccionado);
     }
 
@@ -182,22 +161,28 @@ $(document).ready(function () {
       }
     }
   });
-  // Controlador de eventos para cambios en los selectores
-  $("#nivAlBusq, #gradAlBusq").on("change", function () {
-    var selectorId = $(this).attr("id");
-    var valorSeleccionado = $(this).val();
+  // Asignar controladores de eventos
+  $("#nivAlBusq").on("change", function () {
+    var valorSeleccionado = Number($(this).val());
 
     limpiarCampos();
 
-    if (valorSeleccionado === "Ninguna opción") {
-      // Establecer el valor del selector a "Ninguna opción"
-      if (selectorId === "nivAlBusq") {
-        $("#gradAlBusq").val("0");
-        // Asignar 0 a gradoSeleccionado
-        gradoSeleccionado = 0;
-      }
+    if (isNaN(valorSeleccionado) || valorSeleccionado === 0) {
+      $("#gradAlBusq").val("Ninguna Opcion");
     } else {
+      // Restablecer gradoSeleccionado a 0
+      gradoSeleccionado = 0;
       actualizarOpciones();
+    }
+  });
+
+  $("#gradAlBusq").on("change", function () {
+    var valorSeleccionado = Number($(this).val());
+
+    limpiarCampos();
+
+    if (isNaN(valorSeleccionado) || valorSeleccionado === 0) {
+      $(this).val("0");
     }
   });
   //campos de visualizaión de todos los datos del json escojido aprtir del apllido
@@ -223,6 +208,19 @@ $(document).ready(function () {
     $("#numero1ApoBusqueda").val(alumno["celularApoderado1"]);
     $("#apoderado2Busqueda").val(alumno["apoderado2Busqueda"]);
     $("#numero2ApoBusqueda").val(alumno["celularApoderado2"]);
+    $("#dni1ApoBusqueda").val(alumno["dni1ApoBusqueda"]);
+    $("#convive1Busqueda").val(alumno["convive1Busqueda"]);
+    $("#email1ApoBusqueda").val(alumno["email1ApoBusqueda"]);
+    $("#dni2ApoBusqueda").val(alumno["dni2ApoBusqueda"]);
+    $("#convive2ApoBusqueda").val(alumno["convive2ApoBusqueda"]);
+    $("#email2ApoBusqueda").val(alumno["email2ApoBusqueda"]);
+    $("#estadoAlBusquedaNA").val(alumno["nuevoAlumno"]);
+    $("#edadBusqueda").val(alumno["edad"]);
+    $("#montoPagoMatricula").val(alumno["montoPagoMatricula"]);
+    $("#numeroComprobanteMatricula").val(alumno["numeroComprobanteMatricula"]);
+    $("#cuotaBusqueda").val(alumno["montoPagoCuota"]);
+    $("#comprobanteCuotaBusqueda").val(alumno["numeroComprobanteCuota"]);
+    $("#pensionBusqueda").val(alumno["montoPagoPension"]);
   }
   //limpiar los registros al selecionar otro apellido o ninguna opción
   function limpiarCampos() {
@@ -248,6 +246,19 @@ $(document).ready(function () {
     $("#numero1ApoBusqueda").val("");
     $("#apoderado2Busqueda").val("");
     $("#numero2ApoBusqueda").val("");
+    $("#dni1ApoBusqueda").val("");
+    $("#convive1Busqueda").val("");
+    $("#email1ApoBusqueda").val("");
+    $("#dni2ApoBusqueda").val("");
+    $("#convive2ApoBusqueda").val("");
+    $("#email2ApoBusqueda").val("");
+    $("#estadoAlBusquedaNA").val("");
+    $("#edadBusqueda").val("");
+    $("#montoPagoMatricula").val("");
+    $("#numeroComprobanteMatricula").val("");
+    $("#cuotaBusqueda").val("");
+    $("#comprobanteCuotaBusqueda").val("");
+    $("#pensionBusqueda").val("");
   }
   //mostrar los datos de los pagos  y comunicado de los alumnos que se estan guandando en la variable alumnos
   function llenarPestanas(alumnos, alumno) {
@@ -267,6 +278,10 @@ $(document).ready(function () {
     let datosFiltrados = alumnos.filter((a) => a.idAlumno === alumno.idAlumno);
 
     datosFiltrados.forEach((dato) => {
+      // Si dato.mesPago es "Matricula" o "Cuota Inicial", no generar el contenido
+      if (dato.mesPago === "Matricula" || dato.mesPago === "Cuota Inicial") {
+        return;
+      }
       // Crear los elementos necesarios para la pestaña y su contenido
       let listItem = document.createElement("li");
       let link = document.createElement("a");
@@ -339,5 +354,73 @@ $(document).ready(function () {
       tabList.appendChild(listItem);
       tabContent.appendChild(divTabPane);
     });
+    // Crear contenedor principal
+    let contenedor = document.createElement("div");
+    contenedor.style.width = "100%";
+    contenedor.style.margin = "20px 0";
+    contenedor.style.fontSize = "14px";
+    contenedor.style.borderRadius = "8px";
+    contenedor.style.overflowX = "auto"; // Agregado para permitir desplazamiento horizontal
+
+    // Crear fila de encabezados
+    let filaEncabezados = document.createElement("div");
+    filaEncabezados.style.display = "flex";
+    filaEncabezados.style.color = "black";
+    filaEncabezados.style.fontWeight = "bold";
+    filaEncabezados.style.textTransform = "uppercase";
+    filaEncabezados.style.borderBottom = "1px solid #ddd";
+
+    let encabezadoMesPago = document.createElement("div");
+    encabezadoMesPago.style.flex = "1";
+    encabezadoMesPago.style.padding = "12px";
+    encabezadoMesPago.style.borderRight = "1px solid #ddd";
+    encabezadoMesPago.textContent = "Mes Pago";
+
+    let encabezadoEstadoCronograma = document.createElement("div");
+    encabezadoEstadoCronograma.style.flex = "1";
+    encabezadoEstadoCronograma.style.padding = "12px";
+    encabezadoEstadoCronograma.textContent = "Estado Cronograma";
+
+    filaEncabezados.appendChild(encabezadoMesPago);
+    filaEncabezados.appendChild(encabezadoEstadoCronograma);
+    contenedor.appendChild(filaEncabezados);
+
+    // Crear contenedor de filas de datos
+    let filaDatos = document.createElement("div");
+    filaDatos.style.display = "flex"; // Cambiado a mostrar en línea horizontal
+
+    datosFiltrados.forEach((dato, index) => {
+      let datoDiv = document.createElement("div");
+      datoDiv.style.display = "flex";
+      datoDiv.style.flexDirection = "column"; // Cambiado para mostrar los datos verticalmente dentro de cada div
+
+      let mesPago = document.createElement("div");
+      mesPago.style.padding = "10px";
+      mesPago.style.borderRight = "1px solid #ddd";
+      mesPago.textContent = dato.mesPago;
+
+      let estadoCronograma = document.createElement("div");
+      estadoCronograma.style.padding = "10px";
+
+      // Aplicar insignia según el estado
+      if (dato.estadoCronograma === "Cancelado") {
+        estadoCronograma.innerHTML =
+          '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+      } else if (dato.estadoCronograma === "Pendiente") {
+        estadoCronograma.innerHTML =
+          '<span class="badge rounded-pill bg-success">Matriculado</span>';
+      } else {
+        estadoCronograma.textContent = dato.estadoCronograma;
+      }
+
+      datoDiv.appendChild(mesPago);
+      datoDiv.appendChild(estadoCronograma);
+      filaDatos.appendChild(datoDiv);
+    });
+
+    contenedor.appendChild(filaDatos);
+
+    // Agregar el contenedor al DOM
+    tabContent.appendChild(contenedor);
   }
 });

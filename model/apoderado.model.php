@@ -213,7 +213,10 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     $statement = Connection::conn()->prepare("SELECT
       apoderado.nombreApoderado, 
       apoderado.apellidoApoderado, 
-      apoderado.celularApoderado
+      apoderado.celularApoderado, 
+      apoderado.dniApoderado, 
+      apoderado.convivenciaAlumno, 
+      apoderado.correoApoderado
     FROM
       apoderado
       INNER JOIN

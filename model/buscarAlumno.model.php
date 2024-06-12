@@ -24,6 +24,7 @@ class ModelBuscarAlumno
     alumno.fechaIngresoVolta, 
     alumno.numeroEmergencia, 
     alumno.enfermedades,
+		alumno.nuevoAlumno,
     admision_alumno.estadoAdmisionAlumno,
     grado.idGrado,
     grado.descripcionGrado,
@@ -35,6 +36,7 @@ class ModelBuscarAlumno
     cronograma_pago.montoPago,
     cronograma_pago.mesPago,
     cronograma_pago.fechaLimite,
+		pago.numeroComprobante,
     CASE 
         WHEN cronograma_pago.estadoCronograma = 1 THEN 'Pendiente'
         WHEN cronograma_pago.estadoCronograma = 2 THEN 'Cancelado'
@@ -50,6 +52,7 @@ FROM
     LEFT JOIN cronograma_pago ON admision_alumno.idAdmisionAlumno = cronograma_pago.idAdmisionAlumno
     LEFT JOIN comunicacion_pago ON cronograma_pago.idCronogramaPago = comunicacion_pago.idCronogramaPago
     LEFT JOIN detalle_comunicacion_pago ON comunicacion_pago.idComunicacionPago = detalle_comunicacion_pago.idComunicacionPago
+		LEFT JOIN pago ON pago.idCronogramaPago = cronograma_pago.idCronogramaPago
 WHERE
     admision_alumno.estadoAdmisionAlumno = 2
 ORDER BY 
