@@ -258,9 +258,9 @@ function agruparPorAntiguedad(result) {
 function crearExcelPorAntiguedad(data) {
 	const wb = XLSX.utils.book_new();
 	const ws_data = [
-		["ESTUDIANTES ANTIGUOS Y NUEVOS 2024"],
+		["ESTUDIANTES ANTIGUOS Y NUEVOS"],
 		[""],
-		["CUENTA", "NUEVOS", "ANTIGUOS", "Total"]
+		["CUENTA", "ANTIGUOS", "NUEVOS", "Total"]
 	];
 	data.forEach((element) => {
 		ws_data.push([
@@ -268,16 +268,15 @@ function crearExcelPorAntiguedad(data) {
 				" " +
 				element.grado.substring(0, 1).padStart(2, "0") +
 				" A",
-			element.nuevos === 0 ? "" : element.nuevos,
-			element.antiguos === 0 ? "":element.antiguos,
-			element.nuevos + element.antiguos,
+				element.antiguos === 0 ? "":element.antiguos,
+				element.nuevos === 0 ? "" : element.nuevos,
+			(element.nuevos + element.antiguos) === 0 ? "":element.nuevos + element.antiguos,
 		]);
 	});
 
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		"",
 		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
 		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
 		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
@@ -285,8 +284,8 @@ function crearExcelPorAntiguedad(data) {
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-	XLSX.utils.book_append_sheet(wb, ws, "Reporte Nuevos Antiguos");
-	XLSX.writeFile(wb, "ReporteNuevosAntiguos.xlsx");
+	XLSX.utils.book_append_sheet(wb, ws, "Reporte Antiguos Nuevos");
+	XLSX.writeFile(wb, "ReporteAntiguosNuevos.xlsx");
 }
 
 // reportes por edad/sexo
