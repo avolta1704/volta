@@ -106,7 +106,7 @@ function agruparPorGradoNivel(result) {
 				(element) =>
 					element.descripcionGrado == grado.descripcionGrado &&
 					element.descripcionNivel == grado.descripcionNivel &&
-					element.estadoAdmisionAlumno == 1 //"Retirado"
+					element.estadoAdmisionAlumno == 4 //"Retirado"
 			).length,
 			trasladado: data.filter(
 				(element) =>
@@ -137,7 +137,6 @@ function crearExcelPorGradoNivel(data, anios) {
 				"-"
 			)} `,
 		],
-		["AÑO LECTIVO", $("#anioLectivo").val()],
 		[],
 		["GRADO", "MATRICULADOS", "RETIRADOS", "TRASLADADOS", "TOTAL"],
 	];
@@ -159,10 +158,10 @@ function crearExcelPorGradoNivel(data, anios) {
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
+		{ f: `SUM(E4:E${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
@@ -277,9 +276,9 @@ function crearExcelPorAntiguedad(data) {
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
@@ -379,9 +378,9 @@ function crearExcelPorSexo(data) {
 	// Add the total row to ws_data
 	ws_data.push([
 		"Total General",
-		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
-		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
-		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
+		{ f: `SUM(B4:B${data.length + 3})`, t: "n" },
+		{ f: `SUM(C4:C${data.length + 3})`, t: "n" },
+		{ f: `SUM(D4:D${data.length + 3})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
