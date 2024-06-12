@@ -220,9 +220,6 @@ $("#btnDescargarReporteNuevosAntiguos").on("click", function () {
 			);
 		},
 	});
-
-	// limpiar el select
-	$("#anioLectivo").val(null).trigger("change");
 });
 
 // agrupar alumnos por antiguedad por el campo de alumno nuevoAlumno , 1 => nuevo, 0 => antiguo
@@ -260,13 +257,19 @@ function agruparPorAntiguedad(result) {
 // funcion para crear un excel por antiguedad
 function crearExcelPorAntiguedad(data) {
 	const wb = XLSX.utils.book_new();
-	const ws_data = [["Grado", "Nivel", "Nuevos", "Antiguos", "Total"]];
+	const ws_data = [
+		["ESTUDIANTES ANTIGUOS Y NUEVOS 2024"],
+		[""],
+		["CUENTA", "NUEVOS", "ANTIGUOS", "Total"]
+	];
 	data.forEach((element) => {
 		ws_data.push([
-			element.grado,
-			element.nivel,
-			element.nuevos,
-			element.antiguos,
+			element.nivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.grado.substring(0, 1).padStart(2, "0") +
+				" A",
+			element.nuevos === 0 ? "" : element.nuevos,
+			element.antiguos === 0 ? "":element.antiguos,
 			element.nuevos + element.antiguos,
 		]);
 	});
@@ -275,9 +278,9 @@ function crearExcelPorAntiguedad(data) {
 	ws_data.push([
 		"Total General",
 		"",
+		{ f: `SUM(B2:B${data.length + 1})`, t: "n" },
 		{ f: `SUM(C2:C${data.length + 1})`, t: "n" },
 		{ f: `SUM(D2:D${data.length + 1})`, t: "n" },
-		{ f: `SUM(E2:E${data.length + 1})`, t: "n" },
 	]);
 
 	const ws = XLSX.utils.aoa_to_sheet(ws_data);
