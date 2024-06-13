@@ -6,6 +6,18 @@ require_once "../functions/pagos.functions.php";
 
 class PagosAjax
 {
+/**
+ * Mostrar todos los pagos
+ * 
+ * @return array Arreglo de todos los pagos 
+ */
+
+ public function ajaxTodoLosPagos(){
+  $allPagos = ControllerPagos::ctrTodoLosPagos();
+
+  echo json_encode($allPagos);
+ }
+
   //mostar todos los Pagos DataTableAlumnosAdmin
   public function ajaxMostrarTodosLosPagosAdmin()
   {
@@ -53,6 +65,12 @@ class PagosAjax
     echo json_encode($eliminarRegistroPago);
   }
 }
+
+if(isset($_POST["todosLosPagos"])){
+  $todosLosPagos = new PagosAjax();
+  $todosLosPagos->ajaxTodoLosPagos(); 
+}
+
 //mostar todos los Pagos DataTableAlumnosAdmin
 if (isset($_POST["todosLosPagosAdmin"])) {
   $mostrarTodosLosPagosAdmin = new PagosAjax();
