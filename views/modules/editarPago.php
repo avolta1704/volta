@@ -39,8 +39,7 @@
 
               <div class="form-group col-md-2">
                 <label for="cronogramaPagoEdit" class="form-label" style="font-weight: bold">Cronograma Pago: </label>
-                <input type="text" class="form-control" id="cronogramaPagoEdit" name="cronogramaPagoEdit"
-                  value="<?php echo $datosPago["mesPago"] ?>" disabled>
+                <input type="text" class="form-control" id="cronogramaPagoEdit" name="cronogramaPagoEdit" value="<?php echo $datosPago["mesPago"] ?>" disabled>
               </div>
 
               <div class="row  mb-3">
@@ -48,8 +47,7 @@
                 <div class="col-md-4">
                   <label for="dniAlumnoEdit" class="form-label" style="font-weight: bold">DNI: </label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="dniAlumnoEdit" name="dniAlumnoEdit"
-                      value="<?php echo $datosPago["dniAlumno"] ?>" placeholder="Alumno Dni" disabled>
+                    <input type="text" class="form-control" id="dniAlumnoEdit" name="dniAlumnoEdit" value="<?php echo $datosPago["dniAlumno"] ?>" placeholder="Alumno Dni" disabled>
                     <div class="input-group-append">
                     </div>
                   </div>
@@ -57,28 +55,24 @@
 
                 <div class="col-md-4">
                   <label for="apellidoAlumnoPagoEdit" class="form-label" style="font-weight: bold">Apellidos: </label>
-                  <input type="text" class="form-control" id="apellidoAlumnoPagoEdit" name="apellidoAlumnoPagoEdit"
-                    value="<?php echo $datosPago["apellidosAlumno"] ?>" placeholder="Apellido Alumno" disabled>
+                  <input type="text" class="form-control" id="apellidoAlumnoPagoEdit" name="apellidoAlumnoPagoEdit" value="<?php echo $datosPago["apellidosAlumno"] ?>" placeholder="Apellido Alumno" disabled>
                 </div>
 
                 <div class="col-md-4">
                   <label for="nombreAlumnoPagoEdit" class="form-label" style="font-weight: bold">Nombres: </label>
-                  <input type="text" class="form-control" id="nombreAlumnoPagoEdit" name="nombreAlumnoPagoEdit"
-                    value="<?php echo $datosPago["nombresAlumno"] ?>" placeholder="Nombre Alumno" disabled>
+                  <input type="text" class="form-control" id="nombreAlumnoPagoEdit" name="nombreAlumnoPagoEdit" value="<?php echo $datosPago["nombresAlumno"] ?>" placeholder="Nombre Alumno" disabled>
                 </div>
               </div>
 
               <div class="row  mb-3">
                 <div class="col-md-4">
                   <label for="codCajaPagoEdit" class="form-label" style="font-weight: bold">Codigo Caja: </label>
-                  <input type="text" class="form-control" id="codCajaPagoEdit" name="codCajaPagoEdit"
-                    value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Codigo Caja Alumno" disabled>
+                  <input type="text" class="form-control" id="codCajaPagoEdit" name="codCajaPagoEdit" value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Codigo Caja Alumno" disabled>
                 </div>
 
                 <div class="col-md-4">
                   <label for="v" class="form-label" style="font-weight: bold">Año: </label>
-                  <input type="text" class="form-control" id="anioPagoEdit" name="anioPagoEdit" value=""
-                    placeholder="Año Escolar">
+                  <input type="text" class="form-control" id="anioPagoEdit" name="anioPagoEdit" value="" placeholder="Año Escolar">
                 </div>
 
                 <div class="col-md-4">
@@ -101,8 +95,7 @@
                     </div>
 
                     <div class="form-group col-md-6 ">
-                      <input type="text" class="form-control" name="gradoAlumnoPagoEdit" id="gradoAlumnoPagoEdit"
-                        value="<?php echo $datosPago["descripcionGrado"] ?>" placeholder="Grado Alumno" disabled>
+                      <input type="text" class="form-control" name="gradoAlumnoPagoEdit" id="gradoAlumnoPagoEdit" value="<?php echo $datosPago["descripcionGrado"] ?>" placeholder="Grado Alumno" disabled>
                     </div>
                   </div>
                 </div>
@@ -113,20 +106,17 @@
                 <div class="col-md-4">
                   <label for="fechaLimitePagoEdit" class="form-label" style="font-weight: bold">Fecha Limite Pago
                     : </label>
-                  <input type="date" class="form-control" id="fechaLimitePagoEdit" name="fechaLimitePagoEdit"
-                    value="<?php echo $datosPago["fechaLimite"] ?>" disabled>
+                  <input type="date" class="form-control" id="fechaLimitePagoEdit" name="fechaLimitePagoEdit" value="<?php echo $datosPago["fechaLimite"] ?>" disabled>
                 </div>
 
                 <div class="col-md-4">
                   <label for="tipoPagoEdit" class="form-label" style="font-weight: bold">Tipo Pago: </label>
-                  <input type="text" class="form-control" id="tipoPagoEdit" name="tipoPagoEdit"
-                    value="<?php echo $datosPago["conceptoPago"] ?>" placeholder="Matricula / Pencion" disabled>
+                  <input type="text" class="form-control" id="tipoPagoEdit" name="tipoPagoEdit" value="<?php echo $datosPago["conceptoPago"] ?>" placeholder="Matricula / Pencion" disabled>
                 </div>
 
                 <div class="col-md-4">
                   <label for="montoPagoEdit" class="form-label" style="font-weight: bold">Monto Pago: </label>
-                  <input type="text" class="form-control" id="montoPagoEdit" name="montoPagoEdit"
-                    value="<?php echo $datosPago["cantidadPago"] ?>" placeholder="S/ Total Pago">
+                  <input type="text" class="form-control" id="montoPagoEdit" name="montoPagoEdit" value="<?php echo $datosPago["cantidadPago"] ?>" placeholder="S/ Total Pago">
                 </div>
 
               </div>
@@ -136,14 +126,12 @@
                   <label for="fechaRegistroPagoEdit" class="form-label" style="font-weight: bold">Fecha Registro
                     Actualizacion:
                   </label>
-                  <input type="date" class="form-control" id="fechaRegistroPagoEdit" name="fechaRegistroPagoEdit"
-                    value="<?php echo date('Y-m-d'); ?>" required>
+                  <input type="date" class="form-control" id="fechaRegistroPagoEdit" name="fechaRegistroPagoEdit" value="<?php echo date('Y-m-d'); ?>" required>
                 </div>
 
                 <div class="col-md-4">
                   <label for="metodoPagoEdit" class="form-label" style="font-weight: bold">Metodo Pago: </label>
-                  <input type="text" class="form-control" id="metodoPagoEdit" name="metodoPagoEdit"
-                    value="<?php echo $datosPago["metodoPago"] ?>" placeholder="Efectivo / Caja IEE / Caja Aqp / Otro">
+                  <input type="text" class="form-control" id="metodoPagoEdit" name="metodoPagoEdit" value="<?php echo $datosPago["metodoPago"] ?>" placeholder="Efectivo / Caja IEE / Caja Aqp / Otro">
                 </div>
 
                 <div class="col-md-4">
@@ -169,22 +157,23 @@
                 <div class="col-md-4">
                   <label for="numeroComprobanteEdit" class="form-label" style="font-weight: bold">Numero de Comprobante:
                   </label>
-                  <input type="text" class="form-control" id="numeroComprobanteEdit" name="numeroComprobanteEdit"
-                    value="<?php echo $datosPago["numeroComprobante"] ?>" placeholder="Codigo Caja Alumno">
+                  <input type="text" class="form-control" id="numeroComprobanteEdit" name="numeroComprobanteEdit" value="<?php echo $datosPago["numeroComprobante"] ?>" placeholder="Codigo Caja Alumno">
+                </div>
+                <div class="col-md-4">
+                  <label for="boletaElectronicaEdit" class="form-label" style="font-weight: bold">Boleta electrónica:
+                  </label>
+                  <input type="text" class="form-control" id="boletaElectronicaEdit" name="boletaElectronicaEdit" value="<?php echo $datosPago["boletaElectronica"] ?>" placeholder="Boleta electrónica">
                 </div>
               </div>
 
             </div>
           </span>
           <!-- id cronogramaPago -->
-          <input type="hidden" class="form-control" id="cronogramaPagoEdit" name="cronogramaPagoEdit"
-            value="<?php echo $datosPago["idCronogramaPago"] ?>">
+          <input type="hidden" class="form-control" id="cronogramaPagoEdit" name="cronogramaPagoEdit" value="<?php echo $datosPago["idCronogramaPago"] ?>">
           <!--    id pago -->
-          <input type="hidden" class="form-control" id="pagoEdit" name="pagoEdit"
-            value="<?php echo $datosPago["idPago"] ?>">
+          <input type="hidden" class="form-control" id="pagoEdit" name="pagoEdit" value="<?php echo $datosPago["idPago"] ?>">
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button"
-              class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
+            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
           </div>
         </form>

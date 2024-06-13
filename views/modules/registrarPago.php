@@ -222,7 +222,7 @@
                     <label for="boletaElectronica" class="form-label" style="font-weight: bold">Boleta Electrónica: </label>
                     <input type="text" class="form-control" id="boletaElectronica" name="boletaElectronica" value="" placeholder="Boleta electrónica">
                   </div>
-                </div>';            
+                </div>';
                 }
                 ?>
 
@@ -231,8 +231,7 @@
           </span>
 
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button"
-              class="col-1 d-inline-flex-center p-2 btn btn-secondary <?php echo ($existCodePostulante) ? 'cerrarRegistroPagoPostulante' : (($reportePensiones == 1) ? 'cerrarRegistroPagoPensiones' : 'cerrarRegistroPago'); ?>">Cancelar</button>
+            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary <?php echo ($existCodePostulante) ? 'cerrarRegistroPagoPostulante' : (($reportePensiones == 1) ? 'cerrarRegistroPagoPensiones' : 'cerrarRegistroPago'); ?>">Cancelar</button>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
           </div>
         </form>

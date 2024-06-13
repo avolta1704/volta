@@ -8,12 +8,12 @@ class ControllerPagos
    * Todo Los pagos
    */
 
-   public static function ctrTodoLosPagos()
-   {
+  public static function ctrTodoLosPagos()
+  {
     $tabla = "pago";
     $todosLosPagos = ModelPagos::mdlTodosLosPagos($tabla);
     return $todosLosPagos;
-   }
+  }
 
   // Obtener todos los pagos
   public static function ctrGetAllPagos()
@@ -181,6 +181,8 @@ class ControllerPagos
         "fechaPago" => $_POST["fechaRegistroPagoEdit"],
         "cantidadPago" => $_POST["montoPagoEdit"],
         "metodoPago" => $_POST["metodoPagoEdit"],
+        "numeroComprobante" => $_POST["numeroComprobanteEdit"],
+        "boletaElectronica" => $_POST["boletaElectronicaEdit"],
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioActualizacion" => $_SESSION["idUsuario"]
       );
