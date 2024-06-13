@@ -442,12 +442,13 @@ class ModelPagos
    */
   public static function mdlCrearRegistroPagoMatricula($table, $dataPagoAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago,  fechaPago, cantidadPago, metodoPago, numeroComprobante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago,  fechaPago, cantidadPago, metodoPago, numeroComprobante, boletaElectronica, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :boletaElectronica, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
     $statement->bindParam(":idTipoPago", $dataPagoAlumno["idTipoPago"], PDO::PARAM_INT);
     $statement->bindParam(":fechaPago", $dataPagoAlumno["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataPagoAlumno["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataPagoAlumno["metodoPago"], PDO::PARAM_STR);
     $statement->bindParam(":numeroComprobante", $dataPagoAlumno["numeroComprobante"], PDO::PARAM_STR);
+    $statement->bindParam(":boletaElectronica", $dataPagoAlumno["boletaElectronica"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataPagoAlumno["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataPagoAlumno["usuarioCreacion"], PDO::PARAM_STR);

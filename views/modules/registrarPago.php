@@ -128,6 +128,12 @@
                     <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
                     <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante" required>
                   </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="boletaElectronica" class="form-label" style="font-weight: bold">Boleta Electrónica: </label>
+                    <input type="text" class="form-control" id="boletaElectronica" name="boletaElectronica" value="" placeholder="Boleta electrónica">
+                  </div>
                 </div>';
                 } else {
                   echo '<div class="col-md-12">
@@ -210,7 +216,13 @@
                     <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
                     <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante" required>
                   </div>
-                </div>';
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-4">
+                    <label for="boletaElectronica" class="form-label" style="font-weight: bold">Boleta Electrónica: </label>
+                    <input type="text" class="form-control" id="boletaElectronica" name="boletaElectronica" value="" placeholder="Boleta electrónica">
+                  </div>
+                </div>';            
                 }
                 ?>
 
