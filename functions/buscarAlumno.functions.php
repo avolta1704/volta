@@ -6,30 +6,33 @@ class FunctionBuscarAlumno
   {
     if (empty($estadoAlumno)) {
       return $estadoAlumno;
-    }else
-    if ($estadoAlumno == 2) {
-      $estado = "Activo";
-    }else
-    if ($estadoAlumno == 3) {
-      $estado = "Inactivo";
+    }
+
+    switch ($estadoAlumno) {
+      case 1:
+        return "Anulado";
+      case 2:
+        return "Matriculado";
+      case 3:
+        return "Trasladado";
+      case 4:
+        return "Retirado";
+      default:
+        return "Sin Estado";
+    }
+  }
+  public static function getEstadoNuevoAntigup($estadoNA)
+  {
+    if (empty($estadoNA)) {
+      return $estadoNA;
+    } else if ($estadoNA == 1) {
+      $estado = "Nuevo";
+    } else if ($estadoNA == 2) {
+      $estado = "Antiguo";
+    } else {
+      $estado = "Sin Estado";
     }
     return $estado;
-  }
-  public static function getEstadoMatriculaBuscar($estadoMatricula)
-  {
-    if (empty($estadoMatricula)) {
-      return $estadoMatricula;
-    }
-    if ($estadoMatricula == 1) {
-      $estadoMat = "Registrado";
-    }
-    if ($estadoMatricula == 2) {
-      $estadoMat = "Matriculado";
-    }
-    if ($estadoMatricula == 3) {
-      $estadoMat = "En revisión";
-    }
-    return $estadoMat;
   }
   public static function getEstadosBuscarSiagiue($estadoSiagiue)
   {
@@ -46,6 +49,22 @@ class FunctionBuscarAlumno
       $estadoSia = "En revisión";
     }
     return $estadoSia;
+  }
+
+  //boton visualizar usuario
+  public static function getBtnBuscarAlumno($codPago)
+  {
+    $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownBuscarAlumno" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownBuscarAlumno">
+          <button type="button" class="dropdown-item btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePagoBuscar"' . ($codPago === null ? ' disabled' : '') . '>Visualizar</button>
+        </ul>
+      </div>
+      ';
+    return $botones;
   }
 
 }
