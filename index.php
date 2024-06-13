@@ -88,6 +88,7 @@ require_once "model/unidad.model.php";
 require_once "model/asistenciaAlumnos.model.php";
 require_once "model/transactionManager.model.php";
 require_once "model/competencia.model.php";
+require_once "model/inicio.model.php";
 
 
 $template = new ControllerTemplate();

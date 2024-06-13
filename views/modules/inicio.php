@@ -1,4 +1,39 @@
 <main id="main" class="main">
+  <?php
+  $todoslosAlumnosporGrado = ModelInicio::mdlObtenertodoslosAlumnosporGrandos();
+  $grados = [];
+  $alumnos = [];
+
+  foreach ($todoslosAlumnosporGrado as $fila) {
+    $grados[] = $fila['descripcionGrado'];
+    $alumnos[] = $fila['Alumnos'];
+  }
+  // Convertir arrays a formato JSON para usarlos en JavaScript
+  $gradosJson = json_encode($grados);
+  $alumnosJson = json_encode($alumnos);
+  $pensionesPendientes = ModelInicio::mdlObtenertodaslasPensionesPendientes();
+  $meses = [];
+  $pagosPorMes = [];
+  $porcentajePorMes = []; // Array para almacenar los porcentajes
+  $totalPensiones = 0; // Variable para almacenar el total de pensiones
+  
+  foreach ($pensionesPendientes as $fila) {
+    $mes = $fila['mesPago'];
+    $meses[] = $mes;
+    $pagosPorMes[$mes][] = $fila['pagos_vencidos'];
+    // Calcular el porcentaje de pensiones vencidas para este mes y almacenarlo en el array
+    $porcentaje = $fila['porcentaje_vencidas'];
+    $porcentajePorMes[$mes] = $porcentaje;
+    // Sumar al total de pensiones
+    $totalPensiones = $fila['total_pensiones'];
+  }
+
+  // Convertir arrays a formato JSON para usarlos en JavaScript
+  $mesesJson = json_encode(array_unique($meses));
+  $pagosPorMesJson = json_encode($pagosPorMes);
+  $porcentajePorMesJson = json_encode($porcentajePorMes);
+  $totalPensionesJson = json_encode($totalPensiones);
+  ?>
 
   <div class="pagetitle">
     <h1>Inicio</h1>
@@ -24,30 +59,54 @@
                 <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <li class="dropdown-header text-start">
-                    <h6>Filtro</h6>
+                    <h6>Filtrar por</h6>
                   </li>
-
-                  <li><a class="dropdown-item" href="#">Hoy</a></li>
-                  <li><a class="dropdown-item" href="#">Este Mes</a></li>
-                  <li><a class="dropdown-item" href="#">Este Año</a></li>
+                  <?php foreach (array_unique($meses) as $mes): ?>
+                    <li><a class="dropdown-item" href="#" onclick="filtrar('<?php echo $mes; ?>')"><?php echo $mes; ?></a>
+                    </li>
+                  <?php endforeach; ?>
                 </ul>
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Asociados <span>| Hoy</span></h5>
+                <h5 class="card-title">Pagos Vencidos <span id="filtroSeleccionado"></span></h5>
 
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-cart"></i>
+                    <i class="bi bi-calendar-x"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>145</h6>
-                    <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
+                    <h6 id="totalPagosVencidos">0</h6>
+                    <span class="text-success small pt-1 fw-bold" id="porcentajeVencidas">12%</span>
+                    <span class="text-muted small pt-2 ps-1">de <?php echo $totalPensionesJson; ?></span>
                   </div>
                 </div>
-              </div>
 
+                <script>
+                  document.addEventListener("DOMContentLoaded", () => {
+                    // Datos obtenidos desde PHP
+                    const pagosPorMes = <?php echo $pagosPorMesJson; ?>;
+                    const porcentajePorMes = <?php echo $porcentajePorMesJson; ?>;
+
+                    // Función para actualizar el total de pagos vencidos y porcentaje de pensiones vencidas
+                    window.updatePagosVencidos = function (mes) {
+                      const totalPagosVencidos = pagosPorMes[mes].reduce((sum, current) => sum + current, 0);
+                      const porcentajeVencidas = porcentajePorMes[mes]; // Sin multiplicar por 100
+                      document.getElementById('totalPagosVencidos').textContent = totalPagosVencidos;
+                      document.getElementById('porcentajeVencidas').textContent = porcentajeVencidas.toFixed(2) + '%'; // Formatea a dos decimales
+                      document.getElementById('filtroSeleccionado').textContent = "| " + mes;
+                    }
+
+                    // Inicializar con el primer mes
+                    updatePagosVencidos('<?php echo reset($meses); ?>');
+                  });
+
+                  // Función para filtrar
+                  function filtrar(mes) {
+                    updatePagosVencidos(mes);
+                  }
+                </script>
+              </div>
             </div>
           </div>
 
@@ -77,7 +136,8 @@
                   </div>
                   <div class="ps-3">
                     <h6>$3,264</h6>
-                    <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+                    <span class="text-success small pt-1 fw-bold">8%</span> <span
+                      class="text-muted small pt-2 ps-1">increase</span>
 
                   </div>
                 </div>
@@ -113,7 +173,8 @@
                   </div>
                   <div class="ps-3">
                     <h6>1244</h6>
-                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                    <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                      class="text-muted small pt-2 ps-1">decrease</span>
 
                   </div>
                 </div>
@@ -141,64 +202,60 @@
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Reportes <span>/Hoy</span></h5>
+                <h5 class="card-title">Alumnos <span>/Grado</span></h5>
 
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
 
                 <script>
                   document.addEventListener("DOMContentLoaded", () => {
+                    // Datos obtenidos desde PHP
+                    const grados = <?php echo $gradosJson; ?>;
+                    const alumnos = <?php echo $alumnosJson; ?>;
+
                     new ApexCharts(document.querySelector("#reportsChart"), {
                       series: [{
-                        name: 'Sales',
-                        data: [31, 40, 28, 51, 42, 82, 56],
-                      }, {
-                        name: 'Revenue',
-                        data: [11, 32, 45, 32, 34, 52, 41]
-                      }, {
-                        name: 'Customers',
-                        data: [15, 11, 32, 18, 9, 24, 11]
+                        name: 'Alumnos',
+                        data: alumnos,
                       }],
                       chart: {
                         height: 350,
-                        type: 'area',
+                        type: 'bar',  // Usamos un gráfico de barras para este tipo de datos
                         toolbar: {
                           show: false
                         },
                       },
-                      markers: {
-                        size: 4
-                      },
-                      colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                      fill: {
-                        type: "gradient",
-                        gradient: {
-                          shadeIntensity: 1,
-                          opacityFrom: 0.3,
-                          opacityTo: 0.4,
-                          stops: [0, 90, 100]
-                        }
+                      plotOptions: {
+                        bar: {
+                          horizontal: false,
+                          columnWidth: '55%',
+                          endingShape: 'rounded'
+                        },
                       },
                       dataLabels: {
                         enabled: false
                       },
                       stroke: {
-                        curve: 'smooth',
-                        width: 2
+                        show: true,
+                        width: 2,
+                        colors: ['transparent']
                       },
                       xaxis: {
-                        type: 'datetime',
-                        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                        categories: grados,
+                      },
+                      fill: {
+                        opacity: 1
                       },
                       tooltip: {
-                        x: {
-                          format: 'dd/MM/yy HH:mm'
-                        },
+                        y: {
+                          formatter: function (val) {
+                            return val + " alumnos"
+                          }
+                        }
                       }
                     }).render();
                   });
                 </script>
-
               </div>
 
             </div>
