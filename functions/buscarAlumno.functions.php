@@ -51,4 +51,20 @@ class FunctionBuscarAlumno
     return $estadoSia;
   }
 
+  //boton visualizar usuario
+  public static function getBtnBuscarAlumno($codPago)
+  {
+    $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownBuscarAlumno" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownBuscarAlumno">
+          <button type="button" class="dropdown-item btnVisualizarPago" codPago="' . ($codPago) . '" data-bs-toggle="modal" data-bs-target="#modalDetallePagoBuscar"' . ($codPago === null ? ' disabled' : '') . '>Visualizar</button>
+        </ul>
+      </div>
+      ';
+    return $botones;
+  }
+
 }

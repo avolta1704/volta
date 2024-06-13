@@ -267,6 +267,7 @@ $(document).ready(function () {
     let tabContent = document.getElementById(
       "myTabContentComunicadosCronogramaContenido"
     );
+    let contenedorPrincipal = document.getElementById("contenedorPrincipal");
 
     // Limpiar las pestañas existentes
     while (tabList.firstChild) {
@@ -275,7 +276,127 @@ $(document).ready(function () {
     while (tabContent.firstChild) {
       tabContent.removeChild(tabContent.firstChild);
     }
+    while (contenedorPrincipal.firstChild) {
+      contenedorPrincipal.removeChild(contenedorPrincipal.firstChild);
+    }
+
     let datosFiltrados = alumnos.filter((a) => a.idAlumno === alumno.idAlumno);
+
+    // Crear contenedor principal
+    let contenedor = document.createElement("div");
+    contenedor.style.width = "100%";
+    contenedor.style.margin = "20px 0";
+    contenedor.style.fontSize = "14px";
+    contenedor.style.borderRadius = "8px";
+    contenedor.style.overflowX = "auto"; // Agregado para permitir desplazamiento horizonta
+    contenedor.style.textAlign = "center"; // Centrar contenido
+
+    // Crear fila de encabezados
+    let filaEncabezados = document.createElement("div");
+    filaEncabezados.style.display = "flex";
+    filaEncabezados.style.color = "black";
+    filaEncabezados.style.fontWeight = "bold";
+    filaEncabezados.style.textTransform = "uppercase";
+    filaEncabezados.style.borderBottom = "1px solid #ddd";
+
+    let encabezadoMesPago = document.createElement("div");
+    encabezadoMesPago.style.flex = "1";
+    encabezadoMesPago.style.padding = "12px";
+    encabezadoMesPago.style.borderRight = "1px solid #ddd";
+    encabezadoMesPago.textContent = "Pagos Programados";
+
+    let encabezadoMontoPago = document.createElement("div");
+    encabezadoMontoPago.style.flex = "1";
+    encabezadoMontoPago.style.padding = "12px";
+    encabezadoMontoPago.style.borderRight = "1px solid #ddd";
+    encabezadoMontoPago.textContent = "Monto del Pago";
+
+    let encabezadoEstadoCronograma = document.createElement("div");
+    encabezadoEstadoCronograma.style.flex = "1";
+    encabezadoEstadoCronograma.style.padding = "12px";
+    encabezadoEstadoCronograma.style.borderRight = "1px solid #ddd";
+    encabezadoEstadoCronograma.textContent = "Estado de los Pagos";
+
+    let encabezadoFechaPago = document.createElement("div");
+    encabezadoFechaPago.style.flex = "1";
+    encabezadoFechaPago.style.padding = "12px";
+    encabezadoFechaPago.style.borderRight = "1px solid #ddd";
+    encabezadoFechaPago.textContent = "Fecha de Pago";
+
+    let encabezadoAcciones = document.createElement("div");
+    encabezadoAcciones.style.flex = "1";
+    encabezadoAcciones.style.padding = "12px";
+    encabezadoAcciones.textContent = "Acciones";
+
+    filaEncabezados.appendChild(encabezadoMesPago);
+    filaEncabezados.appendChild(encabezadoMontoPago);
+    filaEncabezados.appendChild(encabezadoEstadoCronograma);
+    filaEncabezados.appendChild(encabezadoFechaPago);
+    filaEncabezados.appendChild(encabezadoAcciones);
+    contenedor.appendChild(filaEncabezados);
+
+    // Crear contenedor de filas de datos
+    let filaDatos = document.createElement("div");
+    filaDatos.style.display = "flex";
+    filaDatos.style.flexDirection = "column"; // Cambiado para mostrar los datos verticalmente
+
+    datosFiltrados.forEach((dato, index) => {
+      let datoDiv = document.createElement("div");
+      datoDiv.style.display = "flex";
+      datoDiv.style.flexDirection = "row"; // Cambiado para mostrar los datos horizontalmente dentro de cada div
+
+      let mesPago = document.createElement("div");
+      mesPago.style.flex = "1"; // Asegura que ocupa el mismo espacio que su encabezado correspondiente
+      mesPago.style.padding = "10px";
+      mesPago.style.borderRight = "1px solid #ddd";
+      mesPago.textContent = dato.mesPago;
+
+      let montoPago = document.createElement("div");
+      montoPago.style.flex = "1"; // Asegura que ocupa el mismo espacio que su encabezado correspondiente
+      montoPago.style.padding = "10px";
+      montoPago.style.borderRight = "1px solid #ddd";
+      montoPago.textContent = `S/. ${dato.montoPago}`;
+
+      let estadoCronograma = document.createElement("div");
+      estadoCronograma.style.flex = "1"; // Asegura que ocupa el mismo espacio que su encabezado correspondiente
+      estadoCronograma.style.padding = "10px";
+      estadoCronograma.style.borderRight = "1px solid #ddd";
+      estadoCronograma.style.padding = "10px";
+
+      // Aplicar insignia según el estado
+      if (dato.estadoCronograma === "Cancelado") {
+        estadoCronograma.innerHTML =
+          '<span class="badge rounded-pill bg-success">Cancelado</span>';
+      } else if (dato.estadoCronograma === "Pendiente") {
+        estadoCronograma.innerHTML =
+          '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+      } else {
+        estadoCronograma.textContent = dato.estadoCronograma;
+      }
+
+      let fechaPago = document.createElement("div");
+      fechaPago.style.flex = "1"; // Asegura que ocupa el mismo espacio que su encabezado correspondiente
+      fechaPago.style.padding = "10px";
+      fechaPago.style.borderRight = "1px solid #ddd";
+      // Validación para mostrar "No registrado" si la fecha de pago es nula
+      fechaPago.textContent = dato.fechaPago ? dato.fechaPago : "No registrado";
+
+      let acciones = document.createElement("div");
+      acciones.style.flex = "1"; // Ajusta el ancho para contener los botones
+      acciones.style.padding = "10px";
+      acciones.innerHTML = dato.botones; // Así se obtienen los botones generados por la función getBtnUsuarios
+
+      datoDiv.appendChild(mesPago);
+      datoDiv.appendChild(montoPago);
+      datoDiv.appendChild(estadoCronograma);
+      datoDiv.appendChild(fechaPago);
+      datoDiv.appendChild(acciones);
+      filaDatos.appendChild(datoDiv);
+    });
+    contenedor.appendChild(filaDatos);
+
+    // Agregar el contenedor al DOM antes de las pestañas
+    contenedorPrincipal.appendChild(contenedor);
 
     datosFiltrados.forEach((dato) => {
       // Si dato.mesPago es "Matricula" o "Cuota Inicial", no generar el contenido
@@ -333,14 +454,13 @@ $(document).ready(function () {
               </div>
           </div>
 
-   
-         <h3 style="font-weight: bold; text-align: center; border-top: 2px solid #000; padding-top: 10px;  margin-top: 20px;">Ultimo Comunicado</h3>
+        <h3 style="font-weight: bold; text-align: center; border-top: 2px solid #000; padding-top: 10px;  margin-top: 20px;">Ultimo Comunicado</h3>
           <div class="col">
               <label for="tituloComunicacion" class="form-label">Asunto</label>
               <input type="text" class="form-control" id="tituloComunicacion" value="${dato.tituloComunicacion}" readonly>
           </div>
           <div class="col-md-2">
-              <label for="fechaComunicacion" class="form-label">Fecha Comunciado</label>
+              <label for="fechaComunicacion" class="form-label">Fecha Comunicado</label>
               <input type="date" class="form-control" id="fechaComunicacion" value="${dato.fechaComunicacion}" readonly>
           </div>
           <div class="mb-3">
@@ -354,73 +474,34 @@ $(document).ready(function () {
       tabList.appendChild(listItem);
       tabContent.appendChild(divTabPane);
     });
-    // Crear contenedor principal
-    let contenedor = document.createElement("div");
-    contenedor.style.width = "100%";
-    contenedor.style.margin = "20px 0";
-    contenedor.style.fontSize = "14px";
-    contenedor.style.borderRadius = "8px";
-    contenedor.style.overflowX = "auto"; // Agregado para permitir desplazamiento horizontal
-
-    // Crear fila de encabezados
-    let filaEncabezados = document.createElement("div");
-    filaEncabezados.style.display = "flex";
-    filaEncabezados.style.color = "black";
-    filaEncabezados.style.fontWeight = "bold";
-    filaEncabezados.style.textTransform = "uppercase";
-    filaEncabezados.style.borderBottom = "1px solid #ddd";
-
-    let encabezadoMesPago = document.createElement("div");
-    encabezadoMesPago.style.flex = "1";
-    encabezadoMesPago.style.padding = "12px";
-    encabezadoMesPago.style.borderRight = "1px solid #ddd";
-    encabezadoMesPago.textContent = "Mes Pago";
-
-    let encabezadoEstadoCronograma = document.createElement("div");
-    encabezadoEstadoCronograma.style.flex = "1";
-    encabezadoEstadoCronograma.style.padding = "12px";
-    encabezadoEstadoCronograma.textContent = "Estado Cronograma";
-
-    filaEncabezados.appendChild(encabezadoMesPago);
-    filaEncabezados.appendChild(encabezadoEstadoCronograma);
-    contenedor.appendChild(filaEncabezados);
-
-    // Crear contenedor de filas de datos
-    let filaDatos = document.createElement("div");
-    filaDatos.style.display = "flex"; // Cambiado a mostrar en línea horizontal
-
-    datosFiltrados.forEach((dato, index) => {
-      let datoDiv = document.createElement("div");
-      datoDiv.style.display = "flex";
-      datoDiv.style.flexDirection = "column"; // Cambiado para mostrar los datos verticalmente dentro de cada div
-
-      let mesPago = document.createElement("div");
-      mesPago.style.padding = "10px";
-      mesPago.style.borderRight = "1px solid #ddd";
-      mesPago.textContent = dato.mesPago;
-
-      let estadoCronograma = document.createElement("div");
-      estadoCronograma.style.padding = "10px";
-
-      // Aplicar insignia según el estado
-      if (dato.estadoCronograma === "Cancelado") {
-        estadoCronograma.innerHTML =
-          '<span class="badge rounded-pill bg-success">Cancelado</span>';
-      } else if (dato.estadoCronograma === "Pendiente") {
-        estadoCronograma.innerHTML =
-          '<span class="badge rounded-pill bg-warning">Pendiente</span>';
-      } else {
-        estadoCronograma.textContent = dato.estadoCronograma;
-      }
-
-      datoDiv.appendChild(mesPago);
-      datoDiv.appendChild(estadoCronograma);
-      filaDatos.appendChild(datoDiv);
-    });
-
-    contenedor.appendChild(filaDatos);
-
-    // Agregar el contenedor al DOM
-    tabContent.appendChild(contenedor);
   }
+});
+
+// visualizar dato pago de alumno
+$("#contenedorPrincipal ").on("click", ".btnVisualizarPago", function () {
+  var codPago = $(this).attr("codPago");
+  var data = new FormData();
+  data.append("codPago", codPago);
+
+  $.ajax({
+    url: "ajax/pagos.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      $("#nombresDetalleBuscar").val(response.nombresAlumno);
+      $("#apellidosDetalleBuscar").val(response.apellidosAlumno);
+      $("#gradoDetalleBuscar").val(response.descripcionGrado);
+      $("#nivelDertalleBuscar").val(response.nivelAlumno);
+      $("#codigoCajaDetalleBuscar").val(response.codAlumnoCaja);
+      $("#mesDetalleBuscar").val(response.mesPago);
+      $("#LimitePagoDetalleBuscar").val(response.fechaLimite);
+
+      // Abre el modal después de recibir la respuesta
+      $("#modalDetallePagoBuscar").modal("show");
+    },
+  });
 });

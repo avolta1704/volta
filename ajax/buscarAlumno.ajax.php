@@ -68,6 +68,7 @@ class BuscarAlumnoAjax
       $dataBsucar['estadoAdmisionAlumno'] = FunctionBuscarAlumno::getEstadoAlumnoBuscar($dataBsucar["estadoAdmisionAlumno"]);
       $dataBsucar['estadoSiagie'] = FunctionBuscarAlumno::getEstadosBuscarSiagiue($dataBsucar["estadoSiagie"]);
       $dataBsucar['nuevoAlumno'] = FunctionBuscarAlumno::getEstadoNuevoAntigup($dataBsucar["nuevoAlumno"]);
+      $dataBsucar['botones'] = FunctionBuscarAlumno::getBtnBuscarAlumno($dataBsucar["idPago"]);
     }
     echo json_encode($todasLasBusquedas);
   }

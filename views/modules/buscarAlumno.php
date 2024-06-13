@@ -157,7 +157,8 @@
               </div>
               <div class="col-md-2">
                 <label for="numeroComprobanteMatriculaL" class="form-label">Recibo Matricula</label>
-                <input type="text" class="form-control" id="numeroComprobanteMatricula" name="numeroComprobanteMatricula" readonly>
+                <input type="text" class="form-control" id="numeroComprobanteMatricula"
+                  name="numeroComprobanteMatricula" readonly>
               </div>
               <div class="col-md-2">
                 <label for="montoPagoCuotaL" class="form-label">Cuota de Ingreso</label>
@@ -165,33 +166,36 @@
               </div>
               <div class="col-md-2">
                 <label for="numeroComprobanteCuotaL" class="form-label">Recibo de Admisión</label>
-                <input type="text" class="form-control" id="comprobanteCuotaBusqueda" name="numeroComprobanteCuota" readonly>
+                <input type="text" class="form-control" id="comprobanteCuotaBusqueda" name="numeroComprobanteCuota"
+                  readonly>
               </div>
               <div class="col-md-2">
                 <label for="montoPagoPensionL" class="form-label">Monto Pensión</label>
                 <input type="text" class="form-control" id="pensionBusqueda" name="montoPagoPension" readonly>
               </div>
             </div><br>
+            <h3>Estado de Pagos</h3>
+            <div class="container" id="contenedorPrincipalDiv">
+              <!-- Aquí se agregará el contenedor adicional -->
+              <div id="contenedorPrincipal"></div> <br>
+            </div>
 
             <h3>Cronograma Pagos y Comunicados</h3><br>
             <div class="container" id="comunicadosCronograma">
+
               <!-- pestaña para los comunicados y cronograma de pago -->
               <ul class="nav nav-tabs" id="myTabComunicadosCronograma" role="tablist">
-
                 <!-- Agrega más elementos de lista aquí para los otros meses -->
               </ul>
 
-              <div class="tab-content" id="myTabContentComunicadosCronogramaContenido">
 
+              <div class="tab-content" id="myTabContentComunicadosCronogramaContenido">
                 <div class="tab-pane fade show active" id="matricula" role="tabpanel" aria-labelledby="matricula-tab">
                   <br>
                   <!-- Contenido de la pestaña Matricula -->
-
                 </div>
               </div>
-
             </div>
-
           </span>
           <div class="container row g-3 p-3 justify-content-between">
 
@@ -201,3 +205,44 @@
     </div>
   </section>
 </main>
+
+<!-- modal detalle Pago -->
+<div class="modal modalDetallePagoBuscar" id="modalDetallePagoBuscar" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Detalle Pago</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Aquí van tus campos de entrada -->
+        <label for="nombresDetalle">Nombres:</label>
+        <input type="text" class="form-control mb-3" id="nombresDetalleBuscar" name="nombresDetalle" disabled>
+
+        <label for="apellidosDetalle">Apellidos: </label>
+        <input type="text" class="form-control mb-3" id="apellidosDetalleBuscar" name="apellidosDetalle" disabled>
+
+        <label for="gradoDetalle">Grado:</label>
+        <input type="text" class="form-control mb-3" id="gradoDetalleBuscar" name="gradoDetalle" disabled>
+
+        <label for="nivelDertalle">Nivel:</label>
+        <input type="text" class="form-control mb-3" id="nivelDertalleBuscar" name="nivelDertalle" disabled>
+
+        <label for="codigoCajaDetalle">Codigo:</label>
+        <input type="text" class="form-control mb-3" id="codigoCajaDetalleBuscar" name="codigoCajaDetalle" disabled>
+
+        <label for="mesDetalle">Mes:</label>
+        <input type="text" class="form-control mb-3" id="mesDetalleBuscar" name="mesDetalle" disabled>
+
+        <label for="LimitePagoDetalle">Fecha Limite Pago:</label>
+        <input type="text" class="form-control mb-3" id="LimitePagoDetalleBuscar" name="LimitePagoDetalle" disabled>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
