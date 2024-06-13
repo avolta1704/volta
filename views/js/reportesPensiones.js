@@ -511,3 +511,143 @@ $(".dataTableReportesPensiones").on(
 			codAlumno;
 	}
 );
+
+
+// Descargar reporte general del pensiones
+$("#btnDescargarExcelReportePagos").on("click", function () {  
+	var data = new FormData();
+	data.append("todosLosPagos", true);
+	  $.ajax({
+		  url: "ajax/pagos.ajax.php",
+		  method: "POST",
+		  data: data,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  dataType: "json",
+		  success: function (response) {
+			crearExcelTodosPensiones(response, "Listado_Pago","BASE_PENSIONES")
+  
+			  if (response.length == 0) {
+				  Swal.fire({
+					  icon: "warning",
+					  title: "Aviso",
+					  text: "No se encontraron registros",
+				  });
+				  return;
+			  }
+		  },
+		  error: function (jqXHR, textStatus, errorThrown) {
+			  console.log(jqXHR.responseText); // procendecia de error
+			  console.log(
+				  "Error en la solicitud AJAX: ",
+				  textStatus,
+				  errorThrown
+			  );
+		  },
+	  });
+  })
+
+function numeroMesPension(nombreMes){
+	const meses = {
+        "enero": 1,
+        "febrero": 2,
+        "marzo": 3,
+        "abril": 4,
+        "mayo": 5,
+        "junio": 6,
+        "julio": 7,
+        "agosto": 8,
+        "septiembre": 9,
+        "octubre": 10,
+        "noviembre": 11,
+        "diciembre": 12
+    };
+	// Convertir el nombre del mes a minúsculas para hacer la búsqueda insensible a mayúsculas
+	const mesMinuscula = nombreMes.toLowerCase();
+
+	// Verificar si el mes existe en el objeto meses
+	if (meses.hasOwnProperty(mesMinuscula)) {
+		return meses[mesMinuscula].toString().padStart(2,"0");
+	} else {
+		return "-";
+	}
+}
+
+function numberAnioEscolar(anio)
+{
+	return anio.split(" ")[1];
+}
+
+function crearExcelTodosPensiones(data, nombreHoja, nombreArchivo)
+{
+	// Crear un nuevo libro de trabajo
+	var workbook = XLSX.utils.book_new();
+	const ws_data  = [["CÓDIGO", "ALUMNO", "NIVEL", "PENSION", "MONTO", "MORA", "AGENCIA", "MES", "FECHA PAGO", "N° COMPROBANTE", "BOLETA ELECTRÓNICA"]]
+
+	data.forEach((element) => {
+		ws_data.push([
+			element.codAlumnoCaja,
+			element.apellidosAlumno +  ", " + element.nombresAlumno,
+			element.descripcionNivel.substring(0, 4).toUpperCase() +
+				" " +
+				element.descripcionGrado.substring(0, 1).padStart(2, "0") +
+				" U",
+			"SUBPERIODO "+ numberAnioEscolar(element.descripcionAnio) + numeroMesPension(element.mesPago),
+			element.cantidadPago,
+			element.moraPago,
+			element.metodoPago,
+			element.mesPago,
+			element.fechaPago,
+			element.numeroComprobante,
+			element.boletaElectronica
+		]);
+	});
+
+	// Crear una hoja de trabajo
+	const ws = XLSX.utils.aoa_to_sheet(ws_data)
+
+	// Agregar estilo a la fila 1
+	ws["!rows"] = [
+		{hpt: 40}
+	];
+
+	ws["!cols"] = [
+		{ width: 10 },
+		{ width: 25 },
+		{ width: 13 },
+		{ width: 20 },
+		{ width: 10 },
+		{ width: 10 },
+		{ width: 20 },
+		{ width: 13 },
+		{ width: 13 },
+		{ width: 20 },
+		{ width: 21 },
+	];
+
+	// Agregar la hoja de trabajo al libro de trabajo
+	XLSX.utils.book_append_sheet(workbook, ws, nombreHoja);
+
+	// Generar el archivo Excel
+	var excelBuffer = XLSX.write(workbook, {
+		bookType: "xlsx",
+		type: "array",
+	});
+
+	// Convertir el archivo Excel en un Blob
+	var blob = new Blob([excelBuffer], {
+		type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+	});
+
+	// Crear un enlace de descarga
+	var url = URL.createObjectURL(blob);
+	var link = document.createElement("a");
+	link.href = url;
+	link.download = nombreArchivo + ".xlsx";
+	link.click();
+
+	// Liberar el enlace de descarga
+	URL.revokeObjectURL(url);
+}
+  

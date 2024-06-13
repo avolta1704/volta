@@ -3,6 +3,18 @@ date_default_timezone_set('America/Lima');
 
 class ControllerPagos
 {
+
+  /**
+   * Todo Los pagos
+   */
+
+   public static function ctrTodoLosPagos()
+   {
+    $tabla = "pago";
+    $todosLosPagos = ModelPagos::mdlTodosLosPagos($tabla);
+    return $todosLosPagos;
+   }
+
   // Obtener todos los pagos
   public static function ctrGetAllPagos()
   {

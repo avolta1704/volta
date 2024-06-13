@@ -42,6 +42,15 @@
           <input type="file" id="inputExcelReporte" style="display: none;" accept=".xlsx, .xls">
         </div>
       </div>
+      <div style="width: 20px;"></div>
+      <div class="col-lg-2">
+        <span style="margin: 10px;"></span>
+        <div class="row mb-2 ">
+          <button type="button" class="btn btn-success btnDescargarExcelReportePagos" id="btnDescargarExcelReportePagos">
+            <i class="bi bi-file-earmark-arrow-down"></i> Descargar pagos
+          </button>
+        </div>
+      </div>
 
       <!-- Left side columns -->
       <div class="col-lg-12">
