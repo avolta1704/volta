@@ -115,13 +115,14 @@ class ModelPagos
   //  crear registro pago alumno
   public static function mdlCrearRegistroPagoAlumno($table, $dataPagoAlumno)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, numeroComprobante, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
+    $statement = Connection::conn()->prepare("INSERT INTO $table (idTipoPago, idCronogramaPago, fechaPago, cantidadPago, metodoPago, numeroComprobante, boletaElectronica, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idTipoPago, :idCronogramaPago, :fechaPago, :cantidadPago, :metodoPago, :numeroComprobante, :boletaElectronica, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion) ");
     $statement->bindParam(":idTipoPago", $dataPagoAlumno["idTipoPago"], PDO::PARAM_INT);
     $statement->bindParam(":idCronogramaPago", $dataPagoAlumno["idCronogramaPago"], PDO::PARAM_INT);
     $statement->bindParam(":fechaPago", $dataPagoAlumno["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataPagoAlumno["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataPagoAlumno["metodoPago"], PDO::PARAM_STR);
     $statement->bindParam(":numeroComprobante", $dataPagoAlumno["numeroComprobante"], PDO::PARAM_STR);
+    $statement->bindParam(":boletaElectronica", $dataPagoAlumno["boletaElectronica"], PDO::PARAM_STR);
     $statement->bindParam(":fechaCreacion", $dataPagoAlumno["fechaCreacion"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataPagoAlumno["usuarioCreacion"], PDO::PARAM_STR);
@@ -136,10 +137,12 @@ class ModelPagos
   //editar Registro Pago
   public static function mdlEditarPagoAlumno($tabla, $dataEditPagoAlumno)
   {
-    $statement = Connection::conn()->prepare("UPDATE $tabla SET fechaPago = :fechaPago, cantidadPago = :cantidadPago, metodoPago = :metodoPago, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPago = :idPago");
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET fechaPago = :fechaPago, cantidadPago = :cantidadPago, metodoPago = :metodoPago, numeroComprobante = :numeroComprabante ,boletaElectronica = :boletaElectronica, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idPago = :idPago");
     $statement->bindParam(":fechaPago", $dataEditPagoAlumno["fechaPago"], PDO::PARAM_STR);
     $statement->bindParam(":cantidadPago", $dataEditPagoAlumno["cantidadPago"], PDO::PARAM_STR);
     $statement->bindParam(":metodoPago", $dataEditPagoAlumno["metodoPago"], PDO::PARAM_STR);
+    $statement->bindParam(":numeroComprabante", $dataEditPagoAlumno["numeroComprobante"], PDO::PARAM_STR);
+    $statement->bindParam(":boletaElectronica", $dataEditPagoAlumno["boletaElectronica"], PDO::PARAM_STR);
     $statement->bindParam(":fechaActualizacion", $dataEditPagoAlumno["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioActualizacion", $dataEditPagoAlumno["usuarioActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":idPago", $dataEditPagoAlumno["idPago"], PDO::PARAM_INT);
@@ -293,7 +296,8 @@ class ModelPagos
           cp.conceptoPago,
           cp.fechaLimite,
           cp.estadoCronograma,
-          cp.mesPago
+          cp.mesPago,
+          p.boletaElectronica
         FROM $tabla p
         JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
         JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
