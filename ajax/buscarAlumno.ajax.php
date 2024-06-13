@@ -47,19 +47,20 @@ class BuscarAlumnoAjax
       } else {
         $dataBsucar['edad'] = "No Registrado";
       }
-      if (isset($dataBsucar["mesPago"])) {
-        switch ($dataBsucar["mesPago"]) {
+      $pagosYCronograma = ModelBuscarAlumno::mdlGetAllPagosYCronogramaporAlumno($dataBsucar["idAlumno"]);
+      foreach ($pagosYCronograma as $pago) {
+        switch ($pago["mesPago"]) {
           case "Matricula":
-            $dataBsucar['montoPagoMatricula'] = $dataBsucar["montoPago"];
-            $dataBsucar['numeroComprobanteMatricula'] = $dataBsucar["numeroComprobante"];
+            $dataBsucar['montoPagoMatricula'] = $pago["montoPago"];
+            $dataBsucar['numeroComprobanteMatricula'] = $pago["numeroComprobante"];
             break;
           case "Cuota Inicial":
-            $dataBsucar['montoPagoCuota'] = $dataBsucar["montoPago"];
-            $dataBsucar['numeroComprobanteCuota'] = $dataBsucar["numeroComprobante"];
+            $dataBsucar['montoPagoCuota'] = $pago["montoPago"];
+            $dataBsucar['numeroComprobanteCuota'] = $pago["numeroComprobante"];
             break;
           default:
-            if ($dataBsucar["mesPago"] != "Cuota Inicial" && $dataBsucar["mesPago"] != "Matricula") {
-              $dataBsucar['montoPagoPension'] = $dataBsucar["montoPago"];
+            if ($pago["mesPago"] != "Cuota Inicial" && $pago["mesPago"] != "Matricula") {
+              $dataBsucar['montoPagoPension'] = $pago["montoPago"];
             }
             break;
         }

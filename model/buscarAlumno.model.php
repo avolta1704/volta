@@ -63,4 +63,31 @@ ORDER BY
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlGetAllPagosYCronogramaporAlumno($idAlumno)
+  {
+    $statement = Connection::conn()->prepare("
+    SELECT
+      cronograma_pago.mesPago, 
+      cronograma_pago.montoPago, 
+      pago.numeroComprobante
+    FROM
+      cronograma_pago
+      LEFT JOIN
+      pago
+      ON 
+        cronograma_pago.idCronogramaPago = pago.idCronogramaPago
+      INNER JOIN
+      admision_alumno
+      ON 
+        cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+      INNER JOIN
+      alumno
+      ON 
+        admision_alumno.idAlumno = alumno.idAlumno
+    WHERE
+      alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

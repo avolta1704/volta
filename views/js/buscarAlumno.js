@@ -405,10 +405,10 @@ $(document).ready(function () {
       // Aplicar insignia según el estado
       if (dato.estadoCronograma === "Cancelado") {
         estadoCronograma.innerHTML =
-          '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+          '<span class="badge rounded-pill bg-success">Cancelado</span>';
       } else if (dato.estadoCronograma === "Pendiente") {
         estadoCronograma.innerHTML =
-          '<span class="badge rounded-pill bg-success">Matriculado</span>';
+          '<span class="badge rounded-pill bg-warning">Pendiente</span>';
       } else {
         estadoCronograma.textContent = dato.estadoCronograma;
       }
