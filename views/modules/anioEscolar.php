@@ -15,7 +15,7 @@
     <div class="row gap-3">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary gap-2 justify-content-center d-flex btnAgregarCurso" data-bs-target="#modalAgregarAnio" data-bs-toggle="modal">
+          <button type="button" class="btn btn-primary gap-2 justify-content-center d-flex" data-bs-target="#modalAgregarAnio" data-bs-toggle="modal">
             <i class="bi bi-plus-circle"></i> Año Escolar</button>
         </div>
       </div>
