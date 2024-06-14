@@ -80,7 +80,8 @@
                     <h6>Filtrar por</h6>
                   </li>
                   <?php foreach (array_unique($meses) as $mes): ?>
-                    <li><a class="dropdown-item" href="#" onclick="filtrarPagos('<?php echo $mes; ?>')"><?php echo $mes; ?></a>
+                    <li><a class="dropdown-item" href="#"
+                        onclick="filtrarPagos('<?php echo $mes; ?>')"><?php echo $mes; ?></a>
                     </li>
                   <?php endforeach; ?>
                 </ul>
@@ -99,34 +100,6 @@
                     <span class="text-muted small pt-2 ps-1">de <?php echo $totalPensionesJson; ?></span>
                   </div>
                 </div>
-
-                <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    const pagosPorMes = <?php echo $pagosPorMesJson; ?>;
-                    const porcentajePorMes = <?php echo $porcentajePorMesJson; ?>;
-                    const meses = <?php echo $mesesJson; ?>;
-
-                    // Función para actualizar el total de pagos vencidos y porcentaje de pensiones vencidas
-                    window.updatePagosVencidos = function (mes) {
-                      const totalPagosVencidos = pagosPorMes[mes].reduce((sum, current) => sum + current, 0);
-                      const porcentajeVencidas = Math.round(parseFloat(porcentajePorMes[mes]) * 100) / 100;
-
-                      document.getElementById('filtroSeleccionado').textContent = "| " + mes;
-                      document.getElementById('totalPagosVencidos').textContent = totalPagosVencidos;
-                      document.getElementById('porcentajeVencidas').textContent = porcentajeVencidas + '%';
-                    }
-
-                    // Inicializar con el primer mes
-                    if (meses.length > 0) {
-                      updatePagosVencidos(meses[0]);
-                    }
-                  });
-
-                  // Para el primer card
-                  function filtrarPagos(mes) {
-                    updatePagosVencidos(mes);
-                  }
-                </script>
               </div>
             </div>
           </div>
@@ -160,35 +133,6 @@
                   </div>
                 </div>
               </div>
-
-              <script>
-                // JavaScript para actualizar el título y el total de alumnos
-                document.addEventListener("DOMContentLoaded", () => {
-                  const descripcionesAnio = <?php echo json_encode($descripcionesAnio); ?>;
-                  const totalesAlumnos = <?php echo json_encode($totalesAlumnos); ?>;
-
-                  // Función para actualizar el título y el total de alumnos
-                  window.actualizarDatos = function (indice) {
-                    const filtroSeleccionado = document.querySelector('.filtro-seleccionado');
-                    const totalAlumnos = document.querySelector('.total-alumnos');
-
-                    filtroSeleccionado.textContent = "| " + descripcionesAnio[indice];
-                    totalAlumnos.textContent = totalesAlumnos[indice].toLocaleString() + " Matriculados"; // Formatear como número
-                  }
-
-                  // Inicializar con el primer conjunto de datos
-                  actualizarDatos(0);
-                });
-
-                // Función para filtrar por año
-                function filtrarAlumnos(descripcionAnio) {
-                  const descripcionesAnio = <?php echo json_encode($descripcionesAnio); ?>;
-                  const indice = descripcionesAnio.indexOf(descripcionAnio);
-                  if (indice !== -1) {
-                    actualizarDatos(indice);
-                  }
-                }
-              </script>
 
             </div>
           </div>
@@ -253,56 +197,6 @@
 
                 <!-- Line Chart -->
                 <div id="reportsChart"></div>
-
-                <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    // Datos obtenidos desde PHP
-                    const grados = <?php echo $gradosJson; ?>;
-                    const alumnos = <?php echo $alumnosJson; ?>;
-
-                    new ApexCharts(document.querySelector("#reportsChart"), {
-                      series: [{
-                        name: 'Alumnos',
-                        data: alumnos,
-                      }],
-                      chart: {
-                        height: 350,
-                        type: 'bar',  // Usamos un gráfico de barras para este tipo de datos
-                        toolbar: {
-                          show: false
-                        },
-                      },
-                      plotOptions: {
-                        bar: {
-                          horizontal: false,
-                          columnWidth: '55%',
-                          endingShape: 'rounded'
-                        },
-                      },
-                      dataLabels: {
-                        enabled: false
-                      },
-                      stroke: {
-                        show: true,
-                        width: 2,
-                        colors: ['transparent']
-                      },
-                      xaxis: {
-                        categories: grados,
-                      },
-                      fill: {
-                        opacity: 1
-                      },
-                      tooltip: {
-                        y: {
-                          formatter: function (val) {
-                            return val + " alumnos"
-                          }
-                        }
-                      }
-                    }).render();
-                  });
-                </script>
               </div>
 
             </div>
@@ -384,5 +278,14 @@
 
     </div>
   </section>
+  <script>
+    var pagosPorMes = <?php echo $pagosPorMesJson; ?>;
+    var porcentajePorMes = <?php echo $porcentajePorMesJson; ?>;
+    var meses = <?php echo $mesesJson; ?>;
+    var descripcionesAnio = <?php echo json_encode($descripcionesAnio); ?>;
+    var totalesAlumnos = <?php echo json_encode($totalesAlumnos); ?>;
+    var grados = <?php echo $gradosJson; ?>;
+    var alumnos = <?php echo $alumnosJson; ?>;
+  </script>
 
 </main>

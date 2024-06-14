@@ -49,4 +49,48 @@ $(document).ready(function () {
       actualizarDatos(indice);
     }
   };
+  // Inicialización del gráfico de barras
+  new ApexCharts(document.querySelector("#reportsChart"), {
+    series: [
+      {
+        name: "Alumnos",
+        data: alumnos,
+      },
+    ],
+    chart: {
+      height: 350,
+      type: "bar", // Usamos un gráfico de barras para este tipo de datos
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "55%",
+        endingShape: "rounded",
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    xaxis: {
+      categories: grados,
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      y: {
+        formatter: function (val) {
+          return val + " alumnos";
+        },
+      },
+    },
+  }).render();
 });
