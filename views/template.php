@@ -55,6 +55,7 @@ session_start();
         $_GET["ruta"] == "cursosDocente" ||
         $_GET["ruta"] == "notasCursoDocente" ||
         $_GET["ruta"] == "visualizarAsistencia" ||
+        $_GET["ruta"] == "tecnicaseInstrumentos" ||
 
 
 
@@ -120,6 +121,7 @@ session_start();
   <script src="views/js/alumnosCursoDocente.js"></script>
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
+  <script src="views/js/tecnicaseInstrumentos.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -147,6 +149,7 @@ session_start();
   <!-- <script src="views/dataTables/dt-lista-postulantes.js"></script> -->
   <script src="views/dataTables/dt-competencias.js"></script>
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
+  <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
 </body>
 
 </html>
