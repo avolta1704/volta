@@ -632,3 +632,185 @@ $("#thirdButtonContainer").on("click", "#btnCerrarNotas", function () {
 		}
 	});
 });
+
+$("#btnCerrarModalCriteriosCompetencia").on("click", function () {
+	$("#modalCompetenciaUnidad").modal("show");
+});
+
+$("#dataTableCompetencias").on("click", "#btnAbrirModalCriterios", function () {
+	const idCompetencia = $(this).attr("idCompetencia");
+	const descripcionCompetencia = $(this).attr("descripcionCompetencia");
+	if (!!descripcionCompetencia) {
+		$("#modalCriteriosCompetenciaLabel").text(
+			"Criterios de la Competencia " +
+				descripcionCompetencia.toString().toUpperCase()
+		);
+	}
+
+	crearDataTableCriterios(idCompetencia);
+});
+
+// Crear la dataTableCriteriosCompetencias
+function crearDataTableCriterios(idCompetencia) {
+	// Definición de columnas
+	var columnDefsCriterios = [
+		{ data: "descripcionCriterioCompetencia" },
+		{ data: "codTecnica" },
+		{ data: "codInstrumento" },
+		{ data: "buttons" },
+	];
+
+	// Inicialización de dataTableCursosPorGrado
+	var tableCriterios = $("#dataTableCriteriosCompetencias").DataTable({
+		columns: columnDefsCriterios,
+		retrieve: true,
+		paging: false,
+	});
+
+	var data = new FormData();
+	data.append("idCompetencia", idCompetencia);
+
+	$.ajax({
+		url: "ajax/criterios.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			tableCriterios.clear();
+			tableCriterios.rows.add(response);
+			tableCriterios.draw();
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // Procedencia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+
+	$("#dataTableCriteriosCompetencias thead").html(`
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Criterio</th>
+      <th scope="col">Técnica</th>
+      <th scope="col">Instrumento</th>
+      <th scope="col">Acciones</th>
+    </tr>
+    `);
+
+	tableCriterios.destroy();
+
+	columnDefsCriterios = [
+		{
+			data: null,
+			render: function (data, type, row, meta) {
+				return meta.row + 1;
+			},
+		},
+		{ data: "descripcionCriterioCompetencia" },
+		{ data: "codTecnica" },
+		{ data: "codInstrumento" },
+		{ data: "buttons" },
+	];
+	tableCriterios = $("#dataTableCriteriosCompetencias").DataTable({
+		columns: columnDefsCriterios,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
+	});
+}
+
+// crear Criterios
+$("#btnAgregarCriterio").on("click", function () {
+	// cerrar modal de competencias
+	$("#modalCompetenciaUnidad").modal("hide");
+
+	// Limpiar los select de técnicas e instrumentos
+	$("#selectTecnicas").empty();
+	$("#selectInstrumentos").empty();
+
+	// crear un select con las técnicas
+	var data = new FormData();
+	data.append("allTecnicas", true);
+	$.ajax({
+		url: "ajax/criterios.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			$("#selectTecnicas").empty();
+			$("#selectTecnicas").append(
+				`<option value="" selected>Seleccione una técnica</option>`
+			);
+			response.forEach((value) => {
+				$("#selectTecnicas").append(
+					`<option value="${value.idTecnicaEvaluacion}">${value.codTecnica} - ${value.descripcionTecnica}</option>`
+				);
+			});
+
+			// crear un select con los instrumentos segun la técnica seleccionada
+			$("#selectTecnicas").on("change", function () {
+				var idTecnica = $(this).val();
+				var data = new FormData();
+				data.append("idTecnicaEvaluacion", idTecnica);
+				$.ajax({
+					url: "ajax/criterios.ajax.php",
+					method: "POST",
+					data: data,
+					cache: false,
+					contentType: false,
+					processData: false,
+					dataType: "json",
+					success: function (response) {
+						$("#selectInstrumentos").empty();
+						$("#selectInstrumentos").append(
+							`<option value="" selected>Seleccione un instrumento</option>`
+						);
+						response.forEach((value) => {
+							$("#selectInstrumentos").append(
+								`<option value="${value.idInstrumento}">${value.codInstrumento} - ${value.descripcionInstrumento} </option>`
+							);
+						});
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log(jqXHR.responseText); // Procedencia de error
+						console.log(
+							"Error en la solicitud AJAX: ",
+							textStatus,
+							errorThrown
+						);
+					},
+				});
+			});
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // Procedencia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+});
+
+// Funcionalidad para el botón de crear criterio
+// $("#modalIngresarCriterio").on("click", "#btnCrearCriterio", function () {});
+
+// Funcionalidad para el botón de cerrar crear criterio
+$("#modalIngresarCriterio").on(
+	"click",
+	"#btnCerrarModalCrearCriterio",
+	function () {
+		$("#modalIngresarCriterio").modal("hide");
+		$("#modalCriteriosCompetencia").modal("show");
+	}
+);
