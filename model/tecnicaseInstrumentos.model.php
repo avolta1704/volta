@@ -38,7 +38,7 @@ class ModelTecnicaseInstrumentos
   {
     $stmt = Connection::conn()->prepare("SELECT MAX(idTecnicaEvaluacion) AS idTecnica FROM $tabla");
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_COLUMN);
   }
 
   /**
@@ -66,5 +66,17 @@ class ModelTecnicaseInstrumentos
     } else {
       return false;
     }
+  }
+
+  /*
+    * Obtener todas las técnicas
+    *
+    * @param string $tabla
+    * @return array
+    */
+  public static function mdlGetTodasLasTecnicas($tabla) {
+    $stmt = Connection::conn()->prepare("SELECT idTecnicaEvaluacion, descripcionTecnica, codTecnica FROM $tabla");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 }

@@ -87,3 +87,40 @@ $("#btnRegistrarTecnica").on("click", function () {
     },
   });
 });
+//  Obtener los datos del las tecnicas para editar
+$(".dataTableTecnicas").on("click", ".btnVisualizarTecnica", function (e) {
+  var codTecnica = $(this).attr("codTecnica");
+
+  var data = new FormData();
+  data.append("codTecnicaBuscar", codTecnica);
+
+  $.ajax({
+    url: "ajax/tecnicaseInstrumentos.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response == "error") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "La técnica no se encontró",
+          timer: 2000,
+          showConfirmButton: true,
+        });
+        return;
+      } else {
+        $("#editarDescripcionAnio").val(response.descripcionAnio);
+        $("#editarCuotaIngreso").val(response.cuotaInicial);
+        $("#editarMatriculaInicial").val(response.matriculaInicial);
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX: ", textStatus, errorThrown);
+    },
+  });
+});
+

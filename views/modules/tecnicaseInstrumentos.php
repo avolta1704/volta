@@ -1,7 +1,7 @@
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h2 class="mt-4 tituloAnio"></h2><br>
+    <h2 class="mt-4 tituloTecnica"></h2><br>
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
@@ -25,7 +25,7 @@
           <div class="card">
             <div class="card-body table-responsive">
               <!--  Titulo dataTable Tecnicas e Instrumentos-->
-              <table id="dataTableAnios" class="display dataTableTecnicas " style="width: 100%">
+              <table id="dataTableTecnicas" class="display dataTableTecnicas " style="width: 100%">
                 <thead>
                   <!-- dataTable Tecnicas e Instrumentos -->
                 </thead>
@@ -69,7 +69,6 @@
 
           <div class="mb-3 listaInstrumentos">
             <label for="lista" class="form-label" style="font-weight:bold">Lista de Instrumentos</label>
-
           </div>
 
           <div class="modal-footer">

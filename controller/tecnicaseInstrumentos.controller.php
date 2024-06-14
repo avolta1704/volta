@@ -44,4 +44,15 @@ class ControllerTecnicaseInstrumentos
     }
     return $respuesta;
   }
+
+  /**
+   * Obtener todas las técnicas
+   *
+   * @return array
+   */
+  public static function ctrGetTodasLasTecnicas() {
+    $tabla = "tecnica_evaluacion";
+    $respuesta = ModelTecnicaseInstrumentos::mdlGetTodasLasTecnicas($tabla);
+    return $respuesta;
+  }
 }
