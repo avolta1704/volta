@@ -12,7 +12,7 @@ class ControllerCompetencia
   }
 
   // Crear Competencia
-  public static function ctrCrearCompetencia($idUnidad, $descripcionCompetenciaCrear)
+  public static function ctrCrearCompetencia($idUnidad, $competencia)
   {
     $tabla = "competencias";
     if (session_status() == PHP_SESSION_NONE) {
@@ -20,7 +20,9 @@ class ControllerCompetencia
     }
     $arrayCompetencias = array(
       "idUnidad" => $idUnidad,
-      "descripcionCompetencia" => $descripcionCompetenciaCrear,
+      "descripcionCompetencia" => $competencia["descripcionCompetenciaCrear"],
+      "capacidadesCompetencia" => $competencia["capacidades"],
+      "estandarCompetencia" => $competencia["estandar"],
       "fechaCreacion" => date("Y-m-d H:i:s"),
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioCreacion" => $_SESSION["idUsuario"],
@@ -31,14 +33,16 @@ class ControllerCompetencia
   }
 
   // Modificar Competencia
-  public static function ctrModificarCompetencia($idCompetencia, $notaTextModificada)
+  public static function ctrModificarCompetencia($idCompetencia, $competenciaModificada)
   {
     $tabla = "competencias";
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
     $arrayCompetenciaMoficiada = array(
-      "descripcionCompetencia" => $notaTextModificada,
+      "descripcionCompetencia" => $competenciaModificada["descripcionCompetenciaEditar"],
+      "capacidadesCompetencia" => $competenciaModificada["capacidadesCompetenciaEditar"],
+      "estandarCompetencia" => $competenciaModificada["estandarCompetenciaEditar"],
       "fechaActualizacion" => date("Y-m-d H:i:s"),
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
@@ -65,7 +69,9 @@ class ControllerCompetencia
     foreach ($checkboxValues as $checkboxValue) {
       $arrayCompetencias = array(
         "idUnidad" => $idUnidadDuplicado,
-        "descripcionCompetencia" => $checkboxValue,
+        "descripcionCompetencia" => $checkboxValue["descripcionCompetenciaCrear"],
+        "capacidadesCompetencia" => $checkboxValue["capacidades"],
+        "estandarCompetencia" => $checkboxValue["estandar"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
@@ -75,7 +81,8 @@ class ControllerCompetencia
       // Primero verificar si la competencia ya existe
       $checkResponse = ModelCompetencia::mdlVerificarCompetencia($tabla, $arrayCompetencias);
 
-      if ($checkResponse == "ok") {
+
+      if ($checkResponse != "error") {
         // Si la competencia no existe, se inserta
         $insertResponse = ModelCompetencia::mdlCrearCompetencia($tabla, $arrayCompetencias);
         // Guarda las repsuesta en las respuestasobtenidas de las funciones
@@ -118,4 +125,3 @@ class ControllerCompetencia
     return "ok";
   }
 }
-

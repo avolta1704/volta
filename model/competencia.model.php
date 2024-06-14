@@ -11,6 +11,8 @@ class ModelCompetencia
     $stmt = Connection::conn()->prepare("SELECT
     competencias.idCompetencia, 
     competencias.descripcionCompetencia,
+    competencias.capacidadesCompetencia,
+    competencias.estandarCompetencia,
     MAX(nota_competencia.notaCompetencia) AS maxNotaCompetencia
 FROM
     competencias
@@ -35,9 +37,11 @@ GROUP BY
   // Insertar Competencia
   public static function mdlCrearCompetencia($tabla, $arrayCompetencias)
   {
-    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(idUnidad, descripcionCompetencia, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idUnidad, :descripcionCompetencia, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $stmt = Connection::conn()->prepare("INSERT INTO $tabla(idUnidad, descripcionCompetencia, capacidadesCompetencia, estandarCompetencia, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES (:idUnidad, :descripcionCompetencia, :capacidadesCompetencia, :estandarCompetencia, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
     $stmt->bindParam(":idUnidad", $arrayCompetencias["idUnidad"], PDO::PARAM_INT);
     $stmt->bindParam(":descripcionCompetencia", $arrayCompetencias["descripcionCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":capacidadesCompetencia", $arrayCompetencias["capacidadesCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":estandarCompetencia", $arrayCompetencias["estandarCompetencia"], PDO::PARAM_STR);
     $stmt->bindParam(":fechaCreacion", $arrayCompetencias["fechaCreacion"], PDO::PARAM_STR);
     $stmt->bindParam(":fechaActualizacion", $arrayCompetencias["fechaActualizacion"], PDO::PARAM_STR);
     $stmt->bindParam(":usuarioCreacion", $arrayCompetencias["usuarioCreacion"], PDO::PARAM_INT);
@@ -52,8 +56,10 @@ GROUP BY
   // Modificar Competencia
   public static function mdlModificarCompetencia($tabla, $arrayCompetenciaMoficiada, $idCompetencia)
   {
-    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCompetencia = :descripcionCompetencia, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCompetencia = :idCompetencia");
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCompetencia = :descripcionCompetencia, capacidadesCompetencia = :capacidadesCompetencia, estandarCompetencia = :estandarCompetencia, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idCompetencia = :idCompetencia");
     $stmt->bindParam(":descripcionCompetencia", $arrayCompetenciaMoficiada["descripcionCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":capacidadesCompetencia", $arrayCompetenciaMoficiada["capacidadesCompetencia"], PDO::PARAM_STR);
+    $stmt->bindParam(":estandarCompetencia", $arrayCompetenciaMoficiada["estandarCompetencia"], PDO::PARAM_STR);
     $stmt->bindParam(":fechaActualizacion", $arrayCompetenciaMoficiada["fechaActualizacion"], PDO::PARAM_STR);
     $stmt->bindParam(":usuarioActualizacion", $arrayCompetenciaMoficiada["usuarioActualizacion"], PDO::PARAM_INT);
     $stmt->bindParam(":idCompetencia", $idCompetencia, PDO::PARAM_INT);
@@ -67,7 +73,9 @@ GROUP BY
   public static function mdlDuplicarCompetencia($tabla, $idCursoDuplicar, $idGradoDuplicar, $idPersonalDuplicar)
   {
     $stmt = Connection::conn()->prepare("SELECT DISTINCT
-      competencias.descripcionCompetencia
+      competencias.descripcionCompetencia,      
+    competencias.capacidadesCompetencia,
+    competencias.estandarCompetencia
     FROM
       $tabla
       INNER JOIN
@@ -127,7 +135,8 @@ GROUP BY
       return "error";
     }
   }
-  public static function mdlValidarNotasCompetencias($tabla, $idUnidadValidacion,$idAlumnoAnioEscolar){
+  public static function mdlValidarNotasCompetencias($tabla, $idUnidadValidacion, $idAlumnoAnioEscolar)
+  {
     $stmt = Connection::conn()->prepare("SELECT
       nota_competencia.notaCompetencia, 
       competencias.idCompetencia
@@ -147,10 +156,9 @@ GROUP BY
     WHERE
       alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar AND
       competencias.idUnidad = :idUnidad");
-      $stmt->bindParam(":idAlumnoAnioEscolar",$idAlumnoAnioEscolar, PDO::PARAM_INT);
-      $stmt->bindParam( ":idUnidad", $idUnidadValidacion, PDO::PARAM_INT);
-      $stmt->execute();
-      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->bindParam(":idAlumnoAnioEscolar", $idAlumnoAnioEscolar, PDO::PARAM_INT);
+    $stmt->bindParam(":idUnidad", $idUnidadValidacion, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
-
 }

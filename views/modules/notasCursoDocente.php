@@ -54,8 +54,7 @@
 </main>
 
 <!-- Modal Listar Cursos -->
-<div class="modal fade" id="modalCompetenciaUnidad" tabindex="-1" aria-labelledby="modalCompetenciaUnidadLabel"
-  aria-hidden="true">
+<div class="modal fade" id="modalCompetenciaUnidad" tabindex="-1" aria-labelledby="modalCompetenciaUnidadLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -65,14 +64,12 @@
       <div class="modal-body">
         <div class="row mb-2">
           <div class="col-auto">
-            <button type="button" class="btn btn-primary btnAgregarCompetencia gap-2 justify-content-center d-flex me-2"
-              data-bs-target="#modalIngresarCompetencia" data-bs-toggle="modal" id="btnAgregarCompetencia" idUnidad="">
+            <button type="button" class="btn btn-primary btnAgregarCompetencia gap-2 justify-content-center d-flex me-2" data-bs-target="#modalIngresarCompetencia" data-bs-toggle="modal" id="btnAgregarCompetencia" idUnidad="">
               <i class="bi bi-plus-circle"></i> Agregar Competencia
             </button>
           </div>
           <div class="col-auto">
-            <button type="button" class="btn btn-warning btnDuplicarCompetencia gap-2 justify-content-center d-flex"
-              data-bs-target="#modalDuplicarCompetencia" data-bs-toggle="modal" id="btnDuplicarCompetencia" idUnidad="">
+            <button type="button" class="btn btn-warning btnDuplicarCompetencia gap-2 justify-content-center d-flex" data-bs-target="#modalDuplicarCompetencia" data-bs-toggle="modal" id="btnDuplicarCompetencia" idUnidad="">
               <i class="bi bi-files"></i> Duplicar Competencias
             </button>
           </div>
@@ -97,8 +94,7 @@
 </div>
 
 <!-- Modal Ingresar Competencias-->
-<div class="modal fade" id="modalIngresarCompetencia" tabindex="-1" aria-labelledby="modalIngresarCompetenciaLabel"
-  aria-hidden="true">
+<div class="modal fade" id="modalIngresarCompetencia" tabindex="-1" aria-labelledby="modalIngresarCompetenciaLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -109,15 +105,22 @@
       </div>
       <div class="modal-body">
         <form id="notaForm">
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="notaText">Competencia:</label>
             <textarea class="form-control" id="notaText" rows="3"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Capacidades:</label>
+            <textarea class="form-control" id="capacidadesCompetencia" rows="3"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Estandar:</label>
+            <textarea class="form-control" id="estandarCompetencia" rows="3"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btnCerrarModalCompetencia"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalCompetencia" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary" id="btnCrearCompetencia" idUnidad="">Crear Competencia</button>
       </div>
     </div>
@@ -125,8 +128,7 @@
 </div>
 
 <!-- Modal para Modificar Competencias -->
-<div class="modal fade" id="modalEditarCompetencia" tabindex="-1" aria-labelledby="modalEditarCompetenciaLabel"
-  aria-hidden="true">
+<div class="modal fade" id="modalEditarCompetencia" tabindex="-1" aria-labelledby="modalEditarCompetenciaLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -137,15 +139,22 @@
       </div>
       <div class="modal-body">
         <form id="notaForm">
-          <div class="form-group">
+          <div class="form-group mb-3">
             <label for="notaText">Competencia:</label>
             <textarea class="form-control" id="notaTextEditar" rows="3"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Capacidades:</label>
+            <textarea class="form-control" id="capacidadesCompetenciaEditar" rows="3"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Estandar:</label>
+            <textarea class="form-control" id="estandarCompetenciaEditar" rows="3"></textarea>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="btnCerrarModalEditarCompetencia"
-          data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalEditarCompetencia" data-dismiss="modal">Cerrar</button>
         <button type="button" class="btn btn-primary" id="btnGuardarCompetencia">Guardar Competencia</button>
       </div>
     </div>
@@ -154,8 +163,7 @@
 
 
 <!-- Modal Duplicar Competencia -->
-<div class="modal fade" id="modalDuplicarCompetencia" tabindex="-1" aria-labelledby="modalDuplicarCompetenciaLabel"
-  aria-hidden="true">
+<div class="modal fade" id="modalDuplicarCompetencia" tabindex="-1" aria-labelledby="modalDuplicarCompetenciaLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -180,8 +188,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="btnDuplicarCompetenciaModal">Insertar</button>
-        <button type="button" class="btn btn-secondary" id="btnCerrarmodalDuplicarCompetencia"
-          data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarmodalDuplicarCompetencia" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>
