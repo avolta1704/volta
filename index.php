@@ -56,6 +56,7 @@ require_once "controller/bimestre.controller.php";
 require_once "controller/unidad.controller.php";
 require_once "controller/asistenciaAlumnos.controller.php";
 require_once "controller/competencia.controller.php";
+require_once "controller/criterios.controller.php";
 
 
 //  Models
@@ -88,6 +89,7 @@ require_once "model/unidad.model.php";
 require_once "model/asistenciaAlumnos.model.php";
 require_once "model/transactionManager.model.php";
 require_once "model/competencia.model.php";
+require_once "model/criterios.model.php";
 
 
 $template = new ControllerTemplate();
