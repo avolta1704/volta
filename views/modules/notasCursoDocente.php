@@ -193,3 +193,71 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Criterios de la competencia -->
+<div class="modal fade" id="modalCriteriosCompetencia" tabindex="-1" aria-labelledby="modalCriteriosCompetenciaLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCriteriosCompetenciaLabel">Criterios de la Competencia</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row mb-2">
+          <div class="col-auto">
+            <button type="button" class="btn btn-primary gap-2 justify-content-center d-flex me-2" data-bs-target="#modalIngresarCriterio" data-bs-toggle="modal" id="btnAgregarCriterio">
+              <i class="bi bi-plus-circle"></i> Agregar Criterio
+            </button>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="dataTableCriteriosCompetencias" class="display dataTableCriteriosCompetencias " style="width: 100%">
+            <thead>
+              <!-- dataTableNotasCursoDocenteAdmin -->
+            </thead>
+            <tbody>
+              <!--dataTableNotasCursoDocenteAdmin-->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnCerrarModalCriteriosCompetencia">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para crear un nuevo criterio -->
+<div class="modal fade" id="modalIngresarCriterio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalIngresarCriterioLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalIngresarCriterioLabel">Inserte el Criterio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="notaForm">
+          <div class="form-group mb-3">
+            <label for="notaText">Descripción:</label>
+            <textarea class="form-control" id="descripcionCriterio" rows="3"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Técnica:</label>
+            <select class="form-select" id="selectTecnicas">
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Instrumento:</label>
+            <select class="form-select" id="selectInstrumentos">
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalCrearCriterio" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnCrearCriterio" idCompetencia="">Crear Criterio</button>
+      </div>
+    </div>
+  </div>
+</div>
