@@ -14,7 +14,7 @@ class CompetenciaAjax
     $idUnidad = $this->idUnidad;
     $response = ControllerCompetencia::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
-      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data['descripcionCompetencia'], $data['maxNotaCompetencia']);
+      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data, $data['maxNotaCompetencia']);
     }
     echo json_encode($response);
   }
@@ -25,7 +25,8 @@ class CompetenciaAjax
   {
     $idUnidadCrear = $this->idUnidadCrear;
     $descripcionCompetenciaCrear = $this->descripcionCompetenciaCrear;
-    $response = ControllerCompetencia::ctrCrearCompetencia($idUnidadCrear, $descripcionCompetenciaCrear);
+    $competencia = json_decode($descripcionCompetenciaCrear, true);
+    $response = ControllerCompetencia::ctrCrearCompetencia($idUnidadCrear, $competencia);
     echo json_encode($response);
   }
 
@@ -36,7 +37,8 @@ class CompetenciaAjax
   {
     $idCompetencia = $this->idCompetencia;
     $notaTextModificada = $this->notaTextModificada;
-    $response = ControllerCompetencia::ctrModificarCompetencia($idCompetencia, $notaTextModificada);
+    $competenciaModificada = json_decode($notaTextModificada, true);
+    $response = ControllerCompetencia::ctrModificarCompetencia($idCompetencia, $competenciaModificada);
     echo json_encode($response);
   }
   // Duplicar Competencia
@@ -58,6 +60,7 @@ class CompetenciaAjax
   {
     $idUnidadDuplicado = $this->idUnidadDuplicado;
     $checkboxValues = $this->checkboxValues;
+    $checkboxValues = json_decode(json_encode($checkboxValues), true);
     $response = ControllerCompetencia::ctrInsertarDuplicadosCompetencia($idUnidadDuplicado, $checkboxValues);
     echo json_encode($response);
   }
@@ -117,4 +120,3 @@ if (isset($_POST["idCompetenciaEliminar"])) {
   $eliminarCompetencia->idCompetenciaEliminar = $_POST["idCompetenciaEliminar"];
   $eliminarCompetencia->ajaxEliminarCompetencia();
 }
-
