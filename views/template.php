@@ -55,10 +55,6 @@ session_start();
         $_GET["ruta"] == "cursosDocente" ||
         $_GET["ruta"] == "notasCursoDocente" ||
         $_GET["ruta"] == "visualizarAsistencia" ||
-
-
-
-
         $_GET["ruta"] == "cerrarSesion"
       ) {
         include "modules/" . $_GET["ruta"] . ".php";
@@ -120,6 +116,7 @@ session_start();
   <script src="views/js/alumnosCursoDocente.js"></script>
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
+  <script src="views/js/inicio.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

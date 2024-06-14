@@ -33,6 +33,24 @@
   $pagosPorMesJson = json_encode($pagosPorMes);
   $porcentajePorMesJson = json_encode($porcentajePorMes);
   $totalPensionesJson = json_encode($totalPensiones);
+
+  $todoslosAlumnosporAnio = ModelInicio::mdlObtenerTodoslosAlumnosporAnio();
+  // Creación de arrays y llenado
+  $descripcionesAnio = [];
+  $estadosAnio = [];
+  $totalesAlumnos = [];
+
+  foreach ($todoslosAlumnosporAnio as $fila) {
+    $descripcionesAnio[] = $fila['descripcionAnio'];
+    $estadosAnio[] = $fila['estadoAnio'];
+    $totalesAlumnos[] = $fila['total_alumno'];
+  }
+
+  // Conversión a JSON
+  $descripcionesAnioJson = json_encode($descripcionesAnio);
+  $estadosAnioJson = json_encode($estadosAnio);
+  $totalesAlumnosJson = json_encode($totalesAlumnos);
+
   ?>
 
   <div class="pagetitle">
@@ -48,7 +66,7 @@
     <div class="row">
 
       <!-- Left side columns -->
-      <div class="col-lg-8">
+      <div class="col-lg-12">
         <div class="row">
 
           <!-- Sales Card -->
@@ -62,7 +80,7 @@
                     <h6>Filtrar por</h6>
                   </li>
                   <?php foreach (array_unique($meses) as $mes): ?>
-                    <li><a class="dropdown-item" href="#" onclick="filtrar('<?php echo $mes; ?>')"><?php echo $mes; ?></a>
+                    <li><a class="dropdown-item" href="#" onclick="filtrarPagos('<?php echo $mes; ?>')"><?php echo $mes; ?></a>
                     </li>
                   <?php endforeach; ?>
                 </ul>
@@ -84,25 +102,28 @@
 
                 <script>
                   document.addEventListener("DOMContentLoaded", () => {
-                    // Datos obtenidos desde PHP
                     const pagosPorMes = <?php echo $pagosPorMesJson; ?>;
                     const porcentajePorMes = <?php echo $porcentajePorMesJson; ?>;
+                    const meses = <?php echo $mesesJson; ?>;
 
                     // Función para actualizar el total de pagos vencidos y porcentaje de pensiones vencidas
                     window.updatePagosVencidos = function (mes) {
                       const totalPagosVencidos = pagosPorMes[mes].reduce((sum, current) => sum + current, 0);
-                      const porcentajeVencidas = porcentajePorMes[mes]; // Sin multiplicar por 100
-                      document.getElementById('totalPagosVencidos').textContent = totalPagosVencidos;
-                      document.getElementById('porcentajeVencidas').textContent = porcentajeVencidas.toFixed(2) + '%'; // Formatea a dos decimales
+                      const porcentajeVencidas = Math.round(parseFloat(porcentajePorMes[mes]) * 100) / 100;
+
                       document.getElementById('filtroSeleccionado').textContent = "| " + mes;
+                      document.getElementById('totalPagosVencidos').textContent = totalPagosVencidos;
+                      document.getElementById('porcentajeVencidas').textContent = porcentajeVencidas + '%';
                     }
 
                     // Inicializar con el primer mes
-                    updatePagosVencidos('<?php echo reset($meses); ?>');
+                    if (meses.length > 0) {
+                      updatePagosVencidos(meses[0]);
+                    }
                   });
 
-                  // Función para filtrar
-                  function filtrar(mes) {
+                  // Para el primer card
+                  function filtrarPagos(mes) {
                     updatePagosVencidos(mes);
                   }
                 </script>
@@ -120,28 +141,54 @@
                   <li class="dropdown-header text-start">
                     <h6>Filtro</h6>
                   </li>
-
-                  <li><a class="dropdown-item" href="#">Hoy</a></li>
-                  <li><a class="dropdown-item" href="#">Este Mes</a></li>
-                  <li><a class="dropdown-item" href="#">Este Año</a></li>
+                  <?php foreach ($descripcionesAnio as $descripcion): ?>
+                    <li><a class="dropdown-item" href="#"
+                        onclick="filtrarAlumnos('<?php echo $descripcion; ?>')"><?php echo $descripcion; ?></a></li>
+                  <?php endforeach; ?>
                 </ul>
               </div>
 
               <div class="card-body">
-                <h5 class="card-title">Suscritos <span>| Hoy</span></h5>
-
+                <h5 class="card-title">Alumnos <span class="filtro-seleccionado">|
+                    <?php echo $descripcionesAnio[0]; ?></span></h5>
                 <div class="d-flex align-items-center">
                   <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class="bi bi-currency-dollar"></i>
+                    <i class="bi bi-person-up"></i>
                   </div>
                   <div class="ps-3">
-                    <h6>$3,264</h6>
-                    <span class="text-success small pt-1 fw-bold">8%</span> <span
-                      class="text-muted small pt-2 ps-1">increase</span>
-
+                    <h6 class="total-alumnos"><?php echo number_format($totalesAlumnos[0]); ?></h6>
                   </div>
                 </div>
               </div>
+
+              <script>
+                // JavaScript para actualizar el título y el total de alumnos
+                document.addEventListener("DOMContentLoaded", () => {
+                  const descripcionesAnio = <?php echo json_encode($descripcionesAnio); ?>;
+                  const totalesAlumnos = <?php echo json_encode($totalesAlumnos); ?>;
+
+                  // Función para actualizar el título y el total de alumnos
+                  window.actualizarDatos = function (indice) {
+                    const filtroSeleccionado = document.querySelector('.filtro-seleccionado');
+                    const totalAlumnos = document.querySelector('.total-alumnos');
+
+                    filtroSeleccionado.textContent = "| " + descripcionesAnio[indice];
+                    totalAlumnos.textContent = totalesAlumnos[indice].toLocaleString() + " Matriculados"; // Formatear como número
+                  }
+
+                  // Inicializar con el primer conjunto de datos
+                  actualizarDatos(0);
+                });
+
+                // Función para filtrar por año
+                function filtrarAlumnos(descripcionAnio) {
+                  const descripcionesAnio = <?php echo json_encode($descripcionesAnio); ?>;
+                  const indice = descripcionesAnio.indexOf(descripcionAnio);
+                  if (indice !== -1) {
+                    actualizarDatos(indice);
+                  }
+                }
+              </script>
 
             </div>
           </div>
@@ -333,111 +380,6 @@
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="col-lg-4">
-
-        <div class="card">
-
-          <div class="card-body">
-            <h5 class="card-title">Recent Activity <span>| Today</span></h5>
-
-            <div class="activity">
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">32 min</div>
-                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                <div class="activity-content">
-                  Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                </div>
-              </div>
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">56 min</div>
-                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                <div class="activity-content">
-                  Voluptatem blanditiis blanditiis eveniet
-                </div>
-              </div>
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">2 hrs</div>
-                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                <div class="activity-content">
-                  Voluptates corrupti molestias voluptatem
-                </div>
-              </div>
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">1 day</div>
-                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                <div class="activity-content">
-                  Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                </div>
-              </div>
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">2 days</div>
-                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                <div class="activity-content">
-                  Est sit eum reiciendis exercitationem
-                </div>
-              </div>
-
-              <div class="activity-item d-flex">
-                <div class="activite-label">4 weeks</div>
-                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                <div class="activity-content">
-                  Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-
-        <!-- News & Updates Traffic -->
-        <div class="card">
-          <div class="card-body pb-0">
-            <h5 class="card-title">Noticias &amp; Eventos</h5>
-
-            <div class="news">
-              <div class="post-item clearfix">
-                <img src="" alt="">
-                <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="" alt="">
-                <h4><a href="#">Quidem autem et impedit</a></h4>
-                <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="" alt="">
-                <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="" alt="">
-                <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-              </div>
-
-              <div class="post-item clearfix">
-                <img src="" alt="">
-                <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-
       </div>
 
     </div>
