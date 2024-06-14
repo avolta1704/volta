@@ -74,8 +74,39 @@ class ModelTecnicaseInstrumentos
     * @param string $tabla
     * @return array
     */
-  public static function mdlGetTodasLasTecnicas($tabla) {
+  public static function mdlGetTodasLasTecnicas($tabla)
+  {
     $stmt = Connection::conn()->prepare("SELECT idTecnicaEvaluacion, descripcionTecnica, codTecnica FROM $tabla");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Visualizar una técnica
+   *
+   * @param string $tabla
+   * @param string $codTecnicaVisualizar
+   * @return array
+   */
+  public static function mdlVisualizarTecnica($tabla, $codTecnicaVisualizar)
+  {
+    $stmt = Connection::conn()->prepare("SELECT descripcionTecnica, codTecnica FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
+    $stmt->bindParam(":idTecnicaEvaluacion", $codTecnicaVisualizar, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
+
+  /** 
+    * Obtener la lista de instrumentos por técnica
+    *
+    * @param string $tabla
+    * @param int  $codTecnica
+    * @return array
+    */
+  public static function mdlObtenerInstrumentos($tabla, $codTecnica)
+  {
+    $stmt = Connection::conn()->prepare("SELECT idInstrumento, descripcionInstrumento, codInstrumento FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
+    $stmt->bindParam(":idTecnicaEvaluacion", $codTecnica, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }

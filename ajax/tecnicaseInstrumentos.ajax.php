@@ -5,7 +5,7 @@ require_once "../functions/tecnicaseInstrumentos.functions.php";
 
 class TecnicaAjax
 {
-  //  Crear un nuevo año escolar
+  //  Crear una nueva técnica
   public function ajaxAgregarTecnica($dataRegistrarTecnica)
   {
     $dataRegistrarTecnica = json_decode($dataRegistrarTecnica, true);
@@ -13,7 +13,7 @@ class TecnicaAjax
     echo json_encode($respuesta);
   }
 
-  //  Listar todos los años escolares
+  //  Listar todas las técnicas
   public static function ajaxMostrarTodosLasTecnicas()
   {
     $listaTecnicas = ControllerTecnicaseInstrumentos::ctrGetTodasLasTecnicas();
@@ -25,16 +25,30 @@ class TecnicaAjax
     }
     echo json_encode($listaTecnicas);
   }
+
+  //  Visualizar una técnica
+  public function ajaxVisualizarTecnica($codTecnicaVisualizar)
+  {
+    $respuesta = ControllerTecnicaseInstrumentos::ctrVisualizarTecnica($codTecnicaVisualizar);
+    echo json_encode($respuesta);
+  }
+
 }
 
-//  Registrar un nuevo año escolar
+//  Registrar un nueva técnica
 if (isset($_POST["dataRegistrarTecnica"])) {
   $agregarTecnica = new TecnicaAjax();
   $agregarTecnica->ajaxAgregarTecnica($_POST["dataRegistrarTecnica"]);
 }
 
-//  Visualizar todos los años Escolares en el datatable
+//  Visualizar todas las técnicas
 if (isset($_POST["todaslasTecnicas"])) {
   $mostrarTecnicas = new TecnicaAjax();
   $mostrarTecnicas->ajaxMostrarTodosLasTecnicas();
+}
+
+//  Visualizar una técnica
+if (isset($_POST["codTecnicaVisualizar"])) {
+  $visualizartecnica = new TecnicaAjax();
+  $visualizartecnica->ajaxVisualizarTecnica($_POST["codTecnicaVisualizar"]);
 }

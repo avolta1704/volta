@@ -92,7 +92,7 @@ $(".dataTableTecnicas").on("click", ".btnVisualizarTecnica", function (e) {
   var codTecnica = $(this).attr("codTecnica");
 
   var data = new FormData();
-  data.append("codTecnicaBuscar", codTecnica);
+  data.append("codTecnicaVisualizar", codTecnica);
 
   $.ajax({
     url: "ajax/tecnicaseInstrumentos.ajax.php",
@@ -113,9 +113,21 @@ $(".dataTableTecnicas").on("click", ".btnVisualizarTecnica", function (e) {
         });
         return;
       } else {
-        $("#editarDescripcionAnio").val(response.descripcionAnio);
-        $("#editarCuotaIngreso").val(response.cuotaInicial);
-        $("#editarMatriculaInicial").val(response.matriculaInicial);
+        //  Mostrar los datos de las competencias
+        var listaInstrumentos = JSON.parse(response.listaInstrumentos);
+        console.log(listaInstrumentos);
+        $("#visualizarDescripcionTecnica").val(response.descripcionTecnica);
+        $("#visualizarCodigoTecnica").val(response.codTecnica);
+        var htmlInstrumentos = "";
+        listaInstrumentos.forEach((instrumento) => {
+          htmlInstrumentos += `
+            <div class="nuevoInstrumento" style="display: flex">
+              <input type="text" placeholder="Descripción Instrumento" name="descripcionInstrumento" class="form-control descripcionInstrumento" value="${instrumento.descripcionInstrumento}" readonly/>
+              <input type="text" placeholder="Código Instrumento" name="codigoInstrumento" class="form-control codigoInstrumento" value="${instrumento.codInstrumento}" readonly/>
+            </div>
+          `;
+          $(".visualizarListaInstrumentos").append(htmlInstrumentos);
+        });
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {

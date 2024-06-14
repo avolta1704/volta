@@ -64,7 +64,7 @@
           <div class="mb-3">
             <button type="button" class="btn btn-primary btnAgregarInstrumento" id="btnAgregarInstrumento">
               <i class="bi bi-plus-circle"></i> Agregar Instrumento</button>
-              <input type="hidden" name="listaInstrumentosPorTecnica" class="listaInstrumentosPorTecnica" id="listaInstrumentosPorTecnica">
+            <input type="hidden" name="listaInstrumentosPorTecnica" class="listaInstrumentosPorTecnica" id="listaInstrumentosPorTecnica">
           </div>
 
           <div class="mb-3 listaInstrumentos">
@@ -74,6 +74,39 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary btnRegistrarTecnica" id="btnRegistrarTecnica" name="btnRegistrarTecnica">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal visualizar técnica -->
+<div class="modal fade" id="modalVisualizarTecnica" tabindex="-1" aria-labelledby="modalVisualizarTecnicaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:bold">Editar Técnica</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formRegistrarAnio">
+          <div class="mb-3">
+            <label for="visualizarDescripcionTecnica" class="form-label" style="font-weight:bold">Descripción Técnica</label>
+            <input type="text" class="form-control" id="visualizarDescripcionTecnica" name="visualizarDescripcionTecnica" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="visualizarCodigoTecnica" class="form-label" style="font-weight:bold">Código Técnica</label>
+            <input type="text" class="form-control" id="visualizarCodigoTecnica" name="visualizarCodigoTecnica" required />
+          </div>
+
+          <div class="mb-3 visualizarListaInstrumentos">
+            <label for="lista" class="form-label" style="font-weight:bold">Lista de Instrumentos</label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </form>
       </div>

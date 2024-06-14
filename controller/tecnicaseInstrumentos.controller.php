@@ -50,9 +50,27 @@ class ControllerTecnicaseInstrumentos
    *
    * @return array
    */
-  public static function ctrGetTodasLasTecnicas() {
+  public static function ctrGetTodasLasTecnicas()
+  {
     $tabla = "tecnica_evaluacion";
     $respuesta = ModelTecnicaseInstrumentos::mdlGetTodasLasTecnicas($tabla);
     return $respuesta;
+  }
+
+  /**
+   * Visualizar una técnica
+   *
+   * @param string $codTecnicaVisualizar
+   * @return array
+   */
+  public static function ctrVisualizarTecnica($codTecnicaVisualizar)
+  {
+    $tabla = "tecnica_evaluacion";
+    $dataTecnica = ModelTecnicaseInstrumentos::mdlVisualizarTecnica($tabla, $codTecnicaVisualizar);
+    $tabla = "instrumento";
+    //  Obtener la lista de instrumentos por técnica
+    $listaInstrumentos = ModelTecnicaseInstrumentos::mdlObtenerInstrumentos($tabla, $codTecnicaVisualizar);
+    $dataTecnica["listaInstrumentos"] = json_encode($listaInstrumentos);
+    return $dataTecnica;
   }
 }
