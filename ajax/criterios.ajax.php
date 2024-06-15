@@ -66,6 +66,20 @@ class CriteriosAjax
     $respuesta = ControllerCriterios::ctrEliminarCriterio($idCriterio);
     echo json_encode($respuesta);
   }
+
+  /**
+   * Edita un criterio mediante una petición AJAX.
+   * 
+   * @param int $idCriterio El ID del criterio.
+   * @param string $criterioModificado El criterio modificado.
+   * @return string $respuesta La respuesta de la edición del criterio ok si se edito y error si hubo un error.
+   */
+  public function ajaxEditarCriterio($idCriterio, $criterioModificado)
+  {
+    $criterioModificado = json_decode($criterioModificado, true);
+    $respuesta = ControllerCriterios::ctrEditarCriterio($idCriterio, $criterioModificado);
+    echo json_encode($respuesta);
+  }
 }
 
 
@@ -92,4 +106,9 @@ if (isset($_POST["idCompetenciaNuevoCriterio"]) && isset($_POST["nuevoCriterio"]
 if (isset($_POST["idCriterioEliminar"])) {
   $eliminarCriterio = new CriteriosAjax();
   $eliminarCriterio->ajaxEliminarCriterio($_POST["idCriterioEliminar"]);
+}
+
+if (isset($_POST["idCriterioEditar"]) && isset($_POST["criterioModificado"])) {
+  $editarCriterio = new CriteriosAjax();
+  $editarCriterio->ajaxEditarCriterio($_POST["idCriterioEditar"], $_POST["criterioModificado"]);
 }
