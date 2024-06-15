@@ -639,6 +639,10 @@ $("#btnCerrarModalCriteriosCompetencia").on("click", function () {
 
 $("#dataTableCompetencias").on("click", "#btnAbrirModalCriterios", function () {
 	const idCompetencia = $(this).attr("idCompetencia");
+
+	// añadir el idCompetencia al boton de crear criterio
+	$("#btnCrearCriterio").attr("idCompetencia", idCompetencia);
+
 	const descripcionCompetencia = $(this).attr("descripcionCompetencia");
 	if (!!descripcionCompetencia) {
 		$("#modalCriteriosCompetenciaLabel").text(
@@ -654,10 +658,10 @@ $("#dataTableCompetencias").on("click", "#btnAbrirModalCriterios", function () {
 function crearDataTableCriterios(idCompetencia) {
 	// Definición de columnas
 	var columnDefsCriterios = [
-		{ data: "descripcionCriterioCompetencia" },
+		{ data: "descripcionCriterio" },
 		{ data: "codTecnica" },
 		{ data: "codInstrumento" },
-		{ data: "buttons" },
+		{ data: "acciones" },
 	];
 
 	// Inicialización de dataTableCursosPorGrado
@@ -712,10 +716,10 @@ function crearDataTableCriterios(idCompetencia) {
 				return meta.row + 1;
 			},
 		},
-		{ data: "descripcionCriterioCompetencia" },
+		{ data: "descripcionCriterio" },
 		{ data: "codTecnica" },
 		{ data: "codInstrumento" },
-		{ data: "buttons" },
+		{ data: "acciones" },
 	];
 	tableCriterios = $("#dataTableCriteriosCompetencias").DataTable({
 		columns: columnDefsCriterios,
@@ -803,7 +807,69 @@ $("#btnAgregarCriterio").on("click", function () {
 });
 
 // Funcionalidad para el botón de crear criterio
-// $("#modalIngresarCriterio").on("click", "#btnCrearCriterio", function () {});
+$("#modalIngresarCriterio").on("click", "#btnCrearCriterio", function () {
+	var idCompetencia = $(this).attr("idCompetencia");
+	var descripcionCriterio = $("#descripcionCriterio").val();
+	var idInstrumento = $("#selectInstrumentos").val();
+	var idTecnica = $("#selectTecnicas").val();
+
+	// Validar que los campos no estén vacíos
+	if (descripcionCriterio == "" || idInstrumento == "" || idTecnica == "") {
+		Swal.fire({
+			title: "Campos Vacíos",
+			text: "Por favor, complete todos los campos.",
+			icon: "warning",
+			confirmButtonText: "Aceptar",
+		});
+		return;
+	}
+
+	const dataCriterio = {
+		descripcionCriterio: descripcionCriterio,
+		idInstrumento: idInstrumento,
+		idTecnicaEvaluacion: idTecnica,
+	};
+
+	var data = new FormData();
+	data.append("idCompetenciaNuevoCriterio", idCompetencia);
+	data.append("nuevoCriterio", JSON.stringify(dataCriterio));
+
+	$.ajax({
+		url: "ajax/criterios.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			if (response == "ok") {
+				// Alerta de swal con timer
+				Swal.fire({
+					icon: "success",
+					title: "Creado",
+					text: "El criterio se ha creado con éxito.",
+					timer: 1500,
+					showConfirmButton: false,
+				});
+				$("#modalIngresarCriterio").modal("hide");
+				$("#modalCompetenciaUnidad").modal("hide");
+				// abrir modal de los criterios
+				$("#modalCriteriosCompetencia").modal("show");
+
+				crearDataTableCriterios(idCompetencia);
+			}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // Procedencia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+});
 
 // Funcionalidad para el botón de cerrar crear criterio
 $("#modalIngresarCriterio").on(
