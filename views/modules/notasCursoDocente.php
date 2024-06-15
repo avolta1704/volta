@@ -261,3 +261,36 @@
     </div>
   </div>
 </div>
+
+<!-- Modal editar criterio -->
+<div class="modal fade" id="modalEditarCriterio" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalEditarCriterioLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalEditarCriterioLabel">Editar Criterio</h5>
+      </div>
+      <div class="modal-body">
+        <form id="notaForm">
+          <div class="form-group mb-3">
+            <label for="notaText">Descripción:</label>
+            <textarea class="form-control" id="descripcionCriterioEditar" rows="3" required></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Técnica:</label>
+            <select class="form-select" id="selectTecnicasEditar">
+            </select>
+          </div>
+          <div class="form-group mb-3">
+            <label for="notaText">Instrumento:</label>
+            <select class="form-select" id="selectInstrumentosEditar">
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalEditarCriterio" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnGuardarCriterio">Guardar Criterio</button>
+      </div>
+    </div>
+  </div>
+</div>
