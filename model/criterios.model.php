@@ -106,4 +106,28 @@ class ModelCriterios
     $stmt->execute();
     return $stmt->fetchAll();
   }
+
+  /**
+   * Editar un criterio.
+   * 
+   * @param string $tabla La tabla de la base de datos.
+   * @param int $idCriterioCompetencia El ID del criterio.
+   * @param array $criterio El criterio a editar.
+   * @return string $respuesta La respuesta de la edición del criterio ok si se edito y error si hubo un error.
+   */
+  public static function mdlEditarCriterio($tabla, $idCriterioCompetencia, $criterio)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionCriterio = :descripcionCriterio, idTecnicaEvaluacion = :idTecnicaEvaluacion, idInstrumento = :idInstrumento, usuarioActualizacion = :usuarioActualizacion, fechaActualizacion = :fechaActualizacion WHERE idCriterioCompetencia = :idCriterioCompetencia");
+    $stmt->bindParam(":descripcionCriterio", $criterio["descripcionCriterio"], PDO::PARAM_STR);
+    $stmt->bindParam(":idTecnicaEvaluacion", $criterio["idTecnicaEvaluacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idInstrumento", $criterio["idInstrumento"], PDO::PARAM_INT);
+    $stmt->bindParam(":usuarioActualizacion", $criterio["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $criterio["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":idCriterioCompetencia", $idCriterioCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
