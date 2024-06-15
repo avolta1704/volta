@@ -7,9 +7,9 @@ class FunctionsCriterios
    * @param int $idCriterio El ID del criterio.
    * @return string Los botones de acciones.
    */
-  public static function botonesAcciones($idCriterio)
+  public static function botonesAcciones($idCriterio, $idCompetencia)
   {
-    $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCriterio' idCriterio='$idCriterio'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger btnEliminarCriterio' idCriterio='$idCriterio'><i class='bi bi-trash3'></i></button></div>";
+    $botones = "<div class='btn-group'><button class='btn btn-warning btnEditarCriterio' idCriterio='$idCriterio'><i class='bi bi-pencil-square'></i></button><button class='btn btn-danger' id='btnEliminarCriterio' idCriterio='$idCriterio' idCompetencia='$idCompetencia'><i class='bi bi-trash3'></i></button></div>";
     return $botones;
   }
 }
