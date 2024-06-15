@@ -54,6 +54,18 @@ class CriteriosAjax
     $respuesta = ControllerCriterios::ctrCrearCriterio($idCompetencia, $nuevoCriterio);
     echo json_encode($respuesta);
   }
+
+  /**
+   * Elimina un criterio mediante una petición AJAX.
+   * 
+   * @param int $idCriterio El ID del criterio.
+   * @return string $respuesta La respuesta de la eliminación del criterio ok si se elimino y error si hubo un error.
+   */
+  public function ajaxEliminarCriterio($idCriterio)
+  {
+    $respuesta = ControllerCriterios::ctrEliminarCriterio($idCriterio);
+    echo json_encode($respuesta);
+  }
 }
 
 
@@ -75,4 +87,9 @@ if (isset($_POST["idTecnicaEvaluacion"])) {
 if (isset($_POST["idCompetenciaNuevoCriterio"]) && isset($_POST["nuevoCriterio"])) {
   $crearCriterio = new CriteriosAjax();
   $crearCriterio->ajaxCrearCriterio($_POST["idCompetenciaNuevoCriterio"], $_POST["nuevoCriterio"]);
+}
+
+if (isset($_POST["idCriterioEliminar"])) {
+  $eliminarCriterio = new CriteriosAjax();
+  $eliminarCriterio->ajaxEliminarCriterio($_POST["idCriterioEliminar"]);
 }
