@@ -73,4 +73,37 @@ class ModelCriterios
       return "error";
     }
   }
+
+  /**
+   * Elimina un criterio.
+   * 
+   * @param string $tabla La tabla de la base de datos.
+   * @param int $idCriterioCompetencia El ID del criterio.
+   * @return string $respuesta La respuesta de la eliminación del criterio ok si se elimino y error si hubo un error.
+   */
+  public static function mdlEliminarCriterio($tabla, $idCriterioCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCriterioCompetencia = :idCriterioCompetencia");
+    $stmt->bindParam(":idCriterioCompetencia", $idCriterioCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtiene las notas criterio de un criterio por su idCriterio.
+   * 
+   * @param string $tabla La tabla de la base de datos.
+   * @param int $idCriterioCompetencia El ID del criterio.
+   * @return array Las notas criterio del criterio.
+   */
+  public static function mdlGetNotaCriterioByIdCriterio($tabla, $idCriterioCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idCriterioCompetencia = :idCriterioCompetencia");
+    $stmt->bindParam(":idCriterioCompetencia", $idCriterioCompetencia, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+  }
 }
