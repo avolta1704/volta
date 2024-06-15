@@ -13,7 +13,7 @@ class ControllerCriterios
     $respuesta = ModelCriterios::mdlGetAllCriterios($tabla, $idCompetencia);
 
     foreach ($respuesta as $key => $value) {
-      $respuesta[$key]["acciones"] = FunctionsCriterios::botonesAcciones($value["idCriterioCompetencia"], $idCompetencia);
+      $respuesta[$key]["acciones"] = FunctionsCriterios::botonesAcciones($value["idCriterioCompetencia"], $idCompetencia, $value["idTecnicaEvaluacion"], $value["idInstrumento"], $value["descripcionCriterio"]);
     }
     return $respuesta;
   }
@@ -87,6 +87,28 @@ class ControllerCriterios
 
     $respuesta = ModelCriterios::mdlEliminarCriterio($tabla, $idCriterio);
 
+    return $respuesta;
+  }
+
+  /**
+   * Edita un criterio.
+   * 
+   * @param int $idCriterio El ID del criterio.
+   * @param array $criterio El criterio a editar.
+   * @return string $respuesta La respuesta de la edición del criterio ok si se edito y error si hubo un error.
+   */
+  public static function ctrEditarCriterio($idCriterio, $criterio)
+  {
+    $tabla = "criterios_competencia";
+
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $criterio["usuarioActualizacion"] = $_SESSION["idUsuario"];
+    $criterio["fechaActualizacion"] = date("Y-m-d H:i:s");
+
+    $respuesta = ModelCriterios::mdlEditarCriterio($tabla, $idCriterio, $criterio);
     return $respuesta;
   }
 }
