@@ -114,4 +114,25 @@ class ModelInicio
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlObtenerPersonalInicio(){
+    $statement = Connection::conn()->prepare("SELECT
+	personal.nombrePersonal, 
+	personal.apellidoPersonal, 
+	personal.correoPersonal, 
+	tipo_personal.descripcionTipo, 
+	usuario.ultimaConexion, 
+	usuario.estadoUsuario
+    FROM
+	personal
+	INNER JOIN
+	tipo_personal
+	ON 
+		personal.idTipoPersonal = tipo_personal.idTipoPersonal
+	INNER JOIN
+	usuario
+	ON 
+		personal.idUsuario = usuario.idUsuario");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

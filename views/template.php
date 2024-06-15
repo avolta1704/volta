@@ -13,7 +13,9 @@ session_start();
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
     require "modules/navbar.php";
-    require "modules/menu.php";
+    require "modules/menu.php"; 
+
+
 
     // // $acceso = new ControllerUsuarios();
     // // echo $acceso->ctrTieneAcceso(); 
@@ -144,6 +146,7 @@ session_start();
   <!-- <script src="views/dataTables/dt-lista-postulantes.js"></script> -->
   <script src="views/dataTables/dt-competencias.js"></script>
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
+  <script src="views/dataTables/dt-personalInicio.js"></script>
 </body>
 
 </html>

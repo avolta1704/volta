@@ -23,4 +23,9 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerMontoRecaudadoporMeses();
     return $response;
   }
+  public static function ctrObtenerPersonalInicio()
+  {
+    $response = ModelInicio::mdlObtenerPersonalInicio();
+    return $response;
+  }
 }
