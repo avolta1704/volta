@@ -56,6 +56,7 @@ require_once "controller/bimestre.controller.php";
 require_once "controller/unidad.controller.php";
 require_once "controller/asistenciaAlumnos.controller.php";
 require_once "controller/competencia.controller.php";
+require_once "controller/inicio.controller.php";
 
 
 //  Models
