@@ -880,3 +880,59 @@ $("#modalIngresarCriterio").on(
 		$("#modalCriteriosCompetencia").modal("show");
 	}
 );
+
+// Eliminar un criterio
+$("#dataTableCriteriosCompetencias").on(
+	"click",
+	"#btnEliminarCriterio",
+	function () {
+		var idCriterio = $(this).attr("idCriterio");
+		var idCompetencia = $(this).attr("idCompetencia");
+		Swal.fire({
+			title: "¿Estás seguro de que deseas eliminar el criterio?",
+			text: "¡Se eliminará el criterio seleccionado!",
+			icon: "warning",
+			showCancelButton: true,
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+			confirmButtonText: "Sí",
+			cancelButtonText: "No",
+		}).then((result) => {
+			if (result.isConfirmed) {
+				var data = new FormData();
+				data.append("idCriterioEliminar", idCriterio);
+				$.ajax({
+					url: "ajax/criterios.ajax.php",
+					method: "POST",
+					data: data,
+					cache: false,
+					contentType: false,
+					processData: false,
+					dataType: "json",
+					success: function (response) {
+						if (response == "ok") {
+							Swal.fire({
+								title: "¡Criterio Eliminado!",
+								text: "El criterio ha sido eliminado con éxito.",
+								icon: "success",
+								timer: 1500,
+								showConfirmButton: false,
+							});
+
+							// Recargar la tabla de criterios
+							crearDataTableCriterios(idCompetencia);
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log(jqXHR.responseText); // Procedencia de error
+						console.log(
+							"Error en la solicitud AJAX: ",
+							textStatus,
+							errorThrown
+						);
+					},
+				});
+			}
+		});
+	}
+);
