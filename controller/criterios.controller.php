@@ -13,7 +13,7 @@ class ControllerCriterios
     $respuesta = ModelCriterios::mdlGetAllCriterios($tabla, $idCompetencia);
 
     foreach ($respuesta as $key => $value) {
-      $respuesta[$key]["acciones"] = FunctionsCriterios::botonesAcciones($value["idCriterioCompetencia"]);
+      $respuesta[$key]["acciones"] = FunctionsCriterios::botonesAcciones($value["idCriterioCompetencia"], $idCompetencia);
     }
     return $respuesta;
   }
@@ -64,6 +64,29 @@ class ControllerCriterios
     $nuevoCriterio["fechaActualizacion"] = date("Y-m-d H:i:s");
 
     $respuesta = ModelCriterios::mdlCrearCriterio($tabla, $idCompetencia, $nuevoCriterio);
+    return $respuesta;
+  }
+
+  /**
+   * Elimina un criterio siempre y cuando dicho criterio no este asociado a una nota criterio.
+   * 
+   * @param int $idCriterio El ID del criterio.
+   * @return string $respuesta La respuesta de la eliminación del criterio ok si se elimino y error si hubo un error.
+   */
+  public static function ctrEliminarCriterio($idCriterio)
+  {
+    $tabla = "criterios_competencia";
+
+    // Verificar si el criterio esta asociado a una nota criterio.
+    $tablaNotaCriterio = "nota_criterio";
+    $respuestaNotaCriterio = ModelCriterios::mdlGetNotaCriterioByIdCriterio($tablaNotaCriterio, $idCriterio);
+
+    if (count($respuestaNotaCriterio) > 0) {
+      return "error";
+    }
+
+    $respuesta = ModelCriterios::mdlEliminarCriterio($tabla, $idCriterio);
+
     return $respuesta;
   }
 }
