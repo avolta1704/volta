@@ -10,6 +10,7 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
   // Definición de columnas
   var columnDefsCursosPorGrado = [
     { data: "descripcionCompetencia" },
+    { data: "criterios" },
     { data: "buttons" },
   ];
 
@@ -47,6 +48,7 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre Competencia</th>
+        <th scope="col">Criterios</th>
         <th scope="col">Acciones</th>
       </tr>
     `);
@@ -61,6 +63,7 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
       },
     },
     { data: "descripcionCompetencia" },
+    { data: "criterios"},
     { data: "buttons" },
   ];
 

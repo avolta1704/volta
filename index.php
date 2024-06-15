@@ -26,6 +26,7 @@ require_once "functions/cursosDocente.functions.php";
 require_once "functions/unidad.functions.php";
 require_once "functions/asistenciaAlumnos.functions.php";
 require_once "functions/competencia.functions.php";
+require_once "functions/criterios.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";

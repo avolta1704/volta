@@ -15,6 +15,7 @@ class CompetenciaAjax
     $response = ControllerCompetencia::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
       $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data, $data['maxNotaCompetencia']);
+      $data['criterios'] = FunctionCompetencia::getVerCriterios($data['idCompetencia'], $data['descripcionCompetencia']);
     }
     echo json_encode($response);
   }
