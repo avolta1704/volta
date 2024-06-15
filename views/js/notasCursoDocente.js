@@ -857,6 +857,11 @@ $("#modalIngresarCriterio").on("click", "#btnCrearCriterio", function () {
 				// abrir modal de los criterios
 				$("#modalCriteriosCompetencia").modal("show");
 
+				// limpiar los campos
+				$("#descripcionCriterio").val("");
+				$("#selectInstrumentos").val("");
+				$("#selectTecnicas").val("");
+
 				crearDataTableCriterios(idCompetencia);
 			}
 		},
@@ -1100,6 +1105,11 @@ $("#dataTableCriteriosCompetencias").on(
 							$("#modalCompetenciaUnidad").modal("hide");
 							// abrir modal de los criterios
 							$("#modalCriteriosCompetencia").modal("show");
+
+							// limpiar los campos
+							$("#descripcionCriterioEditar").val("");
+							$("#selectInstrumentosEditar").val("");
+							$("#selectTecnicasEditar").val("");
 
 							crearDataTableCriterios(idCompetencia);
 						}
