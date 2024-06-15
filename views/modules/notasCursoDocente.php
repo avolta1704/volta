@@ -240,7 +240,7 @@
         <form id="notaForm">
           <div class="form-group mb-3">
             <label for="notaText">Descripción:</label>
-            <textarea class="form-control" id="descripcionCriterio" rows="3"></textarea>
+            <textarea class="form-control" id="descripcionCriterio" rows="3" required></textarea>
           </div>
           <div class="form-group mb-3">
             <label for="notaText">Técnica:</label>
