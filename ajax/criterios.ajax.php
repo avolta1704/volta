@@ -2,6 +2,7 @@
 
 require_once "../controller/criterios.controller.php";
 require_once "../model/criterios.model.php";
+require_once "../functions/criterios.functions.php";
 
 class CriteriosAjax
 {
@@ -39,6 +40,20 @@ class CriteriosAjax
     $instrumentosByIdTecnica = ControllerCriterios::ctrGetInstrumentosByIdTecnica($idTecnica);
     echo json_encode($instrumentosByIdTecnica);
   }
+
+  /**
+   * Crea un criterio mediante una petición AJAX.
+   * 
+   * @param int $idCompetencia El ID de la competencia.
+   * @param string $nuevoCriterio El criterio a crear.
+   * @return string $respuesta La respuesta de la creación del criterio ok si se creo y error si hubo un error.
+   */
+  public function ajaxCrearCriterio($idCompetencia, $nuevoCriterio)
+  {
+    $nuevoCriterio = json_decode($nuevoCriterio, true);
+    $respuesta = ControllerCriterios::ctrCrearCriterio($idCompetencia, $nuevoCriterio);
+    echo json_encode($respuesta);
+  }
 }
 
 
@@ -55,4 +70,9 @@ if (isset($_POST["allTecnicas"])) {
 if (isset($_POST["idTecnicaEvaluacion"])) {
   $instrumentosByIdTecnica = new CriteriosAjax();
   $instrumentosByIdTecnica->ajaxInstrumentosByIdTecnica($_POST["idTecnicaEvaluacion"]);
+}
+
+if (isset($_POST["idCompetenciaNuevoCriterio"]) && isset($_POST["nuevoCriterio"])) {
+  $crearCriterio = new CriteriosAjax();
+  $crearCriterio->ajaxCrearCriterio($_POST["idCompetenciaNuevoCriterio"], $_POST["nuevoCriterio"]);
 }
