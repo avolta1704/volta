@@ -8,6 +8,10 @@ $(document).ready(function () {
   var totalesAlumnos = [];
   var mesesRecaudado = [];
   var totalRecaudadoPorMes = {};
+  var idUsuarioElement = document.getElementById("idUsuario");
+
+  // Obtiene el contenido del elemento
+  var idUsuario = idUsuarioElement.textContent;
 
   // Función para obtener y manejar los datos de alumnos por grados
   function obtenerAlumnosPorGrados() {
@@ -145,8 +149,12 @@ $(document).ready(function () {
 
     filtroSeleccionado.text("| " + mes);
     totalRecaudado.text(
-      "S/. " + totalRecaudadoPorMes[mes].toLocaleString('es-PE', { style: 'currency', currency: 'PEN' })
-  );
+      "S/. " +
+        totalRecaudadoPorMes[mes].toLocaleString("es-PE", {
+          style: "currency",
+          currency: "PEN",
+        })
+    );
   }
 
   // Función para poblar el dropdown de meses recaudados
@@ -160,6 +168,152 @@ $(document).ready(function () {
           mes +
           "')\">" +
           mes +
+          "</a></li>"
+      );
+    });
+  }
+  // Función para obtener y manejar los datos de asistencia por meses
+  function obtenerAsistenciaPorMeses(idUsuario) {
+    var data = new FormData();
+    data.append("idUsuarioAsistenciaporMeses", idUsuario);
+
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        var meses = [];
+        var porcentajeAsistencias = [];
+        var porcentajeFaltas = [];
+        var porcentajeInasistenciasInjustificadas = [];
+        var porcentajeFaltasJustificadas = [];
+        var porcentajeTardanzasJustificadas = [];
+        var curso = [];
+
+        response.forEach(function (fila) {
+          meses.push(fila.Mes);
+          porcentajeAsistencias.push(parseFloat(fila.Porcentaje_Asistio));
+          porcentajeFaltas.push(parseFloat(fila.Porcentaje_Falto));
+          porcentajeInasistenciasInjustificadas.push(
+            parseFloat(fila.Porcentaje_Inasistencia_Injustificada)
+          );
+          porcentajeFaltasJustificadas.push(
+            parseFloat(fila.Porcentaje_Falta_Justificada)
+          );
+          porcentajeTardanzasJustificadas.push(
+            parseFloat(fila.Porcentaje_Tardanza_Justificada)
+          );
+          curso.push(fila.descripcionCurso);
+        });
+
+        // Actualizar el gráfico con los datos obtenidos
+        actualizarGraficoAsistencia(
+          meses,
+          porcentajeAsistencias,
+          porcentajeFaltas,
+          porcentajeInasistenciasInjustificadas,
+          porcentajeFaltasJustificadas,
+          porcentajeTardanzasJustificadas
+        );
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+  // Función para actualizar el gráfico de asistencia por meses
+  function actualizarGraficoAsistencia(
+    meses,
+    porcentajeAsistencias,
+    porcentajeFaltas,
+    porcentajeInasistenciasInjustificadas,
+    porcentajeFaltasJustificadas,
+    porcentajeTardanzasJustificadas
+  ) {
+    new ApexCharts(document.querySelector("#asistenciaChart"), {
+      series: [
+        {
+          name: "Porcentaje Asistencias",
+          data: porcentajeAsistencias.map((value) =>
+            parseFloat(value.toFixed(1))
+          ),
+        },
+        {
+          name: "Porcentaje Faltas",
+          data: porcentajeFaltas.map((value) => parseFloat(value.toFixed(1))),
+        },
+        {
+          name: "Porcentaje Inasistencias Injustificadas",
+          data: porcentajeInasistenciasInjustificadas.map((value) =>
+            parseFloat(value.toFixed(1))
+          ),
+        },
+        {
+          name: "Porcentaje Faltas Justificadas",
+          data: porcentajeFaltasJustificadas.map((value) =>
+            parseFloat(value.toFixed(1))
+          ),
+        },
+        {
+          name: "Porcentaje Tardanzas Justificadas",
+          data: porcentajeTardanzasJustificadas.map((value) =>
+            parseFloat(value.toFixed(1))
+          ),
+        },
+      ],
+      chart: {
+        height: 350,
+        type: "area",
+        toolbar: {
+          show: false,
+        },
+      },
+      markers: {
+        size: 4,
+      },
+      colors: ["#4154f1", "#2eca6a", "#ff771d", "#a47bff", "#ffd05b"],
+      fill: {
+        type: "gradient",
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.3,
+          opacityTo: 0.4,
+          stops: [0, 90, 100],
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth",
+        width: 2,
+      },
+      xaxis: {
+        categories: meses,
+      },
+      tooltip: {
+        x: {
+          format: "dd/MM/yy HH:mm",
+        },
+      },
+    }).render();
+  }
+  // Función para poblar el dropdown de filtro de cursos
+  function poblarCursoFilterDropdown(cursos) {
+    var dropdown = $("#cursoFilterDropdown");
+    dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+
+    cursos.forEach(function (curso) {
+      dropdown.append(
+        '<li><a class="dropdown-item" href="#" onclick="filtrarCurso(\'' +
+          curso +
+          "')\">" +
+          curso +
           "</a></li>"
       );
     });
@@ -292,4 +446,5 @@ $(document).ready(function () {
   obtenerPensionesPendientes();
   obtenerAlumnosPorAnio();
   obtenerMontoRecaudadoPorMeses();
+  obtenerAsistenciaPorMeses(idUsuario);
 });

@@ -34,6 +34,27 @@ class InicioAjax
     }
     echo json_encode($response);
   }
+  public $idUsuarioAsistenciaporMeses;
+  public function ajaxObtenerAsistenciaporMeses()
+  {
+    $idUsuarioAsistenciaporMeses = $this->idUsuarioAsistenciaporMeses;
+    $response = ControllerInicio::ctrObtenerAsistenciaporMeses($idUsuarioAsistenciaporMeses);
+    echo json_encode($response);
+  }
+  public $idUsuarioCompetenciasNotas;
+  public function ajaxObtenerCompetenciasNotas()
+  {
+    $idUsuarioCompetenciasNotas = $this->idUsuarioCompetenciasNotas;
+    $response = ControllerInicio::ctrObtenerTodaslasCompetenciasNotas($idUsuarioCompetenciasNotas);
+    $filteredResponse = [];
+    foreach ($response as $competenciasNotas) {
+      if ($competenciasNotas['notaCompetencia'] === null || $competenciasNotas['notaCompetencia'] === "") {
+          $competenciasNotas['notaCompetencia'] = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
+          $filteredResponse[] = $competenciasNotas;
+      }
+    }
+    echo json_encode($filteredResponse);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -58,5 +79,15 @@ if (isset($_POST["MontoRecaudadoporMeses"])) {
 if(isset($_POST["personalInicio"])){
   $todosPersonalInicio = new InicioAjax();
   $todosPersonalInicio->ajaxObtenertodostodosPersonalInicio();
+}
+if(isset($_POST["idUsuarioAsistenciaporMeses"])){
+  $asistenciaporMeses = new InicioAjax();
+  $asistenciaporMeses->idUsuarioAsistenciaporMeses = $_POST["idUsuarioAsistenciaporMeses"];
+  $asistenciaporMeses->ajaxObtenerAsistenciaporMeses();
+}
+if(isset($_POST["idUsuarioCompetenciasNotas"])){
+  $competenciasNotas = new InicioAjax();
+  $competenciasNotas->idUsuarioCompetenciasNotas = $_POST["idUsuarioCompetenciasNotas"];
+  $competenciasNotas->ajaxObtenerCompetenciasNotas();
 }
 

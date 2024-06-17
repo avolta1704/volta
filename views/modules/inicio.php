@@ -8,9 +8,11 @@
       </ol>
     </nav>
   </div>
-
   <?php
+  //  Obtener el tipo de usuario para gestionar el menú
   $tipoUsuario = $_SESSION["tipoUsuario"];
+  $idUsuario = $_SESSION["idUsuario"];
+
 
   /**
    * 1 = Administrador
@@ -19,22 +21,23 @@
    * 4 = Apoderado
    * 5 = Directivo
    */
-
-  if ($tipoUsuario == 1) {
-    include "menu/menu-administrador.php";
+   
+  if($tipoUsuario == 1){
+    include "inicio/inicio-administrativo.php";   
   }
-  if ($tipoUsuario == 2) {
-    include "modules/dashboard/dashboard-administrativo.php";
+  if($tipoUsuario == 2){
+    include "inicio/inicio-docente.php";
   }
-  if ($tipoUsuario == 3) {
-    include "menu/menu-administrativo.php";
+  if($tipoUsuario == 3){
+    include "inicio/inicio-administrativo.php";
   }
-  if ($tipoUsuario == 4) {
-    include "menu/menu-apoderado.php";
+  if($tipoUsuario == 4){
+    include "inicio/inicio-apoderado.php";
   }
-  if ($tipoUsuario == 5) {
-    include "menu/menu-direccion.php";
+  if($tipoUsuario == 5){
+    include "inicio/inicio-direccion.php";
   }
-
   ?>
+  <div id="idUsuario" style="display: none;"><?php echo $idUsuario; ?></div>
+
 </main>

@@ -28,4 +28,14 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerPersonalInicio();
     return $response;
   }
+  public static function ctrObtenerAsistenciaporMeses($idUsuario){
+    $tabla = "usuario";
+    $response = ModelInicio::mdlObtenerAsistenciaporMeses($tabla, $idUsuario);
+    return $response;
+  }
+  public static function ctrObtenerTodaslasCompetenciasNotas($idUsuario){
+    $tabla = "personal";
+    $response = ModelInicio::mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario);
+    return $response;
+  }
 }

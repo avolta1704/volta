@@ -147,6 +147,7 @@ session_start();
   <script src="views/dataTables/dt-competencias.js"></script>
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
   <script src="views/dataTables/dt-personalInicio.js"></script>
+  <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
 </body>
 
 </html>
