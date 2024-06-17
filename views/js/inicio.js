@@ -192,7 +192,7 @@ $(document).ready(function () {
         var porcentajeInasistenciasInjustificadas = [];
         var porcentajeFaltasJustificadas = [];
         var porcentajeTardanzasJustificadas = [];
-        var curso = [];
+        var grado = [];
 
         response.forEach(function (fila) {
           meses.push(fila.Mes);
@@ -207,17 +207,21 @@ $(document).ready(function () {
           porcentajeTardanzasJustificadas.push(
             parseFloat(fila.Porcentaje_Tardanza_Justificada)
           );
-          curso.push(fila.descripcionCurso);
+          grado.push(fila.descripcionGrado);
         });
 
-        // Actualizar el gráfico con los datos obtenidos
+        // Poblar el filtro de cursos
+        poblarCursoFilterDropdown(grado);
+
+        // Actualizar el gráfico con los datos obtenidos del primer grado
         actualizarGraficoAsistencia(
           meses,
           porcentajeAsistencias,
           porcentajeFaltas,
           porcentajeInasistenciasInjustificadas,
           porcentajeFaltasJustificadas,
-          porcentajeTardanzasJustificadas
+          porcentajeTardanzasJustificadas,
+          grado[1] // Pasar el primer grado obtenido
         );
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -233,7 +237,8 @@ $(document).ready(function () {
     porcentajeFaltas,
     porcentajeInasistenciasInjustificadas,
     porcentajeFaltasJustificadas,
-    porcentajeTardanzasJustificadas
+    porcentajeTardanzasJustificadas,
+    gradoSeleccionado
   ) {
     new ApexCharts(document.querySelector("#asistenciaChart"), {
       series: [
@@ -303,18 +308,33 @@ $(document).ready(function () {
       },
     }).render();
   }
+      // Manejar el cambio de filtro
+      $("#gradoDropdown").on("click", ".dropdown-item", function () {
+        var cursoSeleccionado = $(this).text();
+        // Actualizar el gráfico con los datos del grado seleccionado
+        actualizarGraficoAsistencia(
+          meses,
+          porcentajeAsistencias,
+          porcentajeFaltas,
+          porcentajeInasistenciasInjustificadas,
+          porcentajeFaltasJustificadas,
+          porcentajeTardanzasJustificadas,
+          cursoSeleccionado
+        );
+      });
+
   // Función para poblar el dropdown de filtro de cursos
-  function poblarCursoFilterDropdown(cursos) {
-    var dropdown = $("#cursoFilterDropdown");
+  function poblarCursoFilterDropdown(grados) {
+    var dropdown = $("#gradoDropdown");
     dropdown.empty(); // Vaciar el dropdown antes de poblarlo
 
-    cursos.forEach(function (curso) {
+    // Crear un conjunto para almacenar grados únicos
+    var gradosUnicos = new Set(grados);
+
+    // Iterar sobre los grados únicos y agregarlos al dropdown
+    gradosUnicos.forEach(function (grado) {
       dropdown.append(
-        '<li><a class="dropdown-item" href="#" onclick="filtrarCurso(\'' +
-          curso +
-          "')\">" +
-          curso +
-          "</a></li>"
+        '<li><a class="dropdown-item" href="#" >' + grado + "</a></li>"
       );
     });
   }

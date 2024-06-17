@@ -101,11 +101,11 @@
 
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul id="cursoFilterDropdown" class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
-                  <h6>Filtro Curso</h6>
+                  <h6>Filtro</h6>
                 </li>
-                <!-- Aquí se agregarán las opciones de filtro de curso dinámicamente -->
+                <div id="gradoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
               </ul>
             </div>
 

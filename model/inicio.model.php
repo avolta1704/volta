@@ -137,6 +137,7 @@ class ModelInicio
   }
   public static function mdlObtenerAsistenciaporMeses($tabla, $idUsuario){
     $statement = Connection::conn()->prepare("SELECT
+    grado.descripcionGrado,
     CASE 
         WHEN MONTH(asistencia.fechaAsistencia) = 1 THEN 'Enero'
         WHEN MONTH(asistencia.fechaAsistencia) = 2 THEN 'Febrero'
@@ -151,39 +152,30 @@ class ModelInicio
         WHEN MONTH(asistencia.fechaAsistencia) = 11 THEN 'Noviembre'
         WHEN MONTH(asistencia.fechaAsistencia) = 12 THEN 'Diciembre'
     END AS Mes,
-    SUM(CASE WHEN asistencia.estadoAsistencia = 'A' THEN 1 ELSE 0 END) AS Asistio,
-    SUM(CASE WHEN asistencia.estadoAsistencia = 'F' THEN 1 ELSE 0 END) AS Falto,
-    SUM(CASE WHEN asistencia.estadoAsistencia = 'T' THEN 1 ELSE 0 END) AS Inasistencia_Injustificada,
-    SUM(CASE WHEN asistencia.estadoAsistencia = 'J' THEN 1 ELSE 0 END) AS Falta_Justificada,
-    SUM(CASE WHEN asistencia.estadoAsistencia = 'U' THEN 1 ELSE 0 END) AS Tardanza_Justificada,
-    COUNT(*) AS Total_Asistencias,
+    COUNT(DISTINCT alumno.idAlumno) AS Total_Alumnos,
+    COUNT(DISTINCT asistencia.idAsistencia) AS Total_Asistencias,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'A' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Asistio,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'F' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Falto,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'T' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Inasistencia_Injustificada,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'J' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Falta_Justificada,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'U' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Tardanza_Justificada
-    FROM
-        $tabla
-        INNER JOIN
-        personal ON usuario.idUsuario = personal.idUsuario
-        INNER JOIN
-        cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
-        INNER JOIN
-        curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
-        INNER JOIN
-        grado ON curso_grado.idGrado = grado.idGrado
-        INNER JOIN
-        alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
-        asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
-            INNER JOIN
-            anio_escolar ON alumno_anio_escolar.idAnioEscolar = alumno_anio_escolar.idAnioEscolar
-    WHERE
-        usuario.idUsuario = :idUsuario AND anio_escolar.estadoAnio = 1
-    GROUP BY
-        MONTH(asistencia.fechaAsistencia)
-    ORDER BY
-        MONTH(asistencia.fechaAsistencia);");
+FROM 
+    usuario
+    INNER JOIN personal ON usuario.idUsuario = personal.idUsuario
+    INNER JOIN cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
+    INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+    INNER JOIN grado ON curso_grado.idGrado = grado.idGrado
+    INNER JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+    INNER JOIN alumno ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+    LEFT JOIN asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+WHERE
+    usuario.idUsuario = :idUsuario AND anio_escolar.estadoAnio = 1
+GROUP BY 
+    grado.descripcionGrado,
+    MONTH(asistencia.fechaAsistencia)
+ORDER BY 
+    MONTH(asistencia.fechaAsistencia);");
     $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
