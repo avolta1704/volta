@@ -316,6 +316,7 @@ $("#modalCompetenciaUnidad").on(
 	"#btnDuplicarCompetencia",
 	function () {
 		var idUnidad = $(this).attr("idUnidad"); // Obtén el valor de idUnidad del botón btnAgregarCompetencia
+		var idBimestre = $(this).attr("idBimestre");
 		// Limpiar el contenedor
 		$("#competenciasContainer").empty();
 		// Contenedor donde se agregarán las opciones
@@ -415,15 +416,12 @@ $("#modalCompetenciaUnidad").on(
 								title: "Competencias Duplicadas",
 								text: "Se han insertado con éxito.",
 								icon: "success",
-								confirmButtonText: "Aceptar",
-							}).then((result) => {
-								if (result.isConfirmed) {
-									$("#modalDuplicarCompetencia").modal(
-										"hide"
-									);
-									$("#modalCompetenciaUnidad").modal("hide");
-								}
+								timer: 1500,
+								showConfirmButton: false,
 							});
+							$("#modalDuplicarCompetencia").modal("hide");
+							$("#modalCompetenciaUnidad").modal("show");
+							actualizarTablaCompetencias(idUnidad, idBimestre);
 						} else if (response == "duplicado") {
 							Swal.fire({
 								title: "Competencias Duplicadas",
@@ -442,6 +440,7 @@ $("#modalCompetenciaUnidad").on(
 						}
 					},
 					error: function (jqXHR, textStatus, errorThrown) {
+						console.log(jqXHR.responseText); // Procedencia de error
 						console.log(
 							"Error en la solicitud AJAX: ",
 							textStatus,
@@ -463,6 +462,8 @@ $("#modalDuplicarCompetencia").on(
 );
 $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
 	var idCompetencia = $(this).attr("idCompetencia"); // Obtén el idCompetencia del botón}
+	var idUnidad = $(this).attr("idUnidad");
+	var idBimestre = $(this).attr("idBimestre");
 	Swal.fire({
 		title: "¿Estás seguro de que deseas eliminar la competencia?",
 		text: "¡Se eliminará la competencia seleccionada!",
@@ -490,11 +491,10 @@ $("#dataTableCompetencias").on("click", ".btnEliminarCompetencia", function () {
 							title: "¡Competencia Eliminada!",
 							text: "La competencia ha sido eliminada con éxito.",
 							icon: "success",
-						}).then(function (result) {
-							if (result.isConfirmed) {
-								$("#modalCompetenciaUnidad").modal("hide");
-							}
+							timer: 1500,
+							showConfirmButton: false,
 						});
+						actualizarTablaCompetencias(idUnidad, idBimestre);
 					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -1137,3 +1137,77 @@ $("#modalEditarCriterio").on(
 		$("#modalCriteriosCompetencia").modal("show");
 	}
 );
+
+function actualizarTablaCompetencias(idUnidad, idBimestre) {
+	// Definición de columnas
+	var columnDefsCursosPorGrado = [
+		{ data: "descripcionCompetencia" },
+		{ data: "criterios" },
+		{ data: "buttons" },
+	];
+
+	// Inicialización de dataTableCursosPorGrado
+	var tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
+		columns: columnDefsCursosPorGrado,
+		retrieve: true,
+		paging: false,
+	});
+
+	var data = new FormData();
+	data.append("idUnidad", idUnidad);
+	data.append("idBimestre", idBimestre);
+
+	$.ajax({
+		url: "ajax/competencia.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			tableCursosPorGrado.clear();
+			tableCursosPorGrado.rows.add(response);
+			tableCursosPorGrado.draw();
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
+
+	// Estructura de dataTableCursosPorGrado
+	$("#dataTableCompetencias thead").html(`
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre Competencia</th>
+        <th scope="col">Criterios</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    `);
+
+	tableCursosPorGrado.destroy();
+
+	columnDefsCursosPorGrado = [
+		{
+			data: "null",
+			render: function (data, type, row, meta) {
+				return meta.row + 1;
+			},
+		},
+		{ data: "descripcionCompetencia" },
+		{ data: "criterios" },
+		{ data: "buttons" },
+	];
+
+	tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
+		columns: columnDefsCursosPorGrado,
+		language: {
+			url: "views/dataTables/Spanish.json",
+		},
+	});
+}
