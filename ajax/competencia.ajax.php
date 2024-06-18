@@ -4,17 +4,20 @@ require_once "../controller/competencia.controller.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/competencia.functions.php";
 require_once "../model/alumnoAnioEscolar.model.php";
+require_once "../model/criterios.model.php";
 
 class CompetenciaAjax
 {
   // Obtener todas las competencias
   public $idUnidad;
+  public $idBimestre;
   public function ajaxObtenerCompetencia()
   {
     $idUnidad = $this->idUnidad;
+    $idBimestre = $this->idBimestre;
     $response = ControllerCompetencia::ctrObtenerCompetencia($idUnidad);
     foreach ($response as &$data) {
-      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data, $data['maxNotaCompetencia']);
+      $data['buttons'] = FunctionCompetencia::getButtons($data['idCompetencia'], $data, $data['maxNotaCompetencia'], $idUnidad, $idBimestre);
       $data['criterios'] = FunctionCompetencia::getVerCriterios($data['idCompetencia'], $data['descripcionCompetencia']);
     }
     echo json_encode($response);
@@ -75,9 +78,10 @@ class CompetenciaAjax
   }
 }
 //Obtener competencias
-if (isset($_POST["idUnidad"])) {
+if (isset($_POST["idUnidad"]) && isset($_POST["idBimestre"])) {
   $obtenerCompetencias = new CompetenciaAjax();
   $obtenerCompetencias->idUnidad = $_POST["idUnidad"];
+  $obtenerCompetencias->idBimestre = $_POST["idBimestre"];
   $obtenerCompetencias->ajaxObtenerCompetencia();
 }
 

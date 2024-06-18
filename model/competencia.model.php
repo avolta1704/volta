@@ -4,6 +4,24 @@ require_once "connection.php";
 class ModelCompetencia
 {
 
+  /**
+   * Obtener una competencia por su idCompetencia
+   * 
+   * @param string $tabla Nombre de la tabla
+   * @param int $idCompetencia Id de la competencia
+   * @return array $stmt->fetchAll() Datos de la competencia
+   */
+
+  public static function mdlObtenerCompetenciaPorId($tabla, $idCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idCompetencia = :idCompetencia");
+    $stmt->bindParam(":idCompetencia", $idCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
+  }
 
   // Obtener todas las competencias
   public static function mdlObtenerCompetencia($tabla, $idUnidad)
@@ -73,7 +91,8 @@ GROUP BY
   public static function mdlDuplicarCompetencia($tabla, $idCursoDuplicar, $idGradoDuplicar, $idPersonalDuplicar)
   {
     $stmt = Connection::conn()->prepare("SELECT DISTINCT
-      competencias.descripcionCompetencia,      
+    competencias.idCompetencia,
+    competencias.descripcionCompetencia,      
     competencias.capacidadesCompetencia,
     competencias.estandarCompetencia
     FROM
@@ -160,5 +179,21 @@ GROUP BY
     $stmt->bindParam(":idUnidad", $idUnidadValidacion, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Obtener ultima competencia creada
+   * 
+   * @param string $tabla Nombre de la tabla
+   * @return array $stmt->fetch() Datos de la competencia
+   */
+  public static function mdlObtenerUltimaCompetencia($tabla)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla ORDER BY idCompetencia DESC LIMIT 1");
+    if ($stmt->execute()) {
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
   }
 }

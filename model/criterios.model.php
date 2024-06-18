@@ -130,4 +130,40 @@ class ModelCriterios
       return "error";
     }
   }
+
+  /**
+   * Obtener todos los criterios por idCompetencia
+   * 
+   * @param string $tabla Nombre de la tabla
+   * @param int $idCompetencia Id de la competencia
+   * @return array $stmt->fetchAll() Todos los criterios pertenecientes a la competencia
+   */
+  public static function mdlObtenerCriteriosPorIdCompetencia($tabla, $idCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idCompetencia = :idCompetencia");
+    $stmt->bindParam(":idCompetencia", $idCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return $stmt->fetchAll();
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Eliminar todos los criterios que pertenecen a una competencia por su idCompetencia
+   * 
+   * @param string $tabla Nombre de la tabla
+   * @param int $idCompetencia id de la competencia
+   * @return string "ok" si se eliminaron los criterios, "error" si hubo un error
+   */
+  public static function mdlEliminarCriteriosPorIdCompetencia($tabla, $idCompetencia)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idCompetencia = :idCompetencia");
+    $stmt->bindParam(":idCompetencia", $idCompetencia, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
