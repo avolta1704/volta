@@ -67,11 +67,19 @@ class ControllerCompetencia
 
     $responses = [];
     foreach ($checkboxValues as $checkboxValue) {
+
+      $tablaCompetencia = "competencias";
+      $competencia = ModelCompetencia::mdlObtenerCompetenciaPorId($tablaCompetencia, $checkboxValue["idCompetencia"]);
+
+      if ($competencia == "error") {
+        return "error";
+      }
+
       $arrayCompetencias = array(
         "idUnidad" => $idUnidadDuplicado,
-        "descripcionCompetencia" => $checkboxValue["descripcionCompetenciaCrear"],
-        "capacidadesCompetencia" => isset($checkboxValue["capacidades"]) ? $checkboxValue["capacidades"] : "",
-        "estandarCompetencia" => isset($checkboxValue["estandar"]) ? $checkboxValue["estandar"] : "",
+        "descripcionCompetencia" => $competencia["descripcionCompetencia"],
+        "capacidadesCompetencia" => $competencia["capacidadesCompetencia"] == null ? "" : $competencia["capacidadesCompetencia"],
+        "estandarCompetencia" => $competencia["estandarCompetencia"] == null ? "" : $competencia["estandarCompetencia"],
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
@@ -85,6 +93,43 @@ class ControllerCompetencia
       if ($checkResponse != "error") {
         // Si la competencia no existe, se inserta
         $insertResponse = ModelCompetencia::mdlCrearCompetencia($tabla, $arrayCompetencias);
+
+        if ($insertResponse == "error") {
+          return "error";
+        }
+
+        $obtenerElUltimoCompetencia = ModelCompetencia::mdlObtenerUltimaCompetencia($tabla);
+
+        if ($obtenerElUltimoCompetencia == "error") {
+          return "error";
+        }
+
+        // obtener los criterios de dicha competencia y guardarlos en la tabla competencias_criterios
+        $tablaCriterios = "criterios_competencia";
+        $criterios = ModelCriterios::mdlObtenerCriteriosPorIdCompetencia($tablaCriterios, $checkboxValue["idCompetencia"]);
+
+        if ($criterios != "error") {
+          foreach ($criterios as $criterio) {
+            $arrayCriterios = array(
+              "idCompetencia" => $obtenerElUltimoCompetencia["idCompetencia"],
+              "descripcionCriterio" => $criterio["descripcionCriterio"],
+              "idTecnicaEvaluacion" => $criterio["idTecnicaEvaluacion"],
+              "idInstrumento" => $criterio["idInstrumento"],
+              "fechaCreacion" => date("Y-m-d H:i:s"),
+              "fechaActualizacion" => date("Y-m-d H:i:s"),
+              "usuarioCreacion" => $_SESSION["idUsuario"],
+              "usuarioActualizacion" => $_SESSION["idUsuario"]
+            );
+
+            $tablaCriterios = "criterios_competencia";
+            $insertCriterio = ModelCriterios::mdlCrearCriterio($tablaCriterios, $obtenerElUltimoCompetencia["idCompetencia"], $arrayCriterios);
+
+            if ($insertCriterio == "error") {
+              return "error";
+            }
+          }
+        }
+
         // Guarda las repsuesta en las respuestasobtenidas de las funciones
         $responses[] = $insertResponse;
       } else {
@@ -102,8 +147,21 @@ class ControllerCompetencia
   public static function ctrEliminarCompetencia($idCompetenciaEliminar)
   {
     $tabla = "competencias";
-    $response = ModelCompetencia::mdlEliminarCompetencia($tabla, $idCompetenciaEliminar);
-    return $response;
+
+    // Eliminar los criterios de la competencia
+    $tablaCriterios = "criterios_competencia";
+
+    $responseCriterios = ModelCriterios::mdlEliminarCriteriosPorIdCompetencia($tablaCriterios, $idCompetenciaEliminar);
+
+    if ($responseCriterios == "ok") {
+      $response = ModelCompetencia::mdlEliminarCompetencia($tabla, $idCompetenciaEliminar);
+      if ($response == "error") {
+        return "error";
+      }
+      return "ok";
+    }
+
+    return "error";
   }
 
   // Validar si el alumno tiene competencia asignada y nota asignada
