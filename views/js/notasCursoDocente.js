@@ -357,8 +357,7 @@ $("#modalCompetenciaUnidad").on(
 						.attr({
 							for: checkboxId,
 							role: "button",
-							capacidades: competencia.capacidadesCompetencia,
-							estandar: competencia.estandarCompetencia,
+							idCompetencia: competencia.idCompetencia,
 						});
 					var formCheck = $("<div>")
 						.addClass("form-check")
@@ -392,8 +391,9 @@ $("#modalCompetenciaUnidad").on(
 						descripcionCompetenciaCrear: $(this)
 							.next("label")
 							.text(),
-						capacidades: $(this).next("label").attr("capacidades"),
-						estandar: $(this).next("label").attr("estandar"),
+						idCompetencia: $(this)
+							.next("label")
+							.attr("idCompetencia"),
 					};
 					checkboxValues.push(dataCompetencia);
 				});
