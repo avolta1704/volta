@@ -35,7 +35,7 @@
     include "inicio/inicio-apoderado.php";
   }
   if($tipoUsuario == 5){
-    include "inicio/inicio-direccion.php";
+    include "inicio/inicio-directivo.php";
   }
   ?>
   <div id="idUsuario" style="display: none;"><?php echo $idUsuario; ?></div>
