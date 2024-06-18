@@ -118,7 +118,8 @@ session_start();
   <script src="views/js/alumnosCursoDocente.js"></script>
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
-  <script src="views/js/inicio.js"></script>
+  <script src="views/js/inicio-administrativo.js"></script>
+  <script src="views/js/inicio-docente.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

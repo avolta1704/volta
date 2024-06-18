@@ -6,23 +6,23 @@ class ModelInicio
   public static function mdlObtenertodoslosAlumnosporGrandos()
   {
     $statement = Connection::conn()->prepare("SELECT
-    grado.descripcionGrado,
-    COUNT(alumno_anio_escolar.idAlumnoAnioEscolar) AS Alumnos
-        
+    grado.descripcionGrado, 
+    COALESCE(COUNT(alumno_anio_escolar.idAlumnoAnioEscolar), 0) AS Alumnos
     FROM
-	alumno
-	INNER JOIN
-	alumno_anio_escolar
-	ON 
-		alumno.idAlumno = alumno_anio_escolar.idAlumno
-	RIGHT JOIN
-	grado
-	ON 
-		alumno_anio_escolar.idGrado = grado.idGrado
-		GROUP BY
-    grado.descripcionGrado
-	ORDER BY 
-	grado.idGrado ASC");
+        grado
+    LEFT JOIN
+        alumno_anio_escolar
+    ON 
+        grado.idGrado = alumno_anio_escolar.idGrado
+    LEFT JOIN
+        anio_escolar
+    ON 
+        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        AND anio_escolar.estadoAnio = 1
+    GROUP BY
+        grado.descripcionGrado
+    ORDER BY
+        grado.idGrado ASC;");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -92,7 +92,7 @@ class ModelInicio
   }
   public static function mdlObtenerMontoRecaudadoporMeses(){
     $statement = Connection::conn()->prepare("SELECT
-    CASE MONTH(pago.fechaPago)
+CASE MONTH(pago.fechaPago)
         WHEN 1 THEN 'Enero'
         WHEN 2 THEN 'Febrero'
         WHEN 3 THEN 'Marzo'
@@ -106,11 +106,29 @@ class ModelInicio
         WHEN 11 THEN 'Noviembre'
         WHEN 12 THEN 'Diciembre'
     END AS mes,
-    SUM(pago.cantidadPago) AS totalPagado
+	SUM(pago.cantidadPago) AS totalPagado
     FROM
         pago
+        INNER JOIN
+        cronograma_pago
+        ON 
+            pago.idCronogramaPago = cronograma_pago.idCronogramaPago
+        INNER JOIN
+        admision_alumno
+        ON 
+            cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+        INNER JOIN
+        anio_admision
+        ON 
+            admision_alumno.idAdmisionAlumno = anio_admision.idAdmisionAlumno
+        INNER JOIN
+        anio_escolar
+        ON 
+            anio_admision.idAnioEscolar = anio_escolar.idAnioEscolar
+    WHERE
+        anio_escolar.estadoAnio = 1
     GROUP BY
-    MONTH(pago.fechaPago)");
+	MONTH(pago.fechaPago)");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -160,7 +178,7 @@ class ModelInicio
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'J' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Falta_Justificada,
     (SUM(CASE WHEN asistencia.estadoAsistencia = 'U' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS Porcentaje_Tardanza_Justificada
 FROM 
-    usuario
+    $tabla
     INNER JOIN personal ON usuario.idUsuario = personal.idUsuario
     INNER JOIN cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
     INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
@@ -243,4 +261,89 @@ ORDER BY
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario){
+    $statement = Connection::conn()->prepare("SELECT
+	grado.descripcionGrado, 
+	COUNT(DISTINCT alumno.idAlumno) AS alumnos_asignados
+    FROM
+        $tabla
+        INNER JOIN
+        personal
+        ON 
+            usuario.idUsuario = personal.idUsuario
+        INNER JOIN
+        cursogrado_personal
+        ON 
+            personal.idPersonal = cursogrado_personal.idPersonal
+        INNER JOIN
+        curso_grado
+        ON 
+            cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+        INNER JOIN
+        alumno_anio_escolar
+        INNER JOIN
+        grado
+        ON 
+            alumno_anio_escolar.idGrado = grado.idGrado AND
+            curso_grado.idGrado = grado.idGrado
+        INNER JOIN
+        anio_escolar
+        ON 
+            alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        INNER JOIN
+        alumno
+        ON 
+            alumno_anio_escolar.idAlumno = alumno.idAlumno
+        WHERE
+            anio_escolar.estadoAnio = 1 AND
+            usuario.idUsuario = :idUsuario
+        GROUP BY
+            grado.descripcionGrado");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlObtenerTotaldeCursosAsignados($tabla, $idUsuario){
+    $statement = Connection::conn()->prepare("SELECT
+        COUNT(DISTINCT curso.idCurso) AS cursos_asignados, 
+        CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS nombreCompleto
+        FROM
+            $tabla
+        INNER JOIN
+            personal
+        ON 
+            usuario.idUsuario = personal.idUsuario
+        INNER JOIN
+            cursogrado_personal
+        ON 
+            personal.idPersonal = cursogrado_personal.idPersonal
+        INNER JOIN
+            curso_grado
+        ON 
+            cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+        INNER JOIN
+            curso
+        ON 
+            curso_grado.idCurso = curso.idCurso
+        INNER JOIN
+            grado
+        ON 
+            curso_grado.idGrado = grado.idGrado
+        INNER JOIN
+            alumno_anio_escolar
+        ON 
+            grado.idGrado = alumno_anio_escolar.idGrado
+        INNER JOIN
+            anio_escolar
+        ON 
+            alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            usuario.idUsuario = :idUsuario AND
+            anio_escolar.estadoAnio = 1	");
+    
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

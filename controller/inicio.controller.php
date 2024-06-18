@@ -38,4 +38,14 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario);
     return $response;
   }
+  public static function ctrObtenerTodoslosAlumnosAsignadosDocente($idUsuario){
+    $tabla = "usuario";
+    $response = ModelInicio::mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario);
+    return $response;
+  }
+  public static  function ctrObtenerTotaldeCursosAsignados($idUsuario){
+    $tabla = "usuario";
+    $response = ModelInicio::mdlObtenerTotaldeCursosAsignados($tabla,$idUsuario);
+    return $response;
+  }
 }
