@@ -49,30 +49,44 @@ class InicioAjax
     $filteredResponse = [];
     foreach ($response as $competenciasNotas) {
       if ($competenciasNotas['notaCompetencia'] === null || $competenciasNotas['notaCompetencia'] === "") {
-          $competenciasNotas['notaCompetencia'] = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
-          $filteredResponse[] = $competenciasNotas;
+        $competenciasNotas['notaCompetencia'] = '<span class="badge rounded-pill bg-warning">Sin Asignar</span>';
+        $filteredResponse[] = $competenciasNotas;
       }
     }
     echo json_encode($filteredResponse);
   }
   public $idUsuarioAlumnosAsignadosDocentes;
-  public function ajaxObtenerTodoslosAlumnosAsignadosDocente(){
+  public function ajaxObtenerTodoslosAlumnosAsignadosDocente()
+  {
     $idUsuarioAlumnosAsignadosDocentes = $this->idUsuarioAlumnosAsignadosDocentes;
     $response = ControllerInicio::ctrObtenerTodoslosAlumnosAsignadosDocente($idUsuarioAlumnosAsignadosDocentes);
     echo json_encode($response);
   }
   public $idUsuarioCursosAsignadosDocentes;
-  public function ajaxObtenerTotaldeCursosAsignados(){
+  public function ajaxObtenerTotaldeCursosAsignados()
+  {
     $idUsuarioCursosAsignadosDocentes = $this->idUsuarioCursosAsignadosDocentes;
     $response = ControllerInicio::ctrObtenerTotaldeCursosAsignados($idUsuarioCursosAsignadosDocentes);
     echo json_encode($response);
   }
-  public function ajaxObtenerTotalDocenterCursosporGrado(){
+  public function ajaxObtenerTotalDocenterCursosporGrado()
+  {
     $response = ControllerInicio::ctrObtenerTotalDocenterCursosporGrado();
     echo json_encode($response);
   }
-  public function ajaxObtenerNombreDocenteyCurso(){
+  public function ajaxObtenerNombreDocenteyCurso()
+  {
     $response = ControllerInicio::ctrObtenerNombreDocenteyCurso();
+    echo json_encode($response);
+  }
+  public function ajaxObtenerTodoslosDocentesporTipo()
+  {
+    $response = ControllerInicio::ctrObtenerTodoslosDocentesporTipo();
+    echo json_encode($response);
+  }
+  public function ajaxObtenerTotalMasculinoFemeniniporGrados()
+  {
+    $response = ControllerInicio::ctrObtenerTotalMasculinoFemeniniporGrados();
     echo json_encode($response);
   }
 }
@@ -96,36 +110,43 @@ if (isset($_POST["MontoRecaudadoporMeses"])) {
   $todosMontoRecaudadoporMeses = new InicioAjax();
   $todosMontoRecaudadoporMeses->ajaxObtenerMontoRecaudadoporMeses();
 }
-if(isset($_POST["personalInicio"])){
+if (isset($_POST["personalInicio"])) {
   $todosPersonalInicio = new InicioAjax();
   $todosPersonalInicio->ajaxObtenertodostodosPersonalInicio();
 }
-if(isset($_POST["idUsuarioAsistenciaporMeses"])){
+if (isset($_POST["idUsuarioAsistenciaporMeses"])) {
   $asistenciaporMeses = new InicioAjax();
   $asistenciaporMeses->idUsuarioAsistenciaporMeses = $_POST["idUsuarioAsistenciaporMeses"];
   $asistenciaporMeses->ajaxObtenerAsistenciaporMeses();
 }
-if(isset($_POST["idUsuarioCompetenciasNotas"])){
+if (isset($_POST["idUsuarioCompetenciasNotas"])) {
   $competenciasNotas = new InicioAjax();
   $competenciasNotas->idUsuarioCompetenciasNotas = $_POST["idUsuarioCompetenciasNotas"];
   $competenciasNotas->ajaxObtenerCompetenciasNotas();
 }
-if(isset($_POST["idUsuarioAlumnosAsignadosDocentes"])){
+if (isset($_POST["idUsuarioAlumnosAsignadosDocentes"])) {
   $alumnosAsignadosDocentes = new InicioAjax();
   $alumnosAsignadosDocentes->idUsuarioAlumnosAsignadosDocentes = $_POST["idUsuarioAlumnosAsignadosDocentes"];
   $alumnosAsignadosDocentes->ajaxObtenerTodoslosAlumnosAsignadosDocente();
 }
-if(isset($_POST["idUsuarioCursosAsignadosDocentes"])){
+if (isset($_POST["idUsuarioCursosAsignadosDocentes"])) {
   $cursosAsignadosDocentes = new InicioAjax();
   $cursosAsignadosDocentes->idUsuarioCursosAsignadosDocentes = $_POST["idUsuarioCursosAsignadosDocentes"];
   $cursosAsignadosDocentes->ajaxObtenerTotaldeCursosAsignados();
 }
-if(isset($_POST["docentesCursosporGrado"])){
+if (isset($_POST["docentesCursosporGrado"])) {
   $docentesCursosporGrado = new InicioAjax();
   $docentesCursosporGrado->ajaxObtenerTotalDocenterCursosporGrado();
 }
-if(isset($_POST["nombreDocenteyCurso"])){
+if (isset($_POST["nombreDocenteyCurso"])) {
   $nombreDocenteyCurso = new InicioAjax();
   $nombreDocenteyCurso->ajaxObtenerNombreDocenteyCurso();
 }
-
+if (isset($_POST["totalDocenteporTipo"])) {
+  $totalDocentesporTipo = new InicioAjax();
+  $totalDocentesporTipo->ajaxObtenerTodoslosDocentesporTipo();
+}
+if(isset($_POST["totalMasculinoFemenino"])){
+  $totalMasculinoFemenino = new InicioAjax();
+  $totalMasculinoFemenino->ajaxObtenerTotalMasculinoFemeniniporGrados();
+}

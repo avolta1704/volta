@@ -2,11 +2,11 @@
   <div class="row">
 
     <!-- Left side columns -->
-    <div class="col-lg-12">
+    <div class="col-lg-8">
       <div class="row">
 
         <!-- Sales Card -->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-4 col-md-4">
           <div class="card info-card sales-card">
 
             <div class="filter">
@@ -46,55 +46,24 @@
                 <li class="dropdown-header text-start">
                   <h6>Filtro</h6>
                 </li>
-                <div id="aniosDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+                <div id="tipoDocenteDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
               </ul>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Alumnos <span class="filtro-seleccionado"></span></h5>
+              <h5 class="card-title">Docentes <span class="filtro-seleccionado-tipo-docente"></span></h5>
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-person-up"></i>
+                  <i class="bi bi-person-workspace"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 class="total-alumnos"></h6>
+                  <h6 class="total-docentes-tipo"></h6>
                 </div>
               </div>
             </div>
 
           </div>
         </div>
-
-        <!-- Customers Card -->
-        <div class="col-xxl-4 col-xl-12">
-
-          <div class="card info-card customers-card">
-
-            <div class="filter">
-              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                <li class="dropdown-header text-start">
-                  <h6>Filtro</h6>
-                </li>
-                <div id="mesesDropdownRecaudado"></div> <!-- Contenedor para poblar desde JavaScript -->
-              </ul>
-            </div>
-
-            <div class="card-body">
-              <h5 class="card-title">Monto Recaudado <span class="filtro-seleccionado-recaudado">| Enero</span></h5>
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-cash-stack"></i>
-                </div>
-                <div class="ps-3">
-                  <h6 class="total-recaudado">0</h6>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
         <!-- Reports -->
         <div class="col-8">
           <div class="card">
@@ -106,18 +75,6 @@
               <div id="reportsChartDocentesCursos"></div>
             </div>
 
-          </div>
-        </div>
-        <!-- Reports -->
-        <div class="col-4">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Informacion <span>| Grado</span></h5>
-              <!-- Line Chart -->
-              <div id="informacionCursos" style="max-height: 575px; overflow-y: auto;">
-                <!-- Contenido generado dinámicamente por JavaScript -->
-              </div>
-            </div>
           </div>
         </div>
 
@@ -141,7 +98,48 @@
           </div>
         </div>
       </div>
+
     </div>
 
+    <div class="col-lg-4">
+      <div class="card">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Customers Card -->
+        <div class="col-xxl-12 col-xl-8">
+          <div class="card info-card customers-card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filtro</h6>
+                </li>
+                <div id="gradoSexoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+              </ul>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Alumnos <span class="filtro-seleccionado-grado-sexo">| </span></h5>
+              <div class="d-flex align-items-center">
+              </div>
+              <!-- Contenedor para el gráfico -->
+              <div>
+                <canvas id="pieChart" width="200" height="200"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Reports -->
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Informacion <span>| Grado</span></h5>
+              <!-- Line Chart -->
+              <div id="informacionCursos" style="max-height: 575px; overflow-y: auto;">
+                <!-- Contenido generado dinámicamente por JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>

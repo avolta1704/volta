@@ -1,4 +1,11 @@
 $(document).ready(function () {
+  docentes = [];
+  tipoDocentes = [];
+  var pieChart;
+  var grados = [];
+  var masculinos = [];
+  var femeninos = [];
+
   // Función para obtener y manejar los datos de alumnos por grados
   function obtenerDocentesCursosPorGrados() {
     var data = new FormData();
@@ -210,6 +217,153 @@ $(document).ready(function () {
       },
     });
   }
+  // Función para obtener los docentes por tipo
+  function obtenerDocentesporTipo() {
+    var data = new FormData();
+    data.append("totalDocenteporTipo", true);
+
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        response.forEach(function (fila) {
+          docentes.push(fila.total_docentes);
+          tipoDocentes.push(fila.descripcionTipo);
+        });
+
+        // Inicializar el dropdown y mostrar datos del primer año
+        poblarTipoDocenteDropdown(tipoDocentes);
+        if (tipoDocentes.length > 0) {
+          actualizarDatosDocentesTipo(0);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+  // Función para poblar el dropdown de tipo de docentes
+  function poblarTipoDocenteDropdown(tipoDocentes) {
+    var dropdown = $("#tipoDocenteDropdown");
+    dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+
+    tipoDocentes.forEach(function (tipoDocentes, index) {
+      dropdown.append(
+        '<li><a class="dropdown-item" href="#" onclick="filtrarDocenteTipo(\'' +
+          tipoDocentes +
+          "', " +
+          index +
+          ')">' +
+          tipoDocentes +
+          "</a></li>"
+      );
+    });
+  }
+
+  // Función para actualizar los datos de docente por tipo
+  function actualizarDatosDocentesTipo(indice) {
+    const filtroSeleccionado = $(".filtro-seleccionado-tipo-docente");
+    const totalDocentes = $(".total-docentes-tipo");
+
+    filtroSeleccionado.text("| " + tipoDocentes[indice]);
+    totalDocentes.text(docentes[indice].toLocaleString() + " Asignados");
+  }
+
+  // Función para filtrar por tipo docente
+  window.filtrarDocenteTipo = function (tipoDocentes, indice) {
+    actualizarDatosDocentesTipo(indice);
+  };
+  // Función para obtener los datos de alumnos por sexo y grado
+  function obtenerTotalMasculinoFemenino() {
+    var data = new FormData();
+    data.append("totalMasculinoFemenino", true);
+
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        // Procesar la respuesta para obtener los datos del gráfico
+        response.forEach(function (fila) {
+          grados.push(fila.descripcionGrado);
+          masculinos.push(fila.total_masculinos);
+          femeninos.push(fila.total_femeninos);
+        });
+
+        // Poblar el dropdown con los grados
+        poblarGradoSexoDropdown(grados);
+
+        // Inicializar el gráfico de pastel con los datos del primer grado
+        crearGraficoPastel(masculinos[0], femeninos[0]);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+  // Función para poblar el dropdown de grados
+  function poblarGradoSexoDropdown(grados) {
+    var dropdown = $("#gradoSexoDropdown");
+    dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+
+    grados.forEach(function (grado, index) {
+      dropdown.append(
+        '<li><a class="dropdown-item" href="#" onclick="filtrarGrado(' +
+          index +
+          ')">' +
+          grado +
+          "</a></li>"
+      );
+    });
+  }
+
+  // Función para crear el gráfico de pastel
+  function crearGraficoPastel(masculinos, femeninos) {
+    var ctx = document.getElementById("pieChart").getContext("2d");
+    pieChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Masculino", "Femenino"],
+        datasets: [
+          {
+            data: [masculinos, femeninos],
+            backgroundColor: ["#36A2EB", "#FF6384"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+    });
+  }
+
+  // Función para actualizar el gráfico de pastel
+  function actualizarGraficoPastel(masculinos, femeninos) {
+    pieChart.data.datasets[0].data = [masculinos, femeninos];
+    pieChart.update();
+  }
+
+  // Función para filtrar por grado
+  window.filtrarGrado = function (indice) {
+    const filtroSeleccionado = $(".filtro-seleccionado-grado-sexo");
+    filtroSeleccionado.text("| " + grados[indice]);
+    actualizarGraficoPastel(masculinos[indice], femeninos[indice]);
+  };
+
+  // Llamar a la función para obtener los datos al cargar la página
+  obtenerTotalMasculinoFemenino();
   obtenerDocentesCursosPorGrados();
   obtenerNombreDocentesCursosPorGrados();
+  obtenerDocentesporTipo();
 });

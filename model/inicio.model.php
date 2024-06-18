@@ -394,7 +394,7 @@ ORDER BY
     }
     public static function mdlObtenerNombreDocenteyCurso($tabla)
     {
-    $statement = Connection::conn()->prepare("SELECT DISTINCT
+        $statement = Connection::conn()->prepare("SELECT DISTINCT
     grado.descripcionGrado, 
     CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS docente, 
     curso.descripcionCurso
@@ -427,8 +427,60 @@ ORDER BY
             anio_escolar.estadoAnio = 1
     ORDER BY
         grado.idGrado ASC;");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTodoslosDocentesporTipo($tabla)
+    {
+        $statement = Connection::conn()->prepare("SELECT
+            REPLACE(tipo_personal.descripcionTipo, 'Docente', '') AS descripcionTipo,
+            COUNT(personal.idTipoPersonal) AS total_docentes
+        FROM
+            $tabla
+            INNER JOIN tipo_personal ON personal.idTipoPersonal = tipo_personal.idTipoPersonal
+            INNER JOIN usuario ON personal.idUsuario = usuario.idUsuario
+            INNER JOIN tipo_usuario ON usuario.idTipoUsuario = tipo_usuario.idTipoUsuario
+        WHERE
+            tipo_usuario.idTipoUsuario = 2
+            AND usuario.estadoUsuario = 1
+        GROUP BY
+            REPLACE(tipo_personal.descripcionTipo, 'Docente', '')");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTotalMasculinoFemeniniporGrados($tabla){
+        $statement = Connection::conn()->prepare("SELECT
+	COUNT(CASE WHEN alumno.sexoAlumno = 'Masculino' THEN 1 END) AS total_masculinos,
+	COUNT(CASE WHEN alumno.sexoAlumno = 'Femenino' THEN 1 END) AS total_femeninos,
+	grado.descripcionGrado
+FROM
+	$tabla
+	INNER JOIN
+	alumno_anio_escolar
+	ON 
+		alumno.idAlumno = alumno_anio_escolar.idAlumno
+	INNER JOIN
+	grado
+	ON 
+		alumno_anio_escolar.idGrado = grado.idGrado
+	INNER JOIN
+	anio_escolar
+	ON 
+		alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+	INNER JOIN
+	admision_alumno
+	ON 
+		alumno.idAlumno = admision_alumno.idAlumno
+WHERE
+	alumno.sexoAlumno IS NOT NULL AND
+	anio_escolar.estadoAnio = 1 AND
+	admision_alumno.estadoAdmisionAlumno = 2
+GROUP BY
+	grado.descripcionGrado
+ORDER BY
+	grado.idGrado ASC");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

@@ -58,4 +58,14 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerNombreDocenteyCurso($tabla);
     return $response;
   }
+  public static function ctrObtenerTodoslosDocentesporTipo(){
+    $tabla = "personal";
+    $response = ModelInicio::mdlObtenerTodoslosDocentesporTipo($tabla);
+    return $response;
+  }
+  public static function ctrObtenerTotalMasculinoFemeniniporGrados(){
+    $tabla = "alumno";
+    $response = ModelInicio::mdlObtenerTotalMasculinoFemeniniporGrados($tabla);
+    return $response;
+  }
 }
