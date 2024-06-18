@@ -1,50 +1,56 @@
 // Definición inicial de dataTableCursosPorGrado
 $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
-  var idUnidad = $(this).data("idUnidad"); // Obtener idUnidad
-  var idBimestre = $(this).data("idBimestre"); // Obtener idBimestre
+	var idUnidad = $(this).data("idUnidad"); // Obtener idUnidad
+	var idBimestre = $(this).data("idBimestre"); // Obtener idBimestre
 
-  // Asignar idGrado a un atributo del btnAsignarNuevoCurso
-  $("#btnAgregarCompetencia").attr("idUnidad", idUnidad);
-  $("#btnDuplicarCompetencia").attr("idUnidad", idUnidad);
+	// Asignar idGrado a un atributo del btnAsignarNuevoCurso
+	$("#btnAgregarCompetencia").attr("idUnidad", idUnidad);
+	$("#btnDuplicarCompetencia").attr("idUnidad", idUnidad);
+	$("#btnDuplicarCompetencia").attr("idBimestre", idBimestre);
 
-  // Definición de columnas
-  var columnDefsCursosPorGrado = [
-    { data: "descripcionCompetencia" },
-    { data: "criterios" },
-    { data: "buttons" },
-  ];
+	// Definición de columnas
+	var columnDefsCursosPorGrado = [
+		{ data: "descripcionCompetencia" },
+		{ data: "criterios" },
+		{ data: "buttons" },
+	];
 
-  // Inicialización de dataTableCursosPorGrado
-  var tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
-    columns: columnDefsCursosPorGrado,
-    retrieve: true,
-    paging: false,
-  });
+	// Inicialización de dataTableCursosPorGrado
+	var tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
+		columns: columnDefsCursosPorGrado,
+		retrieve: true,
+		paging: false,
+	});
 
-  var data = new FormData();
-  data.append("idUnidad", idUnidad);
+	var data = new FormData();
+	data.append("idUnidad", idUnidad);
+	data.append("idBimestre", idBimestre);
 
-  $.ajax({
-    url: "ajax/competencia.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-    success: function (response) {
-      tableCursosPorGrado.clear();
-      tableCursosPorGrado.rows.add(response);
-      tableCursosPorGrado.draw();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // procendecia de error
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
+	$.ajax({
+		url: "ajax/competencia.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			tableCursosPorGrado.clear();
+			tableCursosPorGrado.rows.add(response);
+			tableCursosPorGrado.draw();
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
 
-  // Estructura de dataTableCursosPorGrado
-  $("#dataTableCompetencias thead").html(`
+	// Estructura de dataTableCursosPorGrado
+	$("#dataTableCompetencias thead").html(`
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre Competencia</th>
@@ -53,24 +59,24 @@ $("#thirdButtonContainer").on("click", "#btnVerCompetencias", function () {
       </tr>
     `);
 
-  tableCursosPorGrado.destroy();
+	tableCursosPorGrado.destroy();
 
-  columnDefsCursosPorGrado = [
-    {
-      data: "null",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
-    },
-    { data: "descripcionCompetencia" },
-    { data: "criterios"},
-    { data: "buttons" },
-  ];
+	columnDefsCursosPorGrado = [
+		{
+			data: "null",
+			render: function (data, type, row, meta) {
+				return meta.row + 1;
+			},
+		},
+		{ data: "descripcionCompetencia" },
+		{ data: "criterios" },
+		{ data: "buttons" },
+	];
 
-  tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
+	tableCursosPorGrado = $("#dataTableCompetencias").DataTable({
 		columns: columnDefsCursosPorGrado,
 		language: {
 			url: "views/dataTables/Spanish.json",
 		},
-  });
+	});
 });
