@@ -4,6 +4,7 @@ require_once "../controller/competencia.controller.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/competencia.functions.php";
 require_once "../model/alumnoAnioEscolar.model.php";
+require_once "../model/criterios.model.php";
 
 class CompetenciaAjax
 {
