@@ -70,8 +70,8 @@ class ControllerCompetencia
       $arrayCompetencias = array(
         "idUnidad" => $idUnidadDuplicado,
         "descripcionCompetencia" => $checkboxValue["descripcionCompetenciaCrear"],
-        "capacidadesCompetencia" => $checkboxValue["capacidades"],
-        "estandarCompetencia" => $checkboxValue["estandar"],
+        "capacidadesCompetencia" => isset($checkboxValue["capacidades"]) ? $checkboxValue["capacidades"] : "",
+        "estandarCompetencia" => isset($checkboxValue["estandar"]) ? $checkboxValue["estandar"] : "",
         "fechaCreacion" => date("Y-m-d H:i:s"),
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
