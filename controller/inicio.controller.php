@@ -43,9 +43,19 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario);
     return $response;
   }
-  public static  function ctrObtenerTotaldeCursosAsignados($idUsuario){
+  public static function ctrObtenerTotaldeCursosAsignados($idUsuario){
     $tabla = "usuario";
     $response = ModelInicio::mdlObtenerTotaldeCursosAsignados($tabla,$idUsuario);
+    return $response;
+  }
+  public static function ctrObtenerTotalDocenterCursosporGrado(){
+    $tabla = "grado";
+    $response = ModelInicio::mdlObtenerTotalDocenterCursosporGrado($tabla);
+    return $response;
+  }
+  public static function ctrObtenerNombreDocenteyCurso(){
+    $tabla = "grado";
+    $response = ModelInicio::mdlObtenerNombreDocenteyCurso($tabla);
     return $response;
   }
 }

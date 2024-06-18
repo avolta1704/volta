@@ -3,9 +3,9 @@ require_once "connection.php";
 
 class ModelInicio
 {
-  public static function mdlObtenertodoslosAlumnosporGrandos()
-  {
-    $statement = Connection::conn()->prepare("SELECT
+    public static function mdlObtenertodoslosAlumnosporGrandos()
+    {
+        $statement = Connection::conn()->prepare("SELECT
     grado.descripcionGrado, 
     COALESCE(COUNT(alumno_anio_escolar.idAlumnoAnioEscolar), 0) AS Alumnos
     FROM
@@ -23,12 +23,12 @@ class ModelInicio
         grado.descripcionGrado
     ORDER BY
         grado.idGrado ASC;");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenertodaslasPensionesPendientes()
-  {
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenertodaslasPensionesPendientes()
+    {
+        $statement = Connection::conn()->prepare("SELECT
     cronograma_pago.mesPago,
     EXTRACT(YEAR FROM cronograma_pago.fechaLimite) AS año,
     EXTRACT(MONTH FROM cronograma_pago.fechaLimite) AS mes,
@@ -63,12 +63,13 @@ class ModelInicio
         cronograma_pago.mesPago, año, mes, total.total_pensiones
     ORDER BY
     año ASC, mes ASC;");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-  public static function mdlObtenerTodoslosAlumnosporAnio(){
-    $statement = Connection::conn()->prepare("SELECT
+    public static function mdlObtenerTodoslosAlumnosporAnio()
+    {
+        $statement = Connection::conn()->prepare("SELECT
 	anio_escolar.descripcionAnio, 
 	anio_escolar.estadoAnio, 
 	COUNT(alumno_anio_escolar.idAlumnoAnioEscolar) AS total_alumno
@@ -87,11 +88,12 @@ class ModelInicio
         ORDER BY
         anio_escolar.idAnioEscolar ASC
     LIMIT 5");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerMontoRecaudadoporMeses(){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerMontoRecaudadoporMeses()
+    {
+        $statement = Connection::conn()->prepare("SELECT
 CASE MONTH(pago.fechaPago)
         WHEN 1 THEN 'Enero'
         WHEN 2 THEN 'Febrero'
@@ -129,11 +131,12 @@ CASE MONTH(pago.fechaPago)
         anio_escolar.estadoAnio = 1
     GROUP BY
 	MONTH(pago.fechaPago)");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerPersonalInicio(){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerPersonalInicio()
+    {
+        $statement = Connection::conn()->prepare("SELECT
 	personal.nombrePersonal, 
 	personal.apellidoPersonal, 
 	personal.correoPersonal, 
@@ -150,11 +153,12 @@ CASE MONTH(pago.fechaPago)
 	usuario
 	ON 
 		personal.idUsuario = usuario.idUsuario");
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerAsistenciaporMeses($tabla, $idUsuario){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerAsistenciaporMeses($tabla, $idUsuario)
+    {
+        $statement = Connection::conn()->prepare("SELECT
     grado.descripcionGrado,
     CASE 
         WHEN MONTH(asistencia.fechaAsistencia) = 1 THEN 'Enero'
@@ -194,12 +198,13 @@ GROUP BY
     MONTH(asistencia.fechaAsistencia)
 ORDER BY 
     MONTH(asistencia.fechaAsistencia);");
-    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario)
+    {
+        $statement = Connection::conn()->prepare("SELECT
 	grado.descripcionGrado, 
 	curso.descripcionCurso, 
 	alumno.nombresAlumno, 
@@ -257,12 +262,13 @@ ORDER BY
     WHERE
         usuario.idUsuario = :idUsuario AND
         unidad.estadoUnidad = 1");
-    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario)
+    {
+        $statement = Connection::conn()->prepare("SELECT
 	grado.descripcionGrado, 
 	COUNT(DISTINCT alumno.idAlumno) AS alumnos_asignados
     FROM
@@ -299,12 +305,13 @@ ORDER BY
             usuario.idUsuario = :idUsuario
         GROUP BY
             grado.descripcionGrado");
-    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
-    $statement->execute();
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
-  }
-  public static function mdlObtenerTotaldeCursosAsignados($tabla, $idUsuario){
-    $statement = Connection::conn()->prepare("SELECT
+        $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTotaldeCursosAsignados($tabla, $idUsuario)
+    {
+        $statement = Connection::conn()->prepare("SELECT
         COUNT(DISTINCT curso.idCurso) AS cursos_asignados, 
         CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS nombreCompleto
         FROM
@@ -340,10 +347,88 @@ ORDER BY
         WHERE
             usuario.idUsuario = :idUsuario AND
             anio_escolar.estadoAnio = 1	");
-    
-    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+
+        $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerTotalDocenterCursosporGrado($tabla)
+    {
+        $statement = Connection::conn()->prepare("SELECT
+    grado.descripcionGrado, 
+    COUNT(DISTINCT curso.idCurso) AS cursos, 
+    COUNT(DISTINCT personal.idPersonal) AS docentes
+    FROM
+    $tabla
+    LEFT JOIN
+    alumno_anio_escolar
+    ON 
+        grado.idGrado = alumno_anio_escolar.idGrado
+    LEFT JOIN
+    anio_escolar
+    ON 
+        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND
+        anio_escolar.estadoAnio = 1
+    LEFT JOIN
+    curso_grado
+    ON 
+        grado.idGrado = curso_grado.idGrado
+    LEFT JOIN
+    cursogrado_personal
+    ON 
+        curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
+    LEFT JOIN
+    personal
+    ON 
+        cursogrado_personal.idPersonal = personal.idPersonal
+    LEFT JOIN
+    curso
+    ON 
+        curso_grado.idCurso = curso.idCurso
+    GROUP BY
+    grado.descripcionGrado
+    ORDER BY
+    grado.idGrado ASC;");
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public static function mdlObtenerNombreDocenteyCurso($tabla)
+    {
+    $statement = Connection::conn()->prepare("SELECT DISTINCT
+    grado.descripcionGrado, 
+    CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS docente, 
+    curso.descripcionCurso
+    FROM
+        $tabla
+        INNER JOIN
+        curso_grado
+        ON 
+            grado.idGrado = curso_grado.idGrado
+        INNER JOIN
+        cursogrado_personal
+        ON 
+            curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
+        INNER JOIN
+        personal
+        ON 
+            cursogrado_personal.idPersonal = personal.idPersonal
+        INNER JOIN
+        curso
+        ON 
+            curso_grado.idCurso = curso.idCurso
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+            grado.idGrado = alumno_anio_escolar.idGrado
+        INNER JOIN
+        anio_escolar
+        ON 
+            alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND
+            anio_escolar.estadoAnio = 1
+    ORDER BY
+        grado.idGrado ASC;");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
-}
+    }
 
 }

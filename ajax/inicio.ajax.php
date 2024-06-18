@@ -67,6 +67,14 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTotaldeCursosAsignados($idUsuarioCursosAsignadosDocentes);
     echo json_encode($response);
   }
+  public function ajaxObtenerTotalDocenterCursosporGrado(){
+    $response = ControllerInicio::ctrObtenerTotalDocenterCursosporGrado();
+    echo json_encode($response);
+  }
+  public function ajaxObtenerNombreDocenteyCurso(){
+    $response = ControllerInicio::ctrObtenerNombreDocenteyCurso();
+    echo json_encode($response);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -111,5 +119,13 @@ if(isset($_POST["idUsuarioCursosAsignadosDocentes"])){
   $cursosAsignadosDocentes = new InicioAjax();
   $cursosAsignadosDocentes->idUsuarioCursosAsignadosDocentes = $_POST["idUsuarioCursosAsignadosDocentes"];
   $cursosAsignadosDocentes->ajaxObtenerTotaldeCursosAsignados();
+}
+if(isset($_POST["docentesCursosporGrado"])){
+  $docentesCursosporGrado = new InicioAjax();
+  $docentesCursosporGrado->ajaxObtenerTotalDocenterCursosporGrado();
+}
+if(isset($_POST["nombreDocenteyCurso"])){
+  $nombreDocenteyCurso = new InicioAjax();
+  $nombreDocenteyCurso->ajaxObtenerNombreDocenteyCurso();
 }
 
