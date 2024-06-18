@@ -12,6 +12,8 @@ $(document).ready(function () {
 
   // Obtiene el contenido del elemento
   var idUsuario = idUsuarioElement.textContent;
+  // Variables globales para almacenar los datos
+  var globalDatos = [];
 
   // Función para obtener y manejar los datos de alumnos por grados
   function obtenerAlumnosPorGrados() {
@@ -186,43 +188,45 @@ $(document).ready(function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        var meses = [];
-        var porcentajeAsistencias = [];
-        var porcentajeFaltas = [];
-        var porcentajeInasistenciasInjustificadas = [];
-        var porcentajeFaltasJustificadas = [];
-        var porcentajeTardanzasJustificadas = [];
-        var grado = [];
+        // Limpiar los datos anteriores
+        globalDatos = [];
 
         response.forEach(function (fila) {
-          meses.push(fila.Mes);
-          porcentajeAsistencias.push(parseFloat(fila.Porcentaje_Asistio));
-          porcentajeFaltas.push(parseFloat(fila.Porcentaje_Falto));
-          porcentajeInasistenciasInjustificadas.push(
-            parseFloat(fila.Porcentaje_Inasistencia_Injustificada)
-          );
-          porcentajeFaltasJustificadas.push(
-            parseFloat(fila.Porcentaje_Falta_Justificada)
-          );
-          porcentajeTardanzasJustificadas.push(
-            parseFloat(fila.Porcentaje_Tardanza_Justificada)
-          );
-          grado.push(fila.descripcionGrado);
+          // Validar que los datos no sean null
+          if (
+            fila.Mes !== null &&
+            fila.Porcentaje_Asistio !== null &&
+            fila.Porcentaje_Falto !== null &&
+            fila.Porcentaje_Inasistencia_Injustificada !== null &&
+            fila.Porcentaje_Falta_Justificada !== null &&
+            fila.Porcentaje_Tardanza_Justificada !== null &&
+            fila.descripcionGrado !== null
+          ) {
+            globalDatos.push({
+              grado: fila.descripcionGrado,
+              mes: fila.Mes,
+              porcentajeAsistio: parseFloat(fila.Porcentaje_Asistio),
+              porcentajeFalto: parseFloat(fila.Porcentaje_Falto),
+              porcentajeInasistenciaInjustificada: parseFloat(
+                fila.Porcentaje_Inasistencia_Injustificada
+              ),
+              porcentajeFaltaJustificada: parseFloat(
+                fila.Porcentaje_Falta_Justificada
+              ),
+              porcentajeTardanzaJustificada: parseFloat(
+                fila.Porcentaje_Tardanza_Justificada
+              ),
+            });
+          }
         });
 
         // Poblar el filtro de cursos
-        poblarCursoFilterDropdown(grado);
+        poblarCursoFilterDropdown(globalDatos.map((d) => d.grado));
 
         // Actualizar el gráfico con los datos obtenidos del primer grado
-        actualizarGraficoAsistencia(
-          meses,
-          porcentajeAsistencias,
-          porcentajeFaltas,
-          porcentajeInasistenciasInjustificadas,
-          porcentajeFaltasJustificadas,
-          porcentajeTardanzasJustificadas,
-          grado[1] // Pasar el primer grado obtenido
-        );
+        if (globalDatos.length > 0) {
+          actualizarGraficoAsistencia(globalDatos[0].grado);
+        }
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -231,16 +235,39 @@ $(document).ready(function () {
   }
 
   // Función para actualizar el gráfico de asistencia por meses
-  function actualizarGraficoAsistencia(
-    meses,
-    porcentajeAsistencias,
-    porcentajeFaltas,
-    porcentajeInasistenciasInjustificadas,
-    porcentajeFaltasJustificadas,
-    porcentajeTardanzasJustificadas,
-    gradoSeleccionado
-  ) {
-    new ApexCharts(document.querySelector("#asistenciaChart"), {
+  function actualizarGraficoAsistencia(gradoSeleccionado) {
+    // Filtrar los datos por el grado seleccionado
+    var datosFiltrados = globalDatos.filter(
+      (d) => d.grado === gradoSeleccionado
+    );
+
+    // Extraer los datos filtrados en arrays separados
+    var meses = datosFiltrados.map((d) => d.mes);
+    var porcentajeAsistencias = datosFiltrados.map((d) => d.porcentajeAsistio);
+    var porcentajeFaltas = datosFiltrados.map((d) => d.porcentajeFalto);
+    var porcentajeInasistenciasInjustificadas = datosFiltrados.map(
+      (d) => d.porcentajeInasistenciaInjustificada
+    );
+    var porcentajeFaltasJustificadas = datosFiltrados.map(
+      (d) => d.porcentajeFaltaJustificada
+    );
+    var porcentajeTardanzasJustificadas = datosFiltrados.map(
+      (d) => d.porcentajeTardanzaJustificada
+    );
+
+    // Verificar que el elemento existe antes de renderizar el gráfico
+    var chartElement = document.querySelector("#asistenciaChart");
+    if (!chartElement) {
+      console.log("Error: Elemento #asistenciaChart no encontrado.");
+      return;
+    }
+
+    // Destruir el gráfico existente si existe
+    if (chartElement.chart) {
+      chartElement.chart.destroy();
+    }
+
+    var chart = new ApexCharts(chartElement, {
       series: [
         {
           name: "Porcentaje Asistencias",
@@ -306,22 +333,13 @@ $(document).ready(function () {
           format: "dd/MM/yy HH:mm",
         },
       },
-    }).render();
+    });
+
+    chart.render();
+
+    // Guardar el gráfico en el elemento para poder destruirlo luego
+    chartElement.chart = chart;
   }
-      // Manejar el cambio de filtro
-      $("#gradoDropdown").on("click", ".dropdown-item", function () {
-        var cursoSeleccionado = $(this).text();
-        // Actualizar el gráfico con los datos del grado seleccionado
-        actualizarGraficoAsistencia(
-          meses,
-          porcentajeAsistencias,
-          porcentajeFaltas,
-          porcentajeInasistenciasInjustificadas,
-          porcentajeFaltasJustificadas,
-          porcentajeTardanzasJustificadas,
-          cursoSeleccionado
-        );
-      });
 
   // Función para poblar el dropdown de filtro de cursos
   function poblarCursoFilterDropdown(grados) {
@@ -334,8 +352,15 @@ $(document).ready(function () {
     // Iterar sobre los grados únicos y agregarlos al dropdown
     gradosUnicos.forEach(function (grado) {
       dropdown.append(
-        '<li><a class="dropdown-item" href="#" >' + grado + "</a></li>"
+        '<li><a class="dropdown-item" href="#">' + grado + "</a></li>"
       );
+    });
+
+    // Manejar el cambio de filtro
+    $("#gradoDropdown").on("click", ".dropdown-item", function () {
+      var gradoSeleccionado = $(this).text();
+      // Actualizar el gráfico con los datos del grado seleccionado
+      actualizarGraficoAsistencia(gradoSeleccionado);
     });
   }
 
