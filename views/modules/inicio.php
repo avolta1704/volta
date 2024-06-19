@@ -11,7 +11,7 @@
   <?php
   //  Obtener el tipo de usuario para gestionar el menú
   $tipoUsuario = $_SESSION["tipoUsuario"];
-  $idUsuario = $_SESSION["idUsuario"];
+  $ipConfirmacion = $_SESSION["idUsuario"];
 
 
   /**
@@ -38,6 +38,8 @@
     include "inicio/inicio-directivo.php";
   }
   ?>
-  <div id="idUsuario" style="display: none;"><?php echo $idUsuario; ?></div>
+  <div id="ipConfirmacion" style="display: none;"><?php echo $ipConfirmacion; ?></div>
+  <div id="tipoUsuario" style="display: none;"><?php echo $tipoUsuario; ?></div>
+  
 
 </main>

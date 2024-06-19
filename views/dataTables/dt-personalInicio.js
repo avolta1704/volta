@@ -19,7 +19,10 @@ $(document).ready(function () {
     columns: columnDefsPersonal,
   });
 
+  var tipoUsuarioElement = document.getElementById("tipoUsuario");
 
+  // Obtiene el contenido del elemento
+  var tipoUsuario = tipoUsuarioElement.textContent;
   //Solicitud ajx inicial de dataTablePersonalInicio
   var data = new FormData();
   data.append("personalInicio", true);
@@ -34,12 +37,19 @@ $(document).ready(function () {
     dataType: "json",
 
     success: function (response) {
+      if (tipoUsuario === "5") {
+        // Filtrar la respuesta para solo incluir los elementos con idTipoPersonal 1, 2, 3, o 4
+        response = response.filter(function (item) {
+          return [1, 2, 3, 4].includes(item.idTipoPersonal);
+        });
+      }
+
       tablePersonalInicio.clear();
       tablePersonalInicio.rows.add(response);
       tablePersonalInicio.draw();
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // procendecia de error
+      console.log(jqXHR.responseText); // procedencia de error
       console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
     },
   });

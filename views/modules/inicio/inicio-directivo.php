@@ -15,21 +15,20 @@
                 <li class="dropdown-header text-start">
                   <h6>Filtro</h6>
                 </li>
-                <div id="mesesDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+                <div id="gradoNivelDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
               </ul>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Pagos Vencidos <span id="filtroSeleccionado"></span></h5>
+              <h5 class="card-title">Alumnos <span class="filtro-seleccionado-alumnos-nuevo-antiguo"></span></h5>
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-calendar-x"></i>
+                  <i class="bi bi-person-rolodex"></i>
                 </div>
                 <div class="ps-3">
-                  <h6 id="totalPagosVencidos">0</h6>
-                  <span class="text-success small pt-1 fw-bold" id="porcentajeVencidas">12%</span>
-                  <span class="text-muted small pt-2 ps-1">de <span id="totalPensiones"></span></span>
+                  <h6 class="total-alumnos-nuevos"></h6>
+                  <h6 class="total-alumnos-antiguos"></h6>
                 </div>
               </div>
             </div>
@@ -131,7 +130,7 @@
         <div class="card recent-sales overflow-auto">
 
           <div class="card-body">
-            <h5 class="card-title">Personal<span>| Conexión</span></h5>
+            <h5 class="card-title">Docentes<span>| Conexión</span></h5>
 
             <!--  Titulo DataTableAlumnosAdmin-->
             <table id="dataTablePersonalInicio" class="display dataTableAlumnos" style="width: 97%" align="center">

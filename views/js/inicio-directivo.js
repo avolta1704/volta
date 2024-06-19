@@ -6,6 +6,10 @@ $(document).ready(function () {
   var masculinos = [];
   var femeninos = [];
 
+  var nuevosAlumnos = [];
+  var antiguosAlumnos = [];
+  var nivelGrados =[];
+
   // Función para obtener y manejar los datos de alumnos por grados
   function obtenerDocentesCursosPorGrados() {
     var data = new FormData();
@@ -122,8 +126,9 @@ $(document).ready(function () {
 
         // Organizar los datos en el objeto grados
         response.forEach(function (fila) {
-          var grado = fila.descripcionGrado;
-          var docente = fila.docente;
+          var grado = fila.descripcionGrado 
+          var docente = fila.docente || "Sin Asignar"; // Asignar "Sin Asignar" si docente es null
+          var descripcionCurso = fila.descripcionCurso || "Sin Asignar"; // Asignar "Sin Asignar" si descripcionCurso es null
 
           if (!grados[grado]) {
             grados[grado] = {};
@@ -133,7 +138,7 @@ $(document).ready(function () {
             grados[grado][docente] = [];
           }
 
-          grados[grado][docente].push(fila.descripcionCurso);
+          grados[grado][docente].push(descripcionCurso);
         });
 
         // Construir el tree view dinámico
@@ -294,7 +299,7 @@ $(document).ready(function () {
       success: function (response) {
         // Procesar la respuesta para obtener los datos del gráfico
         response.forEach(function (fila) {
-          grados.push(fila.descripcionGrado);
+          grados.push(fila.grado_nivel);
           masculinos.push(fila.total_masculinos);
           femeninos.push(fila.total_femeninos);
         });
@@ -303,7 +308,7 @@ $(document).ready(function () {
         poblarGradoSexoDropdown(grados);
 
         // Inicializar el gráfico de pastel con los datos del primer grado
-        crearGraficoPastel(masculinos[0], femeninos[0]);
+        crearGraficoPastel(masculinos[0], femeninos[0], grados[0]);
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
@@ -328,8 +333,11 @@ $(document).ready(function () {
   }
 
   // Función para crear el gráfico de pastel
-  function crearGraficoPastel(masculinos, femeninos) {
+  function crearGraficoPastel(masculinos, femeninos, gradosindice) {
+    const filtroSeleccionado = $(".filtro-seleccionado-grado-sexo");
+    filtroSeleccionado.text("| " + gradosindice);
     var ctx = document.getElementById("pieChart").getContext("2d");
+    
     pieChart = new Chart(ctx, {
       type: "pie",
       data: {
@@ -361,9 +369,75 @@ $(document).ready(function () {
     actualizarGraficoPastel(masculinos[indice], femeninos[indice]);
   };
 
+    // Función para obtener los alumnos nuevos y antiguos
+    function obtenerAlumnosNuevosAntiguos() {
+      var data = new FormData();
+      data.append("alumnosNuevosAntiguos", true);
+  
+      $.ajax({
+        url: "ajax/inicio.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          response.forEach(function (fila) {
+            nuevosAlumnos.push(fila.nuevos);
+            antiguosAlumnos.push(fila.antiguos);
+            nivelGrados.push(fila.grado_nivel);
+          });
+  
+          // Inicializar el dropdown y mostrar datos del primer año
+          poblarGradoAlumnoNuevoAntiguoDropdown(nivelGrados);
+          if (nivelGrados.length > 0) {
+            actualizarDatosAlumnosNuevosAntiguos(0);
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+    // Función para poblar el dropdown de tipo de docentes
+    function poblarGradoAlumnoNuevoAntiguoDropdown(nivelGrados) {
+      var dropdown = $("#gradoNivelDropdown");
+      dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+  
+      nivelGrados.forEach(function (nivelGrados, index) {
+        dropdown.append(
+          '<li><a class="dropdown-item" href="#" onclick="filtrarGradoNivelAlumnoNuevoAntiguo(\'' +
+          nivelGrados +
+            "', " +
+            index +
+            ')">' +
+            nivelGrados +
+            "</a></li>"
+        );
+      });
+    }
+  
+    // Función para actualizar los datos de docente por tipo
+    function actualizarDatosAlumnosNuevosAntiguos(indice) {
+      const filtroSeleccionado = $(".filtro-seleccionado-alumnos-nuevo-antiguo");
+      const totalnuevos = $(".total-alumnos-nuevos");
+      const totalantiguos = $(".total-alumnos-antiguos");
+  
+      filtroSeleccionado.text("| " + nivelGrados[indice]);
+      totalnuevos.text(nuevosAlumnos[indice].toLocaleString() + " Nuevos");
+      totalantiguos.text(antiguosAlumnos[indice].toLocaleString() + " Antiguos");
+    }
+  
+    // Función para filtrar por tipo docente
+    window.filtrarGradoNivelAlumnoNuevoAntiguo = function (nivelGrados, indice) {
+      actualizarDatosAlumnosNuevosAntiguos(indice);
+    };
+
   // Llamar a la función para obtener los datos al cargar la página
   obtenerTotalMasculinoFemenino();
   obtenerDocentesCursosPorGrados();
   obtenerNombreDocentesCursosPorGrados();
   obtenerDocentesporTipo();
+  obtenerAlumnosNuevosAntiguos();
 });

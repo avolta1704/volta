@@ -68,4 +68,9 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerTotalMasculinoFemeniniporGrados($tabla);
     return $response;
   }
+  public static function ctrObtenerTodoslosAlumnosNuevosAntiguos(){
+    $tabla = "alumno_anio_escolar";
+    $response = ModelInicio::mdlObtenerTodoslosAlumnosNuevosAntiguos($tabla);
+    return $response;
+  }
 }

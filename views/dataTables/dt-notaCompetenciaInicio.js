@@ -19,7 +19,7 @@ $(document).ready(function () {
     columns: columnDefsPersonal,
   });
 
-  var idUsuarioElement = document.getElementById("idUsuario");
+  var idUsuarioElement = document.getElementById("ipConfirmacion");
 
   // Obtiene el contenido del elemento
   var idUsuario = idUsuarioElement.textContent;

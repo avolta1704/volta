@@ -89,6 +89,11 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTotalMasculinoFemeniniporGrados();
     echo json_encode($response);
   }
+  public function ajaxObtenerTodoslosAlumnosNuevosAntiguos()
+  {
+    $response = ControllerInicio::ctrObtenerTodoslosAlumnosNuevosAntiguos();
+    echo json_encode($response);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -149,4 +154,8 @@ if (isset($_POST["totalDocenteporTipo"])) {
 if(isset($_POST["totalMasculinoFemenino"])){
   $totalMasculinoFemenino = new InicioAjax();
   $totalMasculinoFemenino->ajaxObtenerTotalMasculinoFemeniniporGrados();
+}
+if(isset($_POST["alumnosNuevosAntiguos"])){
+  $alumnosNuevosAntiguos = new InicioAjax();
+  $alumnosNuevosAntiguos->ajaxObtenerTodoslosAlumnosNuevosAntiguos();
 }
