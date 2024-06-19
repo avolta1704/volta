@@ -69,6 +69,19 @@ class ControllerUnidad
     // Cerrar la unidad y retornar el resultado
     return ModelUnidad::mdlCerrarUnidad("unidad", $idUnidadCerrar);
   }
+
+  /**
+   * Obtener una unidad por su id
+   * 
+   * @param int $idUnidad id de la unidad
+   * @return array $dataUnidad datos de la unidad 
+   */
+  public static function ctrObtenerUnidadById($idUnidad)
+  {
+    $tabla = "unidad";
+    $dataUnidad = ModelUnidad::mdlObtenerUnidadById($tabla, $idUnidad);
+    return $dataUnidad;
+  }
 }
 //Funcion para calcular el promedio de las notas
 function calcularNotaUnidad($todoslosDatosparaSubirNota, $tipodenota)
@@ -102,4 +115,3 @@ function calcularNotaUnidad($todoslosDatosparaSubirNota, $tipodenota)
   }
   return $notaUnidad;
 }
-

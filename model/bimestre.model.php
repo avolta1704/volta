@@ -134,7 +134,8 @@ class ModelBimestre
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
   //Subir la nota Bimestre
-  public static function mdlSubirNotaPromedioBimestreUnidad($idBimestre,$promedioNotas, $idAlumnoAnioEscolar){
+  public static function mdlSubirNotaPromedioBimestreUnidad($idBimestre, $promedioNotas, $idAlumnoAnioEscolar)
+  {
     $stmt = Connection::conn()->prepare("UPDATE nota_bimestre
       SET notaBimestre = :notaBimestre
       WHERE idBimestre = :idBimestre
@@ -149,4 +150,18 @@ class ModelBimestre
     }
   }
 
+  /**
+   * Obtiene un bimestre por su id
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param int $idBimestre id de un bimestre
+   * @return array $dataBimestre datos de un bimestre
+   */
+  public static function mdlObtenerBimestreById($tabla, $idBimestre)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idBimestre = :idBimestre");
+    $stmt->bindParam(":idBimestre", $idBimestre, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }

@@ -39,4 +39,22 @@ class ModelGradoAlumno
       return "error";
     }
   }
+
+  /**
+   * Modelo para obtener un grado por su id
+   * 
+   * @param string $tabla nombre de la tabla grados
+   * @param int $idGrado id del grado a consultar
+   * @return string $data informacion del grado o "error" en caso ocurra un error en la consulta 
+   */
+  public static function mdlGetGradoById($tabla, $idGrado)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idGrado = :idGrado");
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
+  }
 }
