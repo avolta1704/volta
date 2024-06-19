@@ -27,6 +27,7 @@ require_once "functions/unidad.functions.php";
 require_once "functions/asistenciaAlumnos.functions.php";
 require_once "functions/competencia.functions.php";
 require_once "functions/criterios.functions.php";
+require_once "functions/notas.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";
@@ -58,7 +59,7 @@ require_once "controller/unidad.controller.php";
 require_once "controller/asistenciaAlumnos.controller.php";
 require_once "controller/competencia.controller.php";
 require_once "controller/criterios.controller.php";
-
+require_once "controller/notas.controller.php";
 
 //  Models
 require_once "model/usuarios.model.php";
@@ -91,6 +92,7 @@ require_once "model/asistenciaAlumnos.model.php";
 require_once "model/transactionManager.model.php";
 require_once "model/competencia.model.php";
 require_once "model/criterios.model.php";
+require_once "model/notas.model.php";
 
 
 $template = new ControllerTemplate();
