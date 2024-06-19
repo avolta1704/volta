@@ -196,4 +196,71 @@ GROUP BY
       return "error";
     }
   }
+
+  /**
+   * Modelo para obtener todas las competencias con sus criterios asociados a dicha unidad
+   * 
+   * @param int $idUnidad id de la unidad
+   * @return array todas las competencias asociados a la unidad con sus criterios
+   */
+  public static function mdlObtenerCompetenciaCriterios($idUnidad)
+  {
+    $stmt = Connection::conn()->prepare("SELECT
+    competencias.idCompetencia,
+    competencias.descripcionCompetencia,
+    competencias.capacidadesCompetencia,
+    competencias.estandarCompetencia,
+    criterios_competencia.idCriterioCompetencia,
+    criterios_competencia.descripcionCriterio
+FROM
+    competencias
+    LEFT JOIN
+    criterios_competencia
+    ON 
+      competencias.idCompetencia = criterios_competencia.idCompetencia
+WHERE
+    competencias.idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Modelo para obtener todas las competencias con sus criterios de una unidad y bimestre especifico
+   * 
+   * @param int $idUnidad id de la unidad
+   * @param int $idBimestre id del bimestre
+   * @return array todas las competencias asociados a la unidad con sus criterios
+   */
+  public static function mdlObtenerCompetenciaCriteriosPorIdUnidad($idUnidad, $idBimestre)
+  {
+    $stmt = Connection::conn()->prepare("SELECT
+    competencias.idCompetencia,
+    competencias.descripcionCompetencia,
+    competencias.capacidadesCompetencia,
+    competencias.estandarCompetencia,
+    criterios_competencia.idCriterioCompetencia,
+    criterios_competencia.descripcionCriterio
+    FROM
+    competencias
+    LEFT JOIN
+    criterios_competencia
+    ON 
+      competencias.idCompetencia = criterios_competencia.idCompetencia
+    INNER JOIN
+    unidad
+    ON 
+      competencias.idUnidad = unidad.idUnidad
+    INNER JOIN
+    bimestre
+    ON 
+      unidad.idBimestre = bimestre.idBimestre
+    WHERE
+    competencias.idUnidad = :idUnidad AND
+    bimestre.idBimestre = :idBimestre");
+    $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_INT);
+    $stmt->bindParam(":idBimestre", $idBimestre, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
