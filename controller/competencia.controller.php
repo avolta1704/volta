@@ -182,4 +182,16 @@ class ControllerCompetencia
     }
     return "ok";
   }
+
+  /**
+   * Controlador para obtener todas las competencias con sus criterios asociados a dicha unidad
+   * 
+   * @param int $idUnidad id de la unidad
+   * @return array todas las competencias asociados a la unidad con sus criterios
+   */
+  public static function ctrObtenerCompetenciaCriterios($idUnidad)
+  {
+    $competencias = ModelCompetencia::mdlObtenerCompetenciaCriterios($idUnidad);
+    return $competencias;
+  }
 }
