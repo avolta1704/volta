@@ -13,7 +13,9 @@ session_start();
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
     require "modules/navbar.php";
-    require "modules/menu.php";
+    require "modules/menu.php"; 
+
+
 
     // // $acceso = new ControllerUsuarios();
     // // echo $acceso->ctrTieneAcceso(); 
@@ -125,6 +127,9 @@ session_start();
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
   <script src="views/js/registrarNotas.js"></script>
+  <script src="views/js/inicio-administrativo.js"></script>
+  <script src="views/js/inicio-docente.js"></script>
+  <script src="views/js/inicio-directivo.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -152,6 +157,8 @@ session_start();
   <!-- <script src="views/dataTables/dt-lista-postulantes.js"></script> -->
   <script src="views/dataTables/dt-competencias.js"></script>
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
+  <script src="views/dataTables/dt-personalInicio.js"></script>
+  <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
 </body>
 
 </html>
