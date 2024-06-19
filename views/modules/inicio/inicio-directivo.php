@@ -6,7 +6,7 @@
       <div class="row">
 
         <!-- Sales Card -->
-        <div class="col-xxl-4 col-md-4">
+        <div class="col-xxl-6 col-md-6">
           <div class="card info-card sales-card">
 
             <div class="filter">
@@ -37,7 +37,7 @@
         </div>
 
         <!-- Revenue Card -->
-        <div class="col-xxl-4 col-md-6">
+        <div class="col-xxl-6 col-md-6">
           <div class="card info-card revenue-card">
 
             <div class="filter">
@@ -64,8 +64,9 @@
 
           </div>
         </div>
+
         <!-- Reports -->
-        <div class="col-8">
+        <div class="col-12">
           <div class="card">
 
             <div class="card-body">
@@ -78,31 +79,13 @@
           </div>
         </div>
 
-        <!-- Recent Sales -->
-        <div class="col-12">
-          <div class="card recent-sales overflow-auto">
 
-            <div class="card-body">
-              <h5 class="card-title">Personal<span>| Conexión</span></h5>
-
-              <!--  Titulo DataTableAlumnosAdmin-->
-              <table id="dataTablePersonalInicio" class="display dataTableAlumnos" style="width: 97%" align="center">
-                <thead>
-                  <!-- DataTableAlumnosAdmin -->
-                </thead>
-                <tbody>
-                  <!-- DataTableAlumnosAdmin -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
 
     </div>
 
     <div class="col-lg-4">
-      <div class="card">
+      <div class="row">
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Customers Card -->
         <div class="col-xxl-12 col-xl-8">
@@ -127,16 +110,38 @@
             </div>
           </div>
         </div>
+
         <!-- Reports -->
         <div class="col-12">
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Informacion <span>| Grado</span></h5>
               <!-- Line Chart -->
-              <div id="informacionCursos" style="max-height: 575px; overflow-y: auto;">
+              <div id="informacionCursos" style="max-height: 440px; overflow-y: auto;">
                 <!-- Contenido generado dinámicamente por JavaScript -->
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <!-- Recent Sales -->
+      <div class="col-12">
+        <div class="card recent-sales overflow-auto">
+
+          <div class="card-body">
+            <h5 class="card-title">Personal<span>| Conexión</span></h5>
+
+            <!--  Titulo DataTableAlumnosAdmin-->
+            <table id="dataTablePersonalInicio" class="display dataTableAlumnos" style="width: 97%" align="center">
+              <thead>
+                <!-- DataTableAlumnosAdmin -->
+              </thead>
+              <tbody>
+                <!-- DataTableAlumnosAdmin -->
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -400,27 +400,27 @@ ORDER BY
     curso.descripcionCurso
     FROM
         $tabla
-        INNER JOIN
+        LEFT JOIN
         curso_grado
         ON 
             grado.idGrado = curso_grado.idGrado
-        INNER JOIN
+        LEFT JOIN
         cursogrado_personal
         ON 
             curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
-        INNER JOIN
+        LEFT JOIN
         personal
         ON 
             cursogrado_personal.idPersonal = personal.idPersonal
-        INNER JOIN
+        LEFT JOIN
         curso
         ON 
             curso_grado.idCurso = curso.idCurso
-        INNER JOIN
+        LEFT JOIN
         alumno_anio_escolar
         ON 
             grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
+        LEFT JOIN
         anio_escolar
         ON 
             alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND
