@@ -86,7 +86,7 @@ class ModelUnidad
       nota_unidad.idUnidad = :idUnidadCerrar AND
       alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar");
     $stmt->bindParam(":idUnidadCerrar", $idUnidadCerrar, PDO::PARAM_INT);
-    $stmt->bindParam(":idAlumnoAnioEscolar",$idAlumnoAnioEscolar, PDO::PARAM_INT);
+    $stmt->bindParam(":idAlumnoAnioEscolar", $idAlumnoAnioEscolar, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -117,5 +117,20 @@ class ModelUnidad
     }
   }
 
-
+  /**
+   * Obtener una unidad por su id
+   * 
+   * @param int $idUnidad id de la unidad
+   * @return array $dataUnidad datos de la unidad 
+   */
+  public static function mdlObtenerUnidadById($tabla, $idUnidad)
+  {
+    $stmt = Connection::conn()->prepare("SELECT * FROM $tabla WHERE idUnidad = :idUnidad");
+    $stmt->bindParam(":idUnidad", $idUnidad, PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
+  }
 }
