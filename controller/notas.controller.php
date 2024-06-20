@@ -266,7 +266,7 @@ class ControllerNotas
 
     // Verificar si hay competencias
     if (count($competencias) == 0) {
-      return 'error';
+      return 'sin competencias';
     }
 
     // Verificar si todas las competencias tienen al menos un criterio
@@ -310,7 +310,7 @@ class ControllerNotas
         }
 
         // Sacamos el promedio de la competencia
-        $promedio = self::calcularPromedioCompetencia($notas);
+        $promedio = self::calcularPromedioCriterios($notas);
 
         // Verificamos si la notaCompetencia ya existe
         $notaExistente = ModelNotas::mdlObtenerNotaCompetenciaByIdAlumnoAnioEscolaryIdCompetencia($idAlumnoAnioEscolar, $idCompetencia);
@@ -345,7 +345,7 @@ class ControllerNotas
   }
 
   // Calcular el promedio de la competencia
-  public static function calcularPromedioCompetencia($notas)
+  public static function calcularPromedioCriterios($notas)
   {
     if (empty($notas)) {
       return 0; // Si no hay notas, retorna 0
@@ -356,6 +356,42 @@ class ControllerNotas
 
     foreach ($notas as $nota) {
       $total += self::convertirNotaANumerico($nota["notaCriterio"]);
+    }
+
+    $promedioNumerico = $total / $cantidadNotas;
+    return self::convertirPromedioACategoria($promedioNumerico);
+  }
+
+  // Calcular el promedio de las notas competencias de una unidad
+  public static function calcularPromedioCompetencias($notas)
+  {
+    if (empty($notas)) {
+      return 0; // Si no hay notas, retorna 0
+    }
+
+    $total = 0;
+    $cantidadNotas = count($notas);
+
+    foreach ($notas as $nota) {
+      $total += self::convertirNotaANumerico($nota["notaCompetencia"]);
+    }
+
+    $promedioNumerico = $total / $cantidadNotas;
+    return self::convertirPromedioACategoria($promedioNumerico);
+  }
+
+  // Calcular el promedio de las notas unidad de un alumno
+  public static function calcularPromedioUnidad($notas)
+  {
+    if (empty($notas)) {
+      return 0; // Si no hay notas, retorna 0
+    }
+
+    $total = 0;
+    $cantidadNotas = count($notas);
+
+    foreach ($notas as $nota) {
+      $total += self::convertirNotaANumerico($nota["notaUnidad"]);
     }
 
     $promedioNumerico = $total / $cantidadNotas;
