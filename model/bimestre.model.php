@@ -136,13 +136,15 @@ class ModelBimestre
   //Subir la nota Bimestre
   public static function mdlSubirNotaPromedioBimestreUnidad($idBimestre, $promedioNotas, $idAlumnoAnioEscolar)
   {
-    $stmt = Connection::conn()->prepare("UPDATE nota_bimestre
-      SET notaBimestre = :notaBimestre
-      WHERE idBimestre = :idBimestre
-      AND idAlumnoAnioEscolar = :idAlumnoAnioEscolar");
+    $stmt = Connection::conn()->prepare("INSERT INTO nota_bimestre (idBimestre, idAlumnoAnioEscolar, idCursoGradoPersonal, notaBimestre, fechaCreacion, usuarioCreacion, fechaActualizacion, usuarioActualizacion) VALUES (:idBimestre, :idAlumnoAnioEscolar, :idCursoGradoPersonal, :notaBimestre, :fechaCreacion, :usuarioCreacion, :fechaActualizacion, :usuarioActualizacion)");
     $stmt->bindParam(":idBimestre", $idBimestre, PDO::PARAM_INT);
-    $stmt->bindParam(":notaBimestre", $promedioNotas, PDO::PARAM_STR);
     $stmt->bindParam(":idAlumnoAnioEscolar", $idAlumnoAnioEscolar, PDO::PARAM_INT);
+    $stmt->bindParam(":idCursoGradoPersonal", $promedioNotas['idCursoGradoPersonal'], PDO::PARAM_INT);
+    $stmt->bindParam(":notaBimestre", $promedioNotas['notaBimestre'], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaCreacion", $promedioNotas['fechaCreacion'], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioCreacion", $promedioNotas['usuarioCreacion'], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $promedioNotas['fechaActualizacion'], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $promedioNotas['usuarioActualizacion'], PDO::PARAM_INT);
     if ($stmt->execute()) {
       return "ok";
     } else {
