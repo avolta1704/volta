@@ -7,6 +7,10 @@ require_once "../model/bimestre.model.php";
 require_once "../model/alumnoAnioEscolar.model.php";
 require_once "../controller/competencia.controller.php";
 require_once "../model/competencia.model.php";
+require_once "../model/docentes.model.php";
+require_once "../controller/docentes.controller.php";
+require_once "../model/notas.model.php";
+require_once "../controller/notas.controller.php";
 
 class UnidadAjax
 {
@@ -17,7 +21,6 @@ class UnidadAjax
     $idBimestre = $this->idBimestre;
     $response = ControllerUnidad::ctrObtenerTodasLasUnidades($idBimestre);
     echo json_encode($response);
-
   }
   // Cerrar Unidad
   public $idUnidadCerrar;
@@ -34,6 +37,9 @@ class UnidadAjax
     // Obtener todos los alumnos de un curso y grado específicos
     $todoslosAlumnosdelCurso = ModelAlumnoAnioEscolar::mdlObtnerTodosLosAlumnosDeUnGradoCurso("alumno_anio_escolar", $idCursoCerrar, $idGradoCerrar);
 
+    // Obtener el id del personal del curso y grado
+    $idPersonalCursoGrado = ControllerDocentes::ctrObtenerIdPersonalCursoGrado($idCursoCerrar, $idGradoCerrar);
+
     $validacionsiexistenotas = ControllerCompetencia::ctrValidarNotasCompetencias($idUnidadCerrar, $todoslosAlumnosdelCurso);
     if ($validacionsiexistenotas == "error") {
       echo json_encode($validacionsiexistenotas);
@@ -43,7 +49,7 @@ class UnidadAjax
         return $alumno['idAlumnoAnioEscolar'];
       }, $todoslosAlumnosdelCurso);
 
-      $response = ControllerUnidad::ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar, $idsAlumnos);
+      $response = ControllerUnidad::ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idsAlumnos, $idPersonalCursoGrado);
       echo json_encode($response);
     }
   }
