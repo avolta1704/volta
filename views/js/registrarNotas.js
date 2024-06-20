@@ -202,6 +202,9 @@ function actualizarDataTable(
 	});
 }
 
+let updateTimeout;
+let lastUpdateTimestamp = 0;
+const updateDelay = 3000; // Retraso de 3000 ms (3 segundos) antes de actualizar la tabla
 $(document).on("change", ".selectNota", function () {
 	var idAlumnoAnioEscolar = $(this).attr("idAlumnoAnioEscolar");
 	var idCriterioCompetencia = $(this).attr("idCriterioCompetencia");
@@ -236,16 +239,27 @@ $(document).on("change", ".selectNota", function () {
 					showConfirmButton: false,
 					timer: 1500,
 				});
-				const { idCurso, idGrado, idPersonal, idUnidad, idBimestre } =
-					getUrlVars();
-				// Actualizar la tabla
-				actualizarDataTable(
-					idCurso,
-					idGrado,
-					idPersonal,
-					idUnidad,
-					idBimestre
-				);
+				// Borrar cualquier tiempo de espera existente
+				clearTimeout(updateTimeout);
+
+				// Establezca un nuevo tiempo de espera para actualizar la tabla
+				updateTimeout = setTimeout(() => {
+					const {
+						idCurso,
+						idGrado,
+						idPersonal,
+						idUnidad,
+						idBimestre,
+					} = getUrlVars();
+					actualizarDataTable(
+						idCurso,
+						idGrado,
+						idPersonal,
+						idUnidad,
+						idBimestre
+					);
+					lastUpdateTimestamp = Date.now();
+				}, updateDelay);
 			}
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
