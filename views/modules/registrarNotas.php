@@ -9,6 +9,7 @@ $idBimestre = $_GET['idBimestre'];
 $idCurso = $_GET['idCurso'];
 $idGrado = $_GET['idGrado'];
 $idUnidad = $_GET['idUnidad'];
+$idPersonal = $_GET['idPersonal'];
 
 $bimestre = ControllerBimestre::ctrObtenerBimestreById($idBimestre);
 $unidad = ControllerUnidad::ctrObtenerUnidadById($idUnidad);
@@ -45,6 +46,11 @@ $grado = ControllerGrado::ctrGetGradoById($idGrado);
         </li>
       </ul>
     </div>
+  </section>
+
+  <!-- Boton para cerrar las notas  -->
+  <section class="d-flex py-4 w-full justify-content-end">
+    <button class="btn btn-primary" id="btnCerrarNotasCriterios" idBimestre='<?php echo $idBimestre ?>' idCurso='<?php echo $idCurso ?>' idGrado='<?php echo $idGrado ?>' idUnidad='<?php echo $idUnidad ?>' idPersonal='<?php echo $idPersonal ?>'>Cerrar Notas</button>
   </section>
 
   <section class="section dashboard">
