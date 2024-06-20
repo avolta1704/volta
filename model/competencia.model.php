@@ -94,7 +94,8 @@ GROUP BY
     competencias.idCompetencia,
     competencias.descripcionCompetencia,      
     competencias.capacidadesCompetencia,
-    competencias.estandarCompetencia
+    competencias.estandarCompetencia,
+    unidad.descripcionUnidad
     FROM
       $tabla
       INNER JOIN
