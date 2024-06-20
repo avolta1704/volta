@@ -279,7 +279,6 @@ class ModelDocentes
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result['idCursogradoPersonal'];
-
   }
 
   //  Obtener todos los cursos asignados al docente
@@ -423,5 +422,34 @@ class ModelDocentes
     $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Obtener el ID del personal del curso y grado
+   * 
+   * @param int $idCursoGrado ID del curso
+   * @param int $idPersonal ID del personal
+   * @return int $idPersonalCursoGrado ID del personal del curso y grado
+   */
+  public static function mdlObtenerIdPersonalCursoGrado($idCurso, $idGrado, $idPersonal)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    cgp.idCursogradoPersonal
+FROM
+    cursogrado_personal AS cgp
+    INNER JOIN curso_grado AS cg
+    ON cgp.idCursoGrado = cg.idCursoGrado
+WHERE
+    cg.idCurso = :idCurso AND
+    cg.idGrado = :idGrado AND
+    cgp.idPersonal = :idPersonal");
+    $statement->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return $statement->fetch(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
   }
 }
