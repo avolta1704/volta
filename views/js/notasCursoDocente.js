@@ -353,7 +353,11 @@ $("#modalCompetenciaUnidad").on(
 						.attr({ type: "checkbox", id: checkboxId });
 					var checkboxLabel = $("<label>")
 						.addClass("btn btn-outline-primary")
-						.text(competencia.descripcionCompetencia)
+						.text(
+							competencia.descripcionCompetencia +
+								" - " +
+								competencia.descripcionUnidad
+						)
 						.attr({
 							for: checkboxId,
 							role: "button",

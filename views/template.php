@@ -13,7 +13,7 @@ session_start();
   <?php
   if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok") {
     require "modules/navbar.php";
-    require "modules/menu.php"; 
+    require "modules/menu.php";
 
 
 
@@ -127,6 +127,7 @@ session_start();
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
   <script src="views/js/registrarNotas.js"></script>
+  <script src="views/js/cerrarNotas.js"></script>
   <script src="views/js/inicio-administrativo.js"></script>
   <script src="views/js/inicio-docente.js"></script>
   <script src="views/js/inicio-directivo.js"></script>

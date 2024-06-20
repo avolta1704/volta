@@ -66,9 +66,6 @@ class ControllerDocentes
     } else {
       return $result;
     }
-
-
-
   }
 
   //  Obtener ID de cursos ya seleccionados
@@ -87,7 +84,7 @@ class ControllerDocentes
     return $result;
   }
 
-  
+
   //  Obtener el ID Personal grado
   public static function ctroObteneridPersonalGrado($gradoSeleccionado)
   {
@@ -131,13 +128,13 @@ class ControllerDocentes
     }
   }
 
-    //  Obtener ID de cursos ya seleccionados para reemplazar
-    public static function ctroObteneridCursosReemplaza($gradoSeleccionado)
-    {
-      $table = "curso_grado";
-      $result = ModelDocentes::mdlObteneridCursosReemplaza($table, $gradoSeleccionado);
-      return $result;
-    }
+  //  Obtener ID de cursos ya seleccionados para reemplazar
+  public static function ctroObteneridCursosReemplaza($gradoSeleccionado)
+  {
+    $table = "curso_grado";
+    $result = ModelDocentes::mdlObteneridCursosReemplaza($table, $gradoSeleccionado);
+    return $result;
+  }
 
   /**
    * Obtener los cursos asignados al docente
@@ -161,5 +158,27 @@ class ControllerDocentes
     $cursos = ModelDocentes::mdlObtenerCursosAsignados($idPersonal);
 
     return $cursos;
+  }
+
+  /**
+   * Obtener el ID del personal del curso y grado
+   * 
+   * @param int $idCurso ID del curso
+   * @param int $idGrado ID del grado
+   * @return int $idPersonalCursoGrado ID del personal del curso y grado
+   */
+  public static function ctrObtenerIdPersonalCursoGrado($idCurso, $idGrado)
+  {
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    $idUsuario = $_SESSION["idUsuario"];
+
+    $idPersonal = ModelDocentes::mdlObtenerIdPersonalByIdUsuario($idUsuario);
+
+    $idPersonalCursoGrado = ModelDocentes::mdlObtenerIdPersonalCursoGrado($idCurso, $idGrado, $idPersonal);
+
+    return $idPersonalCursoGrado["idCursogradoPersonal"];
   }
 }

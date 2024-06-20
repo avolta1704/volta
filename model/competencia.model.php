@@ -94,7 +94,8 @@ GROUP BY
     competencias.idCompetencia,
     competencias.descripcionCompetencia,      
     competencias.capacidadesCompetencia,
-    competencias.estandarCompetencia
+    competencias.estandarCompetencia,
+    unidad.descripcionUnidad
     FROM
       $tabla
       INNER JOIN
@@ -167,11 +168,8 @@ GROUP BY
         nota_competencia.idCompetencia = competencias.idCompetencia
       INNER JOIN
       alumno_anio_escolar
-      INNER JOIN
-      nota_unidad
       ON 
-        alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND
-        nota_competencia.idNotaUnidad = nota_unidad.idNotaUnidad
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_competencia.idAlumnoAnioEscolar
     WHERE
       alumno_anio_escolar.idAlumnoAnioEscolar = :idAlumnoAnioEscolar AND
       competencias.idUnidad = :idUnidad");
