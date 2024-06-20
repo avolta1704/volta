@@ -14,7 +14,6 @@ $("#btnCerrarNotasCriterios").click(function () {
 		idBimestre: idBimestre,
 		idUnidad: idUnidad,
 	};
-
 	Swal.fire({
 		title: "¿Está seguro de cerrar las notas?",
 		text: "Una vez cerradas las notas de los criterios, no podrá modificarlas",
@@ -45,6 +44,14 @@ $("#btnCerrarNotasCriterios").click(function () {
 							showCancelButton: false,
 							timer: 1500,
 						});
+						// Redireccionar a la vista de notas
+						window.location =
+							"index.php?ruta=notasCursoDocente&idCurso=" +
+							idCurso +
+							"&idGrado=" +
+							idGrado +
+							"&idPersonal=" +
+							idPersonal;
 					} else if (response == "sin notas") {
 						Swal.fire({
 							title: "¡Error!",
@@ -53,6 +60,23 @@ $("#btnCerrarNotasCriterios").click(function () {
 							showCancelButton: false,
 							timer: 1500,
 						});
+					} else if (response == "sin competencias") {
+						Swal.fire({
+							title: "¡Error!",
+							text: "Ingresar todas las competencias",
+							icon: "error",
+							showCancelButton: false,
+							timer: 1500,
+						});
+						setTimeout(() => {
+							window.location =
+								"index.php?ruta=notasCursoDocente&idCurso=" +
+								idCurso +
+								"&idGrado=" +
+								idGrado +
+								"&idPersonal=" +
+								idPersonal;
+						}, 2000);
 					} else if (response == "error") {
 						Swal.fire({
 							title: "¡Error!",
