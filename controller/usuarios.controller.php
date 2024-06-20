@@ -449,10 +449,10 @@ class ControllerUsuarios
       "usuarioActualizacion" => $_SESSION["idUsuario"]
     );
     $response = ModelUsuarios::mdlCrearUsuarioApoderado($tabla, $dataUsuario);
-    
-    $idApoderado2 = ModelApoderados::mdlObtenerSegundoIdApoderado($datos["codApoderado"]);
-    $respuestaCambiodeEstadoUsuarioCreado1= ModelApoderados::mdlCambiarEstadoCuentaCreada($datos["codApoderado"]);
-    $respuestaCambiodeEstadoUsuarioCreado2= ModelApoderados::mdlCambiarEstadoCuentaCreada($idApoderado2);
+    $codApoderado = intval($datos["codApoderado"]);
+    $idApoderado2 = ModelApoderados::mdlObtenerIdSegundoIdApoderado($codApoderado);
+    $respuestaCambiodeEstadoUsuarioCreado1= ModelApoderados::mdlCambiarEstadoCuentaCreada(1, $codApoderado);
+    $respuestaCambiodeEstadoUsuarioCreado2= ModelApoderados::mdlCambiarEstadoCuentaCreada(1, $idApoderado2["idApoderado"]);
     if($respuestaCambiodeEstadoUsuarioCreado1=="ok" && $respuestaCambiodeEstadoUsuarioCreado2=="ok"){
       $response = "ok";
     }

@@ -6,7 +6,7 @@ class ModelApoderados
   //mostar todos los Apoderados DataTable
   public static function mdlGetAllApoderados($table)
   {
-    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado, dniApoderado FROM $table");
+    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado, dniApoderado,cuentaCreada  FROM $table");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -235,7 +235,7 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   //Obtener el otro id del apoderado
-  public static function mdlObtenerSegundoIdApoderado($idApoderado){
+  public static function mdlObtenerIdSegundoIdApoderado($idApoderado){
     $statement = Connection::conn()->prepare("SELECT DISTINCT
     a2.idApoderado
     FROM
@@ -252,12 +252,13 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
         apoderado.idApoderado = :idApoderado AND a2.idApoderado != :idApoderado");
     $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
     $statement->execute();
-    $statement->fetch(PDO::FETCH_ASSOC);
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
   // Cambiar el estado de cuenta creada
-  public static function mdlCambiarEstadoCuentaCreada($idApoedrado){
-    $statement = Connection::conn()->prepare("UPDATE apoderado SET cuentaCreada = 1 WHERE idApoderado = :idApoedrado");
+  public static function mdlCambiarEstadoCuentaCreada($cuentaCreada, $idApoderado){
+    $statement = Connection::conn()->prepare("UPDATE apoderado SET cuentaCreada = :cuentaCreada WHERE idApoderado = :idApoderado");
     $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
+    $statement->bindParam(":cuentaCreada", $cuentaCreada, PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {
