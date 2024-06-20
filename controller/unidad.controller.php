@@ -10,19 +10,73 @@ class ControllerUnidad
     $dataUnidad = ModelUnidad::mdlObtenerTodasLasUnidades($tabla, $idBimestre);
     return $dataUnidad;
   }
-  // Funcionalidad para cerrar la unidad
-  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idCursoCerrar, $idGradoCerrar, $idsAlumnos)
+  /**
+   * Cerrar una unidad y asignar las notas correspondientes
+   * 
+   * @param int $idUnidadCerrar id de la unidad a cerrar
+   * @param int $idBimestreCerrar id del bimestre al que pertenece la unidad
+   * @param array $idsAlumnos arreglo con los ids de los alumnos a los que se les asignará la nota
+   * @param int $idCursoGradoPersonal id del curso y grado del personal
+   * @return string $respuesta resultado de la operación
+   */
+  public static function ctrCerrarUnidad($idUnidadCerrar, $idBimestreCerrar, $idsAlumnos, $idCursoGradoPersonal)
   {
+
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    // acceder a la variable de sesión
+    $idUsuario = $_SESSION["idUsuario"];
+
+    // Obtener las competentencias de la unidad
+    $competenciasUnidad = ModelUnidad::mdlObtenerCompetenciasUnidad($idUnidadCerrar);
+
+    if ($competenciasUnidad == "error") {
+      return "error";
+    }
+
     // Iterar sobre cada ID de alumno
     foreach ($idsAlumnos as $idAlumnoAnioEscolar) {
-      // Obtener todos los datos necesarios para asignar la nota de la unidad
-      $todoslosDatosparaSubirNota = ModelUnidad::mdlObtenerTodoslosDatosparaAsignarNota("unidad", $idUnidadCerrar, $idAlumnoAnioEscolar);
-      // Obtener el ID de la nota de la unidad
-      $idNotaUnidad = $todoslosDatosparaSubirNota[0]["idNotaUnidad"];
+
+      // Obtener todas las notas de competencias del alumno
+      $todasLasNotasCompetenciasAlumno = self::ctrObtenerNotasCompetenciasUnidad($idAlumnoAnioEscolar, $competenciasUnidad);
+
+      // Verificar si hubo un error al obtener las notas
+      if ($todasLasNotasCompetenciasAlumno == "error") {
+        return "error";
+      }
+
       // Calcular la nota de la unidad para el alumno
-      $notaUnidad = calcularNotaUnidad($todoslosDatosparaSubirNota, "notaCompetencia");
+      $promedioNotaCompetencias = ControllerNotas::calcularPromedioCompetencias($todasLasNotasCompetenciasAlumno);
+
       // Insertar la nota calculada en la tabla correspondiente
-      $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad("nota_unidad", $idNotaUnidad, $notaUnidad, $idAlumnoAnioEscolar);
+      $tablaNotaUnidad = "nota_unidad";
+
+      $notaUnidad = array(
+        'notaUnidad' => $promedioNotaCompetencias,
+        "idCursoGradoPersonal" => $idCursoGradoPersonal,
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $idUsuario,
+      );
+
+      //Obtener todas las unidades del bimestre
+      $todasLasUnidades = ModelUnidad::mdlObtenerTodasLasUnidades("unidad", $idBimestreCerrar);
+
+      // verificar si hay unidades
+      if ($todasLasUnidades == "error") {
+        return "error";
+      }
+
+      // Insertar la nota de la unidad      
+      $respuestanotaunidad = ModelUnidad::mdlInsertarNotaUnidad($tablaNotaUnidad, $idUnidadCerrar, $idAlumnoAnioEscolar, $notaUnidad);
+
+      // Verificar si la inserción de la nota de unidad fue exitosa
+      if ($respuestanotaunidad != "ok") {
+        return "error";
+      }
+
       // Obtener el curso y grado del bimestre
       $idCursoGrado = ModelBimestre::mdlObtenerCursoGradoBimestre($idBimestreCerrar);
       // Obtener todos los bimestres y unidades con sus estados
@@ -40,12 +94,21 @@ class ControllerUnidad
             if ($index == count($todosLosBimestresYUnidades) - 1 || $todosLosBimestresYUnidades[$index + 1]['idBimestre'] != $idBimestreCerrar) {
               $activarSiguienteBimestre = true;
               // Obtener todas las notas de la unidad
-              $todasLasNotas = ModelBimestre::mdlObtenerTodaslasNotasdeUnidad($idBimestreCerrar, $idAlumnoAnioEscolar);
-              $tipodeNotaUnidad = "notaUnidad";
+              $todasLasNotas = self::ctrObtenerNotasUnidadesBimestre($todasLasUnidades, $idAlumnoAnioEscolar, $idCursoGradoPersonal);
               // Calcular el promedio de las notas
-              $promedioNotas = calcularNotaUnidad($todasLasNotas, $tipodeNotaUnidad);
+              $promedioNotasUnidad = ControllerNotas::calcularPromedioUnidad($todasLasNotas);
+
+              $notaBimestre = array(
+                'notaBimestre' => $promedioNotasUnidad,
+                "idCursoGradoPersonal" => $idCursoGradoPersonal,
+                "fechaCreacion" => date("Y-m-d H:i:s"),
+                "usuarioCreacion" => $idUsuario,
+                "fechaActualizacion" => date("Y-m-d H:i:s"),
+                "usuarioActualizacion" => $idUsuario,
+              );
+
               // Subir el promedio de notas del bimestre
-              ModelBimestre::mdlSubirNotaPromedioBimestreUnidad($idBimestreCerrar, $promedioNotas, $idAlumnoAnioEscolar);
+              ModelBimestre::mdlSubirNotaPromedioBimestreUnidad($idBimestreCerrar, $notaBimestre, $idAlumnoAnioEscolar);
             } else {
               // Activar la siguiente unidad
               ModelUnidad::mdlActivarUnidad($todosLosBimestresYUnidades[$index + 1]['idUnidad'], 1);
@@ -81,6 +144,56 @@ class ControllerUnidad
     $tabla = "unidad";
     $dataUnidad = ModelUnidad::mdlObtenerUnidadById($tabla, $idUnidad);
     return $dataUnidad;
+  }
+
+  /**
+   * Obtener todas las notas de la competencias de una unidad y un alumno
+   * 
+   * @param int $idUnidad id de la unidad
+   * @param int $idAlumnoAnioEscolar id del alumno
+   * @return array $competencias arreglo con las notas de las competencias
+   * @return string "error" si hubo un error
+   */
+  public static function ctrObtenerNotasCompetenciasUnidad($idAlumnoAnioEscolar, $competencias)
+  {
+    $tabla = "nota_competencia";
+
+    $notasCompetenciasUnidad = [];
+    // Recorrer todas las competencias    
+    foreach ($competencias as $competencia) {
+      $idCompetencia = $competencia['idCompetencia'];
+      $notaCompetencia = ModelUnidad::mdlObtenerNotaCompetencia($tabla, $idAlumnoAnioEscolar, $idCompetencia);
+      if ($notaCompetencia == "error") {
+        return "error";
+      }
+      $notasCompetenciasUnidad[$notaCompetencia["idNotaCompetencia"]] = $notaCompetencia;
+    }
+    return $notasCompetenciasUnidad;
+  }
+
+  /**
+   * Obtener las notas de la unidad de un alumno
+   * 
+   * @param array $unidades arreglo con las unidades
+   * @param int $idAlumnoAnioEscolar id del alumno
+   * @return array $notasUnidad datos de las notas de la unidad
+   */
+  public static function ctrObtenerNotasUnidadesBimestre($unidades, $idAlumnoAnioEscolar, $idCursoGradoPersonal)
+  {
+    $tabla = "nota_unidad";
+
+    $notasUnidad = [];
+    // Recorrer todas las unidades
+    foreach ($unidades as $unidad) {
+      $idUnidad = $unidad['idUnidad'];
+      $notaUnidad = ModelUnidad::mdlObtenerNotaUnidad($tabla, $idUnidad, $idAlumnoAnioEscolar, $idCursoGradoPersonal);
+      if ($notaUnidad == "error") {
+        return "error";
+      }
+      $notasUnidad[$notaUnidad["idNotaUnidad"]] = $notaUnidad;
+    }
+
+    return $notasUnidad;
   }
 }
 //Funcion para calcular el promedio de las notas
