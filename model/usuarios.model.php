@@ -78,6 +78,29 @@ class ModelUsuarios
       return "error";
     }
   }
+    //  Crear un nuevo usuario Apoderado
+    public static function mdlCrearUsuarioApoderado($tabla, $dataUsuario)
+    {
+      $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion, cuentaCreada) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion,:cuentaCreada)");
+      $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":password", $dataUsuario["password"], PDO::PARAM_STR);
+      $statement->bindParam(":nombreUsuario", $dataUsuario["nombreUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":apellidoUsuario", $dataUsuario["apellidoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":dniUsuario", $dataUsuario["dniUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":idTipoUsuario", $dataUsuario["idTipoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":estadoUsuario", $dataUsuario["estadoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaCreacion", $dataUsuario["fechaCreacion"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaActualizacion", $dataUsuario["fechaActualizacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioCreacion", $dataUsuario["usuarioCreacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
+      $statement->bindParam(":cuentaCreada", $dataUsuario["cuentaCreada"], PDO::PARAM_STR);
+  
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
 
   //  Editar data usuario personal
   public static function mdlEditarUsuarioPersonal($tabla, $dataUsuario)
@@ -191,8 +214,6 @@ class ModelUsuarios
         SELECT 1 FROM pago WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
         UNION ALL
         SELECT 1 FROM postulante WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
-        UNION ALL
-        SELECT 1 FROM record_nota WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
     ) THEN TRUE
     ELSE FALSE
 END AS existencia

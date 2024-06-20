@@ -6,7 +6,7 @@ class ModelApoderados
   //mostar todos los Apoderados DataTable
   public static function mdlGetAllApoderados($table)
   {
-    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado FROM $table");
+    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado, dniApoderado FROM $table");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -45,7 +45,7 @@ class ModelApoderados
   // Obtener todos los alumnos
   public static function mdlCrearApoderado($tabla, $dataApoderado)
   {
-    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombreApoderado, apellidoApoderado, dniApoderado, fechaNacimiento, convivenciaAlumno, tipoApoderado, gradoInstruccion, profesionApoderado, correoApoderado, celularApoderado, dependenciaApoderado, centroLaboral, telefonoTrabajo, ingresoMensual, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:nombreApoderado, :apellidoApoderado, :dniApoderado, :fechaNacimiento, :convivenciaAlumno, :tipoApoderado, :gradoInstruccion, :profesionApoderado, :correoApoderado, :celularApoderado, :dependenciaApoderado, :centroLaboral, :telefonoTrabajo, :ingresoMensual, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+    $statement = Connection::conn()->prepare("INSERT INTO $tabla (nombreApoderado, apellidoApoderado, dniApoderado, fechaNacimiento, convivenciaAlumno, tipoApoderado, gradoInstruccion, profesionApoderado, correoApoderado, celularApoderado, dependenciaApoderado, centroLaboral, telefonoTrabajo, ingresoMensual, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion, cuentaCreada) VALUES(:nombreApoderado, :apellidoApoderado, :dniApoderado, :fechaNacimiento, :convivenciaAlumno, :tipoApoderado, :gradoInstruccion, :profesionApoderado, :correoApoderado, :celularApoderado, :dependenciaApoderado, :centroLaboral, :telefonoTrabajo, :ingresoMensual, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion,:cuentaCreada)");
     $statement->bindParam(":nombreApoderado", $dataApoderado["nombreApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":apellidoApoderado", $dataApoderado["apellidoApoderado"], PDO::PARAM_STR);
     $statement->bindParam(":dniApoderado", $dataApoderado["dniApoderado"], PDO::PARAM_STR);
@@ -64,6 +64,7 @@ class ModelApoderados
     $statement->bindParam(":fechaActualizacion", $dataApoderado["fechaActualizacion"], PDO::PARAM_STR);
     $statement->bindParam(":usuarioCreacion", $dataApoderado["usuarioCreacion"], PDO::PARAM_INT);
     $statement->bindParam(":usuarioActualizacion", $dataApoderado["usuarioActualizacion"], PDO::PARAM_INT);
+    $statement->bindParam(":cuentaCreada", $dataApoderado["cuentaCreada"], PDO::PARAM_STR);
 
     if ($statement->execute()) {
       return "ok";
@@ -232,5 +233,35 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  //Obtener el otro id del apoderado
+  public static function mdlObtenerSegundoIdApoderado($idApoderado){
+    $statement = Connection::conn()->prepare("SELECT DISTINCT
+    a2.idApoderado
+    FROM
+        apoderado
+    INNER JOIN
+        apoderado_alumno ON apoderado.idApoderado = apoderado_alumno.idApoderado
+    INNER JOIN
+        alumno ON apoderado_alumno.idAlumno = alumno.idAlumno
+    INNER JOIN
+        apoderado_alumno aa2 ON alumno.idAlumno = aa2.idAlumno
+    INNER JOIN
+        apoderado a2 ON aa2.idApoderado = a2.idApoderado
+    WHERE
+        apoderado.idApoderado = :idApoderado AND a2.idApoderado != :idApoderado");
+    $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
+    $statement->execute();
+    $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Cambiar el estado de cuenta creada
+  public static function mdlCambiarEstadoCuentaCreada($idApoedrado){
+    $statement = Connection::conn()->prepare("UPDATE apoderado SET cuentaCreada = 1 WHERE idApoderado = :idApoedrado");
+    $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }

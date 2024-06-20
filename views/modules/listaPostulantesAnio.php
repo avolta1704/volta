@@ -57,7 +57,7 @@
 
 <?php
 $postulante = new ControllerPostulantes();
-$postulante->ctrBorrarPostulante();
+/* $postulante->ctrBorrarPostulante(); */
 ?>
 
 <div class="modal fade" id="actualizarEstado" aria-hidden="true" aria-labelledby="actualizarEstado" tabindex="-1">

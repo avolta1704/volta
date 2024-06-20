@@ -354,12 +354,13 @@ class ControllerUsuarios
    * 
    * @return string script para redireccionar
    */
-  public static function ctrTieneAcceso(){
-    
+  public static function ctrTieneAcceso()
+  {
+
     $tipoUsuario = self::ctrGetTipoUsuario();
     $usuario = strtolower($tipoUsuario["descripcionTipoUsuario"]);
 
-    if ( $usuario == "administrador") {
+    if ($usuario == "administrador") {
       // Dar acceso a todas las URLs
       return;
     } elseif ($usuario == "administrativo") {
@@ -404,14 +405,14 @@ class ControllerUsuarios
       $allowedUrls = array(
         ""
       );
-    } 
+    }
 
 
     $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $currentUrl = basename($currentPath);
     print_r($allowedUrls);
 
-    if($currentUrl == "inicio"){
+    if ($currentUrl == "inicio") {
       return;
     }
     if (!in_array($currentUrl, $allowedUrls)) {
@@ -421,5 +422,40 @@ class ControllerUsuarios
     }
 
 
+  }
+  public static function ctrCrearUsuarioApoderadoVista($datos)
+  {
+    $tabla = "usuario";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $contrasenaUsuarioApoderado = password_hash($datos["contrasenaUsuarioApoderado"], PASSWORD_ARGON2ID, [
+      'memory_cost' => 1 << 12,
+      'time_cost' => 2,
+      'threads' => 2
+    ]);
+
+    $dataUsuario = array(
+      "correoUsuario" => $datos["correoUsuarioApoderado"],
+      "password" => $contrasenaUsuarioApoderado,
+      "nombreUsuario" => $datos["nombreUsuarioApoderado"],
+      "apellidoUsuario" => $datos["apellidoUsuarioApoderado"],
+      "dniUsuario" => $datos["dniUsuarioApoderado"],
+      "idTipoUsuario" => $datos["tipoUsuarioApoderado"],
+      "estadoUsuario" => "1",
+      "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+      "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelUsuarios::mdlCrearUsuarioApoderado($tabla, $dataUsuario);
+    
+    $idApoderado2 = ModelApoderados::mdlObtenerSegundoIdApoderado($datos["codApoderado"]);
+    $respuestaCambiodeEstadoUsuarioCreado1= ModelApoderados::mdlCambiarEstadoCuentaCreada($datos["codApoderado"]);
+    $respuestaCambiodeEstadoUsuarioCreado2= ModelApoderados::mdlCambiarEstadoCuentaCreada($idApoderado2);
+    if($respuestaCambiodeEstadoUsuarioCreado1=="ok" && $respuestaCambiodeEstadoUsuarioCreado2=="ok"){
+      $response = "ok";
+    }
+    return $response;
   }
 }

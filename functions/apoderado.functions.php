@@ -31,11 +31,19 @@ class FunctionApoderado
     return $estado;
   }
   //botones de Apoderado
-  public static function getBtnApoderado($codApoderado)
+  public static function getBtnApoderado($apoderado)
   {
     $botones = '
-        <button type="button" class="btn btn-warning btnEditarApoderado" codApoderado="' . ($codApoderado) . '"><i class="bi bi-pencil"></i></button>
-      ';
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownApoderado" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownApoderado">
+        <li><button type="button" class="dropdown-item btnEditarApoderado" codApoderado="' . $apoderado["idApoderado"] . '" >Editar</button></li>
+        <li><button type="button" class="dropdown-item btnCrearApoderadoUsuario" data-bs-toggle="modal" data-bs-target="#agregarUsuarioApoderado" codApoderado="' . $apoderado["idApoderado"] . '" correoApoderado="' . $apoderado["correoApoderado"] .'" dniApoderado="' . $apoderado["dniApoderado"] .'" nombreApoderado="' . $apoderado["nombreApoderado"] .'" apellidoApoderado="' . $apoderado["apellidoApoderado"] .'" >Crear Cuenta</button></li>
+      </ul>
+    </div>
+  ';
 
     return $botones;
   }
