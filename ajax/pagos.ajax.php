@@ -6,17 +6,43 @@ require_once "../functions/pagos.functions.php";
 
 class PagosAjax
 {
-/**
- * Mostrar todos los pagos
- * 
- * @return array Arreglo de todos los pagos 
- */
+  /**
+   * Mostrar todos los pagos
+   * 
+   * @return array Arreglo de todos los pagos 
+   */
 
- public function ajaxTodoLosPagos(){
-  $allPagos = ControllerPagos::ctrTodoLosPagos();
+  public function ajaxTodoLosPagos()
+  {
+    $allPagos = ControllerPagos::ctrTodoLosPagos();
 
-  echo json_encode($allPagos);
- }
+    echo json_encode($allPagos);
+  }
+
+  /**
+   * Método para mostrar todos los pagos de un año escolar mediante una petición AJAX.
+   *
+   * @param int $idAnioEscolar Identificador del año escolar.
+   * @return array $response Array con los pagos de un año escolar.
+   */
+  public function ajaxMostrarTodosLosPagosAnioEscolar($idAnioEscolar)
+  {
+    $todosLosPagosAnioEscolar = ControllerPagos::ctrGetPagosAnioEscolar($idAnioEscolar);
+    foreach ($todosLosPagosAnioEscolar as &$dataPago) {
+      // dato para obtener el nombre y el apellido junto
+      $dataPago['nombreCompleto'] = strval($dataPago['nombresAlumno'] . ' ' . $dataPago['apellidosAlumno']);
+      $dataPago['moraPago'] = strval($dataPago["moraPago"]);
+      $dataPago['numeroComprobante'] = strval($dataPago["numeroComprobante"]);
+      $dataPago['tipoPago'] = strval($dataPago["conceptoPago"]);
+      $dataPago['mesPago'] = strval($dataPago["mesPago"]);
+
+      $dataPago['nivelAlum'] = FunctionPagos::getNivelAlumno($dataPago["idNivel"]);
+      $dataPago['cantidadTotal'] = FunctionPagos::getCantidadPago($dataPago["cantidadPago"]);
+      $dataPago['statePago'] = FunctionPagos::getEstadoCronogramaPago($dataPago["estadoCronograma"]);
+      $dataPago['buttonsPago'] = FunctionPagos::getBotonesPagos($dataPago["idPago"], $dataPago["estadoCronograma"]);
+    }
+    echo json_encode($todosLosPagosAnioEscolar);
+  }
 
   //mostar todos los Pagos DataTableAlumnosAdmin
   public function ajaxMostrarTodosLosPagosAdmin()
@@ -66,9 +92,9 @@ class PagosAjax
   }
 }
 
-if(isset($_POST["todosLosPagos"])){
+if (isset($_POST["todosLosPagos"])) {
   $todosLosPagos = new PagosAjax();
-  $todosLosPagos->ajaxTodoLosPagos(); 
+  $todosLosPagos->ajaxTodoLosPagos();
 }
 
 //mostar todos los Pagos DataTableAlumnosAdmin
@@ -109,4 +135,10 @@ class PagosAjaxx
 if (isset($_POST["dataEditCronoModal"])) {
   $EditarRegistroPagoModal = new PagosAjaxx();
   $EditarRegistroPagoModal->ajaxEditarRegistroPagoModal($_POST["dataEditCronoModal"]);
+}
+
+// Obtener los datos de los pagos por año escolar
+if (isset($_POST["todosLosPagosAnioEscolar"])) {
+  $pagosAnioEscolar = new PagosAjax();
+  $pagosAnioEscolar->ajaxMostrarTodosLosPagosAnioEscolar($_POST["todosLosPagosAnioEscolar"]);
 }
