@@ -136,8 +136,7 @@
 
           <div class="mb-3">
             <button type="button" class="btn btn-primary btnAgregarInstrumentoEditar" id="btnAgregarInstrumentoEditar">
-              <i class="bi bi-plus-circle"></i> Agregar Instrumento</button>
-            <input type="hidden" name="editarListaInstrumentosTecnica" class="editarListaInstrumentosTecnica" id="editarListaInstrumentosTecnica">
+              <i class="bi bi-plus-circle"></i>Agregar Instrumento</button>
           </div>
 
           <div class="mb-3 editarListaInstrumentos">
@@ -145,6 +144,8 @@
           </div>
 
           <div class="modal-footer">
+            <input type="hidden" name="idTecnica" class="idTecnica" id="idTecnica">
+            <input type="hidden" name="nuevaListaInstrumentos" class="nuevaListaInstrumentos" id="nuevaListaInstrumentos">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="button" class="btn btn-primary btnEditarTecnica" id="btnEditarTecnica" name="btnEditarTecnica">Guardar</button>
           </div>

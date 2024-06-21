@@ -169,7 +169,7 @@ $(".dataTableTecnicas").on("click", ".btnEditarTecnica", function (e) {
         var listaInstrumentos = JSON.parse(response.listaInstrumentos);
         $("#editarDescripcionTecnica").val(response.descripcionTecnica);
         $("#editarCodigoTecnica").val(response.codTecnica);
-        $("#editarListaInstrumentosTecnica").val(response.codTecnica);
+        $("#idTecnica").val(response.idTecnicaEvaluacion);
 
         var htmlInstrumentos = "";
         listaInstrumentos.forEach((instrumento) => {
@@ -196,7 +196,7 @@ $("#btnAgregarInstrumentoEditar").on("click", function (e) {
       <div class="editarInstrumento" style="display: flex">
         <input type="text" placeholder="Descripción Instrumento" name="editarDescripcionInstrumento" class="form-control editarDescripcionInstrumento" required/>
         <input type="text" placeholder="Código Instrumento" name="editarCodigoInstrumento" class="form-control editarCodigoInstrumento" required/>
-        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento"><i class='bi bi-trash'></i></button>
+        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento" codInstrumento=""><i class='bi bi-trash'></i></button>
       </div>
     `;
   listaInstrumentos.append(nuevoInstrumento);
@@ -208,33 +208,37 @@ function actualizarInstrumentosEditar() {
   document.querySelectorAll(".editarInstrumento").forEach((fila) => {
     var descripcion = fila.querySelector("input[type=text]:nth-child(1)").value;
     var codigo = fila.querySelector("input[type=text]:nth-child(2)").value;
-    instrumentos.push({ descripcion, codigo });
+    var codInstrumento = fila.querySelector(".btnEliminarEditarInstrumento").getAttribute("codInstrumento") || undefined;
+    instrumentos.push({ descripcion, codigo, codInstrumento });
   });
-  console.log(instrumentos);
-  $("#editarListaInstrumentos").val(JSON.stringify(instrumentos));
+  $("#nuevaListaInstrumentos").val(JSON.stringify(instrumentos));
 }
 
 $(".btnEliminarEditarInstrumento").on("click", function (e) {
   $(this).parent().remove();
   actualizarInstrumentosEditar();
 });
-$(".editarInstrumento").on(
+
+$(".editarListaInstrumentos").on(
   "change",
   ".editarDescripcionInstrumento",
   function (e) {
     actualizarInstrumentosEditar();
   }
 );
-$(".editarCodigoInstrumento").on("change", function (e) {
-  actualizarInstrumentosEditar();
-});
+$(".editarListaInstrumentos").on(
+  "change",
+  ".editarCodigoInstrumento",
+  function (e) {
+    actualizarInstrumentosEditar();
+  }
+);
 
 $(".editarListaInstrumentos").on(
   "click",
   ".btnEliminarEditarInstrumento",
   function (e) {
     codInstrumento = $(this).attr("codInstrumento");
-    console.log(codInstrumento);
     if (codInstrumento != undefined) {
       var data = new FormData();
       data.append("codInstrumentoEliminar", codInstrumento);
@@ -264,11 +268,6 @@ $(".editarListaInstrumentos").on(
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
-          console.error(
-            "Error en la solicitud AJAX: ",
-            textStatus,
-            errorThrown
-          );
         },
       });
     } else {
@@ -281,19 +280,18 @@ $(".editarListaInstrumentos").on(
 $("#btnEditarTecnica").on("click", function () {
   var descripcionTecnica = $("#editarDescripcionTecnica").val();
   var codigoTecnica = $("#editarCodigoTecnica").val();
-  var listaInstrumentosNueva = $("#editarListaInstrumentos").val();
-  var codTecnica = $("#editarListaInstrumentosTecnica").val();
+  var nuevaListaInstrumentos = $("#nuevaListaInstrumentos").val();
+  var idTecnica = $("#idTecnica").val();
 
   var dataEditarTecnica = {
     descripcionTecnica: descripcionTecnica,
     codigoTecnica: codigoTecnica,
-    codTecnica: codTecnica,
-    listaInstrumentosNueva: listaInstrumentosNueva,
+    idTecnica: idTecnica,
+    nuevaListaInstrumentos: nuevaListaInstrumentos,
   };
 
-  console.log(dataEditarTecnica);
   var data = new FormData();
-  data.append("dataRegistrarTecnica", JSON.stringify(dataEditarTecnica));
+  data.append("dataEditarTecnica", JSON.stringify(dataEditarTecnica));
 
   $.ajax({
     url: "ajax/tecnicaseInstrumentos.ajax.php",
@@ -304,11 +302,11 @@ $("#btnEditarTecnica").on("click", function () {
     processData: false,
     dataType: "json",
     success: function (response) {
-      if (response) {
+      if (response == "true") {
         Swal.fire({
           icon: "success",
           title: "Registrado",
-          text: "Técnica e Instrumento registrados correctamente",
+          text: "Técnica e Instrumento editados correctamente",
           showConfirmButton: true,
         }).then((result) => {
           location.reload();
@@ -316,18 +314,14 @@ $("#btnEditarTecnica").on("click", function () {
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
+      console.log("Error al editar la técnica e instrumento: ", textStatus, errorThrown);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Errir al registrar la técnica e instrumento",
+        text: "Error al editar la técnica e instrumento",
         timer: 2000,
         showConfirmButton: true,
       });
-      console.error(
-        "Error al registrar la técnica e instrumento: ",
-        textStatus,
-        errorThrown
-      );
     },
   });
 });

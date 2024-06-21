@@ -90,19 +90,19 @@ class ModelTecnicaseInstrumentos
    */
   public static function mdlVisualizarTecnica($tabla, $codTecnicaVisualizar)
   {
-    $stmt = Connection::conn()->prepare("SELECT descripcionTecnica, codTecnica FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
+    $stmt = Connection::conn()->prepare("SELECT idTecnicaEvaluacion, descripcionTecnica, codTecnica FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
     $stmt->bindParam(":idTecnicaEvaluacion", $codTecnicaVisualizar, PDO::PARAM_STR);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   /** 
-    * Obtener la lista de instrumentos por técnica
-    *
-    * @param string $tabla
-    * @param int  $codTecnica
-    * @return array
-    */
+   * Obtener la lista de instrumentos por técnica
+   *
+   * @param string $tabla
+   * @param int  $codTecnica
+   * @return array
+   */
   public static function mdlObtenerInstrumentos($tabla, $codTecnica)
   {
     $stmt = Connection::conn()->prepare("SELECT idInstrumento, descripcionInstrumento, codInstrumento FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
@@ -127,7 +127,54 @@ class ModelTecnicaseInstrumentos
       if ($stmt->execute()) {
         return true;
       }
-    } catch (Exception $e){
+    } catch (Exception $e) {
+      return false;
+    }
+  }
+
+  /**
+   * Editar una técnica
+   *
+   * @param string $tabla
+   * @param array $data
+   * @return bool
+   */
+  public static function mdlEditarTecnica($tabla, $data)
+  {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionTecnica = :descripcionTecnica, codTecnica = :codTecnica, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
+
+    $stmt->bindParam(":descripcionTecnica", $data["descripcionTecnica"], PDO::PARAM_STR);
+    $stmt->bindParam(":codTecnica", $data["codTecnica"], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idTecnicaEvaluacion", $data["idTecnicaEvaluacion"], PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /**
+   * Editar un instrumento
+   * 
+   * @param string $tabla
+   * @param array $data
+   * @return bool
+   */
+  public static function mdlEditarInstrumento($tabla, $data) {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionInstrumento = :descripcionInstrumento, codInstrumento = :codInstrumento, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idInstrumento = :idInstrumento");
+
+    $stmt->bindParam(":descripcionInstrumento", $data["descripcionInstrumento"], PDO::PARAM_STR);
+    $stmt->bindParam(":codInstrumento", $data["codInstrumento"], PDO::PARAM_STR);
+    $stmt->bindParam(":fechaActualizacion", $data["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $data["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idInstrumento", $data["idInstrumento"], PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+      return true;
+    } else {
       return false;
     }
   }

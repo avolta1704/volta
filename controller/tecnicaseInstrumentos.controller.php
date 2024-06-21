@@ -86,4 +86,62 @@ class ControllerTecnicaseInstrumentos
     $respuesta = ModelTecnicaseInstrumentos::mdlEliminarInstrumento($tabla, $codInstrumento);
     return $respuesta;
   }
+
+  /**
+   * Editar un instrumento
+   *
+   * @param string $dataTecnica
+   * @return string
+   */
+  public static function ctrEditarInstrumento($dataTecnica)
+  {
+    $tabla = "tecnica_evaluacion";
+    $dataTecnica = json_decode($dataTecnica, true);
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $dataEditar = array(
+      "idTecnicaEvaluacion" => $dataTecnica["idTecnica"],
+      "descripcionTecnica" => $dataTecnica["descripcionTecnica"],
+      "codTecnica" => $dataTecnica["codigoTecnica"],
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $responseTenica = ModelTecnicaseInstrumentos::mdlEditarTecnica($tabla, $dataEditar);
+    if (!$responseTenica) {
+      return false;
+    } else {
+      $tabla = "instrumento";
+      $listaInstrumentos = json_decode($dataTecnica["nuevaListaInstrumentos"], true);
+      foreach ($listaInstrumentos as $instrumento) {
+        //  Se verifica si el instrumento ya está creado o no; y se hace el create o el update
+        if($instrumento["codInstrumento"] !=  null || $instrumento["codInstrumento"] != "") {
+          $dataInstrumentoUpdate = array(
+            "idInstrumento" => $instrumento["codInstrumento"],
+            "descripcionInstrumento" => $instrumento["descripcion"],
+            "codInstrumento" => $instrumento["codigo"],
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          ); 
+          $responseInstrumento = ModelTecnicaseInstrumentos::mdlEditarInstrumento($tabla, $dataInstrumentoUpdate);
+        } else {
+          $dataInstrumentoCreate = array(
+            "idTecnicaEvaluacion" => $dataTecnica["idTecnica"],
+            "descripcionInstrumento" => $instrumento["descripcion"],
+            "codInstrumento" => $instrumento["codigo"],
+            "fechaCreacion" => date("Y-m-d H:i:s"),
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioCreacion" => $_SESSION["idUsuario"],
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          );
+          $responseInstrumento = ModelTecnicaseInstrumentos::mdlCrearInstrumento($tabla, $dataInstrumentoCreate);
+        }
+      }
+      if (!$responseInstrumento) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+  }
 }
