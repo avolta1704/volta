@@ -78,7 +78,6 @@ $(".dataTableApoderado").on("click", ".btnCrearApoderadoUsuario", function () {
             }
           },
           error: function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR.responseText); // procendecia de error
             console.log(
               "Error en la solicitud AJAX: ",
               textStatus,
