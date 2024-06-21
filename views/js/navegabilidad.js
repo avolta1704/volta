@@ -37,74 +37,193 @@ document.addEventListener("DOMContentLoaded", function () {
 		};
 	}
 
+	// Función para obtener el tipo de usuario mediante AJAX
+	function obtenerTipoUsuario(callback) {
+		var data = new FormData();
+		data.append("tieneAcceso", true);
+
+		$.ajax({
+			url: "ajax/usuarios.ajax.php", // Reemplaza con la URL correcta de tu archivo AJAX
+			method: "POST",
+			data: data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			dataType: "json",
+			success: function (response) {
+				if (typeof callback === "function") {
+					callback(response); // Llama al callback con el tipo de usuario
+				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText); // procedencia de error
+				console.log(
+					"Error en la solicitud AJAX: ",
+					textStatus,
+					errorThrown
+				);
+			},
+		});
+	}
+
 	// Obtener la ruta actual desde la URL o la ruta base si no hay parámetros
 	var urlParams = getUrlParams();
 	var rutaActual = getUrlParameter("ruta") || urlParams.ruta;
 
 	var routeMappings = [
-		{ rutaBase: "inicio" },
+		{
+			rutaBase: "inicio",
+			acceso: [
+				"administrador",
+				"docente",
+				"administrativo",
+				"apoderado",
+				"dirección",
+			], // Ejemplo de acceso permitido para varios tipos de usuario
+		},
 
 		{
 			rutaBase: "listaPostulantes",
+			acceso: ["administrador", "administrativo"],
 			subRutas: [
-				{ nombre: "nuevoPostulante" },
-				{ nombre: "visualizarPostulante" },
-				{ nombre: "editarPostulante" },
-				{ nombre: "registrarPago", parametros: ["codPostulante"] },
+				{
+					nombre: "nuevoPostulante",
+					acceso: ["administrador", "administrativo"],
+				},
+				{
+					nombre: "visualizarPostulante",
+					acceso: ["administrador", "administrativo"],
+				},
+				{
+					nombre: "editarPostulante",
+					acceso: ["administrador", "administrativo"],
+				},
+				{
+					nombre: "registrarPago",
+					parametros: ["codPostulante"],
+					acceso: ["administrador", "administrativo"],
+				},
 			],
 		},
 
 		{
 			rutaBase: "listaAdmisionAlumnos",
+			acceso: ["administrador", "directivo"],
 			subRutas: [
-				{ nombre: "visualizarMatriculado" },
+				{
+					nombre: "visualizarMatriculado",
+					acceso: ["administrador", "directivo", "docente"],
+				},
 				{
 					nombre: "editarAlumno",
 					parametros: ["codAlumnoEditar", "tipo"],
+					acceso: ["administrador", "directivo"],
 				},
 			],
 		},
 
-		{ rutaBase: "buscarAlumno" },
+		{
+			rutaBase: "buscarAlumno",
+			acceso: ["administrador", "directivo", "docente"],
+		},
 
 		{
 			rutaBase: "listaPagos",
-			subRutas: [{ nombre: "registrarPago" }, { nombre: "editarPago" }],
+			acceso: ["administrador", "directivo"],
+			subRutas: [
+				{
+					nombre: "registrarPago",
+					acceso: ["administrador", "directivo"],
+				},
+				{
+					nombre: "editarPago",
+					acceso: ["administrador", "directivo"],
+				},
+			],
 		},
 
-		{ rutaBase: "listaComunicadoPago" },
+		{
+			rutaBase: "listaComunicadoPago",
+			acceso: ["administrador", "directivo", "docente"],
+		},
+
 		{
 			rutaBase: "reportePagos",
+			acceso: ["administrador", "directivo"],
 			subRutas: [
-				{ nombre: "registrarPago", parametros: ["ReportePensiones"] },
-				{ nombre: "registrarComunicadoPago" },
+				{
+					nombre: "registrarPago",
+					parametros: ["ReportePensiones"],
+					acceso: ["administrador", "directivo"],
+				},
+				{
+					nombre: "registrarComunicadoPago",
+					acceso: ["administrador", "directivo"],
+				},
 			],
 		},
-		{ rutaBase: "reporteComunicaciones" },
-		{ rutaBase: "listaPostulantesAnio" },
-		{ rutaBase: "reporteAdmisiones" },
+		{
+			rutaBase: "reporteComunicaciones",
+			acceso: ["administrador", "directivo"],
+		},
+		{
+			rutaBase: "listaPostulantesAnio",
+			acceso: ["administrador", "directivo", "docente"],
+		},
+		{
+			rutaBase: "reporteAdmisiones",
+			acceso: ["administrador", "directivo"],
+		},
+
 		{
 			rutaBase: "listaAlumnos",
+			acceso: ["administrador", "directivo"],
 			subRutas: [
-				{ nombre: "editarAlumno", parametros: ["codAlumnoEditar"] },
+				{
+					nombre: "editarAlumno",
+					parametros: ["codAlumnoEditar"],
+					acceso: ["administrador", "directivo"],
+				},
 			],
 		},
-		{ rutaBase: "personal", subRutas: [{ nombre: "editarPersonal" }] },
-		{ rutaBase: "usuarios" },
-		{ rutaBase: "apoderado", subRutas: [{ nombre: "editarApoderado" }] },
-		{ rutaBase: "cursos" },
-		{ rutaBase: "asignarCursos" },
+
+		{ rutaBase: "personal", acceso: ["administrador", "directivo"] },
+
+		{ rutaBase: "usuarios", acceso: ["administrador"] },
+
+		{
+			rutaBase: "apoderado",
+			acceso: ["administrador", "directivo"],
+			subRutas: [
+				{
+					nombre: "editarApoderado",
+					acceso: ["administrador", "directivo"],
+				},
+			],
+		},
+
+		{
+			rutaBase: "cursos",
+			acceso: ["administrador", "directivo", "docente"],
+		},
+		{
+			rutaBase: "asignarCursos",
+			acceso: ["administrador", "directivo", "docente"],
+		},
+
 		{
 			rutaBase: "cursosDocente",
+			acceso: ["docente"],
 			subRutas: [
-				{ nombre: "notasCursoDocente" },
-				{ nombre: "registrarNotas" },
-				{ nombre: "visualizarAsistencia" },
+				{ nombre: "notasCursoDocente", acceso: ["docente"] },
+				{ nombre: "registrarNotas", acceso: ["docente"] },
+				{ nombre: "visualizarAsistencia", acceso: ["docente"] },
 			],
 		},
 	];
 
-	function findBaseRoute(route, params) {
+	// Función para encontrar la ruta base activa
+	function findBaseRoute(route, params, tipoUsuario) {
 		for (var i = 0; i < routeMappings.length; i++) {
 			var baseRoute = routeMappings[i].rutaBase;
 			var subRutas = routeMappings[i].subRutas || [];
@@ -119,25 +238,38 @@ document.addEventListener("DOMContentLoaded", function () {
 					typeof subRuta === "object" ? subRuta.nombre : subRuta;
 				var parametrosSubRuta =
 					typeof subRuta === "object" ? subRuta.parametros : [];
+				var accesoSubRuta =
+					typeof subRuta === "object" && subRuta.acceso
+						? subRuta.acceso
+						: [];
 
-				// Verificamos si la subruta tiene parámetros
 				if (!parametrosSubRuta) {
 					if (nombreSubRuta === route) {
 						return baseRoute;
 					}
 				}
-
-				// Verificar si la subruta coincide y tiene los parámetros requeridos
+				// Verificar si la subruta coincide y tiene los roles requeridos
 				if (nombreSubRuta === route) {
-					var parametrosValidos = true;
-					for (var k = 0; k < parametrosSubRuta.length; k++) {
-						if (!params.includes(parametrosSubRuta[k])) {
-							parametrosValidos = false;
-							break;
+					var accesoValido = true;
+					if (accesoSubRuta.length > 0) {
+						accesoValido = false;
+						if (accesoSubRuta.includes(tipoUsuario)) {
+							accesoValido = true;
 						}
 					}
-					if (parametrosValidos) {
-						return baseRoute;
+
+					// Verificar si la subruta tiene los parámetros requeridos
+					if (accesoValido) {
+						var parametrosValidos = true;
+						for (var k = 0; k < parametrosSubRuta.length; k++) {
+							if (!params.includes(parametrosSubRuta[k])) {
+								parametrosValidos = false;
+								break;
+							}
+						}
+						if (parametrosValidos) {
+							return baseRoute;
+						}
 					}
 				}
 			}
@@ -145,33 +277,64 @@ document.addEventListener("DOMContentLoaded", function () {
 		return null;
 	}
 
-	var activeRoute = findBaseRoute(rutaActual, urlParams.parametros);
-
-	// Selecciona todos los enlaces del menú
-	var menuItems = document.querySelectorAll(
-		"#sidebar-nav a.nav-link, #sidebar-nav .nav-content a"
-	);
-
-	// Recorre todos los elementos del menú
-	menuItems.forEach(function (menuItem) {
-		// Obtén el href del elemento del menú
-		var menuItemHref = menuItem.getAttribute("href");
-
-		// Verifica si el href del elemento coincide con la URL actual
-		if (
-			menuItemHref === rutaActual ||
-			(activeRoute && menuItemHref === activeRoute)
-		) {
-			// Añade la clase 'active' al elemento del menú
-			menuItem.classList.add("active");
-
-			// Si el elemento del menú está dentro de un submenú, también abre el submenú
-			var parentCollapse = menuItem.closest(".collapse");
-			if (parentCollapse) {
-				var parentLink = parentCollapse.previousElementSibling;
-				parentCollapse.classList.add("show");
-				parentLink.classList.remove("collapsed");
+	// Obtener tipo de usuario y procesar las rutas permitidas
+	obtenerTipoUsuario(function (tipoUsuario) {
+		// Filtrar las rutas permitidas según el tipo de usuario
+		var rutasPermitidas = routeMappings.filter(function (ruta) {
+			// Si la ruta no tiene restricciones de acceso, es permitida por defecto
+			if (!ruta.acceso) {
+				return true;
 			}
+
+			// Verificar si el tipo de usuario tiene acceso a esta ruta
+			if (ruta.acceso.includes(tipoUsuario)) {
+				return true;
+			}
+
+			return false;
+		});
+
+		// Obtener la ruta actual desde la URL
+		var rutaActual = getUrlParameter("ruta") || urlParams.ruta;
+
+		// Función para encontrar la ruta base activa
+		var activeRoute = findBaseRoute(
+			rutaActual,
+			urlParams.parametros,
+			tipoUsuario
+		);
+
+		// Seleccionar todos los enlaces del menú
+		var menuItems = document.querySelectorAll(
+			"#sidebar-nav a.nav-link, #sidebar-nav .nav-content a"
+		);
+
+		// Recorrer todos los elementos del menú
+		menuItems.forEach(function (menuItem) {
+			// Obtener el href del elemento del menú
+			var menuItemHref = menuItem.getAttribute("href");
+
+			// Verificar si el href del elemento coincide con la URL actual
+			if (
+				menuItemHref === rutaActual ||
+				(activeRoute && menuItemHref === activeRoute)
+			) {
+				// Añadir la clase 'active' al elemento del menú
+				menuItem.classList.add("active");
+
+				// Si el elemento del menú está dentro de un submenú, también abrir el submenú
+				var parentCollapse = menuItem.closest(".collapse");
+				if (parentCollapse) {
+					var parentLink = parentCollapse.previousElementSibling;
+					parentCollapse.classList.add("show");
+					parentLink.classList.remove("collapsed");
+				}
+			}
+		});
+		// Verificar si la ruta actual no está permitida para el tipo de usuario y que no sea inicio
+		if (!activeRoute && rutaActual !== "inicio") {
+			// Redirigir a la página de inicio
+			window.location = "index.php?ruta=inicio";
 		}
 	});
 });
