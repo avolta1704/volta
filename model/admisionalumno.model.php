@@ -178,4 +178,33 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchColumn();
   }
+
+  /**
+   * Modelo para obtener todos los alumnos de un año escolar
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param int $idAnioEscolar id del año escolar
+   * @return array con los datos de los alumnos o "error" si no se encuentran
+   */
+  public static function mdlGetAdmisionAlumnosAnioEscolar($tabla, $idAnioEscolar)
+  {
+    $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
+    al.idAlumno,
+    al.codAlumnoCaja,
+    al.apellidosAlumno,
+    al.nombresAlumno, 
+    ad.fechaAdmision,
+    adal.estadoAdmisionAlumno
+    FROM $tabla adal
+    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
+    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
+    WHERE ad.idAnioEscolar = :idAnioEscolar
+    ORDER BY adal.idAdmisionAlumno DESC");
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+      return "error";
+    }
+  }
 }
