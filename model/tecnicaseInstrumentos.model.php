@@ -110,4 +110,25 @@ class ModelTecnicaseInstrumentos
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Eliminar un instrumento
+   * 
+   * @param string $tabla
+   * @param int $codInstrumentoEliminar
+   * @return bool
+   */
+  public static function mdlEliminarInstrumento($tabla, $codInstrumentoEliminar)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idInstrumento = :idInstrumento");
+    $stmt->bindParam(":idInstrumento", $codInstrumentoEliminar, PDO::PARAM_INT);
+    //  Verifico si se puede e
+    try {
+      if ($stmt->execute()) {
+        return true;
+      }
+    } catch (Exception $e){
+      return false;
+    }
+  }
 }

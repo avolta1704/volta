@@ -33,6 +33,11 @@ class TecnicaAjax
     echo json_encode($respuesta);
   }
 
+  //  Eliminar instrumento
+  public function ajaxEliminarInstrumento($codInstrumentoEliminar) {
+    $respuesta = ControllerTecnicaseInstrumentos::ctrEliminarInstrumento($codInstrumentoEliminar);
+    echo json_encode($respuesta);
+  }
 }
 
 //  Registrar un nueva técnica
@@ -51,4 +56,10 @@ if (isset($_POST["todaslasTecnicas"])) {
 if (isset($_POST["codTecnicaVisualizar"])) {
   $visualizartecnica = new TecnicaAjax();
   $visualizartecnica->ajaxVisualizarTecnica($_POST["codTecnicaVisualizar"]);
+}
+
+//  Visualizar una técnica
+if (isset($_POST["codInstrumentoEliminar"])) {
+  $eliminarInstrumento = new TecnicaAjax();
+  $eliminarInstrumento->ajaxEliminarInstrumento($_POST["codInstrumentoEliminar"]);
 }

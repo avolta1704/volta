@@ -180,11 +180,11 @@ $(".dataTableTecnicas").on("click", ".btnEditarTecnica", function (e) {
             <div class="editarInstrumento" style="display: flex">
               <input type="text" placeholder="Descripción Instrumento" name="editarDescripcionInstrumento" class="form-control editarDescripcionInstrumento" value="${instrumento.descripcionInstrumento}" required/>
               <input type="text" placeholder="Código Instrumento" name="editarCodigoInstrumento" class="form-control editarCodigoInstrumento" value="${instrumento.codInstrumento}" required/>
-              <button type="button" class="btn btn-danger btnEliminarEditarInstrumento">Eliminar</button>
+              <button type="button" class="btn btn-danger btnEliminarEditarInstrumento" codInstrumento="${instrumento.idInstrumento}"><i class='bi bi-trash'></i></button>
             </div>
           `;
-          $(".editarListaInstrumentos").append(htmlInstrumentos);
         });
+        $(".editarListaInstrumentos").append(htmlInstrumentos);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -199,7 +199,7 @@ $("#btnAgregarInstrumentoEditar").on("click", function (e) {
       <div class="editarInstrumento" style="display: flex">
         <input type="text" placeholder="Descripción Instrumento" name="editarDescripcionInstrumento" class="form-control editarDescripcionInstrumento" required/>
         <input type="text" placeholder="Código Instrumento" name="editarCodigoInstrumento" class="form-control editarCodigoInstrumento" required/>
-        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento">Eliminar</button>
+        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento"><i class='bi bi-trash'></i></button>
       </div>
     `;
   listaInstrumentos.append(nuevoInstrumento);
@@ -221,9 +221,62 @@ $(".btnEliminarEditarInstrumento").on("click", function (e) {
   $(this).parent().remove();
   actualizarInstrumentosEditar();
 });
-$(".editarInstrumento").on("change", ".editarDescripcionInstrumento", function (e) {
-  actualizarInstrumentosEditar();
-});
+$(".editarInstrumento").on(
+  "change",
+  ".editarDescripcionInstrumento",
+  function (e) {
+    actualizarInstrumentosEditar();
+  }
+);
 $(".editarCodigoInstrumento").on("change", function (e) {
   actualizarInstrumentosEditar();
 });
+
+$(".editarListaInstrumentos").on(
+  "click",
+  ".btnEliminarEditarInstrumento",
+  function (e) {
+    codInstrumento = $(this).attr("codInstrumento");
+    console.log(codInstrumento);
+    if (codInstrumento != undefined) {
+      var data = new FormData();
+      data.append("codInstrumentoEliminar", codInstrumento);
+
+      $.ajax({
+        url: "ajax/tecnicaseInstrumentos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response) {
+            $(this).parent().remove();
+            actualizarInstrumentosEditar();
+          } else {
+            //  Eliminar el item de la lista de instrumentos
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "No se puede eliminar el instrumento, ya se está usando",
+              timer: 2000,
+              showConfirmButton: true,
+            });
+            return;
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    } else {
+      $(this).parent().remove();
+      actualizarInstrumentosEditar();
+    }
+  }
+);

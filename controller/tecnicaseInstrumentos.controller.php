@@ -73,4 +73,17 @@ class ControllerTecnicaseInstrumentos
     $dataTecnica["listaInstrumentos"] = json_encode($listaInstrumentos);
     return $dataTecnica;
   }
+
+  /**
+   * Eliminar un instrumento
+   *
+   * @param string $codInstrumento
+   * @return bool
+   */
+  public static function ctrEliminarInstrumento($codInstrumento)
+  {
+    $tabla = "instrumento";
+    $respuesta = ModelTecnicaseInstrumentos::mdlEliminarInstrumento($tabla, $codInstrumento);
+    return $respuesta;
+  }
 }
