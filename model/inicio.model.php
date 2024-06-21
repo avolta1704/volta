@@ -519,5 +519,37 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    public static function mdlObtenerTodosPagosPendientesAlumnosApoderado($tabla, $idAlumno)
+    {
+        $statement = Connection::conn()->prepare("SELECT DISTINCT
+        alumno.nombresAlumno, 
+        cronograma_pago.conceptoPago, 
+        cronograma_pago.montoPago, 
+        cronograma_pago.fechaLimite, 
+        cronograma_pago.mesPago, 
+        CASE
+            WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
+            ELSE 0
+        END AS estadoPago
+        FROM
+            alumno
+        INNER JOIN
+            alumno_anio_escolar
+            ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN
+            admision_alumno
+            ON alumno.idAlumno = admision_alumno.idAlumno
+        INNER JOIN
+            cronograma_pago
+            ON admision_alumno.idAdmisionAlumno = cronograma_pago.idAdmisionAlumno
+        LEFT JOIN
+            pago
+            ON cronograma_pago.idCronogramaPago = pago.idCronogramaPago
+        WHERE
+            pago.fechaPago IS NULL AND alumno.idAlumno=:idAlumno;");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

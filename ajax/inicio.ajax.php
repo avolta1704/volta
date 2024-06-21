@@ -94,6 +94,16 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTodoslosAlumnosNuevosAntiguos();
     echo json_encode($response);
   }
+  public $idAlumnoApoderadoPagosPendientes;
+  public function ajaxObtenerTodosPagosPendientesAlumnosApoderado()
+  {
+    $idAlumnoApoderadoPagosPendientes = $this->idAlumnoApoderadoPagosPendientes;
+    $response = ControllerInicio::ctrObtenerTodosPagosPendientesAlumnosApoderado($idAlumnoApoderadoPagosPendientes);
+    foreach ($response as &$pagosPendientesApoderado) {
+      $pagosPendientesApoderado['status'] = FunctionUsuario::getEstadoPagos($pagosPendientesApoderado["estadoPago"]);
+    }
+    echo json_encode($response);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -151,11 +161,16 @@ if (isset($_POST["totalDocenteporTipo"])) {
   $totalDocentesporTipo = new InicioAjax();
   $totalDocentesporTipo->ajaxObtenerTodoslosDocentesporTipo();
 }
-if(isset($_POST["totalMasculinoFemenino"])){
+if (isset($_POST["totalMasculinoFemenino"])) {
   $totalMasculinoFemenino = new InicioAjax();
   $totalMasculinoFemenino->ajaxObtenerTotalMasculinoFemeniniporGrados();
 }
-if(isset($_POST["alumnosNuevosAntiguos"])){
+if (isset($_POST["alumnosNuevosAntiguos"])) {
   $alumnosNuevosAntiguos = new InicioAjax();
   $alumnosNuevosAntiguos->ajaxObtenerTodoslosAlumnosNuevosAntiguos();
+}
+if (isset($_POST["idAlumnoApoderadoPagosPendientes"])) {
+  $pagosAlumnoApoderado = new InicioAjax();
+  $pagosAlumnoApoderado->idAlumnoApoderadoPagosPendientes = $_POST["idAlumnoApoderadoPagosPendientes"];
+  $pagosAlumnoApoderado->ajaxObtenerTodosPagosPendientesAlumnosApoderado();
 }

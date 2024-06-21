@@ -26,6 +26,12 @@ class ControllerUsuarios
           $_SESSION["tipoDocente"] = $TipoDocente["idTipoPersonal"];
           $_SESSION["descripcionDocente"] = $TipoDocente["descripcionTipo"];
         }
+        if ($dataUsuario["idTipoUsuario"] == 4) {
+          $idAlumnosApoderado = ControllerApoderados::ctrGetIdAlumnosApoderados($dataUsuario["idUsuario"]);
+
+          $_SESSION["idAlumnos"] = $idAlumnosApoderado;  //  Guardamos los id de los alumnos apoderados
+        }
+
         // Save last login
         $ultimaConexion = date("Y-m-d\TH:i:sP");
         // Update last login

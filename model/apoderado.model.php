@@ -290,4 +290,26 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
       return "error";
     }
   }
+  public static function mdlGetIdAlumnosApoderados($tabla, $idUsuario){
+    $statement = Connection::conn()->prepare("SELECT DISTINCT
+	alumno.idAlumno
+  FROM
+    $tabla
+    INNER JOIN
+    apoderado
+    ON 
+      usuario.idUsuario = apoderado.idUsuario
+    INNER JOIN
+    apoderado_alumno
+    ON 
+      apoderado.idApoderado = apoderado_alumno.idApoderado
+    INNER JOIN
+    alumno
+    ON 
+      apoderado_alumno.idAlumno = alumno.idAlumno
+    WHERE usuario.idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

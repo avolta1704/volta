@@ -73,4 +73,9 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerTodoslosAlumnosNuevosAntiguos($tabla);
     return $response;
   }
+  public static function ctrObtenerTodosPagosPendientesAlumnosApoderado($idAlumno){
+    $tabla = "usuario";
+    $response = ModelInicio::mdlObtenerTodosPagosPendientesAlumnosApoderado($tabla, $idAlumno);
+    return $response;
+  }
 }

@@ -57,4 +57,19 @@ class FunctionUsuario
     ';
     return $botones;
   }
+  // Estado de Pago Inicio Apoderado
+  public static function getEstadoPagos($estadoPago){
+    //  Estado de los pagos Apoderado 0 = Vencido & 1 = Pendiente
+    if ($estadoPago == 0) {
+      $estado = '<span class="badge rounded-pill bg-danger">Vencido</span>';
+    }
+    if ($estadoPago == 1) {
+      $estado = '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+    }
+    if ($estadoPago > 3) {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
+    }
+
+    return $estado;
+  }
 }

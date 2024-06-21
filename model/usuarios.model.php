@@ -264,4 +264,11 @@ END AS existencia
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  // Obtener nombre completo Alumno
+  public static function mdlObtenerNombreCompletoAlumno($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT CONCAT(nombresAlumno, ' ', apellidosAlumno) AS nombre_completo FROM $tabla WHERE idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
