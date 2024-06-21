@@ -39,6 +39,51 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  /**
+   * Modelo para obtener los alumnos de un año escolar.
+   * 
+   * @param string $tabla Nombre de la tabla de la base de datos.
+   * @param int $idAnioEscolar Identificador del año escolar.
+   * @return array $response Array con los alumnos de un año escolar.
+   */
+  public static function mdlGetAlumnosAnioEscolar($tabla, $idAnioEscolar)
+  {
+    $tablaAdmisionAlumno = "admision_alumno";
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.idAlumno, 
+    alumno.nombresAlumno, 
+    alumno.apellidosAlumno, 
+    alumno.sexoAlumno, 
+    alumno.codAlumnoCaja, 
+    alumno.dniAlumno, 
+    grado.descripcionGrado, 
+    nivel.descripcionNivel,
+    aa.estadoAdmisionAlumno
+    FROM
+    $tabla
+    INNER JOIN
+    alumno_anio_escolar
+    ON 
+    alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN
+    grado
+    ON 
+    alumno_anio_escolar.idGrado = grado.idGrado
+    INNER JOIN
+    nivel
+    ON 
+    grado.idNivel = nivel.idNivel
+    INNER JOIN
+    $tablaAdmisionAlumno as aa
+    ON
+    alumno.idAlumno =aa.idAlumno
+    WHERE
+    alumno_anio_escolar.idAnioEscolar = :idAnioEscolar
+    ORDER BY alumno.idAlumno DESC");
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
   //  Crear nuevo alumno
   public static function mdlCrearAlumno($tabla, $dataAlumno)
   {
