@@ -21,6 +21,24 @@ class AlumnosAjax
     }
     echo json_encode($todosLosAlumnosAdmin);
   }
+
+  /**
+   * Método para mostrar todos los alumnos de un año escolar mediante una petición AJAX.
+   * 
+   * @param int $idAnioEscolar Identificador del año escolar.
+   * @return string JSON con los datos de los alumnos.
+   */
+  public function ajaxMostrarTodosLosAlumnosAnioEscolar($idAnioEscolar)
+  {
+    $response = ControllerAlumnos::ctrGetAlumnosAnioEscolar($idAnioEscolar);
+    foreach ($response as &$dataAlumno) {
+      $dataAlumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($dataAlumno["estadoAdmisionAlumno"]);
+      $dataAlumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($dataAlumno["idAlumno"], $dataAlumno["estadoAdmisionAlumno"]);
+    }
+    echo json_encode($response);
+  }
+
+
   //  Obtener los datos del alumno para visualizar
   public $codAlumnoVisualizar;
   public function ajaxMostrarDatosAlumno()
@@ -115,4 +133,10 @@ if (isset($_POST["todosLosAlumnosCurso"])) {
 if (isset($_POST["todosLosAlumnosCursoNotas"])) {
   $mostrarTodosLosAlumnosCursoNotas = new AlumnosAjax();
   $mostrarTodosLosAlumnosCursoNotas->ajaxMostrarTodosLosAlumnosCursoNotas($_POST["todosLosAlumnosCursoNotas"]);
+}
+
+// Los alumnos de un año escolar
+if (isset($_POST["todosLosAlumnosAnio"])) {
+  $mostrarTodosLosAlumnosAnioEscolar = new AlumnosAjax();
+  $mostrarTodosLosAlumnosAnioEscolar->ajaxMostrarTodosLosAlumnosAnioEscolar($_POST["todosLosAlumnosAnio"]);
 }
