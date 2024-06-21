@@ -115,14 +115,14 @@ class ControllerTecnicaseInstrumentos
       $listaInstrumentos = json_decode($dataTecnica["nuevaListaInstrumentos"], true);
       foreach ($listaInstrumentos as $instrumento) {
         //  Se verifica si el instrumento ya está creado o no; y se hace el create o el update
-        if($instrumento["codInstrumento"] !=  null || $instrumento["codInstrumento"] != "") {
+        if ($instrumento["codInstrumento"] != " ") {
           $dataInstrumentoUpdate = array(
             "idInstrumento" => $instrumento["codInstrumento"],
             "descripcionInstrumento" => $instrumento["descripcion"],
             "codInstrumento" => $instrumento["codigo"],
             "fechaActualizacion" => date("Y-m-d H:i:s"),
             "usuarioActualizacion" => $_SESSION["idUsuario"]
-          ); 
+          );
           $responseInstrumento = ModelTecnicaseInstrumentos::mdlEditarInstrumento($tabla, $dataInstrumentoUpdate);
         } else {
           $dataInstrumentoCreate = array(
@@ -143,5 +143,18 @@ class ControllerTecnicaseInstrumentos
         return true;
       }
     }
+  }
+
+  /**
+   * Eliminar una técnica
+   *
+   * @param string $codTecnica
+   * @return bool
+   */
+  public static function ctrEliminarTecnica($codTecnica)
+  {
+    $tabla = "tecnica_evaluacion";
+    $respuesta = ModelTecnicaseInstrumentos::mdlEliminarTecnica($tabla, $codTecnica);
+    return $respuesta;
   }
 }

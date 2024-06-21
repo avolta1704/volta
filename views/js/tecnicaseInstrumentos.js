@@ -196,7 +196,7 @@ $("#btnAgregarInstrumentoEditar").on("click", function (e) {
       <div class="editarInstrumento" style="display: flex">
         <input type="text" placeholder="Descripción Instrumento" name="editarDescripcionInstrumento" class="form-control editarDescripcionInstrumento" required/>
         <input type="text" placeholder="Código Instrumento" name="editarCodigoInstrumento" class="form-control editarCodigoInstrumento" required/>
-        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento" codInstrumento=""><i class='bi bi-trash'></i></button>
+        <button type="button" class="btn btn-danger btnEliminarEditarInstrumento" codInstrumento=" "><i class='bi bi-trash'></i></button>
       </div>
     `;
   listaInstrumentos.append(nuevoInstrumento);
@@ -208,7 +208,10 @@ function actualizarInstrumentosEditar() {
   document.querySelectorAll(".editarInstrumento").forEach((fila) => {
     var descripcion = fila.querySelector("input[type=text]:nth-child(1)").value;
     var codigo = fila.querySelector("input[type=text]:nth-child(2)").value;
-    var codInstrumento = fila.querySelector(".btnEliminarEditarInstrumento").getAttribute("codInstrumento") || undefined;
+    var codInstrumento =
+      fila
+        .querySelector(".btnEliminarEditarInstrumento")
+        .getAttribute("codInstrumento") || undefined;
     instrumentos.push({ descripcion, codigo, codInstrumento });
   });
   $("#nuevaListaInstrumentos").val(JSON.stringify(instrumentos));
@@ -238,8 +241,9 @@ $(".editarListaInstrumentos").on(
   "click",
   ".btnEliminarEditarInstrumento",
   function (e) {
-    codInstrumento = $(this).attr("codInstrumento");
-    if (codInstrumento != undefined) {
+    var instrumento = $(this).parent();
+    var codInstrumento = $(this).attr("codInstrumento");
+    if (codInstrumento != " ") {
       var data = new FormData();
       data.append("codInstrumentoEliminar", codInstrumento);
 
@@ -253,10 +257,9 @@ $(".editarListaInstrumentos").on(
         dataType: "json",
         success: function (response) {
           if (response) {
-            $(this).parent().remove();
+            instrumento.remove()
             actualizarInstrumentosEditar();
           } else {
-            //  Eliminar el item de la lista de instrumentos
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -268,6 +271,14 @@ $(".editarListaInstrumentos").on(
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "Error al eliminar el instrumento",
+            timer: 2000,
+            showConfirmButton: true,
+          });
+          return;
         },
       });
     } else {
@@ -302,11 +313,54 @@ $("#btnEditarTecnica").on("click", function () {
     processData: false,
     dataType: "json",
     success: function (response) {
-      if (response == "true") {
+      if (response == true) {
         Swal.fire({
           icon: "success",
           title: "Registrado",
           text: "Técnica e Instrumento editados correctamente",
+          showConfirmButton: true,
+        })
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Error al editar la técnica e instrumento",
+        timer: 2000,
+        showConfirmButton: true,
+      });
+    },
+  });
+});
+
+$(".dataTableTecnicas").on("click", ".btnEliminarTecnica", function (e) {
+  var codTecnica = $(this).attr("codTecnica");
+  var data = new FormData();
+  data.append("codTecnicaEliminar", codTecnica);
+  $.ajax({
+    url: "ajax/tecnicaseInstrumentos.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response) {
+        Swal.fire({
+          icon: "success",
+          title: "Registrado",
+          text: "Técnica Eliminada",
+          showConfirmButton: true,
+        }).then((result) => {
+          location.reload();
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se puede eliminar, ya se está usando en una evaluación",
           showConfirmButton: true,
         }).then((result) => {
           location.reload();
@@ -314,11 +368,10 @@ $("#btnEditarTecnica").on("click", function () {
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
-      console.log("Error al editar la técnica e instrumento: ", textStatus, errorThrown);
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Error al editar la técnica e instrumento",
+        text: "Error Eliminar la técnica e instrumento",
         timer: 2000,
         showConfirmButton: true,
       });

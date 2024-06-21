@@ -163,7 +163,8 @@ class ModelTecnicaseInstrumentos
    * @param array $data
    * @return bool
    */
-  public static function mdlEditarInstrumento($tabla, $data) {
+  public static function mdlEditarInstrumento($tabla, $data)
+  {
     $stmt = Connection::conn()->prepare("UPDATE $tabla SET descripcionInstrumento = :descripcionInstrumento, codInstrumento = :codInstrumento, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idInstrumento = :idInstrumento");
 
     $stmt->bindParam(":descripcionInstrumento", $data["descripcionInstrumento"], PDO::PARAM_STR);
@@ -175,6 +176,27 @@ class ModelTecnicaseInstrumentos
     if ($stmt->execute()) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  /**
+    * Eliminar una técnica
+    *
+    * @param string $tabla
+    * @param int $codTecnicaEliminar
+    * @return bool
+    */
+  public static function mdlEliminarTecnica($tabla, $codTecnicaEliminar)
+  {
+    $stmt = Connection::conn()->prepare("DELETE FROM $tabla WHERE idTecnicaEvaluacion = :idTecnicaEvaluacion");
+    $stmt->bindParam(":idTecnicaEvaluacion", $codTecnicaEliminar, PDO::PARAM_INT);
+    //  Verifico si se puede e
+    try {
+      if ($stmt->execute()) {
+        return true;
+      }
+    } catch (Exception $e) {
       return false;
     }
   }
