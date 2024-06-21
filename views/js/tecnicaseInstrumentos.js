@@ -132,8 +132,8 @@ $(".dataTableTecnicas").on("click", ".btnVisualizarTecnica", function (e) {
               <input type="text" placeholder="Código Instrumento" name="codigoInstrumento" class="form-control codigoInstrumento" value="${instrumento.codInstrumento}" readonly/>
             </div>
           `;
-          $(".visualizarListaInstrumentos").append(htmlInstrumentos);
         });
+        $(".visualizarListaInstrumentos").append(htmlInstrumentos);
       }
     },
     error: function (jqXHR, textStatus, errorThrown) {
