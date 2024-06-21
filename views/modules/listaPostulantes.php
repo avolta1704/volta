@@ -1,9 +1,5 @@
 <?php
-
 $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
-
-
-
 ?>
 <main id="main" class="main">
 
