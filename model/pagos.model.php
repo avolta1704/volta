@@ -52,15 +52,15 @@ class ModelPagos
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 
+
   /**
-   * Todo los pagos 
+   * Obtener todos los pagos 
    * 
    * 
    */
   public static function mdlTodosLosPagos($tabla)
   {
-    $statement = Connection::conn()->prepare("
-      SELECT 
+    $statement = Connection::conn()->prepare("SELECT 
         p.idPago,
         p.idTipoPago,
         p.idCronogramaPago, 
@@ -108,6 +108,68 @@ class ModelPagos
       WHERE tp.descripcionTipo = 'Pago Pensión' AND ae.estadoAnio = 1
       ORDER BY p.idPago DESC
     ");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Obtener todos los pagos de un año escolar
+   * 
+   * @param string $tabla Nombre de la tabla en la base de datos.
+   * @param int $idAnioEscolar Identificador del año escolar.
+   * @return array Arreglo con los pagos de un año escolar o "error".
+   */
+  public static function mdlGetPagosAnioEscolar($tabla, $idAnioEscolar)
+  {
+    $statement = Connection::conn()->prepare("SELECT 
+        p.idPago,
+        p.idTipoPago,
+        p.idCronogramaPago, 
+        p.fechaPago, 
+        p.cantidadPago, 
+        p.metodoPago,
+        p.moraPago,
+        p.numeroComprobante,
+        p.boletaElectronica,
+
+        a.idAlumno,
+        a.codAlumnoCaja,
+        
+        a.nombresAlumno,
+        a.apellidosAlumno,
+        a.dniAlumno,
+        g.idGrado,
+        g.idNivel,
+        g.descripcionGrado,
+        ag.idAlumno,
+
+        ag.idGrado,
+
+        aa.idAdmisionAlumno,
+        aa.idAlumno,
+        cp.idCronogramaPago,
+
+        cp.idAdmisionAlumno,
+
+        cp.estadoCronograma,
+        cp.conceptoPago,
+        cp.mesPago,
+        n.descripcionNivel,
+        ae.descripcionAnio
+        
+      FROM $tabla p
+      INNER JOIN cronograma_pago cp ON p.idCronogramaPago = cp.idCronogramaPago
+      INNER JOIN admision_alumno aa ON cp.idAdmisionAlumno = aa.idAdmisionAlumno
+      INNER JOIN alumno_anio_escolar ag ON aa.idAlumno = ag.idAlumno
+      INNER JOIN grado g ON ag.idGrado = g.idGrado
+      INNER JOIN nivel n ON g.idNivel = n.idNivel
+      INNER JOIN alumno a ON aa.idAlumno = a.idAlumno
+      INNER JOIN tipo_pago tp ON tp.idTipoPago = p.idTipoPago
+      INNER JOIN anio_escolar ae ON ag.idAnioEscolar = ae.idAnioEscolar
+      WHERE tp.descripcionTipo = 'Pago Pensión' AND ae.idAnioEscolar = :idAnioEscolar
+      ORDER BY p.idPago DESC
+    ");
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

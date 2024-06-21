@@ -1,5 +1,8 @@
 // Definición inicial de dataTableAdmisionAlumnos
 $(document).ready(function () {
+	// Ejecutar el evento change para que se actualice la tabla de admisionAlumnos
+	$("#selectAnioEscolarAdmisionAlumnos").trigger("change");
+
 	var columnDefsAdmisionAlumno = [
 		{
 			data: "null",
@@ -21,34 +24,6 @@ $(document).ready(function () {
 
 	// Titulo dataTableAdmisionAlumnos
 	$(".tituloAdmisionAlumnos").text("Lista de Matriculados");
-
-	//Solicitud ajx inicial de dataTableAdmisionAlumnosAdmin
-	var data = new FormData();
-	data.append("registrosAdmisionAlumnos", true);
-
-	$.ajax({
-		url: "ajax/admisionAlumnos.ajax.php",
-		method: "POST",
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-
-		success: function (response) {
-			tableAdmisionAlumno.clear();
-			tableAdmisionAlumno.rows.add(response);
-			tableAdmisionAlumno.draw();
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR.responseText); // procendecia de error
-			console.log(
-				"Error en la solicitud AJAX: ",
-				textStatus,
-				errorThrown
-			);
-		},
-	});
 
 	//Estructura de dataTableAdmisionAlumnos
 	$("#dataTableAdmisionAlumnos thead").html(`
@@ -84,6 +59,44 @@ $(document).ready(function () {
 		columns: columnDefsAdmisionAlumno,
 		language: {
 			url: "views/dataTables/Spanish.json",
+		},
+	});
+});
+
+// Crear Actualizar dataTableAdmisionAlumnos
+function actualizarAdmisionAlumnos(response) {
+	var tableAdmisionAlumno = $("#dataTableAdmisionAlumnos").DataTable();
+	var data = new FormData();
+	tableAdmisionAlumno.clear();
+	tableAdmisionAlumno.rows.add(response);
+	tableAdmisionAlumno.draw();
+}
+
+// Si se selecciona un año en el select #selectAnioEscolarAdmisionAlumnos, se actualiza la tabla de admisionAlumnos
+$("#selectAnioEscolarAdmisionAlumnos").on("change", function () {
+	var idAnioEscolar = $(this).val();
+	var data = new FormData();
+	data.append("todosLosAdmisionAlumnosAnio", idAnioEscolar);
+
+	$.ajax({
+		url: "ajax/admisionAlumnos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+
+		success: function (response) {
+			actualizarAdmisionAlumnos(response);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
 		},
 	});
 });

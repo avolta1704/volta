@@ -3,24 +3,6 @@ require_once "connection.php";
 
 class ModelPostulantes
 {
-
-  // iniciar transaccion
-  public static function beginTransaction()
-  {
-    Connection::conn()->beginTransaction();
-  }
-
-  // finalizar transaccion
-  public static function commit()
-  {
-    Connection::conn()->commit();
-  }
-
-  // cancelar transaccion
-  public static function rollBack()
-  {
-    Connection::conn()->rollBack();
-  }
   //  Obtener todos los postulantes
   public static function mdlGetAllPostulantes($tabla)
   {
@@ -52,7 +34,51 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  //pagoMatricula = dato o null o 0
+
+  /**
+   * Modelo para obtener todos los postulantes de un año escolar.
+   * 
+   * @param string $tabla El nombre de la tabla en la base de datos.
+   * @param int $idAnioEscolar El código del año escolar.
+   * @return array Retorna un array con los postulantes del año escolar.
+   */
+  public static function mdlGetAllPostulantesByAnioEscolar($tabla, $idAnioEscolar)
+  {
+    $tablaAnioPostulacion = "anio_postulante";
+    $statement = Connection::conn()->prepare("SELECT postulante.idPostulante, postulante.nombrePostulante, postulante.apellidoPostulante, postulante.dniPostulante, postulante.fechaPostulacion, postulante.pagoMatricula ,
+    CASE 
+        WHEN postulante.gradoPostulacion = 1 THEN 'Inicial 3 Años'
+        WHEN postulante.gradoPostulacion = 2 THEN 'Inicial 4 Años'
+        WHEN postulante.gradoPostulacion = 3 THEN 'Inicial 5 Años'
+        WHEN postulante.gradoPostulacion = 4 THEN 'Primaria 1er Grado'
+        WHEN postulante.gradoPostulacion = 5 THEN 'Primaria 2do Grado'
+        WHEN postulante.gradoPostulacion = 6 THEN 'Primaria 3er Grado'
+        WHEN postulante.gradoPostulacion = 7 THEN 'Primaria 4to Grado'
+        WHEN postulante.gradoPostulacion = 8 THEN 'Primaria 5to Grado'
+        WHEN postulante.gradoPostulacion = 9 THEN 'Primaria 6to Grado'
+        WHEN postulante.gradoPostulacion = 10 THEN 'Secundaria 1er Año'
+        WHEN postulante.gradoPostulacion = 11 THEN 'Secundaria 2do Año'
+        WHEN postulante.gradoPostulacion = 12 THEN 'Secundaria 3er Año'
+        WHEN postulante.gradoPostulacion = 13 THEN 'Secundaria 4to Año'
+        WHEN postulante.gradoPostulacion = 14 THEN 'Secundaria 5to Año'
+        ELSE 'Sin Grado'
+    END AS descripcionGrado,
+    CASE
+      WHEN postulante.pagoMatricula IS NOT NULL AND postulante.pagoMatricula != '' AND postulante.pagoMatricula != 0 THEN 'Pagado'
+      ELSE 'Sin Pago'
+    END AS pagoMatricula,
+    postulante.estadoPostulante 
+    FROM $tabla as postulante
+    INNER JOIN $tablaAnioPostulacion as ap ON postulante.idPostulante = ap.idPostulante
+    WHERE ap.idAnioEscolar = :idAnioEscolar
+    ORDER BY postulante.idPostulante DESC");
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return $statement->fetchAll(PDO::FETCH_ASSOC);
+    } else {
+      return [];
+    }
+  }
 
   //  Crear postulante
   public static function mdlCrearPostulante($tabla, $datosPostulante)

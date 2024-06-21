@@ -1,5 +1,14 @@
 // Definición inicial de dataTablePostulantes
 $(document).ready(function () {
+	// Titulo dataTablePostulantes
+	$(".tituloPostulantes").text("Todos los Postulantes");
+
+	// Lanzar el evento change para que se actualice la tabla de postulantes
+	$("#selectAnioEscolarPostulantes").trigger("change");
+});
+
+// Crear o actualizar la información de la tabla de postulantes
+function crearActualizarTablaPostulantesAdmin(response) {
 	var columnDefsPostulantes = [
 		{ data: "idPostulante" },
 		{ data: "nombrePostulante" },
@@ -14,38 +23,17 @@ $(document).ready(function () {
 
 	var tablePostulantes = $("#dataTablePostulantes").DataTable({
 		columns: columnDefsPostulantes,
+		retrieve: true,
+		paging: false,
 	});
-
-	// Titulo dataTablePostulantes
-	$(".tituloPostulantes").text("Todos los Postulantes");
 
 	//Solicitud ajx inicial de dataTablePostulantesAdmin
 	var data = new FormData();
 	data.append("todosLosPostulantesAdmin", true);
 
-	$.ajax({
-		url: "ajax/postulantes.ajax.php",
-		method: "POST",
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-
-		success: function (response) {
-			tablePostulantes.clear();
-			tablePostulantes.rows.add(response);
-			tablePostulantes.draw();
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR.responseText); // procendecia de error
-			console.log(
-				"Error en la solicitud AJAX: ",
-				textStatus,
-				errorThrown
-			);
-		},
-	});
+	tablePostulantes.clear();
+	tablePostulantes.rows.add(response);
+	tablePostulantes.draw();
 
 	//Estructura de dataTablePostulantes
 	$("#dataTablePostulantes thead").html(`
@@ -84,6 +72,35 @@ $(document).ready(function () {
 		columns: columnDefsPostulantes,
 		language: {
 			url: "views/dataTables/Spanish.json",
+		},
+	});
+}
+
+// Si se selecciona un año en el select #selectAnioEscolarPostulantes, se actualiza la tabla de postulantes
+$("#selectAnioEscolarPostulantes").on("change", function () {
+	var idAnioEscolar = $(this).val();
+	var data = new FormData();
+	data.append("todosLosPostulantesAnio", idAnioEscolar);
+
+	$.ajax({
+		url: "ajax/postulantes.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+
+		success: function (response) {
+			crearActualizarTablaPostulantesAdmin(response);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
 		},
 	});
 });

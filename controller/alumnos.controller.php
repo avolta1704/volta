@@ -10,6 +10,20 @@ class ControllerAlumnos
     $listaAlumnos = ModelAlumnos::mdlGetAlumnos($tabla);
     return $listaAlumnos;
   }
+
+  /**
+   * Método para obtener los alumnos de un año escolar.
+   * 
+   * @param int $idAnioEscolar ID del año escolar.
+   * @return array $response Array con los alumnos de un año escolar.
+   */
+  public static function ctrGetAlumnosAnioEscolar($idAnioEscolar)
+  {
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlGetAlumnosAnioEscolar($tabla, $idAnioEscolar);
+    return $response;
+  }
+
   //  Obtener ultimo alumno creado
   public static function ctrObtenerUltimoAlumnoCreado()
   {

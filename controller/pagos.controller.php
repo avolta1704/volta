@@ -5,7 +5,7 @@ class ControllerPagos
 {
 
   /**
-   * Todo Los pagos
+   * Obtener todos los pagos
    */
 
   public static function ctrTodoLosPagos()
@@ -13,6 +13,18 @@ class ControllerPagos
     $tabla = "pago";
     $todosLosPagos = ModelPagos::mdlTodosLosPagos($tabla);
     return $todosLosPagos;
+  }
+  /**
+   * Método para obtener todos los pagos de un año escolar.
+   * 
+   * @param int $idAnioEscolar ID del año escolar.
+   * @return array $response Array con los pagos de un año escolar.
+   */
+  public static function ctrGetPagosAnioEscolar($idAnioEscolar)
+  {
+    $tabla = "pago";
+    $response = ModelPagos::mdlGetPagosAnioEscolar($tabla, $idAnioEscolar);
+    return $response;
   }
 
   // Obtener todos los pagos

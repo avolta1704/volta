@@ -364,4 +364,17 @@ class ControllerAdmisionAlumno
     $result = ModelAdmisionAlumno::mdlActualizarestadoAdmisionAlumno($tabla, $dataActualizarEstadoAdAlum);
     return $result;
   }
+
+  /**
+   * Controller para obtener los datos de los alumnos de un año escolar.
+   * 
+   * @param int $idAnioEscolar El id del año escolar.
+   * @return array Los datos de los alumnos.
+   */
+  public static function ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar)
+  {
+    $tabla = "admision_alumno";
+    $response = ModelAdmisionAlumno::mdlGetAdmisionAlumnosAnioEscolar($tabla, $idAnioEscolar);
+    return $response;
+  }
 }

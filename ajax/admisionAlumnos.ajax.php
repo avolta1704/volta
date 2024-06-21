@@ -68,6 +68,27 @@ class AdmisionAlumnosAjax
     $response = ControllerAdmisionAlumno::ctrEditarEstadoAdmisionAlumno($data);
     echo json_encode($response);
   }
+
+  /**
+   * Ajax para mostrar a todos los alumnos de un año escolar
+   * 
+   * @param int idAnioEscolar id del año escolar
+   * @return json con los datos de los alumnos
+   */
+  public function ajaxMostrarTodosPostulantesAnioEscolar($idAnioEscolar)
+  {
+    $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
+
+    $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
+
+    $isAdministrativo = $tipoUsuario == "Administrativo";
+
+    foreach ($response as &$dataAdmision) {
+      $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
+      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo);
+    }
+    echo json_encode($response);
+  }
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
@@ -99,4 +120,10 @@ if (isset($_POST["codAlumnoEliminar"])) {
 if (isset($_POST["editarEstadoAdmisionAlumno"])) {
   $codAdmisionAlumnoEditar = new AdmisionAlumnosAjax();
   $codAdmisionAlumnoEditar->ajaxEditarEstadoAdmisionAlumno($_POST["editarEstadoAdmisionAlumno"]);
+}
+
+// Mostrar todos los registros de postulantes por un año escolar
+if (isset($_POST["todosLosAdmisionAlumnosAnio"])) {
+  $mostrarRegistrosPostulantes = new AdmisionAlumnosAjax();
+  $mostrarRegistrosPostulantes->ajaxMostrarTodosPostulantesAnioEscolar($_POST["todosLosAdmisionAlumnosAnio"]);
 }

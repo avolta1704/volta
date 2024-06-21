@@ -1,3 +1,6 @@
+<?php
+$aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
+?>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -21,7 +24,25 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
-          <div class="card">
+          <div class="card py-4">
+            <div class="card-header">
+              <!-- Botones para filtrar -->
+              <div class="row justify-content-end">
+                <div class="col-xl-2 col-lg-4 col-md-6 col-12">
+                  <div class="input-group">
+                    <label class="input-group-text" for=""><i class="bi bi-calendar-event"></i></label>
+                    <select class="form-select" id="selectAnioEscolarPostulantes" aria-label=" Seleccionar año escolar">
+                      <?php
+                      foreach ($aniosEscolar as $anio) {
+                        $anioActivo = $anio["estadoAnio"] == 1 ? 'selected' : '';
+                        echo "<option value='" . $anio['idAnioEscolar'] . "' '" . $anioActivo . "' >" . $anio['descripcionAnio'] . "</option>";
+                      }
+                      ?>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="card-body table-responsive">
               <!--  Titulo dataTablePostulantesAdmin-->
               <table id="dataTablePostulantes" class="display dataTablePostulantes" style="width: 100%">
