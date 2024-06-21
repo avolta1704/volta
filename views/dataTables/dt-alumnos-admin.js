@@ -1,56 +1,35 @@
 // Definición inicial de dataTableAlumnos
 $(document).ready(function () {
-  var columnDefsAlumno = [
-    {
-      data: "null",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
-    },
-    { data: "apellidosAlumno" },
-    { data: "nombresAlumno" },
-    { data: "codAlumnoCaja" },
-    { data: "dniAlumno" },
-    { data: "sexoAlumno" },
-    { data: "stateAlumno" },
-    { data: "descripcionNivel" },
-    { data: "descripcionGrado" },
-    { data: "buttonsAlumno" },
-  ];
+	// Iniciar el select #selectAnioEscolarAlumnos change
+	$("#selectAnioEscolarAlumnos").trigger("change");
 
-  var tableAlumno = $("#dataTableAlumnos").DataTable({
-    columns: columnDefsAlumno,
-  });
+	var columnDefsAlumno = [
+		{
+			data: "null",
+			render: function (data, type, row, meta) {
+				return meta.row + 1;
+			},
+		},
+		{ data: "apellidosAlumno" },
+		{ data: "nombresAlumno" },
+		{ data: "codAlumnoCaja" },
+		{ data: "dniAlumno" },
+		{ data: "sexoAlumno" },
+		{ data: "stateAlumno" },
+		{ data: "descripcionNivel" },
+		{ data: "descripcionGrado" },
+		{ data: "buttonsAlumno" },
+	];
 
-  // Titulo dataTableAlumnos
-   $(".tituloAlumnos").text("Todos los Alumnos");
+	var tableAlumno = $("#dataTableAlumnos").DataTable({
+		columns: columnDefsAlumno,
+	});
 
-  //Solicitud ajx inicial de dataTableAlumnosAdmin
-  var data = new FormData();
-  data.append("todosLosAlumnosAdmin", true);
+	// Titulo dataTableAlumnos
+	$(".tituloAlumnos").text("Todos los Alumnos");
 
-  $.ajax({
-    url: "ajax/alumnos.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-
-    success: function (response) {
-      tableAlumno.clear();
-      tableAlumno.rows.add(response);
-      tableAlumno.draw();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // procendecia de error
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
-
-  //Estructura de dataTableAlumnos
-  $("#dataTableAlumnos thead").html(`
+	//Estructura de dataTableAlumnos
+	$("#dataTableAlumnos thead").html(`
       <tr>
         <th scope="col">#</th>
         <th scope="col">Apellidos</th>
@@ -65,29 +44,67 @@ $(document).ready(function () {
       </tr>
     `);
 
-  tableAlumno.destroy();
+	tableAlumno.destroy();
 
-  columnDefsAlumno = [
-    {
-      data: "null",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
-      },
-    },
-    { data: "apellidosAlumno" },
-    { data: "nombresAlumno" },
-    { data: "sexoAlumno" },
-    { data: "codAlumnoCaja" },
-    { data: "dniAlumno" },
-    { data: "stateAlumno" },
-    { data: "descripcionNivel" },
-    { data: "descripcionGrado" },
-    { data: "buttonsAlumno" },
-  ];
-  tableAlumno = $("#dataTableAlumnos").DataTable({
+	columnDefsAlumno = [
+		{
+			data: "null",
+			render: function (data, type, row, meta) {
+				return meta.row + 1;
+			},
+		},
+		{ data: "apellidosAlumno" },
+		{ data: "nombresAlumno" },
+		{ data: "sexoAlumno" },
+		{ data: "codAlumnoCaja" },
+		{ data: "dniAlumno" },
+		{ data: "stateAlumno" },
+		{ data: "descripcionNivel" },
+		{ data: "descripcionGrado" },
+		{ data: "buttonsAlumno" },
+	];
+	tableAlumno = $("#dataTableAlumnos").DataTable({
 		columns: columnDefsAlumno,
 		language: {
 			url: "views/dataTables/Spanish.json",
 		},
-  });
+	});
+});
+
+// Crear Actualizar dataTableAlumnos
+function actualizarAlumnos(response) {
+	var tableAlumno = $("#dataTableAlumnos").DataTable();
+	var data = new FormData();
+	tableAlumno.clear();
+	tableAlumno.rows.add(response);
+	tableAlumno.draw();
+}
+
+// Si se selecciona un año en el select #selectAnioEscolarAlumnos, se actualiza la tabla de alumnos
+$("#selectAnioEscolarAlumnos").on("change", function () {
+	var idAnioEscolar = $(this).val();
+	var data = new FormData();
+	data.append("todosLosAlumnosAnio", idAnioEscolar);
+
+	$.ajax({
+		url: "ajax/alumnos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+
+		success: function (response) {
+			actualizarAlumnos(response);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
+		},
+	});
 });
