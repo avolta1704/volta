@@ -16,6 +16,7 @@ $(".dataTableApoderado").on("click", ".btnCrearApoderadoUsuario", function () {
   var nombreApoderado = $(this).attr("nombreApoderado");
   var apellidoApoderado = $(this).attr("apellidoApoderado");
   var dniApoderado = $(this).attr("dniApoderado");
+  var dniAlumno = $(this).attr("dniAlumno");
   Swal.fire({
     title: "¿Estás seguro?",
     html: "El correo <u style='color: blue;'>" + correoApoderado + "</u> se usará para crear la cuenta.",
@@ -28,12 +29,13 @@ $(".dataTableApoderado").on("click", ".btnCrearApoderadoUsuario", function () {
   }).then((result) => {
     if (result.isConfirmed) {
       $("#agregarUsuarioApoderado").modal("show");
-
+      $("#passwordUsuarioApoderado").val("");
       // Asignar los valores a los campos del formulario
       $("#usuarioCorreoApoderado").val(correoApoderado);
       $("#nombreUsuarioApoderado").val(nombreApoderado);
       $("#apellidoUsuarioApoderado").val(apellidoApoderado);
       $("#dniUsuarioApoderado").val(dniApoderado);
+      $("#passwordUsuarioApoderado").val(dniAlumno);
       $(".btnCrearUsuarioApoderadoMdl").on("click", function () {
         var correoUsuarioApoderado = $("#usuarioCorreoApoderado").val();
         var nombreUsuarioApoderado = $("#nombreUsuarioApoderado").val();
@@ -65,7 +67,7 @@ $(".dataTableApoderado").on("click", ".btnCrearApoderadoUsuario", function () {
             if (response == "ok") {
               Swal.fire({
                 title: "¡El usuario ha sido creado con éxito!",
-                html: "Correo para acceder: <u style='color: blue;'>" + correoApoderado + "</u>",
+                html: "Correo para acceder: <u style='color: blue;'>" + correoApoderado + "</u><br>Contraseña parra acceder: <u style='color: blue;'>" + contrasenaUsuarioApoderado + "</u>",
                 icon: "success",
                 confirmButtonText: "Cerrar",
               }).then(function (result) {

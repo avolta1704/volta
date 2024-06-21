@@ -41,7 +41,7 @@ class FunctionApoderado
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropDownApoderado">
         <li><button type="button" class="dropdown-item btnEditarApoderado" codApoderado="' . $apoderado["idApoderado"] . '" >Editar</button></li>
-        <li><button type="button" class="dropdown-item btnCrearApoderadoUsuario" codApoderado="' . $apoderado["idApoderado"] . '" correoApoderado="' . $apoderado["correoApoderado"] .'" dniApoderado="' . $apoderado["dniApoderado"] .'" nombreApoderado="' . $apoderado["nombreApoderado"] .'" apellidoApoderado="' . $apoderado["apellidoApoderado"] .'" ' . $disabled . '>Crear Cuenta</button></li>
+        <li><button type="button" class="dropdown-item btnCrearApoderadoUsuario" codApoderado="' . $apoderado["idApoderado"] . '" correoApoderado="' . $apoderado["correoApoderado"] .'" dniApoderado="' . $apoderado["dniApoderado"] .'" nombreApoderado="' . $apoderado["nombreApoderado"] .'" apellidoApoderado="' . $apoderado["apellidoApoderado"] .'" dniAlumno="' . $apoderado["dniAlumno"] .'" ' . $disabled . '>Crear Cuenta</button></li>
       </ul>
     </div>
   ';
