@@ -27,15 +27,15 @@
       </ul>
     </li>
 
-    <!-- SEGUIMIENTO -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#seguimiento" data-bs-toggle="collapse" href="#">
-        <i class="bi bi-search"></i><span>Seguimiento</span><i class="bi bi-chevron-down ms-auto"></i>
+   <!-- TIPOS DE EVALUACIÓN -->
+   <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tiposEvaluacion" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-search"></i><span>Tipos de Evaluación</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
-      <ul id="seguimiento" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+      <ul id="tiposEvaluacion" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="seguimientoDocentes">
-            <i class="bi bi-circle"></i><span>Seguimiento Docentes</span>
+          <a href="tecnicaseInstrumentos">
+            <i class="bi bi-circle"></i><span>Ténicas e Instrumentos</span>
           </a>
         </li>
         <li>
@@ -45,6 +45,7 @@
         </li>
       </ul>
     </li>
+
 
     <!-- REPORTES -->
     <li class="nav-item">
