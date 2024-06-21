@@ -41,7 +41,6 @@ $("#btnRegistrarTecnica").on("click", function () {
   var descripcionTecnica = $("#descripcionTecnica").val();
   var codigoTecnica = $("#codigoTecnica").val();
   var listaInstrumentosPorTecnica = $("#listaInstrumentosPorTecnica").val();
-  console.log(listaInstrumentosPorTecnica);
 
   var dataRegistrarTecnica = {
     descripcionTecnica: descripcionTecnica,
@@ -62,9 +61,6 @@ $("#btnRegistrarTecnica").on("click", function () {
     dataType: "json",
     success: function (response) {
       if (response) {
-        /*$("#descripcionInstrumento").val("");
-        $("#codigoInstrumento").val("");*/
-
         Swal.fire({
           icon: "success",
           title: "Registrado",
@@ -79,7 +75,7 @@ $("#btnRegistrarTecnica").on("click", function () {
       Swal.fire({
         icon: "error",
         title: "Error",
-        text: "Errir al registrar la técnica e instrumento",
+        text: "Error al registrar la técnica e instrumento",
         timer: 2000,
         showConfirmButton: true,
       });
@@ -173,6 +169,7 @@ $(".dataTableTecnicas").on("click", ".btnEditarTecnica", function (e) {
         var listaInstrumentos = JSON.parse(response.listaInstrumentos);
         $("#editarDescripcionTecnica").val(response.descripcionTecnica);
         $("#editarCodigoTecnica").val(response.codTecnica);
+        $("#editarListaInstrumentosTecnica").val(response.codTecnica);
 
         var htmlInstrumentos = "";
         listaInstrumentos.forEach((instrumento) => {
@@ -280,3 +277,57 @@ $(".editarListaInstrumentos").on(
     }
   }
 );
+
+$("#btnEditarTecnica").on("click", function () {
+  var descripcionTecnica = $("#editarDescripcionTecnica").val();
+  var codigoTecnica = $("#editarCodigoTecnica").val();
+  var listaInstrumentosNueva = $("#editarListaInstrumentos").val();
+  var codTecnica = $("#editarListaInstrumentosTecnica").val();
+
+  var dataEditarTecnica = {
+    descripcionTecnica: descripcionTecnica,
+    codigoTecnica: codigoTecnica,
+    codTecnica: codTecnica,
+    listaInstrumentosNueva: listaInstrumentosNueva,
+  };
+
+  console.log(dataEditarTecnica);
+  var data = new FormData();
+  data.append("dataRegistrarTecnica", JSON.stringify(dataEditarTecnica));
+
+  $.ajax({
+    url: "ajax/tecnicaseInstrumentos.ajax.php",
+    method: "POST",
+    data: data,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (response) {
+      if (response) {
+        Swal.fire({
+          icon: "success",
+          title: "Registrado",
+          text: "Técnica e Instrumento registrados correctamente",
+          showConfirmButton: true,
+        }).then((result) => {
+          location.reload();
+        });
+      }
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Errir al registrar la técnica e instrumento",
+        timer: 2000,
+        showConfirmButton: true,
+      });
+      console.error(
+        "Error al registrar la técnica e instrumento: ",
+        textStatus,
+        errorThrown
+      );
+    },
+  });
+});
