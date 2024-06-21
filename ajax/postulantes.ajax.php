@@ -41,6 +41,23 @@ class PostulantesAjax
     }
     echo json_encode($todosLosPostulantesAdmin);
   }
+
+  /**
+   * Ajax para obtener todos los postulantes de un año escolar
+   * 
+   * @param int $idAnioEscolar id del año escolar
+   * @return array $todosLosPostulantesAnio array con todos los postulantes de un año escolar
+   */
+  public function ajaxMostrarTodosLosPostulantesByAnioEscolar($idAnioEscolar)
+  {
+    $todosLosPostulantesAnio = ControllerPostulantes::ctrGetPostulantesByAnioEscolar($idAnioEscolar);
+    foreach ($todosLosPostulantesAnio as &$postulantesAnio) {
+      $postulantesAnio['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantesAnio["estadoPostulante"]);
+      $postulantesAnio['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantesAnio["idPostulante"], $postulantesAnio["estadoPostulante"], $postulantesAnio["pagoMatricula"]);
+    }
+    echo json_encode($todosLosPostulantesAnio);
+  }
+
   // Actualizar estado postulante
   public $codPostulanteEdit;
   public $estadoPostulanteEdit;
@@ -224,4 +241,8 @@ if (isset($_POST["codPostulanteVeryEliminar"])) {
   $codPostulanteVeryEliminar->ajaxVerificarPagoMatricula($_POST["codPostulanteVeryEliminar"]);
 }
 
-
+// Obtener todos los postulantes de un año escolar
+if (isset($_POST["todosLosPostulantesAnio"])) {
+  $mostrarTodosLosPostulantesAnio = new PostulantesAjax();
+  $mostrarTodosLosPostulantesAnio->ajaxMostrarTodosLosPostulantesByAnioEscolar($_POST["todosLosPostulantesAnio"]);
+}
