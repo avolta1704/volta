@@ -86,19 +86,19 @@
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" style="font-weight:bold">Editar Técnica</h5>
+        <h5 class="modal-title" style="font-weight:bold">Visualizar Técnica</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="formRegistrarAnio">
           <div class="mb-3">
             <label for="visualizarDescripcionTecnica" class="form-label" style="font-weight:bold">Descripción Técnica</label>
-            <input type="text" class="form-control" id="visualizarDescripcionTecnica" name="visualizarDescripcionTecnica" required />
+            <input type="text" class="form-control" id="visualizarDescripcionTecnica" name="visualizarDescripcionTecnica" readonly />
           </div>
 
           <div class="mb-3">
             <label for="visualizarCodigoTecnica" class="form-label" style="font-weight:bold">Código Técnica</label>
-            <input type="text" class="form-control" id="visualizarCodigoTecnica" name="visualizarCodigoTecnica" required />
+            <input type="text" class="form-control" id="visualizarCodigoTecnica" name="visualizarCodigoTecnica" readonly />
           </div>
 
           <div class="mb-3 visualizarListaInstrumentos">
@@ -107,6 +107,46 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal editar técnica -->
+<div class="modal fade" id="modalEditarTecnica" tabindex="-1" aria-labelledby="modalEditarTecnicaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight:bold">Editar Técnica</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formRegistrarAnio">
+          <div class="mb-3">
+            <label for="editarDescripcionTecnica" class="form-label" style="font-weight:bold">Descripción Técnica</label>
+            <input type="text" class="form-control" id="editarDescripcionTecnica" name="editarDescripcionTecnica" required />
+          </div>
+
+          <div class="mb-3">
+            <label for="editarCodigoTecnica" class="form-label" style="font-weight:bold">Código Técnica</label>
+            <input type="text" class="form-control" id="editarCodigoTecnica" name="editarCodigoTecnica" required />
+          </div>
+
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary btnAgregarInstrumentoEditar" id="btnAgregarInstrumentoEditar">
+              <i class="bi bi-plus-circle"></i> Agregar Instrumento</button>
+            <input type="hidden" name="editarListaInstrumentosTecnica" class="editarListaInstrumentosTecnica" id="editarListaInstrumentosTecnica">
+          </div>
+
+          <div class="mb-3 editarListaInstrumentos">
+            <label for="lista" class="form-label" style="font-weight:bold">Lista de Instrumentos</label>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-primary btnEditarTecnica" id="btnEditarTecnica" name="btnEditarTecnica">Guardar</button>
           </div>
         </form>
       </div>
