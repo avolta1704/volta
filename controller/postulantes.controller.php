@@ -12,6 +12,19 @@ class ControllerPostulantes
     return $listPostulantes;
   }
 
+  /**
+   * Controlador para obtener los postulantes de un año escolar.
+   * 
+   * @param int $idAnioEscolar El ID del año escolar.
+   * @return array Los postulantes del año escolar.
+   */
+  public static function ctrGetPostulantesByAnioEscolar($idAnioEscolar)
+  {
+    $tabla = "postulante";
+    $listPostulantes = ModelPostulantes::mdlGetAllPostulantesByAnioEscolar($tabla, $idAnioEscolar);
+    return $listPostulantes;
+  }
+
   //  Registrar nuevo postulante
   public static function ctrCrearPostulante()
   {
@@ -108,7 +121,6 @@ class ControllerPostulantes
           if ($mensajeaniopostulante == "ok") {
             echo $mensaje;
           }
-
         } else {
           $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al crear el postulante", "listaPostulantes");
           echo $mensaje;
@@ -131,7 +143,6 @@ class ControllerPostulantes
       $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
       echo $mensaje;
     }
-
   }
   //  verificar si existe un pago de matricula para el postulante y recuperar los datos de pago idpago que esta en el campo pagoMatricula
   public static function ctrVerificarRegistroPogoMatricula($codPostulante)
@@ -156,7 +167,6 @@ class ControllerPostulantes
       $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
       echo $mensaje;
     }
-
   }
   //  Editar postulante
   public static function ctrEditarPostulante()
@@ -342,7 +352,7 @@ class ControllerPostulantes
         //  Registrar los apoderados para el alumno
         $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulanteEdit);
         $updateApoderadosAlumno = ControllerAlumnos::ctrAsignarAlumnoApoderado($alumnoAdmision['idAlumno'], $listaApoderados);
-        if($updateApoderadosAlumno != "ok") {
+        if ($updateApoderadosAlumno != "ok") {
           throw new Exception("Error al obtener la lista de apoderados del postulante.");
         }
 
