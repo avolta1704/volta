@@ -1,5 +1,8 @@
 // Definición inicial de dataTablePagos
 $(document).ready(function () {
+	// Iniciar el select #selectAnioEscolarPagos change
+	$("#selectAnioEscolarPagos").trigger("change");
+
 	var columnDefsPagos = [
 		{
 			data: "null",
@@ -24,33 +27,6 @@ $(document).ready(function () {
 
 	// Titulo dataTablePagos
 	$(".tituloPagos").text("Todos los Pagos");
-
-	//Solicitud ajx inicial de dataTablePagosAdmin
-	var data = new FormData();
-	data.append("todosLosPagosAdmin", true);
-	$.ajax({
-		url: "ajax/pagos.ajax.php",
-		method: "POST",
-		data: data,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-
-		success: function (response) {
-			tablePagos.clear();
-			tablePagos.rows.add(response);
-			tablePagos.draw();
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			console.log(jqXHR.responseText); // procendecia de error
-			console.log(
-				"Error en la solicitud AJAX: ",
-				textStatus,
-				errorThrown
-			);
-		},
-	});
 
 	//Estructura de dataTablePagos
 	$("#dataTablePagos thead").html(`
@@ -91,6 +67,42 @@ $(document).ready(function () {
 		columns: columnDefsPagos,
 		language: {
 			url: "views/dataTables/Spanish.json",
+		},
+	});
+});
+
+// Crear Actualizar dataTablePagos
+function actualizarPagos(response) {
+	var tablePagos = $("#dataTablePagos").DataTable();
+	var data = new FormData();
+	tablePagos.clear();
+	tablePagos.rows.add(response);
+	tablePagos.draw();
+}
+
+// Si se selecciona un año en el select #selectAnioEscolarPagos, se actualiza la tabla de pagos
+$("#selectAnioEscolarPagos").change(function () {
+	var idAnioEscolar = $(this).val();
+	var data = new FormData();
+	data.append("todosLosPagosAnioEscolar", idAnioEscolar);
+	$.ajax({
+		url: "ajax/pagos.ajax.php",
+		method: "POST",
+		data: data,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function (response) {
+			actualizarPagos(response);
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			console.log(jqXHR.responseText); // procendecia de error
+			console.log(
+				"Error en la solicitud AJAX: ",
+				textStatus,
+				errorThrown
+			);
 		},
 	});
 });
