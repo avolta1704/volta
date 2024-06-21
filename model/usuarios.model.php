@@ -187,6 +187,23 @@ class ModelUsuarios
     }
   }
 
+  // Verificar si es apoderado el usuario
+  public static function mdlVerficarTipoUsuarioApoderado($codUsuario){
+    $statement = Connection::conn()->prepare("SELECT
+    tipo_usuario.idTipoUsuario
+  FROM
+    usuario
+    INNER JOIN
+    tipo_usuario
+    ON 
+      usuario.idTipoUsuario = tipo_usuario.idTipoUsuario
+  WHERE
+    usuario.idUsuario =:idUsuario");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   //  Verificar usabilidad de un usuario en toda la base de datos
   public static function mdlVerificarUsuario($codUsuario)
   {
@@ -234,5 +251,17 @@ END AS existencia
     $statement = Connection::conn()->prepare("SELECT descripcionTipoUsuario FROM $tabla WHERE idTipoUsuario = $idTipoUsuario");
     $statement->execute();
     return $statement->fetch();
+  }
+  public static function mdlUltimoIdUsuario($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(usuario.idUsuario) AS idUsuario FROM $tabla");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  } 
+  public static function mdlObteneridApoderados($tabla,$idUsuario){
+    $statement = Connection::conn()->prepare("SELECT apoderado.idApoderado FROM $tabla INNER JOIN apoderado ON  usuario.idUsuario = apoderado.idUsuario WHERE usuario.idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
 }

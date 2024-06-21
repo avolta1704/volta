@@ -6,7 +6,7 @@ class ModelApoderados
   //mostar todos los Apoderados DataTable
   public static function mdlGetAllApoderados($table)
   {
-    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado, dniApoderado,cuentaCreada  FROM $table");
+    $statement = Connection::conn()->prepare("SELECT nombreApoderado, apellidoApoderado, tipoApoderado, celularApoderado, correoApoderado, convivenciaAlumno, idApoderado, dniApoderado,cuentaCreada  FROM $table ORDER BY apoderado.idApoderado DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -255,10 +255,34 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
   // Cambiar el estado de cuenta creada
-  public static function mdlCambiarEstadoCuentaCreada($cuentaCreada, $idApoderado){
-    $statement = Connection::conn()->prepare("UPDATE apoderado SET cuentaCreada = :cuentaCreada WHERE idApoderado = :idApoderado");
-    $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
+  public static function mdlCambiarEstadoCuentaCreada($tabla,$cuentaCreada, $idApoderado1,$idApoderado2){
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET cuentaCreada = :cuentaCreada WHERE idApoderado IN (:idApoderado1, :idApoderado2);");
+    $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
+    $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
     $statement->bindParam(":cuentaCreada", $cuentaCreada, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+    // Cambiar el estado de cuenta creada con eliminacion del idUsuario
+    public static function mdlCambiarEstadoCuentaCreadaIdUsuario($tabla,$cuentaCreada, $idApoderado1,$idApoderado2){
+      $statement = Connection::conn()->prepare("UPDATE $tabla SET cuentaCreada = :cuentaCreada, idUsuario = NULL WHERE idApoderado IN (:idApoderado1, :idApoderado2)");
+      $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
+      $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
+      $statement->bindParam(":cuentaCreada", $cuentaCreada, PDO::PARAM_INT);
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
+  public static function mdlInsertarIdUsuarioApoderado($tabla, $idUsuario, $idApoderado1,$idApoderado2){
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET idUsuario = :idUsuario WHERE idApoderado IN (:idApoderado1, :idApoderado2);");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
+    $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {

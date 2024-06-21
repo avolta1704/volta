@@ -65,7 +65,7 @@ $(".dataTableApoderado").on("click", ".btnCrearApoderadoUsuario", function () {
             if (response == "ok") {
               Swal.fire({
                 title: "¡El usuario ha sido creado con éxito!",
-                text: "Correo para acceder: <u style='color: blue;'>" + correoApoderado + "</u>",
+                html: "Correo para acceder: <u style='color: blue;'>" + correoApoderado + "</u>",
                 icon: "success",
                 confirmButtonText: "Cerrar",
               }).then(function (result) {
