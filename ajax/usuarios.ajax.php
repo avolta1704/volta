@@ -48,6 +48,12 @@ class UsuariosAjax
     $response = ControllerUsuarios::ctrEliminarUsuario($eliminarUsuario);
     echo json_encode($response);
   }
+
+  public function ajaxTieneAcceso()
+  {
+    $response = ControllerUsuarios::ctrTieneAcceso();
+    echo json_encode($response);
+  }
 }
 
 //  Mostar todos los usuarios DataTable
@@ -71,15 +77,20 @@ if (isset($_POST["codUsuarioActualizar"])) {
 }
 
 //  Veficar si el correo ya existe
-if(isset($_POST["validarCorreo"])){
+if (isset($_POST["validarCorreo"])) {
   $validarCorreo = new UsuariosAjax();
   $validarCorreo->validarCorreo = $_POST["validarCorreo"];
   $validarCorreo->ajaxValidarCorreo();
 }
 
 //  Eliminar un usuario
-if(isset($_POST["codUsuarioEliminar"])){
+if (isset($_POST["codUsuarioEliminar"])) {
   $eliminarUsuario = new UsuariosAjax();
   $eliminarUsuario->eliminarUsuario = $_POST["codUsuarioEliminar"];
   $eliminarUsuario->ajaxEliminarUsuario();
+}
+
+if (isset($_POST["tieneAcceso"])) {
+  $tieneAcceso = new UsuariosAjax();
+  $tieneAcceso->ajaxTieneAcceso();
 }
