@@ -354,12 +354,13 @@ class ControllerUsuarios
    * 
    * @return string script para redireccionar
    */
-  public static function ctrTieneAcceso(){
-    
+  public static function ctrTieneAcceso()
+  {
+
     $tipoUsuario = self::ctrGetTipoUsuario();
     $usuario = strtolower($tipoUsuario["descripcionTipoUsuario"]);
 
-    if ( $usuario == "administrador") {
+    if ($usuario == "administrador") {
       // Dar acceso a todas las URLs
       return;
     } elseif ($usuario == "administrativo") {
@@ -404,14 +405,14 @@ class ControllerUsuarios
       $allowedUrls = array(
         ""
       );
-    } 
+    }
 
 
     $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $currentUrl = basename($currentPath);
     print_r($allowedUrls);
 
-    if($currentUrl == "inicio"){
+    if ($currentUrl == "inicio") {
       return;
     }
     if (!in_array($currentUrl, $allowedUrls)) {
@@ -419,7 +420,59 @@ class ControllerUsuarios
         window.location = "inicio";
       </script>';
     }
+  }
 
+  /**
+   * Actualizar password del usuario
+   * 
+   * @param array datos de las contraseñas en formato json
+   * @return string retorno de los datos en string
+   */
+  public static function ctrActualizarPassword($passwordData)
+  {
+    $tabla = "usuario";
+    $passwordData = json_decode($passwordData, true);
 
+    //  Verificar la contraseña del usuario
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+
+    if ($passwordData["newPassword"] == $passwordData["renewPassword"]) {
+      $passwordActual = self::ctrObtenerPasssword($_SESSION["idUsuario"]);
+      $password = password_verify($passwordData["password"], $passwordActual);
+      if ($password) {
+        $newPassword = password_hash($passwordData["newPassword"], PASSWORD_ARGON2ID, [
+          'memory_cost' => 1 << 12,
+          'time_cost' => 2,
+          'threads' => 2
+        ]);
+        $dataUpdate = array(
+          "password" => $newPassword,
+          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+          "usuarioActualizacion" => $_SESSION["idUsuario"],
+          "idUsuario" => $_SESSION["idUsuario"]
+        );
+        $response = ModelUsuarios::mdlActualizarPassword($tabla, $dataUpdate);
+        return $response;
+      } else {
+        return "error";
+      }
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtener la contraseña del usuario
+   * 
+   * @param int $idUsuario Código del usuario para verificar
+   * @return string Contraseña actual del usuario
+   */
+  public static function ctrObtenerPasssword($idUsuario)
+  {
+    $tabla = "usuario";
+    $passwordUsuario = ModelUsuarios::mdlObtenerPassword($tabla, $idUsuario);
+    return $passwordUsuario;
   }
 }

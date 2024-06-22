@@ -124,14 +124,12 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                   <!-- Profile Edit Form -->
                   <form>
                     <div class="row mb-3">
-                     
+
                       <div class="col-md-8 col-lg-9">
                         <img src="assets/img/usuario.png" alt="Profile">
                         <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
-                              class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
-                              class="bi bi-trash"></i></a>
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
                       </div>
                     </div>
@@ -139,7 +137,7 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text"  id="fullName" value="<?php echo $perfilUsuario["nombreUsuario"]; ?>">
+                        <input name="fullName" type="text" id="fullName" value="<?php echo $perfilUsuario["nombreUsuario"]; ?>">
 
                       </div>
                     </div>
@@ -147,15 +145,14 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullLastName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullLastName" type="text"  id="fullLastName" value="<?php echo $perfilUsuario["apellidoUsuario"]; ?>">
+                        <input name="fullLastName" type="text" id="fullLastName" value="<?php echo $perfilUsuario["apellidoUsuario"]; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" id="company" autocomplete="off"
-                          value="<?php echo $perfilUsuario["dniUsuario"]; ?>">
+                        <input name="company" type="text" id="company" autocomplete="off" value="<?php echo $perfilUsuario["dniUsuario"]; ?>">
                       </div>
                     </div>
 
@@ -169,31 +166,28 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text"  id="Twitter" value="https://twitter.com/#">
+                        <input name="twitter" type="text" id="Twitter" value="https://twitter.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text"  id="Facebook"
-                          value="https://facebook.com/#">
+                        <input name="facebook" type="text" id="Facebook" value="https://facebook.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text"  id="Instagram"
-                          value="https://instagram.com/#">
+                        <input name="instagram" type="text" id="Instagram" value="https://instagram.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text"  id="Linkedin"
-                          value="https://linkedin.com/#">
+                        <input name="linkedin" type="text" id="Linkedin" value="https://linkedin.com/#">
                       </div>
                     </div>
 
@@ -205,39 +199,31 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                 </div>
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form>
-
+                  <form id="formUpdatePassword">
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Anterior</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password"  id="currentPassword">
+                        <input name="password" type="password" id="currentPassword">
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password"  id="newPassword">
+                        <input name="newpassword" type="password" id="newPassword">
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password"  id="renewPassword">
+                        <input name="renewpassword" type="password" id="renewPassword">
                       </div>
                     </div>
-
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                      <button type="button" class="btn btn-primary btnUpdatePassword" id="btnUpdatePassword">Cambiar Contraseña</button>
                     </div>
-                  </form><!-- End Change Password Form -->
-
+                  </form>
                 </div>
-
-              </div><!-- End Bordered Tabs -->
-
+              </div>
             </div>
           </div>
 
@@ -375,10 +361,8 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                       <div class="col-md-8 col-lg-9">
                         <img src="assets/img/usuario.png" alt="Profile">
                         <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
-                              class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
-                              class="bi bi-trash"></i></a>
+                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
                       </div>
                     </div>
@@ -386,67 +370,63 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text"  id="fullName" value="<?php echo $perfilPersonalDataEdit["nombrePersonal"]; ?>">
+                        <input name="fullName" type="text" id="fullName" value="<?php echo $perfilPersonalDataEdit["nombrePersonal"]; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text"  id="company"
-                          value="<?php echo $perfilPersonalDataEdit["apellidoPersonal"]; ?>">
+                        <input name="company" type="text" id="company" value="<?php echo $perfilPersonalDataEdit["apellidoPersonal"]; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Country" class="col-md-4 col-lg-3 col-form-label">Dni</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text"  id="Country" value="<?php echo $perfilPersonalDataEdit["dniUsuario"]; ?>">
+                        <input name="country" type="text" id="Country" value="<?php echo $perfilPersonalDataEdit["dniUsuario"]; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text"  id="Phone" value="<?php echo $perfilPersonalDataEdit["celularPersonal"]; ?>">
+                        <input name="phone" type="text" id="Phone" value="<?php echo $perfilPersonalDataEdit["celularPersonal"]; ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email"  id="Email" value="<?php echo $perfilPersonalDataEdit["correoPersonal"]; ?>" disabled>
+                        <input name="email" type="email" id="Email" value="<?php echo $perfilPersonalDataEdit["correoPersonal"]; ?>" disabled>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text"  id="Twitter" value="https://twitter.com/#">
+                        <input name="twitter" type="text" id="Twitter" value="https://twitter.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text"  id="Facebook"
-                          value="https://facebook.com/#">
+                        <input name="facebook" type="text" id="Facebook" value="https://facebook.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text"  id="Instagram"
-                          value="https://instagram.com/#">
+                        <input name="instagram" type="text" id="Instagram" value="https://instagram.com/#">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text"  id="Linkedin"
-                          value="https://linkedin.com/#">
+                        <input name="linkedin" type="text" id="Linkedin" value="https://linkedin.com/#">
                       </div>
                     </div>
 
@@ -458,38 +438,32 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                 </div>
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
-                  <!-- Change Password Form -->
-                  <form>
-
+                  <form id="formUpdatePassword">
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Contraseña Anterior</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="password" type="password"  id="currentPassword">
+                        <input name="password" type="password" id="currentPassword">
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Nueva Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password"  id="newPassword">
+                        <input name="newpassword" type="password" id="newPassword">
                       </div>
                     </div>
-
                     <div class="row mb-3">
                       <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Confirmar Contraseña</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="renewpassword" type="password"  id="renewPassword">
+                        <input name="renewpassword" type="password" id="renewPassword">
                       </div>
                     </div>
-
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                      <button type="button" class="btn btn-primary btnUpdatePassword" id="btnUpdatePassword">Cambiar Contraseña</button>
                     </div>
-                  </form><!-- End Change Password Form -->
-
+                  </form>
                 </div>
 
-              </div><!-- End Bordered Tabs -->
+              </div>
 
             </div>
           </div>
@@ -498,7 +472,4 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
       </div>
     </section>
   </main>
-
-  <!-- End #main -->
-
 <?php } ?>
