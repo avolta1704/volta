@@ -24,6 +24,11 @@
             <i class="bi bi-circle"></i><span>Buscar Postulantes</span>
           </a>
         </li>
+        <li>
+          <a href="anioEscolar">
+            <i class="bi bi-circle"></i><span>Año Escolar</span>
+          </a>
+        </li>
       </ul>
     </li>
 
@@ -93,7 +98,5 @@
         </li>
       </ul>
     </li>
-
-
   </ul>
 </aside>

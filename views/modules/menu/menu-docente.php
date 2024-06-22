@@ -46,8 +46,6 @@
       </ul>
     </li>
 
-
-
     <!-- REPORTES -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allReportes" data-bs-toggle="collapse" href="#">
@@ -64,11 +62,7 @@
             <i class="bi bi-circle"></i><span>Reporte de Asistencia</span>
           </a>
         </li>
-
       </ul>
     </li>
-
-
-
   </ul>
 </aside>
