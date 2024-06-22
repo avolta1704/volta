@@ -282,9 +282,6 @@ document.addEventListener("DOMContentLoaded", function () {
 						? subRuta.acceso
 						: [];
 
-				console.log(subRuta);
-				console.log(nombreSubRuta);
-				console.log(parametrosSubRuta);
 				if (!parametrosSubRuta) {
 					if (nombreSubRuta === route) {
 						return baseRoute;
@@ -347,12 +344,6 @@ document.addEventListener("DOMContentLoaded", function () {
 			tipoUsuario
 		);
 
-		console.log(urlParams);
-		console.log(rutaActual);
-		console.log(rutasPermitidas);
-		console.log(activeRoute);
-		console.log(tipoUsuario);
-
 		// Seleccionar todos los enlaces del menú
 		var menuItems = document.querySelectorAll(
 			"#sidebar-nav a.nav-link, #sidebar-nav .nav-content a"
@@ -385,8 +376,6 @@ document.addEventListener("DOMContentLoaded", function () {
 		var activeRouteExists = rutasPermitidas.some(function (ruta) {
 			return ruta.rutaBase === activeRoute;
 		});
-
-		console.log(activeRouteExists);
 
 		// Verificar si la ruta actual no está permitida para el tipo de usuario y que no sea inicio
 		if (!activeRouteExists && rutaActual !== "inicio") {
