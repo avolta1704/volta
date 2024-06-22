@@ -107,110 +107,115 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 
 		{
+			rutaBase: "buscarPostulante",
+			acceso: ["administrador", "administrativo"],
+		},
+
+		{
 			rutaBase: "listaAdmisionAlumnos",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección", "administrativo"],
 			subRutas: [
 				{
 					nombre: "visualizarMatriculado",
-					acceso: ["administrador", "directivo", "docente"],
+					acceso: ["administrador", "dirección"],
 				},
 				{
 					nombre: "editarAlumno",
 					parametros: ["codAlumnoEditar", "tipo"],
-					acceso: ["administrador", "directivo"],
+					acceso: ["administrador", "dirección"],
 				},
 			],
 		},
 
 		{
 			rutaBase: "buscarAlumno",
-			acceso: ["administrador", "directivo", "docente"],
-		},
-
-		{
-			rutaBase: "listaPagos",
-			acceso: ["administrador", "directivo"],
-			subRutas: [
-				{
-					nombre: "registrarPago",
-					acceso: ["administrador", "directivo"],
-				},
-				{
-					nombre: "editarPago",
-					acceso: ["administrador", "directivo"],
-				},
-			],
+			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
 
 		{
 			rutaBase: "listaComunicadoPago",
-			acceso: ["administrador", "directivo", "docente"],
+			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
 
 		{
 			rutaBase: "reportePagos",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección", "administrativo"],
 			subRutas: [
+				{
+					nombre: "registrarComunicadoPago",
+					acceso: ["administrador", "dirección"],
+				},
 				{
 					nombre: "registrarPago",
 					parametros: ["ReportePensiones"],
-					acceso: ["administrador", "directivo"],
-				},
-				{
-					nombre: "registrarComunicadoPago",
-					acceso: ["administrador", "directivo"],
+					acceso: ["administrador", "dirección", "administrativo"],
 				},
 			],
 		},
 		{
 			rutaBase: "reporteComunicaciones",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección", "administrativo"],
+		},
+		{
+			rutaBase: "reporteSegimiento", // TODO cambiar a seguimiento
+			acceso: ["administrador", "dirección"],
+		},
+		{
+			rutaBase: "reporteNotas",
+			acceso: ["administrador", "dirección", "docente"],
+		},
+		{
+			rutaBase: "reporteAsistenias", // TODO cambiar a asistencias
+			acceso: ["administrador", "dirección", "docente"],
 		},
 		{
 			rutaBase: "listaPostulantesAnio",
-			acceso: ["administrador", "directivo", "docente"],
+			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
 		{
 			rutaBase: "reporteAdmisiones",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección", "administrativo"],
 		},
-
 		{
 			rutaBase: "listaAlumnos",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección", "docente"],
 			subRutas: [
 				{
 					nombre: "editarAlumno",
 					parametros: ["codAlumnoEditar"],
-					acceso: ["administrador", "directivo"],
+					acceso: ["administrador", "dirección", "docente"],
 				},
 			],
 		},
-
-		{ rutaBase: "personal", acceso: ["administrador", "directivo"] },
-
-		{ rutaBase: "usuarios", acceso: ["administrador"] },
-
+		{
+			rutaBase: "personal",
+			acceso: ["administrador", "dirección"],
+			subRutas: [
+				{
+					nombre: "editarPersonal",
+					acceso: ["administrador", "dirección"],
+				},
+			],
+		},
+		{ rutaBase: "usuarios", acceso: ["administrador", "dirección"] },
 		{
 			rutaBase: "apoderado",
-			acceso: ["administrador", "directivo"],
+			acceso: ["administrador", "dirección"],
 			subRutas: [
 				{
 					nombre: "editarApoderado",
-					acceso: ["administrador", "directivo"],
+					acceso: ["administrador", "dirección"],
 				},
 			],
 		},
-
 		{
 			rutaBase: "cursos",
-			acceso: ["administrador", "directivo", "docente"],
+			acceso: ["administrador", "dirección"],
 		},
 		{
 			rutaBase: "asignarCursos",
-			acceso: ["administrador", "directivo", "docente"],
+			acceso: ["administrador", "dirección", "docente"],
 		},
-
 		{
 			rutaBase: "cursosDocente",
 			acceso: ["docente"],
@@ -218,6 +223,40 @@ document.addEventListener("DOMContentLoaded", function () {
 				{ nombre: "notasCursoDocente", acceso: ["docente"] },
 				{ nombre: "registrarNotas", acceso: ["docente"] },
 				{ nombre: "visualizarAsistencia", acceso: ["docente"] },
+			],
+		},
+		{
+			rutaBase: "listaDocentes",
+			acceso: ["administrador", "dirección"],
+		},
+		{
+			rutaBase: "seguimientoDocentes",
+			acceso: ["administrador", "dirección"],
+		},
+		{
+			rutaBase: "anioEscolar",
+			acceso: ["administrador", "dirección"],
+		},
+		{
+			rutaBase: "asistencia",
+			acceso: ["docente"],
+		},
+		{
+			rutaBase: "notas",
+			acceso: ["docente"],
+		},
+		{
+			rutaBase: "listaPagos",
+			acceso: ["administrador", "dirección", "administrativo"],
+			subRutas: [
+				{
+					nombre: "registrarPago",
+					acceso: ["administrador", "dirección", "administrativo"],
+				},
+				{
+					nombre: "editarPago",
+					acceso: ["administrador", "dirección", "administrativo"],
+				},
 			],
 		},
 	];
@@ -243,11 +282,15 @@ document.addEventListener("DOMContentLoaded", function () {
 						? subRuta.acceso
 						: [];
 
+				console.log(subRuta);
+				console.log(nombreSubRuta);
+				console.log(parametrosSubRuta);
 				if (!parametrosSubRuta) {
 					if (nombreSubRuta === route) {
 						return baseRoute;
 					}
 				}
+
 				// Verificar si la subruta coincide y tiene los roles requeridos
 				if (nombreSubRuta === route) {
 					var accesoValido = true;
@@ -304,6 +347,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			tipoUsuario
 		);
 
+		console.log(urlParams);
+		console.log(rutaActual);
+		console.log(rutasPermitidas);
+		console.log(activeRoute);
+		console.log(tipoUsuario);
+
 		// Seleccionar todos los enlaces del menú
 		var menuItems = document.querySelectorAll(
 			"#sidebar-nav a.nav-link, #sidebar-nav .nav-content a"
@@ -331,8 +380,16 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			}
 		});
+
+		// Verificar si la activeRoute esta dentro de las rutas permitidas y devolver booleano
+		var activeRouteExists = rutasPermitidas.some(function (ruta) {
+			return ruta.rutaBase === activeRoute;
+		});
+
+		console.log(activeRouteExists);
+
 		// Verificar si la ruta actual no está permitida para el tipo de usuario y que no sea inicio
-		if (!activeRoute && rutaActual !== "inicio") {
+		if (!activeRouteExists && rutaActual !== "inicio") {
 			// Redirigir a la página de inicio
 			window.location = "index.php?ruta=inicio";
 		}
