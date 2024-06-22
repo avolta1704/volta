@@ -83,4 +83,9 @@ class ControllerInicio
     $response = ModelInicio::mdlObtenerFechaPagoApoderado($tabla, $idAlumno);
     return $response;
   }
+  public static function ctrObtenerRegistroAsitenciaAlumnoApoderado($idAlumno){
+    $tabla = "alumno";
+    $response = ModelInicio::mdlObtenerRegistroAsitenciaAlumnoApoderado($tabla, $idAlumno);
+    return $response;
+  }
 }

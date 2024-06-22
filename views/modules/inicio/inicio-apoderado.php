@@ -88,27 +88,48 @@
 
         </div>
 
-        <!-- Reports -->
-        <div class="col-12">
-          <div class="card">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Revenue Card -->
+        <div class="col-xxl-4 col-xl-12">
 
+          <div class="card info-card revenue-card">
             <div class="filter">
               <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
               <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                 <li class="dropdown-header text-start">
                   <h6>Filtro</h6>
                 </li>
-                <div id="gradoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+                <div id="mesesAsistenciaApoderadoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
               </ul>
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">Asistencia <span>/Meses</span></h5>
+              <h5 class="card-title">Asistencia <span class="filtro-seleccionado-asistencia-mes"></span></h5>
 
-              <!-- Line Chart -->
-              <div id="asistenciaChart"></div>
+              <canvas id="asistenciaApoderadoChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Revenue Card -->
+        <div class="col-xxl-8 col-xl-12">
+
+          <div class="card info-card revenue-card">
+            <div class="filter">
+              <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+              <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                <li class="dropdown-header text-start">
+                  <h6>Filtro</h6>
+                </li>
+                <div id="mesesAsistenciaApoderadoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+              </ul>
             </div>
 
+            <div class="card-body">
+              <h5 class="card-title">Asistencia <span class="filtro-seleccionado-asistencia-mes"></span></h5>
+
+              <canvas id="asistenciaApoderadoChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            </div>
           </div>
         </div>
 

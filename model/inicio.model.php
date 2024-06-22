@@ -3,6 +3,7 @@ require_once "connection.php";
 
 class ModelInicio
 {
+    // Obtiene todos los alumnos por grado
     public static function mdlObtenertodoslosAlumnosporGrandos()
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -26,6 +27,7 @@ class ModelInicio
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todas las pensiones pendientes
     public static function mdlObtenertodaslasPensionesPendientes()
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -66,7 +68,7 @@ class ModelInicio
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    // Obtiene todos los alumnos por anio
     public static function mdlObtenerTodoslosAlumnosporAnio()
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -91,6 +93,7 @@ class ModelInicio
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el monto recaudado por meses
     public static function mdlObtenerMontoRecaudadoporMeses()
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -134,6 +137,7 @@ CASE MONTH(pago.fechaPago)
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el personal de inicio
     public static function mdlObtenerPersonalInicio()
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -157,6 +161,7 @@ CASE MONTH(pago.fechaPago)
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene la asistencia por meses
     public static function mdlObtenerAsistenciaporMeses($tabla, $idUsuario)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -203,6 +208,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todas las competencias y notas
     public static function mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -267,6 +273,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todos los alumnos asignados a un docente
     public static function mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -310,6 +317,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el total de cursos asignados a un docente
     public static function mdlObtenerTotaldeCursosAsignados($tabla, $idUsuario)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -353,6 +361,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el total de docentes y cursos por grado
     public static function mdlObtenerTotalDocenterCursosporGrado($tabla)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -393,6 +402,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el nombre del docente y el curso
     public static function mdlObtenerNombreDocenteyCurso($tabla)
     {
         $statement = Connection::conn()->prepare("SELECT DISTINCT
@@ -431,6 +441,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todos los docentes por tipo
     public static function mdlObtenerTodoslosDocentesporTipo($tabla)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -449,6 +460,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el total de alumnos por grado
     public static function mdlObtenerTotalMasculinoFemeniniporGrados($tabla)
     {
         $statement = Connection::conn()->prepare("SELECT
@@ -488,6 +500,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todos los alumnos nuevos y antiguos
     public static function mdlObtenerTodoslosAlumnosNuevosAntiguos($tabla)
     {
         $statement = Connection::conn()->prepare("SELECT DISTINCT
@@ -519,6 +532,7 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene todos los pagos pendientes de los alumnos
     public static function mdlObtenerTodosPagosPendientesAlumnosApoderado($tabla, $idAlumno)
     {
     $statement = Connection::conn()->prepare("SELECT DISTINCT
@@ -552,6 +566,7 @@ ORDER BY
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene la fecha de pago del apoderado
     public static function mdlObtenerFechaPagoApoderado($tabla, $idAlumno){
         $statement = Connection::conn()->prepare("SELECT
         cronograma_pago.mesPago, 
@@ -587,4 +602,81 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el registro de asistencia del alumno
+    public static function mdlObtenerRegistroAsitenciaAlumnoApoderado($tabla, $idAlumno){
+        $statement = Connection::conn()->prepare("SELECT CASE 
+            WHEN MONTH(asistencia.fechaAsistencia) = 1 THEN 'Enero'
+            WHEN MONTH(asistencia.fechaAsistencia) = 2 THEN 'Febrero'
+            WHEN MONTH(asistencia.fechaAsistencia) = 3 THEN 'Marzo'
+            WHEN MONTH(asistencia.fechaAsistencia) = 4 THEN 'Abril'
+            WHEN MONTH(asistencia.fechaAsistencia) = 5 THEN 'Mayo'
+            WHEN MONTH(asistencia.fechaAsistencia) = 6 THEN 'Junio'
+            WHEN MONTH(asistencia.fechaAsistencia) = 7 THEN 'Julio'
+            WHEN MONTH(asistencia.fechaAsistencia) = 8 THEN 'Agosto'
+            WHEN MONTH(asistencia.fechaAsistencia) = 9 THEN 'Septiembre'
+            WHEN MONTH(asistencia.fechaAsistencia) = 10 THEN 'Octubre'
+            WHEN MONTH(asistencia.fechaAsistencia) = 11 THEN 'Noviembre'
+            WHEN MONTH(asistencia.fechaAsistencia) = 12 THEN 'Diciembre'
+        END AS Mes,
+        COUNT(DISTINCT CASE WHEN asistencia.estadoAsistencia = 'A' THEN asistencia.fechaAsistencia END) AS total_asistio,
+        COUNT(DISTINCT CASE WHEN asistencia.estadoAsistencia = 'F' THEN asistencia.fechaAsistencia END) AS total_falto,
+        COUNT(DISTINCT CASE WHEN asistencia.estadoAsistencia = 'T' THEN asistencia.fechaAsistencia END) AS total_inasistencia_injustificada,
+        COUNT(DISTINCT CASE WHEN asistencia.estadoAsistencia = 'J' THEN asistencia.fechaAsistencia END) AS total_falta_justificada,
+        COUNT(DISTINCT CASE WHEN asistencia.estadoAsistencia = 'U' THEN asistencia.fechaAsistencia END) AS total_tardanza_justificada,
+        COUNT(DISTINCT asistencia.fechaAsistencia) AS total_registro
+        FROM
+            $tabla
+            INNER JOIN
+            alumno_anio_escolar
+            ON 
+                alumno.idAlumno = alumno_anio_escolar.idAlumno
+            INNER JOIN
+            asistencia
+            ON 
+                alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+            INNER JOIN
+            anio_escolar
+            ON 
+                alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            alumno_anio_escolar.idAlumno = :idAlumno AND
+            anio_escolar.estadoAnio = 1
+            GROUP BY 
+            MONTH(asistencia.fechaAsistencia)");
+        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Obtiene el comunicado de pago del apoderado, el ultimo comunicado
+    public static function mdlObtenerComunicadoPagoApoderado($idAlumno){
+        $statement = Connection::conn()->prepare("SELECT
+        dcp.tituloComunicacion,
+        dcp.detalleComunicacion,
+        dcp.fechaComunicacion,
+        u.correoUsuario,
+        u.nombreUsuario,
+        u.apellidoUsuario
+        FROM
+            alumno a
+            INNER JOIN admision_alumno aa ON a.idAlumno = aa.idAlumno
+            INNER JOIN cronograma_pago cp ON aa.idAdmisionAlumno = cp.idAdmisionAlumno
+            INNER JOIN comunicacion_pago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
+            INNER JOIN detalle_comunicacion_pago dcp ON cpago.idComunicacionPago = dcp.idComunicacionPago
+            INNER JOIN (
+                SELECT
+                    MAX(dcp.fechaComunicacion) AS max_fechaComunicacion,
+                    dcp.idComunicacionPago
+                FROM
+                    detalle_comunicacion_pago dcp
+                GROUP BY
+                    dcp.idComunicacionPago
+            ) max_dcp ON dcp.fechaComunicacion = max_dcp.max_fechaComunicacion AND dcp.idComunicacionPago = max_dcp.idComunicacionPago
+            INNER JOIN usuario u ON dcp.usuarioCreacion = u.idUsuario
+        WHERE
+            a.idAlumno =  :idAlumno;");
+        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

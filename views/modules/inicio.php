@@ -12,7 +12,10 @@
   //  Obtener el tipo de usuario para gestionar el menú
   $tipoUsuario = $_SESSION["tipoUsuario"];
   $ipConfirmacion = $_SESSION["idUsuario"];
-  $idsAlumnos = $_SESSION["idAlumnos"];
+  if ($tipoUsuario == 4) {
+    $idsAlumnos = $_SESSION["idAlumnos"];
+  }
+
 
 
 
