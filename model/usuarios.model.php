@@ -215,4 +215,37 @@ END AS existencia
     $statement->execute();
     return $statement->fetch();
   }
+
+  /**
+   * Actualizar la contraseña del usuario
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param array $dataUsuario datos del usuario
+   * @return string respuesta de la consulta
+   */
+  public static function mdlActualizarPassword($tabla, $dataUsuario) {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET password=:password, usuarioActualizacion=:usuarioActualizacion, fechaActualizacion=:fechaActualizacion WHERE idUsuario=:idUsuario");
+    $statement->bindParam(":password", $dataUsuario["password"], PDO::PARAM_STR);
+    $statement->bindParam(":fechaActualizacion", $dataUsuario["fechaActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
+    $statement->bindParam(":idUsuario", $dataUsuario["idUsuario"], PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+
+  /**
+   * Obtener la contraseña actual del usuario
+   * 
+   * @param string $tabla nombre de la tabla 
+   * @param int $codUsuario código del usuario
+   * @return string contraseña del usuario
+   */
+  public static function mdlObtenerPassword($tabla, $codUsuario) {
+    $statement = Connection::conn()->prepare("SELECT password FROM $tabla WHERE idUsuario = $codUsuario");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_COLUMN);
+  }
 }

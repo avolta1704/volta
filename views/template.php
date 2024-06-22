@@ -127,15 +127,13 @@ session_start();
   <script src="views/js/alumnosCursoDocente.js"></script>
   <script src="views/js/asistenciaAlumnos.js"></script>
   <script src="views/js/subirExcelAsistencia.js"></script>
-<<<<<<< HEAD
   <script src="views/js/registrarNotas.js"></script>
   <script src="views/js/cerrarNotas.js"></script>
   <script src="views/js/inicio-administrativo.js"></script>
   <script src="views/js/inicio-docente.js"></script>
   <script src="views/js/inicio-directivo.js"></script>
-=======
   <script src="views/js/tecnicaseInstrumentos.js"></script>
->>>>>>> feature/crud-tecnica-instrumento
+  <script src="views/js/perfil.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
@@ -163,12 +161,9 @@ session_start();
   <!-- <script src="views/dataTables/dt-lista-postulantes.js"></script> -->
   <script src="views/dataTables/dt-competencias.js"></script>
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
-<<<<<<< HEAD
   <script src="views/dataTables/dt-personalInicio.js"></script>
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
-=======
   <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
->>>>>>> feature/crud-tecnica-instrumento
 </body>
 
 </html>
