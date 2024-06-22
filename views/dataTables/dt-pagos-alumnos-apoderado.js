@@ -16,7 +16,7 @@ $(document).ready(function () {
   });
 
   const datos = document.getElementById('datos');
-  let idAlumno = datos.getAttribute('data-primer-id-alumno');
+  var idAlumno = datos.getAttribute('data-primer-id-alumno');
 
   //Solicitud ajx inicial de dataTablePostulantesAdmin
   var data = new FormData();

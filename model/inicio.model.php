@@ -521,13 +521,14 @@ ORDER BY
     }
     public static function mdlObtenerTodosPagosPendientesAlumnosApoderado($tabla, $idAlumno)
     {
-        $statement = Connection::conn()->prepare("SELECT DISTINCT
+    $statement = Connection::conn()->prepare("SELECT DISTINCT
         alumno.nombresAlumno, 
         cronograma_pago.conceptoPago, 
         cronograma_pago.montoPago, 
         cronograma_pago.fechaLimite, 
         cronograma_pago.mesPago, 
         CASE
+            WHEN pago.fechaPago IS NOT NULL THEN 2  
             WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
             ELSE 0
         END AS estadoPago
@@ -546,10 +547,44 @@ ORDER BY
             pago
             ON cronograma_pago.idCronogramaPago = pago.idCronogramaPago
         WHERE
-            pago.fechaPago IS NULL AND alumno.idAlumno=:idAlumno;");
+            alumno.idAlumno =:idAlumno;");
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-
+    public static function mdlObtenerFechaPagoApoderado($tabla, $idAlumno){
+        $statement = Connection::conn()->prepare("SELECT
+        cronograma_pago.mesPago, 
+        MIN(cronograma_pago.fechaLimite) AS proximaFechaPago
+        FROM
+            $tabla
+            INNER JOIN
+            admision_alumno
+            ON 
+                alumno.idAlumno = admision_alumno.idAlumno
+            INNER JOIN
+            cronograma_pago
+            ON 
+                admision_alumno.idAdmisionAlumno = cronograma_pago.idAdmisionAlumno
+            LEFT JOIN
+            pago
+            ON 
+                cronograma_pago.idCronogramaPago = pago.idCronogramaPago
+            INNER JOIN
+            alumno_anio_escolar
+            ON 
+                alumno.idAlumno = alumno_anio_escolar.idAlumno
+            INNER JOIN
+            anio_escolar
+            ON 
+                alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            pago.fechaPago IS NULL AND
+            alumno.idAlumno = :idAlumno AND
+            cronograma_pago.fechaLimite >= CURRENT_DATE AND
+            anio_escolar.estadoAnio = 1;");
+        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -66,6 +66,9 @@ class FunctionUsuario
     if ($estadoPago == 1) {
       $estado = '<span class="badge rounded-pill bg-warning">Pendiente</span>';
     }
+    if ($estadoPago == 2) {
+      $estado = '<span class="badge rounded-pill bg-success">Pagado</span>';
+    }
     if ($estadoPago > 3) {
       $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
     }

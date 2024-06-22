@@ -74,8 +74,13 @@ class ControllerInicio
     return $response;
   }
   public static function ctrObtenerTodosPagosPendientesAlumnosApoderado($idAlumno){
-    $tabla = "usuario";
+    $tabla = "alumno";
     $response = ModelInicio::mdlObtenerTodosPagosPendientesAlumnosApoderado($tabla, $idAlumno);
+    return $response;
+  }
+  public static function ctrObtenerFechaPagoApoderado($idAlumno){
+    $tabla = "alumno";
+    $response = ModelInicio::mdlObtenerFechaPagoApoderado($tabla, $idAlumno);
     return $response;
   }
 }

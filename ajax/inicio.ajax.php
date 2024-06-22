@@ -104,6 +104,13 @@ class InicioAjax
     }
     echo json_encode($response);
   }
+  public $idAlumnoApoderadoFechaPago;
+  public function ajaxObtenerFechaPagoApoderado()
+  {
+    $idAlumnoApoderadoFechaPago = $this->idAlumnoApoderadoFechaPago;
+    $response = ControllerInicio::ctrObtenerFechaPagoApoderado($idAlumnoApoderadoFechaPago);
+    echo json_encode($response);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -173,4 +180,9 @@ if (isset($_POST["idAlumnoApoderadoPagosPendientes"])) {
   $pagosAlumnoApoderado = new InicioAjax();
   $pagosAlumnoApoderado->idAlumnoApoderadoPagosPendientes = $_POST["idAlumnoApoderadoPagosPendientes"];
   $pagosAlumnoApoderado->ajaxObtenerTodosPagosPendientesAlumnosApoderado();
+}
+if(isset($_POST["idAlumnoApoderadoFechaPago"])){
+  $fechaPagoApoderado = new InicioAjax();
+  $fechaPagoApoderado->idAlumnoApoderadoFechaPago = $_POST["idAlumnoApoderadoFechaPago"];
+  $fechaPagoApoderado->ajaxObtenerFechaPagoApoderado();
 }
