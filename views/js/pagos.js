@@ -98,7 +98,7 @@ $(".dataTableAdmisionAlumnos").on(
           if (index == 0) {
             counterCell.text("Matrícula");
           } else if (index == 1) {
-            counterCell.text("Cuota Inicial");
+            counterCell.text("Cuota Ingreso");
           } else {
             counterCell.text(item.mesPago);
           }

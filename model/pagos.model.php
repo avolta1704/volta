@@ -166,7 +166,7 @@ class ModelPagos
       INNER JOIN alumno a ON aa.idAlumno = a.idAlumno
       INNER JOIN tipo_pago tp ON tp.idTipoPago = p.idTipoPago
       INNER JOIN anio_escolar ae ON ag.idAnioEscolar = ae.idAnioEscolar
-      WHERE tp.descripcionTipo = 'Pago Pensión' AND ae.idAnioEscolar = :idAnioEscolar
+      WHERE ae.idAnioEscolar = :idAnioEscolar
       ORDER BY p.idPago DESC
     ");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
