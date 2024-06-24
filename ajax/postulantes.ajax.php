@@ -146,7 +146,6 @@ class PostulantesAjax
       $postulantesReportAnio['nivelAnioPostulante'] = FunctionPostulantes::separarTextoNivelPostulante($postulantesReportAnio["descripcionGrado"]);
       $postulantesReportAnio['GradoAnioPostulante'] = FunctionPostulantes::separarTextoGradoPostulante($postulantesReportAnio["descripcionGrado"]);
       $postulantesReportAnio['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantesReportAnio["estadoPostulante"]);
-      $postulantesReportAnio['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantesReportAnio["idPostulante"], $postulantesReportAnio["estadoPostulante"], $postulantesReportAnio["pagoMatricula"]);
       // Eliminar los campos nombrePostulante y apellidoPostulante y gradoPostulante despues de usarlos
       unset($postulantesReportAnio["nombrePostulante"]);
       unset($postulantesReportAnio["apellidoPostulante"]);
