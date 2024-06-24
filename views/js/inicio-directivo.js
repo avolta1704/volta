@@ -107,7 +107,7 @@ $(document).ready(function () {
       },
     }).render();
   }
-
+  // Función para obtener los nombres de los docentes y cursos por grados
   function obtenerNombreDocentesCursosPorGrados() {
     var data = new FormData();
     data.append("nombreDocenteyCurso", true);

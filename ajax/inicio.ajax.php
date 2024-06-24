@@ -6,26 +6,31 @@ require_once "../functions/usuarios.functions.php";
 
 class InicioAjax
 {
+  // Obtiene todos los alumnos por grado
   public function ajaxObtenertodoslosAlumnosporGrandos()
   {
     $response = ControllerInicio::ctrObtenertodoslosAlumnosporGrandos();
     echo json_encode($response);
   }
+  // Obtiene todas las pensiones pendientes
   public function ajaxObtenertodaslasPensionesPendientes()
   {
     $response = ControllerInicio::ctrObtenertodaslasPensionesPendientes();
     echo json_encode($response);
   }
+  // Obtiene todos los alumnos por anio
   public function ajaxObtenerTodoslosAlumnosporAnio()
   {
     $response = ControllerInicio::ctrObtenerTodoslosAlumnosporAnio();
     echo json_encode($response);
   }
+  // Obtiene los montos recaudados por meses
   public function ajaxObtenerMontoRecaudadoporMeses()
   {
     $response = ControllerInicio::ctrObtenerMontoRecaudadoporMeses();
     echo json_encode($response);
   }
+  // Obtiene todo el personal para la tabla de inicio administrativo
   public function ajaxObtenertodostodosPersonalInicio()
   {
     $response = ControllerInicio::ctrObtenerPersonalInicio();
@@ -34,6 +39,7 @@ class InicioAjax
     }
     echo json_encode($response);
   }
+  // Obtiene el porcentaje de asistencia por meses por usuario
   public $idUsuarioAsistenciaporMeses;
   public function ajaxObtenerAsistenciaporMeses()
   {
@@ -41,6 +47,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerAsistenciaporMeses($idUsuarioAsistenciaporMeses);
     echo json_encode($response);
   }
+  //Obtiene todas las competencias y notas por usuario
   public $idUsuarioCompetenciasNotas;
   public function ajaxObtenerCompetenciasNotas()
   {
@@ -55,6 +62,7 @@ class InicioAjax
     }
     echo json_encode($filteredResponse);
   }
+  // Obtiene todos los alumnos asignados al docente
   public $idUsuarioAlumnosAsignadosDocentes;
   public function ajaxObtenerTodoslosAlumnosAsignadosDocente()
   {
@@ -62,6 +70,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTodoslosAlumnosAsignadosDocente($idUsuarioAlumnosAsignadosDocentes);
     echo json_encode($response);
   }
+  // Obtiene el total de cursos asignados al docente
   public $idUsuarioCursosAsignadosDocentes;
   public function ajaxObtenerTotaldeCursosAsignados()
   {
@@ -69,31 +78,37 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTotaldeCursosAsignados($idUsuarioCursosAsignadosDocentes);
     echo json_encode($response);
   }
+  // Obtiene el total de docentes y cursos por grado
   public function ajaxObtenerTotalDocenterCursosporGrado()
   {
     $response = ControllerInicio::ctrObtenerTotalDocenterCursosporGrado();
     echo json_encode($response);
   }
+  // Obtiene los nombres de los docentes y cursos
   public function ajaxObtenerNombreDocenteyCurso()
   {
     $response = ControllerInicio::ctrObtenerNombreDocenteyCurso();
     echo json_encode($response);
   }
+  // Obtiene todos los docentes por tipo
   public function ajaxObtenerTodoslosDocentesporTipo()
   {
     $response = ControllerInicio::ctrObtenerTodoslosDocentesporTipo();
     echo json_encode($response);
   }
+  // Obtiene el total de masculino y femenino por grados
   public function ajaxObtenerTotalMasculinoFemeniniporGrados()
   {
     $response = ControllerInicio::ctrObtenerTotalMasculinoFemeniniporGrados();
     echo json_encode($response);
   }
+  // Obtiene todos los alumnos nuevos y antiguos
   public function ajaxObtenerTodoslosAlumnosNuevosAntiguos()
   {
     $response = ControllerInicio::ctrObtenerTodoslosAlumnosNuevosAntiguos();
     echo json_encode($response);
   }
+  // Obtiene todos los pagos pendientes de los alumnos por apoderado
   public $idAlumnoApoderadoPagosPendientes;
   public function ajaxObtenerTodosPagosPendientesAlumnosApoderado()
   {
@@ -104,6 +119,7 @@ class InicioAjax
     }
     echo json_encode($response);
   }
+  // Obtiene la fecha de pago por apoderado
   public $idAlumnoApoderadoFechaPago;
   public function ajaxObtenerFechaPagoApoderado()
   {
@@ -111,6 +127,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerFechaPagoApoderado($idAlumnoApoderadoFechaPago);
     echo json_encode($response);
   }
+  // Obtiene el registro de asistencia por meses por apoderado
   public $idAlumnoAsistenciaporMesesApoderado;
   public function ajaxObtenerRegistroAsitenciaAlumnoApoderado()
   {
@@ -118,6 +135,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerRegistroAsitenciaAlumnoApoderado($idAlumnoAsistenciaporMesesApoderado);
     echo json_encode($response);
   }
+  // Obtiene los detalles del alumno por apoderado
   public $idAlumnoDetallesVistaApoderado;
   public function ajaxObtenerDetallesAlumnoApoderado()
   {
@@ -125,6 +143,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerDetallesAlumnoApoderado($idAlumnoDetallesVistaApoderado);
     echo json_encode($response);
   }
+  // Obtiene todos los cursos asignados al alumno
   public $idAlumnoCursosAsignados;
   public function ajaxObtenerTodoslosCursosAsignadosAlumno()
   {
@@ -132,6 +151,7 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerTodoslosCursosAsignadosAlumno($idAlumnoCursosAsignados);
     echo json_encode($response);
   }
+  // Obtiene todas las notas bimestrales por cursos
   public $idAlumnoNotasBimestrePorCurso;
   public function ajaxObtenerTodasNotasBimestresporCursos()
   {

@@ -303,9 +303,9 @@ $(document).ready(function () {
 
         // Inicializar el dropdown y mostrar datos del primer curso
         var cursos = Object.keys(notasPorCurso);
-        poblarGradoAlumnoNuevoAntiguoDropdown(cursos);
+        poblarCursosNotasApoderadoDropdown(cursos);
         if (cursos.length > 0) {
-          actualizarDatosAlumnosNuevosAntiguos(cursos[0]);
+          actualizarDatosAlumnoNotasApoderado(cursos[0]);
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -315,13 +315,13 @@ $(document).ready(function () {
   }
 
   // Función para poblar el dropdown de cursos
-  function poblarGradoAlumnoNuevoAntiguoDropdown(cursos) {
+  function poblarCursosNotasApoderadoDropdown(cursos) {
     var dropdown = $("#cursosNotasApoderadoDropdown");
     dropdown.empty(); // Vaciar el dropdown antes de poblarlo
 
     cursos.forEach(function (curso) {
       dropdown.append(
-        '<li><a class="dropdown-item" href="#" onclick="filtrarGradoNivelAlumnoNuevoAntiguo(\'' +
+        '<li><a class="dropdown-item" href="#" onclick="filtrarCursoNotasApoderado(\'' +
           curso +
           "')\">" +
           curso +
@@ -331,7 +331,7 @@ $(document).ready(function () {
   }
 
   // Función para actualizar los datos de notas
-  function actualizarDatosAlumnosNuevosAntiguos(curso) {
+  function actualizarDatosAlumnoNotasApoderado(curso) {
     const filtroSeleccionado = $(".filtro-seleccionado-cursos-notas-apoderado");
     const totalnuevos = $(".notaAsignada");
 
@@ -358,8 +358,8 @@ $(document).ready(function () {
   }
 
   // Función para filtrar por curso
-  window.filtrarGradoNivelAlumnoNuevoAntiguo = function (curso) {
-    actualizarDatosAlumnosNuevosAntiguos(curso);
+  window.filtrarCursoNotasApoderado = function (curso) {
+    actualizarDatosAlumnoNotasApoderado(curso);
   };
   obtenerProximaFechaPagoApoderado(idAlumno);
   obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno);

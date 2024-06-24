@@ -257,7 +257,7 @@ $(document).ready(function () {
     totalAlumnos.text(alumnosPorGrado[indice].toLocaleString() + " Asignados");
   }
 
-  // Función para filtrar por año
+  // Función para filtrar por grados
   window.filtrarAlumnosDocente = function (gradosDocentes, indice) {
     actualizarDatosAlumnosDocentes(indice);
   };

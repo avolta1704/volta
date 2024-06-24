@@ -110,8 +110,10 @@
           </li>
           <!-- Inicio de inserción de opciones basadas en $idsAlumnos -->
           <?php if ($idTipoUsuario == 4 && !empty($idsAlumnos)): ?>
+            
             <?php foreach ($idsAlumnos as &$idAlumno): ?>
               <?php
+              // Obtener el nombre completo del alumno
               $nombreCompletoAlumno = ModelUsuarios::mdlObtenerNombreCompletoAlumno("alumno", $idAlumno["idAlumno"]);
               ?>
               <li>

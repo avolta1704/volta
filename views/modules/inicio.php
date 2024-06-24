@@ -44,7 +44,7 @@
     include "inicio/inicio-directivo.php";
   }
   ?>
-
+  <!-- Datos del usuario para JavaScript -->
   <div id="datos" data-ip-confirmacion="<?= htmlspecialchars($ipConfirmacion); ?>"
     data-tipo-usuario="<?= htmlspecialchars($tipoUsuario); ?>" <?php if ($tipoUsuario == 4 && !empty($idsAlumnos)): ?>
       data-primer-id-alumno="<?= htmlspecialchars($idsAlumnos[0]["idAlumno"]); ?>" <?php endif; ?> style="display: none;">
