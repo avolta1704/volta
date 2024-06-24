@@ -211,7 +211,7 @@ ORDER BY
     // Obtiene todas las competencias y notas
     public static function mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario)
     {
-        $statement = Connection::conn()->prepare("SELECT
+    $statement = Connection::conn()->prepare("SELECT
 	grado.descripcionGrado, 
 	curso.descripcionCurso, 
 	alumno.nombresAlumno, 
@@ -233,39 +233,38 @@ ORDER BY
         ON 
             cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
         INNER JOIN
-        nota_unidad
-        ON 
-            cursogrado_personal.idCursogradoPersonal = nota_unidad.idCursoGradoPersonal
-        INNER JOIN
-        nota_competencia
-        ON 
-            nota_unidad.idNotaUnidad = nota_competencia.idNotaUnidad
-        INNER JOIN
         grado
         ON 
             curso_grado.idGrado = grado.idGrado
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+            grado.idGrado = alumno_anio_escolar.idGrado
+        INNER JOIN
+        bimestre
+        ON 
+            curso_grado.idCursoGrado = bimestre.idCursoGrado
+        INNER JOIN
+        unidad
+        ON 
+            bimestre.idBimestre = unidad.idBimestre
+        INNER JOIN
+        competencias
+        ON 
+            unidad.idUnidad = competencias.idUnidad
+        LEFT JOIN
+        nota_competencia
+        ON 
+            alumno_anio_escolar.idAlumnoAnioEscolar = nota_competencia.idAlumnoAnioEscolar AND
+            competencias.idCompetencia = nota_competencia.idCompetencia
         INNER JOIN
         curso
         ON 
             curso_grado.idCurso = curso.idCurso
         INNER JOIN
-        competencias
-        ON 
-            nota_competencia.idCompetencia = competencias.idCompetencia
-        INNER JOIN
-        alumno_anio_escolar
-        ON 
-            nota_unidad.idAlumnoAnioEscolar = alumno_anio_escolar.idAlumnoAnioEscolar AND
-            grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
         alumno
         ON 
             alumno_anio_escolar.idAlumno = alumno.idAlumno
-        INNER JOIN
-        unidad
-        ON 
-            competencias.idUnidad = unidad.idUnidad AND
-            nota_unidad.idUnidad = unidad.idUnidad
     WHERE
         usuario.idUsuario = :idUsuario AND
         unidad.estadoUnidad = 1");
