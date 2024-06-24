@@ -234,9 +234,16 @@ class ControllerPostulantes
         //  Actualizar los datos de ambos apoderados
         $response = ControllerApoderados::ctrEditarApoderado($dataPadre);
         $response = ControllerApoderados::ctrEditarApoderado($dataMadre);
+
         if ($response == "ok") {
-          $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
-          echo $mensaje;
+          $response = ControllerAnioPostulacion::ctrEditarAnioPostulacion($_POST["anioAdmision"], $_POST["idAnioPostulante"]);
+          if ($response == "ok") {
+            $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante editado correctamente", "listaPostulantes");
+            echo $mensaje;
+          } else {
+            $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el postulante", "listaPostulantes");
+            echo $mensaje;
+          }
         } else {
           $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al editar el postulante", "listaPostulantes");
           echo $mensaje;

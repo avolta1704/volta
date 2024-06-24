@@ -18,4 +18,24 @@ class ModelAnioPostulante
       return "error";
     }
   }
+
+  /**
+   * Editar año de postulación
+   * 
+   * @param string $tabla
+   * @param array $dataUpdate
+   * @return string
+   */
+  public static function mdlEditarAnioPostulante($tabla, $dataUpdate) {
+    $stmt = Connection::conn()->prepare("UPDATE $tabla SET idAnioEscolar = :idAnioEscolar, fechaActualizacion = :fechaActualizacion, usuarioActualizacion = :usuarioActualizacion WHERE idAnioPostulante = :idAnioPostulante");
+    $stmt->bindParam(":idAnioEscolar", $dataUpdate["idAnioEscolar"], PDO::PARAM_INT);
+    $stmt->bindParam(":fechaActualizacion", $dataUpdate["fechaActualizacion"], PDO::PARAM_STR);
+    $stmt->bindParam(":usuarioActualizacion", $dataUpdate["usuarioActualizacion"], PDO::PARAM_INT);
+    $stmt->bindParam(":idAnioPostulante", $dataUpdate["idAnioPostulante"], PDO::PARAM_INT);
+    if ($stmt->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

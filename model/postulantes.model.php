@@ -169,8 +169,11 @@ class ModelPostulantes
     postulante.dificultadObservacion, 
     postulante.tipoAtencionPostulante, 
     postulante.tratamientoPostulante, 
-    postulante.fechaPostulacion,
-    postulante.listaApoderados
+    postulante.fechaPostulacion, 
+    postulante.listaApoderados, 
+    anio_postulante.idAnioEscolar, 
+    anio_escolar.descripcionAnio,
+    anio_postulante.idAnioPostulante
   FROM
     $tabla
     INNER JOIN
@@ -181,8 +184,16 @@ class ModelPostulantes
     nivel
     ON 
       grado.idNivel = nivel.idNivel
+    INNER JOIN
+    anio_postulante
+    ON 
+      postulante.idPostulante = anio_postulante.idPostulante
+    INNER JOIN
+    anio_escolar
+    ON 
+      anio_postulante.idAnioEscolar = anio_escolar.idAnioEscolar
   WHERE
-    idPostulante = :idPostulante");
+	postulante.idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
