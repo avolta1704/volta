@@ -236,4 +236,60 @@ class ModelNotas
       return "error";
     }
   }
+  public static function mdlObtenerAlumnosApoderado($tabla, $idUsuario)
+  {
+    $stmt = Connection::conn()->prepare("SELECT DISTINCT
+    CONCAT(alumno.nombresAlumno,' ',alumno.apellidosAlumno) AS nombre_completo,
+    nivel.descripcionNivel, 
+    grado.descripcionGrado, 
+    admision_alumno.estadoAdmisionAlumno
+  FROM
+    $tabla
+    INNER JOIN
+    apoderado
+    ON 
+      usuario.idUsuario = apoderado.idUsuario
+    INNER JOIN
+    apoderado_alumno
+    ON 
+      apoderado.idApoderado = apoderado_alumno.idApoderado
+    INNER JOIN
+    alumno
+    ON 
+      apoderado_alumno.idAlumno = alumno.idAlumno
+    INNER JOIN
+    alumno_anio_escolar
+    ON 
+      alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN
+    grado
+    ON 
+      alumno_anio_escolar.idGrado = grado.idGrado
+    INNER JOIN
+    nivel
+    ON 
+      grado.idNivel = nivel.idNivel
+    INNER JOIN
+    admision_alumno
+    ON 
+      alumno.idAlumno = admision_alumno.idAlumno
+    INNER JOIN
+    curso_grado
+    ON 
+      grado.idGrado = curso_grado.idGrado
+    INNER JOIN
+    cursogrado_personal
+    ON 
+      curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
+    INNER JOIN
+    personal
+    ON 
+      cursogrado_personal.idPersonal = personal.idPersonal
+  WHERE
+    usuario.idUsuario = :idUsuario AND
+    admision_alumno.estadoAdmisionAlumno = 2 ");
+    $stmt->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

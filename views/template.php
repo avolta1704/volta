@@ -59,6 +59,7 @@ session_start();
         $_GET["ruta"] == "visualizarAsistencia" ||
         $_GET["ruta"] == "registrarNotas" ||
         $_GET["ruta"] == "tecnicaseInstrumentos" ||
+        $_GET["ruta"] == "notasApoderado" ||
 
 
 
@@ -166,6 +167,8 @@ session_start();
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
   <script src="views/dataTables/dt-pagos-alumnos-apoderado.js"></script>
   <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
+  <script src="views/dataTables/dt-nota-ALUMNO.js"></script>
+
 </body>
 
 </html>

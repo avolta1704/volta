@@ -44,7 +44,15 @@ class NotasAjax
     }
     $respuesta["alumnosConNotas"] = $alumnosConNotas;
     echo json_encode($respuesta);
-  }
+  }/* 
+  public $idUsuarioAlumnoNotasApoderado;
+  public static function ajaxObtenerAlumnosApoderado()
+  {
+    $idUsuarioAlumnoNotasApoderado = $this->idUsuarioAlumnoNotasApoderado;
+    $response = ControllerInicio::ctrObtenerTodoslosCursosAsignadosAlumno($idUsuarioAlumnoNotasApoderado);
+    echo json_encode($response);
+
+  } */
 
   /**
    * Consulta ajax para crear o actualizar una nota
@@ -62,6 +70,7 @@ class NotasAjax
     $respuesta = ControllerNotas::ctrCrearActualizarNota($idAlumnoAnioEscolar, $idCriterioCompetencia, $idNotaCriterio, $nota);
     echo json_encode($respuesta);
   }
+
 }
 
 if (isset($_POST["todasLasNotasDeAlumnos"])) {
@@ -72,4 +81,9 @@ if (isset($_POST["todasLasNotasDeAlumnos"])) {
 if (isset($_POST["crearActualizarNota"])) {
   $crearNota = new NotasAjax();
   $crearNota->ajaxCrearActualizarNota($_POST["crearActualizarNota"]);
+}
+if (isset($_POST["idUsuarioAlumnoNotasApoderado"])) {
+  $alumnosNotasApoderado = new NotasAjax();
+  $alumnosNotasApoderado->idUsuarioAlumnoNotasApoderado = $_POST["idUsuarioAlumnoNotasApoderado"];
+  $alumnosNotasApoderado->ajaxObtenerAlumnosApoderado();
 }
