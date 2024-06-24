@@ -58,9 +58,9 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar
@@ -119,9 +119,9 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
 
                 </div>
 
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <!-- <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                  <!-- Profile Edit Form -->
+                  Profile Edit Form 
                   <form>
                     <div class="row mb-3">
 
@@ -137,7 +137,8 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" id="fullName" value="<?php echo $perfilUsuario["nombreUsuario"]; ?>">
+                        <input name="fullName" type="text" id="fullName" value="<?php //echo $perfilUsuario["nombreUsuario"]; 
+                                                                                ?>">
 
                       </div>
                     </div>
@@ -145,58 +146,33 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullLastName" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullLastName" type="text" id="fullLastName" value="<?php echo $perfilUsuario["apellidoUsuario"]; ?>">
+                        <input name="fullLastName" type="text" id="fullLastName" value="<?php //echo $perfilUsuario["apellidoUsuario"]; 
+                                                                                        ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">DNI</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" id="company" autocomplete="off" value="<?php echo $perfilUsuario["dniUsuario"]; ?>">
+                        <input name="company" type="text" id="company" autocomplete="off" value="<?php //echo $perfilUsuario["dniUsuario"]; 
+                                                                                                  ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" id="Email" autocomplete="email" value="<?php echo $perfilUsuario["correoUsuario"]; ?>" disabled>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" id="Twitter" value="https://twitter.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" id="Facebook" value="https://facebook.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" id="Instagram" value="https://instagram.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" id="Linkedin" value="https://linkedin.com/#">
+                        <input name="email" type="email" id="Email" autocomplete="email" value="<?php //echo $perfilUsuario["correoUsuario"]; 
+                                                                                                ?>" disabled>
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
-                  </form><!-- End Profile Edit Form -->
+                  </form>
 
-                </div>
+                </div> -->
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <form id="formUpdatePassword">
@@ -277,9 +253,9 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                   <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Perfil</button>
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Editar Perfil</button>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Cambiar
@@ -352,9 +328,8 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
 
                 </div>
 
-                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <!-- <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                  <!-- Profile Edit Form -->
                   <form>
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
@@ -370,72 +345,49 @@ if ($idTipoUsuario == 1 || $idTipoUsuario == 5) {
                     <div class="row mb-3">
                       <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" id="fullName" value="<?php echo $perfilPersonalDataEdit["nombrePersonal"]; ?>">
+                        <input name="fullName" type="text" id="fullName" value="<?php //echo $perfilPersonalDataEdit["nombrePersonal"]; 
+                                                                                ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Apellido</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" id="company" value="<?php echo $perfilPersonalDataEdit["apellidoPersonal"]; ?>">
+                        <input name="company" type="text" id="company" value="<?php //echo $perfilPersonalDataEdit["apellidoPersonal"]; 
+                                                                              ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Country" class="col-md-4 col-lg-3 col-form-label">Dni</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" id="Country" value="<?php echo $perfilPersonalDataEdit["dniUsuario"]; ?>">
+                        <input name="country" type="text" id="Country" value="<?php //echo $perfilPersonalDataEdit["dniUsuario"]; 
+                                                                              ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Celular</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" id="Phone" value="<?php echo $perfilPersonalDataEdit["celularPersonal"]; ?>">
+                        <input name="phone" type="text" id="Phone" value="<?php //echo $perfilPersonalDataEdit["celularPersonal"]; 
+                                                                          ?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Correo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" id="Email" value="<?php echo $perfilPersonalDataEdit["correoPersonal"]; ?>" disabled>
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" id="Twitter" value="https://twitter.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" id="Facebook" value="https://facebook.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" id="Instagram" value="https://instagram.com/#">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
-                      <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" id="Linkedin" value="https://linkedin.com/#">
+                        <input name="email" type="email" id="Email" value="<?php //echo $perfilPersonalDataEdit["correoPersonal"]; 
+                                                                            ?>" disabled>
                       </div>
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                     </div>
-                  </form><!-- End Profile Edit Form -->
+                  </form>
 
-                </div>
+                </div> -->
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <form id="formUpdatePassword">
