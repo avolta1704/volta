@@ -75,7 +75,7 @@ class FunctionPostulantes
     $isChecked = $estado == "1" ? 'checked' : '';
     $dateValue = $estado == "1" ? $fecha : '';
     $buttons = $mostrarBotones ? "
-        <div class='col-sm-2'>
+        <div class='col-sm-2 buttonsChecklist'>
             <button type='button' class='btn btn-success btnUpdateFichaPostulante' id='$buttonId' data-codpostulante='$codPostulante'><i class='bi bi-cloud-arrow-up-fill'></i></button>
             <button type='button' class='btn btn-warning' id='$buttonIdDownload' data-codpostulante='$codPostulante'><i class='bi bi-cloud-arrow-down-fill'></i></button>
             <!-- MANEJO DE IMAGENES -->
