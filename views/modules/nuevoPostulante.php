@@ -33,8 +33,6 @@
                 </select>
               </div>
 
-
-
               <div class="form-group col-md-6">
                 <label for="nombrePostulante" class="form-label" style="font-weight: bold">Nombres: </label>
                 <input type="text" class="form-control" id="nombrePostulante" name="nombrePostulante" value="" required>
@@ -135,22 +133,22 @@
 
               <div class="form-group col-md-6">
                 <label for="nombrePadre" class="form-label" style="font-weight: bold">Nombres: </label>
-                <input type="text" class="form-control" id="nombrePadre" name="nombrePadre" value="" required>
+                <input type="text" class="form-control" id="nombrePadre" name="nombrePadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="apellidoPadre" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="apellidoPadre" name="apellidoPadre" value="" required>
+                <input type="text" class="form-control" id="apellidoPadre" name="apellidoPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="dniPadre" class="form-label" style="font-weight: bold">DNI: </label>
-                <input type="number" class="form-control" id="dniPadre" name="dniPadre" value="" required>
+                <input type="number" class="form-control" id="dniPadre" name="dniPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="fechaNacimientoPadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
-                <input type="date" class="form-control" id="fechaNacimientoPadre" name="fechaNacimientoPadre" value="" required>
+                <input type="date" class="form-control" id="fechaNacimientoPadre" name="fechaNacimientoPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
@@ -163,42 +161,42 @@
 
               <div class="form-group col-md-6">
                 <label for="gradoPadre" class="form-label" style="font-weight: bold">Grado de Instrucción: </label>
-                <input type="text" class="form-control" id="gradoPadre" name="gradoPadre" value="" required>
+                <input type="text" class="form-control" id="gradoPadre" name="gradoPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="profesionPadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="profesionPadre" name="profesionPadre" value="" required>
+                <input type="text" class="form-control" id="profesionPadre" name="profesionPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="emailPadre" class="form-label" style="font-weight: bold">Correo Electrónico: </label>
-                <input type="text" class="form-control" id="emailPadre" name="emailPadre" value="" required>
+                <input type="text" class="form-control" id="emailPadre" name="emailPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="numeroPadre" class="form-label" style="font-weight: bold">Numero Celular: </label>
-                <input type="number" class="form-control" id="numeroPadre" name="numeroPadre" value="" required>
+                <input type="number" class="form-control" id="numeroPadre" name="numeroPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="dependenciaPadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
-                <input type="text" class="form-control" id="dependenciaPadre" name="dependenciaPadre" value="" required>
+                <input type="text" class="form-control" id="dependenciaPadre" name="dependenciaPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="centroPadre" class="form-label" style="font-weight: bold">Centro Laboral: </label>
-                <input type="text" class="form-control" id="centroPadre" name="centroPadre" value="" required>
+                <input type="text" class="form-control" id="centroPadre" name="centroPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="numeroTrabajoPadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
-                <input type="number" class="form-control" id="numeroTrabajoPadre" name="numeroTrabajoPadre" value="" required>
+                <input type="number" class="form-control" id="numeroTrabajoPadre" name="numeroTrabajoPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="ingresoPadre" class="form-label" style="font-weight: bold">Ingreso Mensual: </label>
-                <input type="number" class="form-control" id="ingresoPadre" name="ingresoPadre" value="" required>
+                <input type="number" class="form-control" id="ingresoPadre" name="ingresoPadre" value="">
               </div>
 
             </div>
@@ -209,22 +207,22 @@
               <h3 style="font-weight: bold">Datos de la Madre</h3>
               <div class="form-group col-md-6">
                 <label for="nombreMadre" class="form-label" style="font-weight: bold">Nombres: </label>
-                <input type="text" class="form-control" id="nombreMadre" name="nombreMadre" value="" required>
+                <input type="text" class="form-control" id="nombreMadre" name="nombreMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="apellidoMadre" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="apellidoMadre" name="apellidoMadre" value="" required>
+                <input type="text" class="form-control" id="apellidoMadre" name="apellidoMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="dniMadre" class="form-label" style="font-weight: bold">DNI: </label>
-                <input type="number" class="form-control" id="dniMadre" name="dniMadre" value="" required>
+                <input type="number" class="form-control" id="dniMadre" name="dniMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="fechaNacimientoMadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
-                <input type="date" class="form-control" id="fechaNacimientoMadre" name="fechaNacimientoMadre" value="" required>
+                <input type="date" class="form-control" id="fechaNacimientoMadre" name="fechaNacimientoMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
@@ -237,42 +235,42 @@
 
               <div class="form-group col-md-6">
                 <label for="gradoMadre" class="form-label" style="font-weight: bold">Grado de Instrucción: </label>
-                <input type="text" class="form-control" id="gradoMadre" name="gradoMadre" value="" required>
+                <input type="text" class="form-control" id="gradoMadre" name="gradoMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="profesionMadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="profesionMadre" name="profesionMadre" value="" required>
+                <input type="text" class="form-control" id="profesionMadre" name="profesionMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="emailMadre" class="form-label" style="font-weight: bold">Correo Electrónico: </label>
-                <input type="text" class="form-control" id="emailMadre" name="emailMadre" value="" required>
+                <input type="text" class="form-control" id="emailMadre" name="emailMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="numeroMadre" class="form-label" style="font-weight: bold">Numero Celular: </label>
-                <input type="number" class="form-control" id="numeroMadre" name="numeroMadre" value="" required>
+                <input type="number" class="form-control" id="numeroMadre" name="numeroMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="dependenciaMadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
-                <input type="text" class="form-control" id="dependenciaMadre" name="dependenciaMadre" value="" required>
+                <input type="text" class="form-control" id="dependenciaMadre" name="dependenciaMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="centroMadre" class="form-label" style="font-weight: bold">Centro Laboral: </label>
-                <input type="text" class="form-control" id="centroMadre" name="centroMadre" value="" required>
+                <input type="text" class="form-control" id="centroMadre" name="centroMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="numeroTrabajoMadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
-                <input type="number" class="form-control" id="numeroTrabajoMadre" name="numeroTrabajoMadre" value="" required>
+                <input type="number" class="form-control" id="numeroTrabajoMadre" name="numeroTrabajoMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="ingresoMadre" class="form-label" style="font-weight: bold">Ingreso Mensual: </label>
-                <input type="number" class="form-control" id="ingresoMadre" name="ingresoMadre" value="" required>
+                <input type="number" class="form-control" id="ingresoMadre" name="ingresoMadre" value="">
               </div>
             </div>
           </span>

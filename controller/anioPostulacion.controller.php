@@ -17,4 +17,23 @@ class ControllerAnioPostulacion
     $response = ModelAnioPostulante::mdlCrearAnioPostulante($table, $dataCreate);
     return $response;
   }
+
+  /**
+   * Editar año de postulación
+   * 
+   * @param int $anioEscolar
+   * @param int $idAnioPostulacion
+   * @return string
+   */
+  public static function ctrEditarAnioPostulacion($anioEscolar, $idAnioPostulacion) {
+    $tabla = "anio_postulante";
+    $dataUpdate = array(
+      "idAnioEscolar" => $anioEscolar,
+      "idAnioPostulante" => $idAnioPostulacion,
+      "fechaActualizacion" => date("Y-m-d H:i:s"),
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelAnioPostulante::mdlEditarAnioPostulante($tabla, $dataUpdate);
+    return $response;
+  }
 }

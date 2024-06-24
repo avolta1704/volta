@@ -27,8 +27,8 @@
       </ul>
     </li>
 
-   <!-- TIPOS DE EVALUACIÓN -->
-   <li class="nav-item">
+    <!-- TIPOS DE EVALUACIÓN -->
+    <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#tiposEvaluacion" data-bs-toggle="collapse" href="#">
         <i class="bi bi-search"></i><span>Tipos de Evaluación</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
@@ -36,11 +36,6 @@
         <li>
           <a href="tecnicaseInstrumentos">
             <i class="bi bi-circle"></i><span>Ténicas e Instrumentos</span>
-          </a>
-        </li>
-        <li>
-          <a href="anioEscolar">
-            <i class="bi bi-circle"></i><span>Año Escolar</span>
           </a>
         </li>
       </ul>
@@ -59,18 +54,8 @@
           </a>
         </li>
         <li>
-          <a href="reporteComunicaciones">
-            <i class="bi bi-circle"></i><span>Reporte de Comunicaciones</span>
-          </a>
-        </li>
-        <li>
           <a href="reportePagos">
             <i class="bi bi-circle"></i><span>Reporte de Pensiones</span>
-          </a>
-        </li>
-        <li>
-          <a href="reporteSegimiento">
-            <i class="bi bi-circle"></i><span>Reporte de Seguimiento</span>
           </a>
         </li>
         <li>
@@ -83,7 +68,6 @@
             <i class="bi bi-circle"></i><span>Reporte de Asistencia</span>
           </a>
         </li>
-
       </ul>
     </li>
 
@@ -120,38 +104,35 @@
       </ul>
     </li>
     <!-- CURSOS POR GRADO -->
-  <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#allCurses" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-book"></i><span>Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="allCurses" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="cursos">
-          <i class="bi bi-circle"></i><span>Todos los Cursos</span>
-        </a>
-      </li>
-      <li>
-        <a href="asignarCursos">
-          <i class="bi bi-circle"></i><span>Asignar cursos</span>
-        </a>
-      </li>
-    </ul>
-  </li>
-      <!-- TODOS LOS DOCENTES -->
-      <li class="nav-item">
-    <a class="nav-link collapsed" data-bs-target="#allDocentes" data-bs-toggle="collapse" href="#">
-      <i class="bi bi-person-video2"></i><span>Docentes</span><i class="bi bi-chevron-down ms-auto"></i>
-    </a>
-    <ul id="allDocentes" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-      <li>
-        <a href="listaDocentes">
-          <i class="bi bi-circle"></i><span>Todos los Docentes</span>
-        </a>
-      </li>
-    </ul>
-  </li>
-  </ul>
-  </ul>
-
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allCurses" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-book"></i><span>Cursos</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allCurses" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="cursos">
+            <i class="bi bi-circle"></i><span>Todos los Cursos</span>
+          </a>
+        </li>
+        <li>
+          <a href="asignarCursos">
+            <i class="bi bi-circle"></i><span>Asignar cursos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <!-- TODOS LOS DOCENTES -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#allDocentes" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-person-video2"></i><span>Docentes</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="allDocentes" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="listaDocentes">
+            <i class="bi bi-circle"></i><span>Todos los Docentes</span>
+          </a>
+        </li>
+      </ul>
+    </li>
   </ul>
 </aside>

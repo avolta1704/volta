@@ -2,20 +2,20 @@
   <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
+      <i class="bi bi-list toggle-sidebar-btn"></i>
       <a href="inicio" class="d-flex align-items-center imageNavBar">
         <img class="move-right" src="assets/img/logo.png" alt="Logo Colegio Volta">
       </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
-   
+
         <!-- <button type="button" class="btn btn-warning btnModeDarck" id="btnModeDarck">Cambiar Tema</button> -->
         <span style="margin: 0 10px;"></span>
 
         <li class="nav-item dropdown">
-  <!--         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
+          <!--         <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
             <i class="bi bi-bell"></i>
             <span class="badge bg-primary badge-number">4</span>
           </a> -->
@@ -77,12 +77,12 @@
             </li>
           </ul>
         </li>
-<!-- varaibles para la solicitud de datos -->
-<?php
-$idTipoUsuario = $_SESSION["tipoUsuario"];
-$idUsuario = $_SESSION["idUsuario"];
+        <!-- varaibles para la solicitud de datos -->
+        <?php
+        $idTipoUsuario = $_SESSION["tipoUsuario"];
+        $idUsuario = $_SESSION["idUsuario"];
 
-?>
+        ?>
         <li class="nav-item dropdown pe-3">
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
             <img src="assets/img/usuario.png" alt="Profile" class="rounded-circle">

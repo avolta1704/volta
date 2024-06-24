@@ -19,11 +19,6 @@
             <i class="bi bi-circle"></i><span>Postulantes</span>
           </a>
         </li>
-        <li>
-          <a href="docPostulantes">
-            <i class="bi bi-circle"></i><span>Buscar Postulantes</span>
-          </a>
-        </li>
       </ul>
     </li>
 
@@ -94,6 +89,20 @@
       </ul>
     </li>
 
+    <!-- TIPOS DE EVALUACIÓN -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#tiposEvaluacion" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-search"></i><span>Tipos de Evaluación</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="tiposEvaluacion" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a href="tecnicaseInstrumentos">
+            <i class="bi bi-circle"></i><span>Ténicas e Instrumentos</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
     <!-- ALUMNOS -->
     <li class="nav-item">
       <a class="nav-link collapsed" data-bs-target="#allAlumnos" data-bs-toggle="collapse" href="#">
@@ -108,6 +117,11 @@
         <li>
           <a href="buscarAlumno">
             <i class="bi bi-circle"></i><span>Buscar Alumno</span>
+          </a>
+        </li>
+        <li>
+          <a href="anioEscolar">
+            <i class="bi bi-circle"></i><span>Año Escolar</span>
           </a>
         </li>
       </ul>
@@ -163,6 +177,5 @@
         </li>
       </ul>
     </li>
-
   </ul>
 </aside>

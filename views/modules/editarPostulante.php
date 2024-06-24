@@ -30,6 +30,14 @@
             <div class="container row g-3">
               <h3 style="font-weight: bold">Datos del Postulante</h3>
 
+              <div class="form-group col-md-12 añoAdmision">
+                <label for="anioAdmision" class="col-form-label" style="font-weight: bold">Año de Admision:</label>
+                <select class="form-control" name="anioAdmision" id="anioAdmision" required>
+                  <option value="<?php echo $datosPostulante["idAnioEscolar"] ?>"><?php echo $datosPostulante["descripcionAnio"] ?></option>
+                </select>
+                <input type="hidden" name="idAnioPostulante" class="idAnioPostulante" value="<?php echo $datosPostulante["idAnioPostulante"] ?>">
+              </div>
+
               <div class="form-group col-md-6">
                 <label for="editarNombre" class="form-label" style="font-weight: bold">Nombres: </label>
                 <input type="text" class="form-control" id="editarNombre" name="editarNombre" value="<?php echo $datosPostulante["nombrePostulante"] ?>" required>
@@ -123,23 +131,23 @@
               <h3 style="font-weight: bold">Datos del Padre</h3>
               <div class="form-group col-md-6">
                 <label for="editarNombrePadre" class="form-label" style="font-weight: bold">Nombres: </label>
-                <input type="text" class="form-control" id="editarNombrePadre" name="editarNombrePadre" value="<?php echo $datosPostulante["dataPadre"]["nombreApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarNombrePadre" name="editarNombrePadre" value="<?php echo $datosPostulante["dataPadre"]["nombreApoderado"] ?>">
                 <input type="hidden" class="form-control" id="codPadre" name="codPadre" value="<?php echo $datosPostulante["dataPadre"]["idApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarApellidoPadre" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="editarApellidoPadre" name="editarApellidoPadre" value="<?php echo $datosPostulante["dataPadre"]["apellidoApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarApellidoPadre" name="editarApellidoPadre" value="<?php echo $datosPostulante["dataPadre"]["apellidoApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarDniPadre" class="form-label" style="font-weight: bold">DNI: </label>
-                <input type="text" class="form-control" id="editarDniPadre" name="editarDniPadre" value="<?php echo $datosPostulante["dataPadre"]["dniApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarDniPadre" name="editarDniPadre" value="<?php echo $datosPostulante["dataPadre"]["dniApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarFechaPadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
-                <input type="date" class="form-control" id="editarFechaPadre" name="editarFechaPadre" value="<?php echo $datosPostulante["dataPadre"]["fechaNacimiento"] ?>" required>
+                <input type="date" class="form-control" id="editarFechaPadre" name="editarFechaPadre" value="<?php echo $datosPostulante["dataPadre"]["fechaNacimiento"] ?>">
               </div>
 
               <div class="form-group col-md-6">
@@ -153,42 +161,42 @@
 
               <div class="form-group col-md-6">
                 <label for="editarGradoPadre" class="form-label" style="font-weight: bold">Grado de Instrucción: </label>
-                <input type="text" class="form-control" id="editarGradoPadre" name="editarGradoPadre" value="<?php echo $datosPostulante["dataPadre"]["gradoInstruccion"] ?>" required>
+                <input type="text" class="form-control" id="editarGradoPadre" name="editarGradoPadre" value="<?php echo $datosPostulante["dataPadre"]["gradoInstruccion"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarProfesionPadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="editarProfesionPadre" name="editarProfesionPadre" value="<?php echo $datosPostulante["dataPadre"]["profesionApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarProfesionPadre" name="editarProfesionPadre" value="<?php echo $datosPostulante["dataPadre"]["profesionApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCorreoPadre" class="form-label" style="font-weight: bold">Correo Electrónico: </label>
-                <input type="text" class="form-control" id="editarCorreoPadre" name="editarCorreoPadre" value="<?php echo $datosPostulante["dataPadre"]["correoApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarCorreoPadre" name="editarCorreoPadre" value="<?php echo $datosPostulante["dataPadre"]["correoApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCelularPadre" class="form-label" style="font-weight: bold">Numero Celular: </label>
-                <input type="text" class="form-control" id="editarCelularPadre" name="editarCelularPadre" value="<?php echo $datosPostulante["dataPadre"]["celularApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarCelularPadre" name="editarCelularPadre" value="<?php echo $datosPostulante["dataPadre"]["celularApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarDepenPadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
-                <input type="text" class="form-control" id="editarDepenPadre" name="editarDepenPadre" value="<?php echo $datosPostulante["dataPadre"]["dependenciaApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarDepenPadre" name="editarDepenPadre" value="<?php echo $datosPostulante["dataPadre"]["dependenciaApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCentroPadre" class="form-label" style="font-weight: bold">Centro Laboral: </label>
-                <input type="text" class="form-control" id="editarCentroPadre" name="editarCentroPadre" value="<?php echo $datosPostulante["dataPadre"]["centroLaboral"] ?>" required>
+                <input type="text" class="form-control" id="editarCentroPadre" name="editarCentroPadre" value="<?php echo $datosPostulante["dataPadre"]["centroLaboral"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarNumTrabajoPadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
-                <input type="text" class="form-control" id="editarNumTrabajoPadre" name="editarNumTrabajoPadre" value="<?php echo $datosPostulante["dataPadre"]["telefonoTrabajo"] ?>" required>
+                <input type="text" class="form-control" id="editarNumTrabajoPadre" name="editarNumTrabajoPadre" value="<?php echo $datosPostulante["dataPadre"]["telefonoTrabajo"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarIngresoPadre" class="form-label" style="font-weight: bold">Ingreso Mensual: </label>
-                <input type="text" class="form-control" id="editarIngresoPadre" name="editarIngresoPadre" value="<?php echo $datosPostulante["dataPadre"]["ingresoMensual"] ?>" required>
+                <input type="text" class="form-control" id="editarIngresoPadre" name="editarIngresoPadre" value="<?php echo $datosPostulante["dataPadre"]["ingresoMensual"] ?>">
               </div>
             </div>
           </span>
@@ -198,23 +206,23 @@
               <h3 style="font-weight: bold">Datos de la Madre</h3>
               <div class="form-group col-md-6">
                 <label for="editarNombreMadre" class="form-label" style="font-weight: bold">Nombres: </label>
-                <input type="text" class="form-control" id="editarNombreMadre" name="editarNombreMadre" value="<?php echo $datosPostulante["dataMadre"]["nombreApoderado"] ?>" required>
-                <input type="hidden" class="form-control" id="codMadre" name="codMadre" value="<?php echo $datosPostulante["dataMadre"]["idApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarNombreMadre" name="editarNombreMadre" value="<?php echo $datosPostulante["dataMadre"]["nombreApoderado"] ?>">
+                <input type="hidden" class="form-control" id="codMadre" name="codMadre" value="<?php echo $datosPostulante["dataMadre"]["idApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarApellidoMadre" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="editarApellidoMadre" name="editarApellidoMadre" value="<?php echo $datosPostulante["dataMadre"]["apellidoApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarApellidoMadre" name="editarApellidoMadre" value="<?php echo $datosPostulante["dataMadre"]["apellidoApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarDniMadre" class="form-label" style="font-weight: bold">DNI: </label>
-                <input type="text" class="form-control" id="editarDniMadre" name="editarDniMadre" value="<?php echo $datosPostulante["dataMadre"]["dniApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarDniMadre" name="editarDniMadre" value="<?php echo $datosPostulante["dataMadre"]["dniApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarFechaMadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
-                <input type="date" class="form-control" id="editarFechaMadre" name="editarFechaMadre" value="<?php echo $datosPostulante["dataMadre"]["fechaNacimiento"] ?>" required>
+                <input type="date" class="form-control" id="editarFechaMadre" name="editarFechaMadre" value="<?php echo $datosPostulante["dataMadre"]["fechaNacimiento"] ?>">
               </div>
 
               <div class="form-group col-md-6">
@@ -228,42 +236,42 @@
 
               <div class="form-group col-md-6">
                 <label for="editarGradoMadre" class="form-label" style="font-weight: bold">Grado de Instrucción: </label>
-                <input type="text" class="form-control" id="editarGradoMadre" name="editarGradoMadre" value="<?php echo $datosPostulante["dataMadre"]["gradoInstruccion"] ?>" required>
+                <input type="text" class="form-control" id="editarGradoMadre" name="editarGradoMadre" value="<?php echo $datosPostulante["dataMadre"]["gradoInstruccion"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarProfesionMadre" class="form-label" style="font-weight: bold">Profesión: </label>
-                <input type="text" class="form-control" id="editarProfesionMadre" name="editarProfesionMadre" value="<?php echo $datosPostulante["dataMadre"]["profesionApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarProfesionMadre" name="editarProfesionMadre" value="<?php echo $datosPostulante["dataMadre"]["profesionApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCorreoMadre" class="form-label" style="font-weight: bold">Correo Electrónico: </label>
-                <input type="text" class="form-control" id="editarCorreoMadre" name="editarCorreoMadre" value="<?php echo $datosPostulante["dataMadre"]["correoApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarCorreoMadre" name="editarCorreoMadre" value="<?php echo $datosPostulante["dataMadre"]["correoApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCelularMadre" class="form-label" style="font-weight: bold">Numero Celular: </label>
-                <input type="text" class="form-control" id="editarCelularMadre" name="editarCelularMadre" value="<?php echo $datosPostulante["dataMadre"]["celularApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarCelularMadre" name="editarCelularMadre" value="<?php echo $datosPostulante["dataMadre"]["celularApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarDepenMadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
-                <input type="text" class="form-control" id="editarDepenMadre" name="editarDepenMadre" value="<?php echo $datosPostulante["dataMadre"]["dependenciaApoderado"] ?>" required>
+                <input type="text" class="form-control" id="editarDepenMadre" name="editarDepenMadre" value="<?php echo $datosPostulante["dataMadre"]["dependenciaApoderado"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarCentroMadre" class="form-label" style="font-weight: bold">Centro Laboral: </label>
-                <input type="text" class="form-control" id="editarCentroMadre" name="editarCentroMadre" value="<?php echo $datosPostulante["dataMadre"]["centroLaboral"] ?>" required>
+                <input type="text" class="form-control" id="editarCentroMadre" name="editarCentroMadre" value="<?php echo $datosPostulante["dataMadre"]["centroLaboral"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarNumTrabajoMadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
-                <input type="text" class="form-control" id="editarNumTrabajoMadre" name="editarNumTrabajoMadre" value="<?php echo $datosPostulante["dataMadre"]["telefonoTrabajo"] ?>" required>
+                <input type="text" class="form-control" id="editarNumTrabajoMadre" name="editarNumTrabajoMadre" value="<?php echo $datosPostulante["dataMadre"]["telefonoTrabajo"] ?>">
               </div>
 
               <div class="form-group col-md-6">
                 <label for="editarIngresoMadre" class="form-label" style="font-weight: bold">Ingreso Mensual: </label>
-                <input type="text" class="form-control" id="editarIngresoMadre" name="editarIngresoMadre" value="<?php echo $datosPostulante["dataMadre"]["ingresoMensual"] ?>" required>
+                <input type="text" class="form-control" id="editarIngresoMadre" name="editarIngresoMadre" value="<?php echo $datosPostulante["dataMadre"]["ingresoMensual"] ?>">
               </div>
             </div>
           </span>
