@@ -31,11 +31,20 @@ class FunctionApoderado
     return $estado;
   }
   //botones de Apoderado
-  public static function getBtnApoderado($codApoderado)
+  public static function getBtnApoderado($apoderado)
   {
+    $disabled = ($apoderado["cuentaCreada"] ==1) ? 'disabled' : '';
     $botones = '
-        <button type="button" class="btn btn-warning btnEditarApoderado" codApoderado="' . ($codApoderado) . '"><i class="bi bi-pencil"></i></button>
-      ';
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownApoderado" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownApoderado">
+        <li><button type="button" class="dropdown-item btnEditarApoderado" codApoderado="' . $apoderado["idApoderado"] . '" >Editar</button></li>
+        <li><button type="button" class="dropdown-item btnCrearApoderadoUsuario" codApoderado="' . $apoderado["idApoderado"] . '" correoApoderado="' . $apoderado["correoApoderado"] .'" dniApoderado="' . $apoderado["dniApoderado"] .'" nombreApoderado="' . $apoderado["nombreApoderado"] .'" apellidoApoderado="' . $apoderado["apellidoApoderado"] .'" dniAlumno="' . $apoderado["dniAlumno"] .'" ' . $disabled . '>Crear Cuenta</button></li>
+      </ul>
+    </div>
+  ';
 
     return $botones;
   }
@@ -93,5 +102,20 @@ class FunctionApoderado
       ';
     }
     return $radioDificultad;
+  }
+
+  public static function getEstadoCuentaCreada($stateValue)
+  {
+    //  Estado de los usuarios 1 = Activo & 2 = Desactivado
+    if ($stateValue == 0 && $stateValue == null) {
+      $estado = '<span class="badge rounded-pill bg-warning">No Registrado</span>';
+    } else
+    if ($stateValue == 1) {
+      $estado = '<span class="badge rounded-pill bg-success">Registrado</span>';
+    }
+    else {
+      $estado = '<span class="badge rounded-pill bg-secondary">Otro</span>';
+    }
+    return $estado;
   }
 }

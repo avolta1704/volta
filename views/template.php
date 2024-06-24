@@ -132,6 +132,7 @@ session_start();
   <script src="views/js/inicio-administrativo.js"></script>
   <script src="views/js/inicio-docente.js"></script>
   <script src="views/js/inicio-directivo.js"></script>
+  <script src="views/js/inicio-apoderado.js"></script>
   <script src="views/js/tecnicaseInstrumentos.js"></script>
   <script src="views/js/perfil.js"></script>
 
@@ -163,6 +164,7 @@ session_start();
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
   <script src="views/dataTables/dt-personalInicio.js"></script>
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
+  <script src="views/dataTables/dt-pagos-alumnos-apoderado.js"></script>
   <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
 </body>
 

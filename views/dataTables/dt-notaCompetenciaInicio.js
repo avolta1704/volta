@@ -19,10 +19,9 @@ $(document).ready(function () {
     columns: columnDefsPersonal,
   });
 
-  var idUsuarioElement = document.getElementById("ipConfirmacion");
+  const datos = document.getElementById('datos');
+  let idUsuario = datos.getAttribute('data-ip-confirmacion');
 
-  // Obtiene el contenido del elemento
-  var idUsuario = idUsuarioElement.textContent;
   //Solicitud ajx inicial de dataTablePersonalInicio
   var data = new FormData();
   data.append("idUsuarioCompetenciasNotas", idUsuario);

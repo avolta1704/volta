@@ -15,7 +15,8 @@
     <div class="row">
       <div class="col-lg-2">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuario">Agregar Usuario</button>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarUsuario">Agregar
+            Usuario</button>
         </div>
       </div>
       <!-- Left side columns -->
@@ -42,7 +43,8 @@
 </main>
 
 <!-- Modal Crear Usuario -->
-<div class="modal fade" id="agregarUsuario" tabindex="-1" role="dialog" aria-labelledby="agregarUsuario" aria-hidden="true">
+<div class="modal fade" id="agregarUsuario" tabindex="-1" role="dialog" aria-labelledby="agregarUsuario"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -90,7 +92,9 @@
               <?php
               $tipoUsuarios = ControllerUsuarios::ctrGetTipoUsuarios();
               foreach ($tipoUsuarios as $key => $value) {
-                echo '<option value="' . $value["idTipoUsuario"] . '">' . $value["descripcionTipoUsuario"] . '</option>';
+                if ($value["idTipoUsuario"] != 4) {
+                  echo '<option value="' . $value["idTipoUsuario"] . '">' . $value["descripcionTipoUsuario"] . '</option>';
+                }
               }
               ?>
             </select>
@@ -111,7 +115,8 @@
 </div>
 
 <!-- Modal editar usuario -->
-<div class="modal fade" id="editarUsuario" tabindex="-1" role="dialog" aria-labelledby="editarUsuario" aria-hidden="true">
+<div class="modal fade" id="editarUsuario" tabindex="-1" role="dialog" aria-labelledby="editarUsuario"
+  aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

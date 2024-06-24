@@ -114,4 +114,9 @@ class ControllerApoderados
     $dataApoderado = ModelApoderados::mdlGetDatosApoderados($tabla, $apoderado1, $apoderado2);
     return $dataApoderado;
   }
+  public static function ctrGetIdAlumnosApoderados($idUsuario){
+    $tabla = "usuario";
+    $response = ModelApoderados::mdlGetIdAlumnosApoderados($tabla, $idUsuario);
+    return $response;
+  }
 }

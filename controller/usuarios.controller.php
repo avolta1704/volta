@@ -26,6 +26,12 @@ class ControllerUsuarios
           $_SESSION["tipoDocente"] = $TipoDocente["idTipoPersonal"];
           $_SESSION["descripcionDocente"] = $TipoDocente["descripcionTipo"];
         }
+        if ($dataUsuario["idTipoUsuario"] == 4) {
+          $idAlumnosApoderado = ControllerApoderados::ctrGetIdAlumnosApoderados($dataUsuario["idUsuario"]);
+
+          $_SESSION["idAlumnos"] = $idAlumnosApoderado;  //  Guardamos los id de los alumnos apoderados
+        }
+
         // Save last login
         $ultimaConexion = date("Y-m-d\TH:i:sP");
         // Update last login
@@ -317,8 +323,21 @@ class ControllerUsuarios
     if ($verificar["existencia"] == true || $verificar["existencia"] == "1") {
       return "error";
     } else {
-      $tabla = "usuario";
-      $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+      $tipoUsuario = ModelUsuarios::mdlVerficarTipoUsuarioApoderado($codUsuario);
+      if($tipoUsuario["idTipoUsuario"] == 4){
+        $idsApoderados = ModelUsuarios::mdlObteneridApoderados("usuario",$codUsuario);
+        $idApoderado1 = $idsApoderados[0]['idApoderado'];
+        $idApoderado2 = $idsApoderados[1]['idApoderado'];
+        $respuestaCambiodeEstadoUsuarioidUsuario= ModelApoderados::mdlCambiarEstadoCuentaCreadaIdUsuario("apoderado",0, $idApoderado1,$idApoderado2);
+        if($respuestaCambiodeEstadoUsuarioidUsuario=="ok"){
+          $tabla = "usuario";
+          $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+        }
+      } else {
+        $tabla = "usuario";
+        $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+      }
+
       return $response;
     }
   }
@@ -474,5 +493,44 @@ class ControllerUsuarios
     $tabla = "usuario";
     $passwordUsuario = ModelUsuarios::mdlObtenerPassword($tabla, $idUsuario);
     return $passwordUsuario;
+  }
+  public static function ctrCrearUsuarioApoderadoVista($datos)
+  {
+    $tabla = "usuario";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $contrasenaUsuarioApoderado = password_hash($datos["contrasenaUsuarioApoderado"], PASSWORD_ARGON2ID, [
+      'memory_cost' => 1 << 12,
+      'time_cost' => 2,
+      'threads' => 2
+    ]);
+
+    $dataUsuario = array(
+      "correoUsuario" => $datos["correoUsuarioApoderado"],
+      "password" => $contrasenaUsuarioApoderado,
+      "nombreUsuario" => $datos["nombreUsuarioApoderado"],
+      "apellidoUsuario" => $datos["apellidoUsuarioApoderado"],
+      "dniUsuario" => $datos["dniUsuarioApoderado"],
+      "idTipoUsuario" => $datos["tipoUsuarioApoderado"],
+      "estadoUsuario" => "1",
+      "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+      "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelUsuarios::mdlCrearUsuarioApoderado($tabla, $dataUsuario);
+    $ultimoIdUsuario = ModelUsuarios::mdlUltimoIdUsuario("usuario");
+    $codApoderado = intval($datos["codApoderado"]);
+    $idApoderado2 = ModelApoderados::mdlObtenerIdSegundoIdApoderado($codApoderado);
+    $insercionidUsuario=ModelApoderados::mdlInsertarIdUsuarioApoderado("apoderado",$ultimoIdUsuario["idUsuario"], $codApoderado, $idApoderado2["idApoderado"]);
+    if($insercionidUsuario=="ok"){
+      $respuestaCambiodeEstadoUsuarioCreado= ModelApoderados::mdlCambiarEstadoCuentaCreada("apoderado",1, $codApoderado, $idApoderado2["idApoderado"]);
+      if($respuestaCambiodeEstadoUsuarioCreado=="ok"){
+        $response = "ok";
+      }
+      return $response;
+    }
+
   }
 }
