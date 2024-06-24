@@ -86,8 +86,7 @@
                   </div>
                   <div class="col-md-4">
                     <label for="anioPago" class="form-label" style="font-weight: bold">Año: </label>
-                    <input type="text" class="form-control" id="anioPago" name="anioPago" value="' . date('Y') .
-                    '" readonly>
+                    <input type="text" class="form-control" id="anioPago" name="anioPago" value="Año ' . date('Y') . '" readonly>
                   </div>
 
                   <div class="col-md-4">
@@ -107,7 +106,7 @@
 
                 <div class="row mb-3">
                   <div class="col-md-4">
-                    <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Limite Pago:</label>
+                    <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Límite Pago:</label>
                     <input type="date" class="form-control" id="fechaLimitePago" name="fechaLimitePago" value="' . date('Y-03-31') . '" readonly>
                   </div>                 
                 </div>
@@ -124,7 +123,7 @@
                   </div>
 
                   <div class="col-md-4">
-                    <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro Comprobante: </label>
+                    <label for="nroComprobante" class="form-label" style="font-weight: bold">Nro. Comprobante: </label>
                     <input type="text" class="form-control" id="nroComprobante" name="nroComprobante" value="" placeholder="Número de Comprobante" required>
                   </div>
                 </div>
@@ -158,7 +157,7 @@
 
                   <div class="col-md-4">
                     <label for="montoPago" class="form-label" style="font-weight: bold">Monto Pago: </label>
-                    <input type="text" class="form-control" id="montoPago" name="montoPago" value="" placeholder="S/ Total Pago" readonly>
+                    <input type="number" class="form-control" id="montoPago" name="montoPago" value="" placeholder="S/. Total Pago" required>
                   </div>
                 </div>
 
@@ -190,7 +189,7 @@
 
                 <div class="row mb-3">
                   <div class="col-md-4">
-                    <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Limite Pago:</label>
+                    <label for="fechaLimitePago" class="form-label" style="font-weight: bold">Fecha Límite Pago:</label>
                     <input type="date" class="form-control" id="fechaLimitePago" name="fechaLimitePago" value="" disabled>
                   </div>
 
