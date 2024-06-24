@@ -66,13 +66,13 @@
 
               <div class="row  mb-3">
                 <div class="col-md-4">
-                  <label for="codCajaPagoEdit" class="form-label" style="font-weight: bold">Codigo Caja: </label>
-                  <input type="text" class="form-control" id="codCajaPagoEdit" name="codCajaPagoEdit" value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Codigo Caja Alumno" disabled>
+                  <label for="codCajaPagoEdit" class="form-label" style="font-weight: bold">Código Caja: </label>
+                  <input type="text" class="form-control" id="codCajaPagoEdit" name="codCajaPagoEdit" value="<?php echo $datosPago["codAlumnoCaja"] ?>" placeholder="Código Caja Alumno" disabled>
                 </div>
 
                 <div class="col-md-4">
                   <label for="v" class="form-label" style="font-weight: bold">Año: </label>
-                  <input type="text" class="form-control" id="anioPagoEdit" name="anioPagoEdit" value="" placeholder="Año Escolar">
+                  <input type="text" class="form-control" id="anioPagoEdit" name="anioPagoEdit" value="Año <?php echo date('Y') ?>" disabled>
                 </div>
 
                 <div class="col-md-4">
@@ -104,7 +104,7 @@
               <div class="row  mb-3">
 
                 <div class="col-md-4">
-                  <label for="fechaLimitePagoEdit" class="form-label" style="font-weight: bold">Fecha Limite Pago
+                  <label for="fechaLimitePagoEdit" class="form-label" style="font-weight: bold">Fecha Límite Pago
                     : </label>
                   <input type="date" class="form-control" id="fechaLimitePagoEdit" name="fechaLimitePagoEdit" value="<?php echo $datosPago["fechaLimite"] ?>" disabled>
                 </div>
@@ -116,21 +116,19 @@
 
                 <div class="col-md-4">
                   <label for="montoPagoEdit" class="form-label" style="font-weight: bold">Monto Pago: </label>
-                  <input type="text" class="form-control" id="montoPagoEdit" name="montoPagoEdit" value="<?php echo $datosPago["cantidadPago"] ?>" placeholder="S/ Total Pago">
+                  <input type="number" class="form-control" id="montoPagoEdit" name="montoPagoEdit" value="<?php echo $datosPago["cantidadPago"] ?>" placeholder="S/ Total Pago" required>
                 </div>
 
               </div>
 
               <div class="row  mb-3">
                 <div class="col-md-4">
-                  <label for="fechaRegistroPagoEdit" class="form-label" style="font-weight: bold">Fecha Registro
-                    Actualizacion:
-                  </label>
+                  <label for="fechaRegistroPagoEdit" class="form-label" style="font-weight: bold">Fecha Registro Pago:</label>
                   <input type="date" class="form-control" id="fechaRegistroPagoEdit" name="fechaRegistroPagoEdit" value="<?php echo date('Y-m-d'); ?>" required>
                 </div>
 
                 <div class="col-md-4">
-                  <label for="metodoPagoEdit" class="form-label" style="font-weight: bold">Metodo Pago: </label>
+                  <label for="metodoPagoEdit" class="form-label" style="font-weight: bold">Método Pago: </label>
                   <input type="text" class="form-control" id="metodoPagoEdit" name="metodoPagoEdit" value="<?php echo $datosPago["metodoPago"] ?>" placeholder="Efectivo / Caja IEE / Caja Aqp / Otro">
                 </div>
 
@@ -155,7 +153,7 @@
               </div>
               <div class="row  mb-3">
                 <div class="col-md-4">
-                  <label for="numeroComprobanteEdit" class="form-label" style="font-weight: bold">Numero de Comprobante:
+                  <label for="numeroComprobanteEdit" class="form-label" style="font-weight: bold">Número de Comprobante:
                   </label>
                   <input type="text" class="form-control" id="numeroComprobanteEdit" name="numeroComprobanteEdit" value="<?php echo $datosPago["numeroComprobante"] ?>" placeholder="Codigo Caja Alumno">
                 </div>
@@ -174,7 +172,7 @@
           <input type="hidden" class="form-control" id="pagoEdit" name="pagoEdit" value="<?php echo $datosPago["idPago"] ?>">
           <div class="container row g-3 p-3 justify-content-between">
             <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarRegistroPago">Cerrar</button>
-            <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Registrar Pago</button>
+            <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary ">Editar Pago</button>
           </div>
         </form>
       </div>
