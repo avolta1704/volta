@@ -53,6 +53,7 @@ session_start();
         $_GET["ruta"] == "notasCursoDocente" ||
         $_GET["ruta"] == "visualizarAsistencia" ||
         $_GET["ruta"] == "registrarNotas" ||
+        $_GET["ruta"] == "tecnicaseInstrumentos" ||
 
 
 
@@ -126,6 +127,8 @@ session_start();
   <script src="views/js/inicio-administrativo.js"></script>
   <script src="views/js/inicio-docente.js"></script>
   <script src="views/js/inicio-directivo.js"></script>
+  <script src="views/js/tecnicaseInstrumentos.js"></script>
+  <script src="views/js/perfil.js"></script>
   <script src="views/js/navegabilidad.js"></script>
 
   <!-- datatables js -->
@@ -156,6 +159,7 @@ session_start();
   <script src="views/dataTables/dt-asistencia-alumnos.js"></script>
   <script src="views/dataTables/dt-personalInicio.js"></script>
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
+  <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
 </body>
 
 </html>

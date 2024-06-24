@@ -28,6 +28,7 @@ require_once "functions/asistenciaAlumnos.functions.php";
 require_once "functions/competencia.functions.php";
 require_once "functions/criterios.functions.php";
 require_once "functions/notas.functions.php";
+require_once "functions/tecnicaseInstrumentos.functions.php";
 
 //  Controllers
 require_once "controller/usuarios.controller.php";
@@ -61,6 +62,7 @@ require_once "controller/competencia.controller.php";
 require_once "controller/criterios.controller.php";
 require_once "controller/notas.controller.php";
 require_once "controller/inicio.controller.php";
+require_once "controller/tecnicaseInstrumentos.controller.php";
 
 
 //  Models
@@ -96,6 +98,7 @@ require_once "model/competencia.model.php";
 require_once "model/criterios.model.php";
 require_once "model/notas.model.php";
 require_once "model/inicio.model.php";
+require_once "model/tecnicaseInstrumentos.model.php";
 
 
 $template = new ControllerTemplate();

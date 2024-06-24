@@ -49,6 +49,15 @@ class UsuariosAjax
     echo json_encode($response);
   }
 
+  //  
+  public $actualizarPassword;
+  public function ajaxActualizarPassword()
+  {
+    $actualizarPassword = $this->actualizarPassword;
+    $response = ControllerUsuarios::ctrActualizarPassword($actualizarPassword);
+    echo json_encode($response);
+  }
+
   public function ajaxTieneAcceso()
   {
     $response = ControllerUsuarios::ctrTieneAcceso();
@@ -88,6 +97,13 @@ if (isset($_POST["codUsuarioEliminar"])) {
   $eliminarUsuario = new UsuariosAjax();
   $eliminarUsuario->eliminarUsuario = $_POST["codUsuarioEliminar"];
   $eliminarUsuario->ajaxEliminarUsuario();
+}
+
+//  Eliminar un usuario
+if (isset($_POST["passwordData"])) {
+  $actualizarPassword = new UsuariosAjax();
+  $actualizarPassword->actualizarPassword = $_POST["passwordData"];
+  $actualizarPassword->ajaxActualizarPassword();
 }
 
 if (isset($_POST["tieneAcceso"])) {
