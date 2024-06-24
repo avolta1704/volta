@@ -75,4 +75,25 @@ class FunctionUsuario
 
     return $estado;
   }
+  // Notas Asignadas
+  public static function getNotasAsignadas($notasAsignadas){
+    //  Estado de los pagos Apoderado 0 = Vencido & 1 = Pendiente
+    if ($notasAsignadas == "C") {
+      $estado = '<span class="badge rounded-pill bg-danger">C</span>';
+    }
+    if ($notasAsignadas == "B") {
+      $estado = '<span class="badge rounded-pill bg-warning">B</span>';
+    }
+    if ($notasAsignadas == "A") {
+      $estado = '<span class="badge rounded-pill bg-success">A</span>';
+    }
+    if ($notasAsignadas == "AD") {
+      $estado = '<span class="badge rounded-pill bg-success">AD</span>';
+    }
+    if ($notasAsignadas == null) {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Nota</span>';
+    }
+
+    return $estado;
+  }
 }

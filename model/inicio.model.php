@@ -685,5 +685,86 @@ ORDER BY
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
     }
+    // Obtiene todos los cursos asignados al alumno
+    public static function mdlObtenerTodoslosCursosAsignadosAlumno($tabla,$idAlumno){
+    $statement = Connection::conn()->prepare("SELECT
+	grado.descripcionGrado,
+	COUNT(DISTINCT curso.idCurso) AS total_cursos
+    FROM
+        $tabla
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+            alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN
+        grado
+        ON 
+            alumno_anio_escolar.idGrado = grado.idGrado
+        INNER JOIN
+        curso_grado
+        ON 
+            grado.idGrado = curso_grado.idGrado
+        INNER JOIN
+        curso
+        ON 
+            curso_grado.idCurso = curso.idCurso
+        INNER JOIN
+        anio_escolar
+        ON 
+            alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+    WHERE
+        alumno.idAlumno = :idAlumno AND
+        anio_escolar.estadoAnio = 1 ");
+        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Obtiene todas las notas de los bimestres por curso
+    public static function mdlObtenerTodasNotasBimestresporCursos($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT
+        curso.descripcionCurso, 
+        bimestre.descripcionBimestre, 
+        nota_bimestre.fechaCreacion, 
+        nota_bimestre.notaBimestre AS nota
+        FROM
+            $tabla
+            INNER JOIN
+            alumno_anio_escolar
+            ON 
+                alumno.idAlumno = alumno_anio_escolar.idAlumno
+            INNER JOIN
+            grado
+            ON 
+                alumno_anio_escolar.idGrado = grado.idGrado
+            INNER JOIN
+            curso_grado
+            ON 
+                grado.idGrado = curso_grado.idGrado
+            RIGHT JOIN
+            bimestre
+            ON 
+                curso_grado.idCursoGrado = bimestre.idCursoGrado
+            LEFT JOIN
+            nota_bimestre
+            ON 
+                alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND
+                bimestre.idBimestre = nota_bimestre.idBimestre
+            INNER JOIN
+            curso
+            ON 
+                curso_grado.idCurso = curso.idCurso
+            INNER JOIN
+            anio_escolar
+            ON 
+                alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            alumno.idAlumno = :idAlumno AND
+            anio_escolar.estadoAnio = 1
+        GROUP BY
+            bimestre.idBimestre");
+        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+        $statement->execute();
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

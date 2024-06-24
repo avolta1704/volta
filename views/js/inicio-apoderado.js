@@ -10,6 +10,9 @@ $(document).ready(function () {
   var totalFaltaJustificada = [];
   var totalTardanzaJustificada = [];
   var totalRegistro = [];
+  var totalCursosAlumno = [];
+  var gradoAlumnoCurso = [];
+  var notasPorCurso = {};
 
   // Función para obtener la fecha de pago próxima
   function obtenerProximaFechaPagoApoderado(idAlumno) {
@@ -25,6 +28,8 @@ $(document).ready(function () {
       processData: false,
       dataType: "json",
       success: function (response) {
+        fechaLimitePago = [];
+        mesPago = [];
         response.forEach(function (fila) {
           fechaLimitePago.push(fila.proximaFechaPago);
           mesPago.push(fila.mesPago);
@@ -129,7 +134,7 @@ $(document).ready(function () {
         asistenciaChart = null; // Reiniciar la variable
       }
       // Mostrar mensaje de no hay registro de asistencia
-      filtroSeleccionado.text("| No hay registro de Asitencia");
+      filtroSeleccionado.text("| No hay registro de Asistencia");
       return;
     } else {
       filtroSeleccionado.text("| " + mesesAsistencia[indice]);
@@ -233,11 +238,134 @@ $(document).ready(function () {
       },
     });
   }
-  
+  // Función para obtener el total de cursos asignados al alumno
+  function obtenerTodoslosCursosAsignadosAlumno(idUsuario) {
+    var data = new FormData();
+    data.append("idAlumnoCursosAsignados", idUsuario);
 
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        totalCursosAlumno = [];
+        gradoAlumnoCurso = [];
+        response.forEach(function (fila) {
+          totalCursosAlumno.push(fila.total_cursos);
+          gradoAlumnoCurso.push(fila.descripcionGrado);
+        });
+        actualizarDatosAlumnosDocentes(0);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+  // Función para actualizar los datos de alumnos por grado
+  function actualizarDatosAlumnosDocentes(indice) {
+    const filtroSeleccionado = $(".filtro-seleccionado-cursos-alumnos");
+    const totalCursos = $(".total-cursos-alumnos");
+
+    filtroSeleccionado.text("| " + gradoAlumnoCurso[indice]);
+    totalCursos.text(totalCursosAlumno[indice].toLocaleString() + " Asignados");
+  }
+  // Función para obtener todas las notas de los cursos asignados al alumno
+  function obtenerTodasNotasBimestresporCursos(idAlumno) {
+    var data = new FormData();
+    data.append("idAlumnoNotasBimestrePorCurso", idAlumno);
+
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        notasPorCurso = {}; // Reiniciar el objeto de notas por curso
+        // Procesar la respuesta y agrupar por curso
+        response.forEach(function (fila) {
+          if (!notasPorCurso[fila.descripcionCurso]) {
+            notasPorCurso[fila.descripcionCurso] = [];
+          }
+          notasPorCurso[fila.descripcionCurso].push({
+            bimestre: fila.descripcionBimestre,
+            fecha: fila.fechaCreacion,
+            nota: fila.notaCambiada,
+          });
+        });
+
+        // Inicializar el dropdown y mostrar datos del primer curso
+        var cursos = Object.keys(notasPorCurso);
+        poblarGradoAlumnoNuevoAntiguoDropdown(cursos);
+        if (cursos.length > 0) {
+          actualizarDatosAlumnosNuevosAntiguos(cursos[0]);
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+  // Función para poblar el dropdown de cursos
+  function poblarGradoAlumnoNuevoAntiguoDropdown(cursos) {
+    var dropdown = $("#cursosNotasApoderadoDropdown");
+    dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+
+    cursos.forEach(function (curso) {
+      dropdown.append(
+        '<li><a class="dropdown-item" href="#" onclick="filtrarGradoNivelAlumnoNuevoAntiguo(\'' +
+          curso +
+          "')\">" +
+          curso +
+          "</a></li>"
+      );
+    });
+  }
+
+  // Función para actualizar los datos de notas
+  function actualizarDatosAlumnosNuevosAntiguos(curso) {
+    const filtroSeleccionado = $(".filtro-seleccionado-cursos-notas-apoderado");
+    const totalnuevos = $(".notaAsignada");
+
+    var notas = notasPorCurso[curso];
+    var notaMasReciente = null;
+    notas.forEach(function (nota) {
+      if (
+        nota.fecha &&
+        (!notaMasReciente ||
+          new Date(nota.fecha) > new Date(notaMasReciente.fecha))
+      ) {
+        notaMasReciente = nota;
+      }
+    });
+
+    filtroSeleccionado.text("| " + curso);
+    if (notaMasReciente) {
+      totalnuevos.html(notaMasReciente.bimestre + " - " + notaMasReciente.nota);
+    } else {
+      totalnuevos.html(
+        '<span class="badge rounded-pill bg-warning">No hay registro de notas</span>'
+      );
+    }
+  }
+
+  // Función para filtrar por curso
+  window.filtrarGradoNivelAlumnoNuevoAntiguo = function (curso) {
+    actualizarDatosAlumnosNuevosAntiguos(curso);
+  };
   obtenerProximaFechaPagoApoderado(idAlumno);
   obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno);
   obtenerTodoslosDatosAlumnoApoderado(idAlumno);
+  obtenerTodoslosCursosAsignadosAlumno(idAlumno);
+  obtenerTodasNotasBimestresporCursos(idAlumno);
 
   // Cambio de alumno de acuerdo al alumno seleccionado en el navbar
   $(".alumno-item").click(function () {
@@ -248,6 +376,8 @@ $(document).ready(function () {
     obtenerProximaFechaPagoApoderado(idAlumno);
     obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno);
     obtenerTodoslosDatosAlumnoApoderado(idAlumno);
+    obtenerTodoslosCursosAsignadosAlumno(idAlumno);
+    obtenerTodasNotasBimestresporCursos(idAlumno);
   });
 });
 
