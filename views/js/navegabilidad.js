@@ -259,6 +259,14 @@ document.addEventListener("DOMContentLoaded", function () {
 				},
 			],
 		},
+		{
+			rutaBase: "notasApoderado",
+			acceso: ["apoderado"],
+		},
+		{
+			rutaBase: "asistenciaApoderado",
+			acceso: ["apoderado"],
+		},
 	];
 
 	// Función para encontrar la ruta base activa
