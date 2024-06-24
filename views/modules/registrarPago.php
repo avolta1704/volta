@@ -40,7 +40,6 @@
                     <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value="' . $datosPostulante["nombrePostulante"] . ' ' . $datosPostulante["apellidoPostulante"] .
                     '" readonly>
                   </div>
-                </div>
                 <div class="row mb-3">
                   <div class="col-md-4">
                     <label for="tipoPago" class="form-label" style="font-weight: bold">Tipo Pago: </label>';
@@ -71,12 +70,12 @@
 
                   echo '
                     <label for="montoPago" class="form-label" style="font-weight: bold">Monto Pago: </label>
-                    <input type="text" class="form-control" id="montoPago" name="montoPago" value="' . $montoMatricula . '" readonly>
+                    <input type="number" class="form-control" id="montoPago" name="montoPago" value="' . $montoMatricula . '" required>
                   </div>
                   <div class="col-md-4">
-                    <label for="cuotaInicial" class="form-label" style="font-weight: bold">Cuota inicial: </label>
+                    <label for="cuotaInicial" class="form-label" style="font-weight: bold">Cuota Ingreso: </label>
                     <input type="text" class="form-control d-none" id="idTipoPagoCuotaInicial" name="idTipoPagoCuotaInicial" value="' . $tipoPagoCuotaInicial["idTipoPago"] . '" readonly>
-                    <input type="text" class="form-control" id="cuotaInicial" name="cuotaInicial" value="' . $cuotaInicial . '" placeholder="Ingrese la cuota inicial" readonly>
+                    <input type="number" class="form-control" id="cuotaInicial" name="cuotaInicial" value="' . $cuotaInicial . '" required>
                   </div>
                 </div>
                 <div class="row  mb-3">
