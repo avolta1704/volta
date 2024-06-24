@@ -118,6 +118,13 @@ class InicioAjax
     $response = ControllerInicio::ctrObtenerRegistroAsitenciaAlumnoApoderado($idAlumnoAsistenciaporMesesApoderado);
     echo json_encode($response);
   }
+  public $idAlumnoDetallesVistaApoderado;
+  public function ajaxObtenerDetallesAlumnoApoderado()
+  {
+    $idAlumnoDetallesVistaApoderado = $this->idAlumnoDetallesVistaApoderado;
+    $response = ControllerInicio::ctrObtenerDetallesAlumnoApoderado($idAlumnoDetallesVistaApoderado);
+    echo json_encode($response);
+  }
 }
 // Obtener todos los Alumnos por Grado
 if (isset($_POST["AlumnosporGrandos"])) {
@@ -197,4 +204,9 @@ if (isset($_POST["idAlumnoAsistenciaporMesesApoderado"])) {
   $asistenciaporMesesApoderado = new InicioAjax();
   $asistenciaporMesesApoderado->idAlumnoAsistenciaporMesesApoderado = $_POST["idAlumnoAsistenciaporMesesApoderado"];
   $asistenciaporMesesApoderado->ajaxObtenerRegistroAsitenciaAlumnoApoderado();
+}
+if(isset($_POST["idAlumnoDetallesVistaApoderado"])){
+  $detallesAlumnoApoderado = new InicioAjax();
+  $detallesAlumnoApoderado->idAlumnoDetallesVistaApoderado = $_POST["idAlumnoDetallesVistaApoderado"];
+  $detallesAlumnoApoderado->ajaxObtenerDetallesAlumnoApoderado();
 }

@@ -647,36 +647,43 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
-    // Obtiene el comunicado de pago del apoderado, el ultimo comunicado
-    public static function mdlObtenerComunicadoPagoApoderado($idAlumno){
-        $statement = Connection::conn()->prepare("SELECT
-        dcp.tituloComunicacion,
-        dcp.detalleComunicacion,
-        dcp.fechaComunicacion,
-        u.correoUsuario,
-        u.nombreUsuario,
-        u.apellidoUsuario
-        FROM
-            alumno a
-            INNER JOIN admision_alumno aa ON a.idAlumno = aa.idAlumno
-            INNER JOIN cronograma_pago cp ON aa.idAdmisionAlumno = cp.idAdmisionAlumno
-            INNER JOIN comunicacion_pago cpago ON cp.idCronogramaPago = cpago.idCronogramaPago
-            INNER JOIN detalle_comunicacion_pago dcp ON cpago.idComunicacionPago = dcp.idComunicacionPago
-            INNER JOIN (
-                SELECT
-                    MAX(dcp.fechaComunicacion) AS max_fechaComunicacion,
-                    dcp.idComunicacionPago
-                FROM
-                    detalle_comunicacion_pago dcp
-                GROUP BY
-                    dcp.idComunicacionPago
-            ) max_dcp ON dcp.fechaComunicacion = max_dcp.max_fechaComunicacion AND dcp.idComunicacionPago = max_dcp.idComunicacionPago
-            INNER JOIN usuario u ON dcp.usuarioCreacion = u.idUsuario
-        WHERE
-            a.idAlumno =  :idAlumno;");
-        $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
-        $statement->execute();
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    // Obtiene los detalles del alumno para la vista Apoderado
+    public static function mdlObtenerDetallesAlumnoApoderado($tabla,$idAlumno){
+    $statement = Connection::conn()->prepare("SELECT DISTINCT
+    CONCAT(alumno.nombresAlumno, ' ', alumno.apellidosAlumno) AS nombre_completo,
+	alumno.dniAlumno, 
+	alumno.fechaNacimiento, 
+	alumno.direccionAlumno, 
+	alumno.fechaIngresoVolta, 
+	grado.descripcionGrado, 
+	nivel.descripcionNivel
+    FROM
+        $tabla
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+            alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN
+        grado
+        ON 
+            alumno_anio_escolar.idGrado = grado.idGrado
+        INNER JOIN
+        nivel
+        ON 
+            grado.idNivel = nivel.idNivel
+        INNER JOIN
+        curso_grado
+        ON 
+            grado.idGrado = curso_grado.idGrado
+        INNER JOIN
+        curso
+        ON 
+            curso_grado.idCurso = curso.idCurso
+    WHERE
+        alumno.idAlumno = :idAlumno;");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
     }
 
 }

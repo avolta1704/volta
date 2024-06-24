@@ -48,10 +48,9 @@ $(document).ready(function () {
     const fecha = new Date(fechaLimitePago[indice]);
     const opciones = { year: "numeric", month: "long", day: "numeric" };
     const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
-
     fechaPago.text(fechaFormateada);
   }
-
+  // Función para obtener el registro de asistencia por alumno
   function obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno) {
     var data = new FormData();
     data.append("idAlumnoAsistenciaporMesesApoderado", idAlumno);
@@ -97,7 +96,7 @@ $(document).ready(function () {
       },
     });
   }
-
+  // Función para poblar el dropdown de meses
   function poblarDropdownMeses() {
     const dropdown = document.getElementById(
       "mesesAsistenciaApoderadoDropdown"
@@ -113,13 +112,29 @@ $(document).ready(function () {
       event.preventDefault();
       const index = $(this).data("index");
       if (index !== null) {
-        inicializarGraficoAsistencia(index); // Llamar a la función aquí también
+        inicializarGraficoAsistencia(index); // Llamar a la función DE inicializacion grafico
       }
     });
   }
-
+  // Inicializar el gráfico de asistencia
   let asistenciaChart;
+  // Función para inicializar el gráfico de asistencia
   function inicializarGraficoAsistencia(indice) {
+    const filtroSeleccionado = $(".filtro-seleccionado-asistencia-mes");
+    // Si no hay registro de asistencia, mostrar un mensaje
+    if (mesesAsistencia[indice] == null) {
+      // Si ya existe un gráfico, destruirlo
+      if (asistenciaChart) {
+        asistenciaChart.destroy();
+        asistenciaChart = null; // Reiniciar la variable
+      }
+      // Mostrar mensaje de no hay registro de asistencia
+      filtroSeleccionado.text("| No hay registro de Asitencia");
+      return;
+    } else {
+      filtroSeleccionado.text("| " + mesesAsistencia[indice]);
+    }
+
     const ctx = document
       .getElementById("asistenciaApoderadoChart")
       .getContext("2d");
@@ -142,10 +157,10 @@ $(document).ready(function () {
             totalTardanzaJustificada[indice],
           ],
           backgroundColor: [
-            "rgba(54, 162, 235, 0.8)",  // Azul
-            "rgba(255, 99, 132, 0.8)",  // Rojo
-            "rgba(255, 205, 86, 0.8)",  // Amarillo
-            "rgba(75, 192, 192, 0.8)",  // Verde agua
+            "rgba(54, 162, 235, 0.8)", // Azul
+            "rgba(255, 99, 132, 0.8)", // Rojo
+            "rgba(255, 205, 86, 0.8)", // Amarillo
+            "rgba(75, 192, 192, 0.8)", // Verde agua
             "rgba(153, 102, 255, 0.8)", // Púrpura
           ],
           borderColor: [
@@ -192,20 +207,47 @@ $(document).ready(function () {
       options: options,
     });
   }
+  // Función para obtener todos los datos del alumno
+  function obtenerTodoslosDatosAlumnoApoderado(idAlumno) {
+    var data = new FormData();
+    data.append("idAlumnoDetallesVistaApoderado", idAlumno);
+    $.ajax({
+      url: "ajax/inicio.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        $("#nombreAlumnoApoderado").val(response["nombre_completo"]);
+        $("#gradoAlumnoApoderado").val(response["descripcionGrado"]);
+        $("#nivelAlumnoApoderado").val(response["descripcionNivel"]);
+        $("#fechaNacimientoAlumnoApoderado").val(response["fechaNacimiento"]);
+        $("#dniAlumnoApoderado").val(response["dniAlumno"]);
+        $("#direccionAlumnoApoderado").val(response["direccionAlumno"]);
+        $("#fechaIngresoAlumnoApoderado").val(response["fechaIngresoVolta"]);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+  
 
   obtenerProximaFechaPagoApoderado(idAlumno);
   obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno);
+  obtenerTodoslosDatosAlumnoApoderado(idAlumno);
 
+  // Cambio de alumno de acuerdo al alumno seleccionado en el navbar
   $(".alumno-item").click(function () {
     // Obtener el idAlumno del elemento clickeado
     var idAlumno = $(this).data("id-alumno");
-    /*   datos.setAttribute('data-primer-id-alumno', idAlumno);
-    // Recargar la página
-    location.reload(); */
-    // Actualizar la tabla con el nuevo idAlumno
+    // Actualizar los datos de los dashboard
     actualizarTablaConNuevoIdAlumno(idAlumno);
     obtenerProximaFechaPagoApoderado(idAlumno);
     obtenerRegistroAsistenciaPorAlumnoApoderado(idAlumno);
+    obtenerTodoslosDatosAlumnoApoderado(idAlumno);
   });
 });
 
