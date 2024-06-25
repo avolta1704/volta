@@ -15,11 +15,6 @@ session_start();
     require "modules/navbar.php";
     require "modules/menu.php";
 
-
-
-    // // $acceso = new ControllerUsuarios();
-    // // echo $acceso->ctrTieneAcceso(); 
-
     if (isset($_GET["ruta"])) {
       if (
         $_GET["ruta"] == "inicio" ||
@@ -135,6 +130,7 @@ session_start();
   <script src="views/js/inicio-apoderado.js"></script>
   <script src="views/js/tecnicaseInstrumentos.js"></script>
   <script src="views/js/perfil.js"></script>
+  <script src="views/js/navegabilidad.js"></script>
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>

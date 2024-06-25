@@ -65,6 +65,12 @@ class UsuariosAjax
     $response = ControllerUsuarios::ctrActualizarPassword($actualizarPassword);
     echo json_encode($response);
   }
+
+  public function ajaxTieneAcceso()
+  {
+    $response = ControllerUsuarios::ctrTieneAcceso();
+    echo json_encode($response);
+  }
 }
 
 //  Mostar todos los usuarios DataTable
@@ -109,8 +115,13 @@ if (isset($_POST["datosApoderado"])) {
 }
 
 //  Eliminar un usuario
-if(isset($_POST["passwordData"])){
+if (isset($_POST["passwordData"])) {
   $actualizarPassword = new UsuariosAjax();
   $actualizarPassword->actualizarPassword = $_POST["passwordData"];
   $actualizarPassword->ajaxActualizarPassword();
+}
+
+if (isset($_POST["tieneAcceso"])) {
+  $tieneAcceso = new UsuariosAjax();
+  $tieneAcceso->ajaxTieneAcceso();
 }

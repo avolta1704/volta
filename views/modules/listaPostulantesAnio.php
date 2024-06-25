@@ -15,8 +15,7 @@
       <div class="col-lg-2">
         <div class="row mb-2">
           <div class="dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle d-flex gap-3 align-items-center" type="button"
-              data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle d-flex gap-3 align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-download"></i> Descargar Reportes
             </button>
             <ul class="dropdown-menu">
@@ -38,8 +37,7 @@
           <div class="card">
             <div class="card-body">
               <!--  Titulo dataTablePostulantesReporteAnio-->
-              <table id="dataTablePostulantesReporteAnio" class="display dataTablePostulantesReporteAnio"
-                style="width: 100%">
+              <table id="dataTablePostulantesReporteAnio" class="display dataTablePostulantesReporteAnio" style="width: 100%">
                 <thead>
                   <!-- dataTablePostulantesReporteAnio -->
                 </thead>
@@ -75,13 +73,12 @@ $postulante = new ControllerPostulantes();
           <option value="2">En Revisión</option>
           <option value="3">Aprobado</option>
           <option value="4">Rechazado</option>
-    
+
         </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnActualizarEstado"
-          id="btnActualizarEstadoPostulante">Actualizar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstado" id="btnActualizarEstadoPostulante">Actualizar</button>
       </div>
     </div>
   </div>
