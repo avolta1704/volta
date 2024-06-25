@@ -12,7 +12,7 @@ $(document).ready(function () {
     { data: "nombre_completo" },
     { data: "descripcionNivel" },
     { data: "descripcionGrado" },
-    { data: "estadoAdmisionAlumno" },
+    { data: "status" },
     { data: "acciones" },
   ];
 
@@ -20,15 +20,14 @@ $(document).ready(function () {
     columns: columnDefsPersonal,
   });
 
-  const datos = document.getElementById("datos");
-  let idUsuario = datos.getAttribute("data-ip-confirmacion");
+
 
   //Solicitud ajx inicial de dataTablePersonalInicio
   var data = new FormData();
-  data.append("idUsuarioCompetenciasNotas", idUsuario);
+  data.append("idUsuarioAlumnoNotasApoderado", ipConfirmacion);
 
   $.ajax({
-    url: "ajax/inicio.ajax.php",
+    url: "ajax/notas.ajax.php",
     method: "POST",
     data: data,
     cache: false,
@@ -54,6 +53,7 @@ $(document).ready(function () {
       <th scope="col">Nombres Alumno</th>
       <th scope="col">Nivel</th>
       <th scope="col">Grado</th>
+      <th scope="col">Estado</th>
       <th scope="col">Acciones</th>
 		</tr>
 	  `);
@@ -70,7 +70,7 @@ $(document).ready(function () {
     { data: "nombre_completo" },
     { data: "descripcionNivel" },
     { data: "descripcionGrado" },
-    { data: "estadoAdmisionAlumno" },
+    { data: "status" },
     { data: "acciones" },
   ];
   tablePersonalInicio = $("#dataTableNotasAlumnoApoderado").DataTable({

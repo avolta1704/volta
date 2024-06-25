@@ -239,6 +239,7 @@ class ModelNotas
   public static function mdlObtenerAlumnosApoderado($tabla, $idUsuario)
   {
     $stmt = Connection::conn()->prepare("SELECT DISTINCT
+    alumno.idAlumno,
     CONCAT(alumno.nombresAlumno,' ',alumno.apellidosAlumno) AS nombre_completo,
     nivel.descripcionNivel, 
     grado.descripcionGrado, 
@@ -277,14 +278,6 @@ class ModelNotas
     curso_grado
     ON 
       grado.idGrado = curso_grado.idGrado
-    INNER JOIN
-    cursogrado_personal
-    ON 
-      curso_grado.idCursoGrado = cursogrado_personal.idCursoGrado
-    INNER JOIN
-    personal
-    ON 
-      cursogrado_personal.idPersonal = personal.idPersonal
   WHERE
     usuario.idUsuario = :idUsuario AND
     admision_alumno.estadoAdmisionAlumno = 2 ");

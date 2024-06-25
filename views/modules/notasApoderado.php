@@ -1,5 +1,5 @@
 <?php
-$aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
+$ipConfirmacion = $_SESSION["idUsuario"];
 ?>
 <main id="main" class="main">
 
@@ -25,9 +25,13 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
           <div class="card py-4">
             <div class="card-header">
             </div>
+            <script>
+              var ipConfirmacion = "<?php echo $ipConfirmacion; ?>";
+            </script>
             <div class="card-body table-responsive">
               <!--  Titulo dataTableNotasAlumnoApoderado-->
-              <table id="dataTableNotasAlumnoApoderado" class="display dataTableNotasAlumnoApoderado" style="width: 100%">
+              <table id="dataTableNotasAlumnoApoderado" class="display dataTableNotasAlumnoApoderado"
+                style="width: 100%">
                 <thead>
                   <!-- dataTableNotasAlumnoApoderado -->
                 </thead>

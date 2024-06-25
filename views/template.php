@@ -167,7 +167,7 @@ session_start();
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
   <script src="views/dataTables/dt-pagos-alumnos-apoderado.js"></script>
   <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
-  <script src="views/dataTables/dt-nota-ALUMNO.js"></script>
+  <script src="views/dataTables/dt-nota-apoderado.js"></script>
 
 </body>
 

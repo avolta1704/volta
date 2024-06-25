@@ -6,6 +6,7 @@ require_once "../model/notas.model.php";
 require_once "../model/alumnos.model.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/notas.functions.php";
+require_once "../functions/admisionAlumno.functions.php";
 
 class NotasAjax
 {
@@ -44,15 +45,20 @@ class NotasAjax
     }
     $respuesta["alumnosConNotas"] = $alumnosConNotas;
     echo json_encode($respuesta);
-  }/* 
+  }
+  // Consulta ajax para obtener los alumnos de un apoderado
   public $idUsuarioAlumnoNotasApoderado;
-  public static function ajaxObtenerAlumnosApoderado()
+  public function ajaxObtenerAlumnosApoderadoNotas()
   {
     $idUsuarioAlumnoNotasApoderado = $this->idUsuarioAlumnoNotasApoderado;
-    $response = ControllerInicio::ctrObtenerTodoslosCursosAsignadosAlumno($idUsuarioAlumnoNotasApoderado);
+    $response = ControllerNotas::ctrObtenerAlumnosApoderado($idUsuarioAlumnoNotasApoderado);
+    foreach ($response as &$alumno) {
+      $alumno['acciones'] = FunctionNotas::getBtnNotasAlumnoApoderado($alumno["idAlumno"]);
+      $alumno['status'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($alumno["estadoAdmisionAlumno"]);
+    } 
     echo json_encode($response);
 
-  } */
+  }
 
   /**
    * Consulta ajax para crear o actualizar una nota
@@ -85,5 +91,5 @@ if (isset($_POST["crearActualizarNota"])) {
 if (isset($_POST["idUsuarioAlumnoNotasApoderado"])) {
   $alumnosNotasApoderado = new NotasAjax();
   $alumnosNotasApoderado->idUsuarioAlumnoNotasApoderado = $_POST["idUsuarioAlumnoNotasApoderado"];
-  $alumnosNotasApoderado->ajaxObtenerAlumnosApoderado();
+  $alumnosNotasApoderado->ajaxObtenerAlumnosApoderadoNotas();
 }

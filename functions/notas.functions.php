@@ -20,4 +20,19 @@ class FunctionNotas
 
     return $select;
   }
+  //boton visualizar usuario
+  public static function getBtnNotasAlumnoApoderado($codAlumno)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownNotasApoderado" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
+        <li><button type="button" class="dropdown-item btnVisualizarNotaApoderado" data-bs-toggle="modal" data-bs-target="#modalEditarCompetencia" codAlumno="' . $codAlumno . '" >Visualizar</button></li>
+      </ul>
+    </div>
+  ';
+    return $botones;
+  }
 }
