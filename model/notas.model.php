@@ -287,17 +287,15 @@ class ModelNotas
   }
   public static function mdlObtenerListadoNotasAlumnoApoderado($tabla, $idAlumno){
     $stmt = Connection::conn()->prepare("SELECT
-    alumno.nombresAlumno, 
-    alumno.apellidosAlumno, 
-    curso.descripcionCurso, 
-    bimestre.descripcionBimestre, 
-    nota_bimestre.notaBimestre, 
-    unidad.descripcionUnidad, 
-    nota_unidad.notaUnidad, 
-    competencias.descripcionCompetencia, 
-    nota_competencia.notaCompetencia
+      alumno.nombresAlumno, 
+      alumno.apellidosAlumno, 
+      curso.descripcionCurso, 
+      bimestre.descripcionBimestre, 
+      nota_bimestre.notaBimestre, 
+      unidad.descripcionUnidad, 
+      nota_unidad.notaUnidad
     FROM
-      $tabla
+      alumno
       INNER JOIN
       alumno_anio_escolar
       ON 
@@ -319,15 +317,6 @@ class ModelNotas
       ON 
         bimestre.idBimestre = unidad.idBimestre
       LEFT JOIN
-      competencias
-      ON 
-        unidad.idUnidad = competencias.idUnidad
-      LEFT JOIN
-      nota_competencia
-      ON 
-        alumno_anio_escolar.idAlumnoAnioEscolar = nota_competencia.idAlumnoAnioEscolar AND
-        competencias.idCompetencia = nota_competencia.idCompetencia
-      LEFT JOIN
       nota_bimestre
       ON 
         alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND
@@ -342,15 +331,13 @@ class ModelNotas
       ON 
         curso_grado.idCurso = curso.idCurso
     WHERE
-      alumno.idAlumno = :idAlumno AND curso.descripcionCurso = 'Álgebra Lineal'
+      alumno.idAlumno = :idAlumno and curso.descripcionCurso = 'Álgebra Lineal'
     GROUP BY
       curso.idCurso, 
       bimestre.idBimestre, 
-      unidad.idUnidad, 
-      competencias.idCompetencia, 
+      unidad.idUnidad,
       nota_bimestre.idNotaBimestre, 
-      nota_unidad.idNotaUnidad, 
-      nota_competencia.idNotaCompetencia");
+      nota_unidad.idNotaUnidad");
     $stmt->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);

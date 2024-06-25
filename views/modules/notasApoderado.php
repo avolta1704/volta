@@ -61,25 +61,8 @@ $ipConfirmacion = $_SESSION["idUsuario"];
         <div class="table-responsive">
           <table id="dataTableNotasPorAlumnoApoderado" class="display dataTableNotasPorAlumnoApoderado"
             style="width: 100%">
-            <thead>
-              <tr>
-                <th rowspan="2">CURSOS</th>
-                <th rowspan="2">COMPETENCIAS</th>
-                <th colspan="2">I BIMESTRE</th>
-                <th colspan="2">II BIMESTRE</th>
-                <th colspan="2">III BIMESTRE</th>
-                <th colspan="2">IV BIMESTRE</th>
-              </tr>
-              <tr>
-                <th>I UNIDAD</th>
-                <th>II UNIDAD</th>
-                <th>III UNIDAD</th>
-                <th>IV UNIDAD</th>
-                <th>V UNIDAD</th>
-                <th>VI UNIDAD</th>
-                <th>VII UNIDAD</th>
-                <th>VIII UNIDAD</th>
-              </tr>
+            <thead id="dataTableNotasPorAlumnoApoderadoHead">
+              <!-- Encabezados dinámicos aquí -->
             </thead>
             <tbody>
               <!--dataTableNotasPorAlumnoApoderado-->
