@@ -26,6 +26,12 @@ class ControllerUsuarios
           $_SESSION["tipoDocente"] = $TipoDocente["idTipoPersonal"];
           $_SESSION["descripcionDocente"] = $TipoDocente["descripcionTipo"];
         }
+        if ($dataUsuario["idTipoUsuario"] == 4) {
+          $idAlumnosApoderado = ControllerApoderados::ctrGetIdAlumnosApoderados($dataUsuario["idUsuario"]);
+
+          $_SESSION["idAlumnos"] = $idAlumnosApoderado;  //  Guardamos los id de los alumnos apoderados
+        }
+
         // Save last login
         $ultimaConexion = date("Y-m-d\TH:i:sP");
         // Update last login
@@ -317,8 +323,21 @@ class ControllerUsuarios
     if ($verificar["existencia"] == true || $verificar["existencia"] == "1") {
       return "error";
     } else {
-      $tabla = "usuario";
-      $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+      $tipoUsuario = ModelUsuarios::mdlVerficarTipoUsuarioApoderado($codUsuario);
+      if($tipoUsuario["idTipoUsuario"] == 4){
+        $idsApoderados = ModelUsuarios::mdlObteneridApoderados("usuario",$codUsuario);
+        $idApoderado1 = $idsApoderados[0]['idApoderado'];
+        $idApoderado2 = $idsApoderados[1]['idApoderado'];
+        $respuestaCambiodeEstadoUsuarioidUsuario= ModelApoderados::mdlCambiarEstadoCuentaCreadaIdUsuario("apoderado",0, $idApoderado1,$idApoderado2);
+        if($respuestaCambiodeEstadoUsuarioidUsuario=="ok"){
+          $tabla = "usuario";
+          $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+        }
+      } else {
+        $tabla = "usuario";
+        $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+      }
+
       return $response;
     }
   }
@@ -360,119 +379,45 @@ class ControllerUsuarios
     $tipoUsuario = self::ctrGetTipoUsuario();
     $usuario = strtolower($tipoUsuario["descripcionTipoUsuario"]);
 
-    if ($usuario == "administrador") {
-      // Dar acceso a todas las URLs
-      return;
-    } elseif ($usuario == "administrativo") {
-      // Dar acceso a URLs específicas para administrativos
-      $allowedUrls = array(
-        "listaPostulantes",
-        "buscarPostulante",
-        "listaAdmisionAlumnos",
-        "buscarAlumno",
-        "listaPagos",
-        "listaComunicadoPago",
-        "reporteComunicaciones",
-        "reportePagos",
-        "reporteAdmisiones",
-
-      );
-    } elseif ($usuario == "dirección") {
-      // Dar acceso a URLs específicas para directivos
-      $allowedUrls = array(
-        "listaAlumnos",
-        "buscarAlumno",
-        "buscarAlumno",
-        "anioEscolar",
-        "reporteAdmisiones",
-        "reporteComunicaciones",
-        "reportePagos",
-        "personal",
-        "usuarios",
-        "apoderado",
-        "cursos",
-        "asignarCursos",
-        "listaDocentes"
-      );
-    } elseif ($usuario == "docente") {
-      // Dar acceso a URLs específicas para docentes
-      $allowedUrls = array(
-        "listaAlumnos",
-        "cursosDocente",
-      );
-    } elseif ($usuario == "apoderado") {
-      // Dar acceso a URLs específicas para apoderados
-      $allowedUrls = array(
-        ""
-      );
-    }
-
-
-    $currentPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    $currentUrl = basename($currentPath);
-    print_r($allowedUrls);
-
-    if ($currentUrl == "inicio") {
-      return;
-    }
-    if (!in_array($currentUrl, $allowedUrls)) {
-      return '<script>
-        window.location = "inicio";
-      </script>';
-    }
+    return $usuario;
   }
-
-  /**
-   * Actualizar password del usuario
-   * 
-   * @param array datos de las contraseñas en formato json
-   * @return string retorno de los datos en string
-   */
-  public static function ctrActualizarPassword($passwordData)
+  public static function ctrCrearUsuarioApoderadoVista($datos)
   {
     $tabla = "usuario";
-    $passwordData = json_decode($passwordData, true);
-
-    //  Verificar la contraseña del usuario
     if (session_status() == PHP_SESSION_NONE) {
       session_start();
     }
+    $contrasenaUsuarioApoderado = password_hash($datos["contrasenaUsuarioApoderado"], PASSWORD_ARGON2ID, [
+      'memory_cost' => 1 << 12,
+      'time_cost' => 2,
+      'threads' => 2
+    ]);
 
-    if ($passwordData["newPassword"] == $passwordData["renewPassword"]) {
-      $passwordActual = self::ctrObtenerPasssword($_SESSION["idUsuario"]);
-      $password = password_verify($passwordData["password"], $passwordActual);
-      if ($password) {
-        $newPassword = password_hash($passwordData["newPassword"], PASSWORD_ARGON2ID, [
-          'memory_cost' => 1 << 12,
-          'time_cost' => 2,
-          'threads' => 2
-        ]);
-        $dataUpdate = array(
-          "password" => $newPassword,
-          "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
-          "usuarioActualizacion" => $_SESSION["idUsuario"],
-          "idUsuario" => $_SESSION["idUsuario"]
-        );
-        $response = ModelUsuarios::mdlActualizarPassword($tabla, $dataUpdate);
-        return $response;
-      } else {
-        return "error";
+    $dataUsuario = array(
+      "correoUsuario" => $datos["correoUsuarioApoderado"],
+      "password" => $contrasenaUsuarioApoderado,
+      "nombreUsuario" => $datos["nombreUsuarioApoderado"],
+      "apellidoUsuario" => $datos["apellidoUsuarioApoderado"],
+      "dniUsuario" => $datos["dniUsuarioApoderado"],
+      "idTipoUsuario" => $datos["tipoUsuarioApoderado"],
+      "estadoUsuario" => "1",
+      "fechaCreacion" => date("Y-m-d\TH:i:sP"),
+      "fechaActualizacion" => date("Y-m-d\TH:i:sP"),
+      "usuarioCreacion" => $_SESSION["idUsuario"],
+      "usuarioActualizacion" => $_SESSION["idUsuario"]
+    );
+    $response = ModelUsuarios::mdlCrearUsuarioApoderado($tabla, $dataUsuario);
+    $ultimoIdUsuario = ModelUsuarios::mdlUltimoIdUsuario("usuario");
+    $codApoderado = intval($datos["codApoderado"]);
+    $idApoderado2 = ModelApoderados::mdlObtenerIdSegundoIdApoderado($codApoderado);
+    $insercionidUsuario=ModelApoderados::mdlInsertarIdUsuarioApoderado("apoderado",$ultimoIdUsuario["idUsuario"], $codApoderado, $idApoderado2["idApoderado"]);
+    if($insercionidUsuario=="ok"){
+      $respuestaCambiodeEstadoUsuarioCreado= ModelApoderados::mdlCambiarEstadoCuentaCreada("apoderado",1, $codApoderado, $idApoderado2["idApoderado"]);
+      if($respuestaCambiodeEstadoUsuarioCreado=="ok"){
+        $response = "ok";
       }
-    } else {
-      return "error";
+      return $response;
     }
-  }
 
-  /**
-   * Obtener la contraseña del usuario
-   * 
-   * @param int $idUsuario Código del usuario para verificar
-   * @return string Contraseña actual del usuario
-   */
-  public static function ctrObtenerPasssword($idUsuario)
-  {
-    $tabla = "usuario";
-    $passwordUsuario = ModelUsuarios::mdlObtenerPassword($tabla, $idUsuario);
-    return $passwordUsuario;
   }
 }

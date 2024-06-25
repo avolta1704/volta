@@ -7,6 +7,7 @@ $(document).ready(function () {
     { data: "celularApoderado" },
     { data: "correoApoderado" },
     { data: "convivenciaAlumno" },
+    { data: "cuentaCreada" },
     { data: "buttons" },
   ];
 
@@ -51,6 +52,7 @@ $(document).ready(function () {
       <th scope="col">Celular</th>
       <th scope="col">Correo</th>
       <th scope="col">Convivencia Alumno</th>
+      <th scope="col">Cuenta Creada</th>
       <th scope="col">Acciones</th>
     </tr>
     `);
@@ -70,6 +72,7 @@ $(document).ready(function () {
     { data: "celularApoderado" },
     { data: "correoApoderado" },
     { data: "convivenciaAlumno" },
+    { data: "cuentaCreada" },
     { data: "buttons" },
   ];
   tableApoderado = $("#dataTableApoderado").DataTable({

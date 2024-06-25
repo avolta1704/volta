@@ -57,4 +57,43 @@ class FunctionUsuario
     ';
     return $botones;
   }
+  // Estado de Pago Inicio Apoderado
+  public static function getEstadoPagos($estadoPago){
+    //  Estado de los pagos Apoderado 0 = Vencido & 1 = Pendiente
+    if ($estadoPago == 0) {
+      $estado = '<span class="badge rounded-pill bg-danger">Vencido</span>';
+    }
+    if ($estadoPago == 1) {
+      $estado = '<span class="badge rounded-pill bg-warning">Pendiente</span>';
+    }
+    if ($estadoPago == 2) {
+      $estado = '<span class="badge rounded-pill bg-success">Pagado</span>';
+    }
+    if ($estadoPago > 3) {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Estado</span>';
+    }
+
+    return $estado;
+  }
+  // Notas Asignadas
+  public static function getNotasAsignadas($notasAsignadas){
+    //  Estado de los pagos Apoderado 0 = Vencido & 1 = Pendiente
+    if ($notasAsignadas == "C") {
+      $estado = '<span class="badge rounded-pill bg-danger">C</span>';
+    }
+    if ($notasAsignadas == "B") {
+      $estado = '<span class="badge rounded-pill bg-warning">B</span>';
+    }
+    if ($notasAsignadas == "A") {
+      $estado = '<span class="badge rounded-pill bg-success">A</span>';
+    }
+    if ($notasAsignadas == "AD") {
+      $estado = '<span class="badge rounded-pill bg-success">AD</span>';
+    }
+    if ($notasAsignadas == null) {
+      $estado = '<span class="badge rounded-pill bg-warning">Sin Nota</span>';
+    }
+
+    return $estado;
+  }
 }

@@ -1,8 +1,6 @@
 $(document).ready(function () {
-  var idUsuarioElement = document.getElementById("ipConfirmacion");
-
-  // Obtiene el contenido del elemento
-  var idUsuario = idUsuarioElement.textContent;
+  const datos = document.getElementById("datos");
+  let idUsuario = datos.getAttribute("data-ip-confirmacion");
   // Variables globales para almacenar los datos
   var globalDatos = [];
   // Variables globales para almacenar los datos de la consulta
@@ -259,7 +257,7 @@ $(document).ready(function () {
     totalAlumnos.text(alumnosPorGrado[indice].toLocaleString() + " Asignados");
   }
 
-  // Función para filtrar por año
+  // Función para filtrar por grados
   window.filtrarAlumnosDocente = function (gradosDocentes, indice) {
     actualizarDatosAlumnosDocentes(indice);
   };
@@ -299,7 +297,6 @@ $(document).ready(function () {
     filtroSeleccionado.text("| " + nombreDocente[indice]);
     totalCursos.text(cursosPorDocente[indice].toLocaleString() + " Asignados");
   }
-
 
   obtenerAsistenciaPorMeses(idUsuario);
   obtenerAlumnosAsignadosDocente(idUsuario);

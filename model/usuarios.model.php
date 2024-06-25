@@ -78,6 +78,28 @@ class ModelUsuarios
       return "error";
     }
   }
+    //  Crear un nuevo usuario Apoderado
+    public static function mdlCrearUsuarioApoderado($tabla, $dataUsuario)
+    {
+      $statement = Connection::conn()->prepare("INSERT INTO $tabla (correoUsuario, password, nombreUsuario, apellidoUsuario, dniUsuario, idTipoUsuario, estadoUsuario, fechaCreacion, fechaActualizacion, usuarioCreacion, usuarioActualizacion) VALUES(:correoUsuario, :password, :nombreUsuario, :apellidoUsuario, :dniUsuario, :idTipoUsuario, :estadoUsuario, :fechaCreacion, :fechaActualizacion, :usuarioCreacion, :usuarioActualizacion)");
+      $statement->bindParam(":correoUsuario", $dataUsuario["correoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":password", $dataUsuario["password"], PDO::PARAM_STR);
+      $statement->bindParam(":nombreUsuario", $dataUsuario["nombreUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":apellidoUsuario", $dataUsuario["apellidoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":dniUsuario", $dataUsuario["dniUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":idTipoUsuario", $dataUsuario["idTipoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":estadoUsuario", $dataUsuario["estadoUsuario"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaCreacion", $dataUsuario["fechaCreacion"], PDO::PARAM_STR);
+      $statement->bindParam(":fechaActualizacion", $dataUsuario["fechaActualizacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioCreacion", $dataUsuario["usuarioCreacion"], PDO::PARAM_STR);
+      $statement->bindParam(":usuarioActualizacion", $dataUsuario["usuarioActualizacion"], PDO::PARAM_STR);
+  
+      if ($statement->execute()) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
 
   //  Editar data usuario personal
   public static function mdlEditarUsuarioPersonal($tabla, $dataUsuario)
@@ -165,6 +187,23 @@ class ModelUsuarios
     }
   }
 
+  // Verificar si es apoderado el usuario
+  public static function mdlVerficarTipoUsuarioApoderado($codUsuario){
+    $statement = Connection::conn()->prepare("SELECT
+    tipo_usuario.idTipoUsuario
+  FROM
+    usuario
+    INNER JOIN
+    tipo_usuario
+    ON 
+      usuario.idTipoUsuario = tipo_usuario.idTipoUsuario
+  WHERE
+    usuario.idUsuario =:idUsuario");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+
   //  Verificar usabilidad de un usuario en toda la base de datos
   public static function mdlVerificarUsuario($codUsuario)
   {
@@ -191,8 +230,6 @@ class ModelUsuarios
         SELECT 1 FROM pago WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
         UNION ALL
         SELECT 1 FROM postulante WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
-        UNION ALL
-        SELECT 1 FROM record_nota WHERE usuarioCreacion = :idUsuario OR usuarioActualizacion = :idUsuario
     ) THEN TRUE
     ELSE FALSE
 END AS existencia
@@ -214,6 +251,25 @@ END AS existencia
     $statement = Connection::conn()->prepare("SELECT descripcionTipoUsuario FROM $tabla WHERE idTipoUsuario = $idTipoUsuario");
     $statement->execute();
     return $statement->fetch();
+  }
+  public static function mdlUltimoIdUsuario($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT MAX(usuario.idUsuario) AS idUsuario FROM $tabla");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  } 
+  public static function mdlObteneridApoderados($tabla,$idUsuario){
+    $statement = Connection::conn()->prepare("SELECT apoderado.idApoderado FROM $tabla INNER JOIN apoderado ON  usuario.idUsuario = apoderado.idUsuario WHERE usuario.idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener nombre completo Alumno
+  public static function mdlObtenerNombreCompletoAlumno($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT CONCAT(nombresAlumno, ' ', apellidosAlumno) AS nombre_completo FROM $tabla WHERE idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
   /**

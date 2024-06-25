@@ -19,10 +19,8 @@ $(document).ready(function () {
     columns: columnDefsPersonal,
   });
 
-  var tipoUsuarioElement = document.getElementById("tipoUsuario");
-
-  // Obtiene el contenido del elemento
-  var tipoUsuario = tipoUsuarioElement.textContent;
+  const datos = document.getElementById('datos');
+  let tipoUsuario = datos.getAttribute('data-tipo-usuario');
   //Solicitud ajx inicial de dataTablePersonalInicio
   var data = new FormData();
   data.append("personalInicio", true);
