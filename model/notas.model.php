@@ -285,4 +285,74 @@ class ModelNotas
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlObtenerListadoNotasAlumnoApoderado($tabla, $idAlumno){
+    $stmt = Connection::conn()->prepare("SELECT
+    alumno.nombresAlumno, 
+    alumno.apellidosAlumno, 
+    curso.descripcionCurso, 
+    bimestre.descripcionBimestre, 
+    nota_bimestre.notaBimestre, 
+    unidad.descripcionUnidad, 
+    nota_unidad.notaUnidad, 
+    competencias.descripcionCompetencia, 
+    nota_competencia.notaCompetencia
+    FROM
+      $tabla
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      grado
+      ON 
+        alumno_anio_escolar.idGrado = grado.idGrado
+      INNER JOIN
+      curso_grado
+      ON 
+        grado.idGrado = curso_grado.idGrado
+      RIGHT JOIN
+      bimestre
+      ON 
+        curso_grado.idCursoGrado = bimestre.idCursoGrado
+      LEFT JOIN
+      unidad
+      ON 
+        bimestre.idBimestre = unidad.idBimestre
+      LEFT JOIN
+      competencias
+      ON 
+        unidad.idUnidad = competencias.idUnidad
+      LEFT JOIN
+      nota_competencia
+      ON 
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_competencia.idAlumnoAnioEscolar AND
+        competencias.idCompetencia = nota_competencia.idCompetencia
+      LEFT JOIN
+      nota_bimestre
+      ON 
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND
+        bimestre.idBimestre = nota_bimestre.idBimestre
+      LEFT JOIN
+      nota_unidad
+      ON 
+        alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND
+        unidad.idUnidad = nota_unidad.idUnidad
+      INNER JOIN
+      curso
+      ON 
+        curso_grado.idCurso = curso.idCurso
+    WHERE
+      alumno.idAlumno = :idAlumno AND curso.descripcionCurso = 'Álgebra Lineal'
+    GROUP BY
+      curso.idCurso, 
+      bimestre.idBimestre, 
+      unidad.idUnidad, 
+      competencias.idCompetencia, 
+      nota_bimestre.idNotaBimestre, 
+      nota_unidad.idNotaUnidad, 
+      nota_competencia.idNotaCompetencia");
+    $stmt->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

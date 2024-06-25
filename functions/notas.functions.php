@@ -29,7 +29,7 @@ class FunctionNotas
         <i class="bi bi-pencil-square"></i>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
-        <li><button type="button" class="dropdown-item btnVisualizarNotaApoderado" data-bs-toggle="modal" data-bs-target="#modalEditarCompetencia" codAlumno="' . $codAlumno . '" >Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarNotaApoderado" data-bs-toggle="modal" data-bs-target="#modalNotasAlumnoApoderado" codAlumno="' . $codAlumno . '" >Visualizar</button></li>
       </ul>
     </div>
   ';
