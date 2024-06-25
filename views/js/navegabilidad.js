@@ -267,6 +267,10 @@ document.addEventListener("DOMContentLoaded", function () {
 			rutaBase: "asistenciaApoderado",
 			acceso: ["apoderado"],
 		},
+    {
+			rutaBase: "listaAlumnosDocentes",
+			acceso: ["docente"],
+		},
 	];
 
 	// Función para encontrar la ruta base activa

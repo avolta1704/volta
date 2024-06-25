@@ -15,7 +15,7 @@
       </a>
       <ul id="allAlumnos" class="nav-content collapse" data-bs-parent="#sidebar-nav">
         <li>
-          <a href="listaAlumnos">
+          <a href="listaAlumnosDocentes">
             <i class="bi bi-circle"></i><span>Mis alumnos</span>
           </a>
         </li>
