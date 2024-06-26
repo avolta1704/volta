@@ -6,6 +6,9 @@ require_once "../functions/asistenciaAlumnos.functions.php";
 require_once "../model/transactionManager.model.php";
 require_once "../controller/alumnos.controller.php";
 require_once "../model/alumnos.model.php";
+require_once "../functions/admisionAlumno.functions.php";
+require_once "../controller/notas.controller.php";
+require_once "../model/notas.model.php";
 
 class AsistenciaAlumnosAjax
 {
@@ -342,6 +345,13 @@ class AsistenciaAlumnosAjax
     // Devolver la respuesta
     echo json_encode($respuesta);
   }
+  public $idUsuarioAsistenciaApoderado;
+  public function ajaxObtenerAsistenciaApoderadoAlumnos(){
+    $idUsuarioAsistenciaApoderado = $this->idUsuarioAsistenciaApoderado;
+    $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaApoderadoAlumnos($idUsuarioAsistenciaApoderado);
+    echo json_encode($respuesta);
+  }
+  
 }
 
 if (isset($_POST["todosLosAlumnosAsistenciaCurso"])) {
@@ -367,4 +377,9 @@ if (isset($_POST["guardarAsistenciaAlumnosExcel"]) && isset($_POST["asistenciaAl
 if (isset($_POST["deleteAsistenciaAlumnosExcel"]) && isset($_POST["asistenciaAlumnosExcel"])) {
   $cancelarAsistenciaAlumnos = new AsistenciaAlumnosAjax();
   $cancelarAsistenciaAlumnos->ajaxCancelarAsistenciaAlumnosExcel($_POST["deleteAsistenciaAlumnosExcel"], $_POST["asistenciaAlumnosExcel"]);
+}
+if(isset($_POST["idUsuarioAsistenciaApoderado"])){
+  $alumnosAsistenciaApoderado = new AsistenciaAlumnosAjax();
+  $alumnosAsistenciaApoderado->idUsuarioAsistenciaApoderado = $_POST["idUsuarioAsistenciaApoderado"];
+  $alumnosAsistenciaApoderado->ajaxObtenerAsistenciaApoderadoAlumnos();
 }
