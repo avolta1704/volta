@@ -4,55 +4,33 @@ $("#dataTableNotasAlumnoApoderado").on(
   function () {
     var codAlumno = $(this).attr("codAlumno");
 
-    // Generar encabezados dinámicamente
-    var tableHeaderHtml = `
-        <thead>
-            <tr>
-                <th rowspan="2">CURSOS</th>
-                <th colspan="2">I BIMESTRE</th>
-                <th colspan="2">II BIMESTRE</th>
-                <th colspan="2">III BIMESTRE</th>
-                <th colspan="2">IV BIMESTRE</th>
-            </tr>
-            <tr>
-                <th>I UNIDAD</th>
-                <th>II UNIDAD</th>
-                <th>III UNIDAD</th>
-                <th>IV UNIDAD</th>
-                <th>V UNIDAD</th>
-                <th>VI UNIDAD</th>
-                <th>VII UNIDAD</th>
-                <th>VIII UNIDAD</th>
-            </tr>
-        </thead>
-    `;
-    $("#dataTableNotasPorAlumnoApoderado").html(tableHeaderHtml);
+    var columnDefsCursosPorGrado = [
+      { data: "descripcionCurso" },
+      { data: "nota_unidad_i" },
+      { data: "nota_unidad_ii" },
+      { data: "nota_unidad_iii" },
+      { data: "nota_unidad_iv" },
+      { data: "nota_unidad_v" },
+      { data: "nota_unidad_vi" },
+      { data: "nota_unidad_vii" },
+      { data: "nota_unidad_viii" },
+    ];
 
-    // Verificar si DataTable ya está inicializado
-    if (!$.fn.DataTable.isDataTable("#dataTableNotasPorAlumnoApoderado")) {
-      // Definición de columnas para DataTable
-      var columnDefsCursosPorGrado = [
-        { data: "descripcionCurso" },
-        { data: "I_UNIDAD" },
-        { data: "II_UNIDAD" },
-        { data: "III_UNIDAD" },
-        { data: "IV_UNIDAD" },
-        { data: "V_UNIDAD" },
-        { data: "VI_UNIDAD" },
-        { data: "VII_UNIDAD" },
-        { data: "VIII_UNIDAD" },
-      ];
-
-      // Inicialización de dataTableCursosPorGrado
-      var tableCursosPorGrado = $(
-        "#dataTableNotasPorAlumnoApoderado"
-      ).DataTable({
-        columns: columnDefsCursosPorGrado,
-        retrieve: true,
-        paging: false,
-        order: [[0, "desc"]], // Ordenar por la primera columna (CURSOS) de forma ascendente por defecto
-      });
-    }
+    var tableCursosPorGrado = $("#dataTableNotasPorAlumnoApoderado").DataTable({
+      columns: columnDefsCursosPorGrado,
+      retrieve: true,
+      paging: false,
+      destroy: true,
+      ordering: false, // Desactiva el ordenamiento
+      language: {
+        url: "views/dataTables/Spanish.json",
+      },
+      rowCallback: function (row, data) {
+        if (data.descripcionCurso === "PROMEDIO BIMESTRE") {
+          $(row).css("font-weight", "bold");
+        }
+      },
+    });
 
     var data = new FormData();
     data.append("idAlumnoNotasApoderado", codAlumno);
@@ -66,91 +44,188 @@ $("#dataTableNotasAlumnoApoderado").on(
       processData: false,
       dataType: "json",
       success: function (response) {
-        // Procesar la respuesta a la estructura deseada
-        const processedData = processResponse(response);
-        tableCursosPorGrado.rows.add(processedData).draw();
+        // Actualizar la información del alumno en el modal
+        $("#idAlumno").text(response[0]["idAlumno"]);
+        $("#nombreAlumno").text(
+          response[0]["nombresAlumno"] + " " + response[0]["apellidosAlumno"]
+        );
+        $("#nivelAlumno").text(response[0]["descripcionNivel"]);
+        $("#gradoAlumno").text(response[0]["descripcionGrado"]);
+        var formattedData = [];
+        response.forEach(function (item) {
+          var cursoData = {
+            descripcionCurso: item.descripcionCurso,
+            nota_unidad_i: item.nota_unidad_i || " ",
+            nota_unidad_ii: item.nota_unidad_ii || " ",
+            nota_unidad_iii: item.nota_unidad_iii || " ",
+            nota_unidad_iv: item.nota_unidad_iv || " ",
+            nota_unidad_v: item.nota_unidad_v || " ",
+            nota_unidad_vi: item.nota_unidad_vi || " ",
+            nota_unidad_vii: item.nota_unidad_vii || " ",
+            nota_unidad_viii: item.nota_unidad_viii || " ",
+            nota_bimestre_i: item.nota_bimestre_i || " ",
+            nota_bimestre_ii: item.nota_bimestre_ii || " ",
+            nota_bimestre_iii: item.nota_bimestre_iii || " ",
+            nota_bimestre_iv: item.nota_bimestre_iv || " ",
+          };
+          formattedData.push(cursoData);
+
+          // Asginar promedio al final de cada curso
+          var promedioBimestre = {
+            descripcionCurso: "PROMEDIO BIMESTRE",
+            nota_unidad_i: "",
+            nota_unidad_ii: item.nota_bimestre_i || " ",
+            nota_unidad_iii: "",
+            nota_unidad_iv: item.nota_bimestre_ii || " ",
+            nota_unidad_v: "",
+            nota_unidad_vi: item.nota_bimestre_iii || " ",
+            nota_unidad_vii: "",
+            nota_unidad_viii: item.nota_bimestre_iv || " ",
+          };
+          formattedData.push(promedioBimestre);
+        });
+
+        tableCursosPorGrado.clear();
+        tableCursosPorGrado.rows.add(formattedData);
+        tableCursosPorGrado.draw();
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR.responseText); // Origen del error
+        console.log(jqXHR.responseText);
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
 
-    function processResponse(response) {
-      const groupedData = {};
-
-      // Agrupar por curso y procesar datos
-      response.forEach((item) => {
-        const curso = item.descripcionCurso;
-        const bimestre = item.descripcionBimestre;
-
-        if (!groupedData[curso]) {
-          groupedData[curso] = {
-            descripcionCurso: curso,
-            unidades: {
-              I_UNIDAD: "",
-              II_UNIDAD: "",
-              III_UNIDAD: "",
-              IV_UNIDAD: "",
-              V_UNIDAD: "",
-              VI_UNIDAD: "",
-              VII_UNIDAD: "",
-              VIII_UNIDAD: "",
-            },
-            promedios: {
-              "I BIMESTRE": "",
-              "II BIMESTRE": "",
-              "III BIMESTRE": "",
-              "IV BIMESTRE": "",
-            },
-          };
-        }
-
-        // Asignar nota de unidad
-        const unidadKey =
-          item.descripcionUnidad.replace(" UNIDAD", "") + "_UNIDAD";
-        groupedData[curso].unidades[unidadKey] = item.notaUnidad;
-
-        // Asignar promedio bimestral
-        if (item.notaBimestre !== null && item.notaBimestre !== undefined) {
-          groupedData[curso].promedios[bimestre] = item.notaBimestre;
-        }
-      });
-
-      // Preparar el array final de datos para DataTable
-      const finalData = [];
-
-      // Recorrer los cursos agrupados y generar la estructura final
-      for (let curso in groupedData) {
-        const cursoData = groupedData[curso];
-
-        finalData.push({
-          descripcionCurso: cursoData.descripcionCurso,
-          I_UNIDAD: cursoData.unidades.I_UNIDAD,
-          II_UNIDAD: cursoData.unidades.II_UNIDAD,
-          III_UNIDAD: cursoData.unidades.III_UNIDAD,
-          IV_UNIDAD: cursoData.unidades.IV_UNIDAD,
-          V_UNIDAD: cursoData.unidades.V_UNIDAD,
-          VI_UNIDAD: cursoData.unidades.VI_UNIDAD,
-          VII_UNIDAD: cursoData.unidades.VII_UNIDAD,
-          VIII_UNIDAD: cursoData.unidades.VIII_UNIDAD,
-        });
-
-        // Agregar la fila de promedio bimestral al final de cada curso
-        finalData.push({
-          descripcionCurso: "<b>Promedio Bimestre</b>",
-          I_UNIDAD: `<td colspan="2">${cursoData.promedios["I BIMESTRE"]}</td>`,
-          II_UNIDAD: ``,
-          III_UNIDAD: `<td colspan="2">${cursoData.promedios["II BIMESTRE"]}</td>`,
-          IV_UNIDAD: ``,
-          V_UNIDAD: `<td colspan="2">${cursoData.promedios["III BIMESTRE"]}</td>`,
-          VI_UNIDAD: "",
-          VII_UNIDAD: `<td colspan="2">${cursoData.promedios["IV BIMESTRE"]}</td>`,
-          VIII_UNIDAD: "",
-        });
-      }
-
-      return finalData;
-    }
+    $("#dataTableNotasPorAlumnoApoderado thead").html(`
+      <tr>
+          <th rowspan="2">Curso</th>
+          <th colspan="2">I BIMESTRE</th>
+          <th colspan="2">II BIMESTRE</th>
+          <th colspan="2">III BIMESTRE</th>
+          <th colspan="2">IV BIMESTRE</th>
+      </tr>
+      <tr>
+          <th>I UNIDAD</th>
+          <th>II UNIDAD</th>
+          <th>III UNIDAD</th>
+          <th>IV UNIDAD</th>
+          <th>V UNIDAD</th>
+          <th>VI UNIDAD</th>
+          <th>VII UNIDAD</th>
+          <th>VIII UNIDAD</th>
+      </tr>
+  `);
   }
 );
+$("#modalNotasAlumnoApoderado").on("click", "#btnImprimirPDF", function () {
+  const { jsPDF } = window.jspdf;
+  var doc = new jsPDF();
+
+  // Cargar y añadir el logo
+  var img = new Image();
+  img.src = "http://localhost/volta/assets/img/logo.png";
+  img.onload = function () {
+    var imgWidth = 20; // Ancho del logo en el PDF
+    var imgHeight = (this.height * imgWidth) / this.width; // Calcular el alto para mantener la proporción
+    var pageWidth = doc.internal.pageSize.getWidth();
+    var marginRight = 6; // Margen derecho
+    var xPosition = pageWidth - imgWidth - marginRight; // Calcula la posición x para alinear a la derecha
+
+    // Añadir la imagen al PDF en la posición calculada
+    doc.addImage(this, "PNG", xPosition, 5, imgWidth, imgHeight); // Ajusta '5' y 'imgHeight' para la posición y y el alto del logo según sea necesario
+
+    // Título del PDF, ajustado para dejar espacio para el logo
+    doc.setFontSize(16);
+    doc.text("REGISTRO DE NOTAS", 105, 15, null, null, "center");
+
+    // Ajustar la posición vertical después del título y el logo
+    var yPosition = 30;
+
+    // Extraer información del alumno de manera específica para la izquierda
+    var infoAlumnoIzquierda = [
+      "ID Alumno: " + $("#idAlumno").text(),
+      "Nombre Alumno: " + $("#nombreAlumno").text(),
+    ].join("\n");
+
+    // Extraer información del alumno de manera específica para la derecha
+    var infoAlumnoDerecha = [
+      "Nivel: " + $("#nivelAlumno").text(),
+      "Grado: " + $("#gradoAlumno").text(),
+    ].join("\n");
+
+    // Añadir información del alumno al PDF
+    doc.setFontSize(10);
+    doc.text(infoAlumnoIzquierda, 10, yPosition);
+    var splitDerecha = doc.splitTextToSize(infoAlumnoDerecha, 90);
+    doc.text(splitDerecha, doc.internal.pageSize.width - 100, yPosition); // Ajustar según el ancho de la página
+
+    // Ajustar la posición vertical para la tabla
+    yPosition +=
+      Math.max(infoAlumnoIzquierda.split("\n").length, splitDerecha.length) * 7;
+    // Dibujar una línea horizontal para separar los datos del alumno de la tabla
+    doc.setDrawColor(0); // Establece el color de la línea, negro en este caso
+    doc.line(10, yPosition, doc.internal.pageSize.width - 10, yPosition); // Ajusta '10' y 'doc.internal.pageSize.width - 10' según sea necesario
+
+    // Incrementar yPosition para dejar espacio después de la línea
+    yPosition += 5;
+
+    // Preparar los encabezados y datos de la tabla
+    var encabezados = [
+      [
+        { content: "Curso", rowSpan: 2, styles: { halign: 'center', valign: 'middle' } },
+        { content: "I BIMESTRE", colSpan: 2, styles: { halign: 'center' } },
+        { content: "II BIMESTRE", colSpan: 2, styles: { halign: 'center' } },
+        { content: "III BIMESTRE", colSpan: 2, styles: { halign: 'center' } },
+        { content: "IV BIMESTRE", colSpan: 2, styles: { halign: 'center' } },
+      ],
+      [
+        "I UNIDAD",
+        "II UNIDAD",
+        "III UNIDAD",
+        "IV UNIDAD",
+        "V UNIDAD",
+        "VI UNIDAD",
+        "VII UNIDAD",
+        "VIII UNIDAD",
+      ],
+    ];
+
+    // Extraer los datos de la tabla
+    var data = $("#dataTableNotasPorAlumnoApoderado")
+      .DataTable()
+      .rows()
+      .data()
+      .toArray();
+
+    // Aplicar estilos condicionales para "PROMEDIO BIMESTRE"
+    var bodyStyles = { fontStyle: "normal", fontSize: 8
+     };
+    var rowStyles = data.map((row, index) => {
+      return row.descripcionCurso === "PROMEDIO BIMESTRE"
+        ? { fontStyle: "bold" }
+        : { fontStyle: "normal" };
+    });
+
+    // Añadir la tabla al PDF
+    doc.autoTable({
+      startY: yPosition,
+      head: encabezados,
+      body: data.map((item) => [
+        item.descripcionCurso,
+        item.nota_unidad_i,
+        item.nota_unidad_ii,
+        item.nota_unidad_iii,
+        item.nota_unidad_iv,
+        item.nota_unidad_v,
+        item.nota_unidad_vi,
+        item.nota_unidad_vii,
+        item.nota_unidad_viii,
+      ]),
+      bodyStyles: bodyStyles,
+      rowStyles: rowStyles,
+      headStyles: { fontSize: 8, halign: 'center' }, // Establece un tamaño de fuente  para los encabezados y los centra horizontalmente
+    });
+
+    // Guardar el documento PDF
+    doc.save("Registro_de_Notas.pdf");
+  };
+});

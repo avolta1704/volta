@@ -7,6 +7,7 @@ require_once "../model/alumnos.model.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/notas.functions.php";
 require_once "../functions/admisionAlumno.functions.php";
+require_once "../functions/usuarios.functions.php";
 
 class NotasAjax
 {
