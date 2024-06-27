@@ -69,25 +69,46 @@ $(document).ready(function () {
       '<table style="border: 1px solid black; border-collapse: collapse; width: 100%;"></table>'
     );
     var encabezadoMes = $("<tr></tr>");
+    var encabezadoDiasSemana = $("<tr></tr>");
     var encabezadoDias = $("<tr></tr>");
     var filaAsistencia = $("<tr></tr>");
 
     // Fila del mes
-    encabezadoMes.append('<td colspan="' + (diasEnMes + 1) + '">Mes</td>'); // Colspan ajustado para incluir la primera columna de "Días"
+    encabezadoMes.append(
+      '<td colspan="' +
+        (diasEnMes + 1) +
+        '" style="text-align: center; font-weight: bold; background-color: #00bfbf;">' +
+        mes +
+        "</td>"
+    );
     tabla.append(encabezadoMes);
 
-    // Fila de los días
-    encabezadoDias.append('<td style="border: 1px solid black;">Días</td>');
+    // Fila de los nombres de los días de la semana
+    encabezadoDiasSemana.append(
+      '<td rowspan="2" style="border: 1px solid black; font-weight: bold; background-color: #00bfbf; text-align: center;">Días</td>'
+    );
+    for (var dia = 1; dia <= diasEnMes; dia++) {
+      var nombreDia = obtenerNombreDiaSemana(dia, mes, añoActual);
+      encabezadoDiasSemana.append(
+        '<td style="border: 1px solid black; text-align: center;">' +
+          nombreDia +
+          "</td>"
+      );
+    }
+    tabla.append(encabezadoDiasSemana);
+
     for (var dia = 1; dia <= diasEnMes; dia++) {
       encabezadoDias.append(
-        '<td style="border: 1px solid black;">' + dia + "</td>"
+        '<td style="border: 1px solid black; text-align: center; ">' +
+          dia +
+          "</td>"
       );
     }
     tabla.append(encabezadoDias);
 
     // Fila de la asistencia
     filaAsistencia.append(
-      '<td style="border: 1px solid black;">Asistencia</td>'
+      '<td style="border: 1px solid black; font-weight: bold; background-color: #00bfbf; text-align: center">Asistencia</td>'
     );
 
     var asistenciaPorDia = {}; // Objeto para guardar la asistencia por día
@@ -102,7 +123,9 @@ $(document).ready(function () {
     });
 
     for (var dia = 1; dia <= diasEnMes; dia++) {
-      var celdaEstado = $('<td style="border: 1px solid black;"></td>'); // Celda de estado sin estilo
+      var celdaEstado = $(
+        '<td style="border: 1px solid black; text-align: center; width: 45px; font-weight: bold"></td>'
+      ); // Celda de estado sin estilo
       if (asistenciaPorDia[dia]) {
         var estado = asistenciaPorDia[dia];
         // Aplicar color según el estado
@@ -129,5 +152,21 @@ $(document).ready(function () {
 
     tabla.append(filaAsistencia);
     asistenciaContainer.append(tabla);
+  }
+
+  function obtenerNombreDiaSemana(dia, nombreMes, año) {
+    var mesNumerico = obtenerNumeroMes(nombreMes); // Obtener el número del mes a partir del nombre
+    var fecha = new Date(año, mesNumerico - 1, dia); // mesNumerico - 1 porque en JavaScript los meses son de 0 a 11
+    var diasSemana = ['DO', 'LU', 'MA', 'MI', 'JU', 'VI', 'SA']; // Array de días de la semana
+    var nombreDia = diasSemana[fecha.getDay()]; // getDay() devuelve el día de la semana (0 para Domingo, 1 para Lunes, ..., 6 para Sábado)
+    return nombreDia;
+  }
+  
+  function obtenerNumeroMes(nombreMes) {
+    var meses = [
+      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+    ];
+    return meses.indexOf(nombreMes) + 1; // Sumar 1 porque los meses en JavaScript van de 0 a 11
   }
 });

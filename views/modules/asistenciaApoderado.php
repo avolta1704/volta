@@ -15,7 +15,7 @@ $alumnos = ModelNotas::mdlObtenerAlumnosApoderado("usuario", $ipConfirmacion);
   <section class="section dashboard">
     <div class="row">
       <!-- Sección de filtros -->
-      <div class="col-9 mb-4">
+      <div class="col-12 mb-4">
         <div class="card">
           <!-- Header de la tarjeta con margen inferior para espacio -->
           <div class="card-header" style="margin-bottom: 8px;">
@@ -23,10 +23,11 @@ $alumnos = ModelNotas::mdlObtenerAlumnosApoderado("usuario", $ipConfirmacion);
           </div>
           <!-- Body de la tarjeta con padding reducido -->
           <div class="card-body" style="padding: 10px;">
-            <div class="d-flex flex-column" style="align-items: center; gap: 11px;"> 
-              <div class="mb-2" style="width: 100%;"> 
+            <div class="d-flex flex-column" style="align-items: center; gap: 11px;">
+              <div class="mb-2" style="width: 100%;">
                 <label for="selectAlumno">Alumno:</label>
                 <select id="selectAlumno" class="form-select form-select-sm" style="width: 100%;">
+                  <option value="0">Ninguna Opción</option>
                   <?php foreach ($alumnos as $alumno): ?>
                     <option value="<?php echo $alumno['idAlumno']; ?>">
                       <?php echo $alumno['nombre_completo']; ?>
@@ -37,6 +38,7 @@ $alumnos = ModelNotas::mdlObtenerAlumnosApoderado("usuario", $ipConfirmacion);
               <div class="mb-2" style="width: 100%;"> <!-- Reducción del margen aquí -->
                 <label for="selectMes">Meses:</label>
                 <select id="selectMes" class="form-select form-select-sm" style="width: 100%;">
+                  <option value="1">Ninguna Opción</option>
                   <option value="3">Marzo</option>
                   <option value="4">Abril</option>
                   <option value="5">Mayo</option>
@@ -54,18 +56,18 @@ $alumnos = ModelNotas::mdlObtenerAlumnosApoderado("usuario", $ipConfirmacion);
         </div>
       </div>
       <!-- Leyenda de códigos de asistencia -->
-      <div class="col-3 mb-4">
+      <div class="col-12 mb-4">
         <div class="card">
           <div class="card-header" style="margin-bottom: 8px;">
             Leyenda de Asistencia
           </div>
           <div class="card-body">
             <ul class="list-unstyled">
-              <li><strong>A:</strong> ASISTIÓ</li>
-              <li><strong>F:</strong> FALTÓ</li>
-              <li><strong>T:</strong> INASISTENCIA INJUSTIFICADA</li>
-              <li><strong>J:</strong> FALTA JUSTIFICADA</li>
-              <li><strong>U:</strong> TARDANZA JUSTIFICADA</li>
+              <li><strong style="color: green;">A:</strong> ASISTIÓ</li>
+              <li><strong style="color: red;">F:</strong> FALTÓ</li>
+              <li><strong style="color: orange;">T:</strong> INASISTENCIA INJUSTIFICADA</li>
+              <li><strong style="color: blue;">J:</strong> FALTA JUSTIFICADA</li>
+              <li><strong style="color: purple;">U:</strong> TARDANZA JUSTIFICADA</li>
             </ul>
           </div>
         </div>
