@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		},
 		{
 			rutaBase: "anioEscolar",
-			acceso: ["administrador", "dirección"],
+			acceso: ["administrador", "administrativo"],
 		},
 		{
 			rutaBase: "asistencia",

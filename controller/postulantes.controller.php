@@ -73,7 +73,7 @@ class ControllerPostulantes
         "fechaActualizacion" => date("Y-m-d H:i:s"),
         "usuarioCreacion" => $_SESSION["idUsuario"],
         "usuarioActualizacion" => $_SESSION["idUsuario"],
-        "cuentaCreada" => 0
+        "cuentaCreada" => "0"
       );
       $response = ControllerApoderados::ctrCrearApoderado($dataMadre);
       $idMadre = ControllerApoderados::ctrObtenerUltimoApoderado();
@@ -105,8 +105,7 @@ class ControllerPostulantes
           "fechaCreacion" => date("Y-m-d H:i:s"),
           "fechaActualizacion" => date("Y-m-d H:i:s"),
           "usuarioCreacion" => $_SESSION["idUsuario"],
-          "usuarioActualizacion" => $_SESSION["idUsuario"],
-          "cuentaCreada" => 0
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
         $response = ModelPostulantes::mdlCrearPostulante($tabla, $datosPostulante);
         if ($response == "ok") {
