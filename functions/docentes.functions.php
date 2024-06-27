@@ -53,7 +53,7 @@ class FunctionDocente
   }
 
   //botones usuarios
-  public static function getBtnUsuarios($codPersonal, $estadoUsuario, $codTipoPersonal,$idUsuario)
+  public static function getBtnUsuarios($codPersonal, $estadoUsuario, $codTipoPersonal, $idUsuario)
   {
     $descripcion = $estadoUsuario == 1 ? "Desactivar" : "Activar";
     $buttonId = $estadoUsuario == 1 ? "btnDesactivarDocente" : "btnActivarDocente";
@@ -78,5 +78,36 @@ class FunctionDocente
     return  '<button type="button" class="btn btn-outline-danger btnEliminarCursoAsignadoDocente" id="btnEliminarCursoAsignadoDocente" idCursogradoPersonal="' . $idCursogradoPersonal . '">
             Eliminar
           </button>';
+  }
+
+  /**
+   * Método para obtener los botones de los docentes de inicial y de primaria
+   * 
+   * @param int $idAlumno Código del alumno.
+   * @return string $botones Botones del alumno.
+   */
+  public static function getAccionesDocenteIniPrim($idAlumno)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu">
+        <li><button type="button" class="dropdown-item btnVisualizarAlumno" idAlumno="' . $idAlumno . '">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarNotas" idAlumno="' . $idAlumno . '">Ver Notas</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarAsistencia" idAlumno="' . $idAlumno . '">Ver Asistencia</button></li>
+      </ul>
+    </div>';
+    return $botones;
+  }
+
+  /**
+   * Método para visualizar los alumnos de un docente de cieto grado
+   * 
+   * @param int $idCursogradoPersonal Código del curso y grado del docente.
+   */
+  public static function getButtonVerAlumnos()
+  {
   }
 }

@@ -452,4 +452,43 @@ WHERE
       return "error";
     }
   }
+
+  /**
+   * Obtener los identificadores de idCurso, idGrado e idPersonal del docente
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param int $idPersonal ID del docente
+   * @return array $response Array con los cursos asignados al docente
+   */
+  public static function mdlGetIndetificadoresDocente($tabla, $idUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+      curso.idCurso, 
+      curso_grado.idGrado, 
+      personal.idPersonal
+    FROM
+      $tabla
+      INNER JOIN
+      personal
+      ON 
+        usuario.idUsuario = personal.idUsuario
+      INNER JOIN
+      cursogrado_personal
+      ON 
+        personal.idPersonal = cursogrado_personal.idPersonal
+      INNER JOIN
+      curso_grado
+      ON 
+        cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+      INNER JOIN
+      curso
+      ON 
+        curso_grado.idCurso = curso.idCurso
+        WHERE 
+		usuario.idUsuario = :idUsuario
+		LIMIT 1");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_STR);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

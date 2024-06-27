@@ -181,4 +181,16 @@ class ControllerDocentes
 
     return $idPersonalCursoGrado["idCursogradoPersonal"];
   }
+
+    /**
+   * Obtener los identificadores de idCurso, idGrado e idPersonal del docente
+   * 
+   * @return array $response Array con los identificadores del docente
+   */
+  public static function ctrGetIdentificadoresDocente($idUsuario)
+  {
+    $tabla = "usuario";
+    $listaIdentificadores = ModelDocentes::mdlGetIndetificadoresDocente($tabla, $idUsuario);
+    return $listaIdentificadores;
+  }
 }
