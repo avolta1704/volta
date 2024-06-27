@@ -14,32 +14,32 @@
       <div class="col-lg-2">
         <div class="row mb-2">
           <div class="dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle d-flex gap-3 align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="btn btn-outline-primary dropdown-toggle d-flex gap-3 align-items-center" type="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-download"></i> Descargar Reporte
             </button>
             <ul class="dropdown-menu">
-              <li><button class="dropdown-item" data-bs-target="#modalAnioLectivo" data-bs-toggle="modal"><i class="bi bi-file-earmark-excel"></i> Descargar reporte de Matriculados</button></li>
-              <li><button class="dropdown-item" id="btnDescargarReporteNuevosAntiguos"><i class="bi bi-file-earmark-excel"></i> Descargar reportes de Nuevos/Antiguos</button></li>
-              <li><button class="dropdown-item" id="btnDescargarReporteEdadSexo"><i class="bi bi-file-earmark-excel"></i> Descargar reportes de Edad/Sexo</button></li>
+              <li><button class="dropdown-item" data-bs-target="#modalAnioLectivo" data-bs-toggle="modal"><i
+                    class="bi bi-file-earmark-excel"></i> Descargar reporte de Matriculados</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteNuevosAntiguos"><i
+                    class="bi bi-file-earmark-excel"></i> Descargar reportes de Nuevos/Antiguos</button></li>
+              <li><button class="dropdown-item" id="btnDescargarReporteEdadSexo"><i
+                    class="bi bi-file-earmark-excel"></i> Descargar reportes de Edad/Sexo</button></li>
             </ul>
           </div>
         </div>
       </div>
-      <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body table-responsive">
-              <!--  Titulo dataTableReportesAdmisionesAdmin-->
-              <table id="dataTableReportesAdmisiones" class="display dataTableReportesAdmisiones" style="width: 100%">
-                <thead>
-                  <!-- dataTableReportesAdmisionesAdmin -->
-                </thead>
-                <tbody>
-                  <!--dataTableReportesAdmisionesAdmin-->
-                </tbody>
-              </table>
+
+            <div class="card-body">
+              <h5 class="card-title"> Alumnos <span>| Grado</span></h5>
+
+              <!-- Line Chart -->
+              <div id="reportsChartGradoAlumnosTiposEstado"></div>
             </div>
+
           </div>
         </div>
       </div>
@@ -77,8 +77,10 @@ $aniosLectivos = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" id="btnCerrarSeleccionarAnioLectivo" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="btnDescargarAnioLectivo" data-bs-dismiss="modal">Descargar</button>
+        <button type="button" class="btn btn-outline-secondary" id="btnCerrarSeleccionarAnioLectivo"
+          data-bs-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="btnDescargarAnioLectivo"
+          data-bs-dismiss="modal">Descargar</button>
       </div>
     </div>
   </div>

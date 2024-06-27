@@ -87,7 +87,6 @@ $alumnos = ModelNotas::mdlObtenerAlumnosApoderado("usuario", $ipConfirmacion);
 
               <div class="card-body">
                 <h5 class="card-title">Asistencia <span class="filtro-seleccionado-asistencia-mes"></span></h5>
-
                 <canvas id="asistenciaApoderadoChart" style="max-width: 400px; max-height: 375px;"></canvas>
               </div>
             </div>

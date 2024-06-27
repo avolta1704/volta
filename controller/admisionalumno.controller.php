@@ -377,4 +377,9 @@ class ControllerAdmisionAlumno
     $response = ModelAdmisionAlumno::mdlGetAdmisionAlumnosAnioEscolar($tabla, $idAnioEscolar);
     return $response;
   }
+  public static function ctrObtenerAlumnosPorTipoReportes(){
+    $tabla = "grado";
+    $response = ModelAdmisionAlumno::mdlObtenerAlumnosPorTipoReportes($tabla);
+    return $response;
+  }
 }
