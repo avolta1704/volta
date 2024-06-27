@@ -765,5 +765,27 @@ ORDER BY
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Obtiene el porcentaje anual de la asistencia del alumno
+    public static function mdlObtenerPorcentajesAnualAsistencia($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT 
+    'Total Anual' AS Mes,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'A' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_asistio,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'F' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_falto,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'T' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_inasistencia_injustificada,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'J' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_falta_justificada,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'U' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_tardanza_justificada,
+	COUNT(DISTINCT asistencia.fechaAsistencia) AS total_registro
+FROM
+    alumno
+    INNER JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+WHERE
+    alumno_anio_escolar.idAlumno = :idAlumno AND anio_escolar.estadoAnio = 1
+    AND anio_escolar.estadoAnio = 1");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

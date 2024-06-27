@@ -61,7 +61,6 @@
           </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Revenue Card -->
         <div class="col-xxl-4 col-xl-12">
 

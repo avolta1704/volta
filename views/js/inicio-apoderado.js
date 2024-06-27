@@ -79,6 +79,11 @@ $(document).ready(function () {
 
         // Iterar sobre el response para obtener todos los valores
         response.forEach((item) => {
+          // Omitir el elemento si el Mes es "Total Anual"
+          if (item.Mes === "Total Anual") {
+            return;
+          }
+
           mesesAsistencia.push(item.Mes);
           totalAsistio.push(item.total_asistio);
           totalFalto.push(item.total_falto);
