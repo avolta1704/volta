@@ -244,4 +244,29 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  // Función para obtener el total de matriculados, translado y retirados
+  public static function mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla){
+    $statement = Connection::conn()->prepare("SELECT
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END) AS matriculados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END) AS trasladados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 4 THEN 1 ELSE 0 END) AS retirados
+    FROM
+      $tabla
+      INNER JOIN
+      alumno
+      ON 
+        admision_alumno.idAlumno = alumno.idAlumno
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      anio_escolar
+      ON 
+        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+    WHERE
+      anio_escolar.estadoAnio = 1");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

@@ -376,6 +376,13 @@ function crearExcelPorSexo(data) {
   XLSX.writeFile(wb, "ReportePorSexo.xlsx");
 }
 $(document).ready(function () {
+  var totalMatriculados = [];
+  var totalTrasladados = [];
+  var totalRetirados = [];
+  var pieChart;
+  var grados = [];
+  var nuevosAlumnos = [];
+  var antiguosAlumnos = [];
   // Función para obtener los alumnos por tipo de admision
   function obtenerAlumnosPorTipoAdmision() {
     var data = new FormData();
@@ -412,72 +419,202 @@ $(document).ready(function () {
   }
   // Función para actualizar el gráfico
   function actualizarGrafico(grados, matriculados, trasladados, retirados) {
-    new ApexCharts(document.querySelector("#reportsChartGradoAlumnosTiposEstado"), {
-      series: [
-        {
-          name: "Matriculados",
-          data: matriculados,
-        },
-        {
-          name: "Trasladados",
-          data: trasladados,
-        },
-        {
-          name: "Retirados",
-          data: retirados,
-        },
-      ],
-      chart: {
-        height: 700, // Aumentar la altura del gráfico
-        type: "bar",
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          barHeight: "150%", // Ajustar la altura de las barras para que sean más gruesas
-          endingShape: "rounded",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      xaxis: {
-        categories: grados,
-      },
-      fill: {
-        opacity: 1,
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return val;
+    new ApexCharts(
+      document.querySelector("#reportsChartGradoAlumnosTiposEstado"),
+      {
+        series: [
+          {
+            name: "Matriculados",
+            data: matriculados,
+          },
+          {
+            name: "Trasladados",
+            data: trasladados,
+          },
+          {
+            name: "Retirados",
+            data: retirados,
+          },
+        ],
+        chart: {
+          height: 700, // Aumentar la altura del gráfico
+          type: "bar",
+          toolbar: {
+            show: false,
           },
         },
-      },
-      grid: {
-        padding: {
-          left: 20,
-          right: 50,
-          top: 20,
-          bottom: 20,
-        },
-      },
-      yaxis: {
-        labels: {
-          style: {
-            fontSize: "12px", // Ajustar el tamaño de fuente para mejorar el espaciado entre grados
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            barHeight: "150%", // Ajustar la altura de las barras para que sean más gruesas
+            endingShape: "rounded",
           },
         },
-      },
-    }).render();
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          show: true,
+          width: 2,
+          colors: ["transparent"],
+        },
+        xaxis: {
+          categories: grados,
+        },
+        fill: {
+          opacity: 1,
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val;
+            },
+          },
+        },
+        grid: {
+          padding: {
+            left: 20,
+            right: 50,
+            top: 20,
+            bottom: 20,
+          },
+        },
+        yaxis: {
+          labels: {
+            style: {
+              fontSize: "12px", // Ajustar el tamaño de fuente para mejorar el espaciado entre grados
+            },
+          },
+        },
+      }
+    ).render();
   }
+  // Función para obtener el total de cursos asignados al alumno
+  function obtenerTotalMatriculadosTrasladadosRetirados() {
+    var data = new FormData();
+    data.append("todosAlumnosMatriculadosTrasladadosRetirados", true);
+
+    $.ajax({
+      url: "ajax/admisionAlumnos.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        totalMatriculados = [];
+        totalTrasladados = [];
+        totalRetirados = [];
+        response.forEach(function (fila) {
+          totalMatriculados.push(fila.matriculados);
+          totalTrasladados.push(fila.trasladados);
+          totalRetirados.push(fila.retirados);
+        });
+        actualizarDatosAlumnosMatriculadosTrasladadosRetirados(0);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+  // Función para actualizar los datos de alumnos por grado
+  function actualizarDatosAlumnosMatriculadosTrasladadosRetirados(indice) {
+    const totalMatriculado = $(".total-alumnos-matriculados-reporte");
+    const totalTrasladado = $(".total-alumnos-trasladados-reporte");
+    const totalRetirado = $(".total-alumnos-retirados-reporte");
+    totalMatriculado.text(totalMatriculados[indice].toLocaleString() + " Matriculados");
+    totalTrasladado.text(totalTrasladados[indice].toLocaleString() + " Trasladados");
+    totalRetirado.text(totalRetirados[indice].toLocaleString() + " Retirados");
+  }
+    // Función para obtener los datos de alumnos por sexo y grado
+    function obtenerTotalNuevosAntiguosGrafico() {
+      var data = new FormData();
+      data.append("alumnosNuevosAntiguos", true);
+  
+      $.ajax({
+        url: "ajax/inicio.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Procesar la respuesta para obtener los datos del gráfico
+          response.forEach(function (fila) {
+            grados.push(fila.grado_nivel);
+            nuevosAlumnos.push(fila.nuevos);
+            antiguosAlumnos.push(fila.antiguos);
+          });
+  
+          // Poblar el dropdown con los grados
+          poblarGradoNuevoAntiguoDropdown(grados);
+  
+          // Inicializar el gráfico de pastel con los datos del primer grado
+          crearGraficoPastel(nuevosAlumnos[0], antiguosAlumnos[0], grados[0]);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  
+    // Función para poblar el dropdown de grados
+    function poblarGradoNuevoAntiguoDropdown(grados) {
+      var dropdown = $("#gradoNuevoAntiguoDropdown");
+      dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+  
+      grados.forEach(function (grado, index) {
+        dropdown.append(
+          '<li><a class="dropdown-item" href="#" onclick="filtrarGradoNuevosAntiguos(' +
+            index +
+            ')">' +
+            grado +
+            "</a></li>"
+        );
+      });
+    }
+  
+    // Función para crear el gráfico de pastel
+    function crearGraficoPastel(nuevos, antiguos, gradosindice) {
+      const filtroSeleccionado = $(".filtro-seleccionado-grado-nuevo-antiguo");
+      filtroSeleccionado.text("| " + gradosindice);
+      var ctx = document.getElementById("pieChartNuevoAntiguo").getContext("2d");
+  
+      pieChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Nuevos", "Antiguos"],
+          datasets: [
+            {
+              data: [nuevos, antiguos],
+              backgroundColor: ["#03b581", "#00bfff"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    }
+  
+    // Función para actualizar el gráfico de pastel
+    function actualizarGraficoPastel(nuevos, antiguos) {
+      pieChart.data.datasets[0].data = [nuevos, antiguos];
+      pieChart.update();
+    }
+  
+    // Función para filtrar por grado
+    window.filtrarGradoNuevosAntiguos = function (indice) {
+      const filtroSeleccionado = $(".filtro-seleccionado-grado-nuevo-antiguo");
+      filtroSeleccionado.text("| " + grados[indice]);
+      actualizarGraficoPastel(nuevosAlumnos[indice], antiguosAlumnos[indice]);
+    };
+
   obtenerAlumnosPorTipoAdmision();
+  obtenerTotalMatriculadosTrasladadosRetirados();
+  obtenerTotalNuevosAntiguosGrafico();
 });
