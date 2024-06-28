@@ -613,4 +613,9 @@ class ControllerPagos
     $cronogramas = ModelPagos::mdlGetCronogramasPorIdAlumno($tabla, $idAlumno);
     return $cronogramas;
   }
+  public static function ctrGetCantidadPagosPendientesGrados(){
+    $tabla = "grado";
+    $response = ModelPagos::mdlGetCantidadPagosPendientesGrados($tabla);
+    return $response;
+  }
 }

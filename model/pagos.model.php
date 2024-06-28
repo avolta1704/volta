@@ -576,4 +576,39 @@ class ModelPagos
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlGetCantidadPagosPendientesGrados($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    todos_los_grados.descripcionGrado,
+    IFNULL(pagos_pendientes.pagosPendientes, 0) AS pagosPendientes
+    FROM
+        (
+            SELECT DISTINCT idGrado, descripcionGrado
+            FROM $tabla
+        ) AS todos_los_grados
+    LEFT JOIN
+        (
+            SELECT
+                grado.idGrado,
+                COUNT(DISTINCT cronograma_pago.idCronogramaPago) AS pagosPendientes
+            FROM
+                cronograma_pago
+                LEFT JOIN pago ON cronograma_pago.idCronogramaPago = pago.idCronogramaPago
+                LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+                LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
+                LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+                LEFT JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado
+                LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+            WHERE
+                anio_escolar.estadoAnio = 1
+                AND pago.fechaPago IS NULL
+                AND cronograma_pago.fechaLimite < CURDATE() 
+            GROUP BY
+                grado.idGrado
+        ) AS pagos_pendientes ON todos_los_grados.idGrado = pagos_pendientes.idGrado
+    ORDER BY
+        todos_los_grados.idGrado ASC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
