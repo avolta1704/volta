@@ -77,7 +77,13 @@ class AdmisionAlumnosAjax
    */
   public function ajaxMostrarTodosPostulantesAnioEscolar($idAnioEscolar)
   {
-    $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
+    // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
+    if($idAnioEscolar == 0)
+      $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
+    else{
+      $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
+    }
+    
 
     $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
 

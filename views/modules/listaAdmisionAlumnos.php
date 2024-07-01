@@ -36,6 +36,7 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
                         echo "<option value='" . $anio['idAnioEscolar'] . "' '" . $anioActivo . "' >" . $anio['descripcionAnio'] . "</option>";
                       }
                       ?>
+                      <option value="0">Todos los Años</option>
                     </select>
                   </div>
                 </div>
