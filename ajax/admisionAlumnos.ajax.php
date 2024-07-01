@@ -103,6 +103,10 @@ class AdmisionAlumnosAjax
     $response = ControllerAdmisionAlumno::ctrObtenerTotalMatriculadosTrasladadosRetirados();
     echo json_encode($response);
   }
+  public function ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel(){
+    $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
+    echo json_encode($response);
+  }
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
@@ -148,4 +152,8 @@ if(isset($_POST["todosAlumnosPorTipoReporte"])){
 if(isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])){
   $mostrarTotalMatriculadosTrasladadosRetirados = new AdmisionAlumnosAjax();
   $mostrarTotalMatriculadosTrasladadosRetirados->ajaxObtenerTotalMatriculadosTrasladadosRetirados();
+}
+if(isset($_POST["todosAlumnosApoderadoReporteMatriculados"])){
+  $todosAlumnosApoderadoReporteMatriculados = new AdmisionAlumnosAjax();
+  $todosAlumnosApoderadoReporteMatriculados->ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
 }

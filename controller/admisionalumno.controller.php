@@ -387,4 +387,9 @@ class ControllerAdmisionAlumno
     $response = ModelAdmisionAlumno::mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla);
     return $response;
   }
+  public static function ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel(){
+    $tabla = "alumno";
+    $response = ModelAdmisionAlumno::mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcel($tabla);
+    return $response;
+  }
 }
