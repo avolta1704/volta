@@ -30,12 +30,21 @@ class AlumnosAjax
    */
   public function ajaxMostrarTodosLosAlumnosAnioEscolar($idAnioEscolar)
   {
-    $response = ControllerAlumnos::ctrGetAlumnosAnioEscolar($idAnioEscolar);
-    foreach ($response as &$dataAlumno) {
-      $dataAlumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($dataAlumno["estadoAdmisionAlumno"]);
-      $dataAlumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($dataAlumno["idAlumno"], $dataAlumno["estadoAdmisionAlumno"]);
+    if ($idAnioEscolar == 0){
+      $response = ControllerAlumnos::ctrGetAlumnos();
+      foreach ($response as &$dataAlumno) {
+        $dataAlumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($dataAlumno["estadoAdmisionAlumno"]);
+        $dataAlumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($dataAlumno["idAlumno"], $dataAlumno["estadoAdmisionAlumno"]);
+      }
+      echo json_encode($response);
+    } else{
+      $response = ControllerAlumnos::ctrGetAlumnosAnioEscolar($idAnioEscolar);
+      foreach ($response as &$dataAlumno) {
+        $dataAlumno['stateAlumno'] = FunctionAlumnos::getEstadosAlumnos($dataAlumno["estadoAdmisionAlumno"]);
+        $dataAlumno['buttonsAlumno'] = FunctionAlumnos::getBotonesAlumnos($dataAlumno["idAlumno"], $dataAlumno["estadoAdmisionAlumno"]);
+      }
+      echo json_encode($response);
     }
-    echo json_encode($response);
   }
 
 
