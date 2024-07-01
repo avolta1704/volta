@@ -36,11 +36,52 @@
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
+
+          <!-- Customers Card -->
+          <div class="col-xxl-4 col-xl-8">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Pagos <span class="filtro-seleccionado-nivel-pago1">| </span></h5>
+                <div class="d-flex align-items-center">
+                </div>
+                <!-- Contenedor para el gráfico -->
+                <div>
+                  <canvas id="pieChartInicalPagosReporte" width="200" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Customers Card -->
+          <div class="col-xxl-4 col-xl-8">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Pagos <span class="filtro-seleccionado-nivel-pago2">| </span></h5>
+                <div class="d-flex align-items-center">
+                </div>
+                <!-- Contenedor para el gráfico -->
+                <div>
+                  <canvas id="pieChartPrimariaPagosReporte" width="200" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Customers Card -->
+          <div class="col-xxl-4 col-xl-8">
+            <div class="card info-card customers-card">
+              <div class="card-body">
+                <h5 class="card-title">Pagos <span class="filtro-seleccionado-nivel-pago3">| </span></h5>
+                <div class="d-flex align-items-center">
+                </div>
+                <!-- Contenedor para el gráfico -->
+                <div>
+                  <canvas id="pieChartSecundariaPagosReporte" width="200" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Reports -->
           <div class="col-12">
             <div class="card">
-
-
               <div class="card-body">
                 <h5 class="card-title">Pagos Pendientes <span>/Grado</span></h5>
 

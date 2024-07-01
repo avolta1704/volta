@@ -647,6 +647,9 @@ function crearExcelTodosPensiones(data, nombreHoja, nombreArchivo) {
   URL.revokeObjectURL(url);
 }
 $(document).ready(function () {
+  var niveles = [];
+  var pagosPendientes = [];
+  var pagosRealizados = [];
   // Función para obtener pensiones atrasadas por grado
   function obtenerNumeroPensionesAtrasadasPorGrados() {
     var data = new FormData();
@@ -723,6 +726,61 @@ $(document).ready(function () {
       },
     }).render();
   }
-  obtenerNumeroPensionesAtrasadasPorGrados();
+  // Función para obtener los pagos realizados y pendientes por niveles
+  function obtenerCantidadPagosRealizadosPendientesNiveles() {
+    var data = new FormData();
+    data.append("cantidadPagosRealizadosPendientesNiveles", true);
 
+    $.ajax({
+      url: "ajax/pagos.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
+      success: function (response) {
+        // Procesar la respuesta para obtener los datos del gráfico
+        response.forEach(function (fila) {
+          niveles.push(fila.descripcionNivel);
+          pagosRealizados.push(fila.pagosRealizados);
+          pagosPendientes.push(fila.pagosPendientes);
+        });
+        // Inicializar el gráfico de pastel con los datos del primer grado
+        crearGraficoPastel(pagosRealizados[0], pagosPendientes[0], niveles[0], "pieChartInicalPagosReporte", ".filtro-seleccionado-nivel-pago1");
+        crearGraficoPastel(pagosRealizados[1], pagosPendientes[1], niveles[1], "pieChartPrimariaPagosReporte", ".filtro-seleccionado-nivel-pago2");
+        crearGraficoPastel(pagosRealizados[2], pagosPendientes[2], niveles[2], "pieChartSecundariaPagosReporte", ".filtro-seleccionado-nivel-pago3");
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
+
+
+  // Función para crear el gráfico de pastel
+  function crearGraficoPastel(nuevos, antiguos, gradosindice,grafico, nivelasignado) {
+    const filtroSeleccionado = $(nivelasignado);
+    filtroSeleccionado.text("| " + gradosindice);
+    var ctx = document.getElementById(grafico).getContext("2d");
+
+    pieChart = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: ["Realizados", "Pendientes"],
+        datasets: [
+          {
+            data: [nuevos, antiguos],
+            backgroundColor: ["#28a745", "#ff851b"],
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+      },
+    });
+  }
+  obtenerNumeroPensionesAtrasadasPorGrados();
+  obtenerCantidadPagosRealizadosPendientesNiveles();
 });

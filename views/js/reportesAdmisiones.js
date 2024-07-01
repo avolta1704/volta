@@ -528,7 +528,7 @@ $(document).ready(function () {
     totalTrasladado.text(totalTrasladados[indice].toLocaleString() + " Trasladados");
     totalRetirado.text(totalRetirados[indice].toLocaleString() + " Retirados");
   }
-    // Función para obtener los datos de alumnos por sexo y grado
+    // Función para obtener los datos de alumnos nuevos y antiguos por grado
     function obtenerTotalNuevosAntiguosGrafico() {
       var data = new FormData();
       data.append("alumnosNuevosAntiguos", true);
@@ -542,6 +542,9 @@ $(document).ready(function () {
         processData: false,
         dataType: "json",
         success: function (response) {
+          grados = [];
+          nuevosAlumnos = [];
+          antiguosAlumnos = [];
           // Procesar la respuesta para obtener los datos del gráfico
           response.forEach(function (fila) {
             grados.push(fila.grado_nivel);

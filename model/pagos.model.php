@@ -576,38 +576,66 @@ class ModelPagos
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  // Obtener Cantidad de Pagos Pendientes por Grado
   public static function mdlGetCantidadPagosPendientesGrados($tabla)
   {
     $statement = Connection::conn()->prepare("SELECT
     todos_los_grados.descripcionGrado,
     IFNULL(pagos_pendientes.pagosPendientes, 0) AS pagosPendientes
+FROM
+    (
+        SELECT DISTINCT idGrado, descripcionGrado
+        FROM $tabla
+    ) AS todos_los_grados
+LEFT JOIN
+    (
+        SELECT
+            grado.idGrado,
+            COUNT(DISTINCT cronograma_pago.idCronogramaPago) AS pagosPendientes
+        FROM
+            cronograma_pago
+            LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+            LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
+            LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+            LEFT JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado
+            LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            anio_escolar.estadoAnio = 1
+            AND cronograma_pago.estadoCronograma = 1
+            AND cronograma_pago.fechaLimite < CURDATE() 
+        GROUP BY
+            grado.idGrado
+    ) AS pagos_pendientes ON todos_los_grados.idGrado = pagos_pendientes.idGrado
+ORDER BY
+    todos_los_grados.idGrado ASC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener Cantidad pagos realizados y pendientes por nivel
+  public static function mdlGetCantidadPagosRealizadosPendientesNiveles($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+    nivel.descripcionNivel,
+    COALESCE(SUM(CASE WHEN cp.estadoCronograma = 2 THEN 1 ELSE 0 END), 0) AS pagosRealizados,
+    COALESCE(SUM(CASE WHEN cp.estadoCronograma = 1 AND cp.fechaLimite < CURDATE() THEN 1 ELSE 0 END), 0) AS pagosPendientes
     FROM
-        (
-            SELECT DISTINCT idGrado, descripcionGrado
-            FROM $tabla
-        ) AS todos_los_grados
-    LEFT JOIN
-        (
-            SELECT
-                grado.idGrado,
-                COUNT(DISTINCT cronograma_pago.idCronogramaPago) AS pagosPendientes
-            FROM
-                cronograma_pago
-                LEFT JOIN pago ON cronograma_pago.idCronogramaPago = pago.idCronogramaPago
-                LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
-                LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
-                LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
-                LEFT JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado
-                LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
-            WHERE
-                anio_escolar.estadoAnio = 1
-                AND pago.fechaPago IS NULL
-                AND cronograma_pago.fechaLimite < CURDATE() 
-            GROUP BY
-                grado.idGrado
-        ) AS pagos_pendientes ON todos_los_grados.idGrado = pagos_pendientes.idGrado
-    ORDER BY
-        todos_los_grados.idGrado ASC");
+        $tabla
+    LEFT JOIN (
+        SELECT
+            nivel.idNivel,
+            cronograma_pago.estadoCronograma,
+            cronograma_pago.fechaLimite
+        FROM
+            nivel
+        LEFT JOIN grado ON nivel.idNivel = grado.idNivel
+        LEFT JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+        LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
+        LEFT JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno
+        LEFT JOIN cronograma_pago ON admision_alumno.idAdmisionAlumno = cronograma_pago.idAdmisionAlumno
+        INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND anio_escolar.estadoAnio = 1
+    ) AS cp ON nivel.idNivel = cp.idNivel
+    GROUP BY
+        nivel.descripcionNivel");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

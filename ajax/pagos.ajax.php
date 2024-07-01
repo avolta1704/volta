@@ -95,6 +95,11 @@ class PagosAjax
     $todosLosPagosPendientesPorGrado = ControllerPagos::ctrGetCantidadPagosPendientesGrados();
     echo json_encode($todosLosPagosPendientesPorGrado);
   }
+  public function ajaxGetCantidadPagosRealizadosPendientesNiveles()
+  {
+    $cantidadPagosRealizadosPendientesNiveles = ControllerPagos::ctrGetCantidadPagosRealizadosPendientesNiveles();
+    echo json_encode($cantidadPagosRealizadosPendientesNiveles);
+  }
 }
 
 if (isset($_POST["todosLosPagos"])) {
@@ -150,4 +155,8 @@ if (isset($_POST["todosLosPagosAnioEscolar"])) {
 if (isset($_POST["todosLosPagosPendientesPorGrado"])) {
   $todosLosPagosPendientesPorGrado = new PagosAjax();
   $todosLosPagosPendientesPorGrado->ajaxGetCantidadPagosPendientesGrados();
+}
+if (isset($_POST["cantidadPagosRealizadosPendientesNiveles"])){
+  $cantidadPagosRealizadosPendientesNiveles = new PagosAjax();
+  $cantidadPagosRealizadosPendientesNiveles->ajaxGetCantidadPagosRealizadosPendientesNiveles();
 }
