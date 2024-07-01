@@ -103,6 +103,8 @@ class ControllerInicio
   public static function ctrObtenerRegistroAsitenciaAlumnoApoderado($idAlumno){
     $tabla = "alumno";
     $response = ModelInicio::mdlObtenerRegistroAsitenciaAlumnoApoderado($tabla, $idAlumno);
+    $responseAnual = ModelInicio::mdlObtenerPorcentajesAnualAsistencia($tabla, $idAlumno); // Obtiene el porcentaje anual de asistencia
+    $response = array_merge($response, $responseAnual); // Une los dos arrays
     return $response;
   }
   // Obtiene los detalles del alumno

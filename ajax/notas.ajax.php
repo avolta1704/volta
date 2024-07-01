@@ -6,6 +6,8 @@ require_once "../model/notas.model.php";
 require_once "../model/alumnos.model.php";
 require_once "../model/competencia.model.php";
 require_once "../functions/notas.functions.php";
+require_once "../functions/admisionAlumno.functions.php";
+require_once "../functions/usuarios.functions.php";
 
 class NotasAjax
 {
@@ -45,6 +47,19 @@ class NotasAjax
     $respuesta["alumnosConNotas"] = $alumnosConNotas;
     echo json_encode($respuesta);
   }
+  // Consulta ajax para obtener los alumnos de un apoderado
+  public $idUsuarioAlumnoNotasApoderado;
+  public function ajaxObtenerAlumnosApoderadoNotas()
+  {
+    $idUsuarioAlumnoNotasApoderado = $this->idUsuarioAlumnoNotasApoderado;
+    $response = ControllerNotas::ctrObtenerAlumnosApoderado($idUsuarioAlumnoNotasApoderado);
+    foreach ($response as &$alumno) {
+      $alumno['acciones'] = FunctionNotas::getBtnNotasAlumnoApoderado($alumno["idAlumno"]);
+      $alumno['status'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($alumno["estadoAdmisionAlumno"]);
+    } 
+    echo json_encode($response);
+
+  }
 
   /**
    * Consulta ajax para crear o actualizar una nota
@@ -62,6 +77,14 @@ class NotasAjax
     $respuesta = ControllerNotas::ctrCrearActualizarNota($idAlumnoAnioEscolar, $idCriterioCompetencia, $idNotaCriterio, $nota);
     echo json_encode($respuesta);
   }
+  public $idAlumnoNotasApoderado;
+  public function ajaxObtenerListadoNotasAlumnoApoderado()
+  {
+    $idAlumnoNotasApoderado = $this->idAlumnoNotasApoderado;
+    $response = ControllerNotas::ctrObtenerListadoNotasAlumnoApoderado($idAlumnoNotasApoderado);
+    echo json_encode($response);
+  }
+
 }
 
 if (isset($_POST["todasLasNotasDeAlumnos"])) {
@@ -72,4 +95,14 @@ if (isset($_POST["todasLasNotasDeAlumnos"])) {
 if (isset($_POST["crearActualizarNota"])) {
   $crearNota = new NotasAjax();
   $crearNota->ajaxCrearActualizarNota($_POST["crearActualizarNota"]);
+}
+if (isset($_POST["idUsuarioAlumnoNotasApoderado"])) {
+  $alumnosNotasApoderado = new NotasAjax();
+  $alumnosNotasApoderado->idUsuarioAlumnoNotasApoderado = $_POST["idUsuarioAlumnoNotasApoderado"];
+  $alumnosNotasApoderado->ajaxObtenerAlumnosApoderadoNotas();
+}
+if (isset($_POST["idAlumnoNotasApoderado"])) {
+  $notasAlumnoApoderado = new NotasAjax();
+  $notasAlumnoApoderado->idAlumnoNotasApoderado = $_POST["idAlumnoNotasApoderado"];
+  $notasAlumnoApoderado->ajaxObtenerListadoNotasAlumnoApoderado();
 }

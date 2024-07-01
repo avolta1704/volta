@@ -89,6 +89,14 @@ class AdmisionAlumnosAjax
     }
     echo json_encode($response);
   }
+  public function ajaxObtenerAlumnosPorTipoReportes(){
+    $response = ControllerAdmisionAlumno::ctrObtenerAlumnosPorTipoReportes();
+    echo json_encode($response);
+  }
+  public function ajaxObtenerTotalMatriculadosTrasladadosRetirados(){
+    $response = ControllerAdmisionAlumno::ctrObtenerTotalMatriculadosTrasladadosRetirados();
+    echo json_encode($response);
+  }
 }
 
 // Mostar todos los registros de admision  dataTableAdmisionAlumnos
@@ -126,4 +134,12 @@ if (isset($_POST["editarEstadoAdmisionAlumno"])) {
 if (isset($_POST["todosLosAdmisionAlumnosAnio"])) {
   $mostrarRegistrosPostulantes = new AdmisionAlumnosAjax();
   $mostrarRegistrosPostulantes->ajaxMostrarTodosPostulantesAnioEscolar($_POST["todosLosAdmisionAlumnosAnio"]);
+}
+if(isset($_POST["todosAlumnosPorTipoReporte"])){
+  $mostrarTodoslosAlumnosPorEstado = new AdmisionAlumnosAjax();
+  $mostrarTodoslosAlumnosPorEstado->ajaxObtenerAlumnosPorTipoReportes();
+}
+if(isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])){
+  $mostrarTotalMatriculadosTrasladadosRetirados = new AdmisionAlumnosAjax();
+  $mostrarTotalMatriculadosTrasladadosRetirados->ajaxObtenerTotalMatriculadosTrasladadosRetirados();
 }

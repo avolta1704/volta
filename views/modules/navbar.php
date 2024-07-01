@@ -50,8 +50,8 @@
             </a>
           </li>
           <!-- Inicio de inserción de opciones basadas en $idsAlumnos -->
-          <?php if ($idTipoUsuario == 4 && !empty($idsAlumnos)): ?>
-            
+          <?php if ($idTipoUsuario == 4 && !empty($idsAlumnos) && strpos($_SERVER['REQUEST_URI'], '/inicio') !== false): ?>
+
             <?php foreach ($idsAlumnos as &$idAlumno): ?>
               <?php
               // Obtener el nombre completo del alumno

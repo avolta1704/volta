@@ -335,4 +335,54 @@ class ModelAsistenciaAlumnos
       return "error";
     }
   }
+  public static function mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario){
+    $statement = Connection::conn()->prepare("SELECT
+			alumno.idAlumno,
+      CASE 
+          WHEN MONTH(asistencia.fechaAsistencia) = 3 THEN 'Marzo'
+          WHEN MONTH(asistencia.fechaAsistencia) = 4 THEN 'Abril'
+          WHEN MONTH(asistencia.fechaAsistencia) = 5 THEN 'Mayo'
+          WHEN MONTH(asistencia.fechaAsistencia) = 6 THEN 'Junio'
+          WHEN MONTH(asistencia.fechaAsistencia) = 7 THEN 'Julio'
+          WHEN MONTH(asistencia.fechaAsistencia) = 8 THEN 'Agosto'
+          WHEN MONTH(asistencia.fechaAsistencia) = 9 THEN 'Septiembre'
+          WHEN MONTH(asistencia.fechaAsistencia) = 10 THEN 'Octubre'
+          WHEN MONTH(asistencia.fechaAsistencia) = 11 THEN 'Noviembre'
+          WHEN MONTH(asistencia.fechaAsistencia) = 12 THEN 'Diciembre'
+      END AS Mes,
+      DAY(asistencia.fechaAsistencia) AS `Día`, 
+      asistencia.estadoAsistencia
+      FROM
+        usuario
+        INNER JOIN
+        apoderado
+        ON 
+          usuario.idUsuario = apoderado.idUsuario
+        INNER JOIN
+        apoderado_alumno
+        ON 
+          apoderado.idApoderado = apoderado_alumno.idApoderado
+        INNER JOIN
+        alumno
+        ON 
+          apoderado_alumno.idAlumno = alumno.idAlumno
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+          alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN
+        anio_escolar
+        ON 
+          alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        INNER JOIN
+        asistencia
+        ON 
+          alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+        WHERE anio_escolar.estadoAnio = 1 AND usuario.idUsuario = :idUsuario
+      GROUP BY alumno.idAlumno, Mes, Día, asistencia.estadoAsistencia
+      ORDER BY alumno.idAlumno ASC, Mes ASC, Día ASC");
+    $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

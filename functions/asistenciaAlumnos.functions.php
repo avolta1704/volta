@@ -49,4 +49,19 @@ class FunctionsAsistenciaAlumnos
     $dropdown .= "</select>";
     return $dropdown;
   }
+    //boton visualizar usuario
+    public static function getBtnAsistenciaAlumnoApoderado($codAlumno)
+    {
+      $botones = '
+      <div class="btn-group">
+        <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownNotasApoderado" aria-expanded="false">
+          <i class="bi bi-pencil-square"></i>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropDownPostulantes">
+          <li><button type="button" class="dropdown-item btnVisualizarAsistenciaApoderado" data-bs-toggle="modal" data-bs-target="#modalNotasAlumnoApoderado" codAlumno="' . $codAlumno . '" >Visualizar</button></li>
+        </ul>
+      </div>
+    ';
+      return $botones;
+    }
 }

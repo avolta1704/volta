@@ -454,4 +454,14 @@ class ControllerNotas
 
     return 'ok';
   }
+  public static function ctrObtenerAlumnosApoderado($idUsuario){
+    $tabla= "usuario";
+    $response = ModelNotas::mdlObtenerAlumnosApoderado($tabla, $idUsuario);
+    return $response;
+  }
+  public static function ctrObtenerListadoNotasAlumnoApoderado($idUsuario){
+    $tabla= "alumno";
+    $response = ModelNotas::mdlObtenerListadoNotasAlumnoApoderado($tabla,$idUsuario);
+    return $response;
+  }
 }
