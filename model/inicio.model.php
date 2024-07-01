@@ -542,8 +542,13 @@ ORDER BY
         cronograma_pago.fechaLimite, 
         cronograma_pago.mesPago, 
         CASE
-            WHEN pago.fechaPago IS NOT NULL THEN 2  
-            WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
+            WHEN pago.fechaPago IS NOT NULL THEN 2
+            WHEN cronograma_pago.estadoCronograma = 2 THEN 2
+            WHEN cronograma_pago.estadoCronograma = 1 THEN
+                CASE
+                    WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
+                    ELSE 0
+                END
             ELSE 0
         END AS estadoPago
         FROM
