@@ -61,7 +61,6 @@
           </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <!-- Revenue Card -->
         <div class="col-xxl-4 col-xl-12">
 
@@ -104,7 +103,7 @@
 
               <div class="d-flex align-items-center">
                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class="bi bi-pen"></i>
+                  <i class="bi bi-check2-circle"></i>
                 </div>
                 <div class="ps-3">
                   <h6 class="notaAsignada"></h6>

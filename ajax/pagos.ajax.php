@@ -90,6 +90,16 @@ class PagosAjax
     $eliminarRegistroPago = ControllerPagos::ctrDeleteRegistroPago($codPagoDelet);
     echo json_encode($eliminarRegistroPago);
   }
+  public function ajaxGetCantidadPagosPendientesGrados()
+  {
+    $todosLosPagosPendientesPorGrado = ControllerPagos::ctrGetCantidadPagosPendientesGrados();
+    echo json_encode($todosLosPagosPendientesPorGrado);
+  }
+  public function ajaxGetCantidadPagosRealizadosPendientesNiveles()
+  {
+    $cantidadPagosRealizadosPendientesNiveles = ControllerPagos::ctrGetCantidadPagosRealizadosPendientesNiveles();
+    echo json_encode($cantidadPagosRealizadosPendientesNiveles);
+  }
 }
 
 if (isset($_POST["todosLosPagos"])) {
@@ -141,4 +151,12 @@ if (isset($_POST["dataEditCronoModal"])) {
 if (isset($_POST["todosLosPagosAnioEscolar"])) {
   $pagosAnioEscolar = new PagosAjax();
   $pagosAnioEscolar->ajaxMostrarTodosLosPagosAnioEscolar($_POST["todosLosPagosAnioEscolar"]);
+}
+if (isset($_POST["todosLosPagosPendientesPorGrado"])) {
+  $todosLosPagosPendientesPorGrado = new PagosAjax();
+  $todosLosPagosPendientesPorGrado->ajaxGetCantidadPagosPendientesGrados();
+}
+if (isset($_POST["cantidadPagosRealizadosPendientesNiveles"])){
+  $cantidadPagosRealizadosPendientesNiveles = new PagosAjax();
+  $cantidadPagosRealizadosPendientesNiveles->ajaxGetCantidadPagosRealizadosPendientesNiveles();
 }

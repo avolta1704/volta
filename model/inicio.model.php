@@ -31,40 +31,41 @@ class ModelInicio
     public static function mdlObtenertodaslasPensionesPendientes()
     {
         $statement = Connection::conn()->prepare("SELECT
-    cronograma_pago.mesPago,
-    EXTRACT(YEAR FROM cronograma_pago.fechaLimite) AS año,
-    EXTRACT(MONTH FROM cronograma_pago.fechaLimite) AS mes,
-    COUNT(cronograma_pago.idCronogramaPago) AS pagos_vencidos,
-    (COUNT(cronograma_pago.idCronogramaPago) * 100 / total.total_pensiones) AS porcentaje_vencidas,
-    total.total_pensiones AS total_pensiones,
-    cronograma_pago.fechaLimite
-    FROM
-        cronograma_pago
-    LEFT JOIN
-        pago ON pago.idCronogramaPago = cronograma_pago.idCronogramaPago
-    JOIN
-        (
-            SELECT 
-                mesPago, 
-                COUNT(*) AS total_pensiones 
-            FROM 
-                cronograma_pago 
-            GROUP BY 
-                mesPago
-        ) AS total 
-    ON 
-        cronograma_pago.mesPago = total.mesPago
-    WHERE
-        (
-            (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) < EXTRACT(YEAR FROM CURDATE())) OR
-            (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) = EXTRACT(YEAR FROM CURDATE()) AND
-            EXTRACT(MONTH FROM cronograma_pago.fechaLimite) < EXTRACT(MONTH FROM CURDATE()))
-        ) AND 
-        pago.numeroComprobante IS NULL 
-    GROUP BY
-        cronograma_pago.mesPago, año, mes, total.total_pensiones
-    ORDER BY
-    año ASC, mes ASC;");
+        cronograma_pago.mesPago,
+        EXTRACT(YEAR FROM cronograma_pago.fechaLimite) AS año,
+        EXTRACT(MONTH FROM cronograma_pago.fechaLimite) AS mes,
+        COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) AS pagos_vencidos,
+        (COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) * 100 / total.total_pensiones) AS porcentaje_vencidas,
+        total.total_pensiones AS total_pensiones,
+        cronograma_pago.fechaLimite
+        FROM
+            cronograma_pago
+        LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+        LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
+        LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+        LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        JOIN
+            (
+                SELECT 
+                    mesPago, 
+                    COUNT(*) AS total_pensiones 
+                FROM 
+                    cronograma_pago 
+                GROUP BY 
+                    mesPago
+            ) AS total 
+        ON 
+            cronograma_pago.mesPago = total.mesPago
+        WHERE
+            (
+                (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) < EXTRACT(YEAR FROM CURDATE())) OR
+                (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) = EXTRACT(YEAR FROM CURDATE()) AND
+                EXTRACT(MONTH FROM cronograma_pago.fechaLimite) < EXTRACT(MONTH FROM CURDATE()))
+            ) AND anio_escolar.estadoAnio = 1
+        GROUP BY
+            cronograma_pago.mesPago, año, mes, total.total_pensiones
+        ORDER BY
+            año ASC, mes ASC");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -211,7 +212,7 @@ ORDER BY
     // Obtiene todas las competencias y notas
     public static function mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario)
     {
-        $statement = Connection::conn()->prepare("SELECT
+    $statement = Connection::conn()->prepare("SELECT
 	grado.descripcionGrado, 
 	curso.descripcionCurso, 
 	alumno.nombresAlumno, 
@@ -233,39 +234,38 @@ ORDER BY
         ON 
             cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
         INNER JOIN
-        nota_unidad
-        ON 
-            cursogrado_personal.idCursogradoPersonal = nota_unidad.idCursoGradoPersonal
-        INNER JOIN
-        nota_competencia
-        ON 
-            nota_unidad.idNotaUnidad = nota_competencia.idNotaUnidad
-        INNER JOIN
         grado
         ON 
             curso_grado.idGrado = grado.idGrado
+        INNER JOIN
+        alumno_anio_escolar
+        ON 
+            grado.idGrado = alumno_anio_escolar.idGrado
+        INNER JOIN
+        bimestre
+        ON 
+            curso_grado.idCursoGrado = bimestre.idCursoGrado
+        INNER JOIN
+        unidad
+        ON 
+            bimestre.idBimestre = unidad.idBimestre
+        INNER JOIN
+        competencias
+        ON 
+            unidad.idUnidad = competencias.idUnidad
+        LEFT JOIN
+        nota_competencia
+        ON 
+            alumno_anio_escolar.idAlumnoAnioEscolar = nota_competencia.idAlumnoAnioEscolar AND
+            competencias.idCompetencia = nota_competencia.idCompetencia
         INNER JOIN
         curso
         ON 
             curso_grado.idCurso = curso.idCurso
         INNER JOIN
-        competencias
-        ON 
-            nota_competencia.idCompetencia = competencias.idCompetencia
-        INNER JOIN
-        alumno_anio_escolar
-        ON 
-            nota_unidad.idAlumnoAnioEscolar = alumno_anio_escolar.idAlumnoAnioEscolar AND
-            grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
         alumno
         ON 
             alumno_anio_escolar.idAlumno = alumno.idAlumno
-        INNER JOIN
-        unidad
-        ON 
-            competencias.idUnidad = unidad.idUnidad AND
-            nota_unidad.idUnidad = unidad.idUnidad
     WHERE
         usuario.idUsuario = :idUsuario AND
         unidad.estadoUnidad = 1");
@@ -542,8 +542,13 @@ ORDER BY
         cronograma_pago.fechaLimite, 
         cronograma_pago.mesPago, 
         CASE
-            WHEN pago.fechaPago IS NOT NULL THEN 2  
-            WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
+            WHEN pago.fechaPago IS NOT NULL THEN 2
+            WHEN cronograma_pago.estadoCronograma = 2 THEN 2
+            WHEN cronograma_pago.estadoCronograma = 1 THEN
+                CASE
+                    WHEN cronograma_pago.fechaLimite >= CURRENT_DATE THEN 1
+                    ELSE 0
+                END
             ELSE 0
         END AS estadoPago
         FROM
@@ -765,6 +770,28 @@ ORDER BY
         $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+    // Obtiene el porcentaje anual de la asistencia del alumno
+    public static function mdlObtenerPorcentajesAnualAsistencia($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT 
+    'Total Anual' AS Mes,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'A' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_asistio,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'F' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_falto,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'T' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_inasistencia_injustificada,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'J' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_falta_justificada,
+    (SUM(CASE WHEN asistencia.estadoAsistencia = 'U' THEN 1 ELSE 0 END) * 100.0 / COUNT(DISTINCT asistencia.fechaAsistencia)) AS total_tardanza_justificada,
+	COUNT(DISTINCT asistencia.fechaAsistencia) AS total_registro
+FROM
+    alumno
+    INNER JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+WHERE
+    alumno_anio_escolar.idAlumno = :idAlumno AND anio_escolar.estadoAnio = 1
+    AND anio_escolar.estadoAnio = 1");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

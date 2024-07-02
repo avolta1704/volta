@@ -29,7 +29,7 @@
               <div class="form-group col-md-12 añoAdmision">
                 <label for="anioAdmision" class="col-form-label" style="font-weight: bold">Año de Admision:</label>
                 <select class="form-control" name="anioAdmision" id="anioAdmision" required>
-                  <option value="">Eliga una opción</option>
+                  <option value="">Elija una opción</option>
                 </select>
               </div>
 

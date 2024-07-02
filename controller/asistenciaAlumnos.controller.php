@@ -265,4 +265,10 @@ class ControllerAsistenciaAlumnos
     }
     return $respuesta;
   }
+  public static function ctrObtenerAsistenciaApoderadoAlumnos($idUsuario)
+  {
+    $tabla = "usuario";
+    $respuesta = ModelAsistenciaAlumnos::mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario);
+    return $respuesta;
+  }
 }

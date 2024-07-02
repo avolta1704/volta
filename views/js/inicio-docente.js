@@ -62,6 +62,12 @@ $(document).ready(function () {
         // Actualizar el gráfico con los datos obtenidos del primer grado
         if (globalDatos.length > 0) {
           actualizarGraficoAsistencia(globalDatos[0].grado);
+        } else {
+          // Mostrar mensaje de no datos
+          document.querySelector("#asistenciaChart").innerHTML = `
+          <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+            <span class="badge rounded-pill bg-warning">No se ha registrado asistencia</span>
+          </div>`;
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
@@ -91,10 +97,27 @@ $(document).ready(function () {
       (d) => d.porcentajeTardanzaJustificada
     );
 
-    // Verificar que el elemento existe antes de renderizar el gráfico
+    // Verificar si no hay datos o todos los valores son nulos
+    var noDatos =
+      datosFiltrados.length === 0 ||
+      (porcentajeAsistencias.every((val) => val === null) &&
+        porcentajeFaltas.every((val) => val === null) &&
+        porcentajeInasistenciasInjustificadas.every((val) => val === null) &&
+        porcentajeFaltasJustificadas.every((val) => val === null) &&
+        porcentajeTardanzasJustificadas.every((val) => val === null));
+
     var chartElement = document.querySelector("#asistenciaChart");
+
     if (!chartElement) {
       console.log("Error: Elemento #asistenciaChart no encontrado.");
+      return;
+    }
+
+    if (noDatos) {
+      chartElement.innerHTML = `
+      <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+        <span class="badge rounded-pill bg-warning">No se ha registrado asistencia</span>
+      </div>`;
       return;
     }
 
@@ -108,29 +131,31 @@ $(document).ready(function () {
         {
           name: "Porcentaje Asistencias",
           data: porcentajeAsistencias.map((value) =>
-            parseFloat(value.toFixed(1))
+            parseFloat(value ? value.toFixed(1) : 0)
           ),
         },
         {
           name: "Porcentaje Faltas",
-          data: porcentajeFaltas.map((value) => parseFloat(value.toFixed(1))),
+          data: porcentajeFaltas.map((value) =>
+            parseFloat(value ? value.toFixed(1) : 0)
+          ),
         },
         {
           name: "Porcentaje Inasistencias Injustificadas",
           data: porcentajeInasistenciasInjustificadas.map((value) =>
-            parseFloat(value.toFixed(1))
+            parseFloat(value ? value.toFixed(1) : 0)
           ),
         },
         {
           name: "Porcentaje Faltas Justificadas",
           data: porcentajeFaltasJustificadas.map((value) =>
-            parseFloat(value.toFixed(1))
+            parseFloat(value ? value.toFixed(1) : 0)
           ),
         },
         {
           name: "Porcentaje Tardanzas Justificadas",
           data: porcentajeTardanzasJustificadas.map((value) =>
-            parseFloat(value.toFixed(1))
+            parseFloat(value ? value.toFixed(1) : 0)
           ),
         },
       ],

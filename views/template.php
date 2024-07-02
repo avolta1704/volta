@@ -54,7 +54,12 @@ session_start();
         $_GET["ruta"] == "visualizarAsistencia" ||
         $_GET["ruta"] == "registrarNotas" ||
         $_GET["ruta"] == "tecnicaseInstrumentos" ||
+
         $_GET["ruta"] == "listaAlumnosDocentes" ||
+
+        $_GET["ruta"] == "notasApoderado" ||
+        $_GET["ruta"] == "asistenciaApoderado" ||
+
 
 
 
@@ -93,7 +98,6 @@ session_start();
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
   <!--  <script src="assets/js/styleDarck.js"></script> -->
-
   <!-- Popper -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 
@@ -163,7 +167,14 @@ session_start();
   <script src="views/dataTables/dt-notaCompetenciaInicio.js"></script>
   <script src="views/dataTables/dt-pagos-alumnos-apoderado.js"></script>
   <script src="views/dataTables/dt-tecnicas-instrumentos.js"></script>
+
   <script src="views/dataTables/dt-alumnos-docente.js"></script>
+
+  <script src="views/dataTables/dt-nota-apoderado.js"></script>
+  <script src="views/dataTables/dt-notas-apoderado-alumno.js"></script>
+  <script src="views/dataTables/dt-asistencia-apoderado.js"></script>
+
+
 </body>
 
 </html>

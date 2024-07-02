@@ -207,4 +207,66 @@ class ModelAdmisionAlumno
       return "error";
     }
   }
+  // Función para obtener el numero de matriculados, translado y retirados
+  public static function mdlObtenerAlumnosPorTipoReportes($tabla){
+    $statement = Connection::conn()->prepare("SELECT
+    CASE 
+        WHEN grado.descripcionGrado = '3 Años' THEN 'INIC 03 A'
+        WHEN grado.descripcionGrado = '4 Años' THEN 'INIC 04 A'
+        WHEN grado.descripcionGrado = '5 Años' THEN 'INIC 05 A'
+        WHEN grado.descripcionGrado = '1er Grado' THEN 'PRIM 01 A'
+        WHEN grado.descripcionGrado = '2do Grado' THEN 'PRIM 02 A'
+        WHEN grado.descripcionGrado = '3er Grado' THEN 'PRIM 03 A'
+        WHEN grado.descripcionGrado = '4to Grado' THEN 'PRIM 04 A'
+        WHEN grado.descripcionGrado = '5to Grado' THEN 'PRIM 05 A'
+        WHEN grado.descripcionGrado = '6to Grado' THEN 'PRIM 06 A'
+        WHEN grado.descripcionGrado = '1er Año' THEN 'SECUN 01 A'
+        WHEN grado.descripcionGrado = '2do Año' THEN 'SECUN 02 A'
+        WHEN grado.descripcionGrado = '3er Año' THEN 'SECUN 03 A'
+        WHEN grado.descripcionGrado = '4to Año' THEN 'SECUN 04 A'
+        WHEN grado.descripcionGrado = '5to Año' THEN 'SECUN 05 A'
+        ELSE grado.descripcionGrado
+      END AS descripcionGrado,
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END), 0) AS matriculados,
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END), 0) AS trasladados,
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 4 THEN 1 ELSE 0 END), 0) AS retirados,
+      COUNT(DISTINCT CASE WHEN ae.estadoAnio = 1 THEN alumno.idAlumno END) AS total_alumnos
+      FROM
+          $tabla
+      LEFT JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+      LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
+      LEFT JOIN admision_alumno ON admision_alumno.idAlumno = alumno.idAlumno
+      LEFT JOIN anio_escolar ae ON alumno_anio_escolar.idAnioEscolar = ae.idAnioEscolar
+      GROUP BY
+          grado.descripcionGrado
+      ORDER BY
+          grado.idGrado ASC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Función para obtener el total de matriculados, translado y retirados
+  public static function mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla){
+    $statement = Connection::conn()->prepare("SELECT
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END) AS matriculados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END) AS trasladados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 4 THEN 1 ELSE 0 END) AS retirados
+    FROM
+      $tabla
+      INNER JOIN
+      alumno
+      ON 
+        admision_alumno.idAlumno = alumno.idAlumno
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      anio_escolar
+      ON 
+        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+    WHERE
+      anio_escolar.estadoAnio = 1");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
