@@ -243,6 +243,7 @@ CREATE TABLE `apoderado`  (
   `gradoInstruccion` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `profesionApoderado` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `listaAlumnos` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `cuentaCreada` int NOT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
   `usuarioCreacion` int NOT NULL,

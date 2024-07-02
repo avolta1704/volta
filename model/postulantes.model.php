@@ -70,7 +70,7 @@ class ModelPostulantes
     postulante.estadoPostulante 
     FROM $tabla as postulante
     INNER JOIN $tablaAnioPostulacion as ap ON postulante.idPostulante = ap.idPostulante
-    WHERE ap.idAnioEscolar = :idAnioEscolar
+    WHERE ap.idAnioEscolar = :idAnioEscolar AND postulante.estadoPostulante != 3
     ORDER BY postulante.idPostulante DESC");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     if ($statement->execute()) {
