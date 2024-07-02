@@ -1,53 +1,54 @@
 // Definición inicial de dataTablePersonalInicio
 $(document).ready(function () {
-  // Titulo dataTablePostulantes
-  $(".tituloNotaAlumno").text("Notas Alumno");
-  var columnDefsPersonal = [
-    {
-      data: "null",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
+  // Obtener la ruta actual de la URL
+  var rutaActual = window.location.pathname;
+  if (rutaActual.includes("/volta/notasApoderado")) {
+    // Titulo dataTablePostulantes
+    $(".tituloNotaAlumno").text("Notas Alumno");
+    var columnDefsPersonal = [
+      {
+        data: "null",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
       },
-    },
-    { data: "nombre_completo" },
-    { data: "descripcionNivel" },
-    { data: "descripcionGrado" },
-    { data: "status" },
-    { data: "acciones" },
-  ];
+      { data: "nombre_completo" },
+      { data: "descripcionNivel" },
+      { data: "descripcionGrado" },
+      { data: "status" },
+      { data: "acciones" },
+    ];
 
-  var tablePersonalInicio = $("#dataTableNotasAlumnoApoderado").DataTable({
-    columns: columnDefsPersonal,
-  });
+    var tablePersonalInicio = $("#dataTableNotasAlumnoApoderado").DataTable({
+      columns: columnDefsPersonal,
+    });
 
+    //Solicitud ajx inicial de dataTablePersonalInicio
+    var data = new FormData();
+    data.append("idUsuarioAlumnoNotasApoderado", ipConfirmacion);
 
+    $.ajax({
+      url: "ajax/notas.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
 
-  //Solicitud ajx inicial de dataTablePersonalInicio
-  var data = new FormData();
-  data.append("idUsuarioAlumnoNotasApoderado", ipConfirmacion);
+      success: function (response) {
+        tablePersonalInicio.clear();
+        tablePersonalInicio.rows.add(response);
+        tablePersonalInicio.draw();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(jqXHR.responseText); // procendecia de error
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
 
-  $.ajax({
-    url: "ajax/notas.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
-
-    success: function (response) {
-      tablePersonalInicio.clear();
-      tablePersonalInicio.rows.add(response);
-      tablePersonalInicio.draw();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.log(jqXHR.responseText); // procendecia de error
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
-  });
-
-  //Estructura de dataTablePersonalInicio
-  $("#dataTableNotasAlumnoApoderado thead").html(`
+    //Estructura de dataTablePersonalInicio
+    $("#dataTableNotasAlumnoApoderado thead").html(`
 		<tr>
       <th scope="col">#</th>
       <th scope="col">Nombres Alumno</th>
@@ -58,25 +59,26 @@ $(document).ready(function () {
 		</tr>
 	  `);
 
-  tablePersonalInicio.destroy();
+    tablePersonalInicio.destroy();
 
-  columnDefsPersonal = [
-    {
-      data: "null",
-      render: function (data, type, row, meta) {
-        return meta.row + 1;
+    columnDefsPersonal = [
+      {
+        data: "null",
+        render: function (data, type, row, meta) {
+          return meta.row + 1;
+        },
       },
-    },
-    { data: "nombre_completo" },
-    { data: "descripcionNivel" },
-    { data: "descripcionGrado" },
-    { data: "status" },
-    { data: "acciones" },
-  ];
-  tablePersonalInicio = $("#dataTableNotasAlumnoApoderado").DataTable({
-    columns: columnDefsPersonal,
-    language: {
-      url: "views/dataTables/Spanish.json",
-    },
-  });
+      { data: "nombre_completo" },
+      { data: "descripcionNivel" },
+      { data: "descripcionGrado" },
+      { data: "status" },
+      { data: "acciones" },
+    ];
+    tablePersonalInicio = $("#dataTableNotasAlumnoApoderado").DataTable({
+      columns: columnDefsPersonal,
+      language: {
+        url: "views/dataTables/Spanish.json",
+      },
+    });
+  }
 });

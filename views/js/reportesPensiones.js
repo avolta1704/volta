@@ -647,140 +647,171 @@ function crearExcelTodosPensiones(data, nombreHoja, nombreArchivo) {
   URL.revokeObjectURL(url);
 }
 $(document).ready(function () {
-  var niveles = [];
-  var pagosPendientes = [];
-  var pagosRealizados = [];
-  // Función para obtener pensiones atrasadas por grado
-  function obtenerNumeroPensionesAtrasadasPorGrados() {
-    var data = new FormData();
-    data.append("todosLosPagosPendientesPorGrado", true);
+  // Obtener la ruta actual de la URL
+  var rutaActual = window.location.pathname;
+  // Verificar si la rutaActual contiene "volta/inicio"
+  if (rutaActual.includes("/volta/reportePagos")) {
+    var niveles = [];
+    var pagosPendientes = [];
+    var pagosRealizados = [];
+    // Función para obtener pensiones atrasadas por grado
+    function obtenerNumeroPensionesAtrasadasPorGrados() {
+      var data = new FormData();
+      data.append("todosLosPagosPendientesPorGrado", true);
 
-    $.ajax({
-      url: "ajax/pagos.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        var grados = [];
-        var pagosPendientes = [];
+      $.ajax({
+        url: "ajax/pagos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          var grados = [];
+          var pagosPendientes = [];
 
-        response.forEach(function (fila) {
-          grados.push(fila.descripcionGrado);
-          pagosPendientes.push(fila.pagosPendientes);
-        });
+          response.forEach(function (fila) {
+            grados.push(fila.descripcionGrado);
+            pagosPendientes.push(fila.pagosPendientes);
+          });
 
-        // Actualizar gráfico con los datos obtenidos
-        actualizarGrafico(grados, pagosPendientes);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
-    });
-  }
-  // Función para actualizar el gráfico
-  function actualizarGrafico(grados, alumnos) {
-    new ApexCharts(document.querySelector("#reportsChartPagosPendienteporGrado"), {
-      series: [
+          // Actualizar gráfico con los datos obtenidos
+          actualizarGrafico(grados, pagosPendientes);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+    // Función para actualizar el gráfico
+    function actualizarGrafico(grados, alumnos) {
+      new ApexCharts(
+        document.querySelector("#reportsChartPagosPendienteporGrado"),
         {
-          name: "Pagos Pendientes",
-          data: alumnos,
-        },
-      ],
-      chart: {
-        height: 350,
-        type: "bar",
-        toolbar: {
-          show: false,
-        },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: "55%",
-          endingShape: "rounded",
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ["transparent"],
-      },
-      xaxis: {
-        categories: grados,
-      },
-      fill: {
-        opacity: 1,
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return val + " Pagos Pendientes";
+          series: [
+            {
+              name: "Pagos Pendientes",
+              data: alumnos,
+            },
+          ],
+          chart: {
+            height: 350,
+            type: "bar",
+            toolbar: {
+              show: false,
+            },
           },
-        },
-      },
-    }).render();
-  }
-  // Función para obtener los pagos realizados y pendientes por niveles
-  function obtenerCantidadPagosRealizadosPendientesNiveles() {
-    var data = new FormData();
-    data.append("cantidadPagosRealizadosPendientesNiveles", true);
-
-    $.ajax({
-      url: "ajax/pagos.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        // Procesar la respuesta para obtener los datos del gráfico
-        response.forEach(function (fila) {
-          niveles.push(fila.descripcionNivel);
-          pagosRealizados.push(fila.pagosRealizados);
-          pagosPendientes.push(fila.pagosPendientes);
-        });
-        // Inicializar el gráfico de pastel con los datos del primer grado
-        crearGraficoPastel(pagosRealizados[0], pagosPendientes[0], niveles[0], "pieChartInicalPagosReporte", ".filtro-seleccionado-nivel-pago1");
-        crearGraficoPastel(pagosRealizados[1], pagosPendientes[1], niveles[1], "pieChartPrimariaPagosReporte", ".filtro-seleccionado-nivel-pago2");
-        crearGraficoPastel(pagosRealizados[2], pagosPendientes[2], niveles[2], "pieChartSecundariaPagosReporte", ".filtro-seleccionado-nivel-pago3");
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
-    });
-  }
-
-
-  // Función para crear el gráfico de pastel
-  function crearGraficoPastel(nuevos, antiguos, gradosindice,grafico, nivelasignado) {
-    const filtroSeleccionado = $(nivelasignado);
-    filtroSeleccionado.text("| " + gradosindice);
-    var ctx = document.getElementById(grafico).getContext("2d");
-
-    pieChart = new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Realizados", "Pendientes"],
-        datasets: [
-          {
-            data: [nuevos, antiguos],
-            backgroundColor: ["#28a745", "#ff851b"],
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: "55%",
+              endingShape: "rounded",
+            },
           },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-      },
-    });
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ["transparent"],
+          },
+          xaxis: {
+            categories: grados,
+          },
+          fill: {
+            opacity: 1,
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + " Pagos Pendientes";
+              },
+            },
+          },
+        }
+      ).render();
+    }
+    // Función para obtener los pagos realizados y pendientes por niveles
+    function obtenerCantidadPagosRealizadosPendientesNiveles() {
+      var data = new FormData();
+      data.append("cantidadPagosRealizadosPendientesNiveles", true);
+
+      $.ajax({
+        url: "ajax/pagos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Procesar la respuesta para obtener los datos del gráfico
+          response.forEach(function (fila) {
+            niveles.push(fila.descripcionNivel);
+            pagosRealizados.push(fila.pagosRealizados);
+            pagosPendientes.push(fila.pagosPendientes);
+          });
+          // Inicializar el gráfico de pastel con los datos del primer grado
+          crearGraficoPastel(
+            pagosRealizados[0],
+            pagosPendientes[0],
+            niveles[0],
+            "pieChartInicalPagosReporte",
+            ".filtro-seleccionado-nivel-pago1"
+          );
+          crearGraficoPastel(
+            pagosRealizados[1],
+            pagosPendientes[1],
+            niveles[1],
+            "pieChartPrimariaPagosReporte",
+            ".filtro-seleccionado-nivel-pago2"
+          );
+          crearGraficoPastel(
+            pagosRealizados[2],
+            pagosPendientes[2],
+            niveles[2],
+            "pieChartSecundariaPagosReporte",
+            ".filtro-seleccionado-nivel-pago3"
+          );
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+
+    // Función para crear el gráfico de pastel
+    function crearGraficoPastel(
+      nuevos,
+      antiguos,
+      gradosindice,
+      grafico,
+      nivelasignado
+    ) {
+      const filtroSeleccionado = $(nivelasignado);
+      filtroSeleccionado.text("| " + gradosindice);
+      var ctx = document.getElementById(grafico).getContext("2d");
+
+      pieChart = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Realizados", "Pendientes"],
+          datasets: [
+            {
+              data: [nuevos, antiguos],
+              backgroundColor: ["#28a745", "#ff851b"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    }
+    obtenerNumeroPensionesAtrasadasPorGrados();
+    obtenerCantidadPagosRealizadosPendientesNiveles();
   }
-  obtenerNumeroPensionesAtrasadasPorGrados();
-  obtenerCantidadPagosRealizadosPendientesNiveles();
 });

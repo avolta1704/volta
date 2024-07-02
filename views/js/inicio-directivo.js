@@ -1,5 +1,9 @@
 $(document).ready(function () {
-  docentes = [];
+  // Obtener la ruta actual de la URL
+  var rutaActual = window.location.pathname;
+  // Verificar si la rutaActual contiene "volta/inicio"
+  if (rutaActual.includes("/volta/inicio")) {
+    docentes = [];
   tipoDocentes = [];
   var pieChart;
   var grados = [];
@@ -440,4 +444,5 @@ $(document).ready(function () {
   obtenerNombreDocentesCursosPorGrados();
   obtenerDocentesporTipo();
   obtenerAlumnosNuevosAntiguos();
+  }
 });
