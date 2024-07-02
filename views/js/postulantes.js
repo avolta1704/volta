@@ -332,12 +332,12 @@ $(document).ready(function () {
 	) {
 		// Iniciar Firebase
 		const firebaseConfig = {
-			apiKey: "AIzaSyCefGvyBIwVK_Ewzpc0bY1aVdVc33dzz-A",
-			authDomain: "nscodeuploadtask-521ff.firebaseapp.com",
-			projectId: "nscodeuploadtask-521ff",
-			storageBucket: "nscodeuploadtask-521ff.appspot.com",
-			messagingSenderId: "1058923542325",
-			appId: "1:1058923542325:web:9f6945b26162c0e102fe7c",
+			apiKey: "AIzaSyCUPDT6XKISsrPFQG4Hdag16wGhiWhpbRU",
+      authDomain: "alm-volta.firebaseapp.com",
+      projectId: "alm-volta",
+      storageBucket: "alm-volta.appspot.com",
+      messagingSenderId: "261860021514",
+      appId: "1:261860021514:web:7f7f4448a5381a583156f3"
 		};
 		firebase.initializeApp(firebaseConfig);
 

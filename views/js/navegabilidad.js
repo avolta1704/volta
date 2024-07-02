@@ -132,6 +132,16 @@ document.addEventListener("DOMContentLoaded", function () {
 			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
 
+    {
+			rutaBase: "tecnicaseInstrumentos",
+			acceso: ["administrador", "dirección"],
+		},
+
+    {
+			rutaBase: "perfil",
+			acceso: ["administrador", "dirección", "docente", "administrativo"],
+		},
+
 		{
 			rutaBase: "listaComunicadoPago",
 			acceso: ["administrador", "dirección", "docente", "administrativo"],
