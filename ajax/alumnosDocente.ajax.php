@@ -32,9 +32,10 @@ class AlumnosDocenteAjax
     $todosLosGradosDocente = ControllerDocentes::ctrObtenerCursosAsignados();
     if(is_array($todosLosGradosDocente)) {
       foreach ($todosLosGradosDocente as &$grado) {
-        $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCursogradoPersonal"]);
+        $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
       }
       echo json_encode($todosLosGradosDocente);
+      return;
     }
     echo json_encode(array("error" => "No se recibieron los datos esperados."));
   }
