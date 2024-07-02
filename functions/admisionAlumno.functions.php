@@ -5,7 +5,7 @@ class FunctionAdmisionAlumnos
   //  Estados para estadoAdmisionAlumno
   public static function getEstadoAdmisionAlumno($estadoAdmisionAlumno)
   {
-    //  Estado estadoAdmisionAlumno 1 = registrado  2 = Matriculado  & 3 = Trasladado 4 = Retirado 
+    //  Estado estadoAdmisionAlumno 1 = Anulado  2 = Matriculado  & 3 = Trasladado 4 = Retirado 
     if ($estadoAdmisionAlumno == 1) {
       $estado = '<span class="badge rounded-pill bg-secondary">Anulado</span>';
     } else

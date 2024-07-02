@@ -382,9 +382,22 @@ class ControllerAdmisionAlumno
     $response = ModelAdmisionAlumno::mdlObtenerAlumnosPorTipoReportes($tabla);
     return $response;
   }
+  // Obtener el total de matriculados, trasladados y retirados
   public static function ctrObtenerTotalMatriculadosTrasladadosRetirados(){
     $tabla = "admision_alumno";
     $response = ModelAdmisionAlumno::mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla);
+    return $response;
+  }
+  // Obtener todos los datos de los alumnos y apoderados para el reporte de excel
+  public static function ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel(){
+    $tabla = "alumno";
+    $response = ModelAdmisionAlumno::mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcel($tabla);
+    return $response;
+  }
+  // Obtener todos los datos de los alumnos y apoderados para el reporte de excel por año escolar
+  public static function ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolar){
+    $tabla = "alumno";
+    $response = ModelAdmisionAlumno::mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($tabla, $idAnioEscolar);
     return $response;
   }
 }
