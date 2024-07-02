@@ -4,8 +4,6 @@ $(document).ready(function () {
 
   // Verificar si la rutaActual contiene "volta/inicio"
   if (rutaActual.includes("/volta/inicio")) {
-    const datos = document.getElementById("datos");
-    let idUsuario = datos.getAttribute("data-ip-confirmacion");
     // Variables globales para almacenar los datos
     var globalDatos = [];
     // Variables globales para almacenar los datos de la consulta
@@ -16,9 +14,9 @@ $(document).ready(function () {
     var nombreDocente = [];
 
     // Función para obtener y manejar los datos de asistencia por meses
-    function obtenerAsistenciaPorMeses(idUsuario) {
+    function obtenerAsistenciaPorMeses() {
       var data = new FormData();
-      data.append("idUsuarioAsistenciaporMeses", idUsuario);
+      data.append("idUsuarioAsistenciaporMeses", true);
 
       $.ajax({
         url: "ajax/inicio.ajax.php",
@@ -233,9 +231,9 @@ $(document).ready(function () {
     }
 
     // Función para obtener los Alumnos asignados al docente
-    function obtenerAlumnosAsignadosDocente(idUsuario) {
+    function obtenerAlumnosAsignadosDocente() {
       var data = new FormData();
-      data.append("idUsuarioAlumnosAsignadosDocentes", idUsuario);
+      data.append("idUsuarioAlumnosAsignadosDocentes", true);
 
       $.ajax({
         url: "ajax/inicio.ajax.php",
@@ -297,9 +295,9 @@ $(document).ready(function () {
     };
 
     // Función para obtener los Alumnos asignados al docente
-    function obtenerCursosAsignadosDocente(idUsuario) {
+    function obtenerCursosAsignadosDocente() {
       var data = new FormData();
-      data.append("idUsuarioCursosAsignadosDocentes", idUsuario);
+      data.append("idUsuarioCursosAsignadosDocentes", true);
 
       $.ajax({
         url: "ajax/inicio.ajax.php",
@@ -334,8 +332,8 @@ $(document).ready(function () {
       );
     }
 
-    obtenerAsistenciaPorMeses(idUsuario);
-    obtenerAlumnosAsignadosDocente(idUsuario);
-    obtenerCursosAsignadosDocente(idUsuario);
+    obtenerAsistenciaPorMeses();
+    obtenerAlumnosAsignadosDocente();
+    obtenerCursosAsignadosDocente();
   }
 });

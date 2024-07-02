@@ -23,12 +23,9 @@ $(document).ready(function () {
       columns: columnDefsPersonal,
     });
 
-    const datos = document.getElementById("datos");
-    let idUsuario = datos.getAttribute("data-ip-confirmacion");
-
     //Solicitud ajx inicial de dataTablePersonalInicio
     var data = new FormData();
-    data.append("idUsuarioCompetenciasNotas", idUsuario);
+    data.append("idUsuarioCompetenciasNotas", true);
 
     $.ajax({
       url: "ajax/inicio.ajax.php",

@@ -20,17 +20,42 @@
       <div class="col-lg-12">
         <div class="row">
           <div class="card">
-            <div class="card-body">
-              <!--  Titulo datatTableAlumnosDocente-->
-              <table id='dataTableAlumnosDocente' class='display dataTableAlumnosDocente' data-tipo-docente='<?php echo $_SESSION['tipoDocente'] ?>' data-identificadores='<?php echo $listaIdentificadores ?>' style="width: 100%">
-                <thead>
-                  <!-- datatTableAlumnosDocente -->
-                </thead>
-                <tbody>
-                  <!--datatTableAlumnosDocente-->
-                </tbody>
-              </table>
-            </div>
+            <script>
+              var tipoDocente = "<?php echo $tipoDocente; ?>";
+            </script>
+            <?php
+            $tipoDocente = $_SESSION['tipoDocente']; // O cualquier otra fuente de donde obtengas $tipoDocente
+            // Mostrar dataTableAlumnosDocente si tipoDocente es 1 o 2
+            if ($tipoDocente == 1 || $tipoDocente == 2) {
+              ?>
+              <div class="card-body">
+                <table id='dataTableAlumnosDocente' class='display dataTableAlumnosDocente'
+                  data-tipo-docente='<?php echo $tipoDocente ?>'
+                  data-identificadores='<?php echo $listaIdentificadores ?>' style="width: 100%">
+                  <thead>
+                    <!-- datatTableAlumnosDocente -->
+                  </thead>
+                  <tbody>
+                    <!--datatTableAlumnosDocente-->
+                  </tbody>
+                </table>
+              </div>
+              <?php
+            } elseif ($tipoDocente == 3 || $tipoDocente == 4) { // Mostrar dataTableCursosDocente si tipoDocente es 3 o 4
+              ?>
+              <div class="card-body">
+                <table id="dataTableCursosDocente" class="display dataTableCursosDocente " style="width: 100%">
+                  <thead>
+                    <!-- dataTableCursosDocenteAdmin -->
+                  </thead>
+                  <tbody>
+                    <!--dataTableCursosDocenteAdmin-->
+                  </tbody>
+                </table>
+              </div>
+              <?php
+            }
+            ?>
           </div>
         </div>
       </div>

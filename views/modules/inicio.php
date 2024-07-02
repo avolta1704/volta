@@ -11,7 +11,6 @@
   <?php
   //  Obtener el tipo de usuario para gestionar el menú
   $tipoUsuario = $_SESSION["tipoUsuario"];
-  $ipConfirmacion = $_SESSION["idUsuario"];
   if ($tipoUsuario == 4) {
     $idsAlumnos = $_SESSION["idAlumnos"];
   }
@@ -45,8 +44,7 @@
   }
   ?>
   <!-- Datos del usuario para JavaScript -->
-  <div id="datos" data-ip-confirmacion="<?= htmlspecialchars($ipConfirmacion); ?>"
-    data-tipo-usuario="<?= htmlspecialchars($tipoUsuario); ?>" <?php if ($tipoUsuario == 4 && !empty($idsAlumnos)): ?>
+  <div id="datos" data-tipo-usuario="<?= htmlspecialchars($tipoUsuario); ?>" <?php if ($tipoUsuario == 4 && !empty($idsAlumnos)): ?>
       data-primer-id-alumno="<?= htmlspecialchars($idsAlumnos[0]["idAlumno"]); ?>" <?php endif; ?> style="display: none;">
   </div>
 

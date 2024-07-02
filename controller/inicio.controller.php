@@ -34,26 +34,42 @@ class ControllerInicio
     return $response;
   }
   // Obtiene el porcentaje de asistencia por meses
-  public static function ctrObtenerAsistenciaporMeses($idUsuario){
+  public static function ctrObtenerAsistenciaporMeses(){
     $tabla = "usuario";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
     $response = ModelInicio::mdlObtenerAsistenciaporMeses($tabla, $idUsuario);
     return $response;
   }
   // Obtiene todas las competencias y notas
-  public static function ctrObtenerTodaslasCompetenciasNotas($idUsuario){
+  public static function ctrObtenerTodaslasCompetenciasNotas(){
     $tabla = "personal";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
     $response = ModelInicio::mdlObtenerTodaslasCompetenciasNotas($tabla, $idUsuario);
     return $response;
   }
   // Obtiene todos los alumnos asignados al docente
-  public static function ctrObtenerTodoslosAlumnosAsignadosDocente($idUsuario){
+  public static function ctrObtenerTodoslosAlumnosAsignadosDocente(){
     $tabla = "usuario";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
     $response = ModelInicio::mdlObtenerTodoslosAlumnosAsignadosDocente($tabla, $idUsuario);
     return $response;
   }
   // Obtiene el total de cursos asignados al docente
-  public static function ctrObtenerTotaldeCursosAsignados($idUsuario){
+  public static function ctrObtenerTotaldeCursosAsignados(){
     $tabla = "usuario";
+    if (session_status() == PHP_SESSION_NONE) {
+      session_start();
+    }
+    $idUsuario = $_SESSION["idUsuario"];
     $response = ModelInicio::mdlObtenerTotaldeCursosAsignados($tabla,$idUsuario);
     return $response;
   }
