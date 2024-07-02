@@ -307,7 +307,7 @@ class ModelAdmisionAlumno
       MAX(CASE WHEN cp.mesPago NOT IN ('Matricula', 'Cuota Inicial') THEN cp.montoPago ELSE 0 END) AS 'Monto Pension',
       a.estadoSiagie AS 'Estado SIAGIE'
       FROM
-          alumno a
+          $tabla a
           LEFT JOIN alumno_anio_escolar ae ON a.idAlumno = ae.idAlumno
           LEFT JOIN grado g ON ae.idGrado = g.idGrado
           LEFT JOIN nivel n ON g.idNivel = n.idNivel
@@ -349,7 +349,7 @@ class ModelAdmisionAlumno
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  // Obtener todos los datos para descargar en el excel de registros de matriculados
+  // Obtener todos los datos para descargar en el excel de registros de matriculados por año escolar
   public static function mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($tabla, $idAnioEscolar)
   {
     $statement = Connection::conn()->prepare("SELECT
@@ -385,7 +385,7 @@ class ModelAdmisionAlumno
         MAX(CASE WHEN cp.mesPago NOT IN ('Matricula', 'Cuota Inicial') THEN cp.montoPago ELSE 0 END) AS 'Monto Pension',
         a.estadoSiagie AS 'Estado SIAGIE'
         FROM
-            alumno a
+            $tabla a
             LEFT JOIN alumno_anio_escolar ae ON a.idAlumno = ae.idAlumno
             LEFT JOIN grado g ON ae.idGrado = g.idGrado
             LEFT JOIN nivel n ON g.idNivel = n.idNivel

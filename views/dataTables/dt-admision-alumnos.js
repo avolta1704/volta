@@ -96,7 +96,7 @@ $("#selectAnioEscolarAdmisionAlumnos").on("change", function () {
     },
   });
 });
-// btnDescargarReportePagos
+// btnDescargarReporteMatriculadosCompleto
 $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
   var valorSeleccionado = $("#selectAnioEscolarAdmisionAlumnos").val();
   var data = new FormData();
@@ -130,6 +130,7 @@ $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
       timer: 1500,
     });
   });
+  // Crear un archivo Excel a partir de un arreglo de objetos
   const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {
     // Modificar los valores nulos o vacíos
     const dataModificada = data.map(objeto => {

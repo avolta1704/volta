@@ -105,15 +105,19 @@ class AdmisionAlumnosAjax
     $response = ControllerAdmisionAlumno::ctrObtenerTotalMatriculadosTrasladadosRetirados();
     echo json_encode($response);
   }
+  // Obtener todos los datos de los alumnos y apoderados para el reporte de excel
   public $idAnioEscolarReporteMatriculados;
   public function ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel()
   {
+    // Obtener el id del año escolar para el reporte
     $idAnioEscolarReporteMatriculados = $this->idAnioEscolarReporteMatriculados;
+    // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
     if ($idAnioEscolarReporteMatriculados == 0){
       $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
     } else{
       $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolarReporteMatriculados);
     }
+    // Recorrer los datos para obtener la edad, ek status, la matricula y el estado siagie
     foreach ($response as &$dataAdmision) {
       if (isset($dataAdmision["F. Nac."])) {
         $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $dataAdmision["F. Nac."]);
