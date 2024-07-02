@@ -50,12 +50,17 @@ class PostulantesAjax
    */
   public function ajaxMostrarTodosLosPostulantesByAnioEscolar($idAnioEscolar)
   {
-    $todosLosPostulantesAnio = ControllerPostulantes::ctrGetPostulantesByAnioEscolar($idAnioEscolar);
+    if($idAnioEscolar == "0")
+      $todosLosPostulantesAnio = ControllerPostulantes::ctrGetAllPostulantes();
+    else{
+      $todosLosPostulantesAnio = ControllerPostulantes::ctrGetPostulantesByAnioEscolar($idAnioEscolar);
+    }
+
     foreach ($todosLosPostulantesAnio as &$postulantesAnio) {
       $postulantesAnio['statePostulante'] = FunctionPostulantes::getestadoPostulantes($postulantesAnio["estadoPostulante"]);
       $postulantesAnio['buttonsPostulante'] = FunctionPostulantes::getBotonesPostulante($postulantesAnio["idPostulante"], $postulantesAnio["estadoPostulante"], $postulantesAnio["pagoMatricula"]);
     }
-    echo json_encode($todosLosPostulantesAnio);
+    echo json_encode($todosLosPostulantesAnio);  
   }
 
   // Actualizar estado postulante

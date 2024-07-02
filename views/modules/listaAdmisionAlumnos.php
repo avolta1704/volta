@@ -24,18 +24,29 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
         <div class="row">
           <div class="card AdmisionAlumno py-4">
             <div class="card-header">
+
               <!-- Botones para filtrar -->
               <div class="row justify-content-end">
+                <div class="col-auto">
+                  <!-- Botón Descargar Reporte con icono de Excel al extremo izquierdo -->
+                  <button type="button" class="btn btn-success" id="btnDescargarReporteMatriculadosCompleto">
+                    <i class="bi bi-file-earmark-excel-fill"></i> Descargar Reporte
+                  </button>
+                </div>
+
                 <div class="col-xl-2 col-lg-4 col-md-6 col-12">
+
                   <div class="input-group">
                     <label class="input-group-text" for=""><i class="bi bi-calendar-event"></i></label>
-                    <select class="form-select" id="selectAnioEscolarAdmisionAlumnos" aria-label=" Seleccionar año escolar">
+                    <select class="form-select" id="selectAnioEscolarAdmisionAlumnos"
+                      aria-label=" Seleccionar año escolar">
                       <?php
                       foreach ($aniosEscolar as $anio) {
                         $anioActivo = $anio["estadoAnio"] == 1 ? 'selected' : '';
                         echo "<option value='" . $anio['idAnioEscolar'] . "' '" . $anioActivo . "' >" . $anio['descripcionAnio'] . "</option>";
                       }
                       ?>
+                      <option value="0">Todos los Años</option>
                     </select>
                   </div>
                 </div>
@@ -60,7 +71,8 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
 </main>
 
 <!-- Modal Actualizar Admision Alumno-->
-<div class="modal fade" id="actualizarEstadoAdmisionAlumno" aria-hidden="true" aria-labelledby="actualizarEstadoAdmisionAlumno" tabindex="-1">
+<div class="modal fade" id="actualizarEstadoAdmisionAlumno" aria-hidden="true"
+  aria-labelledby="actualizarEstadoAdmisionAlumno" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-md">
     <div class="modal-content ">
       <div class="modal-header">
@@ -78,7 +90,8 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnActualizarEstadoMatricula" id="btnActualizarEstadoMatricula">Actualizar</button>
+        <button type="button" class="btn btn-primary btnActualizarEstadoMatricula"
+          id="btnActualizarEstadoMatricula">Actualizar</button>
       </div>
     </div>
   </div>
@@ -86,7 +99,8 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
 
 
 <!-- Modal Cronograma Pagos Admision Alumno-->
-<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
+<div class="modal fade" id="cronogramaAdmisionPago" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="cronogramaAdmisionPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 770px;">
     <div class="modal-content">
       <div class="modal-header">
@@ -105,7 +119,8 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
 </div>
 
 <!-- Modal editar  -->
-<div class="modal fade" id="modalEditCronoPago" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalEditCronoPagoLabel" aria-hidden="true">
+<div class="modal fade" id="modalEditCronoPago" data-bs-backdrop="static" tabindex="-1"
+  aria-labelledby="modalEditCronoPagoLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -120,17 +135,20 @@ $aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
           </div>
           <div class="mb-3">
             <label for="fechaLimtEditCrono" class="col-form-label">Fecha Limite:</label>
-            <input type="date" class="form-control form-control-sm" id="fechaLimtEditCrono" name="fechaLimtEditCrono" fechaLimtEditCrono="" disabled>
+            <input type="date" class="form-control form-control-sm" id="fechaLimtEditCrono" name="fechaLimtEditCrono"
+              fechaLimtEditCrono="" disabled>
           </div>
           <div class="mb-3">
             <label for="montoEditCrono" class="col-form-label">Monto Pago:</label>
-            <input type="number" step="0.01" class="form-control form-control-sm" id="montoEditCrono" name="montoEditCrono" montoEditCrono="">
+            <input type="number" step="0.01" class="form-control form-control-sm" id="montoEditCrono"
+              name="montoEditCrono" montoEditCrono="">
           </div>
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btnCerrarEditCronoModal" data-bs-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary btnEditCronoModal" id="btnEditCronoModal" name="btnEditCronoModal" btnEditCronoModal=" ">Editar</button>
+        <button type="button" class="btn btn-primary btnEditCronoModal" id="btnEditCronoModal" name="btnEditCronoModal"
+          btnEditCronoModal=" ">Editar</button>
       </div>
     </div>
   </div>

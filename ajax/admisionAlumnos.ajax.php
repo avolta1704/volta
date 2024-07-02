@@ -77,7 +77,13 @@ class AdmisionAlumnosAjax
    */
   public function ajaxMostrarTodosPostulantesAnioEscolar($idAnioEscolar)
   {
-    $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
+    // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
+    if ($idAnioEscolar == 0)
+      $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
+    else {
+      $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
+    }
+
 
     $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
 
@@ -89,12 +95,47 @@ class AdmisionAlumnosAjax
     }
     echo json_encode($response);
   }
-  public function ajaxObtenerAlumnosPorTipoReportes(){
+  public function ajaxObtenerAlumnosPorTipoReportes()
+  {
     $response = ControllerAdmisionAlumno::ctrObtenerAlumnosPorTipoReportes();
     echo json_encode($response);
   }
-  public function ajaxObtenerTotalMatriculadosTrasladadosRetirados(){
+  public function ajaxObtenerTotalMatriculadosTrasladadosRetirados()
+  {
     $response = ControllerAdmisionAlumno::ctrObtenerTotalMatriculadosTrasladadosRetirados();
+    echo json_encode($response);
+  }
+  // Obtener todos los datos de los alumnos y apoderados para el reporte de excel
+  public $idAnioEscolarReporteMatriculados;
+  public function ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel()
+  {
+    // Obtener el id del año escolar para el reporte
+    $idAnioEscolarReporteMatriculados = $this->idAnioEscolarReporteMatriculados;
+    // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
+    if ($idAnioEscolarReporteMatriculados == 0){
+      $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
+    } else{
+      $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolarReporteMatriculados);
+    }
+    // Recorrer los datos para obtener la edad, ek status, la matricula y el estado siagie
+    foreach ($response as &$dataAdmision) {
+      if (isset($dataAdmision["F. Nac."])) {
+        $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $dataAdmision["F. Nac."]);
+        $fechaActual = new DateTime();
+        $anioNacimiento = $fechaNacimiento->format('Y');
+        $anioActual = $fechaActual->format('Y');
+        $dataAdmision['Edad'] = $anioActual - $anioNacimiento;
+      }
+      if (isset($dataAdmision["Status"])) {
+        $dataAdmision['Status'] = $dataAdmision['Status'] == 1 ? 'N' : 'A';
+      }
+      if (isset($dataAdmision["Matric."])){
+        $dataAdmision["Matric."] = $dataAdmision["Matric."] == 1 ? 'Anulado' : ($dataAdmision["Matric."] == 2 ? 'Sí' : ($dataAdmision["Matric."] == 3 ? 'Traslado' : 'Retirado'));
+      }
+      if (isset($dataAdmision["Estado SIAGIE"])) {
+        $dataAdmision["Estado SIAGIE"] = $dataAdmision["Estado SIAGIE"] == 1 ? 'Matriculado' : 'No Matriculado';
+      }
+    }
     echo json_encode($response);
   }
 }
@@ -135,11 +176,16 @@ if (isset($_POST["todosLosAdmisionAlumnosAnio"])) {
   $mostrarRegistrosPostulantes = new AdmisionAlumnosAjax();
   $mostrarRegistrosPostulantes->ajaxMostrarTodosPostulantesAnioEscolar($_POST["todosLosAdmisionAlumnosAnio"]);
 }
-if(isset($_POST["todosAlumnosPorTipoReporte"])){
+if (isset($_POST["todosAlumnosPorTipoReporte"])) {
   $mostrarTodoslosAlumnosPorEstado = new AdmisionAlumnosAjax();
   $mostrarTodoslosAlumnosPorEstado->ajaxObtenerAlumnosPorTipoReportes();
 }
-if(isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])){
+if (isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])) {
   $mostrarTotalMatriculadosTrasladadosRetirados = new AdmisionAlumnosAjax();
   $mostrarTotalMatriculadosTrasladadosRetirados->ajaxObtenerTotalMatriculadosTrasladadosRetirados();
+}
+if (isset($_POST["idAnioEscolarReporteMatriculados"])) {
+  $todosAlumnosApoderadoReporteMatriculados = new AdmisionAlumnosAjax();
+  $todosAlumnosApoderadoReporteMatriculados->idAnioEscolarReporteMatriculados = $_POST["idAnioEscolarReporteMatriculados"];
+  $todosAlumnosApoderadoReporteMatriculados->ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
 }
