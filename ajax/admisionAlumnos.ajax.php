@@ -78,12 +78,12 @@ class AdmisionAlumnosAjax
   public function ajaxMostrarTodosPostulantesAnioEscolar($idAnioEscolar)
   {
     // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
-    if($idAnioEscolar == 0)
+    if ($idAnioEscolar == 0)
       $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnos();
-    else{
+    else {
       $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
     }
-    
+
 
     $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
 
@@ -95,16 +95,43 @@ class AdmisionAlumnosAjax
     }
     echo json_encode($response);
   }
-  public function ajaxObtenerAlumnosPorTipoReportes(){
+  public function ajaxObtenerAlumnosPorTipoReportes()
+  {
     $response = ControllerAdmisionAlumno::ctrObtenerAlumnosPorTipoReportes();
     echo json_encode($response);
   }
-  public function ajaxObtenerTotalMatriculadosTrasladadosRetirados(){
+  public function ajaxObtenerTotalMatriculadosTrasladadosRetirados()
+  {
     $response = ControllerAdmisionAlumno::ctrObtenerTotalMatriculadosTrasladadosRetirados();
     echo json_encode($response);
   }
-  public function ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel(){
-    $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
+  public $idAnioEscolarReporteMatriculados;
+  public function ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel()
+  {
+    $idAnioEscolarReporteMatriculados = $this->idAnioEscolarReporteMatriculados;
+    if ($idAnioEscolarReporteMatriculados == 0){
+      $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
+    } else{
+      $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolarReporteMatriculados);
+    }
+    foreach ($response as &$dataAdmision) {
+      if (isset($dataAdmision["F. Nac."])) {
+        $fechaNacimiento = DateTime::createFromFormat('Y-m-d', $dataAdmision["F. Nac."]);
+        $fechaActual = new DateTime();
+        $anioNacimiento = $fechaNacimiento->format('Y');
+        $anioActual = $fechaActual->format('Y');
+        $dataAdmision['Edad'] = $anioActual - $anioNacimiento;
+      }
+      if (isset($dataAdmision["Status"])) {
+        $dataAdmision['Status'] = $dataAdmision['Status'] == 1 ? 'N' : 'A';
+      }
+      if (isset($dataAdmision["Matric."])){
+        $dataAdmision["Matric."] = $dataAdmision["Matric."] == 1 ? 'Anulado' : ($dataAdmision["Matric."] == 2 ? 'Sí' : ($dataAdmision["Matric."] == 3 ? 'Traslado' : 'Retirado'));
+      }
+      if (isset($dataAdmision["Estado SIAGIE"])) {
+        $dataAdmision["Estado SIAGIE"] = $dataAdmision["Estado SIAGIE"] == 1 ? 'Matriculado' : 'No Matriculado';
+      }
+    }
     echo json_encode($response);
   }
 }
@@ -145,15 +172,16 @@ if (isset($_POST["todosLosAdmisionAlumnosAnio"])) {
   $mostrarRegistrosPostulantes = new AdmisionAlumnosAjax();
   $mostrarRegistrosPostulantes->ajaxMostrarTodosPostulantesAnioEscolar($_POST["todosLosAdmisionAlumnosAnio"]);
 }
-if(isset($_POST["todosAlumnosPorTipoReporte"])){
+if (isset($_POST["todosAlumnosPorTipoReporte"])) {
   $mostrarTodoslosAlumnosPorEstado = new AdmisionAlumnosAjax();
   $mostrarTodoslosAlumnosPorEstado->ajaxObtenerAlumnosPorTipoReportes();
 }
-if(isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])){
+if (isset($_POST["todosAlumnosMatriculadosTrasladadosRetirados"])) {
   $mostrarTotalMatriculadosTrasladadosRetirados = new AdmisionAlumnosAjax();
   $mostrarTotalMatriculadosTrasladadosRetirados->ajaxObtenerTotalMatriculadosTrasladadosRetirados();
 }
-if(isset($_POST["todosAlumnosApoderadoReporteMatriculados"])){
+if (isset($_POST["idAnioEscolarReporteMatriculados"])) {
   $todosAlumnosApoderadoReporteMatriculados = new AdmisionAlumnosAjax();
+  $todosAlumnosApoderadoReporteMatriculados->idAnioEscolarReporteMatriculados = $_POST["idAnioEscolarReporteMatriculados"];
   $todosAlumnosApoderadoReporteMatriculados->ajaxObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
 }

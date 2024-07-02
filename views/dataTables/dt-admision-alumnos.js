@@ -98,8 +98,9 @@ $("#selectAnioEscolarAdmisionAlumnos").on("change", function () {
 });
 // btnDescargarReportePagos
 $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
+  var valorSeleccionado = $("#selectAnioEscolarAdmisionAlumnos").val();
   var data = new FormData();
-  data.append("todosAlumnosApoderadoReporteMatriculados", true);
+  data.append("idAnioEscolarReporteMatriculados", valorSeleccionado);
 
   $.ajax({
     url: "ajax/admisionAlumnos.ajax.php",
@@ -113,8 +114,8 @@ $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
     success: function (response) {
       crearArchivoExcel(
         response,
-        "Reporte de Pagos General",
-        "reporte_pagos_general"
+        "Reporte Matriculados",
+        "reporte_matriculados"
       );
     },
   }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -130,11 +131,24 @@ $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
     });
   });
   const crearArchivoExcel = (data, nombreHoja, nombreArchivo) => {
+    // Modificar los valores nulos o vacíos
+    const dataModificada = data.map(objeto => {
+      const objetoModificado = { ...objeto };
+      // Recorrer las claves del objeto
+      Object.keys(objetoModificado).forEach(clave => {
+          // Reemplazar los valores nulos o vacíos por "Sin Inf."
+          if (objetoModificado[clave] === null || objetoModificado[clave] === "") {
+              objetoModificado[clave] = "Sin Inf.";
+          }
+      });
+      // Retornar el objeto modificado
+      return objetoModificado;
+  });
     // Crear un nuevo libro de trabajo
     var workbook = XLSX.utils.book_new();
 
     // Crear una hoja de trabajo
-    const ws = XLSX.utils.json_to_sheet(data, {
+    const ws = XLSX.utils.json_to_sheet(dataModificada, {
       header: [
         "Alumno",
         "Nivel",
@@ -149,16 +163,17 @@ $("#btnDescargarReporteMatriculadosCompleto").on("click", function () {
         "Seguro Salud",
         "Ingreso AV",
         "Padre",
-        "DNI",
-        "Telef. 02",
-        "Vive C/ Estudiante",
-        "Email",
-        "Madre",
-        "DNI",
+        "DNI Padre",
         "Telef. 01",
-        "Vive C/ Estudiante",
-        "Email",
+        "Vive C/ Estudiante Padre",
+        "Email Padre",
+        "Madre",
+        "DNI Madre",
+        "Telef. 02",
+        "Vive C/ Estudiante Madre",
+        "Email Madre",
         "Telf. Emergencia",
+        "Enfermedad",
         "Matric.",
         "Fecha Matric.",
         "Monto Matric.",

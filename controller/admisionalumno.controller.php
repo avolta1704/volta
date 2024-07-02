@@ -392,4 +392,9 @@ class ControllerAdmisionAlumno
     $response = ModelAdmisionAlumno::mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcel($tabla);
     return $response;
   }
+  public static function ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolar){
+    $tabla = "alumno";
+    $response = ModelAdmisionAlumno::mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($tabla, $idAnioEscolar);
+    return $response;
+  }
 }

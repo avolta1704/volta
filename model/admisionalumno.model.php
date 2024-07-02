@@ -208,7 +208,8 @@ class ModelAdmisionAlumno
     }
   }
   // Función para obtener el numero de matriculados, translado y retirados
-  public static function mdlObtenerAlumnosPorTipoReportes($tabla){
+  public static function mdlObtenerAlumnosPorTipoReportes($tabla)
+  {
     $statement = Connection::conn()->prepare("SELECT
     CASE 
         WHEN grado.descripcionGrado = '3 Años' THEN 'INIC 03 A'
@@ -245,7 +246,8 @@ class ModelAdmisionAlumno
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Función para obtener el total de matriculados, translado y retirados
-  public static function mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla){
+  public static function mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla)
+  {
     $statement = Connection::conn()->prepare("SELECT
     SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END) AS matriculados,
     SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END) AS trasladados,
@@ -270,39 +272,40 @@ class ModelAdmisionAlumno
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Obtener todos los datos para descargar en el excel de registros de matriculados
-  public static function mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcel($tabla){
+  public static function mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcel($tabla)
+  {
     $statement = Connection::conn()->prepare("SELECT
-      CONCAT(a.nombresAlumno, ' ', a.apellidosAlumno) AS nombre_completo,
-      CONCAT(n.descripcionNivel, ' ', g.descripcionGrado) AS nivel_grado,
-      a.nuevoAlumno,
-      a.sexoAlumno,
-      a.dniAlumno,
-      a.fechaNacimiento,
-      a.direccionAlumno,
-      a.distritoAlumno,
-      a.IEPProcedencia,
-      a.seguroSalud,
-      a.fechaIngresoVolta,
-      CONCAT(ap1.nombreApoderado, ' ', ap1.apellidoApoderado) AS nombre_completoApoderado1,
-      ap1.dniApoderado AS dniApoderado1,
-      ap1.celularApoderado AS celularApoderado1,
-      ap1.convivenciaAlumno AS convivenciaAlumno1,
-      ap1.correoApoderado AS correoApoderado1,
-      CONCAT(ap2.nombreApoderado, ' ', ap2.apellidoApoderado) AS nombre_completoApoderado2,
-      ap2.dniApoderado AS dniApoderado2,
-      ap2.celularApoderado AS celularApoderado2,
-      ap2.convivenciaAlumno AS convivenciaAlumno2,
-      ap2.correoApoderado AS correoApoderado2,
-      a.numeroEmergencia,
-      a.enfermedades,
-      aa.estadoAdmisionAlumno,
-      aa.fechaCreacion,
-      MAX(CASE WHEN cp.mesPago = 'Matricula' THEN cp.montoPago ELSE NULL END) AS monto_matricula,
-      MAX(CASE WHEN cp.mesPago = 'Matricula' THEN p.numeroComprobante ELSE NULL END) AS recibo_matricula,
-      MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN cp.montoPago ELSE NULL END) AS cuota_ingreso,
-      MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN p.numeroComprobante ELSE NULL END) AS recibo_admision,
-      MAX(CASE WHEN cp.mesPago NOT IN ('Matricula', 'Cuota Inicial') THEN cp.montoPago ELSE 0 END) AS monto_pension,
-      a.estadoSiagie
+      CONCAT(a.nombresAlumno, ' ', a.apellidosAlumno) AS Alumno,
+      CONCAT(n.descripcionNivel, ' ', g.descripcionGrado) AS Nivel,
+      a.nuevoAlumno AS 'Status',
+      a.sexoAlumno AS Sexo,
+      a.dniAlumno AS DNI,
+      a.fechaNacimiento AS 'F. Nac.',
+      a.direccionAlumno AS Dirección,
+      a.distritoAlumno AS Distrito,
+      a.IEPProcedencia AS 'IEP Procedencia',
+      a.seguroSalud AS 'Seguro Salud',
+      a.fechaIngresoVolta AS 'Ingreso AV',
+      CONCAT(ap1.nombreApoderado, ' ', ap1.apellidoApoderado) AS Padre,
+      ap1.dniApoderado AS 'DNI Padre',
+      ap1.celularApoderado AS 'Telef. 01',
+      ap1.convivenciaAlumno AS 'Vive C/ Estudiante Padre',
+      ap1.correoApoderado AS 'Email Padre',
+      CONCAT(ap2.nombreApoderado, ' ', ap2.apellidoApoderado) AS 'Madre',
+      ap2.dniApoderado AS 'DNI Madre',
+      ap2.celularApoderado AS 'Telef. 02',
+      ap2.convivenciaAlumno AS 'Vive C/ Estudiante Madre',
+      ap2.correoApoderado AS 'Email Madre',
+      a.numeroEmergencia AS 'Telf. Emergencia',
+      a.enfermedades AS 'Enfermedad',
+      aa.estadoAdmisionAlumno AS 'Matric.',
+      aa.fechaCreacion AS 'Fecha Matric.',
+      MAX(CASE WHEN cp.mesPago = 'Matricula' THEN cp.montoPago ELSE NULL END) AS 'Monto Matric.',
+      MAX(CASE WHEN cp.mesPago = 'Matricula' THEN p.numeroComprobante ELSE NULL END) AS 'Recibo Matric.',
+      MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN cp.montoPago ELSE NULL END) AS 'Cuota Ingreso',
+      MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN p.numeroComprobante ELSE NULL END) AS 'Recibo Admision',
+      MAX(CASE WHEN cp.mesPago NOT IN ('Matricula', 'Cuota Inicial') THEN cp.montoPago ELSE 0 END) AS 'Monto Pension',
+      a.estadoSiagie AS 'Estado SIAGIE'
       FROM
           alumno a
           LEFT JOIN alumno_anio_escolar ae ON a.idAlumno = ae.idAlumno
@@ -343,6 +346,85 @@ class ModelAdmisionAlumno
       WHERE aa.estadoAdmisionAlumno = 2 AND ae.idAnioEscolar = 1
       GROUP BY
           a.idAlumno, n.descripcionNivel, g.descripcionGrado, a.nombresAlumno, a.apellidosAlumno, a.nuevoAlumno, a.sexoAlumno, a.dniAlumno, a.fechaNacimiento, a.direccionAlumno, a.distritoAlumno, a.IEPProcedencia, a.seguroSalud, a.fechaIngresoVolta, ap1.nombreApoderado, ap1.apellidoApoderado, ap1.dniApoderado, ap1.celularApoderado, ap1.convivenciaAlumno, ap1.correoApoderado, ap2.nombreApoderado, ap2.apellidoApoderado, ap2.dniApoderado, ap2.celularApoderado, ap2.convivenciaAlumno, ap2.correoApoderado, a.numeroEmergencia, a.enfermedades, aa.estadoAdmisionAlumno, aa.fechaCreacion, a.estadoSiagie");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener todos los datos para descargar en el excel de registros de matriculados
+  public static function mdlObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($tabla, $idAnioEscolar)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+        CONCAT(a.nombresAlumno, ' ', a.apellidosAlumno) AS Alumno,
+        CONCAT(n.descripcionNivel, ' ', g.descripcionGrado) AS Nivel,
+        a.nuevoAlumno AS 'Status',
+        a.sexoAlumno AS Sexo,
+        a.dniAlumno AS DNI,
+        a.fechaNacimiento AS 'F. Nac.',
+        a.direccionAlumno AS Dirección,
+        a.distritoAlumno AS Distrito,
+        a.IEPProcedencia AS 'IEP Procedencia',
+        a.seguroSalud AS 'Seguro Salud',
+        a.fechaIngresoVolta AS 'Ingreso AV',
+        CONCAT(ap1.nombreApoderado, ' ', ap1.apellidoApoderado) AS Padre,
+        ap1.dniApoderado AS 'DNI Padre',
+        ap1.celularApoderado AS 'Telef. 01',
+        ap1.convivenciaAlumno AS 'Vive C/ Estudiante Padre',
+        ap1.correoApoderado AS 'Email Padre',
+        CONCAT(ap2.nombreApoderado, ' ', ap2.apellidoApoderado) AS 'Madre',
+        ap2.dniApoderado AS 'DNI Madre',
+        ap2.celularApoderado AS 'Telef. 02',
+        ap2.convivenciaAlumno AS 'Vive C/ Estudiante Madre',
+        ap2.correoApoderado AS 'Email Madre',
+        a.numeroEmergencia AS 'Telf. Emergencia',
+        a.enfermedades AS 'Enfermedad',
+        aa.estadoAdmisionAlumno AS 'Matric.',
+        aa.fechaCreacion AS 'Fecha Matric.',
+        MAX(CASE WHEN cp.mesPago = 'Matricula' THEN cp.montoPago ELSE NULL END) AS 'Monto Matric.',
+        MAX(CASE WHEN cp.mesPago = 'Matricula' THEN p.numeroComprobante ELSE NULL END) AS 'Recibo Matric.',
+        MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN cp.montoPago ELSE NULL END) AS 'Cuota Ingreso',
+        MAX(CASE WHEN cp.mesPago = 'Cuota Inicial' THEN p.numeroComprobante ELSE NULL END) AS 'Recibo Admision',
+        MAX(CASE WHEN cp.mesPago NOT IN ('Matricula', 'Cuota Inicial') THEN cp.montoPago ELSE 0 END) AS 'Monto Pension',
+        a.estadoSiagie AS 'Estado SIAGIE'
+        FROM
+            alumno a
+            LEFT JOIN alumno_anio_escolar ae ON a.idAlumno = ae.idAlumno
+            LEFT JOIN grado g ON ae.idGrado = g.idGrado
+            LEFT JOIN nivel n ON g.idNivel = n.idNivel
+            LEFT JOIN admision_alumno aa ON a.idAlumno = aa.idAlumno
+            LEFT JOIN cronograma_pago cp ON aa.idAdmisionAlumno = cp.idAdmisionAlumno
+            LEFT JOIN pago p ON cp.idCronogramaPago = p.idCronogramaPago
+            LEFT JOIN anio_escolar ae2 ON ae.idAnioEscolar = ae2.idAnioEscolar
+            LEFT JOIN (
+                SELECT
+                    aa1.idAlumno,
+                    ap1.nombreApoderado,
+                    ap1.apellidoApoderado,
+                    ap1.dniApoderado,
+                    ap1.celularApoderado,
+                    ap1.convivenciaAlumno,
+                    ap1.correoApoderado,
+                    ROW_NUMBER() OVER (PARTITION BY aa1.idAlumno ORDER BY aa1.idApoderado) AS ordenApoderado
+                FROM
+                    apoderado_alumno aa1
+                    INNER JOIN apoderado ap1 ON aa1.idApoderado = ap1.idApoderado
+            ) ap1 ON a.idAlumno = ap1.idAlumno AND ap1.ordenApoderado = 1
+            LEFT JOIN (
+                SELECT
+                    aa2.idAlumno,
+                    ap2.nombreApoderado,
+                    ap2.apellidoApoderado,
+                    ap2.dniApoderado,
+                    ap2.celularApoderado,
+                    ap2.convivenciaAlumno,
+                    ap2.correoApoderado,
+                    ROW_NUMBER() OVER (PARTITION BY aa2.idAlumno ORDER BY aa2.idApoderado) AS ordenApoderado
+                FROM
+                    apoderado_alumno aa2
+                    INNER JOIN apoderado ap2 ON aa2.idApoderado = ap2.idApoderado
+            ) ap2 ON a.idAlumno = ap2.idAlumno AND ap2.ordenApoderado = 2
+        WHERE aa.estadoAdmisionAlumno = 2 AND ae.idAnioEscolar = :idAnioEscolar
+        GROUP BY
+            a.idAlumno, n.descripcionNivel, g.descripcionGrado, a.nombresAlumno, a.apellidosAlumno, a.nuevoAlumno, a.sexoAlumno, a.dniAlumno, a.fechaNacimiento, a.direccionAlumno, a.distritoAlumno, a.IEPProcedencia, a.seguroSalud, a.fechaIngresoVolta, ap1.nombreApoderado, ap1.apellidoApoderado, ap1.dniApoderado, ap1.celularApoderado, ap1.convivenciaAlumno, ap1.correoApoderado, ap2.nombreApoderado, ap2.apellidoApoderado, ap2.dniApoderado, ap2.celularApoderado, ap2.convivenciaAlumno, ap2.correoApoderado, a.numeroEmergencia, a.enfermedades, aa.estadoAdmisionAlumno, aa.fechaCreacion, a.estadoSiagie");
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
