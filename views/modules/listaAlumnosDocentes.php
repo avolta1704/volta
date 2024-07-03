@@ -5,7 +5,7 @@
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item active">Todos mis Alumnos</li>
+        <li class="breadcrumb-item active" id="idNavegacionNombreCursos">Todos mis Alumnos</li>
       </ol>
     </nav>
   </div>

@@ -16,7 +16,8 @@ $(document).ready(function () {
   } else if (tipoDocente === "3" || tipoDocente === "4") {
     // Titulo dataTableAlumnosDocente
     $(".tituloCursosDocente").text("Todos mis Cursos");
-
+    document.getElementById("idNavegacionNombreCursos").textContent =
+      "Todos mis Cursos";
     var columnDefsAlumnosDocente = [
       { data: "descripcionCurso" },
       { data: "descripcionGrado" },
@@ -77,23 +78,16 @@ $(document).ready(function () {
     });
   }
   function actualizarDatosTabla(idCurso, idGrado, idPersonal) {
-    // Titulo dataTableAlumnosDocente
     $(".tituloCursosDocente").text("Todos mis Alumnos");
 
-    var columnDefsAlumnosDocente = [
-      { data: "nombresAlumno" },
-      { data: "apellidosAlumno" },
-      { data: "acciones" },
-    ];
-    var tablaAlumnosDocente = $("#dataTableAlumnosDocente").DataTable({
-      columns: columnDefsAlumnosDocente,
-    });
+    // Prepara los datos para la solicitud AJAX
     var data = new FormData();
     data.append("todosLosAlumnosDocente", true);
     data.append("idCurso", idCurso);
     data.append("idGrado", idGrado);
     data.append("idPersonal", idPersonal);
 
+    // Realiza la solicitud AJAX
     $.ajax({
       url: "ajax/alumnosDocente.ajax.php",
       method: "POST",
@@ -103,45 +97,64 @@ $(document).ready(function () {
       processData: false,
       dataType: "json",
       success: function (response) {
-        tablaAlumnosDocente.clear(); // Limpia los datos actuales de la tabla
-        tablaAlumnosDocente.rows.add(response); // Agrega los nuevos datos
-        tablaAlumnosDocente.draw(); // Redibuja la tabla
+        // Verifica si el DataTable ya está inicializado y lo destruye si es necesario
+        if ($.fn.DataTable.isDataTable("#dataTableAlumnosDocente")) {
+          $("#dataTableAlumnosDocente").DataTable().destroy();
+        }
+
+        // Actualiza la estructura del thead antes de inicializar DataTable
+        $("#dataTableAlumnosDocente thead").html(`
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            `);
+
+        // Define las columnas para DataTable
+        var columnDefsAlumnosDocente = [
+          {
+            data: null,
+            render: function (data, type, row, meta) {
+              return meta.row + 1; // Añade un contador de filas
+            },
+          },
+          { data: "nombresAlumno" },
+          { data: "apellidosAlumno" },
+          { data: "acciones" },
+        ];
+
+        // Inicializa el DataTable con la nueva configuración
+        var tablaAlumnosDocente = $("#dataTableAlumnosDocente").DataTable({
+          columns: columnDefsAlumnosDocente,
+        });
+
+        // Limpia los datos actuales de la tabla y agrega los nuevos
+        tablaAlumnosDocente.clear().rows.add(response).draw();
       },
       error: function (jqXHR, textStatus, errorThrown) {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
-    //Estructura de dataTableAlumnosDocente
-    $("#dataTableAlumnosDocente thead").html(`
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Apellido</th>
-        <th scope="col">Acciones</th>
-      </tr>
-      `);
-
-    tablaAlumnosDocente.destroy();
-
-    columnDefsAlumnosDocente = [
-      {
-        data: null,
-        render: function (data, type, row, meta) {
-          return meta.row + 1;
-        },
-      },
-      { data: "nombresAlumno" },
-      { data: "apellidosAlumno" },
-      { data: "acciones" },
-    ];
-    tablaAlumnosDocente = $("#dataTableAlumnosDocente").DataTable({
-      columns: columnDefsAlumnosDocente,
-    });
   }
-  $("#dataTableAlumnosDocente").on("click", ".btnVerAlumnosCursoDocente", function () {
-    var idCurso = $(this).attr("idCurso");
-    var idGrado = $(this).attr("idGrado");
-    var idPersonal = $(this).attr("idPersonal");
-    actualizarDatosTabla(idCurso, idGrado, idPersonal);
-});
+  $("#dataTableAlumnosDocente").on(
+    "click",
+    ".btnVerAlumnosCursoDocente",
+    function () {
+      var idCurso = $(this).attr("idCurso");
+      var idGrado = $(this).attr("idGrado");
+      var idPersonal = $(this).attr("idPersonal");
+      // Quitar la clase 'active' del elemento existente
+      $("#idNavegacionNombreCursos").removeClass("active");
+      // Crear un nuevo elemento <a> y agregarlo dentro de #idNavegacionNombreCursos
+      $("#idNavegacionNombreCursos")
+        .empty()
+        .append('<a href="listaAlumnosDocentes">Todos mis Cursos</a>');
+      $(".breadcrumb").append(
+        '<li class="breadcrumb-item active">Todos mis Alumnos</li>'
+      );
+      actualizarDatosTabla(idCurso, idGrado, idPersonal);
+    }
+  );
 });
