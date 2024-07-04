@@ -271,4 +271,10 @@ class ControllerAsistenciaAlumnos
     $respuesta = ModelAsistenciaAlumnos::mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario);
     return $respuesta;
   }
+  public static function ctrObtenerAsistenciaAlumnoDocente($idCurso,$idGrado,$idPersonal)
+  {
+    $tabla = "personal";
+    $respuesta = ModelAsistenciaAlumnos::mdlObtenerAsistenciaAlumnoDocente($tabla,$idCurso,$idGrado,$idPersonal);
+    return $respuesta;
+  }
 }

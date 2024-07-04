@@ -242,4 +242,9 @@ class ControllerCursos
     $response = ModelCursos::mdlEliminarCursoGrado($idCursoGrado);
     return $response;
   }
+  public static function ctrObtenerDescripcionCursoGradoAsistencia($idCurso,$idGrado){
+    $tabla = "curso";
+    $response = ModelCursos::mdlObtenerDescripcionCursoGradoAsistencia($tabla,$idCurso,$idGrado);
+    return $response;
+  }
 }

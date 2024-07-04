@@ -351,7 +351,16 @@ class AsistenciaAlumnosAjax
     $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaApoderadoAlumnos($idUsuarioAsistenciaApoderado);
     echo json_encode($respuesta);
   }
-  
+  public $idCursoAsistenciaAlumnosDocente;
+  public $idGradoAsistenciaAlumnosDocente;
+  public $idPersonalAsistenciaAlumnosDocente;
+  public function ajaxObtenerAsistenciaAlumnoDocente(){
+    $idCursoAsistenciaAlumnosDocente = $this->idCursoAsistenciaAlumnosDocente;
+    $idGradoAsistenciaAlumnosDocente = $this->idGradoAsistenciaAlumnosDocente;
+    $idPersonalAsistenciaAlumnosDocente = $this->idPersonalAsistenciaAlumnosDocente;
+    $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaAlumnoDocente($idCursoAsistenciaAlumnosDocente, $idGradoAsistenciaAlumnosDocente, $idPersonalAsistenciaAlumnosDocente);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosAlumnosAsistenciaCurso"])) {
@@ -382,4 +391,11 @@ if(isset($_POST["idUsuarioAsistenciaApoderado"])){
   $alumnosAsistenciaApoderado = new AsistenciaAlumnosAjax();
   $alumnosAsistenciaApoderado->idUsuarioAsistenciaApoderado = $_POST["idUsuarioAsistenciaApoderado"];
   $alumnosAsistenciaApoderado->ajaxObtenerAsistenciaApoderadoAlumnos();
+}
+if(isset($_POST["idCursoAsistenciaAlumnosDocente"]) && isset($_POST["idGradoAsistenciaAlumnosDocente"]) && isset($_POST["idPersonalAsistenciaAlumnosDocente"])){
+  $mostrarAsistenciaAlumnosDocente = new AsistenciaAlumnosAjax();
+  $mostrarAsistenciaAlumnosDocente -> idCursoAsistenciaAlumnosDocente = $_POST["idCursoAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente -> idGradoAsistenciaAlumnosDocente = $_POST["idGradoAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente -> idPersonalAsistenciaAlumnosDocente = $_POST["idPersonalAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente->ajaxObtenerAsistenciaAlumnoDocente();
 }

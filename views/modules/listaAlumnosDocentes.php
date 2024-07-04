@@ -14,7 +14,6 @@
   $listaIdentificadores = ControllerDocentes::ctrGetIdentificadoresDocente($_SESSION["idUsuario"]);
   $listaIdentificadores = json_encode($listaIdentificadores);
   $tipoDocente = $_SESSION["tipoDocente"];
-
   ?>
   <section class="section dashboard">
     <div class="row gap-3">

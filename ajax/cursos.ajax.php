@@ -66,6 +66,15 @@ class CursosAjax
     $respuesta = ControllerCursos::ctrEditarCurso($dataEditarCursoModal);
     echo json_encode($respuesta);
   }
+  public $idCursoAsistenciaDescripcion;
+  public $idGradoAsistenciaDescripcion;
+  public function ajaxDescripcionGradoCursoAsistencia()
+  {
+    $idCursoAsistenciaDescripcion = $this->idCursoAsistenciaDescripcion;
+    $idGradoAsistenciaDescripcion = $this->idGradoAsistenciaDescripcion;
+    $respuesta = ControllerCursos::ctrObtenerDescripcionCursoGradoAsistencia($idCursoAsistenciaDescripcion, $idGradoAsistenciaDescripcion);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosCursosAdmin"])) {
@@ -91,4 +100,10 @@ if (isset($_POST["idCursoEditar"])) {
 if (isset($_POST["dataEditarCursoModal"])) {
   $eliminarCurso = new CursosAjax();
   $eliminarCurso->ajaxEditarCurso($_POST["dataEditarCursoModal"]);
+}
+if(isset($_POST["idCursoAsistenciaDescripcion"]) && isset($_POST["idGradoAsistenciaDescripcion"])){
+  $descripcionGradoCursoAsistencia = new CursosAjax();
+  $descripcionGradoCursoAsistencia->idCursoAsistenciaDescripcion = $_POST["idCursoAsistenciaDescripcion"];
+  $descripcionGradoCursoAsistencia->idGradoAsistenciaDescripcion = $_POST["idGradoAsistenciaDescripcion"];
+  $descripcionGradoCursoAsistencia->ajaxDescripcionGradoCursoAsistencia();
 }

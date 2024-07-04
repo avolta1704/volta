@@ -32,7 +32,11 @@ class AlumnosDocenteAjax
     $todosLosGradosDocente = ControllerDocentes::ctrObtenerCursosAsignados();
     if(is_array($todosLosGradosDocente)) {
       foreach ($todosLosGradosDocente as &$grado) {
-        $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        if (isset($_POST["todosLosGradosAsistencia"])) {
+          $grado['acciones'] = FunctionDocente::getButtonVerAsistenciaAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        } else {
+          $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        }
       }
       echo json_encode($todosLosGradosDocente);
       return;
@@ -47,7 +51,7 @@ if (isset($_POST["todosLosAlumnosDocente"])) {
   $mostrarAlumnosDocente->ajaxMostrarAlumnosDocente($_POST["idCurso"], $_POST["idGrado"], $_POST["idPersonal"]);
 }
 
-if (isset($_POST["todosLosGrados"])) {
+if (isset($_POST["todosLosGrados"]) || isset($_POST["todosLosGradosAsistencia"])) {
   $mostrarAlumnosDocente = new AlumnosDocenteAjax();
   $mostrarAlumnosDocente->ajaxMostrarGradosDocente();
 }

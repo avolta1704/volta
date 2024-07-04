@@ -354,34 +354,52 @@ class ModelAsistenciaAlumnos
       asistencia.estadoAsistencia
       FROM
         usuario
-        INNER JOIN
-        apoderado
-        ON 
-          usuario.idUsuario = apoderado.idUsuario
-        INNER JOIN
-        apoderado_alumno
-        ON 
-          apoderado.idApoderado = apoderado_alumno.idApoderado
-        INNER JOIN
-        alumno
-        ON 
-          apoderado_alumno.idAlumno = alumno.idAlumno
-        INNER JOIN
-        alumno_anio_escolar
-        ON 
-          alumno.idAlumno = alumno_anio_escolar.idAlumno
-        INNER JOIN
-        anio_escolar
-        ON 
-          alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
-        INNER JOIN
-        asistencia
-        ON 
-          alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+        INNER JOIN apoderado ON usuario.idUsuario = apoderado.idUsuario
+        INNER JOIN apoderado_alumno ON apoderado.idApoderado = apoderado_alumno.idApoderado
+        INNER JOIN alumno ON apoderado_alumno.idAlumno = alumno.idAlumno
+        INNER JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+        INNER JOIN asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
         WHERE anio_escolar.estadoAnio = 1 AND usuario.idUsuario = :idUsuario
       GROUP BY alumno.idAlumno, Mes, Día, asistencia.estadoAsistencia
       ORDER BY alumno.idAlumno ASC, Mes ASC, Día ASC");
     $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlObtenerAsistenciaAlumnoDocente ($tabla,$idCurso,$idGrado,$idPersonal){
+    $statement = Connection::conn()->prepare("SELECT
+      CONCAT (alumno.nombresAlumno,' ',alumno.apellidosAlumno) AS nombreCompleto,
+      CASE
+        WHEN MONTH(asistencia.fechaAsistencia) = 3 THEN 'Marzo'
+        WHEN MONTH(asistencia.fechaAsistencia) = 4 THEN 'Abril'
+        WHEN MONTH(asistencia.fechaAsistencia) = 5 THEN 'Mayo'
+        WHEN MONTH(asistencia.fechaAsistencia) = 6 THEN 'Junio'
+        WHEN MONTH(asistencia.fechaAsistencia) = 7 THEN 'Julio'
+        WHEN MONTH(asistencia.fechaAsistencia) = 8 THEN 'Agosto'
+        WHEN MONTH(asistencia.fechaAsistencia) = 9 THEN 'Septiembre'
+        WHEN MONTH(asistencia.fechaAsistencia) = 10 THEN 'Octubre'
+        WHEN MONTH(asistencia.fechaAsistencia) = 11 THEN 'Noviembre'
+        WHEN MONTH(asistencia.fechaAsistencia) = 12 THEN 'Diciembre'
+      END AS Mes,
+      DAY(asistencia.fechaAsistencia) AS `Día`, 
+      asistencia.estadoAsistencia
+      FROM
+      $tabla
+      INNER JOIN cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
+      INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+      INNER JOIN grado ON curso_grado.idGrado = grado.idGrado
+      INNER JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+      INNER JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
+      INNER JOIN asistencia ON alumno_anio_escolar.idAlumnoAnioEscolar = asistencia.idAlumnoAnioEscolar
+      INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+      INNER JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno
+      WHERE anio_escolar.estadoAnio = 1 AND cursogrado_personal.idPersonal = :idPersonal AND curso_grado.idCurso = :idCurso AND curso_grado.idGrado = :idGrado
+      GROUP BY alumno.idAlumno, Mes, Día, asistencia.estadoAsistencia
+      ORDER BY alumno.idAlumno ASC, Mes DESC, Día ASC");
+    $statement->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idPersonal", $idPersonal, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

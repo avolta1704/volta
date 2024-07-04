@@ -121,4 +121,18 @@ class FunctionDocente
     ';
     return $botones;
   }
+  public static function getButtonVerAsistenciaAlumnos($idCurso, $idGrado, $idPersonal)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownCursosDocentes" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownCursosDocentes">
+        <button type="button" class="dropdown-item btn btnVerAsistenciaAlumnosCursoDocente" idCurso="' . $idCurso . '" idGrado="' . $idGrado . '" idPersonal="' . $idPersonal . '">Ver Asistencia</button>
+      </ul>
+    </div>
+    ';
+    return $botones;
+  }
 }

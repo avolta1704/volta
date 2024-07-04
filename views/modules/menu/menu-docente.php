@@ -20,7 +20,7 @@
           </a>
         </li>
         <li>
-          <a href="asistencia">
+          <a href="asistenciaAlumnosDocentes">
             <i class="bi bi-circle"></i><span>Asistencia</span>
           </a>
         </li>
