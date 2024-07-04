@@ -464,4 +464,9 @@ class ControllerNotas
     $response = ModelNotas::mdlObtenerListadoNotasAlumnoApoderado($tabla,$idUsuario);
     return $response;
   }
+  public static function ctrObtenerListadoNotasAlumnosDocente($idCurso,$idGrado,$idPersonal){
+    $tabla= "personal";
+    $response = ModelNotas::mdlObtenerListadoNotasAlumnosDocente($tabla,$idCurso,$idGrado,$idPersonal);
+    return $response;
+  }
 }

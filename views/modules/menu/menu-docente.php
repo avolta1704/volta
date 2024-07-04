@@ -25,7 +25,7 @@
           </a>
         </li>
         <li>
-          <a href="notas">
+          <a href="notasAlumnoDocente">
             <i class="bi bi-circle"></i><span>Notas</span>
           </a>
         </li>

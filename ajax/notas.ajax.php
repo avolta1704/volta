@@ -84,7 +84,17 @@ class NotasAjax
     $response = ControllerNotas::ctrObtenerListadoNotasAlumnoApoderado($idAlumnoNotasApoderado);
     echo json_encode($response);
   }
-
+  public $idCursoAlumnoNotasDocente;
+  public $idGradoAlumnoNotasDocente;
+  public $idPersonalAlumnoNotasDocente;
+  public function ajaxObtenerListadoNotasAlumnosDocente()
+  {
+    $idCursoAlumnoNotasDocente = $this->idCursoAlumnoNotasDocente;
+    $idGradoAlumnoNotasDocente = $this->idGradoAlumnoNotasDocente;
+    $idPersonalAlumnoNotasDocente = $this->idPersonalAlumnoNotasDocente;
+    $response = ControllerNotas::ctrObtenerListadoNotasAlumnosDocente($idCursoAlumnoNotasDocente, $idGradoAlumnoNotasDocente, $idPersonalAlumnoNotasDocente);
+    echo json_encode($response);
+  }
 }
 
 if (isset($_POST["todasLasNotasDeAlumnos"])) {
@@ -105,4 +115,11 @@ if (isset($_POST["idAlumnoNotasApoderado"])) {
   $notasAlumnoApoderado = new NotasAjax();
   $notasAlumnoApoderado->idAlumnoNotasApoderado = $_POST["idAlumnoNotasApoderado"];
   $notasAlumnoApoderado->ajaxObtenerListadoNotasAlumnoApoderado();
+}
+if(isset($_POST["idCursoAlumnoNotasDocente"]) && isset($_POST["idGradoAlumnoNotasDocente"]) && isset($_POST["idPersonalAlumnoNotasDocente"])){
+  $notasAlumnosDocente = new NotasAjax();
+  $notasAlumnosDocente->idCursoAlumnoNotasDocente = $_POST["idCursoAlumnoNotasDocente"];
+  $notasAlumnosDocente->idGradoAlumnoNotasDocente = $_POST["idGradoAlumnoNotasDocente"];
+  $notasAlumnosDocente->idPersonalAlumnoNotasDocente = $_POST["idPersonalAlumnoNotasDocente"];
+  $notasAlumnosDocente->ajaxObtenerListadoNotasAlumnosDocente();
 }

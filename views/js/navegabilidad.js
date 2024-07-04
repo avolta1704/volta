@@ -274,6 +274,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		{
 			rutaBase: "asistenciaAlumnosDocentes",
 			acceso: ["docente"],
+		},
+		{
+			rutaBase: "notasAlumnoDocente",
+			acceso: ["docente"],
 		}
 	];
 
