@@ -335,7 +335,8 @@ class ModelAsistenciaAlumnos
       return "error";
     }
   }
-  public static function mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario){
+  public static function mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario)
+  {
     $statement = Connection::conn()->prepare("SELECT
 			alumno.idAlumno,
       CASE 
@@ -382,6 +383,90 @@ class ModelAsistenciaAlumnos
       GROUP BY alumno.idAlumno, Mes, Día, asistencia.estadoAsistencia
       ORDER BY alumno.idAlumno ASC, Mes ASC, Día ASC");
     $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  /**
+   * Mostrar la asistencia de los alumnos por grado y fecha inicial y fecha final
+   * 
+   * @param string $tabla nombre de la tabla
+   * @param int $idGrado identificador del grado
+   * @param string $fechaInicial fecha inicial
+   * @param string $fechaFinal fecha final
+   */
+  public static function mdlMostrarAsistenciaAlumnosPorGradoFecha($tabla, $idGrado, $fechaInicial, $fechaFinal)
+  {
+    $tablaAlumno = "alumno";
+    $tablaAlumnoAnioEscolar = "alumno_anio_escolar";
+    $tablaNivel = "nivel";
+    $tablaGrado = "grado";
+    $tablaAnioEscolar = "anio_escolar";
+    $tablaCursoGrado = "curso_grado";
+    $tablaCurso = "curso";
+    $tablaCursoGradoPersonal = "cursogrado_personal";
+    $tablaAdmisionAlumno = "admision_alumno";
+
+    $statement = Connection::conn()->prepare("SELECT
+    a.idAlumno,
+    a.nombresAlumno,
+    a.apellidosAlumno,
+    g.idGrado,
+    c.idCurso,
+    cg_personal.idPersonal,
+    asis.estadoAsistencia,
+    asis.fechaAsistencia,
+    a_ae.idAlumnoAnioEscolar
+  FROM
+    $tablaAlumno as a    
+    INNER JOIN
+    $tablaAlumnoAnioEscolar as a_ae
+    ON 
+      a.idAlumno = a_ae.idAlumno
+    INNER JOIN 
+    $tablaAdmisionAlumno as admision
+    ON 
+      a.idAlumno = admision.idAlumno
+    INNER JOIN
+    $tablaGrado as g
+    ON 
+      a_ae.idGrado = g.idGrado
+    INNER JOIN
+    $tablaNivel as n
+    ON 
+      g.idNivel = n.idNivel
+    INNER JOIN
+    $tablaCursoGrado as c_g
+    ON 
+      g.idGrado = c_g.idGrado
+    INNER JOIN 
+    $tablaCurso as c
+    ON 
+      c_g.idCurso = c.idCurso
+    INNER JOIN
+    $tablaCursoGradoPersonal as cg_personal
+    ON 
+      c_g.idCursoGrado = cg_personal.idCursoGrado
+    INNER JOIN
+    $tablaAnioEscolar as ae
+    ON 
+      a_ae.idAnioEscolar = ae.idAnioEscolar
+    LEFT JOIN
+    $tabla as asis
+    ON 
+      a_ae.idAlumnoAnioEscolar = asis.idAlumnoAnioEscolar  
+      AND
+      asis.fechaAsistencia BETWEEN :fechaInicial AND :fechaFinal
+  WHERE
+    g.idGrado = :idGrado
+    AND
+    admision.estadoAdmisionAlumno = 2 -- 2 es el estado de alumno matriculado y activo
+    AND
+    ae.estadoAnio = 1    
+    ORDER BY a.nombresAlumno ASC");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+    $statement->bindParam(":fechaFinal", $fechaFinal, PDO::PARAM_STR);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }

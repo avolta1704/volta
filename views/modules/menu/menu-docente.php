@@ -58,7 +58,7 @@
           </a>
         </li>
         <li>
-          <a href="reporteAsistenias">
+          <a href="reporteAsistencias">
             <i class="bi bi-circle"></i><span>Reporte de Asistencia</span>
           </a>
         </li>

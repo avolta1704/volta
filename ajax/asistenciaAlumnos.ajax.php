@@ -346,12 +346,29 @@ class AsistenciaAlumnosAjax
     echo json_encode($respuesta);
   }
   public $idUsuarioAsistenciaApoderado;
-  public function ajaxObtenerAsistenciaApoderadoAlumnos(){
+  public function ajaxObtenerAsistenciaApoderadoAlumnos()
+  {
     $idUsuarioAsistenciaApoderado = $this->idUsuarioAsistenciaApoderado;
     $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaApoderadoAlumnos($idUsuarioAsistenciaApoderado);
     echo json_encode($respuesta);
   }
-  
+
+  /**
+   * Obtener la asistencia de los alumnos de un grado segun fecha inicio y final
+   * 
+   * @param string $data identificador del grado
+   * @return array $respuesta  array con la informacion de la asistencia de los alumnos   
+   */
+  public function ajaxObtenerAsistenciaAlumnosGradoFechas($data)
+  {
+    $data = json_decode($data, true);
+    $idGrado = $data["idGrado"];
+    $fechaInicio = $data["fechaInicial"];
+    $fechaFinal = $data["fechaFinal"];
+
+    $respuesta = ControllerAsistenciaAlumnos::ctrMostrarAsistenciaAlumnosPorGradoFecha($idGrado, $fechaInicio, $fechaFinal);
+    echo json_encode($respuesta);
+  }
 }
 
 if (isset($_POST["todosLosAlumnosAsistenciaCurso"])) {
@@ -378,8 +395,12 @@ if (isset($_POST["deleteAsistenciaAlumnosExcel"]) && isset($_POST["asistenciaAlu
   $cancelarAsistenciaAlumnos = new AsistenciaAlumnosAjax();
   $cancelarAsistenciaAlumnos->ajaxCancelarAsistenciaAlumnosExcel($_POST["deleteAsistenciaAlumnosExcel"], $_POST["asistenciaAlumnosExcel"]);
 }
-if(isset($_POST["idUsuarioAsistenciaApoderado"])){
+if (isset($_POST["idUsuarioAsistenciaApoderado"])) {
   $alumnosAsistenciaApoderado = new AsistenciaAlumnosAjax();
   $alumnosAsistenciaApoderado->idUsuarioAsistenciaApoderado = $_POST["idUsuarioAsistenciaApoderado"];
   $alumnosAsistenciaApoderado->ajaxObtenerAsistenciaApoderadoAlumnos();
+}
+if (isset($_POST["gradoAsistencia"])) {
+  $asistenciaAlumnosPorGrado = new AsistenciaAlumnosAjax();
+  $asistenciaAlumnosPorGrado->ajaxObtenerAsistenciaAlumnosGradoFechas($_POST["gradoAsistencia"]);
 }

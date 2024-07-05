@@ -132,12 +132,12 @@ document.addEventListener("DOMContentLoaded", function () {
 			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
 
-    {
+		{
 			rutaBase: "tecnicaseInstrumentos",
 			acceso: ["administrador", "dirección"],
 		},
 
-    {
+		{
 			rutaBase: "perfil",
 			acceso: ["administrador", "dirección", "docente", "administrativo"],
 		},
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			acceso: ["administrador", "dirección", "docente"],
 		},
 		{
-			rutaBase: "reporteAsistenias", // TODO cambiar a asistencias
+			rutaBase: "reporteAsistencias",
 			acceso: ["administrador", "dirección", "docente"],
 		},
 		{
@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			rutaBase: "asistenciaApoderado",
 			acceso: ["apoderado"],
 		},
-    {
+		{
 			rutaBase: "listaAlumnosDocentes",
 			acceso: ["docente"],
 		},

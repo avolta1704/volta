@@ -271,4 +271,33 @@ class ControllerAsistenciaAlumnos
     $respuesta = ModelAsistenciaAlumnos::mdlObtenerAsistenciaApoderadoAlumnos($tabla, $idUsuario);
     return $respuesta;
   }
+
+  /**
+   * Mostrar la asistencia de los alumnos  por grado, fecha inicial y fecha final
+   * 
+   * @param int $idGrado identificador del grado
+   * @param string $fechaInicial fecha inicial
+   * @param string $fechaFinal fecha final
+   * @return array $respuesta  array con la informacion de la asistencia de los alumnos   
+   */
+  static public function ctrMostrarAsistenciaAlumnosPorGradoFecha($idGrado, $fechaInicial, $fechaFinal)
+  {
+    $tabla = "asistencia";
+
+    if ($fechaInicial == "" || $fechaFinal == "") {
+      return [];
+    }
+
+    if ($fechaInicial > $fechaFinal) {
+      return [];
+    }
+
+    $respuesta = ModelAsistenciaAlumnos::mdlMostrarAsistenciaAlumnosPorGradoFecha($tabla, $idGrado, $fechaInicial, $fechaFinal);
+    // si no hay registros en la tabla asistencia
+    if (!$respuesta) {
+      return [];
+    }
+
+    return $respuesta;
+  }
 }

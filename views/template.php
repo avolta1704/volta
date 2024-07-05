@@ -60,6 +60,8 @@ session_start();
         $_GET["ruta"] == "notasApoderado" ||
         $_GET["ruta"] == "asistenciaApoderado" ||
 
+        $_GET["ruta"] == "reporteAsistencias" ||
+
 
 
 
@@ -136,6 +138,8 @@ session_start();
   <script src="views/js/tecnicaseInstrumentos.js"></script>
   <script src="views/js/perfil.js"></script>
   <script src="views/js/navegabilidad.js"></script>
+  <script src="views/js/reporteAsistencias.js"></script>
+
 
   <!-- datatables js -->
   <script src="views/dataTables/dt-usuarios.js"></script>
