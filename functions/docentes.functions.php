@@ -95,7 +95,7 @@ class FunctionDocente
       </button>
       <ul class="dropdown-menu">
         <li><button type="button" class="dropdown-item btnVisualizarAlumno" idAlumno="' . $idAlumno . '" data-bs-toggle="modal" data-bs-target="#modalViewAlumnoDocente">Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnVisualizarNotas" idAlumno="' . $idAlumno . '">Ver Notas</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarNotas" idAlumno="' . $idAlumno . '" data-bs-toggle="modal" data-bs-target="#modalNotasAlumnoDocente">Ver Notas</button></li>
       </ul>
     </div>';
     return $botones;

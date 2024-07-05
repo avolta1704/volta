@@ -113,3 +113,50 @@
     </div>
   </div>
 </div>
+<!-- Modal Listar Notas Docentes para cada Alumno -->
+<div class="modal fade" id="modalNotasAlumnoDocente" tabindex="-1" aria-labelledby="modalNotasAlumnoDocenteLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" style="max-width: 90%;"> <!-- Ajusta el ancho aquí -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalNotasAlumnoDocenteLabel">Registro de Notas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Contenedor para los datos del alumno -->
+        <div id="datosAlumno" style="margin-bottom: 15px;">
+          <h5>Información del Alumno</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <p style="margin: 0;"><strong>ID Alumno:</strong> <span id="idAlumno"></span></p>
+              <p style="margin: 0;"><strong>Nombre Alumno:</strong> <span id="nombreAlumno"></span></p>
+            </div>
+            <div class="col-md-6">
+              <p style="margin: 0;"><strong>Nivel:</strong> <span id="nivelAlumno"></span></p>
+              <p style="margin: 0;"><strong>Grado:</strong> <span id="gradoAlumno"></span></p>
+            </div>
+          </div>
+        </div>
+        <hr style="border: 0; height: 2px; background: #ddd; margin: 15px 0;">
+        <!-- Tabla de notas -->
+        <div class="table-responsive">
+          <table id="dataTableNotasPorAlumnoDocenteVisualizar" class="display dataTableNotasPorAlumnoDocenteVisualizar"
+            style="width: 100%">
+            <thead>
+              <!-- dataTableNotasPorAlumnoDocenteVisualizar -->
+            </thead>
+            <tbody>
+              <!-- dataTableNotasPorAlumnoDocenteVisualizar -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnImprimirPDFVisualizarDocente">
+          <i class="bi bi-filetype-pdf"></i> Imprimir PDF
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
