@@ -37,4 +37,23 @@ class ControllerNivelGrado
     $respuesta = ModelNivelGrado::mdlGetAllGradosByNivel($tabla);
     return $respuesta;
   }
+
+  /**
+   * Obtener todos los grados por personal
+   * 
+   * @param int $idUsuario El id del usuario.
+   * @return array/string $respuesta Retorna un array con los datos de los grados o un string con un mensaje de error.
+   */
+  public static function ctrGetGradosByPersonal($idUsuario)
+  {
+    $idPersonal = ControllerPersonal::ctrGetPersonalByIdUsuario($idUsuario);
+
+    if (!$idPersonal) {
+      return "error";
+    }
+
+    $tabla = "cursogrado_personal";
+    $respuesta = ModelNivelGrado::mdlGetGradosByPersonal($tabla, $idPersonal["idPersonal"]);
+    return $respuesta;
+  }
 }
