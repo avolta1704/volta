@@ -354,7 +354,7 @@ class ModelNotas
           INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
           INNER JOIN curso ON curso_grado.idCurso = curso.idCurso
           INNER JOIN grado ON  curso_grado.idGrado = grado.idGrado
-					INNER JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+					LEFT JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
           RIGHT JOIN bimestre ON curso_grado.idCursoGrado = bimestre.idCursoGrado
           LEFT JOIN unidad ON bimestre.idBimestre = unidad.idBimestre
           LEFT JOIN nota_bimestre ON alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND bimestre.idBimestre = nota_bimestre.idBimestre

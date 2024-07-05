@@ -399,3 +399,4 @@ if(isset($_POST["idCursoAsistenciaAlumnosDocente"]) && isset($_POST["idGradoAsis
   $mostrarAsistenciaAlumnosDocente -> idPersonalAsistenciaAlumnosDocente = $_POST["idPersonalAsistenciaAlumnosDocente"];
   $mostrarAsistenciaAlumnosDocente->ajaxObtenerAsistenciaAlumnoDocente();
 }
+

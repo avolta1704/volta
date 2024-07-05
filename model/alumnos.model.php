@@ -610,4 +610,55 @@ class ModelAlumnos
       return "error";
     }
   }
+  public static function mdlGetAlumnoByIdAlumnoDocenteVisualizar($tabla,$idAlumno){
+    $statement = Connection::conn()->prepare("SELECT
+      a.nombresAlumno,
+      a.apellidosAlumno,
+      a.dniAlumno,
+      a.fechaNacimiento,
+      a.direccionAlumno,
+      padre.nombreApoderado AS nombrePadre,
+      padre.apellidoApoderado AS apellidoPadre,
+      padre.convivenciaAlumno AS convivenciaPadre,
+      padre.celularApoderado AS celularPadre,
+      madre.nombreApoderado AS nombreMadre,
+      madre.apellidoApoderado AS apellidoMadre,
+      madre.convivenciaAlumno AS convivenciaMadre,
+      madre.celularApoderado AS celularMadre
+      FROM
+          $tabla a
+      LEFT JOIN (
+          SELECT
+              aa.idAlumno,
+              ap.nombreApoderado,
+              ap.apellidoApoderado,
+              ap.convivenciaAlumno,
+              ap.celularApoderado
+          FROM
+              apoderado_alumno aa
+          INNER JOIN
+              apoderado ap ON aa.idApoderado = ap.idApoderado
+          WHERE
+              ap.tipoApoderado = 'Padre'
+      ) AS padre ON a.idAlumno = padre.idAlumno
+      LEFT JOIN (
+          SELECT
+              aa.idAlumno,
+              ap.nombreApoderado,
+              ap.apellidoApoderado,
+              ap.convivenciaAlumno,
+              ap.celularApoderado
+          FROM
+              apoderado_alumno aa
+          INNER JOIN
+              apoderado ap ON aa.idApoderado = ap.idApoderado
+          WHERE
+              ap.tipoApoderado = 'Madre'
+      ) AS madre ON a.idAlumno = madre.idAlumno
+        WHERE
+          a.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

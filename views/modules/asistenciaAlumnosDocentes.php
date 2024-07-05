@@ -14,6 +14,7 @@
   $listaIdentificadores = ControllerDocentes::ctrGetIdentificadoresDocente($_SESSION["idUsuario"]);
   $listaIdentificadores = json_encode($listaIdentificadores);
   $tipoDocente = $_SESSION["tipoDocente"];
+  $labelText = ($tipoDocente == 1 || $tipoDocente == 2) ? "Grado:" : "Curso:";
   ?>
   <section class="section dashboard">
     <div class="row" id="alumnosAsistenciaContainer">
@@ -31,7 +32,8 @@
                 <div class="d-flex flex-column" style="align-items: center; gap: 11px;">
                   <div class="mb-2" style="width: 100%;">
                     <form>
-                      <label  style="margin-bottom: 5px;">Curso:</label>
+                      <label style="margin-bottom: 5px;"
+                        id="labelAlumnoAsistenciaDocenteCursoGrado"><?php echo $labelText; ?></label>
                       <input type="text" id="labelCursoGradoAsistencia" readonly
                         style="border: 1px solid #ced4da; padding: 0.375rem 0.5rem; border-radius: 0.25rem; pointer-events: none; user-select: none; width: 100%; appearance: none; -webkit-appearance: none; -moz-appearance: none; font-size: 0.845rem;">
                     </form>

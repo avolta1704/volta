@@ -99,6 +99,13 @@ class AlumnosAjax
     }
     echo json_encode($todosLosAlumnosCurso);
   }
+  public $codAlumnoVisualizarDocente;
+  public function ajaxGetAlumnoByIdAlumnoDocenteVisualizar()
+  {
+    $codAlumnoVisualizarDocente = $this->codAlumnoVisualizarDocente;
+    $response = ControllerAlumnos::ctrGetAlumnoByIdAlumnoDocenteVisualizar($codAlumnoVisualizarDocente);
+    echo json_encode($response);
+  }
 }
 
 
@@ -144,4 +151,10 @@ if (isset($_POST["todosLosAlumnosCursoNotas"])) {
 if (isset($_POST["todosLosAlumnosAnio"])) {
   $mostrarTodosLosAlumnosAnioEscolar = new AlumnosAjax();
   $mostrarTodosLosAlumnosAnioEscolar->ajaxMostrarTodosLosAlumnosAnioEscolar($_POST["todosLosAlumnosAnio"]);
+}
+// Obtener los datos del alumno para visualizar en el modal mis alumnos
+if(isset($_POST["idAlumnoVisualizarDatosDocente"])){
+  $mostrarDatosAlumnoDocenteVisualizar = new AlumnosAjax();
+  $mostrarDatosAlumnoDocenteVisualizar->codAlumnoVisualizarDocente = $_POST["idAlumnoVisualizarDatosDocente"];
+  $mostrarDatosAlumnoDocenteVisualizar->ajaxGetAlumnoByIdAlumnoDocenteVisualizar();
 }

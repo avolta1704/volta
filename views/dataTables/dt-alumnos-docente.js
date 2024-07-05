@@ -157,4 +157,54 @@ $(document).ready(function () {
       actualizarDatosTabla(idCurso, idGrado, idPersonal);
     }
   );
+  $("#dataTableAlumnosDocente").on(
+    "click",
+    ".btnVisualizarAlumno",
+    function () {
+      var idAlumno = $(this).attr("idAlumno");
+      var data = new FormData();
+      data.append("idAlumnoVisualizarDatosDocente", idAlumno);
+
+      // Realiza la solicitud AJAX
+      $.ajax({
+        url: "ajax/alumnos.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Función para asignar valores a los campos de entrada
+          function setInputValue(selector, value) {
+            $(selector).val(value ? value : "Sin Inf.");
+          }
+
+          // Asignar valores a los campos del modal
+          setInputValue(
+            "#nombresAlumno",
+            response["nombresAlumno"] + " " + response["apellidosAlumno"]
+          );
+          setInputValue("#dniAlumno", response["dniAlumno"]);
+          setInputValue("#fechaNacimientoAlumno", response["fechaNacimiento"]);
+          setInputValue("#direccionAlumno", response["direccionAlumno"]);
+          setInputValue(
+            "#nombrePadre",
+            response["nombrePadre"] + " " + response["apellidoPadre"]
+          );
+          setInputValue("#convivenciaPadre", response["convivenciaPadre"]);
+          setInputValue("#celularPadre", response["celularPadre"]);
+          setInputValue(
+            "#nombreMadre",
+            response["nombreMadre"] + " " + response["apellidoMadre"]
+          );
+          setInputValue("#convivenciaMadre", response["convivenciaMadre"]);
+          setInputValue("#celularMadre", response["celularMadre"]);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+  );
 });

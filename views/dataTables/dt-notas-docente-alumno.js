@@ -126,7 +126,7 @@ $(document).ready(function () {
         var formattedData = [];
         response.forEach(function (item) {
           var cursoData = {
-            descripcionCurso: item.nombresAlumno + " " + item.apellidosAlumno,
+            descripcionCurso: (item.nombresAlumno || item.apellidosAlumno) ? (item.nombresAlumno + " " + item.apellidosAlumno) : " ",
             nota_unidad_i: item.nota_unidad_i || " ",
             nota_unidad_ii: item.nota_unidad_ii || " ",
             nota_unidad_iii: item.nota_unidad_iii || " ",

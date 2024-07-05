@@ -15,7 +15,11 @@ $(document).ready(function () {
       "asistenciaAlumnoDocenteContainer"
     ).dataset.identificadores;
     listaIdentificadores = JSON.parse(listaIdentificadores);
-    obtenerDescripcionCursoGrado(listaIdentificadores[0]["idCurso"], listaIdentificadores[0]["idGrado"], listaIdentificadores[0]["idPersonal"]);
+    obtenerDescripcionCursoGrado(
+      listaIdentificadores[0]["idCurso"],
+      listaIdentificadores[0]["idGrado"],
+      listaIdentificadores[0]["idPersonal"]
+    );
     actualizarDatosAsistenciaAlumnos(
       listaIdentificadores[0]["idCurso"],
       listaIdentificadores[0]["idGrado"],
@@ -354,10 +358,13 @@ $(document).ready(function () {
         if (idPersonal != null) {
           descripcionCursoGradoGlobal = response["descripcionGrado"];
         } else {
-          descripcionCursoGradoGlobal = response["descripcionCurso"] + " - " + response["descripcionGrado"];
+          descripcionCursoGradoGlobal =
+            response["descripcionCurso"] + " - " + response["descripcionGrado"];
         }
         // Seleccionar el elemento del DOM con el ID 'labelCursoGradoAsistencia'
-        let labelCursoGradoAsistencia = document.getElementById("labelCursoGradoAsistencia");
+        let labelCursoGradoAsistencia = document.getElementById(
+          "labelCursoGradoAsistencia"
+        );
 
         // Actualizar el valor del input
         labelCursoGradoAsistencia.value = descripcionCursoGradoGlobal;
