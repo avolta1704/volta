@@ -97,9 +97,11 @@ $(document).ready(function () {
       language: {
         url: "views/dataTables/Spanish.json",
       },
-      rowCallback: function (row, data) {
+      rowCallback: function (row, data, index) {
         if (data.descripcionCurso === "PROMEDIO BIMESTRE") {
-          $(row).css("font-weight", "bold");
+          $(row).css({
+            "font-weight": "bold",
+          });
         }
       },
     });
@@ -126,7 +128,10 @@ $(document).ready(function () {
         var formattedData = [];
         response.forEach(function (item) {
           var cursoData = {
-            descripcionCurso: (item.nombresAlumno || item.apellidosAlumno) ? (item.nombresAlumno + " " + item.apellidosAlumno) : " ",
+            descripcionCurso:
+              item.nombresAlumno || item.apellidosAlumno
+                ? item.nombresAlumno + " " + item.apellidosAlumno
+                : " ",
             nota_unidad_i: item.nota_unidad_i || " ",
             nota_unidad_ii: item.nota_unidad_ii || " ",
             nota_unidad_iii: item.nota_unidad_iii || " ",
@@ -169,7 +174,7 @@ $(document).ready(function () {
 
     $("#dataTableNotasAlumnosDocentes thead").html(`
         <tr>
-            <th rowspan="2" width="400px" style="text-align: center;">Alumno</th> <!-- Añadir width y centrar aquí -->
+            <th rowspan="2" width="400px" style="text-align: center;">Alumno</th> 
             <th colspan="2" style="text-align: center;">I BIMESTRE</th>
             <th colspan="2" style="text-align: center;">II BIMESTRE</th>
             <th colspan="2" style="text-align: center;">III BIMESTRE</th>
@@ -187,6 +192,7 @@ $(document).ready(function () {
         </tr>
     `);
   }
+
   $("#dataTableCursosNotasAlumnosDocente").on(
     "click",
     ".btnVerNotasAlumnosCursoDocente",

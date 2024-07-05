@@ -6,14 +6,14 @@ $("#dataTableNotasAlumnoApoderado").on(
 
     var columnDefsCursosPorGrado = [
       { data: "descripcionCurso" },
-      { data: "nota_unidad_i" },
-      { data: "nota_unidad_ii" },
-      { data: "nota_unidad_iii" },
-      { data: "nota_unidad_iv" },
-      { data: "nota_unidad_v" },
-      { data: "nota_unidad_vi" },
-      { data: "nota_unidad_vii" },
-      { data: "nota_unidad_viii" },
+      { data: "nota_unidad_i", width: "100px", className: "text-center" },
+      { data: "nota_unidad_ii", width: "100px", className: "text-center" },
+      { data: "nota_unidad_iii", width: "100px", className: "text-center" },
+      { data: "nota_unidad_iv", width: "100px", className: "text-center" },
+      { data: "nota_unidad_v", width: "100px", className: "text-center" },
+      { data: "nota_unidad_vi", width: "100px", className: "text-center" },
+      { data: "nota_unidad_vii", width: "100px", className: "text-center" },
+      { data: "nota_unidad_viii", width: "100px", className: "text-center" },
     ];
 
     var tableCursosPorGrado = $("#dataTableNotasPorAlumnoApoderado").DataTable({
@@ -97,11 +97,11 @@ $("#dataTableNotasAlumnoApoderado").on(
 
     $("#dataTableNotasPorAlumnoApoderado thead").html(`
       <tr>
-          <th rowspan="2">Curso</th>
-          <th colspan="2">I BIMESTRE</th>
-          <th colspan="2">II BIMESTRE</th>
-          <th colspan="2">III BIMESTRE</th>
-          <th colspan="2">IV BIMESTRE</th>
+        <th rowspan="2" style="text-align: center;">Curso</th>
+        <th colspan="2" style="text-align: center;">I BIMESTRE</th>
+        <th colspan="2" style="text-align: center;">II BIMESTRE</th>
+        <th colspan="2" style="text-align: center;">III BIMESTRE</th>
+        <th colspan="2" style="text-align: center;">IV BIMESTRE</th>
       </tr>
       <tr>
           <th>I UNIDAD</th>
@@ -156,7 +156,7 @@ $("#modalNotasAlumnoApoderado").on("click", "#btnImprimirPDF", function () {
     doc.setFontSize(10);
     doc.text(infoAlumnoIzquierda, 10, yPosition);
     var splitDerecha = doc.splitTextToSize(infoAlumnoDerecha, 90);
-    doc.text(splitDerecha, doc.internal.pageSize.width - 100, yPosition); // Ajustar según el ancho de la página
+    doc.text(splitDerecha, doc.internal.pageSize.width - 80, yPosition);
 
     // Ajustar yPosition después de agregar la información del alumno
     yPosition +=
@@ -172,7 +172,7 @@ $("#modalNotasAlumnoApoderado").on("click", "#btnImprimirPDF", function () {
     );
 
     // Incrementar yPosition después de la línea
-    yPosition += 10; 
+    yPosition += 10;
 
     // Preparar los encabezados y datos de la tabla
     var encabezados = [
@@ -231,7 +231,7 @@ $("#modalNotasAlumnoApoderado").on("click", "#btnImprimirPDF", function () {
       ]),
       bodyStyles: bodyStyles,
       rowStyles: rowStyles,
-      headStyles: { fontSize: 8, halign: "center", fillColor: [1, 152, 145] }, // Establece un tamaño de fuente  para los encabezados y los centra horizontalmente
+      headStyles: { fontSize: 8, halign: "center", fillColor: [1, 152, 145] }, // Establece un tamaño de fuente para los encabezados y los centra horizontalmente
     });
 
     // Guardar el documento PDF
