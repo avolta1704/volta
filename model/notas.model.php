@@ -350,54 +350,17 @@ class ModelNotas
           MAX(CASE WHEN bimestre.descripcionBimestre = 'IV BIMESTRE' THEN nota_bimestre.notaBimestre END) AS nota_bimestre_iv
         FROM
           $tabla
-          INNER JOIN
-          cursogrado_personal
-          ON 
-            personal.idPersonal = cursogrado_personal.idPersonal
-          INNER JOIN
-          curso_grado
-          ON 
-            cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
-          INNER JOIN
-          curso
-          ON 
-            curso_grado.idCurso = curso.idCurso
-          INNER JOIN
-          grado
-          ON 
-            curso_grado.idGrado = grado.idGrado
-          INNER JOIN
-          bimestre
-          ON 
-            curso_grado.idCursoGrado = bimestre.idCursoGrado
-          INNER JOIN
-          unidad
-          ON 
-            bimestre.idBimestre = unidad.idBimestre
-          INNER JOIN
-          nota_bimestre
-          ON 
-            bimestre.idBimestre = nota_bimestre.idBimestre AND
-            cursogrado_personal.idCursogradoPersonal = nota_bimestre.idCursoGradoPersonal
-          INNER JOIN
-          nota_unidad
-          ON 
-            cursogrado_personal.idCursogradoPersonal = nota_unidad.idCursoGradoPersonal AND
-            unidad.idUnidad = nota_unidad.idUnidad
-          INNER JOIN
-          alumno_anio_escolar
-          ON 
-            nota_bimestre.idAlumnoAnioEscolar = alumno_anio_escolar.idAlumnoAnioEscolar AND
-            nota_unidad.idAlumnoAnioEscolar = alumno_anio_escolar.idAlumnoAnioEscolar AND
-            grado.idGrado = alumno_anio_escolar.idGrado
-          INNER JOIN
-          alumno
-          ON 
-            alumno_anio_escolar.idAlumno = alumno.idAlumno
-          INNER JOIN
-          nivel
-          ON 
-            grado.idNivel = nivel.idNivel
+          INNER JOIN cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
+          INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+          INNER JOIN curso ON curso_grado.idCurso = curso.idCurso
+          INNER JOIN grado ON  curso_grado.idGrado = grado.idGrado
+					INNER JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+          RIGHT JOIN bimestre ON curso_grado.idCursoGrado = bimestre.idCursoGrado
+          LEFT JOIN unidad ON bimestre.idBimestre = unidad.idBimestre
+          LEFT JOIN nota_bimestre ON alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND bimestre.idBimestre = nota_bimestre.idBimestre
+          LEFT JOIN nota_unidad ON alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND unidad.idUnidad = nota_unidad.idUnidad
+					LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
+          LEFT JOIN nivel ON grado.idNivel = nivel.idNivel
         WHERE
           curso_grado.idCurso = :idCurso AND
           curso_grado.idGrado = :idGrado AND

@@ -9,43 +9,83 @@ $ipConfirmacion = $_SESSION["idUsuario"];
     <nav>
       <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-        <li class="breadcrumb-item active">Notas </li>
+        <li class="breadcrumb-item active" id="idNavegacionNotasAlumnosDocentes">Notas</li>
       </ol>
     </nav>
   </div>
-
+  <?php
+  $listaIdentificadores = ControllerDocentes::ctrGetIdentificadoresDocente($_SESSION["idUsuario"]);
+  $listaIdentificadores = json_encode($listaIdentificadores);
+  $tipoDocente = $_SESSION["tipoDocente"];
+  ?>
   <section class="section dashboard">
-    <!-- Left side columns -->
-    <div class="col-lg-12">
-      <div class="row">
-        <div class="card py-4">
-          <script>
-            var ipConfirmacion = "<?php echo $ipConfirmacion; ?>";
-          </script>
-          <div class="card-body table-responsive">
-            <!-- Contenedor para los datos del alumno -->
-            <div id="datosAlumno" style="margin-bottom: 15px;">
-              <div class="row">
-                <div class="col-md-6">
-                  <p style="margin: 0;"><strong>ID Curso:</strong> <span id="idAlumno"></span></p>
-                  <p style="margin: 0;"><strong>Curso:</strong> <span id="nombreAlumno"></span></p>
-                </div>
-                <div class="col-md-6">
-                  <p style="margin: 0;"><strong>Nivel:</strong> <span id="nivelAlumno"></span></p>
-                  <p style="margin: 0;"><strong>Grado:</strong> <span id="gradoAlumno"></span></p>
+    <div class="row gap-3" id="tablaNotasAlumnosDocentes">
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <div id="datosAlumno" class="mt-2 mb-2">
+                <h5 class="text-start mt-4 mb-4"><strong>Datos del Curso</strong></h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="idAlumnoInput" class="form-label"><strong>ID Curso:</strong></label>
+                      <input type="text" id="idAlumnoInput" class="form-control" readonly
+                        style="width: calc(100% - 100px);">
+                    </div>
+                    <div class="mb-3">
+                      <label for="nombreAlumnoInput" class="form-label"><strong>Curso:</strong></label>
+                      <input type="text" id="nombreAlumnoInput" class="form-control" readonly
+                        style="width: calc(100% - 100px);">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <label for="nivelAlumnoInput" class="form-label"><strong>Nivel:</strong></label>
+                      <input type="text" id="nivelAlumnoInput" class="form-control" readonly
+                        style="width: calc(100% - 100px);">
+                    </div>
+                    <div class="mb-3">
+                      <label for="gradoAlumnoInput" class="form-label"><strong>Grado:</strong></label>
+                      <input type="text" id="gradoAlumnoInput" class="form-control" readonly
+                        style="width: calc(100% - 100px);">
+                    </div>
+                  </div>
                 </div>
               </div>
+              <hr style="border: 0; height: 2px; background: #ddd; margin: 2px 0;">
+              <!-- Tabla de notas -->
+              <div class="table-responsive">
+                <table id="dataTableNotasAlumnosDocentes" class="display dataTableNotasAlumnosDocentes"
+                  style="width: 100%">
+                  <thead>
+                    <!-- dataTableNotasAlumnosDocentes -->
+                  </thead>
+                  <tbody>
+                    <!-- dataTableNotasAlumnosDocentes -->
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <hr style="border: 0; height: 2px; background: #ddd; margin: 15px 0;">
-            <!-- Tabla de notas -->
-            <div class="table-responsive">
-              <table id="dataTableNotasPorAlumnoApoderado" class="display dataTableNotasPorAlumnoApoderado"
-                style="width: 100%">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gap-3" id="tablaCursosDocenteNotas">
+      <!-- Left side columns -->
+      <div class="col-lg-12">
+        <div class="row">
+          <div class="card">
+            <div class="card-body">
+              <table id='dataTableCursosNotasAlumnosDocente' class='display dataTableCursosNotasAlumnosDocente'
+                data-tipo-docente='<?php echo $tipoDocente ?>'
+                data-identificadores='<?php echo $listaIdentificadores ?>' style="width: 100%">
                 <thead>
-                  <!-- dataTableNotasPorAlumnoApoderado -->
+                  <!-- dataTableAsistenciaAlumnosDocente -->
                 </thead>
                 <tbody>
-                  <!-- dataTableNotasPorAlumnoApoderado -->
+                  <!--dataTableAsistenciaAlumnosDocente-->
                 </tbody>
               </table>
             </div>
