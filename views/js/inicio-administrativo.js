@@ -1,9 +1,10 @@
 $(document).ready(function () {
   // Obtener la ruta actual de la URL
   var rutaActual = window.location.pathname;
-
-  // Verificar si la rutaActual contiene "volta/inicio"
   if (rutaActual.includes("/volta/inicio")) {
+    const datos = document.getElementById("datos");
+    let tipoUsuario = datos.getAttribute("data-tipo-usuario");
+    if (tipoUsuario === "3" || tipoUsuario === "1") {
     var pagosPorMes = {};
     var porcentajePorMes = {};
     var totalPensiones = 0;
@@ -302,4 +303,5 @@ $(document).ready(function () {
     obtenerAlumnosPorAnio();
     obtenerMontoRecaudadoPorMeses();
   }
+}
 });
