@@ -333,7 +333,7 @@ class AsistenciaAlumnosAjax
             'idAlumno' => $idAlumno,
             'idAlumnoAnioEscolar' => $alumno['idAlumnoAnioEscolar'],
             'estadoAsistencia' => $estadoAsistencia,
-            'fechaAsistencia' =>  $asistenciaAlumnosAssoc[$idAlumno]['fechaAsistencia'] // Agregar la fecha de asistencia al arreglo
+            'fechaAsistencia' => $asistenciaAlumnosAssoc[$idAlumno]['fechaAsistencia'] // Agregar la fecha de asistencia al arreglo
           ];
         }
       }
@@ -355,7 +355,8 @@ class AsistenciaAlumnosAjax
   public $idCursoAsistenciaAlumnosDocente;
   public $idGradoAsistenciaAlumnosDocente;
   public $idPersonalAsistenciaAlumnosDocente;
-  public function ajaxObtenerAsistenciaAlumnoDocente(){
+  public function ajaxObtenerAsistenciaAlumnoDocente()
+  {
     $idCursoAsistenciaAlumnosDocente = $this->idCursoAsistenciaAlumnosDocente;
     $idGradoAsistenciaAlumnosDocente = $this->idGradoAsistenciaAlumnosDocente;
     $idPersonalAsistenciaAlumnosDocente = $this->idPersonalAsistenciaAlumnosDocente;
@@ -409,6 +410,13 @@ if (isset($_POST["idUsuarioAsistenciaApoderado"])) {
   $alumnosAsistenciaApoderado = new AsistenciaAlumnosAjax();
   $alumnosAsistenciaApoderado->idUsuarioAsistenciaApoderado = $_POST["idUsuarioAsistenciaApoderado"];
   $alumnosAsistenciaApoderado->ajaxObtenerAsistenciaApoderadoAlumnos();
+}
+if (isset($_POST["idCursoAsistenciaAlumnosDocente"]) && isset($_POST["idGradoAsistenciaAlumnosDocente"]) && isset($_POST["idPersonalAsistenciaAlumnosDocente"])) {
+  $mostrarAsistenciaAlumnosDocente = new AsistenciaAlumnosAjax();
+  $mostrarAsistenciaAlumnosDocente->idCursoAsistenciaAlumnosDocente = $_POST["idCursoAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente->idGradoAsistenciaAlumnosDocente = $_POST["idGradoAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente->idPersonalAsistenciaAlumnosDocente = $_POST["idPersonalAsistenciaAlumnosDocente"];
+  $mostrarAsistenciaAlumnosDocente->ajaxObtenerAsistenciaAlumnoDocente();
 }
 if (isset($_POST["gradoAsistencia"])) {
   $asistenciaAlumnosPorGrado = new AsistenciaAlumnosAjax();
