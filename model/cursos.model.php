@@ -244,6 +244,27 @@ class ModelCursos
     $statement->execute();
     $result = $statement->fetch(PDO::FETCH_ASSOC);
     return $result['idCursoGrado'];
-    
+  }
+  public static function mdlObtenerDescripcionCursoGradoAsistencia($tabla, $idCurso, $idGrado){
+    $stmt = Connection::conn()->prepare("SELECT
+      curso.descripcionCurso,
+      grado.descripcionGrado
+    FROM
+      $tabla
+      INNER JOIN
+      curso_grado
+      ON 
+        curso.idCurso = curso_grado.idCurso
+      INNER JOIN
+      grado
+      ON 
+        curso_grado.idGrado = grado.idGrado
+    WHERE
+      curso_grado.idCurso = :idCurso AND
+      curso_grado.idGrado = :idGrado");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch();
   }
 }

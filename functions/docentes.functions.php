@@ -94,9 +94,8 @@ class FunctionDocente
         <i class="bi bi-pencil-square"></i>
       </button>
       <ul class="dropdown-menu">
-        <li><button type="button" class="dropdown-item btnVisualizarAlumno" idAlumno="' . $idAlumno . '">Visualizar</button></li>
-        <li><button type="button" class="dropdown-item btnVisualizarNotas" idAlumno="' . $idAlumno . '">Ver Notas</button></li>
-        <li><button type="button" class="dropdown-item btnVisualizarAsistencia" idAlumno="' . $idAlumno . '">Ver Asistencia</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarAlumno" idAlumno="' . $idAlumno . '" data-bs-toggle="modal" data-bs-target="#modalViewAlumnoDocente">Visualizar</button></li>
+        <li><button type="button" class="dropdown-item btnVisualizarNotas" idAlumno="' . $idAlumno . '" data-bs-toggle="modal" data-bs-target="#modalNotasAlumnoDocente">Ver Notas</button></li>
       </ul>
     </div>';
     return $botones;
@@ -107,7 +106,46 @@ class FunctionDocente
    * 
    * @param int $idCursogradoPersonal Código del curso y grado del docente.
    */
-  public static function getButtonVerAlumnos()
+  public static function getButtonVerAlumnos($idCurso, $idGrado, $idPersonal)
   {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownCursosDocentes" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownCursosDocentes">
+        <button type="button" class="dropdown-item btn btnVerAlumnosCursoDocente" idCurso="' . $idCurso . '" idGrado="' . $idGrado . '" idPersonal="' . $idPersonal . '">Ver Alumnos</button>
+      </ul>
+    </div>
+    ';
+    return $botones;
+  }
+  public static function getButtonVerAsistenciaAlumnos($idCurso, $idGrado, $idPersonal)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownCursosDocentes" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownCursosDocentes">
+        <button type="button" class="dropdown-item btn btnVerAsistenciaAlumnosCursoDocente" idCurso="' . $idCurso . '" idGrado="' . $idGrado . '" idPersonal="' . $idPersonal . '">Ver Asistencia</button>
+      </ul>
+    </div>
+    ';
+    return $botones;
+  }
+  public static function getButtonVerNotasAlumnos($idCurso, $idGrado, $idPersonal)
+  {
+    $botones = '
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" id="dropDownCursosDocentes" aria-expanded="false">
+        <i class="bi bi-pencil-square"></i>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropDownCursosDocentes">
+        <button type="button" class="dropdown-item btn btnVerNotasAlumnosCursoDocente" idCurso="' . $idCurso . '" idGrado="' . $idGrado . '" idPersonal="' . $idPersonal . '">Ver Notas</button>
+      </ul>
+    </div>
+    ';
+    return $botones;
   }
 }

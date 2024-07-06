@@ -352,6 +352,16 @@ class AsistenciaAlumnosAjax
     $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaApoderadoAlumnos($idUsuarioAsistenciaApoderado);
     echo json_encode($respuesta);
   }
+  public $idCursoAsistenciaAlumnosDocente;
+  public $idGradoAsistenciaAlumnosDocente;
+  public $idPersonalAsistenciaAlumnosDocente;
+  public function ajaxObtenerAsistenciaAlumnoDocente(){
+    $idCursoAsistenciaAlumnosDocente = $this->idCursoAsistenciaAlumnosDocente;
+    $idGradoAsistenciaAlumnosDocente = $this->idGradoAsistenciaAlumnosDocente;
+    $idPersonalAsistenciaAlumnosDocente = $this->idPersonalAsistenciaAlumnosDocente;
+    $respuesta = ControllerAsistenciaAlumnos::ctrObtenerAsistenciaAlumnoDocente($idCursoAsistenciaAlumnosDocente, $idGradoAsistenciaAlumnosDocente, $idPersonalAsistenciaAlumnosDocente);
+    echo json_encode($respuesta);
+  }
 
   /**
    * Obtener la asistencia de los alumnos de un grado segun fecha inicio y final

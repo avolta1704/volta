@@ -397,7 +397,7 @@ class ModelDocentes
    */
   public static function mdlObtenerCursosAsignados($idPersonal)
   {
-    $statement = Connection::conn()->prepare("SELECT    
+    $statement = Connection::conn()->prepare("SELECT  
     c.descripcionCurso,
     g.descripcionGrado,
     cgp.idPersonal,

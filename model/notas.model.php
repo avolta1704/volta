@@ -327,5 +327,53 @@ class ModelNotas
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+  public static function mdlObtenerListadoNotasAlumnosDocente($tabla,$idCurso,$idGrado,$idPersonal){
+    $stmt = Connection::conn()->prepare("SELECT
+          curso.idCurso,
+          alumno.idAlumno,
+          alumno.nombresAlumno, 
+          alumno.apellidosAlumno,
+          grado.descripcionGrado,
+          nivel.descripcionNivel,
+          curso.descripcionCurso, 
+          MAX(CASE WHEN unidad.descripcionUnidad = 'I UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_i,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'II UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_ii,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'III UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_iii,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'IV UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_iv,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'V UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_v,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'VI UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_vi,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'VII UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_vii,
+          MAX(CASE WHEN unidad.descripcionUnidad = 'VIII UNIDAD' THEN nota_unidad.notaUnidad END) AS nota_unidad_viii,
+          MAX(CASE WHEN bimestre.descripcionBimestre = 'I BIMESTRE' THEN nota_bimestre.notaBimestre END) AS nota_bimestre_i,
+          MAX(CASE WHEN bimestre.descripcionBimestre = 'II BIMESTRE' THEN nota_bimestre.notaBimestre END) AS nota_bimestre_ii,
+          MAX(CASE WHEN bimestre.descripcionBimestre = 'III BIMESTRE' THEN nota_bimestre.notaBimestre END) AS nota_bimestre_iii,
+          MAX(CASE WHEN bimestre.descripcionBimestre = 'IV BIMESTRE' THEN nota_bimestre.notaBimestre END) AS nota_bimestre_iv
+        FROM
+          $tabla
+          INNER JOIN cursogrado_personal ON personal.idPersonal = cursogrado_personal.idPersonal
+          INNER JOIN curso_grado ON cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
+          INNER JOIN curso ON curso_grado.idCurso = curso.idCurso
+          INNER JOIN grado ON  curso_grado.idGrado = grado.idGrado
+					LEFT JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
+          RIGHT JOIN bimestre ON curso_grado.idCursoGrado = bimestre.idCursoGrado
+          LEFT JOIN unidad ON bimestre.idBimestre = unidad.idBimestre
+          LEFT JOIN nota_bimestre ON alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND bimestre.idBimestre = nota_bimestre.idBimestre
+          LEFT JOIN nota_unidad ON alumno_anio_escolar.idAlumnoAnioEscolar = nota_unidad.idAlumnoAnioEscolar AND unidad.idUnidad = nota_unidad.idUnidad
+					LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
+          LEFT JOIN nivel ON grado.idNivel = nivel.idNivel
+        WHERE
+          curso_grado.idCurso = :idCurso AND
+          curso_grado.idGrado = :idGrado AND
+          cursogrado_personal.idPersonal =  :idPersonal
+        GROUP BY
+          alumno.nombresAlumno,
+          alumno.apellidosAlumno,
+          curso.descripcionCurso");
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $stmt->bindParam(":idPersonal", $idPersonal, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 
 }

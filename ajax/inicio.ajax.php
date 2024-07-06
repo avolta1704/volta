@@ -40,19 +40,17 @@ class InicioAjax
     echo json_encode($response);
   }
   // Obtiene el porcentaje de asistencia por meses por usuario
-  public $idUsuarioAsistenciaporMeses;
+
   public function ajaxObtenerAsistenciaporMeses()
   {
-    $idUsuarioAsistenciaporMeses = $this->idUsuarioAsistenciaporMeses;
-    $response = ControllerInicio::ctrObtenerAsistenciaporMeses($idUsuarioAsistenciaporMeses);
+    $response = ControllerInicio::ctrObtenerAsistenciaporMeses();
     echo json_encode($response);
   }
   //Obtiene todas las competencias y notas por usuario
   public $idUsuarioCompetenciasNotas;
   public function ajaxObtenerCompetenciasNotas()
   {
-    $idUsuarioCompetenciasNotas = $this->idUsuarioCompetenciasNotas;
-    $response = ControllerInicio::ctrObtenerTodaslasCompetenciasNotas($idUsuarioCompetenciasNotas);
+    $response = ControllerInicio::ctrObtenerTodaslasCompetenciasNotas();
     $filteredResponse = [];
     foreach ($response as $competenciasNotas) {
       if ($competenciasNotas['notaCompetencia'] === null || $competenciasNotas['notaCompetencia'] === "") {
@@ -63,19 +61,15 @@ class InicioAjax
     echo json_encode($filteredResponse);
   }
   // Obtiene todos los alumnos asignados al docente
-  public $idUsuarioAlumnosAsignadosDocentes;
   public function ajaxObtenerTodoslosAlumnosAsignadosDocente()
   {
-    $idUsuarioAlumnosAsignadosDocentes = $this->idUsuarioAlumnosAsignadosDocentes;
-    $response = ControllerInicio::ctrObtenerTodoslosAlumnosAsignadosDocente($idUsuarioAlumnosAsignadosDocentes);
+    $response = ControllerInicio::ctrObtenerTodoslosAlumnosAsignadosDocente();
     echo json_encode($response);
   }
   // Obtiene el total de cursos asignados al docente
-  public $idUsuarioCursosAsignadosDocentes;
   public function ajaxObtenerTotaldeCursosAsignados()
   {
-    $idUsuarioCursosAsignadosDocentes = $this->idUsuarioCursosAsignadosDocentes;
-    $response = ControllerInicio::ctrObtenerTotaldeCursosAsignados($idUsuarioCursosAsignadosDocentes);
+    $response = ControllerInicio::ctrObtenerTotaldeCursosAsignados();
     echo json_encode($response);
   }
   // Obtiene el total de docentes y cursos por grado
@@ -191,25 +185,21 @@ if (isset($_POST["personalInicio"])) {
 // Obtener el porcentaje de asistencia por meses
 if (isset($_POST["idUsuarioAsistenciaporMeses"])) {
   $asistenciaporMeses = new InicioAjax();
-  $asistenciaporMeses->idUsuarioAsistenciaporMeses = $_POST["idUsuarioAsistenciaporMeses"];
   $asistenciaporMeses->ajaxObtenerAsistenciaporMeses();
 }
 // Obtener todas las competencias y notas
 if (isset($_POST["idUsuarioCompetenciasNotas"])) {
   $competenciasNotas = new InicioAjax();
-  $competenciasNotas->idUsuarioCompetenciasNotas = $_POST["idUsuarioCompetenciasNotas"];
   $competenciasNotas->ajaxObtenerCompetenciasNotas();
 }
 // Obtener todos los alumnos asignados al docente
 if (isset($_POST["idUsuarioAlumnosAsignadosDocentes"])) {
   $alumnosAsignadosDocentes = new InicioAjax();
-  $alumnosAsignadosDocentes->idUsuarioAlumnosAsignadosDocentes = $_POST["idUsuarioAlumnosAsignadosDocentes"];
   $alumnosAsignadosDocentes->ajaxObtenerTodoslosAlumnosAsignadosDocente();
 }
 // Obtener el total de cursos asignados al docente
 if (isset($_POST["idUsuarioCursosAsignadosDocentes"])) {
   $cursosAsignadosDocentes = new InicioAjax();
-  $cursosAsignadosDocentes->idUsuarioCursosAsignadosDocentes = $_POST["idUsuarioCursosAsignadosDocentes"];
   $cursosAsignadosDocentes->ajaxObtenerTotaldeCursosAsignados();
 }
 // Obtener el total de docentes y cursos por grado

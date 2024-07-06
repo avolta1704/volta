@@ -32,9 +32,17 @@ class AlumnosDocenteAjax
     $todosLosGradosDocente = ControllerDocentes::ctrObtenerCursosAsignados();
     if(is_array($todosLosGradosDocente)) {
       foreach ($todosLosGradosDocente as &$grado) {
-        $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCursogradoPersonal"]);
+        if (isset($_POST["todosLosGradosAsistencia"])) {
+          $grado['acciones'] = FunctionDocente::getButtonVerAsistenciaAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        } else if (isset($_POST["todosLosGradosNotasDocentes"])){
+          $grado['acciones'] = FunctionDocente::getButtonVerNotasAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        } 
+        else if (isset($_POST["todosLosGrados"])){
+          $grado['acciones'] = FunctionDocente::getButtonVerAlumnos($grado["idCurso"], $grado["idGrado"], $grado["idPersonal"]);
+        }
       }
       echo json_encode($todosLosGradosDocente);
+      return;
     }
     echo json_encode(array("error" => "No se recibieron los datos esperados."));
   }
@@ -46,7 +54,7 @@ if (isset($_POST["todosLosAlumnosDocente"])) {
   $mostrarAlumnosDocente->ajaxMostrarAlumnosDocente($_POST["idCurso"], $_POST["idGrado"], $_POST["idPersonal"]);
 }
 
-if (isset($_POST["todosLosGrados"])) {
+if (isset($_POST["todosLosGrados"]) || isset($_POST["todosLosGradosAsistencia"]) || isset($_POST["todosLosGradosNotasDocentes"])) {
   $mostrarAlumnosDocente = new AlumnosDocenteAjax();
   $mostrarAlumnosDocente->ajaxMostrarGradosDocente();
 }
