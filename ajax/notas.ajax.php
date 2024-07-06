@@ -56,9 +56,8 @@ class NotasAjax
     foreach ($response as &$alumno) {
       $alumno['acciones'] = FunctionNotas::getBtnNotasAlumnoApoderado($alumno["idAlumno"]);
       $alumno['status'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($alumno["estadoAdmisionAlumno"]);
-    } 
+    }
     echo json_encode($response);
-
   }
 
   /**
@@ -85,6 +84,16 @@ class NotasAjax
     echo json_encode($response);
   }
 
+  /**
+   * Obtener todas la notas del bimestre, unidad, competencias y criterios
+   * 
+   * @param string $idBimestre
+   */
+  public function ajaxObtenerNotasAlumnosBimestre($idBimestre, $idCurso)
+  {
+    $response = ControllerNotas::ctrObtenerNotasAlumnosBimestre($idBimestre, $idCurso);
+    echo json_encode($response);
+  }
 }
 
 if (isset($_POST["todasLasNotasDeAlumnos"])) {
@@ -105,4 +114,9 @@ if (isset($_POST["idAlumnoNotasApoderado"])) {
   $notasAlumnoApoderado = new NotasAjax();
   $notasAlumnoApoderado->idAlumnoNotasApoderado = $_POST["idAlumnoNotasApoderado"];
   $notasAlumnoApoderado->ajaxObtenerListadoNotasAlumnoApoderado();
+}
+
+if (isset($_POST["todasLasNotasDeAlumnosBimestre"]) && isset($_POST["idBimestre"]) && isset($_POST["idCurso"])) {
+  $todasNotasAlumnosBimestre = new NotasAjax();
+  $todasNotasAlumnosBimestre->ajaxObtenerNotasAlumnosBimestre($_POST["idBimestre"], $_POST["idCurso"]);
 }
