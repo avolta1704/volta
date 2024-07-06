@@ -454,14 +454,29 @@ class ControllerNotas
 
     return 'ok';
   }
-  public static function ctrObtenerAlumnosApoderado($idUsuario){
-    $tabla= "usuario";
+  public static function ctrObtenerAlumnosApoderado($idUsuario)
+  {
+    $tabla = "usuario";
     $response = ModelNotas::mdlObtenerAlumnosApoderado($tabla, $idUsuario);
     return $response;
   }
-  public static function ctrObtenerListadoNotasAlumnoApoderado($idUsuario){
-    $tabla= "alumno";
-    $response = ModelNotas::mdlObtenerListadoNotasAlumnoApoderado($tabla,$idUsuario);
+  public static function ctrObtenerListadoNotasAlumnoApoderado($idUsuario)
+  {
+    $tabla = "alumno";
+    $response = ModelNotas::mdlObtenerListadoNotasAlumnoApoderado($tabla, $idUsuario);
+    return $response;
+  }
+
+  /**
+   * Controlador para obtener todas las notas de los alumnos de un bimestre, unidad , competencias y criterios
+   * 
+   * @param int $idBimestre id del bimestre
+   * @param int $idCurso id del curso
+   * @return  array con todas las notas de los alumnos
+   */
+  public static function ctrObtenerNotasAlumnosBimestre($idBimestre, $idCurso)
+  {
+    $response = ModelNotas::mdlObtenerNotasAlumnosBimestre($idBimestre, $idCurso);
     return $response;
   }
 }
