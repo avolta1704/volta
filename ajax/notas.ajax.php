@@ -56,9 +56,8 @@ class NotasAjax
     foreach ($response as &$alumno) {
       $alumno['acciones'] = FunctionNotas::getBtnNotasAlumnoApoderado($alumno["idAlumno"]);
       $alumno['status'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($alumno["estadoAdmisionAlumno"]);
-    } 
+    }
     echo json_encode($response);
-
   }
 
   /**
@@ -95,6 +94,16 @@ class NotasAjax
     $response = ControllerNotas::ctrObtenerListadoNotasAlumnosDocente($idCursoAlumnoNotasDocente, $idGradoAlumnoNotasDocente, $idPersonalAlumnoNotasDocente);
     echo json_encode($response);
   }
+  /**
+   * Obtener todas la notas del bimestre, unidad, competencias y criterios
+   * 
+   * @param string $idBimestre
+   */
+  public function ajaxObtenerNotasAlumnosBimestre($idBimestre, $idCurso)
+  {
+    $response = ControllerNotas::ctrObtenerNotasAlumnosBimestre($idBimestre, $idCurso);
+    echo json_encode($response);
+  }
 }
 
 if (isset($_POST["todasLasNotasDeAlumnos"])) {
@@ -116,10 +125,15 @@ if (isset($_POST["idAlumnoNotasApoderado"])) {
   $notasAlumnoApoderado->idAlumnoNotasApoderado = $_POST["idAlumnoNotasApoderado"];
   $notasAlumnoApoderado->ajaxObtenerListadoNotasAlumnoApoderado();
 }
-if(isset($_POST["idCursoAlumnoNotasDocente"]) && isset($_POST["idGradoAlumnoNotasDocente"]) && isset($_POST["idPersonalAlumnoNotasDocente"])){
+if (isset($_POST["idCursoAlumnoNotasDocente"]) && isset($_POST["idGradoAlumnoNotasDocente"]) && isset($_POST["idPersonalAlumnoNotasDocente"])) {
   $notasAlumnosDocente = new NotasAjax();
   $notasAlumnosDocente->idCursoAlumnoNotasDocente = $_POST["idCursoAlumnoNotasDocente"];
   $notasAlumnosDocente->idGradoAlumnoNotasDocente = $_POST["idGradoAlumnoNotasDocente"];
   $notasAlumnosDocente->idPersonalAlumnoNotasDocente = $_POST["idPersonalAlumnoNotasDocente"];
   $notasAlumnosDocente->ajaxObtenerListadoNotasAlumnosDocente();
+}
+
+if (isset($_POST["todasLasNotasDeAlumnosBimestre"]) && isset($_POST["idBimestre"]) && isset($_POST["idCurso"])) {
+  $todasNotasAlumnosBimestre = new NotasAjax();
+  $todasNotasAlumnosBimestre->ajaxObtenerNotasAlumnosBimestre($_POST["idBimestre"], $_POST["idCurso"]);
 }
