@@ -328,4 +328,119 @@ class ModelNotas
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  /**
+   * Modelo para obtener todas las notas de los alumnos bimestral, unidad, competencia y criterios de un bimestre y un curso
+   * 
+   * @param string $tabla tabla de la base de datos
+   * @param int $idBimestre id del bimestre
+   * @return array con las notas de los alumnos
+   */
+  public static function mdlObtenerNotasAlumnosBimestre($idBimestre, $idCurso)
+  {
+    $stmt = Connection::conn()->prepare("SELECT
+      alumno.idAlumno,
+      alumno.nombresAlumno,
+      alumno.apellidosAlumno,
+			grado.idGrado,
+      grado.descripcionGrado,
+			nivel.idNivel,
+      nivel.descripcionNivel,
+			curso.idCurso,
+      curso.descripcionCurso,
+			bimestre.idBimestre,
+      bimestre.descripcionBimestre,
+			unidad.idUnidad,
+      unidad.descripcionUnidad,
+			competencias.idCompetencia,
+      competencias.descripcionCompetencia,
+      competencias.capacidadesCompetencia,
+      competencias.estandarCompetencia,
+			criterios_competencia.idCriterioCompetencia,
+      criterios_competencia.descripcionCriterio,
+      tecnica_evaluacion.idTecnicaEvaluacion,
+      tecnica_evaluacion.descripcionTecnica,
+      tecnica_evaluacion.codTecnica,
+      instrumento.idInstrumento,
+      instrumento.descripcionInstrumento,
+      instrumento.codInstrumento,
+      nota_bimestre.idNotaBimestre,
+			nota_bimestre.notaBimestre,
+			nota_unidad.idNotaUnidad,
+			nota_unidad.notaUnidad,
+			nota_competencia.idNotaCompetencia,
+			nota_competencia.notaCompetencia,
+			nota_criterio.idNotaCriterio,
+      nota_criterio.notaCriterio
+    FROM
+      alumno
+    INNER JOIN
+      alumno_anio_escolar
+    ON
+      alumno.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN
+      grado
+    ON
+      alumno_anio_escolar.idGrado = grado.idGrado
+    INNER JOIN
+      nivel
+    ON
+      grado.idNivel = nivel.idNivel
+    INNER JOIN
+      curso_grado
+    ON
+      grado.idGrado = curso_grado.idGrado
+    INNER JOIN
+      curso
+    ON
+      curso_grado.idCurso = curso.idCurso
+    INNER JOIN
+      bimestre
+    ON
+      curso_grado.idCursoGrado = bimestre.idCursoGrado
+		INNER JOIN
+			nota_bimestre
+		ON
+			bimestre.idBimestre = nota_bimestre.idBimestre				
+    INNER JOIN
+      unidad
+    ON
+      bimestre.idBimestre = unidad.idBimestre
+		INNER JOIN
+			nota_unidad
+		ON
+			unidad.idUnidad = nota_unidad.idUnidad
+    INNER JOIN
+      competencias
+    ON
+      unidad.idUnidad = competencias.idUnidad
+		INNER JOIN
+			nota_competencia
+		ON
+			competencias.idCompetencia = nota_competencia.idCompetencia
+    INNER JOIN
+      criterios_competencia
+    ON
+      competencias.idCompetencia = criterios_competencia.idCompetencia
+    INNER JOIN
+      tecnica_evaluacion
+    ON
+      criterios_competencia.idTecnicaEvaluacion = tecnica_evaluacion.idTecnicaEvaluacion
+    INNER JOIN
+      instrumento
+    ON
+      criterios_competencia.idInstrumento = instrumento.idInstrumento
+    INNER JOIN
+      nota_criterio
+    ON
+      alumno_anio_escolar.idAlumnoAnioEscolar = nota_criterio.idAlumnoAnioEscolar AND criterios_competencia.idCriterioCompetencia = nota_criterio.idCriterioCompetencia
+    WHERE
+      bimestre.idBimestre = :idBimestre AND
+      curso.idCurso = :idCurso
+    ORDER BY
+      alumno.idAlumno");
+    $stmt->bindParam(":idBimestre", $idBimestre, PDO::PARAM_INT);
+    $stmt->bindParam(":idCurso", $idCurso, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
