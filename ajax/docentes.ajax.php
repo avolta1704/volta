@@ -59,7 +59,7 @@ class DocentesAjax
       $idPersonal = $this->idPersonal;
       foreach ($TodoslosidCursos as $todosid) {
         $descripcionArea = $todosid['descripcionArea'];
-        if ($descripcionArea != "General") {
+        if ($descripcionArea != "INGLÉS" && $descripcionArea !="Educación Física" && $descripcionArea != "Educación para el Trabajo" && $descripcionArea != "Taller" && $descripcionArea != "Arte y Cultura") {
           $idcursoGrado = $todosid['idCursoGrado'];
           $response1 = ControllerDocentes::ctroAsignarCurso($idPersonal, $idcursoGrado);
         }
@@ -147,7 +147,7 @@ class DocentesAjax
       $idPersonalCambio = $this->idPersonalCambio;
       foreach ($TodoslosidCursos as $todosid) {
         $descripcionArea = $todosid['descripcionArea'];
-        if ($descripcionArea != "General") {
+        if ($descripcionArea != "INGLÉS" && $descripcionArea !="Educación Física" && $descripcionArea != "Educación para el Trabajo" && $descripcionArea != "Taller" && $descripcionArea != "Arte y Cultura") {
           $idcursoGrado = $todosid['idCursoGrado'];
           $idPersonalExistente = $todosid['idPersonal'];
           $response1 = ControllerDocentes::ctroCambiarIdPersonal($idPersonalExistente, $idPersonalCambio, $idcursoGrado);
