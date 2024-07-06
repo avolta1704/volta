@@ -77,8 +77,6 @@ $(document).ready(function () {
         console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
       },
     });
-  } else {
-    console.log("Faltan parámetros en la URL");
   }
 });
 // Funcionalidad para los Botones de Bimestres
