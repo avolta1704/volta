@@ -61,6 +61,7 @@ session_start();
         $_GET["ruta"] == "asistenciaApoderado" ||
 
         $_GET["ruta"] == "reporteAsistencias" ||
+        $_GET["ruta"] == "reporteNotas" ||
 
 
 
@@ -139,6 +140,7 @@ session_start();
   <script src="views/js/perfil.js"></script>
   <script src="views/js/navegabilidad.js"></script>
   <script src="views/js/reporteAsistencias.js"></script>
+  <script src="views/js/reporteNotas.js"></script>
 
 
   <!-- datatables js -->
