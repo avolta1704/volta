@@ -707,7 +707,7 @@ $(document).ready(function () {
     }
 
     // Función para actualizar el gráfico de pastel
-    function actualizarGraficoPastel(masculinos, femeninos) {
+    function actualizarGraficoPastelSexoGradoReporte(masculinos, femeninos) {
       pieChartSexoGrado.data.datasets[0].data = [masculinos, femeninos];
       pieChartSexoGrado.update();
     }
@@ -716,7 +716,7 @@ $(document).ready(function () {
     window.filtrarGradoSexoReporte = function (indice) {
       const filtroSeleccionado = $(".filtro-seleccionado-grado-sexo-reporte-admisiones");
       filtroSeleccionado.text("| " + gradosSexo[indice]);
-      actualizarGraficoPastel(masculinos[indice], femeninos[indice]);
+      actualizarGraficoPastelSexoGradoReporte(masculinos[indice], femeninos[indice]);
     };
 
     obtenerAlumnosPorTipoAdmision();
