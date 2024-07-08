@@ -114,16 +114,16 @@
               <li class="dropdown-header text-start">
                 <h6>Filtro</h6>
               </li>
-              <div id="gradoSexoDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
+              <div id="gradoSexoReporteAdmisionesDropdown"></div> <!-- Contenedor para poblar desde JavaScript -->
             </ul>
           </div>
           <div class="card-body">
-            <h5 class="card-title">Alumnos <span class="filtro-seleccionado-grado-sexo">| </span></h5>
+            <h5 class="card-title">Alumnos <span class="filtro-seleccionado-grado-sexo-reporte-admisiones">| </span></h5>
             <div class="d-flex align-items-center">
             </div>
             <!-- Contenedor para el gráfico -->
             <div>
-              <canvas id="pieChart" width="200" height="200"></canvas>
+              <canvas id="pieChartSexoGradoReporte" width="200" height="200"></canvas>
             </div>
           </div>
         </div>
