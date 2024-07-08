@@ -121,123 +121,178 @@ $("#modalNotasAlumnoDocente").on(
     const { jsPDF } = window.jspdf;
     var doc = new jsPDF();
 
-    // Cargar y añadir la imagen de fondo
+    // Preparar datos e imagen de fondo
     var imgBackground = new Image();
     imgBackground.src =
       "http://localhost/volta/assets/img/plantilla_membretada_volta.jpg";
-    imgBackground.onload = function () {
-      var imgWidth = doc.internal.pageSize.getWidth();
-      var imgHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(this, "JPEG", 0, 0, imgWidth, imgHeight); // Añadir la imagen como fondo
 
-      // Ajustar la posición vertical para el título y el contenido
-      var yPosition = 40; // Ajustar según el espacio deseado desde el borde superior
+    // Función para cargar imagen de fondo y generar PDF
+    function generatePDF() {
+      imgBackground.onload = function () {
+        var imgWidth = doc.internal.pageSize.getWidth();
+        var imgHeight = doc.internal.pageSize.getHeight();
 
-      // Título del PDF, ajustado para dejar espacio para el logo
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(16);
-      doc.text("REGISTRO DE NOTAS", 105, yPosition, null, null, "center");
-      doc.setFont("helvetica", "normal");
-      // Incrementar yPosition después del título
-      yPosition += 15; // Ajustar según el espacio deseado entre el título y la siguiente sección
+        // Añadir la imagen como fondo en la primera página
+        doc.addImage(this, "JPEG", 0, 0, imgWidth, imgHeight);
 
-      // Extraer información del alumno de manera específica para la izquierda
-      var infoAlumnoIzquierda = [
-        "ID del Alumno: " + $("#idAlumno").text(),
-        "Nombre del Alumno: " + $("#nombreAlumno").text(),
-      ].join("\n");
+        // Ajustar la posición vertical para el título y el contenido
+        var yPosition = 40; // Ajustar según el espacio deseado desde el borde superior
 
-      // Extraer información del alumno de manera específica para la derecha
-      var infoAlumnoDerecha = [
-        "Nivel del Alumno: " + $("#nivelAlumno").text(),
-        "Grado del Alumno: " + $("#gradoAlumno").text(),
-      ].join("\n");
+        // Título del PDF, ajustado para dejar espacio para el logo
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.text("REGISTRO DE NOTAS", 105, yPosition, null, null, "center");
+        doc.setFont("helvetica", "normal");
+        // Incrementar yPosition después del título
+        yPosition += 15; // Ajustar según el espacio deseado entre el título y la siguiente sección
 
-      // Añadir información del alumno al PDF
-      doc.setFontSize(10);
-      doc.text(infoAlumnoIzquierda, 10, yPosition);
-      var splitDerecha = doc.splitTextToSize(infoAlumnoDerecha, 90);
-      doc.text(splitDerecha, doc.internal.pageSize.width - 80, yPosition);
+        // Extraer información del alumno de manera específica para la izquierda
+        var infoAlumnoIzquierda = [
+          "ID del Alumno: " + $("#idAlumno").text(),
+          "Nombre del Alumno: " + $("#nombreAlumno").text(),
+        ].join("\n");
 
-      // Ajustar yPosition después de agregar la información del alumno
-      yPosition +=
-        Math.max(infoAlumnoIzquierda.split("\n").length, splitDerecha.length) *
-        7;
+        // Extraer información del alumno de manera específica para la derecha
+        var infoAlumnoDerecha = [
+          "Nivel del Alumno: " + $("#nivelAlumno").text(),
+          "Grado del Alumno: " + $("#gradoAlumno").text(),
+        ].join("\n");
 
-      // Dibujar una línea horizontal para separar los datos del alumno de la tabla
-      doc.setDrawColor(0); // Establece el color de la línea, negro en este caso
-      doc.line(
-        10,
-        yPosition + 2,
-        doc.internal.pageSize.width - 10,
-        yPosition + 2
-      );
+        // Añadir información del alumno al PDF
+        doc.setFontSize(10);
+        doc.text(infoAlumnoIzquierda, 10, yPosition);
+        var splitDerecha = doc.splitTextToSize(infoAlumnoDerecha, 90);
+        doc.text(splitDerecha, doc.internal.pageSize.width - 80, yPosition);
 
-      // Incrementar yPosition después de la línea
-      yPosition += 10;
+        // Ajustar yPosition después de agregar la información del alumno
+        yPosition +=
+          Math.max(
+            infoAlumnoIzquierda.split("\n").length,
+            splitDerecha.length
+          ) * 7;
 
-      // Preparar los encabezados y datos de la tabla
-      var encabezados = [
-        [
-          {
-            content: "Curso",
-            rowSpan: 2,
-            styles: { halign: "center", valign: "middle" },
-          },
-          { content: "I BIMESTRE", colSpan: 2, styles: { halign: "center" } },
-          { content: "II BIMESTRE", colSpan: 2, styles: { halign: "center" } },
-          { content: "III BIMESTRE", colSpan: 2, styles: { halign: "center" } },
-          { content: "IV BIMESTRE", colSpan: 2, styles: { halign: "center" } },
-        ],
-        [
-          "I UNIDAD",
-          "II UNIDAD",
-          "III UNIDAD",
-          "IV UNIDAD",
-          "V UNIDAD",
-          "VI UNIDAD",
-          "VII UNIDAD",
-          "VIII UNIDAD",
-        ],
-      ];
+        // Dibujar una línea horizontal para separar los datos del alumno de la tabla
+        doc.setDrawColor(0); // Establece el color de la línea, negro en este caso
+        doc.line(
+          10,
+          yPosition + 2,
+          doc.internal.pageSize.width - 10,
+          yPosition + 2
+        );
 
-      // Extraer los datos de la tabla
-      var data = $("#dataTableNotasPorAlumnoDocenteVisualizar")
-        .DataTable()
-        .rows()
-        .data()
-        .toArray();
+        // Incrementar yPosition después de la línea
+        yPosition += 10;
 
-      // Aplicar estilos condicionales para "PROMEDIO BIMESTRE"
-      var bodyStyles = { fontStyle: "normal", fontSize: 8 };
-      var rowStyles = data.map((row, index) => {
-        return row.descripcionCurso === "PROMEDIO BIMESTRE"
-          ? { fontStyle: "bold" }
-          : { fontStyle: "normal" };
-      });
+        // Preparar los encabezados y datos de la tabla
+        var encabezados = [
+          [
+            {
+              content: "Curso",
+              rowSpan: 2,
+              styles: { halign: "center", valign: "middle" },
+            },
+            { content: "I BIMESTRE", colSpan: 2, styles: { halign: "center" } },
+            {
+              content: "II BIMESTRE",
+              colSpan: 2,
+              styles: { halign: "center" },
+            },
+            {
+              content: "III BIMESTRE",
+              colSpan: 2,
+              styles: { halign: "center" },
+            },
+            {
+              content: "IV BIMESTRE",
+              colSpan: 2,
+              styles: { halign: "center" },
+            },
+          ],
+          [
+            "I UNIDAD",
+            "II UNIDAD",
+            "III UNIDAD",
+            "IV UNIDAD",
+            "V UNIDAD",
+            "VI UNIDAD",
+            "VII UNIDAD",
+            "VIII UNIDAD",
+          ],
+        ];
 
-      // Añadir la tabla al PDF
-      doc.autoTable({
-        startY: yPosition,
-        head: encabezados,
-        body: data.map((item) => [
-          item.descripcionCurso,
-          item.nota_unidad_i,
-          item.nota_unidad_ii,
-          item.nota_unidad_iii,
-          item.nota_unidad_iv,
-          item.nota_unidad_v,
-          item.nota_unidad_vi,
-          item.nota_unidad_vii,
-          item.nota_unidad_viii,
-        ]),
-        bodyStyles: bodyStyles,
-        rowStyles: rowStyles,
-        headStyles: { fontSize: 8, halign: "center", fillColor: [1, 152, 145] }, // Establece un tamaño de fuente  para los encabezados y los centra horizontalmente
-      });
+        // Extraer los datos de la tabla
+        var data = $("#dataTableNotasPorAlumnoDocenteVisualizar")
+          .DataTable()
+          .rows()
+          .data()
+          .toArray();
 
-      // Guardar el documento PDF
-      doc.save("Registro_de_Notas.pdf");
-    };
+        // Definir estilos para la tabla
+        const bodyStyles = { fontSize: 8, fontStyle: "normal" };
+        const rowStyles = data.map((row, index) => {
+          return row.descripcionCurso === "PROMEDIO BIMESTRE"
+            ? { fontStyle: "bold" }
+            : { fontStyle: "normal" };
+        });
+
+        // Función para dividir los datos en grupos según el máximo de filas por página
+        function splitDataIntoGroups(data, maxRowsPerPage) {
+          const groups = [];
+          for (let i = 0; i < data.length; i += maxRowsPerPage) {
+            groups.push(data.slice(i, i + maxRowsPerPage));
+          }
+          return groups;
+        }
+
+        // Definir el máximo de filas por página
+        const maxRowsPerPage = 24; // Ajusta este valor según sea necesario
+
+        // Dividir los datos en grupos según el máximo de filas por página
+        const dataGroups = splitDataIntoGroups(data, maxRowsPerPage);
+
+        // Iterar sobre cada grupo de datos y agregarlos al PDF
+        dataGroups.forEach((group, index) => {
+          if (index > 0) {
+            doc.addPage();
+            // Añadir imagen de fondo en la nueva página
+            doc.addImage(imgBackground, "JPEG", 0, 0, imgWidth, imgHeight);
+            // Ajustar nuevamente la posición vertical después de agregar una nueva página
+            yPosition = 40; // Ajustar según el espacio deseado desde el borde superior
+          }
+          doc.autoTable({
+            startY: yPosition,
+            head: encabezados,
+            body: group.map((item) => [
+              item.descripcionCurso,
+              item.nota_unidad_i,
+              item.nota_unidad_ii,
+              item.nota_unidad_iii,
+              item.nota_unidad_iv,
+              item.nota_unidad_v,
+              item.nota_unidad_vi,
+              item.nota_unidad_vii,
+              item.nota_unidad_viii,
+            ]),
+            bodyStyles: bodyStyles,
+            rowStyles: rowStyles,
+            headStyles: {
+              fontSize: 8,
+              halign: "center",
+              fillColor: [1, 152, 145],
+            }, // Establece un tamaño de fuente para los encabezados y los centra horizontalmente
+            margin: { top: 10, bottom: 10 }, // Márgenes
+          });
+
+          // Actualizar posición vertical para la siguiente sección
+          yPosition = doc.autoTable.previous.finalY + 10;
+        });
+
+        // Guardar el documento PDF
+        doc.save("Registro_de_Notas.pdf");
+      };
+    }
+
+    // Llamar a la función para generar el PDF
+    generatePDF();
   }
 );

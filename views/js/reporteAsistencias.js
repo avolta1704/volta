@@ -45,7 +45,7 @@ $("#selectMonthToReportA").change(function () {
 		processData: false,
 		dataType: "json",
 		success: function (response) {
-			generarTabla(response, meses, año);
+			generarTablaAsistenciaReporte(response, meses, año);
 
 			const totales = obtenerTotalesAsistencias(response, meses, año);
 			generarGraficoAsistencias(totales);
@@ -56,7 +56,7 @@ $("#selectMonthToReportA").change(function () {
 	});
 });
 
-function generarTabla(data, meses, año) {
+function generarTablaAsistenciaReporte(data, meses, año) {
 	const daysMonths = obtenerDiasLaborables(meses, año);
 
 	var asistenciaContainer = $("#reporteAsistencias");
