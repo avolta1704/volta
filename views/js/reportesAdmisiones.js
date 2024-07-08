@@ -387,6 +387,11 @@ $(document).ready(function () {
     var grados = [];
     var nuevosAlumnos = [];
     var antiguosAlumnos = [];
+
+    var pieChartSexoGrado;
+    var gradosSexo = [];
+    var masculinos = [];
+    var femeninos = [];
     // Función para obtener los alumnos por tipo de admision
     function obtenerAlumnosPorTipoAdmision() {
       var data = new FormData();
@@ -628,9 +633,95 @@ $(document).ready(function () {
       filtroSeleccionado.text("| " + grados[indice]);
       actualizarGraficoPastel(nuevosAlumnos[indice], antiguosAlumnos[indice]);
     };
+    // Función para obtener los datos de alumnos por sexo y grado
+    function obtenerTotalMasculinoFemenino() {
+      var data = new FormData();
+      data.append("totalMasculinoFemenino", true);
+
+      $.ajax({
+        url: "ajax/inicio.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          // Procesar la respuesta para obtener los datos del gráfico
+          response.forEach(function (fila) {
+            gradosSexo.push(fila.grado_nivel);
+            masculinos.push(fila.total_masculinos);
+            femeninos.push(fila.total_femeninos);
+          });
+
+          // Poblar el dropdown con los grados
+          poblarGradoSexoDropdown(gradosSexo);
+
+          // Inicializar el gráfico de pastel con los datos del primer grado
+          crearGraficoPastelSexoGrado(masculinos[0], femeninos[0], gradosSexo[0]);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
+    }
+
+    // Función para poblar el dropdown de grados
+    function poblarGradoSexoDropdown(gradosSexo) {
+      var dropdown = $("#gradoSexoReporteAdmisionesDropdown");
+      dropdown.empty(); // Vaciar el dropdown antes de poblarlo
+
+      gradosSexo.forEach(function (gradosSexo, index) {
+        dropdown.append(
+          '<li><a class="dropdown-item" href="#" onclick="filtrarGradoSexoReporte(' +
+            index +
+            ')">' +
+            gradosSexo +
+            "</a></li>"
+        );
+      });
+    }
+
+    // Función para crear el gráfico de pastel
+    function crearGraficoPastelSexoGrado(masculinos, femeninos, gradosindice) {
+      const filtroSeleccionado = $(".filtro-seleccionado-grado-sexo-reporte-admisiones");
+      filtroSeleccionado.text("| " + gradosindice);
+      var ctx = document.getElementById("pieChartSexoGradoReporte").getContext("2d");
+
+      pieChartSexoGrado = new Chart(ctx, {
+        type: "pie",
+        data: {
+          labels: ["Masculino", "Femenino"],
+          datasets: [
+            {
+              data: [masculinos, femeninos],
+              backgroundColor: ["#36A2EB", "#FF6384"],
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+        },
+      });
+    }
+
+    // Función para actualizar el gráfico de pastel
+    function actualizarGraficoPastelSexoGradoReporte(masculinos, femeninos) {
+      pieChartSexoGrado.data.datasets[0].data = [masculinos, femeninos];
+      pieChartSexoGrado.update();
+    }
+
+    // Función para filtrar por grado
+    window.filtrarGradoSexoReporte = function (indice) {
+      const filtroSeleccionado = $(".filtro-seleccionado-grado-sexo-reporte-admisiones");
+      filtroSeleccionado.text("| " + gradosSexo[indice]);
+      actualizarGraficoPastelSexoGradoReporte(masculinos[indice], femeninos[indice]);
+    };
 
     obtenerAlumnosPorTipoAdmision();
     obtenerTotalMatriculadosTrasladadosRetirados();
     obtenerTotalNuevosAntiguosGrafico();
+    obtenerTotalMasculinoFemenino();
   }
 });
