@@ -236,7 +236,8 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   //Obtener el otro id del apoderado
-  public static function mdlObtenerIdSegundoIdApoderado($idApoderado){
+  public static function mdlObtenerIdSegundoIdApoderado($idApoderado)
+  {
     $statement = Connection::conn()->prepare("SELECT DISTINCT
     a2.idApoderado
     FROM
@@ -256,7 +257,8 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
   // Cambiar el estado de cuenta creada
-  public static function mdlCambiarEstadoCuentaCreada($tabla,$cuentaCreada, $idApoderado1,$idApoderado2){
+  public static function mdlCambiarEstadoCuentaCreada($tabla, $cuentaCreada, $idApoderado1, $idApoderado2)
+  {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET cuentaCreada = :cuentaCreada WHERE idApoderado IN (:idApoderado1, :idApoderado2);");
     $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
     $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
@@ -267,19 +269,21 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
       return "error";
     }
   }
-    // Cambiar el estado de cuenta creada con eliminacion del idUsuario
-    public static function mdlCambiarEstadoCuentaCreadaIdUsuario($tabla,$cuentaCreada, $idApoderado1,$idApoderado2){
-      $statement = Connection::conn()->prepare("UPDATE $tabla SET cuentaCreada = :cuentaCreada, idUsuario = NULL WHERE idApoderado IN (:idApoderado1, :idApoderado2)");
-      $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
-      $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
-      $statement->bindParam(":cuentaCreada", $cuentaCreada, PDO::PARAM_INT);
-      if ($statement->execute()) {
-        return "ok";
-      } else {
-        return "error";
-      }
+  // Cambiar el estado de cuenta creada con eliminacion del idUsuario
+  public static function mdlCambiarEstadoCuentaCreadaIdUsuario($tabla, $cuentaCreada, $idApoderado1, $idApoderado2)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET cuentaCreada = :cuentaCreada, idUsuario = NULL WHERE idApoderado IN (:idApoderado1, :idApoderado2)");
+    $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
+    $statement->bindParam(":idApoderado2", $idApoderado2, PDO::PARAM_INT);
+    $statement->bindParam(":cuentaCreada", $cuentaCreada, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
     }
-  public static function mdlInsertarIdUsuarioApoderado($tabla, $idUsuario, $idApoderado1,$idApoderado2){
+  }
+  public static function mdlInsertarIdUsuarioApoderado($tabla, $idUsuario, $idApoderado1, $idApoderado2)
+  {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET idUsuario = :idUsuario WHERE idApoderado IN (:idApoderado1, :idApoderado2);");
     $statement->bindParam(":idUsuario", $idUsuario, PDO::PARAM_INT);
     $statement->bindParam(":idApoderado1", $idApoderado1, PDO::PARAM_INT);
@@ -290,7 +294,8 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
       return "error";
     }
   }
-  public static function mdlGetIdAlumnosApoderados($tabla, $idUsuario){
+  public static function mdlGetIdAlumnosApoderados($tabla, $idUsuario)
+  {
     $statement = Connection::conn()->prepare("SELECT DISTINCT
 	alumno.idAlumno
   FROM
@@ -313,7 +318,8 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Obtener datos del apoderado para la creación de postulante cuando tiene hermano
-  public static function mdlObtenerDatosApoderadoPostulanteHermano($tabla, $idApoderado){
+  public static function mdlObtenerDatosApoderadoPostulanteHermano($tabla, $idApoderado)
+  {
     $statement = Connection::conn()->prepare("SELECT
       apoderado.nombreApoderado, 
       apoderado.apellidoApoderado, 
@@ -339,7 +345,8 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
   // Obtener tipo de apoderado e id de apoderado por el idAlumno
-  public static function mdlObtenerTipoApoderadoIdApoderado($tabla, $idAlumno){
+  public static function mdlObtenerTipoApoderadoIdApoderado($tabla, $idAlumno)
+  {
     $statement = Connection::conn()->prepare("SELECT
       apoderado.tipoApoderado, 
       apoderado.idApoderado
@@ -358,5 +365,18 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Eliminar apoderados por id
+// Eliminar apoderados por id
+  public static function mdlEliminarApoderadosPostulante($tabla, $idPadre, $idMadre)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $tabla WHERE idApoderado IN (?, ?)");
+    $statement->bindParam(1, $idPadre, PDO::PARAM_STR);
+    $statement->bindParam(2, $idMadre, PDO::PARAM_STR);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
   }
 }

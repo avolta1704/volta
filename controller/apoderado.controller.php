@@ -130,4 +130,9 @@ class ControllerApoderados
     $response = ModelApoderados::mdlObtenerTipoApoderadoIdApoderado($tabla, $idAlumno);
     return $response;
   }
+  public static function ctrEliminarApoderadosPostulante($idPadre, $idMadre){
+    $tabla = "apoderado";
+    $response = ModelApoderados::mdlEliminarApoderadosPostulante($tabla, $idPadre, $idMadre);
+    return $response;
+  }
 }

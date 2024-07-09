@@ -156,14 +156,29 @@ class ControllerPostulantes
   public static function ctrBorrarPostulante($codPostulante)
   {
     $tabla = "postulante";
-    $response = ModelPostulantes::mdlBorrarPostulante($tabla, $codPostulante);
+    $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulante);
+
+    // Decodificar el JSON
+    $apoderados = json_decode($listaApoderados, true);
+
+    // Obtener los valores de idPadre e idMadre
+    $idPadre = $apoderados['idPadre'];
+    $idMadre = $apoderados['idMadre'];
+    $response = ControllerApoderados::ctrEliminarApoderadosPostulante($idPadre, $idMadre);
     if ($response == "ok") {
-      $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
-      echo $mensaje;
+      $response = ModelPostulantes::mdlBorrarPostulante($tabla, $codPostulante);
+      if ($response == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
+        echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
+        echo $mensaje;
+      }
     } else {
-      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
-      echo $mensaje;
+      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el Apoderado", "listaPostulantes");
     }
+
+
   }
   //  verificar si existe un pago de matricula para el postulante y recuperar los datos de pago idpago que esta en el campo pagoMatricula
   public static function ctrVerificarRegistroPogoMatricula($codPostulante)
@@ -180,14 +195,30 @@ class ControllerPostulantes
   public static function ctrBorrarPostulantePagoMatricula($codPostulante, $pagoMatricula)
   {
     $tabla = "postulante";
-    $response = ModelPostulantes::mdlBorrarPostulantePagoMatricula($tabla, $codPostulante, $pagoMatricula);
+    $listaApoderados = ControllerPostulantes::ctrGetListaApoderados($codPostulante);
+
+    // Decodificar el JSON
+    $apoderados = json_decode($listaApoderados, true);
+
+    // Obtener los valores de idPadre e idMadre
+    $idPadre = $apoderados['idPadre'];
+    $idMadre = $apoderados['idMadre'];
+    $response = ControllerApoderados::ctrEliminarApoderadosPostulante($idPadre, $idMadre);
     if ($response == "ok") {
-      $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
-      echo $mensaje;
+      $response = ModelPostulantes::mdlBorrarPostulantePagoMatricula($tabla, $codPostulante, $pagoMatricula);
+      if ($response == "ok") {
+        $mensaje = ControllerFunciones::mostrarAlerta("success", "Correcto", "Postulante eliminado correctamente", "listaPostulantes");
+        echo $mensaje;
+      } else {
+        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
+        echo $mensaje;
+      }
     } else {
-      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el postulante", "listaPostulantes");
-      echo $mensaje;
+      $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al eliminar el Apoderado", "listaPostulantes");
     }
+
+
+
   }
   //  Editar postulante
   public static function ctrEditarPostulante()
