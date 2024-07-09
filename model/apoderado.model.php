@@ -312,4 +312,51 @@ WHERE apoderado.idApoderado = :apoderado1 OR apoderado.idApoderado = :apoderado2
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  // Obtener datos del apoderado para la creación de postulante cuando tiene hermano
+  public static function mdlObtenerDatosApoderadoPostulanteHermano($tabla, $idApoderado){
+    $statement = Connection::conn()->prepare("SELECT
+      apoderado.nombreApoderado, 
+      apoderado.apellidoApoderado, 
+      apoderado.dniApoderado, 
+      apoderado.convivenciaAlumno, 
+      apoderado.fechaNacimiento, 
+      apoderado.tipoApoderado, 
+      apoderado.correoApoderado, 
+      apoderado.celularApoderado, 
+      apoderado.dependenciaApoderado, 
+      apoderado.centroLaboral, 
+      apoderado.telefonoTrabajo, 
+      apoderado.ingresoMensual, 
+      apoderado.gradoInstruccion, 
+      apoderado.profesionApoderado, 
+      apoderado.listaAlumnos, 
+      apoderado.cuentaCreada
+    FROM
+      $tabla
+    WHERE idApoderado = :idApoderado");
+    $statement->bindParam(":idApoderado", $idApoderado, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Obtener tipo de apoderado e id de apoderado por el idAlumno
+  public static function mdlObtenerTipoApoderadoIdApoderado($tabla, $idAlumno){
+    $statement = Connection::conn()->prepare("SELECT
+      apoderado.tipoApoderado, 
+      apoderado.idApoderado
+      FROM
+        $tabla
+        INNER JOIN
+        apoderado_alumno
+        ON 
+          alumno.idAlumno = apoderado_alumno.idAlumno
+        INNER JOIN
+        apoderado
+        ON 
+          apoderado_alumno.idApoderado = apoderado.idApoderado
+      WHERE
+        apoderado_alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

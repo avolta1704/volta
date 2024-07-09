@@ -30,58 +30,77 @@ class ControllerPostulantes
   {
     if (isset($_POST["nombrePostulante"]) && isset($_POST["apellidoPostulante"]) && (($_POST["nombrePadre"]) || ($_POST["nombreMadre"]))) {
       $tabla = "postulante";
-      //  Mandar datos de los padres
-      $dataPadre = array(
-        "nombreApoderado" => $_POST["nombrePadre"],
-        "apellidoApoderado" => $_POST["apellidoPadre"],
-        "dniApoderado" => $_POST["dniPadre"],
-        "fechaNacimiento" => $_POST["fechaNacimientoPadre"],
-        "convivenciaAlumno" => $_POST["convivePadre"],
-        "tipoApoderado" => "Padre",
-        "gradoInstruccion" => $_POST["gradoPadre"],
-        "profesionApoderado" => $_POST["profesionPadre"],
-        "correoApoderado" => $_POST["emailPadre"],
-        "celularApoderado" => $_POST["numeroPadre"],
-        "dependenciaApoderado" => $_POST["dependenciaPadre"],
-        "centroLaboral" => $_POST["centroPadre"],
-        "telefonoTrabajo" => $_POST["numeroTrabajoPadre"],
-        "ingresoMensual" => $_POST["ingresoPadre"],
-        "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"],
-        "cuentaCreada" => "0"
-      );
-      $response = ControllerApoderados::ctrCrearApoderado($dataPadre);
-      $idPadre = ControllerApoderados::ctrObtenerUltimoApoderado();
-      $dataMadre = array(
-        "nombreApoderado" => $_POST["nombreMadre"],
-        "apellidoApoderado" => $_POST["apellidoMadre"],
-        "dniApoderado" => $_POST["dniMadre"],
-        "fechaNacimiento" => $_POST["fechaNacimientoMadre"],
-        "convivenciaAlumno" => $_POST["conviveMadre"],
-        "tipoApoderado" => "Madre",
-        "gradoInstruccion" => $_POST["gradoMadre"],
-        "profesionApoderado" => $_POST["profesionMadre"],
-        "correoApoderado" => $_POST["emailMadre"],
-        "celularApoderado" => $_POST["numeroMadre"],
-        "dependenciaApoderado" => $_POST["dependenciaMadre"],
-        "centroLaboral" => $_POST["centroMadre"],
-        "telefonoTrabajo" => $_POST["numeroTrabajoMadre"],
-        "ingresoMensual" => $_POST["ingresoMadre"],
-        "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"],
-        "cuentaCreada" => "0"
-      );
-      $response = ControllerApoderados::ctrCrearApoderado($dataMadre);
-      $idMadre = ControllerApoderados::ctrObtenerUltimoApoderado();
+      if (isset($_POST["hermanosMatriculadosSelect"]) && trim($_POST["hermanosMatriculadosSelect"]) !== '') {
+        $hermanosMatriculadosSelect = $_POST["hermanosMatriculadosSelect"];
+        $response = ControllerApoderados::ctrObtenerTipoApoderadoIdApoderado($hermanosMatriculadosSelect);
+        foreach ($response as &$apoderado) {
+          if ($apoderado["tipoApoderado"] == "Padre") {
+            $idPadre = $apoderado["idApoderado"];
+          } else {
+            $idMadre = $apoderado["idApoderado"];
+          }
+        }
+        $listaApoderado = array(
+          "idPadre" => $idPadre,
+          "idMadre" => $idMadre
+        );
+        $response = "ok";
+      } else {
+        //  Mandar datos de los padres
+        $dataPadre = array(
+          "nombreApoderado" => $_POST["nombrePadre"],
+          "apellidoApoderado" => $_POST["apellidoPadre"],
+          "dniApoderado" => $_POST["dniPadre"],
+          "fechaNacimiento" => $_POST["fechaNacimientoPadre"],
+          "convivenciaAlumno" => $_POST["convivePadre"],
+          "tipoApoderado" => "Padre",
+          "gradoInstruccion" => $_POST["gradoPadre"],
+          "profesionApoderado" => $_POST["profesionPadre"],
+          "correoApoderado" => $_POST["emailPadre"],
+          "celularApoderado" => $_POST["numeroPadre"],
+          "dependenciaApoderado" => $_POST["dependenciaPadre"],
+          "centroLaboral" => $_POST["centroPadre"],
+          "telefonoTrabajo" => $_POST["numeroTrabajoPadre"],
+          "ingresoMensual" => $_POST["ingresoPadre"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"],
+          "cuentaCreada" => "0"
+        );
+        $response = ControllerApoderados::ctrCrearApoderado($dataPadre);
+        $idPadre = ControllerApoderados::ctrObtenerUltimoApoderado();
+        $dataMadre = array(
+          "nombreApoderado" => $_POST["nombreMadre"],
+          "apellidoApoderado" => $_POST["apellidoMadre"],
+          "dniApoderado" => $_POST["dniMadre"],
+          "fechaNacimiento" => $_POST["fechaNacimientoMadre"],
+          "convivenciaAlumno" => $_POST["conviveMadre"],
+          "tipoApoderado" => "Madre",
+          "gradoInstruccion" => $_POST["gradoMadre"],
+          "profesionApoderado" => $_POST["profesionMadre"],
+          "correoApoderado" => $_POST["emailMadre"],
+          "celularApoderado" => $_POST["numeroMadre"],
+          "dependenciaApoderado" => $_POST["dependenciaMadre"],
+          "centroLaboral" => $_POST["centroMadre"],
+          "telefonoTrabajo" => $_POST["numeroTrabajoMadre"],
+          "ingresoMensual" => $_POST["ingresoMadre"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"],
+          "cuentaCreada" => "0"
+        );
+        $response = ControllerApoderados::ctrCrearApoderado($dataMadre);
+        $idMadre = ControllerApoderados::ctrObtenerUltimoApoderado();
+        $listaApoderado = array(
+          "idPadre" => $idPadre["idApoderado"],
+          "idMadre" => $idMadre["idApoderado"]
+        );
+      }
 
-      $listaApoderado = array(
-        "idPadre" => $idPadre["idApoderado"],
-        "idMadre" => $idMadre["idApoderado"]
-      );
+
+
       $listaApoderado = json_encode($listaApoderado);
 
       if ($response == "ok") {
