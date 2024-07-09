@@ -32,7 +32,7 @@ $(document).ready(function () {
         <th scope="col">Código Caja</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
-        <th scope="col">Fecha Admision</th>
+        <th scope="col">Fecha Admisión</th>
         <th scope="col">Estado</th>
         <th scope="col">Acciones</th
       </tr>
