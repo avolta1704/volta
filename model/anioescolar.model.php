@@ -136,4 +136,54 @@ class ModelAnioEscolar
     $statement->execute();
     return $statement->fetchColumn();
   }
+  // Obtener todos los grados para cerrar el año escolar
+  public static function mdlMostrarGradosCerrarAnioEscolar($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT grado.idGrado, nivel.descripcionNivel, descripcionGrado FROM $tabla INNER JOIN nivel ON  grado.idNivel = nivel.idNivel ORDER BY grado.idGrado ASC");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtenemos los alumnos de un grado para cerrar el año escolar
+  public static function mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado){
+    $statement = Connection::conn()->prepare("SELECT
+    alumno.idAlumno,
+    alumno.nombresAlumno, 
+    alumno.apellidosAlumno,
+    grado.idGrado, 
+    grado.descripcionGrado,
+    anio_escolar.idAnioEscolar,
+    alumno_anio_escolar.estadoFinal
+    FROM
+      $tabla
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      anio_escolar
+      ON 
+        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+      INNER JOIN
+      grado
+      ON 
+        alumno_anio_escolar.idGrado = grado.idGrado
+    WHERE
+      alumno_anio_escolar.idGrado = :idGrado AND
+      anio_escolar.estadoAnio = 1");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  public static function mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla,$idGrado,$idAnioEscolar,$idAlumno,$estadoFinal){
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoFinal = :estadoFinal WHERE idGrado = :idGrado AND idAnioEscolar = :idAnioEscolar AND idAlumno = :idAlumno");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->bindParam(":estadoFinal", $estadoFinal, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }

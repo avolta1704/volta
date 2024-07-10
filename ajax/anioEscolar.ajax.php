@@ -62,6 +62,34 @@ class AnioEscolarAjax
     $respuesta = ControllerAnioEscolar::ctrEliminarAnioEscolar($codAnioEliminar);
     echo json_encode($respuesta);
   }
+  // Mostrar todos los grados para cerrar el año escolar
+  public function ajaxMostrarGradosCerrarAnioEscolar()
+  {
+    $respuesta = ControllerAnioEscolar::ctrMostrarGradosCerrarAnioEscolar();
+    foreach ($respuesta as &$grado) {
+      $grado['botonesGrado'] = FunctionAnioEscolar::getButtonsGradoCerrarAnioEscolar($grado["idGrado"]);
+    }
+    echo json_encode($respuesta);
+  }
+  public $idGradoCerrarAnioAlumnos;
+  public function ajaxMostrarTodoAlumnosGradoCerrarAnioEscolar(){
+    $idGradoCerrarAnioAlumnos = $this->idGradoCerrarAnioAlumnos;
+    $respuesta = ControllerAnioEscolar::ctrMostrarAlumnosGradoCerrarAnio($idGradoCerrarAnioAlumnos);
+    foreach ($respuesta as &$alumno) {
+      $alumno['acciones'] = FunctionAnioEscolar::getSelectAlumnoCerrarAnioEscolar($alumno["idAlumno"], $alumno["idAnioEscolar"], $alumno["idGrado"], $alumno["estadoFinal"]);
+    }
+    echo json_encode($respuesta);
+  }
+  public static function ajaxActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($data)
+  {
+    $dataAlumnoAnioEscolarCerrarAnio = json_decode($data, true);
+    $idGradoCerrarAnio = $dataAlumnoAnioEscolarCerrarAnio["idGrado"];
+    $idAlumnoCerrarAnio = $dataAlumnoAnioEscolarCerrarAnio["idAlumno"];
+    $idAnioEscolarCerrarAnio = $dataAlumnoAnioEscolarCerrarAnio["idAnioEscolar"];
+    $estadoFinalCerrarAnio = $dataAlumnoAnioEscolarCerrarAnio["estadoFinal"];
+    $respuesta = ControllerAnioEscolar::ctrActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($idGradoCerrarAnio,$idAnioEscolarCerrarAnio,$idAlumnoCerrarAnio,$estadoFinalCerrarAnio);
+    echo json_encode($respuesta);
+  }
 }
 
 //  Visualizar todos los años Escolares en el datatable
@@ -98,4 +126,18 @@ if (isset($_POST["dataActivarAnioEscolar"])) {
 if (isset($_POST["codAnioEliminar"])) {
   $eliminarAnio = new AnioEscolarAjax();
   $eliminarAnio->ajaxEliminarAnio($_POST["codAnioEliminar"]);
+}
+// Todos los grados para cerrar anio escolar
+if(isset($_POST["todosLosGradosCerrarAnioEscolar"])){
+  $mostrarGradoCerrarAnioEscolar = new AnioEscolarAjax();
+  $mostrarGradoCerrarAnioEscolar->ajaxMostrarGradosCerrarAnioEscolar();
+}
+if(isset($_POST["idGradoCerrarAnioAlumnos"])){
+  $mostrarTodoAlumnosGradoCerrarAnioEscolar = new AnioEscolarAjax();
+  $mostrarTodoAlumnosGradoCerrarAnioEscolar -> idGradoCerrarAnioAlumnos = $_POST["idGradoCerrarAnioAlumnos"];
+  $mostrarTodoAlumnosGradoCerrarAnioEscolar->ajaxMostrarTodoAlumnosGradoCerrarAnioEscolar();
+}
+if (isset($_POST["cambiarEstadoFinalAnioAlumno"])) {
+  $actualizarEstadoFinalAlumnoAnioEscolar = new AnioEscolarAjax();
+  $actualizarEstadoFinalAlumnoAnioEscolar->ajaxActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($_POST["cambiarEstadoFinalAnioAlumno"]);
 }

@@ -137,4 +137,20 @@ class ControllerAnioEscolar
     $listNivelEducacion = ModelAnioEscolar::mdlGetNivelEducacion($table, $idNivelEducacion);
     return $listNivelEducacion;
   }
+  public static function ctrMostrarGradosCerrarAnioEscolar()
+  {
+    $tabla =  "grado";
+    $respuesta = ModelAnioEscolar::mdlMostrarGradosCerrarAnioEscolar($tabla);
+    return $respuesta;
+  }
+  public static function ctrMostrarAlumnosGradoCerrarAnio($idGrado){
+    $tabla = "alumno";
+    $respuesta = ModelAnioEscolar::mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado);
+    return $respuesta;
+  }
+  public static function ctrActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($idGrado,$idAnioEscolar,$idAlumno,$estadoFinal){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla, $idGrado,$idAnioEscolar,$idAlumno,$estadoFinal);
+    return $respuesta;
+  }
 }

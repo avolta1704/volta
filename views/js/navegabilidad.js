@@ -246,6 +246,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		{
 			rutaBase: "anioEscolar",
 			acceso: ["administrador", "administrativo"],
+			subRutas: [
+				{nombre:"cerrarAnioGrado", acceso:["administrador"]},
+			],
 		},
 		{
 			rutaBase: "asistencia",

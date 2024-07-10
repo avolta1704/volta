@@ -13,10 +13,19 @@
 
   <section class="section dashboard">
     <div class="row gap-3">
-      <div class="col-lg-2">
+      <div class="col-lg-4">
         <div class="row mb-2">
-          <button type="button" class="btn btn-primary gap-2 justify-content-center d-flex" data-bs-target="#modalAgregarAnio" data-bs-toggle="modal">
-            <i class="bi bi-plus-circle"></i> Año Escolar</button>
+          <div class="col">
+            <button type="button" class="btn btn-primary w-100" data-bs-target="#modalAgregarAnio"
+              data-bs-toggle="modal">
+              <i class="bi bi-plus-circle"></i> Año Escolar
+            </button>
+          </div>
+          <div class="col">
+            <button type="button" class="btn btn-success w-100" id = "btnCerrarAñoEscolar">
+              <i class="bi bi-fast-forward"></i> Cerrar Año Escolar
+            </button>
+          </div>
         </div>
       </div>
       <!-- Left side columns -->
@@ -63,7 +72,8 @@
 
           <div class="mb-3">
             <label for="matriculaInicial" class="form-label" style="font-weight:bold">Matrícula Inicial</label>
-            <input type="number" step="0.1" class="form-control" id="matriculaInicial" name="matriculaInicial" required />
+            <input type="number" step="0.1" class="form-control" id="matriculaInicial" name="matriculaInicial"
+              required />
           </div>
 
           <div class="mb-3">
@@ -73,7 +83,8 @@
 
           <div class="mb-3">
             <label for="matriculaPrimaria" class="form-label" style="font-weight:bold">Matrícula Primaria</label>
-            <input type="number" step="0.1" class="form-control" id="matriculaPrimaria" name="matriculaPrimaria" required />
+            <input type="number" step="0.1" class="form-control" id="matriculaPrimaria" name="matriculaPrimaria"
+              required />
           </div>
 
           <div class="mb-3">
@@ -83,17 +94,20 @@
 
           <div class="mb-3">
             <label for="matriculaSecundaria" class="form-label" style="font-weight:bold">Matrícula Secundaria</label>
-            <input type="number" step="0.1" class="form-control" id="matriculaSecundaria" name="matriculaSecundaria" required />
+            <input type="number" step="0.1" class="form-control" id="matriculaSecundaria" name="matriculaSecundaria"
+              required />
           </div>
 
           <div class="mb-3">
             <label for="pensionSecundaria" class="form-label" style="font-weight:bold">Pensión Secundaria</label>
-            <input type="number" step="0.1" class="form-control" id="pensionSecundaria" name="pensionSecundaria" required />
+            <input type="number" step="0.1" class="form-control" id="pensionSecundaria" name="pensionSecundaria"
+              required />
           </div>
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary btnRegistrarAnioEscolar" id="btnRegistrarAnioEscolar" name="btnRegistrarAnioEscolar">Guardar</button>
+            <button type="button" class="btn btn-primary btnRegistrarAnioEscolar" id="btnRegistrarAnioEscolar"
+              name="btnRegistrarAnioEscolar">Guardar</button>
           </div>
         </form>
       </div>
@@ -113,48 +127,58 @@
         <form id="formEditarAnio">
           <div class="mb-3">
             <label for="editarDescripcionAnio" class="form-label" style="font-weight:bold">Nuevo Año Escolar</label>
-            <input type="number" step="1" class="form-control" id="editarDescripcionAnio" name="editarDescripcionAnio" required />
+            <input type="number" step="1" class="form-control" id="editarDescripcionAnio" name="editarDescripcionAnio"
+              required />
           </div>
 
           <div class="mb-3">
             <label for="editarCuotaIngreso" class="form-label" style="font-weight:bold">Cuota de Ingreso</label>
-            <input type="number" step="0.1" class="form-control" id="editarCuotaIngreso" name="editarCuotaIngreso" required />
+            <input type="number" step="0.1" class="form-control" id="editarCuotaIngreso" name="editarCuotaIngreso"
+              required />
           </div>
 
           <div class="mb-3">
             <label for="editarMatriculaInicial" class="form-label" style="font-weight:bold">Matrícula Inicial</label>
-            <input type="number" step="0.1" class="form-control" id="editarMatriculaInicial" name="editarMatriculaInicial" required />
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaInicial"
+              name="editarMatriculaInicial" required />
           </div>
 
           <div class="mb-3">
             <label for="editarPensionInicial" class="form-label" style="font-weight:bold">Pensión Inicial</label>
-            <input type="number" step="0.1" class="form-control" id="editarPensionInicial" name="editarPensionInicial" required />
+            <input type="number" step="0.1" class="form-control" id="editarPensionInicial" name="editarPensionInicial"
+              required />
           </div>
 
           <div class="mb-3">
             <label for="editarMatriculaPrimaria" class="form-label" style="font-weight:bold">Matrícula Primaria</label>
-            <input type="number" step="0.1" class="form-control" id="editarMatriculaPrimaria" name="editarMatriculaPrimaria" required />
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaPrimaria"
+              name="editarMatriculaPrimaria" required />
           </div>
 
           <div class="mb-3">
             <label for="editarPensionPrimaria" class="form-label" style="font-weight:bold">Pensión Primaria</label>
-            <input type="number" step="0.1" class="form-control" id="editarPensionPrimaria" name="editarPensionPrimaria" required />
+            <input type="number" step="0.1" class="form-control" id="editarPensionPrimaria" name="editarPensionPrimaria"
+              required />
           </div>
 
           <div class="mb-3">
-            <label for="editarMatriculaSecundaria" class="form-label" style="font-weight:bold">Matrícula Secundaria</label>
-            <input type="number" step="0.1" class="form-control" id="editarMatriculaSecundaria" name="editarMatriculaSecundaria" required />
+            <label for="editarMatriculaSecundaria" class="form-label" style="font-weight:bold">Matrícula
+              Secundaria</label>
+            <input type="number" step="0.1" class="form-control" id="editarMatriculaSecundaria"
+              name="editarMatriculaSecundaria" required />
           </div>
 
           <div class="mb-3">
             <label for="editarPensionSecundaria" class="form-label" style="font-weight:bold">Pensión Secundaria</label>
-            <input type="number" step="0.1" class="form-control" id="editarPensionSecundaria" name="editarPensionSecundaria" required />
+            <input type="number" step="0.1" class="form-control" id="editarPensionSecundaria"
+              name="editarPensionSecundaria" required />
           </div>
 
           <div class="modal-footer">
             <input type="hidden" class="codAnioEscolar" name="codAnioEscolar" id="codAnioEscolar">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="button" class="btn btn-primary btnEditarAnioEscolar" id="btnEditarAnioEscolar" name="btnEditarAnioEscolar">Guardar</button>
+            <button type="button" class="btn btn-primary btnEditarAnioEscolar" id="btnEditarAnioEscolar"
+              name="btnEditarAnioEscolar">Guardar</button>
           </div>
         </form>
       </div>
@@ -163,7 +187,8 @@
 </div>
 
 <!-- Modal visualizar año -->
-<div class="modal fade" id="modalVisualizarAnio" tabindex="-1" aria-labelledby="modalVisualizarAnioLabel" aria-hidden="true">
+<div class="modal fade" id="modalVisualizarAnio" tabindex="-1" aria-labelledby="modalVisualizarAnioLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
@@ -173,9 +198,11 @@
       <div class="modal-body">
         <form id="formVisualizarAnio">
           <div class="row mb-4">
-            <label for="visualizarDescripcionAnio" class="col-sm-4 col-form-label" style="font-weight:bold">Año Escolar</label>
+            <label for="visualizarDescripcionAnio" class="col-sm-4 col-form-label" style="font-weight:bold">Año
+              Escolar</label>
             <div class="col-sm-8">
-              <input type="number" step="1" class="form-control" id="visualizarDescripcionAnio" name="visualizarDescripcionAnio" readonly />
+              <input type="number" step="1" class="form-control" id="visualizarDescripcionAnio"
+                name="visualizarDescripcionAnio" readonly />
             </div>
           </div>
 
@@ -187,51 +214,65 @@
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarCuotaIngreso" class="col-sm-4 col-form-label" style="font-weight:bold">Cuota de Ingreso</label>
+            <label for="visualizarCuotaIngreso" class="col-sm-4 col-form-label" style="font-weight:bold">Cuota de
+              Ingreso</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarCuotaIngreso" name="visualizarCuotaIngreso" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarCuotaIngreso"
+                name="visualizarCuotaIngreso" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarMatriculaInicial" class="col-sm-4 col-form-label" style="font-weight:bold">M. Inicial</label>
+            <label for="visualizarMatriculaInicial" class="col-sm-4 col-form-label" style="font-weight:bold">M.
+              Inicial</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaInicial" name="visualizarMatriculaInicial" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaInicial"
+                name="visualizarMatriculaInicial" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarPensionInicial" class="col-sm-4 col-form-label" style="font-weight:bold">P. Inicial</label>
+            <label for="visualizarPensionInicial" class="col-sm-4 col-form-label" style="font-weight:bold">P.
+              Inicial</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarPensionInicial" name="visualizarPensionInicial" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionInicial"
+                name="visualizarPensionInicial" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarMatriculaPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">M. Primaria</label>
+            <label for="visualizarMatriculaPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">M.
+              Primaria</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaPrimaria" name="visualizarMatriculaPrimaria" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaPrimaria"
+                name="visualizarMatriculaPrimaria" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarPensionPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">P. Primaria</label>
+            <label for="visualizarPensionPrimaria" class="col-sm-4 col-form-label" style="font-weight:bold">P.
+              Primaria</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarPensionPrimaria" name="visualizarPensionPrimaria" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionPrimaria"
+                name="visualizarPensionPrimaria" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarMatriculaSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">M. Secundaria</label>
+            <label for="visualizarMatriculaSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">M.
+              Secundaria</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaSecundaria" name="visualizarMatriculaSecundaria" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarMatriculaSecundaria"
+                name="visualizarMatriculaSecundaria" readonly />
             </div>
           </div>
 
           <div class="row mb-3">
-            <label for="visualizarPensionSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">P. Secundaria</label>
+            <label for="visualizarPensionSecundaria" class="col-sm-4 col-form-label" style="font-weight:bold">P.
+              Secundaria</label>
             <div class="col-sm-8">
-              <input type="number" step="0.1" class="form-control" id="visualizarPensionSecundaria" name="visualizarPensionSecundaria" readonly />
+              <input type="number" step="0.1" class="form-control" id="visualizarPensionSecundaria"
+                name="visualizarPensionSecundaria" readonly />
             </div>
           </div>
 

@@ -358,3 +358,7 @@ $(".dataTableAnios").on("click", ".btnEliminarAnio", function (e) {
     }
   });
 });
+$("#btnCerrarAñoEscolar").on("click", function () {
+  window.location = "cerrarAnioGrado";
+});
+
