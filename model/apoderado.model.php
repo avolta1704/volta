@@ -6,8 +6,7 @@ class ModelApoderados
   //mostar todos los Apoderados DataTable
   public static function mdlGetAllApoderados($table)
   {
-    $statement = Connection::conn()->prepare("SELECT apoderado.nombreApoderado, apoderado.apellidoApoderado,  apoderado.tipoApoderado, apoderado.celularApoderado, apoderado.correoApoderado, apoderado.convivenciaAlumno, apoderado.idApoderado, apoderado.dniApoderado, apoderado.cuentaCreada, alumno.dniAlumno FROM $table INNER JOIN apoderado_alumno ON  apoderado.idApoderado = apoderado_alumno.idApoderado INNER JOIN alumno ON 
-    apoderado_alumno.idAlumno = alumno.idAlumno ORDER BY apoderado.idApoderado DESC;");
+    $statement = Connection::conn()->prepare("SELECT apoderado.nombreApoderado, apoderado.apellidoApoderado, apoderado.tipoApoderado, apoderado.celularApoderado, apoderado.correoApoderado, apoderado.convivenciaAlumno, apoderado.idApoderado, apoderado.dniApoderado, apoderado.cuentaCreada, MAX(alumno.dniAlumno) AS dniAlumno FROM $table INNER JOIN apoderado_alumno ON apoderado.idApoderado = apoderado_alumno.idApoderado INNER JOIN alumno ON apoderado_alumno.idAlumno = alumno.idAlumno GROUP BY apoderado.nombreApoderado, apoderado.apellidoApoderado, apoderado.tipoApoderado, apoderado.celularApoderado, apoderado.correoApoderado, apoderado.convivenciaAlumno, apoderado.idApoderado, apoderado.dniApoderado, apoderado.cuentaCreada ORDER BY apoderado.idApoderado DESC;");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
