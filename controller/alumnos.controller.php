@@ -250,4 +250,9 @@ class ControllerAlumnos
     $response = ModelAlumnos::mdlGetAlumnoByIdAlumnoDocenteVisualizar($tabla, $idAlumno);
     return $response;
   }
+  public static function ctrObtenerTodosIdAlumnoIdApoderadoHermanos(){
+    $tabla = "alumno";
+    $response = ModelAlumnos::mdlObtenerTodosIdAlumnoIdApoderadoHermanos($tabla);
+    return $response;
+  }
 }

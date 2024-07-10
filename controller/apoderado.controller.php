@@ -119,4 +119,20 @@ class ControllerApoderados
     $response = ModelApoderados::mdlGetIdAlumnosApoderados($tabla, $idUsuario);
     return $response;
   }
+  // Obtener los datos del apoderado del postulante hermano
+  public static function ctrObtenerDatosApoderadoPostulanteHermano($idApoderado){
+    $tabla = "apoderado";
+    $response = ModelApoderados::mdlObtenerDatosApoderadoPostulanteHermano($tabla, $idApoderado);
+    return $response;
+  }
+  public static function ctrObtenerTipoApoderadoIdApoderado($idAlumno){
+    $tabla = "alumno";
+    $response = ModelApoderados::mdlObtenerTipoApoderadoIdApoderado($tabla, $idAlumno);
+    return $response;
+  }
+  public static function ctrEliminarApoderadosPostulante($idPadre, $idMadre){
+    $tabla = "apoderado";
+    $response = ModelApoderados::mdlEliminarApoderadosPostulante($tabla, $idPadre, $idMadre);
+    return $response;
+  }
 }

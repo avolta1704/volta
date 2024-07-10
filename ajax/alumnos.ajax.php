@@ -106,6 +106,11 @@ class AlumnosAjax
     $response = ControllerAlumnos::ctrGetAlumnoByIdAlumnoDocenteVisualizar($codAlumnoVisualizarDocente);
     echo json_encode($response);
   }
+  public function ajaxObtenerTodosIdAlumnoIdApoderadoHermanos()
+  {
+    $response = ControllerAlumnos::ctrObtenerTodosIdAlumnoIdApoderadoHermanos();
+    echo json_encode($response);
+  }
 }
 
 
@@ -157,4 +162,8 @@ if(isset($_POST["idAlumnoVisualizarDatosDocente"])){
   $mostrarDatosAlumnoDocenteVisualizar = new AlumnosAjax();
   $mostrarDatosAlumnoDocenteVisualizar->codAlumnoVisualizarDocente = $_POST["idAlumnoVisualizarDatosDocente"];
   $mostrarDatosAlumnoDocenteVisualizar->ajaxGetAlumnoByIdAlumnoDocenteVisualizar();
+}
+if(isset($_POST["todosLosAlumnosMatriculadosApoderados"])){
+  $mostrarTodosAlumnosApoderados = new AlumnosAjax();
+  $mostrarTodosAlumnosApoderados->ajaxObtenerTodosIdAlumnoIdApoderadoHermanos();
 }

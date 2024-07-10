@@ -40,7 +40,8 @@
 
               <div class="form-group col-md-6">
                 <label for="apellidoPostulante" class="form-label" style="font-weight: bold">Apellidos: </label>
-                <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value="" required>
+                <input type="text" class="form-control" id="apellidoPostulante" name="apellidoPostulante" value=""
+                  required>
               </div>
 
               <div class="form-group col-md-6">
@@ -91,37 +92,71 @@
 
               <div class="form-group col-md-6">
                 <label for="domicilioPostulante" class="form-label" style="font-weight: bold">Domicilio: </label>
-                <input type="text" class="form-control" id="domicilioPostulante" name="domicilioPostulante" value="" required>
+                <input type="text" class="form-control" id="domicilioPostulante" name="domicilioPostulante" value=""
+                  required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="colegioProcedencia" class="form-label" style="font-weight: bold">Colegio Procedencia: </label>
-                <input type="text" class="form-control" id="colegioProcedencia" name="colegioProcedencia" value="" required>
+                <label for="colegioProcedencia" class="form-label" style="font-weight: bold">Colegio Procedencia:
+                </label>
+                <input type="text" class="form-control" id="colegioProcedencia" name="colegioProcedencia" value=""
+                  required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="dificultadAprendizaje" class="form-label" style="font-weight: bold">Tiene alguna dificultad: </label>
+                <label for="dificultadAprendizaje" class="form-label" style="font-weight: bold">Tiene alguna dificultad:
+                </label>
                 <div class="form-check">
-                  <label for="cbxDificultad" style="font-weight: 600;"><input type="radio" id="cbxDificultad" value="Dificultad" name="dificultadAprendizaje">Dificultad de aprendizaje/lenguaje</label>
-                  <label for="cbxImpedimento" style="font-weight: 600;"><input type="radio" id="cbxImpedimento" value="Impedimento" name="dificultadAprendizaje">Impedimento físico/motoras</label>
-                  <label for="cbxEnfermedad" style="font-weight: 600;"><input type="radio" id="cbxEnfermedad" value="Enfermedad" name="dificultadAprendizaje">Enfermedad Crónica</label>
-                  <label for="cbxNinguno" style="font-weight: 600;"><input type="radio" id="cbxNinguno" value="Ninguna" name="dificultadAprendizaje">Ninguna</label>
+                  <label for="cbxDificultad" style="font-weight: 600;"><input type="radio" id="cbxDificultad"
+                      value="Dificultad" name="dificultadAprendizaje">Dificultad de aprendizaje/lenguaje</label>
+                  <label for="cbxImpedimento" style="font-weight: 600;"><input type="radio" id="cbxImpedimento"
+                      value="Impedimento" name="dificultadAprendizaje">Impedimento físico/motoras</label>
+                  <label for="cbxEnfermedad" style="font-weight: 600;"><input type="radio" id="cbxEnfermedad"
+                      value="Enfermedad" name="dificultadAprendizaje">Enfermedad Crónica</label>
+                  <label for="cbxNinguno" style="font-weight: 600;"><input type="radio" id="cbxNinguno" value="Ninguna"
+                      name="dificultadAprendizaje">Ninguna</label>
                 </div>
               </div>
 
               <div class="form-group col-md-6">
                 <label for="detalleDificultad" class="form-label" style="font-weight: bold">Especifique: </label>
-                <input type="text" class="form-control" id="detalleDificultad" name="detalleDificultad" value="" required>
+                <input type="text" class="form-control" id="detalleDificultad" name="detalleDificultad" value=""
+                  required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="tipoSalud" class="form-label" style="font-weight: bold">Tipo de atención de salud tiene el estudiante (SIS, ESSALUD u otro): </label>
+                <label for="tipoSalud" class="form-label" style="font-weight: bold">Tipo de atención de salud tiene el
+                  estudiante (SIS, ESSALUD u otro): </label>
                 <input type="text" class="form-control" id="tipoSalud" name="tipoSalud" value="" required>
               </div>
 
               <div class="form-group col-md-6">
-                <label for="tratamientoPostulante" class="form-label" style="font-weight: bold">Recibe un tipo de tratamiento o terapia, especificar: </label>
-                <input type="text" class="form-control" id="tratamientoPostulante" name="tratamientoPostulante" value="" required>
+                <label for="tratamientoPostulante" class="form-label" style="font-weight: bold">Recibe un tipo de
+                  tratamiento o terapia, especificar: </label>
+                <input type="text" class="form-control" id="tratamientoPostulante" name="tratamientoPostulante" value=""
+                  required>
+              </div>
+            </div>
+          </span>
+
+          <!-- Hermanos Matriculados -->
+          <span class="border border-3 p-3">
+            <div class="container row g-3">
+              <div class="d-flex align-items-center justify-content-between">
+                <h3 style="font-weight: bold;">Hermanos Matriculados</h3>
+                <div class="form-check form-switch ms-auto" style="transform: scale(1.5);">
+                  <input class="form-check-input" type="checkbox" id="hermanosMatriculadosSwitch">
+                  <label class="form-check-label" for="hermanosMatriculadosSwitch"></label>
+                </div>
+              </div>
+
+              <div class="form-group col-md-12" id="hermanosMatriculadosDiv" style="display: none;">
+                <label for="hermanosMatriculados" class="col-form-label" style="font-weight: bold"> Alumno </label>
+                <select class="form-control input-lg busqueda" id="hermanosMatriculadosSelect" name="hermanosMatriculadosSelect"
+                  style="border-radius: 50px; width: 100%; border: 1px solid #dee2e6; height: 100px;">
+                  <option value="">Elija una opción</option>
+                  <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                </select>
               </div>
             </div>
           </span>
@@ -147,15 +182,19 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="fechaNacimientoPadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
+                <label for="fechaNacimientoPadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento:
+                </label>
                 <input type="date" class="form-control" id="fechaNacimientoPadre" name="fechaNacimientoPadre" value="">
               </div>
 
               <div class="form-group col-md-6">
-                <label for="convivePadre" class="form-label" style="font-weight: bold">Convive con el postulante: </label>
+                <label for="convivePadre" class="form-label" style="font-weight: bold">Convive con el postulante:
+                </label>
                 <div class="form-check">
-                  <label for="cbxSiConvive" style="font-weight: 600;"><input type="radio" id="cbxSiConvive" value="Si" name="convivePadre">Si</label>
-                  <label for="cbxNoConvive" style="font-weight: 600;"><input type="radio" id="cbxNoConvive" value="No" name="convivePadre">No</label>
+                  <label for="cbxSiConvive" style="font-weight: 600;"><input type="radio" id="cbxSiConvive" value="Si"
+                      name="convivePadre">Si</label>
+                  <label for="cbxNoConvive" style="font-weight: 600;"><input type="radio" id="cbxNoConvive" value="No"
+                      name="convivePadre">No</label>
                 </div>
               </div>
 
@@ -180,7 +219,8 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="dependenciaPadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
+                <label for="dependenciaPadre" class="form-label" style="font-weight: bold">Independiente/Dependiente:
+                </label>
                 <input type="text" class="form-control" id="dependenciaPadre" name="dependenciaPadre" value="">
               </div>
 
@@ -190,7 +230,8 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="numeroTrabajoPadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
+                <label for="numeroTrabajoPadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo:
+                </label>
                 <input type="number" class="form-control" id="numeroTrabajoPadre" name="numeroTrabajoPadre" value="">
               </div>
 
@@ -221,15 +262,19 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="fechaNacimientoMadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento: </label>
+                <label for="fechaNacimientoMadre" class="form-label" style="font-weight: bold">Fecha de Nacimiento:
+                </label>
                 <input type="date" class="form-control" id="fechaNacimientoMadre" name="fechaNacimientoMadre" value="">
               </div>
 
               <div class="form-group col-md-6">
-                <label for="conviveMadre" class="form-label" style="font-weight: bold">Convive con el postulante: </label>
+                <label for="conviveMadre" class="form-label" style="font-weight: bold">Convive con el postulante:
+                </label>
                 <div class="form-check">
-                  <label for="cbxSiConvive" style="font-weight: 600;"><input type="radio" id="cbxSiConvive" value="Si" name="conviveMadre">Si</label>
-                  <label for="cbxNoConvive" style="font-weight: 600;"><input type="radio" id="cbxNoConvive" value="No" name="conviveMadre">No</label>
+                  <label for="cbxSiConvive" style="font-weight: 600;"><input type="radio" id="cbxSiConvive" value="Si"
+                      name="conviveMadre">Si</label>
+                  <label for="cbxNoConvive" style="font-weight: 600;"><input type="radio" id="cbxNoConvive" value="No"
+                      name="conviveMadre">No</label>
                 </div>
               </div>
 
@@ -254,7 +299,8 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="dependenciaMadre" class="form-label" style="font-weight: bold">Independiente/Dependiente: </label>
+                <label for="dependenciaMadre" class="form-label" style="font-weight: bold">Independiente/Dependiente:
+                </label>
                 <input type="text" class="form-control" id="dependenciaMadre" name="dependenciaMadre" value="">
               </div>
 
@@ -264,7 +310,8 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="numeroTrabajoMadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo: </label>
+                <label for="numeroTrabajoMadre" class="form-label" style="font-weight: bold">Teléfono de Trabajo:
+                </label>
                 <input type="number" class="form-control" id="numeroTrabajoMadre" name="numeroTrabajoMadre" value="">
               </div>
 
@@ -276,7 +323,8 @@
           </span>
 
           <div class="container row g-3 p-3 justify-content-between">
-            <button type="button" class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarCrearPostulante">Cerrar</button>
+            <button type="button"
+              class="col-1 d-inline-flex-center p-2 btn btn-secondary cerrarCrearPostulante">Cerrar</button>
             <button type="submit" class="col-2 d-inline-flex-center p-2 btn btn-primary">Registrar Postulante</button>
           </div>
         </form>

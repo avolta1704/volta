@@ -661,4 +661,22 @@ class ModelAlumnos
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  public static function mdlObtenerTodosIdAlumnoIdApoderadoHermanos($tabla){
+    $statement = Connection::conn()->prepare("SELECT
+      alumno.idAlumno, 
+      alumno.nombresAlumno, 
+      alumno.apellidosAlumno, 
+      MAX(CASE WHEN apoderado.tipoApoderado = 'Padre' THEN apoderado.idApoderado END) AS idPadre,
+      MAX(CASE WHEN apoderado.tipoApoderado = 'Madre' THEN apoderado.idApoderado END) AS idMadre
+      FROM
+          $tabla
+          INNER JOIN apoderado_alumno ON alumno.idAlumno = apoderado_alumno.idAlumno
+          INNER JOIN apoderado ON apoderado_alumno.idApoderado = apoderado.idApoderado
+          INNER JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno
+      WHERE admision_alumno.estadoAdmisionAlumno = 2 
+      GROUP BY
+          alumno.idAlumno, alumno.nombresAlumno, alumno.apellidosAlumno");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

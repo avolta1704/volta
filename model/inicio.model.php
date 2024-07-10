@@ -676,11 +676,11 @@ ORDER BY
         nivel
         ON 
             grado.idNivel = nivel.idNivel
-        INNER JOIN
+        LEFT JOIN
         curso_grado
         ON 
             grado.idGrado = curso_grado.idGrado
-        INNER JOIN
+        LEFT JOIN
         curso
         ON 
             curso_grado.idCurso = curso.idCurso
@@ -701,19 +701,19 @@ ORDER BY
         alumno_anio_escolar
         ON 
             alumno.idAlumno = alumno_anio_escolar.idAlumno
-        INNER JOIN
+        LEFT JOIN
         grado
         ON 
             alumno_anio_escolar.idGrado = grado.idGrado
-        INNER JOIN
+        LEFT JOIN
         curso_grado
         ON 
             grado.idGrado = curso_grado.idGrado
-        INNER JOIN
+        LEFT JOIN
         curso
         ON 
             curso_grado.idCurso = curso.idCurso
-        INNER JOIN
+        LEFT JOIN
         anio_escolar
         ON 
             alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
