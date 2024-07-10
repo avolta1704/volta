@@ -337,9 +337,7 @@ $(document).ready(function () {
             // Inicializar el dropdown y mostrar datos del primer curso
             var cursos = Object.keys(notasPorCurso);
             poblarCursosNotasApoderadoDropdown(cursos);
-            if (cursos.length > 0) {
-              actualizarDatosAlumnoNotasApoderado(cursos[0]);
-            }
+            actualizarDatosAlumnoNotasApoderado(cursos[0]);
           },
           error: function (jqXHR, textStatus, errorThrown) {
             console.log(
@@ -366,8 +364,6 @@ $(document).ready(function () {
           );
         });
       }
-
-      // Función para actualizar los datos de notas
       function actualizarDatosAlumnoNotasApoderado(curso) {
         const filtroSeleccionado = $(
           ".filtro-seleccionado-cursos-notas-apoderado"
@@ -376,22 +372,31 @@ $(document).ready(function () {
 
         var notas = notasPorCurso[curso];
         var notaMasReciente = null;
-        notas.forEach(function (nota) {
-          if (
-            nota.fecha &&
-            (!notaMasReciente ||
-              new Date(nota.fecha) > new Date(notaMasReciente.fecha))
-          ) {
-            notaMasReciente = nota;
-          }
-        });
 
-        filtroSeleccionado.text("| " + curso);
-        if (notaMasReciente) {
-          totalnuevos.html(
-            notaMasReciente.bimestre + " - " + notaMasReciente.nota
-          );
+        if (notas && notas.length > 0) {
+          notas.forEach(function (nota) {
+            if (
+              nota.fecha &&
+              (!notaMasReciente ||
+                new Date(nota.fecha) > new Date(notaMasReciente.fecha))
+            ) {
+              notaMasReciente = nota;
+            }
+          });
+
+          filtroSeleccionado.text("| " + curso);
+          if (notaMasReciente) {
+            totalnuevos.html(
+              notaMasReciente.bimestre + " - " + notaMasReciente.nota
+            );
+          } else {
+            totalnuevos.html(
+              '<span class="badge rounded-pill bg-warning">No hay registro de notas</span>'
+            );
+          }
         } else {
+          // No hay notas para este curso
+          filtroSeleccionado.text("| Sin Curso Asignado");
           totalnuevos.html(
             '<span class="badge rounded-pill bg-warning">No hay registro de notas</span>'
           );
