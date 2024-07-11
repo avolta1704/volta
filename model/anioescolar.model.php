@@ -144,7 +144,8 @@ class ModelAnioEscolar
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
   // Obtenemos los alumnos de un grado para cerrar el año escolar
-  public static function mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado){
+  public static function mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado)
+  {
     $statement = Connection::conn()->prepare("SELECT
     alumno.idAlumno,
     alumno.nombresAlumno, 
@@ -174,12 +175,77 @@ class ModelAnioEscolar
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
-  public static function mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla,$idGrado,$idAnioEscolar,$idAlumno,$estadoFinal){
+  // Actualizar el estado final del alumno en el año escolar
+  public static function mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $estadoFinal)
+  {
     $statement = Connection::conn()->prepare("UPDATE $tabla SET estadoFinal = :estadoFinal WHERE idGrado = :idGrado AND idAnioEscolar = :idAnioEscolar AND idAlumno = :idAlumno");
     $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
     $statement->bindParam(":estadoFinal", $estadoFinal, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
+  // Obtener IDS Alumnos matriculados por grado 
+  public static function mdlGetAlumnosMatriculadosGrado($tabla, $idGrado)
+  {
+    $statement = Connection::conn()->prepare("SELECT alumno.idAlumno, alumno_anio_escolar.estadoFinal FROM $tabla INNER JOIN alumno_anio_escolar ON  alumno.idAlumno = alumno_anio_escolar.idAlumno INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar INNER JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado INNER JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno WHERE alumno_anio_escolar.idGrado = :idGrado AND anio_escolar.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 2");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Validar si existen notas subidas por el alumno en el IV Bimestre
+  public static function mdlValidacionNotasSubidasporAlumno($tabla, $idAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT
+        curso_grado.idCurso, 
+        bimestre.descripcionBimestre, 
+        nota_bimestre.notaBimestre
+    FROM
+        $tabla
+        INNER JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+        INNER JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado
+        INNER JOIN curso_grado ON grado.idGrado = curso_grado.idGrado
+        INNER JOIN bimestre ON curso_grado.idCursoGrado = bimestre.idCursoGrado
+        LEFT JOIN nota_bimestre ON 
+            alumno_anio_escolar.idAlumnoAnioEscolar = nota_bimestre.idAlumnoAnioEscolar AND
+            bimestre.idBimestre = nota_bimestre.idBimestre
+    WHERE
+        bimestre.descripcionBimestre = 'IV BIMESTRE' AND alumno.idAlumno = :idAlumno AND nota_bimestre.notaBimestre IS NULL");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+
+    // Verificar si hay resultados
+    if ($statement->rowCount() > 0) {
+      return "error";
+    } else {
+      return "ok";
+    }
+  }
+  // Validar si el alumno tiene el estado final en NULL
+  public static function mdlValidarEstadoFinalporAlumno($tabla, $idAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT alumno.idAlumno FROM $tabla INNER JOIN alumno_anio_escolar ON  alumno.idAlumno = alumno_anio_escolar.idAlumno WHERE alumno.idAlumno = :idAlumno AND alumno_anio_escolar.estadoFinal IS NULL");
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    // Verificar si hay resultados
+    if ($statement->rowCount() > 0) {
+      return "error";
+    } else {
+      return "ok";
+    }
+  }
+  // Actualizar el finAnio 
+  public static function mdlActualizarFinAnioAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $finAnio)
+  {
+    $statement = Connection::conn()->prepare("UPDATE $tabla SET finAnio = :finAnio WHERE idGrado = :idGrado AND idAnioEscolar = :idAnioEscolar AND idAlumno = :idAlumno");
+    $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    $statement->bindParam(":idAlumno", $idAlumno, PDO::PARAM_INT);
+    $statement->bindParam(":finAnio", $finAnio, PDO::PARAM_INT);
     if ($statement->execute()) {
       return "ok";
     } else {

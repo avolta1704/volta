@@ -36,7 +36,8 @@
   </section>
 </main>
 <!-- Modal Listar Cursos -->
-<div class="modal fade" id="modalCerrarAnioAlumnos" tabindex="-1" aria-labelledby="modalCerrarAnioAlumnosLabel" aria-hidden="true">
+<div class="modal fade" id="modalCerrarAnioAlumnos" tabindex="-1" aria-labelledby="modalCerrarAnioAlumnosLabel"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -46,8 +47,9 @@
       <div class="modal-body">
         <div class="row mb-2">
           <div class="col-auto">
-            <button type="button" class="btn btn-primary btnAgregarCompetencia gap-2 justify-content-center d-flex me-2">
-              <i class="bi bi-plus-circle"></i> Agregar Competencia
+            <button type="button"
+              class="btn btn-primary btnCerrarAnioAlumnosGrado gap-2 justify-content-center d-flex me-2">
+              <i class="bi bi-fast-forward-circle" idGradoCerrarAnio=""></i> Cerrar Año Escolar
             </button>
           </div>
         </div>
@@ -65,6 +67,51 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Listar Cursos -->
+<div class="modal fade" id="modalCerrarAnioValidacionCorrecta" tabindex="-1"
+  aria-labelledby="modalCerrarAnioValidacionCorrectaLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg"> <!-- Clase modal-dialog-centered agregada -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCompetenciaUnidadLabel">Año Siguiente</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Select agregado -->
+        <div class="form-group">
+          <label for="selectAnioSiguiente">Seleccione el Año</label>
+          <select class="form-control" id="selectAnioSiguiente" name="selectAnioSiguiente">
+            <option value="0">Ninguna Opción</option>
+            <?php
+            // Llamar al controlador para obtener los años escolares
+            $listaAnios = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
+            $anioActivo = null;
+
+            // Encontrar el año activo
+            foreach ($listaAnios as $anio) {
+              if ($anio['estadoAnio'] == 1) {
+                $anioActivo = $anio;
+                break;
+              }
+            }
+
+            // Generar las opciones del select para años posteriores al año activo
+            foreach ($listaAnios as $anio) {
+              if ($anioActivo && $anio['descripcionAnio'] > $anioActivo['descripcionAnio']) {
+                echo '<option value="' . $anio['idAnioEscolar'] . '">' . $anio['descripcionAnio'] . '</option>';
+              }
+            }
+            ?>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btnGuardarEleccionAnioEscolarNuevo" idGradoElegirAnioBtnElegir="">Elegir Año</button>
+        <button type="button" class="btn btn-secondary" id="btnCerrarModalEleccionAnioEscolarNuevo"
+          data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
   </div>

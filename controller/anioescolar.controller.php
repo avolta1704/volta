@@ -148,9 +148,29 @@ class ControllerAnioEscolar
     $respuesta = ModelAnioEscolar::mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado);
     return $respuesta;
   }
+  // Actualizar estado final Alumno
   public static function ctrActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($idGrado,$idAnioEscolar,$idAlumno,$estadoFinal){
     $tabla = "alumno_anio_escolar";
     $respuesta = ModelAnioEscolar::mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla, $idGrado,$idAnioEscolar,$idAlumno,$estadoFinal);
+    return $respuesta;
+  }
+  public static function ctrGetAlumnosMatriculadosGrado($tabla, $idGrado){
+    $respuesta = ModelAnioEscolar::mdlGetAlumnosMatriculadosGrado($tabla, $idGrado);
+    return $respuesta;
+  }
+  // Validar Notas subidas correctamente del alumno
+  public static function ctrValidarNotasAlumnosSubidosCorrectamenteCerrarAnioAlumno($idAlumno,$tabla){
+    $respuesta = ModelAnioEscolar::mdlValidacionNotasSubidasporAlumno($tabla, $idAlumno);
+    return $respuesta;
+  }
+  // Validar Estado Final del alumno
+  public static function ctrValidarEstadoFinalAlumnosSubidosCorrectamenteCerrarAnioAlumno($idAlumno, $tabla){
+    $respuesta = ModelAnioEscolar::mdlValidarEstadoFinalporAlumno($tabla, $idAlumno);
+    return $respuesta;
+  }
+  public static function ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGrado, $idAnioEscolar, $idAlumno, $finAnio){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlActualizarFinAnioAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $finAnio);
     return $respuesta;
   }
 }
