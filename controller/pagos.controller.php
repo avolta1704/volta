@@ -92,73 +92,144 @@ class ControllerPagos
       }
       // Código para crear un registro de pago sin cronograma de pago
     } else if (isset($_POST["tipoPago"]) && isset($_POST["idTipoPagoCuotaInicial"])) {
-      // crear registro pago alumno sin cronograma de pago
-      $tabla = "pago";
-      $dataPagoAlumno = array(
-        "idTipoPago" => $_POST["tipoPago"],
-        "fechaPago" => $_POST["fechaRegistroPago"],
-        "cantidadPago" => $_POST["montoPago"],
-        "metodoPago" => $_POST["metodoPago"],
-        "numeroComprobante" => $_POST["nroComprobante"],
-        "boletaElectronica" => $_POST["boletaElectronica"],
-        "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
-      $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
-      if ($crearPago == "ok") {
-        $nuevoPago = self::ctrlObtenerUltimoRegistro();
-        $tabla = "postulante";
-        $datosActualizadoPostulante = array(
-          "idPostulante" => intval($_GET["codPostulante"]),
-          "pagoMatricula" => $nuevoPago["idPago"],
-          "estadoPostulante" => 2,
-          "fechaPagoMatricula" => $nuevoPago["fechaPago"],
+      if (isset($_POST["codAdmisionAlumno"])) {
+        // crear registro pago alumno sin cronograma de pago
+        $tabla = "pago";
+        $dataPagoAlumno = array(
+          "idTipoPago" => $_POST["tipoPago"],
+          "fechaPago" => $_POST["fechaRegistroPago"],
+          "cantidadPago" => $_POST["montoPago"],
+          "metodoPago" => $_POST["metodoPago"],
+          "numeroComprobante" => $_POST["nroComprobante"],
+          "boletaElectronica" => $_POST["boletaElectronica"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
           "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
           "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
-        $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
-      }
+        $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
+        if ($crearPago == "ok") {
+          $nuevoPago = self::ctrlObtenerUltimoRegistro();
+          $tabla = "postulante";
+          $datosActualizadoPostulante = array(
+            "idPostulante" => intval($_GET["codPostulante"]),
+            "pagoMatricula" => $nuevoPago["idPago"],
+            "estadoPostulante" => 2,
+            "fechaPagoMatricula" => $nuevoPago["fechaPago"],
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          );
+          $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
+        }
 
 
-      $dataPagoCuotaAlumno = array(
-        "idTipoPago" => $_POST["idTipoPagoCuotaInicial"],
-        "fechaPago" => $_POST["fechaRegistroPago"],
-        "cantidadPago" => $_POST["cuotaInicial"],
-        "metodoPago" => $_POST["metodoPago"],
-        "numeroComprobante" => $_POST["nroComprobante"],
-        "boletaElectronica" => $_POST["boletaElectronica"],
-        "fechaCreacion" => date("Y-m-d H:i:s"),
-        "fechaActualizacion" => date("Y-m-d H:i:s"),
-        "usuarioCreacion" => $_SESSION["idUsuario"],
-        "usuarioActualizacion" => $_SESSION["idUsuario"]
-      );
-      $tabla = "pago";
-      $crearPagoCuotaInicial = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoCuotaAlumno);
-
-      if ($crearPagoCuotaInicial == "ok") {
-        $nuevoPago = self::ctrlObtenerUltimoRegistro();
-        $tabla = "postulante";
-        $datosActualizadoPostulante = array(
-          "idPostulante" => intval($_GET["codPostulante"]),
-          "pagoCuotaIngreso" => $nuevoPago["idPago"],
-          "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
-          "estadoPostulante" => 2,
+        $dataPagoCuotaAlumno = array(
+          "idTipoPago" => $_POST["idTipoPagoCuotaInicial"],
+          "fechaPago" => $_POST["fechaRegistroPago"],
+          "cantidadPago" => $_POST["cuotaInicial"],
+          "metodoPago" => $_POST["metodoPago"],
+          "numeroComprobante" => $_POST["nroComprobante"],
+          "boletaElectronica" => $_POST["boletaElectronica"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
           "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
           "usuarioActualizacion" => $_SESSION["idUsuario"]
         );
-        $actualizarPostulanteCuota = ModelPostulantes::mdlEditarCuotaInicialPostulante($tabla, $datosActualizadoPostulante);
-      }
+        $tabla = "pago";
+        $crearPagoCuotaInicial = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoCuotaAlumno);
+
+        if ($crearPagoCuotaInicial == "ok") {
+          $nuevoPago = self::ctrlObtenerUltimoRegistro();
+          $tabla = "postulante";
+          $datosActualizadoPostulante = array(
+            "idPostulante" => intval($_GET["codPostulante"]),
+            "pagoCuotaIngreso" => $nuevoPago["idPago"],
+            "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
+            "estadoPostulante" => 2,
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          );
+          $actualizarPostulanteCuota = ModelPostulantes::mdlEditarCuotaInicialPostulante($tabla, $datosActualizadoPostulante);
+        }
 
 
-      if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
-        $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
-        echo $mensaje;
+        if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");
+          echo $mensaje;
+        }
       } else {
-        $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");
-        echo $mensaje;
+        // crear registro pago alumno sin cronograma de pago
+        $tabla = "pago";
+        $dataPagoAlumno = array(
+          "idTipoPago" => $_POST["tipoPago"],
+          "fechaPago" => $_POST["fechaRegistroPago"],
+          "cantidadPago" => $_POST["montoPago"],
+          "metodoPago" => $_POST["metodoPago"],
+          "numeroComprobante" => $_POST["nroComprobante"],
+          "boletaElectronica" => $_POST["boletaElectronica"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
+        if ($crearPago == "ok") {
+          $nuevoPago = self::ctrlObtenerUltimoRegistro();
+          $tabla = "postulante";
+          $datosActualizadoPostulante = array(
+            "idPostulante" => intval($_GET["codPostulante"]),
+            "pagoMatricula" => $nuevoPago["idPago"],
+            "estadoPostulante" => 2,
+            "fechaPagoMatricula" => $nuevoPago["fechaPago"],
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          );
+          $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
+        }
+
+
+        $dataPagoCuotaAlumno = array(
+          "idTipoPago" => $_POST["idTipoPagoCuotaInicial"],
+          "fechaPago" => $_POST["fechaRegistroPago"],
+          "cantidadPago" => $_POST["cuotaInicial"],
+          "metodoPago" => $_POST["metodoPago"],
+          "numeroComprobante" => $_POST["nroComprobante"],
+          "boletaElectronica" => $_POST["boletaElectronica"],
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $_SESSION["idUsuario"],
+          "usuarioActualizacion" => $_SESSION["idUsuario"]
+        );
+        $tabla = "pago";
+        $crearPagoCuotaInicial = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoCuotaAlumno);
+
+        if ($crearPagoCuotaInicial == "ok") {
+          $nuevoPago = self::ctrlObtenerUltimoRegistro();
+          $tabla = "postulante";
+          $datosActualizadoPostulante = array(
+            "idPostulante" => intval($_GET["codPostulante"]),
+            "pagoCuotaIngreso" => $nuevoPago["idPago"],
+            "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
+            "estadoPostulante" => 2,
+            "fechaActualizacion" => date("Y-m-d H:i:s"),
+            "usuarioActualizacion" => $_SESSION["idUsuario"]
+          );
+          $actualizarPostulanteCuota = ModelPostulantes::mdlEditarCuotaInicialPostulante($tabla, $datosActualizadoPostulante);
+        }
+
+
+        if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
+          echo $mensaje;
+        } else {
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");
+          echo $mensaje;
+        }
       }
+
     }
   }
 
@@ -614,13 +685,15 @@ class ControllerPagos
     return $cronogramas;
   }
   // Obtener cantidad de pagos pendientes por Grados
-  public static function ctrGetCantidadPagosPendientesGrados(){
+  public static function ctrGetCantidadPagosPendientesGrados()
+  {
     $tabla = "grado";
     $response = ModelPagos::mdlGetCantidadPagosPendientesGrados($tabla);
     return $response;
   }
   // Obtener cantidad de pagos realizados y pendientes de niveles
-  public static function ctrGetCantidadPagosRealizadosPendientesNiveles(){
+  public static function ctrGetCantidadPagosRealizadosPendientesNiveles()
+  {
     $tabla = "nivel";
     $response = ModelPagos::mdlGetCantidadPagosRealizadosPendientesNiveles($tabla);
     return $response;

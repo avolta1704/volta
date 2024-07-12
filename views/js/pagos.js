@@ -16,6 +16,10 @@ $(".cerrarRegistroPagoPensiones").on("click", function () {
 $(".cerrarRegistroPagoPostulante").on("click", function () {
   window.location = "index.php?ruta=listaPostulantes";
 });
+// cerrar crear nuevo pago de admison Alumno
+$(".cerrarRegistroPagoAdmisionAlumno").on("click", function () {
+  window.location = "index.php?ruta=listaAdmisionAlumnos";
+});
 
 
 

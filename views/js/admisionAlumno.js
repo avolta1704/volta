@@ -227,3 +227,10 @@ $("#btnActualizarEstadoMatricula").on("click", function () {
 		},
 	});
 });
+// Registrar el pago de matricula de un alumno de un nuevo anio escolar
+$(".dataTableAdmisionAlumnos").on("click", ".btnAgregarPagoNuevoAnio", function () {
+	var codAdmisionAlumno = $(this).attr("codAdmisionAlumno");
+	var idAnioEscolar = $(this).attr("idAnioEscolar");
+	window.location =
+	  "index.php?ruta=registrarPago&codAdmisionAlumno=" + codAdmisionAlumno+ "&idAnioEscolar=" + idAnioEscolar;
+  });

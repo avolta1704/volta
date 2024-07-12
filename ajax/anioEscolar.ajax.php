@@ -5,6 +5,14 @@ require_once "../model/anioescolar.model.php";
 require_once "../functions/anioescolar.functions.php";
 require_once "../controller/alumnoAnioEscolar.controller.php";
 require_once "../model/alumnoAnioEscolar.model.php";
+require_once "../model/postulantes.model.php";
+require_once "../controller/postulantes.controller.php"; 
+require_once "../controller/admision.controller.php";
+require_once "../model/admision.model.php";
+require_once "../controller/admisionalumno.controller.php";
+require_once "../model/admisionalumno.model.php";
+require_once "../controller/anioAdmision.controller.php";
+require_once "../model/anioAdmision.model.php";
 
 class AnioEscolarAjax
 {
@@ -132,10 +140,11 @@ class AnioEscolarAjax
     $todosAlumnosMatriculadosGrado = ControllerAnioEscolar::ctrGetAlumnosMatriculadosGrado($tabla, $idGradoCrearAlumnoAnioEscolarNuevo);
     foreach ($todosAlumnosMatriculadosGrado as &$alumno) {
       $estadoFinal = $alumno["estadoFinal"];
+      $idPostulante = ControllerPostulantes::mdlGetIdPostulanteporAlumno($alumno["idAlumno"]);
       if ($idGradoCrearAlumnoAnioEscolarNuevo != 14 && $estadoFinal == 1) {
         $idGradoCrearAlumnoAnioEscolarNuevo = $idGradoCrearAlumnoAnioEscolarNuevo + 1;
       } else if ($idGradoCrearAlumnoAnioEscolarNuevo == 14 && $estadoFinal == 1) {
-        $response = ControllerAnioEscolar::ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGradoOriginal, $idAnioEscolarActivo["idAnioEscolar"], $alumno["idAlumno"], 1);
+        $response = ControllerAnioEscolar::ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGradoOriginal, $idAnioEscolarActivo["idAnioEscolar"], $alumno["idAlumno"], 0);
         if ($response == "ok"){
           continue; // Pasar al siguiente alumno en el foreach
         }
@@ -153,9 +162,14 @@ class AnioEscolarAjax
       );
       $respuesta = ControllerAlumnoAnioEscolar::ctrCrearAlumnoAnioEscolar($arrayAnio);
       if ($respuesta == "ok"){
-        $response = ControllerAnioEscolar::ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGradoOriginal, $idAnioEscolarActivo, $alumno["idAlumno"], 1);
-      }
-      
+        $response = ControllerAnioEscolar::ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGradoOriginal, $idAnioEscolarActivo, $alumno["idAlumno"], $idAnioEscolarNuevo);
+        $idAdmisionNuevo = ControllerAdmision::ctrAdmisionEscolarActivaRegistroPostulante($idAnioEscolarNuevo, $idPostulante["idPostulante"], 1);
+        $crearAdmisionAlumnoNuevo = ControllerAdmisionAlumno::ctrCrearAdmisionAlumnoCerrarAnio($idAdmisionNuevo, $alumno["idAlumno"]);
+        if ($crearAdmisionAlumnoNuevo == "ok"){
+          $idAdmisionAlumnoNuevo = ControllerAdmisionAlumno::ctrObtenerUltimoAdmisionAlumno();
+          $respuesta = ControllerAnioAdmision::ctrCrearAnioAdmision($idAdmisionAlumnoNuevo["idAdmisionAlumno"], $idAnioEscolarNuevo);
+        }
+      } 
     }
     echo json_encode($respuesta);
   }

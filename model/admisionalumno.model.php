@@ -6,17 +6,31 @@ class ModelAdmisionAlumno
   //todos los registros de admision
   public static function mdlGetAdmisionAlumnos($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
-    al.idAlumno,
-    al.codAlumnoCaja,
-    al.apellidosAlumno,
+    $statement = Connection::conn()->prepare("SELECT
+    adal.idAdmisionAlumno, 
+    al.idAlumno, 
+    al.codAlumnoCaja, 
+    al.apellidosAlumno, 
     al.nombresAlumno, 
-    ad.fechaAdmision,
-    adal.estadoAdmisionAlumno
-    FROM $tabla adal
-    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
-    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
-    ORDER BY adal.idAdmisionAlumno DESC");
+    ad.fechaAdmision, 
+    adal.estadoAdmisionAlumno, 
+    admision.idAnioEscolar
+    FROM
+      $tabla AS adal
+      INNER JOIN
+      admision AS ad
+      ON 
+        adal.idAdmision = ad.idAdmision
+      INNER JOIN
+      alumno AS al
+      ON 
+        adal.idAlumno = al.idAlumno
+      INNER JOIN
+      admision
+      ON 
+        adal.idAdmision = admision.idAdmision
+    ORDER BY
+      adal.idAdmisionAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -194,10 +208,22 @@ class ModelAdmisionAlumno
     al.apellidosAlumno,
     al.nombresAlumno, 
     ad.fechaAdmision,
-    adal.estadoAdmisionAlumno
-    FROM $tabla adal
-    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
-    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
+    adal.estadoAdmisionAlumno,
+    admision.idAnioEscolar
+    FROM
+      $tabla AS adal
+      INNER JOIN
+      admision AS ad
+      ON 
+        adal.idAdmision = ad.idAdmision
+      INNER JOIN
+      alumno AS al
+      ON 
+        adal.idAlumno = al.idAlumno
+      INNER JOIN
+      admision
+      ON 
+        adal.idAdmision = admision.idAdmision
     WHERE ad.idAnioEscolar = :idAnioEscolar
     ORDER BY adal.idAdmisionAlumno DESC");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
@@ -427,5 +453,40 @@ class ModelAdmisionAlumno
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener todos los datos para registrar pago del alumno de un nuevo anio
+  public static function mdlObtenerDatosAdmisionAlumnoRegistrarPago($tabla, $idAdmisionAlumno, $idAnioEscolar){
+    $statement = Connection::conn()->prepare("SELECT
+      alumno.nombresAlumno, 
+      alumno.apellidosAlumno, 
+      grado.descripcionGrado,
+      nivel.idNivel,
+      nivel.descripcionNivel, 
+      alumno_anio_escolar.idAnioEscolar, 
+      alumno.dniAlumno
+    FROM
+      $tabla
+      INNER JOIN
+      alumno
+      ON 
+        admision_alumno.idAlumno = alumno.idAlumno
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      grado
+      ON 
+        alumno_anio_escolar.idGrado = grado.idGrado
+      INNER JOIN
+      nivel
+      ON 
+        grado.idNivel = nivel.idNivel
+    WHERE
+      admision_alumno.idAdmisionAlumno = :idAdmisionAlumno AND alumno_anio_escolar.idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }

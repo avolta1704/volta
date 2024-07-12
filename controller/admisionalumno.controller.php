@@ -171,6 +171,22 @@ class ControllerAdmisionAlumno
     $result = ModelAdmision::mdlCrearAlumnoAdmision($table, $dataAlumnoAdmision);
     return $result;
   }
+    //  Crear admision de alumno para pasar a otro año
+    public static function ctrCrearAdmisionAlumnoCerrarAnio($admisionAnioEscolar, $idAlumno)
+    {
+      $dataAlumnoAdmision = array(
+        "idAdmision" => $admisionAnioEscolar,
+        "idAlumno" => $idAlumno,
+        "estadoAdmisionAlumno" => 5, // Sin Pago = 5
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $_SESSION["idUsuario"],
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $table = "admision_alumno";
+      $result = ModelAdmision::mdlCrearAlumnoAdmision($table, $dataAlumnoAdmision);
+      return $result;
+    }
 
   //  Get data del calendario de pagos
   public static function ctrGetCalendarioPagos($codAdmisionAlumno)

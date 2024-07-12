@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		// Verificar si la ruta actual no está permitida para el tipo de usuario y que no sea inicio
 		if (!activeRouteExists && rutaActual !== "inicio") {
 			// Redirigir a la página de inicio
-			window.location = "index.php?ruta=inicio";
+			window.location = "inicio";
 		}
 	});
 });

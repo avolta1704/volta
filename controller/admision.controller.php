@@ -72,4 +72,11 @@ class ControllerAdmision
     $idAlumnoEliminar = ModelAdmision::mdlBuscarClavesForaneasDelAlumno($tabla, $codAlumnoEliminar);
     return $idAlumnoEliminar;
   }
+  // Obtenerlos datos del alumno para registrar Pago
+  public static function ctrObtenerDatosAdmisionAlumnoRegistrarPago($idAdmisionAlumno, $idAnioEscolar)
+  {
+    $tabla = "admision_alumno";
+    $result = ModelAdmisionAlumno::mdlObtenerDatosAdmisionAlumnoRegistrarPago($tabla, $idAdmisionAlumno, $idAnioEscolar);
+    return $result;
+  }
 }
