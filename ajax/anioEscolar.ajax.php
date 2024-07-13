@@ -76,8 +76,15 @@ class AnioEscolarAjax
   public function ajaxMostrarGradosCerrarAnioEscolar()
   {
     $respuesta = ControllerAnioEscolar::ctrMostrarGradosCerrarAnioEscolar();
+
     foreach ($respuesta as &$grado) {
-      $grado['botonesGrado'] = FunctionAnioEscolar::getButtonsGradoCerrarAnioEscolar($grado["idGrado"]);
+      $validarFinAnioEscolarAlumnosCerrarAnio =  ControllerAnioEscolar::ctrValidarFinAnioGradoAnioEscolar($grado["idGrado"]);
+      if ($validarFinAnioEscolarAlumnosCerrarAnio == "error") {
+        $status = 1;
+      } else {
+        $status = 0;
+      }
+      $grado['botonesGrado'] = FunctionAnioEscolar::getButtonsGradoCerrarAnioEscolar($grado["idGrado"],$status);
     }
     echo json_encode($respuesta);
   }
@@ -173,6 +180,11 @@ class AnioEscolarAjax
     }
     echo json_encode($respuesta);
   }
+  public function ajaxCerrarAnioEscolarFinalDesactivar(){
+    $respuesta = ControllerAnioEscolar::ctrCerrarAnioEscolarFinalDesactivar();
+    echo json_encode($respuesta);
+    
+  }
 }
 
 //  Visualizar todos los años Escolares en el datatable
@@ -234,4 +246,8 @@ if (isset($_POST["idGradoCrearAlumnoAnioEscolarNuevo"]) && isset($_POST["idAnioE
   $crearAlumnoAnioEscolarNuevo->idGradoCrearAlumnoAnioEscolarNuevo = $_POST["idGradoCrearAlumnoAnioEscolarNuevo"];
   $crearAlumnoAnioEscolarNuevo->idAnioEscolarNuevo = $_POST["idAnioEscolarNuevo"];
   $crearAlumnoAnioEscolarNuevo->ajaxCrearAlumnoAnioEscolarNuevo();
+}
+if (isset($_POST["cerrarAnioEscolarFinalDesactivar"])){
+  $cerrarAnioEscolarFinalDesactivar = new AnioEscolarAjax();
+  $cerrarAnioEscolarFinalDesactivar->ajaxCerrarAnioEscolarFinalDesactivar();
 }

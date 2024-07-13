@@ -168,6 +168,12 @@ class ControllerAnioEscolar
     $respuesta = ModelAnioEscolar::mdlValidarEstadoFinalporAlumno($tabla, $idAlumno);
     return $respuesta;
   }
+  // Validar si todos los alumnos del grado ya se les creo un alumno anio escolar con el grado al que van a pasar
+  public static function ctrValidarFinAnioGradoAnioEscolar($idGrado){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlValidarFinAnioGradoAnioEscolar($tabla, $idGrado);
+    return $respuesta;
+  }
   public static function ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGrado, $idAnioEscolar, $idAlumno, $finAnio){
     $tabla = "alumno_anio_escolar";
     $respuesta = ModelAnioEscolar::mdlActualizarFinAnioAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $finAnio);

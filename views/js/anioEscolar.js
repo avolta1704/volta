@@ -361,4 +361,55 @@ $(".dataTableAnios").on("click", ".btnEliminarAnio", function (e) {
 $("#btnCerrarAñoEscolar").on("click", function () {
   window.location = "cerrarAnioGrado";
 });
+$("#btnCerrarAñoEscolarActualFinal").on("click", function () {
+  swal
+    .fire({
+      title: "¿Esta seguro de cerrar el año Escolar?",
+      text: "¡No podrá revertir el cambio! Se cerrarán todos los grados",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Si, cerrar el año!",
+    })
+    .then((result) => {
+      var data = new FormData();
+      data.append("cerrarAnioEscolarFinalDesactivar", true);
 
+      $.ajax({
+        url: "ajax/anioEscolar.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "ok") {
+            Swal.fire({
+              icon: "success",
+              title: "¡El Año Escolar ha sido cerrado!",
+              showConfirmButton: true,
+              timer: 2000,
+            }).then((result) => {
+              window.location = "anioEscolar";
+            });
+          } else if (response == "error") {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Existen grados sin asignacion de estado!",
+            });
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.error(
+            "Error en la solicitud AJAX: ",
+            textStatus,
+            errorThrown
+          );
+        },
+      });
+    });
+});

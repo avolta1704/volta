@@ -238,6 +238,19 @@ class ModelAnioEscolar
       return "ok";
     }
   }
+    // Validar si el alumno tiene el estado final en NULL
+    public static function mdlValidarFinAnioGradoAnioEscolar($tabla, $idGrado)
+    {
+      $statement = Connection::conn()->prepare("SELECT DISTINCT alumno_anio_escolar.finAnio FROM $tabla INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar WHERE anio_escolar.estadoAnio = 1 AND alumno_anio_escolar.finAnio IS NOT NULL AND alumno_anio_escolar.idGrado = :idGrado");
+      $statement->bindParam(":idGrado", $idGrado, PDO::PARAM_INT);
+      $statement->execute();
+      // Verificar si hay resultados
+      if ($statement->rowCount() > 0) {
+        return "ok";
+      } else {
+        return "error";
+      }
+    }
   // Actualizar el finAnio 
   public static function mdlActualizarFinAnioAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $finAnio)
   {

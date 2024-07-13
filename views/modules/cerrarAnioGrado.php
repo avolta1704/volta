@@ -14,6 +14,15 @@
 
   <section class="section dashboard">
     <div class="row gap-3">
+      <div class="col-lg-2">
+        <div class="row mb-2">
+          <div class="col">
+            <button type="button" class="btn btn-primary w-100" id="btnCerrarAñoEscolarActualFinal">
+              <i class="bi bi-fast-forward-circle-fill"></i> Cerrar Año Escolar
+            </button>
+          </div>
+        </div>
+      </div>
       <!-- Left side columns -->
       <div class="col-lg-12">
         <div class="row">
@@ -109,7 +118,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="btnGuardarEleccionAnioEscolarNuevo" idGradoElegirAnioBtnElegir="">Elegir Año</button>
+        <button type="button" class="btn btn-primary" id="btnGuardarEleccionAnioEscolarNuevo"
+          idGradoElegirAnioBtnElegir="">Elegir Año</button>
         <button type="button" class="btn btn-secondary" id="btnCerrarModalEleccionAnioEscolarNuevo"
           data-bs-dismiss="modal">Cerrar</button>
       </div>

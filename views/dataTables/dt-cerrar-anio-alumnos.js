@@ -4,7 +4,10 @@ $(".dataTableCerrarAnioGrados").on(
   function (e) {
     var idGrado = $(this).attr("idGrado");
     $(".btnCerrarAnioAlumnosGrado").attr("idGradoCerrarAnio", idGrado);
-    $("#btnGuardarEleccionAnioEscolarNuevo").attr("idGradoElegirAnioBtnElegir", idGrado);
+    $("#btnGuardarEleccionAnioEscolarNuevo").attr(
+      "idGradoElegirAnioBtnElegir",
+      idGrado
+    );
     var columnDefsAsignarCursos = [
       { data: "apellidosAlumno" },
       { data: "nombresAlumno" },
@@ -124,47 +127,57 @@ $("#modalCerrarAnioAlumnos").on(
   "click",
   ".btnCerrarAnioAlumnosGrado",
   function (e) {
-    var idGrado = $(this).attr("idGradoCerrarAnio");
-    var data = new FormData();
-    data.append("idGradoValidarDatosAlumnosCerrarAnio", idGrado);
-    $.ajax({
-      url: "ajax/anioEscolar.ajax.php",
-      method: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      dataType: "json",
-      success: function (response) {
-        if (response == "errorNota") {
-          $("#modalCerrarAnioAlumnos").modal("hide");
-          $("#modalCerrarAnioValidacionCorrecta").modal("show");
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Existen alumnos sin notas!",
-          });
-        } else if (response == "errorEstadoFinal") {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Existen alumnos con estado pendiente!",
-          });
-        } else if (response == "errorPago") {
-          Swal.fire({
-            icon: "error",
-            title: "Error",
-            text: "Existen alumnos con pagos pendientes!",
-          });
-        } else if (response == "ok") {
-          $("#modalCerrarAnioAlumnos").modal("hide");
-          $("#modalCerrarAnioValidacionCorrecta").modal("show");
-        }
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        console.log(jqXHR.responseText); // procendecia de error
-        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-      },
+    Swal.fire({
+      title: "¿Estás seguro de cerrar el Año Escolar de este grado ?",
+      text: "¡Si no lo está, puede cancelar la acción!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "¡Sí, cerrar Año Escolar !",
+    }).then((result) => {
+      var idGrado = $(this).attr("idGradoCerrarAnio");
+      var data = new FormData();
+      data.append("idGradoValidarDatosAlumnosCerrarAnio", idGrado);
+      $.ajax({
+        url: "ajax/anioEscolar.ajax.php",
+        method: "POST",
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (response) {
+          if (response == "errorNota") {
+            $("#modalCerrarAnioAlumnos").modal("hide");
+            $("#modalCerrarAnioValidacionCorrecta").modal("show");
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Existen alumnos sin notas!",
+            });
+          } else if (response == "errorEstadoFinal") {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Existen alumnos con estado pendiente!",
+            });
+          } else if (response == "errorPago") {
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "Existen alumnos con pagos pendientes!",
+            });
+          } else if (response == "ok") {
+            $("#modalCerrarAnioAlumnos").modal("hide");
+            $("#modalCerrarAnioValidacionCorrecta").modal("show");
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(jqXHR.responseText); // procendecia de error
+          console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+        },
+      });
     });
   }
 );
@@ -177,7 +190,6 @@ $("#modalCerrarAnioValidacionCorrecta").on(
   }
 );
 $(document).on("change", "#selectAnioSiguiente", function () {
-
   $("#modalCerrarAnioValidacionCorrecta").on(
     "click",
     "#btnGuardarEleccionAnioEscolarNuevo",
