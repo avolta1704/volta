@@ -50,6 +50,32 @@ class ControllerAdmisionAlumno
 
     return $dataAnioEscolar;
   }
+  // Obtener datos del anio escolar por ID en base al nivel del alumno
+  public static function getDataAnioEscolarByNivelAndAnioEscolar($nivel, $idAnioEscolar)
+  {
+    $tabla = "anio_escolar";
+    $dataAnioEscolar = ModelAnioEscolar::mdlBuscarAnioEscolar($tabla, $idAnioEscolar);
+
+    if ($dataAnioEscolar) {
+      $dataAnioEscolar["coutaInicial"] = $dataAnioEscolar["cuotaInicial"];
+      switch ($nivel) {
+        case "Inicial":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaInicial"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionInicial"];
+          break;
+        case "Primaria":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaPrimaria"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionPrimaria"];
+          break;
+        case "Secundaria":
+          $dataAnioEscolar["costoMatricula"] = $dataAnioEscolar["matriculaSecundaria"];
+          $dataAnioEscolar["costoPension"] = $dataAnioEscolar["pensionSecundaria"];
+          break;
+      }
+    }
+
+    return $dataAnioEscolar;
+  }
   // Actualizar estado admision_alumno y crear registro en cronograma_pago
   public static function ctrActualizarestadoAdmisionAlumno($codAdmisionAlumno)
   {
@@ -205,6 +231,113 @@ class ControllerAdmisionAlumno
     // Obtener el registro de anio_escolar
     $dataAnioEscolar = self::getDataAnioEscolarByNivel($nivel);
     if ($dataAnioEscolar) {
+      //sesión esté iniciada
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      // acceder a la variable de sesión
+      $idUsuario = $_SESSION["idUsuario"];
+
+      $tabla = "cronograma_pago";
+      //  crear solo una vez este array de datos por que es la matriculado
+      $dataCronoPagoMatricula = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "conceptoPago" => "Matrícula",
+        "montoPago" => $dataAnioEscolar["costoMatricula"],
+        "fechaLimite" => "2021-03-05",
+        "estadoCronograma" => 2,
+        "mesPago" => "Matricula",
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario
+      );
+
+      // crear sola una vez este array para la cuota inicial
+      $dataCronoPagoCuotaInicial = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "conceptoPago" => "Cuota Inicial",
+        "montoPago" => $dataAnioEscolar["cuotaInicial"],
+        "fechaLimite" => "2021-03-05",
+        "estadoCronograma" => 2,
+        "mesPago" => "Cuota Inicial",
+        "fechaCreacion" => date("Y-m-d H:i:s"),
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioCreacion" => $idUsuario,
+        "usuarioActualizacion" => $idUsuario
+      );
+      //crear 11 veces este array de datos por que es la Pension pero se tiene que crear desde marzo hasta diciembre
+      $dataAllCronoPago = array();
+      $dataAllCronoPago[] = $dataCronoPagoMatricula;
+      $dataAllCronoPago[] = $dataCronoPagoCuotaInicial;
+      $meses = array(
+        1 => "Enero",
+        2 => "Febrero",
+        3 => "Marzo",
+        4 => "Abril",
+        5 => "Mayo",
+        6 => "Junio",
+        7 => "Julio",
+        8 => "Agosto",
+        9 => "Septiembre",
+        10 => "Octubre",
+        11 => "Noviembre",
+        12 => "Diciembre"
+      );
+
+      for ($i = 3; $i <= 12; $i++) {
+        $mesPago = $meses[$i];
+        $ultimoDia = date("t", mktime(0, 0, 0, $i, 1, date("Y")));
+        $fechaLimite = date("Y") . '-' . $i . '-' . $ultimoDia;
+
+        $dataCronoPagoPension = array(
+          "idAdmisionAlumno" => $codAdmisionAlumno,
+          "conceptoPago" => "Pensión",
+          "montoPago" => $dataAnioEscolar["costoPension"],
+          "fechaLimite" => $fechaLimite,
+          "estadoCronograma" => 1,
+          "mesPago" => $mesPago,
+          "fechaCreacion" => date("Y-m-d H:i:s"),
+          "fechaActualizacion" => date("Y-m-d H:i:s"),
+          "usuarioCreacion" => $idUsuario,
+          "usuarioActualizacion" => $idUsuario
+        );
+        $dataAllCronoPago[] = $dataCronoPagoPension;
+      }
+      foreach ($dataAllCronoPago as $dataAdmisionCronoPago) {
+        $response = ModelAdmisionAlumno::mdlCrearCronogramaPago($tabla, $dataAdmisionCronoPago);
+        if ($response != "ok") {
+          return "error";
+        }
+      }
+      // Actualizar el campo en la tabla admision_alumno
+      $table = "admision_alumno";
+      $dataActualizarEstadoAdAlum = array(
+        "idAdmisionAlumno" => $codAdmisionAlumno,
+        "estadoAdmisionAlumno" => 2, //estado por defecto 1 = registrado 2 = establecido 3 = cancelado
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $idUsuario
+      );
+      $response = ModelAdmisionAlumno::mdlActualizarestadoAdmisionAlumno($table, $dataActualizarEstadoAdAlum);
+      if ($response == "ok") {
+        return "ok";
+      } else {
+        return "error";
+      }
+    } else {
+      return "error";
+    }
+  }
+  // Crear Cronograma de Pago para alumnos que pasan a un anio nuevo
+  public static function ctrCrearCronogramaPagoAlumnoNuevoAnio($codAdmisionAlumno, $idAnioEscolar)
+  {
+
+    $tablaAdmisionAlumno = "admision_alumno";
+    $datosAlumnoCrearCronograma = ModelAdmisionAlumno::mdlObtenerDatosAdmisionAlumnoRegistrarPago($tablaAdmisionAlumno, $codAdmisionAlumno, $idAnioEscolar);
+    
+    // Obtener el registro de anio_escolar
+    $dataAnioEscolar = self::getDataAnioEscolarByNivel($datosAlumnoCrearCronograma["descripcionNivel"]);
+    if ($datosAlumnoCrearCronograma) {
       //sesión esté iniciada
       if (session_status() == PHP_SESSION_NONE) {
         session_start();

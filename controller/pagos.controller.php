@@ -92,72 +92,14 @@ class ControllerPagos
       }
       // Código para crear un registro de pago sin cronograma de pago
     } else if (isset($_POST["tipoPago"]) && isset($_POST["idTipoPagoCuotaInicial"])) {
-      if (isset($_POST["codAdmisionAlumno"])) {
-        // crear registro pago alumno sin cronograma de pago
-        $tabla = "pago";
-        $dataPagoAlumno = array(
-          "idTipoPago" => $_POST["tipoPago"],
-          "fechaPago" => $_POST["fechaRegistroPago"],
-          "cantidadPago" => $_POST["montoPago"],
-          "metodoPago" => $_POST["metodoPago"],
-          "numeroComprobante" => $_POST["nroComprobante"],
-          "boletaElectronica" => $_POST["boletaElectronica"],
-          "fechaCreacion" => date("Y-m-d H:i:s"),
-          "fechaActualizacion" => date("Y-m-d H:i:s"),
-          "usuarioCreacion" => $_SESSION["idUsuario"],
-          "usuarioActualizacion" => $_SESSION["idUsuario"]
-        );
-        $crearPago = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoAlumno);
-        if ($crearPago == "ok") {
-          $nuevoPago = self::ctrlObtenerUltimoRegistro();
-          $tabla = "postulante";
-          $datosActualizadoPostulante = array(
-            "idPostulante" => intval($_GET["codPostulante"]),
-            "pagoMatricula" => $nuevoPago["idPago"],
-            "estadoPostulante" => 2,
-            "fechaPagoMatricula" => $nuevoPago["fechaPago"],
-            "fechaActualizacion" => date("Y-m-d H:i:s"),
-            "usuarioActualizacion" => $_SESSION["idUsuario"]
-          );
-          $actualizarPostulante = ModelPostulantes::mdlEditarPagoPostulante($tabla, $datosActualizadoPostulante);
-        }
-
-
-        $dataPagoCuotaAlumno = array(
-          "idTipoPago" => $_POST["idTipoPagoCuotaInicial"],
-          "fechaPago" => $_POST["fechaRegistroPago"],
-          "cantidadPago" => $_POST["cuotaInicial"],
-          "metodoPago" => $_POST["metodoPago"],
-          "numeroComprobante" => $_POST["nroComprobante"],
-          "boletaElectronica" => $_POST["boletaElectronica"],
-          "fechaCreacion" => date("Y-m-d H:i:s"),
-          "fechaActualizacion" => date("Y-m-d H:i:s"),
-          "usuarioCreacion" => $_SESSION["idUsuario"],
-          "usuarioActualizacion" => $_SESSION["idUsuario"]
-        );
-        $tabla = "pago";
-        $crearPagoCuotaInicial = ModelPagos::mdlCrearRegistroPagoMatricula($tabla, $dataPagoCuotaAlumno);
-
-        if ($crearPagoCuotaInicial == "ok") {
-          $nuevoPago = self::ctrlObtenerUltimoRegistro();
-          $tabla = "postulante";
-          $datosActualizadoPostulante = array(
-            "idPostulante" => intval($_GET["codPostulante"]),
-            "pagoCuotaIngreso" => $nuevoPago["idPago"],
-            "fechaCuotaIngreso" => $nuevoPago["fechaPago"],
-            "estadoPostulante" => 2,
-            "fechaActualizacion" => date("Y-m-d H:i:s"),
-            "usuarioActualizacion" => $_SESSION["idUsuario"]
-          );
-          $actualizarPostulanteCuota = ModelPostulantes::mdlEditarCuotaInicialPostulante($tabla, $datosActualizadoPostulante);
-        }
-
-
-        if ($actualizarPostulante == "ok" && $actualizarPostulanteCuota == "ok") {
-          $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaPostulantes");
+      if (isset($_POST["codeAdmisionAlumno"]) && isset($_POST["idAnioEscolar"])) {
+        // Crear el cronograma de pagos para el alumno
+        $cronogramaPago = ControllerAdmisionAlumno::ctrCrearCronogramaPagoAlumnoNuevoAnio($_POST["codeAdmisionAlumno"], $_POST["idAnioEscolar"]);
+        if ($cronogramaPago == "ok") {
+          $mensaje = ControllerFunciones::mostrarAlertaTimer("success", "Correcto", "Registro Pago del Alumno correctamente", "listaAdmisionAlumnos");
           echo $mensaje;
         } else {
-          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaPostulantes");
+          $mensaje = ControllerFunciones::mostrarAlerta("error", "Error", "Error al actualizar el estado del cronograma de pago", "listaAdmisionAlumnos");
           echo $mensaje;
         }
       } else {

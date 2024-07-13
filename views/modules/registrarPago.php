@@ -143,6 +143,8 @@
                   echo '
                   <input type="hidden" class="form-control" id="codeAdmisionAlumno" name="codeAdmisionAlumno" value="' . $codAdmisionAlumno . '" readonly>
                   <div class="col-md-12">
+                  <input type="hidden" class="form-control" id="idAnioEscolar" name="idAnioEscolar" value="' . $idAnioEscolar . '" readonly>
+                  <div class="col-md-12">
                   <label for="apellidoAdmisionAlumno" class="form-label" style="font-weight: bold">Nombres y Apellidos: </label>
                   <div class="input-group-append">
                     <input type="text" class="form-control" id="apellidoAdmisionAlumno" name="apellidoAdmisionAlumno" value="' . $datosAdmisionAlumno["nombresAlumno"] . ' ' . $datosAdmisionAlumno["apellidosAlumno"] .
