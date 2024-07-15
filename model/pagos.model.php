@@ -639,4 +639,11 @@ ORDER BY
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
+  // Obtener los dos registros del cronograma de pagos que esten pagados = 2
+  public static function mdlObtenerIdCronogramaPagoPagosCreadosRecientemente($tabla)
+  {
+    $statement = Connection::conn()->prepare("SELECT cronograma_pago.idCronogramaPago, cronograma_pago.conceptoPago FROM $tabla WHERE cronograma_pago.estadoCronograma = 2 ORDER BY cronograma_pago.fechaCreacion DESC LIMIT 2");
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

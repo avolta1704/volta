@@ -525,10 +525,11 @@ ORDER BY
             nivel
             ON 
                 grado.idNivel = nivel.idNivel
+		    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
         WHERE
-            admision_alumno.estadoAdmisionAlumno = 2
+            admision_alumno.estadoAdmisionAlumno = 2 AND anio_escolar.estadoAnio = 1
         GROUP BY
-        grado_nivel;");
+        grado_nivel");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }

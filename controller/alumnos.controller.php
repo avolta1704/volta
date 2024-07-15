@@ -10,6 +10,13 @@ class ControllerAlumnos
     $listaAlumnos = ModelAlumnos::mdlGetAlumnos($tabla);
     return $listaAlumnos;
   }
+  // Obtener estadoAdmisionAlumno por idAdmisionAlumno
+  public static function ctrGetEstadoAdmisionAlumnoAnioEscolar($idAdmisionAlumno)
+  {
+    $tabla = "admision_alumno";
+    $response = ModelAlumnos::mdlGetEstadoAdmisionAlumnoAnioEscolar($tabla, $idAdmisionAlumno);
+    return $response;
+  }
 
   /**
    * Método para obtener los alumnos de un año escolar.

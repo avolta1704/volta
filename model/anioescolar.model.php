@@ -276,10 +276,12 @@ class ModelAnioEscolar
       return "ok";
     }
   }
+  // Obtener el finAnio de cada grado
   public static function mdlObtenerIdAnioEscolarElegidoenCadaGrado($tabla){
     $statement = Connection::conn()->prepare("SELECT DISTINCT alumno_anio_escolar.finAnio FROM $tabla INNER JOIN anio_escolar ON 
 		alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar WHERE alumno_anio_escolar.finAnio IS NOT NULL AND anio_escolar.estadoAnio = 1 AND alumno_anio_escolar.finAnio != 0");
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
 }

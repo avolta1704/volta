@@ -149,8 +149,6 @@ $("#modalCerrarAnioAlumnos").on(
         dataType: "json",
         success: function (response) {
           if (response == "errorNota") {
-            $("#modalCerrarAnioAlumnos").modal("hide");
-            $("#modalCerrarAnioValidacionCorrecta").modal("show");
             Swal.fire({
               icon: "error",
               title: "Error",
@@ -218,6 +216,7 @@ $(document).on("change", "#selectAnioSiguiente", function () {
               timer: 1500,
             });
             $("#modalCerrarAnioValidacionCorrecta").modal("hide");
+            location.reload();
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {

@@ -14,8 +14,8 @@ class ModelAlumnos
       alumno.sexoAlumno, 
       alumno.codAlumnoCaja, 
       alumno.dniAlumno, 
-      MAX(grado.descripcionGrado) AS descripcionGrado, 
-      MAX(nivel.descripcionNivel) AS descripcionNivel,
+      grado.descripcionGrado, 
+      nivel.descripcionNivel,
       MAX(aa.estadoAdmisionAlumno) AS estadoAdmisionAlumno
       FROM
           $tabla
@@ -55,33 +55,41 @@ class ModelAlumnos
     alumno.sexoAlumno, 
     alumno.codAlumnoCaja, 
     alumno.dniAlumno, 
-    MAX(grado.descripcionGrado) AS descripcionGrado, 
-    MAX(nivel.descripcionNivel) AS descripcionNivel,
-    MAX(aa.estadoAdmisionAlumno) AS estadoAdmisionAlumno
-  FROM
-      $tabla
-  INNER JOIN
-      $tablaAdmisionAlumno as aa ON alumno.idAlumno = aa.idAlumno
-  INNER JOIN
-      alumno_anio_escolar ON aa.idAlumno = alumno_anio_escolar.idAlumno
-  INNER JOIN
-      grado ON alumno_anio_escolar.idGrado = grado.idGrado
-  INNER JOIN
-      nivel ON grado.idNivel = nivel.idNivel
-  WHERE
-      alumno_anio_escolar.idAnioEscolar = :idAnioEscolar
-  GROUP BY
-      alumno.idAlumno, 
-      alumno.nombresAlumno, 
-      alumno.apellidosAlumno, 
-      alumno.sexoAlumno, 
-      alumno.codAlumnoCaja, 
-      alumno.dniAlumno
-  ORDER BY
-      alumno.idAlumno DESC");
+    CASE WHEN admision.idAnioEscolar = :idAnioEscolar THEN grado.descripcionGrado END AS descripcionGrado,
+    CASE WHEN admision.idAnioEscolar = :idAnioEscolar THEN nivel.descripcionNivel END AS descripcionNivel,
+		CASE WHEN admision.idAnioEscolar = :idAnioEscolar THEN aa.idAdmisionAlumno END AS idAdmisionAlumno
+    FROM
+        $tablaAdmisionAlumno as aa
+    INNER JOIN
+        $tabla ON alumno.idAlumno = aa.idAlumno
+    INNER JOIN
+        alumno_anio_escolar ON aa.idAlumno = alumno_anio_escolar.idAlumno
+    INNER JOIN
+        grado ON alumno_anio_escolar.idGrado = grado.idGrado
+    INNER JOIN
+        nivel ON grado.idNivel = nivel.idNivel
+    INNER JOIN admision ON aa.idAdmision =  admision.idAdmision
+    WHERE
+        admision.idAnioEscolar = :idAnioEscolar
+    GROUP BY
+        alumno.idAlumno, 
+        alumno.nombresAlumno, 
+        alumno.apellidosAlumno, 
+        alumno.sexoAlumno, 
+        alumno.codAlumnoCaja, 
+        alumno.dniAlumno
+    ORDER BY
+        alumno.idAlumno DESC");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener estadoAdmisionAlumno cuando sea por anio escolar
+  public static function mdlGetEstadoAdmisionAlumnoAnioEscolar($tabla, $idAdmisionAlumno){
+    $statement = Connection::conn()->prepare("SELECT admision_alumno.estadoAdmisionAlumno FROM $tabla WHERE admision_alumno.idAdmisionAlumno = :idAdmisionAlumno");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetchColumn();
   }
   //  Crear nuevo alumno
   public static function mdlCrearAlumno($tabla, $dataAlumno)
