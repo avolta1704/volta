@@ -180,10 +180,10 @@ class AnioEscolarAjax
     }
     echo json_encode($respuesta);
   }
+  // Cerrar Anio Escolar activando el anio elegido
   public function ajaxCerrarAnioEscolarFinalDesactivar(){
     $respuesta = ControllerAnioEscolar::ctrCerrarAnioEscolarFinalDesactivar();
     echo json_encode($respuesta);
-    
   }
 }
 
