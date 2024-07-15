@@ -121,7 +121,8 @@ class ModelPagos
    */
   public static function mdlGetPagosAnioEscolar($tabla, $idAnioEscolar)
   {
-    $statement = Connection::conn()->prepare("SELECT 
+    $statement = Connection::conn()->prepare("
+          SELECT 
         p.idPago,
         p.idTipoPago,
         p.idCronogramaPago, 
@@ -166,9 +167,10 @@ class ModelPagos
       INNER JOIN alumno a ON aa.idAlumno = a.idAlumno
       INNER JOIN tipo_pago tp ON tp.idTipoPago = p.idTipoPago
       INNER JOIN anio_escolar ae ON ag.idAnioEscolar = ae.idAnioEscolar
-      WHERE ae.idAnioEscolar = :idAnioEscolar
+			INNER JOIN admision ON aa.idAdmision = admision.idAdmision
+      WHERE ae.idAnioEscolar = :idAnioEscolar AND admision.idAnioEscolar = :idAnioEscolar
       ORDER BY p.idPago DESC
-    ");
+      ");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
