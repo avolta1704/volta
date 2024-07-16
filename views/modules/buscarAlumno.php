@@ -1,34 +1,61 @@
+<?php
+$aniosEscolar = ControllerAnioEscolar::ctrGetTodosAniosEscolar();
+?>
 <main id="main" class="main" style="display: flex; justify-content: center; align-items: center;">
   <section class="section dashboard">
     <div class="row">
       <div class="container-fluid w-100">
-        <form role="form" method="post" class="row g-3 m-2 formBusquedaAlumno" style="display: flex; justify-content: center; align-items: center;">
+        <form role="form" method="post" class="row g-3 m-2 formBusquedaAlumno"
+          style="display: flex; justify-content: center; align-items: center;">
           <span class="border border-3 p-3">
             <div class="container row g-3">
               <h2 style="font-weight: bold; text-align: center;">Buscar Alumno</h2><br>
             </div>
-            <div class="container row g-3 justify-content-center align-items-center">
+            <div class="container">
               <h3>Datos de Búsqueda</h3>
-              <!-- datos para filtrar datos de busqueda -->
-              <div class="form-group col-md-4">
-                <label for="apellAlBusq" class="form-label" style="font-weight: bold"> Apellidos Alumno </label>
-                <select class="form-control input-lg busqueda" id="apellAlBusq" name="apellAlBusq">
-                  <!-- Las opciones se llenarán dinámicamente con JavaScript -->
-                </select>
+
+              <!-- Fila para el nuevo select de año escolar -->
+              <div class="row g-3">
+                <div class="form-group col-md-4">
+                  <label for="selectAnioEscolarAlumnoBusqueda" class="form-label" style="font-weight: bold">Año
+                    Escolar</label>
+                  <select class="form-control input-lg busqueda" id="selectAnioEscolarAlumnoBusqueda"
+                    aria-label="Seleccionar año escolar">
+                    <?php
+                    foreach ($aniosEscolar as $anio) {
+                      $anioActivo = $anio["estadoAnio"] == 1 ? 'selected' : '';
+                      echo "<option value='" . $anio['idAnioEscolar'] . "' " . $anioActivo . " >" . $anio['descripcionAnio'] . "</option>";
+                    }
+                    ?>
+                  </select>
+                </div>
               </div>
 
-              <div class="form-group col-md-4">
-                <label for="nivAlBusq" class="form-label" style="font-weight: bold">Nivel Alumno</label>
-                <select class="form-control input-lg busqueda" id="nivAlBusq" name="nivAlBusq">
+              <!-- Espacio entre las filas -->
+              <br>
 
-                </select>
-              </div>
+              <!-- Fila para los otros tres selects -->
+              <div class="row g-3">
+                <div class="form-group col-md-4">
+                  <label for="apellAlBusq" class="form-label" style="font-weight: bold">Apellidos Alumno</label>
+                  <select class="form-control input-lg busqueda" id="apellAlBusq" name="apellAlBusq">
+                    <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                  </select>
+                </div>
 
-              <div class="form-group col-md-4">
-                <label for="gradAlBusq" class="form-label" style="font-weight: bold">Grado Alumno</label>
-                <select class="form-control input-lg busqueda" id="gradAlBusq" name="gradAlBusq">
+                <div class="form-group col-md-4">
+                  <label for="nivAlBusq" class="form-label" style="font-weight: bold">Nivel Alumno</label>
+                  <select class="form-control input-lg busqueda" id="nivAlBusq" name="nivAlBusq">
+                    <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                  </select>
+                </div>
 
-                </select>
+                <div class="form-group col-md-4">
+                  <label for="gradAlBusq" class="form-label" style="font-weight: bold">Grado Alumno</label>
+                  <select class="form-control input-lg busqueda" id="gradAlBusq" name="gradAlBusq">
+                    <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -100,7 +127,8 @@
                   <input type="text" class="form-control" id="distritoBusqueda" name="distritoBusqueda" readonly>
                 </div>
                 <div class="col-md-2">
-                  <label for="numeroEmergBusqueda" class="form-label" style="font-weight: bold">Número de Emergencia</label>
+                  <label for="numeroEmergBusqueda" class="form-label" style="font-weight: bold">Número de
+                    Emergencia</label>
                   <input type="text" class="form-control" id="numeroEmergBusqueda" name="numeroEmergBusqueda" readonly>
                 </div>
                 <div class="col-md-2">
@@ -156,16 +184,20 @@
                   <input type="text" class="form-control" id="montoPagoMatricula" name="montoPagoMatricula" readonly>
                 </div>
                 <div class="col-md-2">
-                  <label for="numeroComprobanteMatriculaL" class="form-label" style="font-weight: bold">Recibo Matrícula</label>
-                  <input type="text" class="form-control" id="numeroComprobanteMatricula" name="numeroComprobanteMatricula" readonly>
+                  <label for="numeroComprobanteMatriculaL" class="form-label" style="font-weight: bold">Recibo
+                    Matrícula</label>
+                  <input type="text" class="form-control" id="numeroComprobanteMatricula"
+                    name="numeroComprobanteMatricula" readonly>
                 </div>
                 <div class="col-md-2">
                   <label for="montoPagoCuotaL" class="form-label" style="font-weight: bold">Cuota de Ingreso</label>
                   <input type="text" class="form-control" id="cuotaBusqueda" name="montoPagoCuota" readonly>
                 </div>
                 <div class="col-md-2">
-                  <label for="numeroComprobanteCuotaL" class="form-label" style="font-weight: bold">Recibo C. Ingreso</label>
-                  <input type="text" class="form-control" id="comprobanteCuotaBusqueda" name="numeroComprobanteCuota" readonly>
+                  <label for="numeroComprobanteCuotaL" class="form-label" style="font-weight: bold">Recibo C.
+                    Ingreso</label>
+                  <input type="text" class="form-control" id="comprobanteCuotaBusqueda" name="numeroComprobanteCuota"
+                    readonly>
                 </div>
                 <div class="col-md-2">
                   <label for="montoPagoPensionL" class="form-label" style="font-weight: bold">Monto Pensión</label>
