@@ -598,13 +598,15 @@ LEFT JOIN
             cronograma_pago
             LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
             LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
+            LEFT JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
             LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
             LEFT JOIN grado ON alumno_anio_escolar.idGrado = grado.idGrado
             LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
         WHERE
             anio_escolar.estadoAnio = 1
             AND cronograma_pago.estadoCronograma = 1
-            AND cronograma_pago.fechaLimite < CURDATE() 
+            AND cronograma_pago.fechaLimite < CURDATE()
+            AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
         GROUP BY
             grado.idGrado
     ) AS pagos_pendientes ON todos_los_grados.idGrado = pagos_pendientes.idGrado
@@ -634,7 +636,10 @@ ORDER BY
         LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
         LEFT JOIN admision_alumno ON alumno.idAlumno = admision_alumno.idAlumno
         LEFT JOIN cronograma_pago ON admision_alumno.idAdmisionAlumno = cronograma_pago.idAdmisionAlumno
-        INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND anio_escolar.estadoAnio = 1
+        INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
+        INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
+        WHERE
+            cronograma_pago.estadoCronograma IN (1, 2)
     ) AS cp ON nivel.idNivel = cp.idNivel
     GROUP BY
         nivel.descripcionNivel");

@@ -91,7 +91,7 @@ class ModelInicio
     GROUP BY
         anio_escolar.descripcionAnio
         ORDER BY
-        anio_escolar.idAnioEscolar ASC
+        anio_escolar.descripcionAnio DESC
     LIMIT 5");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -129,12 +129,13 @@ CASE MONTH(pago.fechaPago)
         anio_admision
         ON 
             admision_alumno.idAdmisionAlumno = anio_admision.idAdmisionAlumno
+        INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
         INNER JOIN
         anio_escolar
         ON 
             anio_admision.idAnioEscolar = anio_escolar.idAnioEscolar
     WHERE
-        anio_escolar.estadoAnio = 1
+        anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
     GROUP BY
 	MONTH(pago.fechaPago)");
         $statement->execute();
@@ -327,31 +328,31 @@ ORDER BY
         CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS nombreCompleto
         FROM
             $tabla
-        INNER JOIN
+        LEFT JOIN
             personal
         ON 
             usuario.idUsuario = personal.idUsuario
-        INNER JOIN
+        LEFT JOIN
             cursogrado_personal
         ON 
             personal.idPersonal = cursogrado_personal.idPersonal
-        INNER JOIN
+        LEFT JOIN
             curso_grado
         ON 
             cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
-        INNER JOIN
+        LEFT JOIN
             curso
         ON 
             curso_grado.idCurso = curso.idCurso
-        INNER JOIN
+        LEFT JOIN
             grado
         ON 
             curso_grado.idGrado = grado.idGrado
-        INNER JOIN
+        LEFT JOIN
             alumno_anio_escolar
         ON 
             grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
+        LEFT JOIN
             anio_escolar
         ON 
             alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
@@ -487,6 +488,7 @@ FROM
 	admision_alumno
 	ON 
 		alumno.idAlumno = admision_alumno.idAlumno
+    INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
 	INNER JOIN
 	nivel
 	ON 
@@ -494,7 +496,7 @@ FROM
 WHERE
 	alumno.sexoAlumno IS NOT NULL AND
 	anio_escolar.estadoAnio = 1 AND
-	admision_alumno.estadoAdmisionAlumno = 2
+	admision_alumno.estadoAdmisionAlumno = 2 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
 GROUP BY
 	grado_nivel
 ORDER BY
@@ -519,6 +521,7 @@ ORDER BY
             admision_alumno
             ON 
                 alumno.idAlumno = admision_alumno.idAlumno
+            INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
             INNER JOIN
             grado
             ON 
@@ -529,7 +532,7 @@ ORDER BY
                 grado.idNivel = nivel.idNivel
 		    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
         WHERE
-            admision_alumno.estadoAdmisionAlumno = 2 AND anio_escolar.estadoAnio = 1
+            admision_alumno.estadoAdmisionAlumno = 2 AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
         GROUP BY
         grado_nivel");
         $statement->execute();
