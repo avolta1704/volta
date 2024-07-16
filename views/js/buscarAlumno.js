@@ -118,27 +118,35 @@ $(document).ready(function () {
   if (alumnos !== null) {
     return;
   }
+  obtenerAlumnosPorAnioEscolar();
+  function obtenerAlumnosPorAnioEscolar() {
+    var idAnioEscolar = $("#selectAnioEscolarAlumnoBusqueda").val();
+    var data = new FormData();
+    data.append("buscarAlumnos", idAnioEscolar);
 
-  var data = new FormData();
-  data.append("buscarAlumnos", "");
+    $.ajax({
+      url: "ajax/buscarAlumno.ajax.php",
+      method: "POST",
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      dataType: "json",
 
-  $.ajax({
-    url: "ajax/buscarAlumno.ajax.php",
-    method: "POST",
-    data: data,
-    cache: false,
-    contentType: false,
-    processData: false,
-    dataType: "json",
+      success: function (response) {
+        alumnos = response;
+        actualizarOpciones();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
+      },
+    });
+  }
 
-    success: function (response) {
-      alumnos = response;
-      actualizarOpciones();
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      //console.log(jqXHR.responseText); // procedencia de error
-      console.log("Error en la solicitud AJAX: ", textStatus, errorThrown);
-    },
+  // Llamar a la función cuando se cambia el valor del select
+  $("#selectAnioEscolarAlumnoBusqueda").on("change", function () {
+    limpiarCampos();
+    obtenerAlumnosPorAnioEscolar();
   });
 
   // Controlador de eventos para cambios en el selector de apellidos
@@ -259,6 +267,7 @@ $(document).ready(function () {
     $("#cuotaBusqueda").val("");
     $("#comprobanteCuotaBusqueda").val("");
     $("#pensionBusqueda").val("");
+    $("#contenedorPrincipal").empty();
   }
   //mostrar los datos de los pagos  y comunicado de los alumnos que se estan guandando en la variable alumnos
   function llenarPestanas(alumnos, alumno) {
