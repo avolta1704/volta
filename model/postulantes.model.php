@@ -29,7 +29,8 @@ class ModelPostulantes
       ELSE 'Sin Pago'
     END AS pagoMatricula,
     postulante.estadoPostulante 
-    FROM $tabla 
+    FROM $tabla
+    WHERE postulante.estadoPostulante != 3
     ORDER BY postulante.idPostulante DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
