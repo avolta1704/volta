@@ -6,17 +6,31 @@ class ModelAdmisionAlumno
   //todos los registros de admision
   public static function mdlGetAdmisionAlumnos($tabla)
   {
-    $statement = Connection::conn()->prepare("SELECT adal.idAdmisionAlumno, 
-    al.idAlumno,
-    al.codAlumnoCaja,
-    al.apellidosAlumno,
+    $statement = Connection::conn()->prepare("SELECT
+    adal.idAdmisionAlumno, 
+    al.idAlumno, 
+    al.codAlumnoCaja, 
+    al.apellidosAlumno, 
     al.nombresAlumno, 
-    ad.fechaAdmision,
-    adal.estadoAdmisionAlumno
-    FROM $tabla adal
-    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
-    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
-    ORDER BY adal.idAdmisionAlumno DESC");
+    ad.fechaAdmision, 
+    adal.estadoAdmisionAlumno, 
+    admision.idAnioEscolar
+    FROM
+      $tabla AS adal
+      INNER JOIN
+      admision AS ad
+      ON 
+        adal.idAdmision = ad.idAdmision
+      INNER JOIN
+      alumno AS al
+      ON 
+        adal.idAlumno = al.idAlumno
+      INNER JOIN
+      admision
+      ON 
+        adal.idAdmision = admision.idAdmision
+    ORDER BY
+      adal.idAdmisionAlumno DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
   }
@@ -194,10 +208,22 @@ class ModelAdmisionAlumno
     al.apellidosAlumno,
     al.nombresAlumno, 
     ad.fechaAdmision,
-    adal.estadoAdmisionAlumno
-    FROM $tabla adal
-    INNER JOIN admision ad ON adal.idAdmision = ad.idAdmision
-    INNER JOIN alumno al ON adal.idAlumno = al.idAlumno
+    adal.estadoAdmisionAlumno,
+    admision.idAnioEscolar
+    FROM
+      $tabla AS adal
+      INNER JOIN
+      admision AS ad
+      ON 
+        adal.idAdmision = ad.idAdmision
+      INNER JOIN
+      alumno AS al
+      ON 
+        adal.idAlumno = al.idAlumno
+      INNER JOIN
+      admision
+      ON 
+        adal.idAdmision = admision.idAdmision
     WHERE ad.idAnioEscolar = :idAnioEscolar
     ORDER BY adal.idAdmisionAlumno DESC");
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
@@ -228,15 +254,16 @@ class ModelAdmisionAlumno
         WHEN grado.descripcionGrado = '5to Año' THEN 'SECUN 05 A'
         ELSE grado.descripcionGrado
       END AS descripcionGrado,
-      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END), 0) AS matriculados,
-      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END), 0) AS trasladados,
-      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 4 THEN 1 ELSE 0 END), 0) AS retirados,
-      COUNT(DISTINCT CASE WHEN ae.estadoAnio = 1 THEN alumno.idAlumno END) AS total_alumnos
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 2 AND admision.idAnioEscolar = ae.idAnioEscolar THEN 1 ELSE 0 END), 0) AS matriculados,
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 3 AND admision.idAnioEscolar = ae.idAnioEscolar THEN 1 ELSE 0 END), 0) AS trasladados,
+      COALESCE(SUM(CASE WHEN ae.estadoAnio = 1 AND admision_alumno.estadoAdmisionAlumno = 4 AND admision.idAnioEscolar = ae.idAnioEscolar  THEN 1 ELSE 0 END), 0) AS retirados,
+      COUNT(DISTINCT CASE WHEN ae.estadoAnio = 1 AND admision.idAnioEscolar = ae.idAnioEscolar THEN alumno.idAlumno END) AS total_alumnos
       FROM
           $tabla
       LEFT JOIN alumno_anio_escolar ON grado.idGrado = alumno_anio_escolar.idGrado
       LEFT JOIN alumno ON alumno_anio_escolar.idAlumno = alumno.idAlumno
       LEFT JOIN admision_alumno ON admision_alumno.idAlumno = alumno.idAlumno
+      LEFT JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
       LEFT JOIN anio_escolar ae ON alumno_anio_escolar.idAnioEscolar = ae.idAnioEscolar
       GROUP BY
           grado.descripcionGrado
@@ -249,15 +276,16 @@ class ModelAdmisionAlumno
   public static function mdlObtenerTotalMatriculadosTrasladadosRetirados($tabla)
   {
     $statement = Connection::conn()->prepare("SELECT
-    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 2 THEN 1 ELSE 0 END) AS matriculados,
-    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 3 THEN 1 ELSE 0 END) AS trasladados,
-    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 4 THEN 1 ELSE 0 END) AS retirados
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 2 AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar THEN 1 ELSE 0 END) AS matriculados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 3 AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar THEN 1 ELSE 0 END) AS trasladados,
+    SUM(CASE WHEN admision_alumno.estadoAdmisionAlumno = 4 AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar THEN 1 ELSE 0 END) AS retirados
     FROM
       $tabla
       INNER JOIN
       alumno
       ON 
         admision_alumno.idAlumno = alumno.idAlumno
+      INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
       INNER JOIN
       alumno_anio_escolar
       ON 
@@ -312,6 +340,7 @@ class ModelAdmisionAlumno
           LEFT JOIN grado g ON ae.idGrado = g.idGrado
           LEFT JOIN nivel n ON g.idNivel = n.idNivel
           LEFT JOIN admision_alumno aa ON a.idAlumno = aa.idAlumno
+          LEFT JOIN admision ON aa.idAdmision = admision.idAdmision
           LEFT JOIN cronograma_pago cp ON aa.idAdmisionAlumno = cp.idAdmisionAlumno
           LEFT JOIN pago p ON cp.idCronogramaPago = p.idCronogramaPago
           LEFT JOIN anio_escolar ae2 ON ae.idAnioEscolar = ae2.idAnioEscolar
@@ -343,7 +372,7 @@ class ModelAdmisionAlumno
                   apoderado_alumno aa2
                   INNER JOIN apoderado ap2 ON aa2.idApoderado = ap2.idApoderado
           ) ap2 ON a.idAlumno = ap2.idAlumno AND ap2.ordenApoderado = 2
-      WHERE aa.estadoAdmisionAlumno = 2 AND ae.idAnioEscolar = 1
+      WHERE aa.estadoAdmisionAlumno = 2 AND ae.idAnioEscolar = 1 AND AND admision.idAnioEscolar = ae2.idAnioEscolar
       GROUP BY
           a.idAlumno, n.descripcionNivel, g.descripcionGrado, a.nombresAlumno, a.apellidosAlumno, a.nuevoAlumno, a.sexoAlumno, a.dniAlumno, a.fechaNacimiento, a.direccionAlumno, a.distritoAlumno, a.IEPProcedencia, a.seguroSalud, a.fechaIngresoVolta, ap1.nombreApoderado, ap1.apellidoApoderado, ap1.dniApoderado, ap1.celularApoderado, ap1.convivenciaAlumno, ap1.correoApoderado, ap2.nombreApoderado, ap2.apellidoApoderado, ap2.dniApoderado, ap2.celularApoderado, ap2.convivenciaAlumno, ap2.correoApoderado, a.numeroEmergencia, a.enfermedades, aa.estadoAdmisionAlumno, aa.fechaCreacion, a.estadoSiagie");
     $statement->execute();
@@ -427,5 +456,40 @@ class ModelAdmisionAlumno
     $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
+  }
+  // Obtener todos los datos para registrar pago del alumno de un nuevo anio
+  public static function mdlObtenerDatosAdmisionAlumnoRegistrarPago($tabla, $idAdmisionAlumno, $idAnioEscolar){
+    $statement = Connection::conn()->prepare("SELECT
+      alumno.nombresAlumno, 
+      alumno.apellidosAlumno, 
+      grado.descripcionGrado,
+      nivel.idNivel,
+      nivel.descripcionNivel, 
+      alumno_anio_escolar.idAnioEscolar, 
+      alumno.dniAlumno
+    FROM
+      $tabla
+      INNER JOIN
+      alumno
+      ON 
+        admision_alumno.idAlumno = alumno.idAlumno
+      INNER JOIN
+      alumno_anio_escolar
+      ON 
+        alumno.idAlumno = alumno_anio_escolar.idAlumno
+      INNER JOIN
+      grado
+      ON 
+        alumno_anio_escolar.idGrado = grado.idGrado
+      INNER JOIN
+      nivel
+      ON 
+        grado.idNivel = nivel.idNivel
+    WHERE
+      admision_alumno.idAdmisionAlumno = :idAdmisionAlumno AND alumno_anio_escolar.idAnioEscolar = :idAnioEscolar");
+    $statement->bindParam(":idAdmisionAlumno", $idAdmisionAlumno, PDO::PARAM_INT);
+    $statement->bindParam(":idAnioEscolar", $idAnioEscolar, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
   }
 }

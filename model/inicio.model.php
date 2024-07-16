@@ -7,23 +7,27 @@ class ModelInicio
     public static function mdlObtenertodoslosAlumnosporGrandos()
     {
         $statement = Connection::conn()->prepare("SELECT
-    grado.descripcionGrado, 
-    COALESCE(COUNT(alumno_anio_escolar.idAlumnoAnioEscolar), 0) AS Alumnos
-    FROM
-        grado
-    LEFT JOIN
-        alumno_anio_escolar
-    ON 
-        grado.idGrado = alumno_anio_escolar.idGrado
-    LEFT JOIN
-        anio_escolar
-    ON 
-        alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
-        AND anio_escolar.estadoAnio = 1
-    GROUP BY
-        grado.descripcionGrado
-    ORDER BY
-        grado.idGrado ASC;");
+        gd.descripcionGrado,
+        COALESCE(ae.num_alumnos, 0) AS Alumnos
+        FROM
+            (
+                SELECT idGrado, descripcionGrado
+                FROM grado
+            ) AS gd
+        LEFT JOIN (
+            SELECT
+                aae.idGrado,
+                COUNT(aae.idAlumnoAnioEscolar) AS num_alumnos
+            FROM
+                alumno_anio_escolar AS aae
+                INNER JOIN anio_escolar AS ae ON aae.idAnioEscolar = ae.idAnioEscolar
+            WHERE
+                ae.estadoAnio = 1
+            GROUP BY
+                aae.idGrado
+        ) AS ae ON gd.idGrado = ae.idGrado
+        ORDER BY
+            gd.idGrado ASC");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -31,41 +35,39 @@ class ModelInicio
     public static function mdlObtenertodaslasPensionesPendientes()
     {
         $statement = Connection::conn()->prepare("SELECT
-        cronograma_pago.mesPago,
-        EXTRACT(YEAR FROM cronograma_pago.fechaLimite) AS año,
-        EXTRACT(MONTH FROM cronograma_pago.fechaLimite) AS mes,
-        COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) AS pagos_vencidos,
-        (COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) * 100 / total.total_pensiones) AS porcentaje_vencidas,
-        total.total_pensiones AS total_pensiones,
-        cronograma_pago.fechaLimite
-        FROM
-            cronograma_pago
-        LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
-        LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
-        LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
-        LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
-        JOIN
-            (
-                SELECT 
-                    mesPago, 
-                    COUNT(*) AS total_pensiones 
-                FROM 
-                    cronograma_pago 
-                GROUP BY 
-                    mesPago
-            ) AS total 
-        ON 
-            cronograma_pago.mesPago = total.mesPago
-        WHERE
-            (
-                (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) < EXTRACT(YEAR FROM CURDATE())) OR
-                (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) = EXTRACT(YEAR FROM CURDATE()) AND
-                EXTRACT(MONTH FROM cronograma_pago.fechaLimite) < EXTRACT(MONTH FROM CURDATE()))
-            ) AND anio_escolar.estadoAnio = 1
-        GROUP BY
-            cronograma_pago.mesPago, año, mes, total.total_pensiones
-        ORDER BY
-            año ASC, mes ASC");
+    cronograma_pago.mesPago,
+    EXTRACT(YEAR FROM cronograma_pago.fechaLimite) AS año,
+    EXTRACT(MONTH FROM cronograma_pago.fechaLimite) AS mes,
+    COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) AS pagos_vencidos,
+    (COUNT(CASE WHEN cronograma_pago.estadoCronograma = 1 THEN cronograma_pago.idCronogramaPago END) * 100 / total.total_pensiones) AS porcentaje_vencidas,
+    COUNT(CASE WHEN admision.idAnioEscolar = anio_escolar.idAnioEscolar THEN 1 ELSE NULL END) AS total_pensiones,
+    cronograma_pago.fechaLimite
+    FROM
+        cronograma_pago
+    LEFT JOIN admision_alumno ON cronograma_pago.idAdmisionAlumno = admision_alumno.idAdmisionAlumno
+    LEFT JOIN alumno ON admision_alumno.idAlumno = alumno.idAlumno
+    LEFT JOIN alumno_anio_escolar ON alumno.idAlumno = alumno_anio_escolar.idAlumno
+    LEFT JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
+    LEFT JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
+    JOIN (
+        SELECT 
+            mesPago, 
+            COUNT(*) AS total_pensiones 
+        FROM 
+            cronograma_pago 
+        GROUP BY 
+            mesPago
+    ) AS total ON cronograma_pago.mesPago = total.mesPago
+    WHERE
+        (
+            (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) < EXTRACT(YEAR FROM CURDATE())) OR
+            (EXTRACT(YEAR FROM cronograma_pago.fechaLimite) = EXTRACT(YEAR FROM CURDATE()) AND
+            EXTRACT(MONTH FROM cronograma_pago.fechaLimite) < EXTRACT(MONTH FROM CURDATE()))
+        ) AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
+    GROUP BY
+        cronograma_pago.mesPago, año, mes, total.total_pensiones
+    ORDER BY
+        año ASC, mes ASC");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -89,7 +91,7 @@ class ModelInicio
     GROUP BY
         anio_escolar.descripcionAnio
         ORDER BY
-        anio_escolar.idAnioEscolar ASC
+        anio_escolar.descripcionAnio DESC
     LIMIT 5");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -127,12 +129,13 @@ CASE MONTH(pago.fechaPago)
         anio_admision
         ON 
             admision_alumno.idAdmisionAlumno = anio_admision.idAdmisionAlumno
+        INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
         INNER JOIN
         anio_escolar
         ON 
             anio_admision.idAnioEscolar = anio_escolar.idAnioEscolar
     WHERE
-        anio_escolar.estadoAnio = 1
+        anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
     GROUP BY
 	MONTH(pago.fechaPago)");
         $statement->execute();
@@ -325,31 +328,31 @@ ORDER BY
         CONCAT(personal.nombrePersonal, ' ', personal.apellidoPersonal) AS nombreCompleto
         FROM
             $tabla
-        INNER JOIN
+        LEFT JOIN
             personal
         ON 
             usuario.idUsuario = personal.idUsuario
-        INNER JOIN
+        LEFT JOIN
             cursogrado_personal
         ON 
             personal.idPersonal = cursogrado_personal.idPersonal
-        INNER JOIN
+        LEFT JOIN
             curso_grado
         ON 
             cursogrado_personal.idCursoGrado = curso_grado.idCursoGrado
-        INNER JOIN
+        LEFT JOIN
             curso
         ON 
             curso_grado.idCurso = curso.idCurso
-        INNER JOIN
+        LEFT JOIN
             grado
         ON 
             curso_grado.idGrado = grado.idGrado
-        INNER JOIN
+        LEFT JOIN
             alumno_anio_escolar
         ON 
             grado.idGrado = alumno_anio_escolar.idGrado
-        INNER JOIN
+        LEFT JOIN
             anio_escolar
         ON 
             alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
@@ -485,6 +488,7 @@ FROM
 	admision_alumno
 	ON 
 		alumno.idAlumno = admision_alumno.idAlumno
+    INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
 	INNER JOIN
 	nivel
 	ON 
@@ -492,7 +496,7 @@ FROM
 WHERE
 	alumno.sexoAlumno IS NOT NULL AND
 	anio_escolar.estadoAnio = 1 AND
-	admision_alumno.estadoAdmisionAlumno = 2
+	admision_alumno.estadoAdmisionAlumno = 2 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
 GROUP BY
 	grado_nivel
 ORDER BY
@@ -517,6 +521,7 @@ ORDER BY
             admision_alumno
             ON 
                 alumno.idAlumno = admision_alumno.idAlumno
+            INNER JOIN admision ON admision_alumno.idAdmision = admision.idAdmision
             INNER JOIN
             grado
             ON 
@@ -525,10 +530,11 @@ ORDER BY
             nivel
             ON 
                 grado.idNivel = nivel.idNivel
+		    INNER JOIN anio_escolar ON alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar
         WHERE
-            admision_alumno.estadoAdmisionAlumno = 2
+            admision_alumno.estadoAdmisionAlumno = 2 AND anio_escolar.estadoAnio = 1 AND admision.idAnioEscolar = anio_escolar.idAnioEscolar
         GROUP BY
-        grado_nivel;");
+        grado_nivel");
         $statement->execute();
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }

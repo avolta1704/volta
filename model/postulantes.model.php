@@ -752,4 +752,13 @@ class ModelPostulantes
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+  // Obtener el idPostulante de un alumno
+  public static function mdlGetIdPostulanteporAlumno($table, $codAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT DISTINCT postulante.idPostulante FROM $table INNER JOIN admision_alumno ON  alumno.idAlumno = admision_alumno.idAlumno INNER JOIN admision ON  admision_alumno.idAdmision = admision.idAdmision INNER JOIN postulante ON 
+		admision.idPostulante = postulante.idPostulante WHERE alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }
