@@ -22,7 +22,7 @@ class AdmisionAlumnosAjax
 
     foreach ($registrosAdmisionAlumnos as &$dataAdmision) {
       $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
-      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo);
+      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo, $dataAdmision["idAnioEscolar"]);
     }
     echo json_encode($registrosAdmisionAlumnos);
   }
@@ -90,8 +90,9 @@ class AdmisionAlumnosAjax
     $isAdministrativo = $tipoUsuario == "Administrativo";
 
     foreach ($response as &$dataAdmision) {
+      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo, $dataAdmision["idAnioEscolar"]);
       $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
-      $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo);
+
     }
     echo json_encode($response);
   }

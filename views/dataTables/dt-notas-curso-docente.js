@@ -106,11 +106,6 @@ $(document).ready(function () {
 function crearButtons(idUnidad, idBimestre) {
 	var buttonNames = [
 		{
-			text: "Importar Notas",
-			class: "btn btn-primary",
-			id: "btnImportarNotas",
-		},
-		{
 			text: "Ver Competencias",
 			class: "btn btn-secondary",
 			id: "btnVerCompetencias",

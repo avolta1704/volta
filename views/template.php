@@ -64,6 +64,7 @@ session_start();
 
         $_GET["ruta"] == "reporteAsistencias" ||
         $_GET["ruta"] == "reporteNotas" ||
+        $_GET["ruta"] == "cerrarAnioGrado" ||
 
 
 
@@ -184,6 +185,8 @@ session_start();
   <script src="views/dataTables/dt-asistencia-alumnos-docente.js"></script>
   <script src="views/dataTables/dt-notas-docente-alumno.js"></script>
   <script src="views/dataTables/dt-notas-alumno-docente.js"></script>
+  <script src="views/dataTables/dt-cerrar-anio-grado.js"></script>
+  <script src="views/dataTables/dt-cerrar-anio-alumnos.js"></script>
 
 </body>
 

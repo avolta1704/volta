@@ -770,4 +770,10 @@ class ControllerPostulantes
     }
     return $listPostulantes;
   }
+  // Obtener idPostulante por codAlumno
+  public static function mdlGetIdPostulanteporAlumno($codAlumno){
+    $tabla = "alumno";
+    $response = ModelPostulantes::mdlGetIdPostulanteporAlumno($tabla, $codAlumno);
+    return $response;
+  }
 }

@@ -7,10 +7,12 @@ require_once "../model/apoderado.model.php";
 
 class BuscarAlumnoAjax
 {
+  public $buscarAlumnos;
   //mostar todos los Apoderados DataTable
   public function ajaxMostrartodasLasBusquedas()
   {
-    $todasLasBusquedas = ControllerBuscarAlumno::ctrGetAllBusquedaAlumno();
+    $buscarAlumnos = $this->buscarAlumnos;
+    $todasLasBusquedas = ControllerBuscarAlumno::ctrGetAllBusquedaAlumno($buscarAlumnos);
     foreach ($todasLasBusquedas as &$dataBsucar) {
       $tabla = "apoderado";
       $todoslosApoderados = ModelApoderados::mdlGetAllApoderadosByAlumno($tabla, $dataBsucar["idAlumno"]);
@@ -47,7 +49,7 @@ class BuscarAlumnoAjax
       } else {
         $dataBsucar['edad'] = "No Registrado";
       }
-      $pagosYCronograma = ModelBuscarAlumno::mdlGetAllPagosYCronogramaporAlumno($dataBsucar["idAlumno"]);
+      $pagosYCronograma = ModelBuscarAlumno::mdlGetAllPagosYCronogramaporAlumno($dataBsucar["idAlumno"], $buscarAlumnos);
       foreach ($pagosYCronograma as $pago) {
         switch ($pago["mesPago"]) {
           case "Matricula":
@@ -76,5 +78,6 @@ class BuscarAlumnoAjax
 //mostar todos los Apoderados DataTable
 if (isset($_POST["buscarAlumnos"])) {
   $mostrartodasLasBusquedas = new BuscarAlumnoAjax();
+  $mostrartodasLasBusquedas -> buscarAlumnos = $_POST["buscarAlumnos"];
   $mostrartodasLasBusquedas->ajaxMostrartodasLasBusquedas();
 }

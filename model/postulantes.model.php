@@ -29,7 +29,8 @@ class ModelPostulantes
       ELSE 'Sin Pago'
     END AS pagoMatricula,
     postulante.estadoPostulante 
-    FROM $tabla 
+    FROM $tabla
+    WHERE postulante.estadoPostulante != 3
     ORDER BY postulante.idPostulante DESC");
     $statement->execute();
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -749,6 +750,15 @@ class ModelPostulantes
   {
     $statement = Connection::conn()->prepare("SELECT listaApoderados FROM $table WHERE idPostulante = :idPostulante");
     $statement->bindParam(":idPostulante", $codPostulante, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
+  // Obtener el idPostulante de un alumno
+  public static function mdlGetIdPostulanteporAlumno($table, $codAlumno)
+  {
+    $statement = Connection::conn()->prepare("SELECT DISTINCT postulante.idPostulante FROM $table INNER JOIN admision_alumno ON  alumno.idAlumno = admision_alumno.idAlumno INNER JOIN admision ON  admision_alumno.idAdmision = admision.idAdmision INNER JOIN postulante ON 
+		admision.idPostulante = postulante.idPostulante WHERE alumno.idAlumno = :idAlumno");
+    $statement->bindParam(":idAlumno", $codAlumno, PDO::PARAM_INT);
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }

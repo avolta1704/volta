@@ -137,4 +137,75 @@ class ControllerAnioEscolar
     $listNivelEducacion = ModelAnioEscolar::mdlGetNivelEducacion($table, $idNivelEducacion);
     return $listNivelEducacion;
   }
+  public static function ctrMostrarGradosCerrarAnioEscolar()
+  {
+    $tabla =  "grado";
+    $respuesta = ModelAnioEscolar::mdlMostrarGradosCerrarAnioEscolar($tabla);
+    return $respuesta;
+  }
+  public static function ctrMostrarAlumnosGradoCerrarAnio($idGrado){
+    $tabla = "alumno";
+    $respuesta = ModelAnioEscolar::mdlMostrarAlumnosGradoCerrarAnio($tabla, $idGrado);
+    return $respuesta;
+  }
+  // Actualizar estado final Alumno
+  public static function ctrActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($idGrado,$idAnioEscolar,$idAlumno,$estadoFinal){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlActualizarEstadoFinalAlumnoAnioEscolarCerrarAnio($tabla, $idGrado,$idAnioEscolar,$idAlumno,$estadoFinal);
+    return $respuesta;
+  }
+  public static function ctrGetAlumnosMatriculadosGrado($tabla, $idGrado){
+    $respuesta = ModelAnioEscolar::mdlGetAlumnosMatriculadosGrado($tabla, $idGrado);
+    return $respuesta;
+  }
+  // Validar Notas subidas correctamente del alumno
+  public static function ctrValidarNotasAlumnosSubidosCorrectamenteCerrarAnioAlumno($idAlumno,$tabla){
+    $respuesta = ModelAnioEscolar::mdlValidacionNotasSubidasporAlumno($tabla, $idAlumno);
+    return $respuesta;
+  }
+  // Validar Estado Final del alumno
+  public static function ctrValidarEstadoFinalAlumnosSubidosCorrectamenteCerrarAnioAlumno($idAlumno, $tabla){
+    $respuesta = ModelAnioEscolar::mdlValidarEstadoFinalporAlumno($tabla, $idAlumno);
+    return $respuesta;
+  }
+  // Validar si todos los alumnos del grado ya se les creo un alumno anio escolar con el grado al que van a pasar
+  public static function ctrValidarFinAnioGradoAnioEscolar($idGrado){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlValidarFinAnioGradoAnioEscolar($tabla, $idGrado);
+    return $respuesta;
+  }
+  public static function ctrActualizarFinAnioAlumnoAnioEscolarCerrarAnio($idGrado, $idAnioEscolar, $idAlumno, $finAnio){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlActualizarFinAnioAlumnoAnioEscolarCerrarAnio($tabla, $idGrado, $idAnioEscolar, $idAlumno, $finAnio);
+    return $respuesta;
+  }
+  public static function ctrCerrarAnioEscolarFinalDesactivar(){
+    $tabla = "alumno_anio_escolar";
+    $respuesta = ModelAnioEscolar::mdlValidarCierreGradoAlumnoFinAnio($tabla);
+    if ($respuesta == "ok"){
+      $idAnioEscolarElegido = ModelAnioEscolar::mdlObtenerIdAnioEscolarElegidoenCadaGrado($tabla);
+      $table = "anio_escolar";
+      $idAnioEscolarActivo = ModelAnioEscolar::mdlGetAnioEscolarActivo($table);
+      if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+      }
+      $arrayAnioDesactivar = array(
+        "idAnioEscolar" => $idAnioEscolarActivo["idAnioEscolar"],
+        "estadoAnio" => 2,
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $arrayAnioActivar = array(
+        "idAnioEscolar" => $idAnioEscolarElegido["finAnio"],
+        "estadoAnio" => 1,
+        "fechaActualizacion" => date("Y-m-d H:i:s"),
+        "usuarioActualizacion" => $_SESSION["idUsuario"]
+      );
+      $respuesta =  ModelAnioEscolar::mdlActivarAnioEscolar($table,$arrayAnioDesactivar);
+      if($respuesta == "ok"){
+        $respuesta = ModelAnioEscolar::mdlActivarAnioEscolar($table, $arrayAnioActivar);
+      }
+    }
+    return $respuesta;
+  }
 }
