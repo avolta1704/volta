@@ -4,6 +4,8 @@ require_once "../controller/usuarios.controller.php";
 require_once "../model/usuarios.model.php";
 require_once "../functions/usuarios.functions.php";
 require_once "../model/apoderado.model.php";
+require_once "../controller/personal.controller.php";
+require_once "../model/personal.model.php";
 
 class UsuariosAjax
 {
@@ -57,15 +59,6 @@ class UsuariosAjax
     echo json_encode($response);
   }
 
-  //  
-  public $actualizarPassword;
-  public function ajaxActualizarPassword()
-  {
-    $actualizarPassword = $this->actualizarPassword;
-    $response = ControllerUsuarios::ctrActualizarPassword($actualizarPassword);
-    echo json_encode($response);
-  }
-
   public function ajaxTieneAcceso()
   {
     $response = ControllerUsuarios::ctrTieneAcceso();
@@ -112,13 +105,6 @@ if (isset($_POST["datosApoderado"])) {
   $usuarioApoderado = new UsuariosAjax();
   $usuarioApoderado->datosApoderado = $datosApoderado;
   $usuarioApoderado->ajaxCrearUsuarioApoderadoVista();
-}
-
-//  Eliminar un usuario
-if (isset($_POST["passwordData"])) {
-  $actualizarPassword = new UsuariosAjax();
-  $actualizarPassword->actualizarPassword = $_POST["passwordData"];
-  $actualizarPassword->ajaxActualizarPassword();
 }
 
 if (isset($_POST["tieneAcceso"])) {

@@ -54,7 +54,7 @@
               </div>
 
               <div class="form-group col-md-6">
-                <label for="editarSexoAlumno" class="col-form-label">Sexo:</label>
+                <label for="editarSexoAlumno" class="col-form-label" style="font-weight: bold">Sexo:</label>
                 <select class="form-control" name="editarSexoAlumno" id="editarSexoAlumno">
                   <option value="<?php echo $datosAlumno["sexoAlumno"] ?>"><?php echo $datosAlumno["sexoAlumno"] ?></option>
                   <option value="Masculino">Masculino</option>
