@@ -317,27 +317,39 @@ class ControllerUsuarios
     return $response;
   }
 
+  /**
+   * Undocumented function
+   *
+   * @param [type] $codUsuario
+   * @return string
+   */
   public static function ctrEliminarUsuario($codUsuario)
   {
+    $tabla = "usuario";
     $verificar = self::ctrVerificarUsuarioBD($codUsuario);
     if ($verificar["existencia"] == true || $verificar["existencia"] == "1") {
       return "error";
     } else {
       $tipoUsuario = ModelUsuarios::mdlVerficarTipoUsuarioApoderado($codUsuario);
-      if($tipoUsuario["idTipoUsuario"] == 4){
-        $idsApoderados = ModelUsuarios::mdlObteneridApoderados("usuario",$codUsuario);
+      if ($tipoUsuario["idTipoUsuario"] == 4) {
+        $idsApoderados = ModelUsuarios::mdlObteneridApoderados("usuario", $codUsuario);
         $idApoderado1 = $idsApoderados[0]['idApoderado'];
         $idApoderado2 = $idsApoderados[1]['idApoderado'];
-        $respuestaCambiodeEstadoUsuarioidUsuario= ModelApoderados::mdlCambiarEstadoCuentaCreadaIdUsuario("apoderado",0, $idApoderado1,$idApoderado2);
-        if($respuestaCambiodeEstadoUsuarioidUsuario=="ok"){
-          $tabla = "usuario";
+        $respuestaCambiodeEstadoUsuarioidUsuario = ModelApoderados::mdlCambiarEstadoCuentaCreadaIdUsuario("apoderado", 0, $idApoderado1, $idApoderado2);
+        if ($respuestaCambiodeEstadoUsuarioidUsuario == "ok") {
+          $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
+        }
+      }
+      if ($tipoUsuario["idTipoUsuario"] == 2) {
+        //  Obtener el id del personal para eliminarlo de la tabla personal y luego de la tabla de usuario
+        $idPersonal = ControllerPersonal::ctrObtenerPersonal($codUsuario);
+        $eliminarPersonal = ControllerPersonal::ctrEliminarPersonal($idPersonal);
+        if ($eliminarPersonal == "ok") {
           $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
         }
       } else {
-        $tabla = "usuario";
         $response = ModelUsuarios::mdlEliminarUsuario($tabla, $codUsuario);
       }
-
       return $response;
     }
   }
@@ -410,14 +422,13 @@ class ControllerUsuarios
     $ultimoIdUsuario = ModelUsuarios::mdlUltimoIdUsuario("usuario");
     $codApoderado = intval($datos["codApoderado"]);
     $idApoderado2 = ModelApoderados::mdlObtenerIdSegundoIdApoderado($codApoderado);
-    $insercionidUsuario=ModelApoderados::mdlInsertarIdUsuarioApoderado("apoderado",$ultimoIdUsuario["idUsuario"], $codApoderado, $idApoderado2["idApoderado"]);
-    if($insercionidUsuario=="ok"){
-      $respuestaCambiodeEstadoUsuarioCreado= ModelApoderados::mdlCambiarEstadoCuentaCreada("apoderado",1, $codApoderado, $idApoderado2["idApoderado"]);
-      if($respuestaCambiodeEstadoUsuarioCreado=="ok"){
+    $insercionidUsuario = ModelApoderados::mdlInsertarIdUsuarioApoderado("apoderado", $ultimoIdUsuario["idUsuario"], $codApoderado, $idApoderado2["idApoderado"]);
+    if ($insercionidUsuario == "ok") {
+      $respuestaCambiodeEstadoUsuarioCreado = ModelApoderados::mdlCambiarEstadoCuentaCreada("apoderado", 1, $codApoderado, $idApoderado2["idApoderado"]);
+      if ($respuestaCambiodeEstadoUsuarioCreado == "ok") {
         $response = "ok";
       }
       return $response;
     }
-
   }
 }

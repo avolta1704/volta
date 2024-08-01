@@ -111,7 +111,7 @@ $(".dataTableUsuarios").on("click", ".btnDeleteUsuario", function () {
   var codUsuario = $(this).attr("codUsuario");
   Swal.fire({
     title: "¿Estás seguro?",
-    text: "¡El alumno será eliminado!",
+    text: "¡El usuario será eliminado!",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",

@@ -138,4 +138,28 @@ class ControllerPersonal
     $dataPersonal = ModelPersonal::mdlGetPersonalByIdUsuario($table, $codUsuario);
     return $dataPersonal;
   }
+
+  /**
+   * Obtener el id del personal por el id del usuario
+   * 
+   * @param int $codUsuario
+   */
+  public static function ctrObtenerPersonal($codUsuario)
+  {
+    $table = "personal";
+    $response = ModelPersonal::mdlObtenerPersonal($table, $codUsuario);
+    return $response;
+  }
+
+  /**
+   * Eliminar personal
+   * 
+   * @param int $codPersonal
+   */
+  public static function ctrEliminarPersonal($codPersonal)
+  {
+    $table = "personal";
+    $response = ModelPersonal::mdlEliminarPersonal($table, $codPersonal);
+    return $response;
+  }
 }

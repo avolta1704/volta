@@ -11,7 +11,7 @@
  Target Server Version : 100432
  File Encoding         : 65001
 
- Date: 25/06/2024 15:39:01
+ Date: 24/07/2024 09:30:24
 */
 
 SET NAMES utf8mb4;
@@ -34,12 +34,8 @@ CREATE TABLE `admision`  (
   PRIMARY KEY (`idAdmision`) USING BTREE,
   INDEX `fk_admision_anioescolar`(`idAnioEscolar`) USING BTREE,
   INDEX `fk_admision_postulante`(`idPostulante`) USING BTREE,
-  CONSTRAINT `fk_admision_postulante` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of admision
--- ----------------------------
+  CONSTRAINT `fk_admision_postulante` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for admision_alumno
@@ -59,11 +55,7 @@ CREATE TABLE `admision_alumno`  (
   INDEX `fk_alumno_admision`(`idAlumno`) USING BTREE,
   CONSTRAINT `fk_admision_alumno` FOREIGN KEY (`idAdmision`) REFERENCES `admision` (`idAdmision`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_alumno_admision` FOREIGN KEY (`idAlumno`) REFERENCES `alumno` (`idAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of admision_alumno
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for alumno
@@ -91,11 +83,7 @@ CREATE TABLE `alumno`  (
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAlumno`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 54 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of alumno
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for alumno_anio_escolar
@@ -106,10 +94,12 @@ CREATE TABLE `alumno_anio_escolar`  (
   `idAlumno` int NOT NULL,
   `idAnioEscolar` int NOT NULL,
   `idGrado` int NOT NULL,
+  `estadoFinal` int NULL DEFAULT NULL,
   `fechaCreacion` datetime NOT NULL,
   `fechaActualizacion` datetime NOT NULL,
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
+  `finAnio` int NULL DEFAULT NULL,
   PRIMARY KEY (`idAlumnoAnioEscolar`) USING BTREE,
   INDEX `fk_anio_escolar`(`idAnioEscolar`) USING BTREE,
   INDEX `fk_alumno`(`idAlumno`) USING BTREE,
@@ -118,11 +108,7 @@ CREATE TABLE `alumno_anio_escolar`  (
   CONSTRAINT `fk_alumno` FOREIGN KEY (`idAlumno`) REFERENCES `alumno` (`idAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_anio_escolar` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_grado` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of alumno_anio_escolar
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for anio_admision
@@ -141,11 +127,7 @@ CREATE TABLE `anio_admision`  (
   INDEX `fk_anio_admision`(`idAnioEscolar`) USING BTREE,
   CONSTRAINT `fk_admision_anio` FOREIGN KEY (`idAdmisionAlumno`) REFERENCES `admision_alumno` (`idAdmisionAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_anio_admision` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of anio_admision
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 73 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for anio_cursogrado
@@ -164,11 +146,7 @@ CREATE TABLE `anio_cursogrado`  (
   INDEX `fk_cursogrado_anio`(`idCursogradoPersonal`) USING BTREE,
   CONSTRAINT `fk_anio_cursogrado` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_cursogrado_anio` FOREIGN KEY (`idCursogradoPersonal`) REFERENCES `cursogrado_personal` (`idCursogradoPersonal`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of anio_cursogrado
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 49 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for anio_escolar
@@ -190,7 +168,7 @@ CREATE TABLE `anio_escolar`  (
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idAnioEscolar`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of anio_escolar
@@ -214,12 +192,8 @@ CREATE TABLE `anio_postulante`  (
   INDEX `fk_anio_postulante`(`idAnioEscolar`) USING BTREE,
   INDEX `fk_postulante_anio`(`idPostulante`) USING BTREE,
   CONSTRAINT `fk_anio_postulante` FOREIGN KEY (`idAnioEscolar`) REFERENCES `anio_escolar` (`idAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `fk_postulante_anio` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of anio_postulante
--- ----------------------------
+  CONSTRAINT `fk_postulante_anio` FOREIGN KEY (`idPostulante`) REFERENCES `postulante` (`idPostulante`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for apoderado
@@ -251,11 +225,7 @@ CREATE TABLE `apoderado`  (
   PRIMARY KEY (`idApoderado`) USING BTREE,
   INDEX `fk_apoderador_usuario`(`idUsuario`) USING BTREE,
   CONSTRAINT `fk_apoderador_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 92 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of apoderado
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 140 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for apoderado_alumno
@@ -274,11 +244,7 @@ CREATE TABLE `apoderado_alumno`  (
   INDEX `fk_alumno_apoderado`(`idAlumno`) USING BTREE,
   CONSTRAINT `fk_alumno_apoderado` FOREIGN KEY (`idAlumno`) REFERENCES `alumno` (`idAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_apoderado_alumno` FOREIGN KEY (`idApoderado`) REFERENCES `apoderado` (`idApoderado`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of apoderado_alumno
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for area
@@ -292,11 +258,7 @@ CREATE TABLE `area`  (
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idArea`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of area
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for asistencia
@@ -314,11 +276,7 @@ CREATE TABLE `asistencia`  (
   PRIMARY KEY (`idAsistencia`) USING BTREE,
   INDEX `fk_horario_asistencia`(`idAlumnoAnioEscolar`) USING BTREE,
   CONSTRAINT `fk_asistencia_alumno_anio_escolar` FOREIGN KEY (`idAlumnoAnioEscolar`) REFERENCES `alumno_anio_escolar` (`idAlumnoAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of asistencia
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 401 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for bimestre
@@ -336,11 +294,7 @@ CREATE TABLE `bimestre`  (
   PRIMARY KEY (`idBimestre`) USING BTREE,
   INDEX `idCursoGrado`(`idCursoGrado`) USING BTREE,
   CONSTRAINT `fk_bimestre_curso_grado` FOREIGN KEY (`idCursoGrado`) REFERENCES `curso_grado` (`idCursoGrado`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 95 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of bimestre
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 191 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for competencias
@@ -359,11 +313,7 @@ CREATE TABLE `competencias`  (
   PRIMARY KEY (`idCompetencia`) USING BTREE,
   INDEX `fk_competencia_unidad`(`idUnidad`) USING BTREE,
   CONSTRAINT `fk_competencia_unidad` FOREIGN KEY (`idUnidad`) REFERENCES `unidad` (`idUnidad`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 48 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of competencias
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 71 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for comunicacion_pago
@@ -380,10 +330,6 @@ CREATE TABLE `comunicacion_pago`  (
   INDEX `fk_comunicacionpago_cronogramapago`(`idCronogramaPago`) USING BTREE,
   CONSTRAINT `fk_comunicacionpago_cronogramapago` FOREIGN KEY (`idCronogramaPago`) REFERENCES `cronograma_pago` (`idCronogramaPago`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of comunicacion_pago
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for criterios_competencia
@@ -406,11 +352,7 @@ CREATE TABLE `criterios_competencia`  (
   CONSTRAINT `fk_competencia_criterio` FOREIGN KEY (`idCompetencia`) REFERENCES `competencias` (`idCompetencia`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_criterio_instrumento` FOREIGN KEY (`idInstrumento`) REFERENCES `instrumento` (`idInstrumento`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_criterio_tecnica_evaluacion` FOREIGN KEY (`idTecnicaEvaluacion`) REFERENCES `tecnica_evaluacion` (`idTecnicaEvaluacion`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of criterios_competencia
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 80 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for cronograma_pago
@@ -431,11 +373,7 @@ CREATE TABLE `cronograma_pago`  (
   PRIMARY KEY (`idCronogramaPago`) USING BTREE,
   INDEX `fk_cronograma_admisionalumno`(`idAdmisionAlumno`) USING BTREE,
   CONSTRAINT `fk_cronograma_admisionalumno` FOREIGN KEY (`idAdmisionAlumno`) REFERENCES `admision_alumno` (`idAdmisionAlumno`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 398 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of cronograma_pago
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 734 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for curso
@@ -453,11 +391,7 @@ CREATE TABLE `curso`  (
   PRIMARY KEY (`idCurso`) USING BTREE,
   INDEX `fk_curso_area`(`idArea`) USING BTREE,
   CONSTRAINT `fk_curso_area` FOREIGN KEY (`idArea`) REFERENCES `area` (`idArea`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of curso
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for curso_grado
@@ -476,11 +410,7 @@ CREATE TABLE `curso_grado`  (
   INDEX `fk_curso_grado`(`idCurso`) USING BTREE,
   CONSTRAINT `fk_curso_grado` FOREIGN KEY (`idCurso`) REFERENCES `curso` (`idCurso`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_grado_curso` FOREIGN KEY (`idGrado`) REFERENCES `grado` (`idGrado`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of curso_grado
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for cursogrado_personal
@@ -499,11 +429,7 @@ CREATE TABLE `cursogrado_personal`  (
   INDEX `fk_cursogrado_id`(`idCursoGrado`) USING BTREE,
   CONSTRAINT `fk_cursogrado_id` FOREIGN KEY (`idCursoGrado`) REFERENCES `curso_grado` (`idCursoGrado`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_personal_id` FOREIGN KEY (`idPersonal`) REFERENCES `personal` (`idPersonal`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of cursogrado_personal
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for detalle_comunicacion_pago
@@ -525,10 +451,6 @@ CREATE TABLE `detalle_comunicacion_pago`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of detalle_comunicacion_pago
--- ----------------------------
-
--- ----------------------------
 -- Table structure for grado
 -- ----------------------------
 DROP TABLE IF EXISTS `grado`;
@@ -544,7 +466,6 @@ CREATE TABLE `grado`  (
   INDEX `fk_grado_nivel`(`idNivel`) USING BTREE,
   CONSTRAINT `fk_grado_nivel` FOREIGN KEY (`idNivel`) REFERENCES `nivel` (`idNivel`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
 -- ----------------------------
 -- Records of grado
 -- ----------------------------
@@ -563,6 +484,7 @@ INSERT INTO `grado` VALUES (12, 3, '3er Año', '2024-01-31 09:17:44', '2024-01-3
 INSERT INTO `grado` VALUES (13, 3, '4to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
 INSERT INTO `grado` VALUES (14, 3, '5to Año', '2024-01-31 09:17:44', '2024-01-31 09:17:44', 1, 1);
 
+
 -- ----------------------------
 -- Table structure for instrumento
 -- ----------------------------
@@ -579,11 +501,7 @@ CREATE TABLE `instrumento`  (
   PRIMARY KEY (`idInstrumento`) USING BTREE,
   INDEX `fk_tecnica_instrumento`(`idTecnicaEvaluacion`) USING BTREE,
   CONSTRAINT `fk_tecnica_instrumento` FOREIGN KEY (`idTecnicaEvaluacion`) REFERENCES `tecnica_evaluacion` (`idTecnicaEvaluacion`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of instrumento
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 44 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for nivel
@@ -598,13 +516,13 @@ CREATE TABLE `nivel`  (
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idNivel`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
 -- ----------------------------
 -- Records of nivel
 -- ----------------------------
 INSERT INTO `nivel` VALUES (1, 'Inicial', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
 INSERT INTO `nivel` VALUES (2, 'Primaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
 INSERT INTO `nivel` VALUES (3, 'Secundaria', '2024-01-31 09:14:10', '2024-01-31 09:14:10', 1, 1);
+
 
 -- ----------------------------
 -- Table structure for nota
@@ -631,10 +549,6 @@ CREATE TABLE `nota`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of nota
--- ----------------------------
-
--- ----------------------------
 -- Table structure for nota_bimestre
 -- ----------------------------
 DROP TABLE IF EXISTS `nota_bimestre`;
@@ -655,11 +569,7 @@ CREATE TABLE `nota_bimestre`  (
   CONSTRAINT `fk_bimestre_alumno_anio_escolar` FOREIGN KEY (`idAlumnoAnioEscolar`) REFERENCES `alumno_anio_escolar` (`idAlumnoAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_bimestre_nota_bimestre` FOREIGN KEY (`idBimestre`) REFERENCES `bimestre` (`idBimestre`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_curso_grado_personal_bimestre` FOREIGN KEY (`idCursoGradoPersonal`) REFERENCES `cursogrado_personal` (`idCursogradoPersonal`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of nota_bimestre
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 132 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for nota_competencia
@@ -679,11 +589,7 @@ CREATE TABLE `nota_competencia`  (
   INDEX `fk_notacompetencia_alumno_anio_escolar`(`idAlumnoAnioEscolar`) USING BTREE,
   CONSTRAINT `fk_notacompetencia_alumno_anio_escolar` FOREIGN KEY (`idAlumnoAnioEscolar`) REFERENCES `alumno_anio_escolar` (`idAlumnoAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_notaunidad_competencia` FOREIGN KEY (`idCompetencia`) REFERENCES `competencias` (`idCompetencia`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 87 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of nota_competencia
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 248 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for nota_criterio
@@ -703,11 +609,7 @@ CREATE TABLE `nota_criterio`  (
   INDEX `fk_nota_criterio_alumno_anio_escolar`(`idAlumnoAnioEscolar`) USING BTREE,
   CONSTRAINT `fk_nota_criterio` FOREIGN KEY (`idCriterioCompetencia`) REFERENCES `criterios_competencia` (`idCriterioCompetencia`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_nota_criterio_alumno_anio_escolar` FOREIGN KEY (`idAlumnoAnioEscolar`) REFERENCES `alumno_anio_escolar` (`idAlumnoAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of nota_criterio
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 363 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for nota_unidad
@@ -730,11 +632,7 @@ CREATE TABLE `nota_unidad`  (
   CONSTRAINT `nota_unidad_ibfk_1` FOREIGN KEY (`idAlumnoAnioEscolar`) REFERENCES `alumno_anio_escolar` (`idAlumnoAnioEscolar`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `nota_unidad_ibfk_2` FOREIGN KEY (`idUnidad`) REFERENCES `unidad` (`idUnidad`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `nota_unidad_ibfk_3` FOREIGN KEY (`idCursoGradoPersonal`) REFERENCES `cursogrado_personal` (`idCursogradoPersonal`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 126 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of nota_unidad
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 270 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for pago
@@ -759,11 +657,7 @@ CREATE TABLE `pago`  (
   INDEX `fk_pago_cronogramapago`(`idCronogramaPago`) USING BTREE,
   CONSTRAINT `fk_pago_cronogramapago` FOREIGN KEY (`idCronogramaPago`) REFERENCES `cronograma_pago` (`idCronogramaPago`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_pago_tipopago` FOREIGN KEY (`idTipoPago`) REFERENCES `tipo_pago` (`idTipoPago`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of pago
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 157 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for personal
@@ -787,11 +681,7 @@ CREATE TABLE `personal`  (
   INDEX `fk_personal_usuario`(`idUsuario`) USING BTREE,
   CONSTRAINT `fk_personal_tipopersonal` FOREIGN KEY (`idTipoPersonal`) REFERENCES `tipo_personal` (`idTipoPersonal`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `fk_personal_usuario` FOREIGN KEY (`idUsuario`) REFERENCES `usuario` (`idUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of personal
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for postulante
@@ -842,11 +732,7 @@ CREATE TABLE `postulante`  (
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idPostulante`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 85 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of postulante
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for tecnica_evaluacion
@@ -861,11 +747,7 @@ CREATE TABLE `tecnica_evaluacion`  (
   `usuarioCreacion` int NOT NULL,
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTecnicaEvaluacion`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of tecnica_evaluacion
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for tipo_pago
@@ -880,13 +762,13 @@ CREATE TABLE `tipo_pago`  (
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoPago`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
 -- ----------------------------
 -- Records of tipo_pago
 -- ----------------------------
 INSERT INTO `tipo_pago` VALUES (1, 'Pago Matrícula', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `tipo_pago` VALUES (2, 'Pago Pensión', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0);
 INSERT INTO `tipo_pago` VALUES (3, 'Pago Cuota Inicial', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0);
+
 
 -- ----------------------------
 -- Table structure for tipo_personal
@@ -901,7 +783,6 @@ CREATE TABLE `tipo_personal`  (
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoPersonal`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
 -- ----------------------------
 -- Records of tipo_personal
 -- ----------------------------
@@ -911,6 +792,7 @@ INSERT INTO `tipo_personal` VALUES (3, 'Docente Secundaria', '2024-03-01 17:11:4
 INSERT INTO `tipo_personal` VALUES (4, 'Docente General', '2024-03-01 17:11:47', '2024-03-01 17:11:47', 1, 1);
 INSERT INTO `tipo_personal` VALUES (5, 'Dirección', '2024-03-01 17:11:47', '2024-03-01 17:11:47', 1, 1);
 INSERT INTO `tipo_personal` VALUES (6, 'Administrativo', '2024-03-01 17:11:47', '2024-03-01 17:11:47', 1, 1);
+
 
 -- ----------------------------
 -- Table structure for tipo_usuario
@@ -925,7 +807,6 @@ CREATE TABLE `tipo_usuario`  (
   `usuarioActualizacion` int NOT NULL,
   PRIMARY KEY (`idTipoUsuario`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
 -- ----------------------------
 -- Records of tipo_usuario
 -- ----------------------------
@@ -934,6 +815,7 @@ INSERT INTO `tipo_usuario` VALUES (2, 'Docente', '2024-01-29 12:50:58', '2024-01
 INSERT INTO `tipo_usuario` VALUES (3, 'Administrativo', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
 INSERT INTO `tipo_usuario` VALUES (4, 'Apoderado', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
 INSERT INTO `tipo_usuario` VALUES (5, 'Dirección', '2024-01-29 12:50:58', '2024-01-29 12:50:58', 1, 1);
+
 
 -- ----------------------------
 -- Table structure for unidad
@@ -952,11 +834,7 @@ CREATE TABLE `unidad`  (
   INDEX `fk_bimestre_unidad`(`idBimestre`) USING BTREE,
   INDEX `idUnidad`(`idUnidad`) USING BTREE,
   CONSTRAINT `fk_bimestre_unidad` FOREIGN KEY (`idBimestre`) REFERENCES `bimestre` (`idBimestre`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of unidad
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 326 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for usuario
@@ -979,11 +857,11 @@ CREATE TABLE `usuario`  (
   PRIMARY KEY (`idUsuario`) USING BTREE,
   INDEX `fk_usuario_tipousuario`(`idTipoUsuario`) USING BTREE,
   CONSTRAINT `fk_usuario_tipousuario` FOREIGN KEY (`idTipoUsuario`) REFERENCES `tipo_usuario` (`idTipoUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_spanish_ci ROW_FORMAT = DYNAMIC;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 1, 'admin@gmail.com', '$argon2id$v=19$m=4096,t=2,p=2$Z1BDUWNSZ3k3V2FRRVZMaw$vpJjcYwGTsviUXQmGnKTCKjtzBrwVzNl0YmTGdrQQrI', 'David', 'Poblette', '98745632', 1, '2024-06-25 15:00:03', '2024-01-29 12:51:49', '2024-06-22 11:39:32', 1, 1);
-
-SET FOREIGN_KEY_CHECKS = 1;

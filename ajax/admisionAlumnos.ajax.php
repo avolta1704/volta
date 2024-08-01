@@ -58,8 +58,7 @@ class AdmisionAlumnosAjax
   /**
    * Actualizar estado de admision alumno
    * 
-   * @param data $_POST["editarEstadoAdmisionAlumno"]
-   * @return string ok si es correcto o error si no se actualiza
+   * @param string $_POST["editarEstadoAdmisionAlumno"]
    */
   public function ajaxEditarEstadoAdmisionAlumno($data)
   {
@@ -73,7 +72,6 @@ class AdmisionAlumnosAjax
    * Ajax para mostrar a todos los alumnos de un año escolar
    * 
    * @param int idAnioEscolar id del año escolar
-   * @return json con los datos de los alumnos
    */
   public function ajaxMostrarTodosPostulantesAnioEscolar($idAnioEscolar)
   {
@@ -84,18 +82,16 @@ class AdmisionAlumnosAjax
       $response = ControllerAdmisionAlumno::ctrGetAdmisionAlumnosAnioEscolar($idAnioEscolar);
     }
 
-
     $tipoUsuario = ControllerUsuarios::ctrGetTipoUsuario()["descripcionTipoUsuario"];
-
     $isAdministrativo = $tipoUsuario == "Administrativo";
 
     foreach ($response as &$dataAdmision) {
       $dataAdmision['buttonsAdmisionAlumno'] = FunctionAdmisionAlumnos::getBotonesAdmisionAlumnos($dataAdmision["idAdmisionAlumno"], $dataAdmision["estadoAdmisionAlumno"], $dataAdmision["idAlumno"], $isAdministrativo, $dataAdmision["idAnioEscolar"]);
       $dataAdmision['estadoAdmisionAlumno'] = FunctionAdmisionAlumnos::getEstadoAdmisionAlumno($dataAdmision["estadoAdmisionAlumno"]);
-
     }
     echo json_encode($response);
   }
+
   public function ajaxObtenerAlumnosPorTipoReportes()
   {
     $response = ControllerAdmisionAlumno::ctrObtenerAlumnosPorTipoReportes();
@@ -113,9 +109,9 @@ class AdmisionAlumnosAjax
     // Obtener el id del año escolar para el reporte
     $idAnioEscolarReporteMatriculados = $this->idAnioEscolarReporteMatriculados;
     // Verificar si el año escolar es 0 para mostrar todos los registros de admision alumnos.
-    if ($idAnioEscolarReporteMatriculados == 0){
+    if ($idAnioEscolarReporteMatriculados == 0) {
       $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcel();
-    } else{
+    } else {
       $response = ControllerAdmisionAlumno::ctrObtenerTodoslosDatosAlumnosApoderadosRegistroExcelAnioEscolar($idAnioEscolarReporteMatriculados);
     }
     // Recorrer los datos para obtener la edad, ek status, la matricula y el estado siagie
@@ -130,7 +126,7 @@ class AdmisionAlumnosAjax
       if (isset($dataAdmision["Status"])) {
         $dataAdmision['Status'] = $dataAdmision['Status'] == 1 ? 'N' : 'A';
       }
-      if (isset($dataAdmision["Matric."])){
+      if (isset($dataAdmision["Matric."])) {
         $dataAdmision["Matric."] = $dataAdmision["Matric."] == 1 ? 'Anulado' : ($dataAdmision["Matric."] == 2 ? 'Sí' : ($dataAdmision["Matric."] == 3 ? 'Traslado' : 'Retirado'));
       }
       if (isset($dataAdmision["Estado SIAGIE"])) {

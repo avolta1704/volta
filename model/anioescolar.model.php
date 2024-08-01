@@ -265,7 +265,9 @@ class ModelAnioEscolar
       return "error";
     }
   }
-  // Validar el cierre de anio para cada grado con el dato finAnio
+  /* Validar el cierre de anio para cada grado con el dato finAnio
+    Obtiene todos las filas de la tabla alumno_anio_escolar que estén nulas y que la columna de estadoAnio de la tabla anio_escolar a la que está vinculada esté activo
+  */
   public static function mdlValidarCierreGradoAlumnoFinAnio($tabla){
     $statement = Connection::conn()->prepare("SELECT alumno_anio_escolar.finAnio FROM $tabla INNER JOIN anio_escolar ON  alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar WHERE alumno_anio_escolar.finAnio IS NULL AND anio_escolar.estadoAnio = 1");
     $statement->execute();
@@ -276,7 +278,9 @@ class ModelAnioEscolar
       return "ok";
     }
   }
-  // Obtener el finAnio de cada grado
+  /* Obtener el finAnio de cada grado
+    Se obtiene el contador de los alumnos que tienen el valor de finAnio distinto de cero y los que tienen el estadoAnio igual a 1
+  */
   public static function mdlObtenerIdAnioEscolarElegidoenCadaGrado($tabla){
     $statement = Connection::conn()->prepare("SELECT DISTINCT alumno_anio_escolar.finAnio FROM $tabla INNER JOIN anio_escolar ON 
 		alumno_anio_escolar.idAnioEscolar = anio_escolar.idAnioEscolar WHERE alumno_anio_escolar.finAnio IS NOT NULL AND anio_escolar.estadoAnio = 1 AND alumno_anio_escolar.finAnio != 0");
@@ -284,4 +288,14 @@ class ModelAnioEscolar
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
 
+  /**
+   *  Verificar la cantidad de años que están abiertos
+   * @param string $table
+   */
+  public static function mdlObtenerCantidadAniosActivos($table)
+  {
+    $statement = Connection::conn()->prepare("SELECT COUNT(anio_escolar.IdAnioEscolar) AS CantidadAnios FROM $table WHERE anio_escolar.estadoAnio = 1");
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_ASSOC);
+  }
 }

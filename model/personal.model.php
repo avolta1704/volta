@@ -217,4 +217,35 @@ class ModelPersonal
     $statement->execute();
     return $statement->fetch(PDO::FETCH_ASSOC);
   }
+
+  /**
+   * Obtener el id del personal en base al id del usuario
+   * 
+   * @param string $table
+   * @return int $idPersonal
+   */
+  public static function mdlObtenerPersonal($table, $codUsuario)
+  {
+    $statement = Connection::conn()->prepare("SELECT idPersonal FROM $table WHERE idUsuario = :idUsuario");
+    $statement->bindParam(":idUsuario", $codUsuario, PDO::PARAM_INT);
+    $statement->execute();
+    return $statement->fetch(PDO::FETCH_COLUMN);
+  }
+
+  /**
+   * Eliminar personal
+   * 
+   * @param string $table
+   * @param int $codPersonal
+   */
+  public static function mdlEliminarPersonal($table, $codPersonal)
+  {
+    $statement = Connection::conn()->prepare("DELETE FROM $table WHERE idPersonal = :idPersonal");
+    $statement->bindParam(":idPersonal", $codPersonal, PDO::PARAM_INT);
+    if ($statement->execute()) {
+      return "ok";
+    } else {
+      return "error";
+    }
+  }
 }
