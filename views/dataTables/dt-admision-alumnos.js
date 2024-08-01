@@ -14,6 +14,8 @@ $(document).ready(function () {
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
     { data: "fechaAdmision" },
+    { data: "descripcionNivel" },
+    { data: "descripcionGrado" },
     { data: "estadoAdmisionAlumno" },
     { data: "buttonsAdmisionAlumno" },
   ];
@@ -32,6 +34,8 @@ $(document).ready(function () {
         <th scope="col">Código Caja</th>
         <th scope="col">Apellidos</th>
         <th scope="col">Nombres</th>
+        <th scope="col">Nivel</th>
+        <th scope="col">Grado</th>
         <th scope="col">Fecha Admisión</th>
         <th scope="col">Estado</th>
         <th scope="col">Acciones</th
@@ -51,6 +55,8 @@ $(document).ready(function () {
     { data: "apellidosAlumno" },
     { data: "nombresAlumno" },
     { data: "fechaAdmision" },
+    { data: "descripcionNivel" },
+    { data: "descripcionGrado" },
     { data: "estadoAdmisionAlumno" },
     { data: "buttonsAdmisionAlumno" },
   ];
