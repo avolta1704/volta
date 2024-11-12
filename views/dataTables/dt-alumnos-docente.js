@@ -1,9 +1,11 @@
 $(document).ready(function () {
   // Obtener la ruta actual de la URL
   var rutaActual = window.location.pathname;
+  // Obtener el último segmento de la ruta
+  var ultimoSegmento = rutaActual.split("/").pop();
 
   // Verificar si la rutaActual contiene "volta/listaAlumnosDocentes"
-  if (rutaActual.includes("/volta/listaAlumnosDocentes")) {
+  if (ultimoSegmento === "listaAlumnosDocentes") {
     //  Obtener el tipo de docente y establecer el data table a partir de este identificador
     var tipoDocente = document.getElementById("dataTableAlumnosDocente").dataset
       .tipoDocente;
