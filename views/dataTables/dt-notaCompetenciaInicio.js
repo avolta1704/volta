@@ -2,8 +2,10 @@
 $(document).ready(function () {
   // Obtener la ruta actual de la URL
   var rutaActual = window.location.pathname;
+  // Obtener el último segmento de la ruta
+  var ultimoSegmento = rutaActual.split("/").pop();
   // Verificar si la rutaActual contiene "volta/inicio"
-  if (rutaActual.includes("/volta/inicio")) {
+  if (ultimoSegmento==="inicio") {
     var columnDefsPersonal = [
       {
         data: "null",
