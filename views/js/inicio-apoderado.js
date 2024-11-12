@@ -1,7 +1,10 @@
 $(document).ready(function () {
   // Obtener la ruta actual de la URL
   var rutaActual = window.location.pathname;
-  if (rutaActual.includes("/volta/inicio")) {
+  // Obtener el último segmento de la ruta
+  var ultimoSegmento = rutaActual.split("/").pop();
+  // Verificar si el último segmento es "inicio"
+  if (ultimoSegmento === "inicio") {
     const datos = document.getElementById("datos");
     let tipoUsuario = datos.getAttribute("data-tipo-usuario");
     if (tipoUsuario === "4") {
